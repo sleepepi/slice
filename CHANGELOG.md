@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved display of project drawer when clicking project title
+- **Report Changes**
+  - Overview reports now display variable units as well
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
   - Time of day is now displayed as a bar chart on the design overview report

@@ -42,6 +42,9 @@
   - elsif variable
     %a.anchor-top{ id: variable.name }
     .dashboard-lead
+      - if variable.export_units.present?
+        .pull-right
+          %span.label.label-accent= variable.export_units
       = link_to variable.display_name, "##{variable.name}", data: { object: 'scroll-anchor-keep-link' }, class: 'link-white'
     .dashboard-container
       - responses = @sheets.sheet_responses(variable)
