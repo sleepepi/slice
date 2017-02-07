@@ -9,7 +9,7 @@ module Formatters
       hash = parse_time_of_day(response)
       minutes = format('%02d', hash[:minutes])
       seconds = format('%02d', hash[:seconds])
-      if %w(12hour 12hour-pm).include?(@variable.format)
+      if @variable.twelve_hour_clock?
         if @variable.show_seconds?
           "#{hash[:hours]}:#{minutes}:#{seconds} #{hash[:period]}"
         else

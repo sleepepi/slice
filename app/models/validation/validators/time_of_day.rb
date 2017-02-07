@@ -49,7 +49,7 @@ module Validation
         hash = parse_time_of_day_from_hash(value)
         minutes = format('%02d', hash[:minutes])
         seconds = format('%02d', hash[:seconds])
-        if %w(12hour 12hour-pm).include?(@variable.format)
+        if @variable.twelve_hour_clock?
           if @variable.show_seconds?
             "#{hash[:hours]}:#{minutes}:#{seconds} #{hash[:period]}"
           else
@@ -78,7 +78,7 @@ module Validation
           response
         else
           time = parse_time_of_day(response)
-          if %w(12hour 12hour-pm).include?(@variable.format)
+          if @variable.twelve_hour_clock?
             (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.format == '12hour-pm' ? 'pm' : 'am' })
           else
             (time ? { hours: time[:hours_24], minutes: time[:minutes], seconds: time[:seconds] } : {})

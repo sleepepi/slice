@@ -631,6 +631,11 @@ class Variable < ApplicationRecord
     time_duration_format == 'mm:ss'
   end
 
+  # For Time of Day Variables
+  def twelve_hour_clock?
+    %w(12hour 12hour-pm).include?(format)
+  end
+
   def update_domain_values!
     return unless changes.key?(:domain_id)
     (old_domain_id, new_domain_id) = changes[:domain_id]

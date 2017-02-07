@@ -14,13 +14,24 @@
   - time_f = parse_time_of_day(from_time)
   - time_t = parse_time_of_day(to_time)
   - time_search_end = parse_time_of_day(from_time + thirty_minutes)
-  - long_name = "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} to #{time_t[:hours]}#{format(':%02d', time_t[:minutes])}#{time_t[:period]}"
-  - categories << (time_f[:minutes].zero? ? "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period] if increment.in?([0,24,46])}" : "")
-  - start_time = "#{variable.name}:>=#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} "
-  - if time_search_end
-    - end_time = "#{variable.name}:<#{time_search_end[:hours]}#{format(':%02d', time_search_end[:minutes])}#{time_t[:period]}"
+  -# TODO: Needs refactoring to time of day object (class)
+  - if variable.twelve_hour_clock?
+    - long_name = "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} to #{time_t[:hours]}#{format(':%02d', time_t[:minutes])}#{time_t[:period]}"
+    - categories << (time_f[:minutes].zero? ? "#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period] if increment.in?([0,24,46])}" : "")
+    - start_time = "#{variable.name}:>=#{time_f[:hours]}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} "
+    - if time_search_end
+      - end_time = "#{variable.name}:<#{time_search_end[:hours]}#{format(':%02d', time_search_end[:minutes])}#{time_t[:period]}"
+    - else
+      - end_time = "#{variable.name}:<=#{time_t[:hours]}#{format(':%02d', time_t[:minutes])}#{format(':%02d', time_t[:seconds])}#{time_t[:period]}"
   - else
-    - end_time = "#{variable.name}:<=#{time_t[:hours]}#{format(':%02d', time_t[:minutes])}#{format(':%02d', time_t[:seconds])}#{time_t[:period]}"
+    - long_name = "#{format('%02d', time_f[:hours_24])}#{format(':%02d', time_f[:minutes])}#{time_f[:period]} to #{format('%02d', time_t[:hours_24])}#{format(':%02d', time_t[:minutes])}#{time_t[:period]}"
+    - categories << (time_f[:minutes].zero? ? "#{format('%02d', time_f[:hours_24])}#{format(':%02d', time_f[:minutes])}" : "")
+    - start_time = "#{variable.name}:>=#{format('%02d', time_f[:hours_24])}#{format(':%02d', time_f[:minutes])} "
+    - if time_search_end
+      - end_time = "#{variable.name}:<#{format('%02d', time_search_end[:hours_24])}#{format(':%02d', time_search_end[:minutes])}"
+    - else
+      - end_time = "#{variable.name}:<=#{format('%02d', time_t[:hours_24])}#{format(':%02d', time_t[:minutes])}#{format(':%02d', time_t[:seconds])}"
+
   - search = "#{"events:#{event_id} " if event_id.present?}#{start_time}#{end_time}"
   - url = project_sheets_path(design_id: @design.id, search: search)
   - count = valid_responses.count { |r| r.in?(from_time..to_time) }
@@ -50,7 +61,10 @@
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         - if mean
           - time_of_day_mean = parse_time_of_day(mean.to_i)
-          = "#{time_of_day_mean[:hours]}#{format(':%02d', time_of_day_mean[:minutes])}#{time_of_day_mean[:period]}"
+          - if variable.twelve_hour_clock?
+            = "#{time_of_day_mean[:hours]}#{format(':%02d', time_of_day_mean[:minutes])}#{format(':%02d', time_of_day_mean[:seconds]) if variable.show_seconds?}#{time_of_day_mean[:period]}"
+          - else
+            = "#{format('%02d', time_of_day_mean[:hours_24])}#{format(':%02d', time_of_day_mean[:minutes])}#{format(':%02d', time_of_day_mean[:seconds]) if variable.show_seconds?}"
         - else
           \-
       %td.center.nowrap.hidden-xs
@@ -58,7 +72,7 @@
         - if stdev
           - time_duration = parse_time_duration(stdev.to_i)
           &plusmn;
-          = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{time_duration[:minutes]}m"
+          = "#{"#{time_duration[:hours]}h " unless time_duration[:hours].zero?}#{time_duration[:minutes]}m #{"#{time_duration[:seconds]}s" if variable.show_seconds?}"
         - else
           \-
       %td.center
