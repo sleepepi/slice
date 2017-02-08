@@ -3,6 +3,9 @@
 ### Enhancements
 - **General Changes**
   - Improved display of project drawer when clicking project title
+- **Randomization Changes**
+  - Randomizations index can now be filtered and sorted
+  - Randomizations index now displays site for users on more than one site
 - **Report Changes**
   - Overview reports now display variable units as well
   - Only sections and subsections are now displayed on overview reports

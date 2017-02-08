@@ -25,7 +25,7 @@
     %br
     %p.center
       %strong
-        = @randomization.subject.name
+        = link_to @randomization.subject.name, [@project, @randomization.subject]
       randomized
       %span.hidden-sm.hidden-md.hidden-lg= simple_date @randomization.randomized_at
       %span.hidden-xs= simple_time @randomization.randomized_at
