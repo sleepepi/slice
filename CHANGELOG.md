@@ -15,6 +15,8 @@
 - **Sheet Changes**
   - Sheets with 100% coverage now look visually different from other sheets with
     coverage in the 90% coverage range
+  - Sheets index can now be sorted by sheet *Created At* as well as *Last
+    Edited*
 - **Variable Changes**
   - Time of day is now stored as total seconds since midnight in database
   - Time of day is now displayed as a bar chart on the design overview report
