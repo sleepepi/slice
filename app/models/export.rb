@@ -355,27 +355,48 @@ class Export < ApplicationRecord
   def generate_csv_randomizations(filename)
     export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
     CSV.open(export_file, 'wb') do |csv|
+      randomizations = user.all_viewable_randomizations.where(project_id: project.id)
+      schemes = project.randomization_schemes.where(id: randomizations.select(:randomization_scheme_id).uniq).order(:name)
       column_headers = ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
-      column_headers += ['Scheme'] if project.randomization_schemes.count > 1
+      column_headers << 'Scheme' if schemes.count > 1
+      stratification_factors = []
+      schemes.each do |scheme|
+        scheme.stratification_factors.order(:name).each do |stratification_factor|
+          column_headers << "#{stratification_factor.name}#{" (#{scheme.name})" if schemes.count > 1}"
+          stratification_factors << stratification_factor
+        end
+      end
       csv << column_headers
-      randomizations = user.all_viewable_randomizations
-                           .where(project_id: project.id)
-                           .includes(:subject, :treatment_arm, :list, :randomized_by, :randomization_scheme)
-                           .order('randomized_at desc nulls last')
-                           .select('randomizations.*')
-      randomizations.each do |r|
-        csv << [
+      randomizations.includes(:subject, :treatment_arm, :list, :randomized_by, :randomization_scheme)
+                    .order('randomized_at desc nulls last').select('randomizations.*').each do |r|
+        row = [
           r.name,
           (r.subject ? r.subject.name : nil),
           (r.treatment_arm ? r.treatment_arm.name : nil),
           (r.list ? r.list.name : nil),
           r.randomized_at,
-          (r.randomized_by ? r.randomized_by.name : nil),
-          (project.randomization_schemes.count > 1 ? r.randomization_scheme.name : nil)
+          (r.randomized_by ? r.randomized_by.name : nil)
         ]
+        row << r.randomization_scheme.name if schemes.count > 1
+        stratification_factors.each do |stratification_factor|
+          row << randomization_characteristic_name(r, stratification_factor)
+        end
+        csv << row
       end
     end
     ["csv/#{filename}_randomizations.csv", export_file]
+  end
+
+  def randomization_characteristic_name(randomization, stratification_factor)
+    characteristic = randomization.randomization_characteristics.find_by(stratification_factor_id: stratification_factor.id)
+    return unless characteristic
+    sfo = characteristic.stratification_factor_option
+    site = characteristic.site
+    if sfo
+      sfo.label
+    elsif site
+      site.name
+    end
   end
 
   def all_design_variables_using_design_ids(design_ids)

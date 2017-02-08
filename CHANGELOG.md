@@ -6,6 +6,7 @@
 - **Randomization Changes**
   - Randomizations index can now be filtered and sorted
   - Randomizations index now displays site for users on more than one site
+  - Stratification criteria are now included in the randomizations export
 - **Report Changes**
   - Overview reports now display variable units as well
   - Only sections and subsections are now displayed on overview reports
