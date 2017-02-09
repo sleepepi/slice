@@ -13,4 +13,78 @@
           .per-page= render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
         = @title
 
-= render 'exports/exports'
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col
+    %col
+    %col.hidden-xs
+    %col.hidden-xs.hidden-sm
+    %col.hidden-xs
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field @order, 'exports.status', ''
+        = th_sort_field @order, 'exports.created_at', 'Exported'
+        %th.hidden-xs Type
+        %th.hidden-xs.hidden-sm Size
+        %th.hidden-xs File
+        %th Actions
+
+    - @exports.each do |export|
+      %tr
+        %td
+          %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
+            = export.status
+        %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [export.project, export]
+        %td.hidden-xs
+          - if export.include_csv_labeled?
+            %span.label.label-default CSV Labeled
+          - if export.include_csv_raw?
+            %span.label.label-default CSV Raw
+          - if export.include_pdf?
+            %span.label.label-default PDF
+          - if export.include_files?
+            %span.label.label-default Files
+          - if export.include_data_dictionary?
+            %span.label.label-default Data Dictionary
+          - if export.include_sas?
+            %span.label.label-default SAS
+          - if export.include_r?
+            %span.label.label-default R
+          - if export.include_xls?
+            %span.label.label-default XLS
+          - if export.include_adverse_events?
+            %span.label.label-default Adverse Events
+          - if export.include_randomizations?
+            %span.label.label-default Randomizations
+
+        %td.hidden-xs.hidden-sm
+          - if export.file.size > 0
+            %code= number_to_human_size(export.file.size)
+        %td.hidden-xs
+          - if export.file.size > 0
+            - full_url = file_project_export_path(@project, export)
+            = link_to full_url, target: '_blank', class: 'btn btn-default btn-xs' do
+              = export.extension
+              %span.glyphicon.glyphicon-download-alt
+        %td
+          .dropdown
+            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              Actions
+              %strong.caret
+
+            %ul.dropdown-menu.dropdown-menu-right
+              - if export.file.size > 0
+                - full_url = file_project_export_path(@project, export)
+                %li
+                  = link_to full_url, target: '_blank' do
+                    %span.glyphicon.glyphicon-download-alt
+                    Download
+                %li.divider{ role: 'separator' }
+              %li
+                = link_to [export.project, export], method: :delete, data: { confirm: "Are you sure you want to delete Export #{export.name}?" } do
+                  .text-danger
+                    %span.glyphicon.glyphicon-trash
+                    Delete
+
+.center= paginate @exports, theme: 'bootstrap'

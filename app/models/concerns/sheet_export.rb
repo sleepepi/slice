@@ -38,7 +38,7 @@ module SheetExport
     end
     transpose_tmp_csv(tmp_export_file, export_file)
     Rails.logger.debug "Total Time: #{Time.zone.now - t} seconds"
-    ["#{folder.upcase}/#{export_file.split('/').last}", export_file]
+    ["#{folder}/#{export_file.split('/').last}", export_file]
   end
 
   def transpose_tmp_csv(tmp_export_file, export_file)

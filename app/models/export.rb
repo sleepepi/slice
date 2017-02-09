@@ -27,6 +27,10 @@ class Export < ApplicationRecord
     File.join(CarrierWave::Uploader::Base.root, file.url)
   end
 
+  def extension
+    file.size > 0 ? file.file.extension.to_s.downcase : ''
+  end
+
   def create_notification
     notification = user.notifications.where(project_id: project_id, export_id: id).first_or_create
     notification.mark_as_unread!
@@ -166,7 +170,7 @@ class Export < ApplicationRecord
   def generate_pdf(sheet_scope)
     pdf_file = Sheet.latex_file_location(sheet_scope, user)
     update_steps(sheet_ids_count)
-    [["PDF/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
+    [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
   end
 
   def generate_data_dictionary
@@ -282,9 +286,9 @@ class Export < ApplicationRecord
     end
     update_steps(sheet_ids_count)
     [
-      ["DD/#{designs_csv.split('/').last}", designs_csv],
-      ["DD/#{variables_csv.split('/').last}", variables_csv],
-      ["DD/#{domains_csv.split('/').last}", domains_csv],
+      ["dd/#{designs_csv.split('/').last}", designs_csv],
+      ["dd/#{variables_csv.split('/').last}", variables_csv],
+      ["dd/#{domains_csv.split('/').last}", domains_csv],
       generate_readme('dd')
     ]
   end
@@ -299,7 +303,7 @@ class Export < ApplicationRecord
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
     end
 
-    [["#{language.upcase}/#{export_file.split('/').last}", export_file], generate_readme(language)]
+    [["#{language}/#{export_file.split('/').last}", export_file], generate_readme(language)]
   end
 
   def generate_r(sheet_scope, filename)
@@ -318,7 +322,7 @@ class Export < ApplicationRecord
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
     end
 
-    ["#{language.upcase}/README.txt", readme]
+    ["#{language}/README.txt", readme]
   end
 
   def generate_csv_adverse_events(filename)

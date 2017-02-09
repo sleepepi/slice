@@ -13,6 +13,9 @@
     - After creating a sheet for a subject for a repeated design, a prompt is
       displayed allowing a user to jump into the creation of another sheet for
       the same subject using the same design
+- **Export Changes**
+  - Improved exports index and export show pages
+  - Folders in zipped exports are now lowercase
 - **Randomization Changes**
   - Randomizations index can now be filtered and sorted
   - Randomizations index now displays site for users on more than one site
