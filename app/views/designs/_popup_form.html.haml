@@ -29,6 +29,15 @@
                 Show Site Selection on Survey
 
     .form-group
+      .col-md-10.col-md-offset-2
+        .row
+          .col-xs-6
+            .checkbox
+              %label
+                = f.check_box :repeated
+                Repeated
+
+    .form-group
       %label.col-md-2.control-label Slug
       .col-md-10
         = f.text_field :slug, autocomplete: 'off', class: 'form-control'

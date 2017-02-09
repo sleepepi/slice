@@ -7,7 +7,7 @@
         &times;
     = link_to flash[:notice][1]['url'], method: flash[:notice][1]['method'], class: 'link-unstyled navbar-brand', style: 'font-size: 16px;margin-left: 0;' do
       %span.label.label-warning.shadow-sm
-        %i.fa.fa-undo
+        %i.fa{ class: flash[:notice][1]['class'] || 'fa-undo' }
         = flash[:notice][1]['label']
   - else
     = link_to '#', data: { object: 'remove-self' }, class: 'link-unstyled navbar-brand', style: 'font-size: 16px;padding-left: 0;padding-right: 0;margin-left: 0;' do

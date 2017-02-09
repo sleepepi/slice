@@ -8,6 +8,11 @@
 - **Adverse Event Changes**
   - Adverse event timelines now include more timestamps
   - Forms can no longer be added to closed adverse events
+- **Design Changes**
+  - Designs can now be set as repeated
+    - After creating a sheet for a subject for a repeated design, a prompt is
+      displayed allowing a user to jump into the creation of another sheet for
+      the same subject using the same design
 - **Randomization Changes**
   - Randomizations index can now be filtered and sorted
   - Randomizations index now displays site for users on more than one site

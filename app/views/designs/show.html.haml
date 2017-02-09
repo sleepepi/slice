@@ -44,7 +44,7 @@
         = @title
         = render 'layouts/unblinded_only', project: @project, object: @design, placement: 'top'
 
-- if @design.category || @design.publicly_available? || @design.total_rows > 0
+- if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated?
   .dashboard-container
     %table.table.table-borderless
       %col.hidden-xs{ width: '30%' }
@@ -61,6 +61,10 @@
               = link_to "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available?
             - else
               = link_to "#{ENV['website_url']}/survey/#{@design.slug}", "#{ENV['website_url']}/survey/#{@design.slug}", class: 'input-xxlarge', target: '_blank' if @design.publicly_available?
+      - if @design.repeated?
+        %tr
+          %th Repeated
+          %td= simple_check @design.repeated?
 
       - if @design.total_rows > 0
         %tr

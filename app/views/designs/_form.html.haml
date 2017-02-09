@@ -43,6 +43,20 @@
     .col-md-10.col-md-offset-2
       .checkbox
         %label
+          = f.check_box :repeated
+          Repeated Design
+        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#repeated-info' }, tabindex: '-1' do
+          %span.glyphicon.glyphicon-info-sign
+      #repeated-info.callout.callout-info{ style: 'display: none;' }
+        %strong What does 'Repeated Design' mean?
+        %p
+          A prompt to enter another design of the same type for the same subject
+          is displayed for repeated designs.
+
+  .form-group
+    .col-md-10.col-md-offset-2
+      .checkbox
+        %label
           = hidden_field_tag "design[show_site]", '0'
           = check_box_tag "design[show_site]", '1', @design.show_site?
           Show Site Selection on Survey
