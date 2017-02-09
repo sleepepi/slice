@@ -15,7 +15,7 @@
   = succeed '.' do
     = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
 
-  %blockquote{ style: 'margin-bottom: 0' }= @adverse_event.description
+  .adverse-event-description= @adverse_event.description
 
   - ae_sheets_count = @adverse_event.sheets.count
   - if ae_sheets_count > 0

@@ -6,15 +6,16 @@
   .comment-left-fixed
   .comment-right-fluid
     .jumbotron
-      %strong= @adverse_event.user.name
-      %span.label.label-success reported
-      an adverse event that occurred on
-      = @adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
-      for subject
-      = succeed '.' do
-        = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
+      %div{ style: 'margin-bottom: 10px;' }
+        %strong= @adverse_event.user.name
+        %span.label.label-success reported
+        an adverse event that occurred on
+        = @adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
+        for subject
+        = succeed '.' do
+          = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
 
-      %blockquote{ style: 'margin-bottom: 0' }= @adverse_event.description
+      .adverse-event-description= @adverse_event.description
 
       - ae_sheets_count = @adverse_event.sheets.count
       - if ae_sheets_count > 0

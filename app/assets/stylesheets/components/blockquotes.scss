@@ -1,0 +1,8 @@
+blockquote {
+  border: 0;
+  border-left: 2px solid $blockquote-border-color;
+  color: $blockquote-text-color;
+  font-size: $font-size-base;
+  margin: 0 0 11px;
+  padding: 0 10px;
+}

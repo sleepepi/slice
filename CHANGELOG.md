@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Improved display of project drawer when clicking project title
+  - Improved styling of blockquotes
 - **Adverse Event Changes**
   - Adverse event timelines now include more timestamps
   - Forms can no longer be added to closed adverse events
