@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved display of project drawer when clicking project title
+- **Adverse Event Changes**
+  - Adverse event timelines now include more timestamps
 - **Randomization Changes**
   - Randomizations index can now be filtered and sorted
   - Randomizations index now displays site for users on more than one site
