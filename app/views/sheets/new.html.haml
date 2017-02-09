@@ -1,5 +1,5 @@
 - @title = 'New Sheet'
-- @menu_title = "#{@project.name} #{@title}"
+- @menu_title = "#{@project.name} &middot; #{@sheet.subject.subject_code} &middot; #{@title}"
 - @breadcrumbs = []
 - @breadcrumbs << [@sheet.subject.subject_code, [@project, @sheet.subject]]
 - @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event

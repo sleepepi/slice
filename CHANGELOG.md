@@ -21,6 +21,8 @@
     coverage in the 90% coverage range
   - Sheets index can now be sorted by sheet *Created At* as well as *Last
     Edited*
+  - Subject code now remains visible when scrolling through long sheets when
+    creating new sheets
 - **Theme Changes**
   - Improved night theme display of alternating colors on sheets
 - **Variable Changes**
