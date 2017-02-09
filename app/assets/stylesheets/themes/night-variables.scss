@@ -393,8 +393,8 @@ $state-info-text:                #dedede;
 $state-info-bg:                  $brand-info;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
 
-$state-warning-text:             #dedede;
-$state-warning-bg:               $brand-warning;
+$state-warning-text:             #000;
+$state-warning-bg:               #96927d;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 3%);
 
 $state-danger-text:              #dedede;

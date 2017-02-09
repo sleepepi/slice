@@ -36,7 +36,7 @@ $comment-border: $p100 !default;
 }
 
 .comment-action {
-  margin: 15px 10px;
+  padding: 15px 10px;
 }
 
 .comment-comment-header {
@@ -114,6 +114,6 @@ $comment-border: $p100 !default;
 }
 
 .comment-unread {
-  background-color: $alert-warning-bg;
-  color: $alert-warning-text;
+  background-color: $state-warning-bg;
+  color: $state-warning-text;
 }
