@@ -356,7 +356,7 @@ class Export < ApplicationRecord
     export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
     CSV.open(export_file, 'wb') do |csv|
       randomizations = user.all_viewable_randomizations.where(project_id: project.id)
-      schemes = project.randomization_schemes.where(id: randomizations.select(:randomization_scheme_id).uniq).order(:name)
+      schemes = project.randomization_schemes.where(id: randomizations.select(:randomization_scheme_id)).order(:name)
       column_headers = ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
       column_headers << 'Scheme' if schemes.count > 1
       stratification_factors = []
