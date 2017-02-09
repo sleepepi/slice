@@ -4,8 +4,8 @@ one:
   project: one
   adverse_event: one
   user: site_one_editor
-  description: Adverse Event Text and how it occurred
-  comment_type: opened
+  description: Reopened AE
+  comment_type: reopened
 
 two:
   project: one

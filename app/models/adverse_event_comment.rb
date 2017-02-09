@@ -4,7 +4,7 @@
 # the adverse event.
 class AdverseEventComment < ApplicationRecord
   # Constants
-  COMMENT_TYPE = %w(commented opened closed reopened)
+  COMMENT_TYPE = %w(commented closed reopened)
 
   after_save :set_ae_status
 
@@ -43,10 +43,6 @@ class AdverseEventComment < ApplicationRecord
 
   def closed?
     comment_type == 'closed'
-  end
-
-  def opened?
-    comment_type == 'opened'
   end
 
   def reopened?

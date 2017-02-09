@@ -1,14 +1,3 @@
-- if adverse_event_comment.opened?
-  .comment-outer
-    .comment-left-fixed
-    .comment-right-fluid
-      .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? 'comment-unread' : nil) }
-        %strong= adverse_event_comment.user.name
-        %span.label.label-success opened
-        adverse event report
-        %abbr{ rel: 'tooltip', data: { title: adverse_event_comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
-          = time_ago_in_words(adverse_event_comment.created_at)
-          ago
 - if adverse_event_comment.description.present?
   - if adverse_event_comment.deleted?
     .comment-outer
