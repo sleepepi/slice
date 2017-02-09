@@ -5,6 +5,7 @@
   - Improved display of project drawer when clicking project title
 - **Adverse Event Changes**
   - Adverse event timelines now include more timestamps
+  - Forms can no longer be added to closed adverse events
 - **Randomization Changes**
   - Randomizations index can now be filtered and sorted
   - Randomizations index now displays site for users on more than one site

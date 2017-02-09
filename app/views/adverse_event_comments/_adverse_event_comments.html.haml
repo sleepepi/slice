@@ -111,7 +111,7 @@
             = simple_markdown event.comment, 'table table-bordered table-striped'
 
 - ae_designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true })
-- if ae_designs.count > 0
+- if ae_designs.count > 0 && !@adverse_event.closed?
   .comment-outer
     .comment-left-fixed
     .comment-right-fluid
