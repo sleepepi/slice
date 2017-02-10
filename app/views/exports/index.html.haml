@@ -60,7 +60,7 @@
 
         %td.hidden-xs.hidden-sm
           - if export.file.size > 0
-            %code= number_to_human_size(export.file.size)
+            %code.nowrap= number_to_human_size(export.file.size)
         %td.hidden-xs
           - if export.file.size > 0
             - full_url = file_project_export_path(@project, export)

@@ -1,5 +1,9 @@
 ## 0.49.0
 
+### Enhancements
+- **Export Changes**
+  - Improved display of file sizes on exports index
+
 ## 0.48.0 (February 10, 2017)
 
 ### Enhancements
