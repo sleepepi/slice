@@ -115,7 +115,7 @@
         %th Show current date
         %td= simple_check @variable.show_current_button?
 
-    - if ['time'].include?(@variable.variable_type)
+    - if ['time_of_day'].include?(@variable.variable_type)
       %tr
         %th Show current time
         %td= simple_check @variable.show_current_button?

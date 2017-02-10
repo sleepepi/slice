@@ -3,7 +3,7 @@
   %h4.modal-title
     Add Section or Question
 .modal-body
-  - %w(section string text dropdown radio checkbox integer numeric calculated date time time_duration file signature imperial_height imperial_weight grid existing_question).in_groups_of(3).each do |row_items|
+  - %w(section string text dropdown radio checkbox integer numeric calculated date time_of_day time_duration file signature imperial_height imperial_weight grid existing_question).in_groups_of(3).each do |row_items|
     .row
       - row_items.each do |variable_type|
         - if variable_type and not ['section', 'existing_question'].include?(variable_type)
@@ -56,7 +56,7 @@
                     = text_field_tag 'animal', "", class: 'datepicker form-control', placeholder: 'mm/dd/yyyy'
                     %span.input-group-addon
                       %span.glyphicon.glyphicon-calendar
-                - when 'time'
+                - when 'time_of_day'
                   .time-input.form-inline
                     %span.hour-box
                       = text_field_tag "hour_time", '', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
@@ -78,7 +78,7 @@
                       = text_field_tag 'sec_time_duration', '', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
                     s
                 - when 'imperial_height'
-                  .form-inline
+                  .imperial-height-input.form-inline
                     %span.feet-box
                       .input-group
                         = text_field_tag 'feet', '', class: 'form-control', style: 'display: inline-block;'
@@ -88,7 +88,7 @@
                         = text_field_tag 'inches', '', class: 'form-control', style: 'display: inline-block;'
                         .input-group-addon in
                 - when 'imperial_weight'
-                  .form-inline
+                  .imperial-weight-input.form-inline
                     %span.feet-box
                       .input-group
                         = text_field_tag 'pounds', '', class: 'form-control', style: 'display: inline-block;'

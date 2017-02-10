@@ -17,13 +17,13 @@ class Variable < ApplicationRecord
     radio
     string
     text
-    time
+    time_of_day
     time_duration
     signature
   ).sort.collect { |i| [i, i] }
 
   TYPE_IMPORTABLE = %w(
-    string text integer numeric date time
+    string text integer numeric date time_of_day
   ).sort.collect { |i| [i, i] }
 
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
@@ -238,7 +238,7 @@ class Variable < ApplicationRecord
   end
 
   def statistics?
-    %w(integer numeric calculated imperial_height imperial_weight time time_duration).include?(variable_type)
+    %w(integer numeric calculated imperial_height imperial_weight time_of_day time_duration).include?(variable_type)
   end
 
   def has_domain?
@@ -433,7 +433,7 @@ class Variable < ApplicationRecord
       'yymmdd10'
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
       '$500'
-    elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio time time_duration).include?(variable_type)
+    elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio time_of_day time_duration).include?(variable_type)
       'best32'
     else # elsif %w(text).include?(variable_type)
       '$5000'
@@ -442,7 +442,7 @@ class Variable < ApplicationRecord
 
   def sas_format
     case variable_type
-    when 'time'
+    when 'time_of_day'
       'time8'
     else
       sas_informat
@@ -547,7 +547,7 @@ class Variable < ApplicationRecord
       'inches'
     when 'imperial_weight'
       'ounces'
-    when 'time'
+    when 'time_of_day'
       'seconds since midnight'
     when 'time_duration'
       'seconds'
@@ -558,7 +558,7 @@ class Variable < ApplicationRecord
 
   def export_variable_type
     case variable_type
-    when 'imperial_height', 'imperial_weight', 'time', 'time_duration'
+    when 'imperial_height', 'imperial_weight', 'time_of_day', 'time_duration'
       'integer'
     else
       variable_type

@@ -168,7 +168,7 @@ has_grid_row_one_var_g:
 
 has_grid_row_one_var_h:
   sheet_variable: has_grid
-  variable: time
+  variable: time_of_day
   response: 11:59:59
   user: valid
   position: 0
@@ -234,7 +234,7 @@ has_grid_row_two_var_g:
 
 has_grid_row_two_var_h:
   sheet_variable: has_grid
-  variable: time
+  variable: time_of_day
   response: 12:00:00
   user: valid
   position: 1

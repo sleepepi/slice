@@ -8,4 +8,9 @@ namespace :variables do
     invisible_variables.update_all(display_name_visibility: 'gone')
     puts "Updated layout for #{variable_count} variable#{'s' if variable_count != 1}."
   end
+
+  desc 'Changes variable type of `time` to `time of day`'
+  task change_time_to_time_of_day: :environment do
+    Variable.where(variable_type: 'time').update_all(variable_type: 'time_of_day')
+  end
 end

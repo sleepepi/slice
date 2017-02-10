@@ -3,7 +3,7 @@
 - value = variable.response_to_value(response)
 - raw_value = variable.response_to_raw_value(response)
 
-.time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time', status: variable.validator.status(value) } }
+.time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time_of_day', status: variable.validator.status(value) } }
   = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', name: variable.name, raw_value_for: target_name }
   - if variable.twelve_hour_clock?
     %span.hour-box

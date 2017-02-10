@@ -6,6 +6,7 @@
 
 ### Refactoring
 - Removed deprecated time parsing code
+- Variable type `time` has been updated to `time_of_day` for clarity
 
 ## 0.48.0 (February 10, 2017)
 

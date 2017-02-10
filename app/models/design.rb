@@ -13,7 +13,7 @@ class Design < ApplicationRecord
     ['select one answer', 'radio'],
     ['select multiple answers', 'checkbox'],
     ['date', 'date'],
-    ['time', 'time'],
+    ['time of day', 'time_of_day'],
     ['number', 'numeric'],
     ['file upload', 'file']
   ]

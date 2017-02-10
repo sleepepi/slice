@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Formatters
-  # Formats times based on 24 or 12 hour clock.
-  class TimeFormatter < DefaultFormatter
+  # Formats time of day based on 24 or 12 hour clock.
+  class TimeOfDayFormatter < DefaultFormatter
     include DateAndTimeParser
 
     def name_response(response)

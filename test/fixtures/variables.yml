@@ -67,7 +67,7 @@ time_two:
   name: time_two
   display_name: Time Two
   # description:
-  variable_type: time
+  variable_type: time_of_day
   user: valid
   project: two
 
@@ -162,11 +162,11 @@ date_no_range:
   # date_soft_maximum:
   # date_soft_minimum:
 
-time:
-  name: var_time
+time_of_day:
+  name: time_of_day
   display_name: 24 Hour Clock
   description: Enter your favorite time of day.
-  variable_type: time
+  variable_type: time_of_day
   user: valid
   project: one
 
@@ -174,7 +174,7 @@ time_of_day_no_range:
   name: time_of_day_no_range
   display_name: Time with No Range
   description: This time has no range
-  variable_type: time
+  variable_type: time_of_day
   user: valid
   project: one
 

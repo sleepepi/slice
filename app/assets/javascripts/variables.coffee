@@ -27,14 +27,14 @@
     $('[data-object~="autocomplete"]').show()
   else
     $('[data-object~="autocomplete"]').hide()
-  if $(element).val() in ['date', 'time']
-    $('[data-object~="date-or-time"]').show()
+  if $(element).val() in ['date', 'time_of_day']
+    $('[data-object~="date-or-time-of-day"]').show()
   else
-    $('[data-object~="date-or-time"]').hide()
-  if $(element).val() in ['time']
-    $('[data-object~="time"]').show()
+    $('[data-object~="date-or-time-of-day"]').hide()
+  if $(element).val() in ['time_of_day']
+    $('[data-object~="time-of-day"]').show()
   else
-    $('[data-object~="time"]').hide()
+    $('[data-object~="time-of-day"]').hide()
   if $(element).val() in ['checkbox', 'radio']
     $('[data-object~="checkbox-or-radio"]').show()
   else

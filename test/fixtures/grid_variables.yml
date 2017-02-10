@@ -43,7 +43,7 @@ grid_integer:
 grid_time:
   project: one
   parent_variable: grid
-  child_variable: time
+  child_variable: time_of_day
   position: 7
 
 grid_with_scale_variable_scale_in_grid:

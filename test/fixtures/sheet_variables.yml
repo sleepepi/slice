@@ -109,8 +109,8 @@ date:
   user: valid
 
 # Represents 22:30:00
-time:
-  variable: time
+time_of_day:
+  variable: time_of_day
   sheet: all_variables
   response: 81000
   user: valid

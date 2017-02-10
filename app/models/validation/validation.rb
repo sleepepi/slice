@@ -17,7 +17,7 @@ module Validation
     'signature' => Validation::Validators::Signature,
     # 'string' => Validation::Validators::String,
     # 'text' => Validation::Validators::Text,
-    'time' => Validation::Validators::TimeOfDay,
+    'time_of_day' => Validation::Validators::TimeOfDay,
     'time_duration' => Validation::Validators::TimeDuration
   }
 

@@ -70,7 +70,7 @@ class Token
       case variable.variable_type
       when 'time_duration'
         convert_time_duration(val)
-      when 'time'
+      when 'time_of_day'
         convert_time_of_day(val)
       when 'imperial_height'
         convert_imperial_height(val)

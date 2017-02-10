@@ -15,7 +15,7 @@ module Formatters
     'imperial_height' => Formatters::ImperialHeightFormatter,
     'imperial_weight' => Formatters::ImperialWeightFormatter,
     'time_duration' => Formatters::TimeDurationFormatter,
-    'time' => Formatters::TimeFormatter
+    'time_of_day' => Formatters::TimeOfDayFormatter
   }
 
   def self.for(variable)

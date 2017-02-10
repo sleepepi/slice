@@ -93,14 +93,14 @@
     .col-md-10
       = f.text_field :units, class: 'form-control'
 
-  .form-group{ data: { object: 'date-or-time' } }
+  .form-group{ data: { object: 'date-or-time-of-day' } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :show_current_button
           Show Current Date/Time
 
-  .form-group{ data: { object: 'time' } }
+  .form-group{ data: { object: 'time-of-day' } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label

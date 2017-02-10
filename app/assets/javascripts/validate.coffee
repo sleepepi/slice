@@ -144,7 +144,7 @@
 @setVariableValidityClass = (parent, data) ->
   if $(parent).data('components') == 'date'
     setDateValidityClass(parent, data)
-  else if $(parent).data('components') == 'time'
+  else if $(parent).data('components') == 'time_of_day'
     setTimeValidityClass(parent, data)
   else if $(parent).data('components') == 'time_duration'
     setTimeValidityClass(parent, data)
@@ -163,7 +163,7 @@
       value["month"]  = $("##{$(parent).data('target-name')}_month").val()
       value["day"]    = $("##{$(parent).data('target-name')}_day").val()
       value["year"]   = $("##{$(parent).data('target-name')}_year").val()
-    when 'time'
+    when 'time_of_day'
       value = {}
       value["hours"]    = $("##{$(parent).data('target-name')}_hours").val()
       value["minutes"] = $("##{$(parent).data('target-name')}_minutes").val()

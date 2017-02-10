@@ -139,7 +139,7 @@ all_variable_types_file:
 
 all_variable_types_time:
   design: all_variable_types
-  variable: time
+  variable: time_of_day
   # section:
   position: 9
   # required:

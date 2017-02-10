@@ -77,12 +77,12 @@
           \-
       %td.center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+        = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+        = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = render 'reports/designs/overview/time/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+        = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
       %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id

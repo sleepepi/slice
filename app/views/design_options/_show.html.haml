@@ -127,7 +127,7 @@
           - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
             = render 'design_options/set_design_option', design_option: design_option, title: 'Layout', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
 
-          - if %w(time date).include?(variable.variable_type)
+          - if %w(time_of_day date).include?(variable.variable_type)
             - title = "Current #{variable.variable_type.titleize} Button"
             - values = [['show', true],['hide', false]]
             = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :show_current_button
@@ -136,11 +136,11 @@
             - values = [['MM/DD/YYYY', '%m/%d/%Y'], ['DD/MM/YYYY', '%d/%m/%Y'], ['YYYY-MM-DD', '%Y-%m-%d'], ['DD-MMM-YYYY', 'dd-mmm-yyyy']]
             = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
 
-          - if %w(time).include?(variable.variable_type)
+          - if %w(time_of_day).include?(variable.variable_type)
             - values = [['24-Hour', '24hour'], ['12-Hour AM/PM [AM]', '12hour'], ['12-Hour AM/PM [PM]', '12hour-pm']]
             = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :format
 
-          - if %w(time).include?(variable.variable_type)
+          - if %w(time_of_day).include?(variable.variable_type)
             - values = [['show', true],['hide', false]]
             = render 'design_options/set_design_option', design_option: design_option, title: 'Seconds Display', values: values, attribute: :show_seconds
 
@@ -162,7 +162,7 @@
             .design-option-body
               = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'grid_rows'), method: :get, remote: true, class: 'btn btn-xs btn-default'
 
-          - if %w(dropdown checkbox radio string text integer numeric date time time_duration signature imperial_height imperial_weight).include?(variable.variable_type)
+          - if %w(dropdown checkbox radio string text integer numeric date time_of_day time_duration signature imperial_height imperial_weight).include?(variable.variable_type)
             .design-option-lead
               Required on Form?
             .design-option-body
