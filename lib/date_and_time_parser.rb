@@ -59,18 +59,6 @@ module DateAndTimeParser
     default_time_of_day
   end
 
-  # TODO: Remove in v0.49.0
-  def parse_time_deprecated(time_string, default_time = nil)
-    if time_string.to_s.split(':', -1).last.size > 0
-      Time.strptime(time_string, '%H:%M:%S')
-    else
-      Time.strptime(time_string, '%H:%M:')
-    end
-  rescue
-    default_time
-  end
-  # END Remove v0.49.0 TODO
-
   def parse_time_duration(time_duration_string, no_hours: false)
     total_seconds = parse_integer(time_duration_string)
     hms_hash(total_seconds, no_hours: no_hours)
