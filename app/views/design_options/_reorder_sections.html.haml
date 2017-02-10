@@ -3,5 +3,9 @@
     - @design.main_sections.each_with_index do |design_option, index|
       - section = design_option.section
       %li.li-section.nowrap{ id: "section_#{index}", style: 'margin-bottom: 5px;', data: { position: index } }
-        %div{ style: 'display: inline-block;' }
-          %a{ href: '#' }= section.name.present? ? section.name : section.description.to_s.truncate(50)
+        %span.glyphicon.glyphicon-move.option-handle
+        .sortable-section
+          - if section.name.present?
+            = section.name
+          - else
+            = strip_tags(simple_markdown section.description).truncate(50).html_safe

@@ -1,6 +1,8 @@
 ## 0.49.0
 
 ### Enhancements
+- **Design Changes**
+  - Minor improvement to reordering sections and questions on designs
 - **Export Changes**
   - Improved display of file sizes on exports index
 

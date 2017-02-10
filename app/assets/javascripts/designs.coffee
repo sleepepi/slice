@@ -24,13 +24,15 @@
 
 @initializeDesignReordering = ->
   $('#reorder_options[data-object~="sortable"]').sortable(
-    placeholder: "li-section li-placeholder"
+    placeholder: 'li-section li-placeholder'
+    handle: '.option-handle'
     stop: ->
       toggleReorderSubmitButton($(this), '#reorder_design_button')
       true
   )
   $('#reorder_sections_design[data-object~="sortable"]').sortable(
-    placeholder: "li-section li-placeholder"
+    placeholder: 'li-section li-placeholder'
+    handle: '.option-handle'
     stop: ->
       toggleReorderSubmitButton($(this), '#reorder_design_sections_button')
       true

@@ -6,22 +6,16 @@
 
   li {
     float: none;
-    height: 32px;
+    min-height: 32px;
   }
 
-  .li-section a {
+  .li-section .sortable-section {
     background-color: $btn-primary-bg;
     border-radius: 5px;
     color: $btn-primary-color;
-    cursor: move;
     display: inline;
     margin: 0;
     padding: 5px 12px;
-  }
-
-  .li-section a:hover {
-    background-color: darken($btn-primary-bg, 10%);
-    text-decoration: none;
   }
 }
 
@@ -71,4 +65,8 @@
 
 .add-design-option {
   margin: 20px 0;
+}
+
+.option-handle {
+  cursor: move;
 }
