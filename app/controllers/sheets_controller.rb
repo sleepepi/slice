@@ -267,7 +267,7 @@ class SheetsController < ApplicationController
     when 'sheets.user_name desc'
       sheet_scope = sheet_scope.includes(:user).order('users.last_name desc, users.first_name desc')
     else
-      @order = scrub_order(Sheet, params[:order], 'sheets.created_at desc')
+      @order = scrub_order(Sheet, params[:order], 'sheets.last_edited_at desc')
       sheet_scope = sheet_scope.order(@order)
     end
     sheet_scope

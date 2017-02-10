@@ -1,5 +1,9 @@
 ## 0.48.1
 
+### Enhancements
+- **Sheet Changes**
+  - Sheet index should sort by *Last Edited* by default
+
 ### Bug Fix
 - Fixed a bug that caused rows to shift in an export if a sheet was created
   during the export
