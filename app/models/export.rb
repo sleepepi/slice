@@ -41,7 +41,9 @@ class Export < ApplicationRecord
   end
 
   def generate_export!
-    sheet_scope = project.sheets
+    sheet_ids = project.sheets.pluck(:id)
+    # Freeze the sheet scope to avoid data shifting during export.
+    sheet_scope = Sheet.where(id: sheet_ids)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
     variables_count = all_variables.count
     grid_variables_count = all_variables.where(variable_type: 'grid').count

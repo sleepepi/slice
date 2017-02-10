@@ -1,5 +1,9 @@
 ## 0.48.1
 
+### Bug Fix
+- Fixed a bug that caused rows to shift in an export if a sheet was created
+  during the export
+
 ## 0.48.0 (February 10, 2017)
 
 ### Enhancements
