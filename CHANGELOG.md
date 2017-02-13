@@ -10,6 +10,16 @@
 - Removed deprecated time parsing code
 - Variable type `time` has been updated to `time_of_day` for clarity
 
+## 0.48.1 (February 13, 2017)
+
+### Enhancements
+- **Sheet Changes**
+  - Sheet index should sort by *Last Edited* by default
+
+### Bug Fix
+- Fixed a bug that caused rows to shift in an export if a sheet was created
+  during the export
+
 ## 0.48.0 (February 10, 2017)
 
 ### Enhancements

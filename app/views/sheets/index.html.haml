@@ -68,7 +68,7 @@
             - if creation_ordered
               = link_to 'Created', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.created_at desc' ? 'sheets.created_at' : 'sheets.created_at desc')))
             - else
-              = link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.last_edited_at desc' ? 'sheets.last_edited_at' : 'sheets.last_edited_at desc')))
+              = link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.last_edited_at' ? 'sheets.last_edited_at desc' : 'sheets.last_edited_at')))
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                 %span.glyphicon.glyphicon-filter
