@@ -55,14 +55,24 @@
         - t.sheet_transaction_audits.each do |a|
           - if !variable || (variable && a.sheet_variable && a.sheet_variable.variable_id == variable.id)
             %tr
-              %td.nowrap
+              %td{ style: 'overflow: hidden;' }
                 = a.sheet_attribute_name
                 - if a.sheet_variable
-                  = link_to a.sheet_variable.variable.name, [a.sheet_variable.variable.project, a.sheet_variable.variable]
+                  - case a.sheet_variable.variable.variable_type
+                  - when 'signature', 'checkbox', 'text'
+                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? 'blank' : 'present'}")
+                  - else
+                    - if !/\s/.match(a.value_after.to_s).nil?
+                      - search = "\"#{a.value_after.to_s}\""
+                    - else
+                      - search = "#{a.value_after.to_s}"
+                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? 'blank' : search}")
+                  = link_to a.sheet_variable.variable.name, url
                 - if a.grid
+                  %br
                   Row
                   = "##{a.grid.position + 1}"
-                  = link_to a.grid.variable.name, [a.grid.variable.project, a.grid.variable]
+                  = a.grid.variable.name
               %td{ class: "#{'text-muted' if a.value_before == nil || a.value_before == ''}" }
                 - if a.value_before == nil
                   nil

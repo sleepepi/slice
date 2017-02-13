@@ -7,6 +7,8 @@
   - Minor improvement to reordering sections and questions on designs
 - **Export Changes**
   - Improved display of file sizes on exports index
+- **Sheet Changes**
+  - Sheet transactions now link back to filtered sheets index
 
 ### Refactoring
 - Removed deprecated time parsing code
