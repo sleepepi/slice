@@ -5,6 +5,10 @@ module Latexable
   extend ActiveSupport::Concern
 
   included do
+    def self.latex_safe(text)
+      new.latex_safe(text)
+    end
+
     def self.generate_pdf(jobname, output_folder, file_tex)
       # Run twice to allow LaTeX to compile correctly (page numbers, etc)
       `#{ENV['latex_location']} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`

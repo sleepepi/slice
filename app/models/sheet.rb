@@ -387,10 +387,6 @@ class Sheet < ApplicationRecord
 
   protected
 
-  def self.latex_safe(mystring)
-    new.latex_safe(mystring)
-  end
-
   def check_subject_event_subject_match
     self.subject_event_id = nil if subject_event && subject_event.subject != subject
   end
