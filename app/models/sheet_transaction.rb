@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Tracks a set of audits in a single transaction.
 class SheetTransaction < ApplicationRecord
-  TRANSACTION_TYPE = ["sheet_create", "sheet_update", "public_sheet_create", "public_sheet_update", "domain_update", "sheet_rollback"]
+  TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update)
 
   # Model Relationships
   belongs_to :project
@@ -20,7 +21,7 @@ class SheetTransaction < ApplicationRecord
     in_memory_sheet.errors.each do |error|
       sheet.errors.add(:base, error)
     end
-    return sheet.errors.count == 0
+    sheet.errors.count.zero?
   end
 
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false)
