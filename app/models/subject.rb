@@ -21,7 +21,6 @@ class Subject < ApplicationRecord
   scope :open_aes, -> { joins(:adverse_events).where(adverse_events: { closed: false }).distinct }
   scope :closed_aes, -> { joins(:adverse_events).where(adverse_events: { closed: true }).distinct }
   scope :any_aes, -> { joins(:adverse_events).distinct }
-  # scope :with_variable, lambda {|variable_id, value| where("subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.id IN (select sheet_variables.sheet_id from sheet_variables where variable_id = ? and response IN (?)))", false, variable_id, value)}
 
   # Model Validation
   validates :project_id, :subject_code, :site_id, presence: true
@@ -83,7 +82,7 @@ class Subject < ApplicationRecord
     if domain_option
       sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, domain_option: domain_option }).count >= 1
     else
-      sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, response: value }).count >= 1
+      sheets.joins(:sheet_variables).where(sheet_variables: { variable_id: variable.id, value: value }).count >= 1
     end
   end
 
@@ -164,7 +163,7 @@ class Subject < ApplicationRecord
   def response_for_variable(variable)
     responses = variable
                 .sheet_variables.joins(:sheet).merge(sheets)
-                .pluck_domain_option_value_or_response
+                .pluck_domain_option_value_or_value
     formatter = Formatters.for(variable)
     formatted_responses = formatter.format_array(responses, true).uniq.compact
     result = (formatted_responses.size == 1 ? formatted_responses.first : nil)

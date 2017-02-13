@@ -44,7 +44,7 @@ module Pats
         project.sites.each do |site|
           site_objects = objects.where(subjects: { site_id: site.id })
           week_objects = if date_variable
-                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: date_variable.id })
+                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.value) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: date_variable.id })
                         else
                           site_objects.where("DATE(#{site_objects.table_name}.#{attribute}) BETWEEN ? AND ?", current_month.beginning_of_week, current_month.end_of_week)
                         end
@@ -94,7 +94,7 @@ module Pats
         project.sites.each do |site|
           site_objects = objects.where(subjects: { site_id: site.id })
           month_objects = if date_variable
-                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: date_variable.id })
+                          site_objects.joins(:sheet_variables).where('DATE(sheet_variables.value) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: date_variable.id })
                         else
                           site_objects.where("DATE(#{site_objects.table_name}.#{attribute}) BETWEEN ? AND ?", current_month.beginning_of_month, current_month.end_of_month)
                         end
@@ -141,20 +141,20 @@ module Pats
       project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
     end
 
-    def database_value_for_variable_equals(response, type_cast: 'numeric')
+    def database_value_for_variable_equals(value, type_cast: 'numeric')
       field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
-      field_two = "NULLIF(sheet_variables.response, '')::#{type_cast}"
-      "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END) #{response.present? ? "= #{response}" : 'IS NULL'}"
+      field_two = "NULLIF(sheet_variables.value, '')::#{type_cast}"
+      "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END) #{value.present? ? "= #{value}" : 'IS NULL'}"
     end
 
-    def eligible_sheets(project, response: '1')
+    def eligible_sheets(project, value: '1')
       design_id = design_id(project)
       # answering "1: Yes" to #31 question (eligible for baseline) (i.e. "# Eligible to Continue to Baseline")
       # variable_id = 14299
       variable = project.variables.find_by(name: 'ciw_eligible_for_baseline')
       variable_id = variable.id
 
-      sheet_scope = SheetVariable.left_outer_joins(:domain_option).where(variable_id: variable_id).where(database_value_for_variable_equals(response)).select(:sheet_id)
+      sheet_scope = SheetVariable.left_outer_joins(:domain_option).where(variable_id: variable_id).where(database_value_for_variable_equals(value)).select(:sheet_id)
       project.sheets.where(id: sheet_scope, design_id: design_id, missing: false)
     end
 
@@ -201,7 +201,7 @@ module Pats
       current_week = start_date.beginning_of_week
       last_week = Time.zone.today.beginning_of_week
       while current_week <= last_week
-        week_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: variable.id })
+        week_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.value) BETWEEN ? AND ?', current_week.beginning_of_week, current_week.end_of_week).where(sheet_variables: { variable_id: variable.id })
         total_count += count_subjects(week_sheets)
         data << total_count
         current_week += 1.week
@@ -228,7 +228,7 @@ module Pats
       current_month = start_date.beginning_of_month - 1.month
       last_month = Time.zone.today.beginning_of_month
       while current_month <= last_month
-        month_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.response) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: variable.id })
+        month_sheets = sheets.joins(:sheet_variables).where('DATE(sheet_variables.value) BETWEEN ? AND ?', current_month.beginning_of_month, current_month.end_of_month).where(sheet_variables: { variable_id: variable.id })
         total_count += count_subjects(month_sheets)
         data << total_count
         current_month += 1.month

@@ -151,8 +151,8 @@ class Variable < ApplicationRecord
         (sheet_variables.pluck(:response_file) +
           grids.pluck(:response_file)).uniq.reject(&:blank?)
       else
-        (sheet_variables.pluck_domain_option_value_or_response +
-          grids.pluck_domain_option_value_or_response +
+        (sheet_variables.pluck_domain_option_value_or_value +
+          grids.pluck_domain_option_value_or_value +
           responses.pluck_domain_option_value_or_value).uniq.reject(&:blank?)
       end
     end
@@ -214,7 +214,7 @@ class Variable < ApplicationRecord
 
   def options_or_autocomplete(include_missing)
     if variable_type == 'string'
-      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.response, value: sv.response, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
+      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.value, value: sv.value, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
     else
       doscope = \
         if include_missing
@@ -230,7 +230,7 @@ class Variable < ApplicationRecord
 
   # Responses that are user submitted and not on autocomplete list
   def user_submitted_sheet_variables
-    sheet_variables.reject { |sv| autocomplete_array.include?(sv.response.to_s.strip) || sv.response.to_s.strip.blank? }
+    sheet_variables.reject { |sv| autocomplete_array.include?(sv.value.to_s.strip) || sv.value.to_s.strip.blank? }
   end
 
   def formatted_calculation

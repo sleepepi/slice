@@ -1,13 +1,13 @@
 .form-group
   %label.col-md-2.control-label Autocomplete Values
   .col-md-10
-    = text_area_tag "variable[autocomplete_values]", @design_option.variable.autocomplete_values, rows: 7, rel: "tooltip", title: "Line-separated Strings", class: "form-control"
+    = text_area_tag 'variable[autocomplete_values]', @design_option.variable.autocomplete_values, rows: 7, rel: 'tooltip', title: 'Line-separated Strings', class: 'form-control'
 
 - submitted_sheet_variables = @design_option.variable.user_submitted_sheet_variables
 
 - if submitted_sheet_variables.size > 0
-  .form-group{ data: { object: "autocomplete" } }
+  .form-group{ data: { object: 'autocomplete' } }
     %label.col-md-2.control-label User submitted
     .col-md-10
-      %div{ style: "line-height:30px" }
-        = submitted_sheet_variables.collect{|sv| link_to( sv.response.to_s, [sv.sheet.project, sv.sheet], target: '_blank' ) }.join(', ').html_safe
+      %div{ style: 'line-height: 30px;' }
+        = submitted_sheet_variables.collect { |sv| link_to(sv.value.to_s, [sv.sheet.project, sv.sheet], target: '_blank') }.join(', ').html_safe

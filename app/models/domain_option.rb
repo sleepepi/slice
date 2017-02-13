@@ -30,17 +30,15 @@ class DomainOption < ApplicationRecord
     end
   end
 
-  # TODO: Update sheet_variables and grids to use `value` instead of `response`
   def add_domain_option!
-    domain.sheet_variables.where(response: value).update_all(domain_option_id: id, response: nil)
-    domain.grids.where(response: value).update_all(domain_option_id: id, response: nil)
+    domain.sheet_variables.where(value: value).update_all(domain_option_id: id, value: nil)
+    domain.grids.where(value: value).update_all(domain_option_id: id, value: nil)
     domain.responses.where(value: value).update_all(domain_option_id: id, value: nil)
   end
 
-  # TODO: Update sheet_variables and grids to use `value` instead of `response`
   def remove_domain_option!
-    sheet_variables.update_all(domain_option_id: nil, response: value)
-    grids.update_all(domain_option_id: nil, response: value)
+    sheet_variables.update_all(domain_option_id: nil, value: value)
+    grids.update_all(domain_option_id: nil, value: value)
     responses.update_all(domain_option_id: nil, value: value)
   end
 
@@ -59,8 +57,8 @@ class DomainOption < ApplicationRecord
   end
 
   def other_values_count
-    domain.sheet_variables.where(response: value).count +
-      domain.grids.where(response: value).count +
+    domain.sheet_variables.where(value: value).count +
+      domain.grids.where(value: value).count +
       domain.responses.where(value: value).count
   end
 end

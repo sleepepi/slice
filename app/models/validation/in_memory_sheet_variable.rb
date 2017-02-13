@@ -2,11 +2,11 @@
 
 module Validation
   class InMemorySheetVariable
-    attr_accessor :variable, :response, :response_file, :responses
+    attr_accessor :variable, :value, :response_file, :responses
 
-    def initialize(variable, response = nil, response_file = nil, responses = [])
+    def initialize(variable, value = nil, response_file = nil, responses = [])
       @variable = variable
-      @response = response
+      @value = value
       @response_file = response_file
       @responses = responses.collect { |r| Validation::InMemoryResponse.new(r.value) }
     end
@@ -16,11 +16,7 @@ module Validation
       when 'checkbox'
         @responses.collect(&:value)
       else
-        if @response.blank?
-          nil
-        else
-          @response
-        end
+        @value if @value.present?
       end
     end
   end

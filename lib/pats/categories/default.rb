@@ -43,14 +43,6 @@ module Pats
         end
       end
 
-      def column_name
-        if variable && variable.variable_type == 'checkbox'
-          'value'
-        else
-          'response'
-        end
-      end
-
       def select_sheet_ids
         model
           .left_outer_joins(:domain_option)
@@ -111,7 +103,7 @@ module Pats
 
       def database_value(type_cast: 'numeric')
         field_one = "NULLIF(domain_options.value, '')::#{type_cast}"
-        field_two = "NULLIF(#{model.table_name}.#{column_name}, '')::#{type_cast}"
+        field_two = "NULLIF(#{model.table_name}.value, '')::#{type_cast}"
         "(CASE WHEN (#{field_one} IS NULL) THEN #{field_two} ELSE #{field_one} END)"
       end
     end

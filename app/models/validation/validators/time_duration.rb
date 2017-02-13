@@ -59,7 +59,7 @@ module Validation
       end
 
       def db_key_value_pairs(response)
-        { response: parse_time_duration_from_hash_to_s(response, no_hours: @variable.no_hours?) }
+        { value: parse_time_duration_from_hash_to_s(response, no_hours: @variable.no_hours?) }
       end
     end
   end

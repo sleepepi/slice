@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Stores a value response for a single response question on a sheet.
+# Stores a value for a single variable on a sheet.
 class SheetVariable < ApplicationRecord
   # Concerns
   include Formattable, Valuable
@@ -22,7 +22,7 @@ class SheetVariable < ApplicationRecord
   end
 
   def self.all_empty
-    where(response_file: [nil, ''], response: [nil, ''], domain_option_id: nil)
+    where(response_file: [nil, ''], value: [nil, ''], domain_option_id: nil)
       .where(id: grids_empty.select(:id))
       .where(id: responses_empty.select(:id))
   end

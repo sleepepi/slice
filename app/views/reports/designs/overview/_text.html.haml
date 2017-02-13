@@ -1,6 +1,6 @@
 - blank_responses = responses.select(&:blank?)
 - valid_responses = responses.reject(&:blank?)
-- responses_and_subjects = variable.sheet_variables.where(sheet_id: sheet_scope.select(:id)).collect { |sv| [sv.response, sv.sheet.subject] }.reject{ |r, s| r.blank? }.sort_by{ |r, s| s.name }
+- responses_and_subjects = variable.sheet_variables.where(sheet_id: sheet_scope.select(:id)).collect { |sv| [sv.value, sv.sheet.subject] }.reject{ |v, s| v.blank? }.sort_by { |v, s| s.name }
 
 %table.table.table-fixed.table-borderless
   %thead

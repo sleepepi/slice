@@ -248,7 +248,7 @@
     %label.col-md-2.control-label User submitted
     .col-md-10
       %div{ style: 'line-height:30px' }
-        = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.response.to_s, [sv.sheet.project, sv.sheet] }.join(', ').html_safe
+        = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(', ').html_safe
 
   = hidden_field_tag :continue, '0'
 

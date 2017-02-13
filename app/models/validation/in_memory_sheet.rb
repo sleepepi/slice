@@ -14,10 +14,10 @@ module Validation
 
     def initialize(sheet)
       @sheet_variables = sheet.sheet_variables.includes(:variable, :responses).collect do |sv|
-        InMemorySheetVariable.new(sv.variable, sv.response, sv.response_file, sv.responses)
+        InMemorySheetVariable.new(sv.variable, sv.value, sv.response_file, sv.responses)
       end
       @grids = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id)).includes(:variable, :responses, sheet_variable: :variable).collect do |g|
-        InMemoryGrid.new(g.sheet_variable.variable, g.position, g.variable, g.response, g.response_file, g.responses)
+        InMemoryGrid.new(g.sheet_variable.variable, g.position, g.variable, g.value, g.response_file, g.responses)
       end
       @project = sheet.project
       @design = sheet.design
@@ -125,7 +125,7 @@ module Validation
           end
         end
       end
-      @errors.count == 0
+      @errors.count.zero?
     end
 
     private

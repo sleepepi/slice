@@ -50,7 +50,7 @@ module Validation
       end
 
       def db_key_value_pairs(response)
-        { response: parse_imperial_weight_from_hash_to_s(response) }
+        { value: parse_imperial_weight_from_hash_to_s(response) }
       end
     end
   end

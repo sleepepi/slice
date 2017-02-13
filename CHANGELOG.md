@@ -9,6 +9,8 @@
 ### Refactoring
 - Removed deprecated time parsing code
 - Variable type `time` has been updated to `time_of_day` for clarity
+- Improved consistency of internal data model, renamed Sheet and Grid `response`
+  to `value`
 
 ## 0.48.1 (February 13, 2017)
 

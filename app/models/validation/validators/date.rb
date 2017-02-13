@@ -58,7 +58,7 @@ module Validation
       end
 
       def db_key_value_pairs(response)
-        { response: parse_date_from_hash_to_s(response) }
+        { value: parse_date_from_hash_to_s(response) }
       end
 
       private

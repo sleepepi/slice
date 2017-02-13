@@ -7,10 +7,10 @@ module Valuable
 
   included do
     # Scopes
-    def self.pluck_domain_option_value_or_response
+    def self.pluck_domain_option_value_or_value
       left_outer_joins(:domain_option)
-        .pluck('domain_options.value', :response)
-        .collect { |value, response| value || response }
+        .pluck('domain_options.value', :value)
+        .collect { |v1, v2| v1 || v2 }
     end
 
     # Model Validation
@@ -64,28 +64,27 @@ module Valuable
       month = parse_integer(response[:month])
       day = parse_integer(response[:day])
       year = parse_integer(response[:year])
-
-      # Save valuable to string in "%Y-%m-%d" db format, passing in a date
-      response = { response: parse_date("#{month}/#{day}/#{year}") }
+      # Save valuable to string in '%Y-%m-%d' db format, passing in a date
+      response = { value: parse_date("#{month}/#{day}/#{year}") }
     when 'time_of_day'
       # Save valuable to string in total seconds since midnight db format
-      response = { response: parse_time_of_day_from_hash_to_s(response) }
+      response = { value: parse_time_of_day_from_hash_to_s(response) }
     when 'time_duration'
       # Save valuable to string in total seconds db format
-      response = { response: parse_time_duration_from_hash_to_s(response, no_hours: variable.no_hours?) }
+      response = { value: parse_time_duration_from_hash_to_s(response, no_hours: variable.no_hours?) }
     when 'imperial_height'
       # Save valuable to string in total inches db format
-      response = { response: parse_imperial_height_from_hash_to_s(response) }
+      response = { value: parse_imperial_height_from_hash_to_s(response) }
     when 'imperial_weight'
       # Save valuable to string in total ounces db format
-      response = { response: parse_imperial_weight_from_hash_to_s(response) }
+      response = { value: parse_imperial_weight_from_hash_to_s(response) }
     else
       domain_option = variable.domain_options.find_by(value: response)
       response = \
         if domain_option
-          { response: nil, domain_option_id: domain_option.id }
+          { value: nil, domain_option_id: domain_option.id }
         else
-          { response: response, domain_option_id: nil }
+          { value: response, domain_option_id: nil }
         end
     end
     response

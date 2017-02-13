@@ -115,7 +115,7 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
   # merge two differing sets of values.
   test 'should not update domain option to merge with other existing values on sheet' do
     login(@project_editor)
-    assert_difference('Grid.where(response: nil).count', 0) do
+    assert_difference('Grid.where(value: nil).count', 0) do
       patch project_domain_domain_option_path(@project, domains(:integer_unknown), domain_options(:integer_unknown_9)), params: {
         domain_option: {
           value: '36',
@@ -134,14 +134,14 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   # The -9 domain option has one underlying sheet_variable captured, however,
-  # -11 response does not exist in any underlying sheet_variables, grids, or
+  # the value -11 does not exist in any underlying sheet_variables, grids, or
   # responses, allowing the domain option value to be remapped as no differering
   # values are being merged.
   test 'should update domain option to value that does not exist in collected data' do
     login(@project_editor)
-    assert_difference('SheetVariable.where(response: nil).count', 0) do
+    assert_difference('SheetVariable.where(value: nil).count', 0) do
       assert_difference('Response.where(value: nil).count', 0) do
-        assert_difference('Grid.where(response: nil).count', 0) do
+        assert_difference('Grid.where(value: nil).count', 0) do
           patch project_domain_domain_option_path(
             @project, domains(:integer_unknown), domain_options(:integer_unknown_9)
           ), params: {
@@ -167,7 +167,7 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
   # value of 36 (one occurence on a grid).
   test 'should update domain option with no collected values to value that has been collected on sheets' do
     login(@project_editor)
-    assert_difference('Grid.where(response: nil).count') do
+    assert_difference('Grid.where(value: nil).count') do
       patch project_domain_domain_option_path(
         @project, domains(:integer_unknown), domain_options(:integer_unknown_10)
       ), params: {

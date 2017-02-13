@@ -15,17 +15,17 @@ module Formattable
     when 'signature'
       get_signature_response(raw_format)
     else
-      get_single_response(response_or_domain_value, raw_format)
+      get_single_response(domain_option_value_or_value, raw_format)
     end
   end
 
   private
 
-  def response_or_domain_value
+  def domain_option_value_or_value
     if domain_option
       domain_option.value
     else
-      response
+      value
     end
   end
 
@@ -48,7 +48,7 @@ module Formattable
   end
 
   def get_grid_responses(raw_format)
-    return get_single_response(response_or_domain_value, raw_format) unless respond_to?('grids')
+    return get_single_response(domain_option_value_or_value, raw_format) unless respond_to?('grids')
     build_grid_responses(raw_format)
   end
 
@@ -69,14 +69,14 @@ module Formattable
     if raw_format == :raw_file
       save_signature_file
     else
-      get_single_response(response, raw_format)
+      get_single_response(value, raw_format)
     end
   end
 
   def save_signature_file
     file = Tempfile.new('signature.png')
     begin
-      create_signature_png(response, file.path)
+      create_signature_png(value, file.path)
       file.define_singleton_method(:original_filename) do
         'signature.png'
       end

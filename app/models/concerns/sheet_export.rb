@@ -70,7 +70,7 @@ module SheetExport
                 else
                   response_scope
                     .left_outer_joins(:domain_option)
-                    .pluck('domain_options.value', :response, :sheet_id)
+                    .pluck('domain_options.value', :value, :sheet_id)
                     .collect { |v1, v2, sheet_id| [v1 || v2, sheet_id] }.uniq
                 end
     sort_responses_by_sheet_id(responses, sheet_scope)

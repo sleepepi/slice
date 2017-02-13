@@ -2,13 +2,13 @@
 
 module Validation
   class InMemoryGrid
-    attr_accessor :variable, :parent_variable, :position, :response, :response_file, :responses
+    attr_accessor :variable, :parent_variable, :position, :value, :response_file, :responses
 
-    def initialize(parent_variable, position, variable, response = nil, response_file = nil, responses = [])
+    def initialize(parent_variable, position, variable, value = nil, response_file = nil, responses = [])
       @parent_variable = parent_variable
       @position = position
       @variable = variable
-      @response = response
+      @value = value
       @response_file = response_file
       @responses = responses.collect { |r| Validation::InMemoryResponse.new(r.value) }
     end
@@ -18,11 +18,7 @@ module Validation
       when 'checkbox'
         @responses.collect(&:value)
       else
-        if @response.blank?
-          nil
-        else
-          @response
-        end
+        @value if @value.present?
       end
     end
   end

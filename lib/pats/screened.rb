@@ -23,7 +23,7 @@ module Pats
         visible: false
       }
       graph[:total] = count_subjects(ciws(project))
-      graph[:in_pipeline] = count_subjects(eligible_to_continue_to_baseline_sheets(project, response: ''))
+      graph[:in_pipeline] = count_subjects(eligible_to_continue_to_baseline_sheets(project, value: ''))
       graph[:categories] = categories
       graph[:series] = series
       graph[:title] = 'Cumulative Screened'

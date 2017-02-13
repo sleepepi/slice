@@ -347,7 +347,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should update variable and remove domain from sheet variables' do
-    assert_difference('SheetVariable.where(response: [1,2]).count', 1) do
+    assert_difference('SheetVariable.where(value: [1,2]).count', 1) do
       patch :update, params: {
         project_id: variables(:data_captured).project_id,
         id: variables(:data_captured),
@@ -373,7 +373,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test 'should update variable and remove domain from grids' do
-    assert_difference('Grid.where(response: [1, 2, 3]).count', 6) do
+    assert_difference('Grid.where(value: [1, 2, 3]).count', 6) do
       patch :update, params: {
         project_id: variables(:change_domain_options).project_id,
         id: variables(:change_domain_options),

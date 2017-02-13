@@ -87,11 +87,11 @@ module Validation
       end
 
       def db_key_value_pairs(response)
-        { response: response }
+        { value: response }
       end
 
       def raw_value(response)
-        db_key_value_pairs(response).dig(:response)
+        db_key_value_pairs(response).dig(:value)
       end
 
       def store_temp_response(in_memory_sheet_variable, response)

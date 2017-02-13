@@ -69,7 +69,7 @@ module GridExport
                 else
                   response_scope
                     .left_outer_joins(:domain_option)
-                    .pluck('domain_options.value', :response, :position, :sheet_id)
+                    .pluck('domain_options.value', :value, :position, :sheet_id)
                     .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
                 end
     grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)

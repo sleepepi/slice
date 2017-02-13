@@ -5,18 +5,18 @@ one:
   sheet: two
   user: valid
   domain_option: var_one_1
-  # response: 1
+  # value: 1
 
 checkbox_two:
   variable: checkbox_two
   sheet: two
-  # response: "['1','2']" # Through Association with Responses.yml
+  # value: "['1','2']" # Through Association with Responses.yml
   user: valid
 
 numeric_two:
   variable: numeric_two
   sheet: two
-  response: 150
+  value: 150
   user: valid
 
 dropdown_two:
@@ -24,13 +24,13 @@ dropdown_two:
   sheet: two
   user: valid
   domain_option: checkbox_two_domain_yes
-  # response: 1
+  # value: 1
 
 # Represents 22:30:45
 time_two:
   variable: time_two
   sheet: two
-  response: 81045
+  value: 81045
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
@@ -40,42 +40,42 @@ value_to_update_a:
   sheet: two
   user: valid
   domain_option: var_change_options_1
-  # response: 2
+  # value: 2
 
 value_to_update_b1:
   variable: change_options
   sheet: two
   user: valid
   domain_option: var_change_options_2
-  # response: 3
+  # value: 3
 
 value_to_update_b2:
   variable: change_options
   sheet: two
   user: valid
   domain_option: var_change_options_2
-  # response: 3
+  # value: 3
 
 value_to_update_c1:
   variable: change_options
   sheet: two
   user: valid
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 value_to_update_c2:
   variable: change_options
   sheet: two
   user: valid
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 value_to_update_c3:
   variable: change_options
   sheet: two
   user: valid
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 file_attachment:
   variable: file
@@ -88,43 +88,43 @@ gender_male:
   sheet: all_variables
   user: valid
   domain_option: var_dropdown_m
-  # response: m
+  # value: m
 
 course_work:
   variable: checkbox
   sheet: all_variables
-  # response: "['acct101','econ101']" # Through Association with Responses.yml
+  # value: "['acct101','econ101']" # Through Association with Responses.yml
   user: valid
 
 grid:
   variable: grid
   sheet: all_variables
-  # response:
+  # value:
   user: valid
 
 date:
   variable: date
   sheet: all_variables
-  response: "2013-04-17"
+  value: "2013-04-17"
   user: valid
 
 # Represents 22:30:00
 time_of_day:
   variable: time_of_day
   sheet: all_variables
-  response: 81000
+  value: 81000
   user: valid
 
 string:
   variable: string
   sheet: all_variables
-  response: Weight Lifting and Salsa
+  value: Weight Lifting and Salsa
   user: valid
 
 text:
   variable: text
   sheet: all_variables
-  response: "This Text is across \nMultiple Lines"
+  value: "This Text is across \nMultiple Lines"
   user: valid
 
 integer:
@@ -132,19 +132,19 @@ integer:
   sheet: all_variables
   user: valid
   domain_option: integer_unknown_9
-  # response: -9
+  # value: -9
 
 calculated:
   variable: calculated
   sheet: all_variables
-  response: 24.36
+  value: 24.36
   user: valid
 
 # Represents 57 hours, 2 minutes, and 3 seconds
 time_duration:
   variable: time_duration
   sheet: all_variables
-  response: 205323
+  value: 205323
   user: valid
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
@@ -154,66 +154,66 @@ domain_value_to_update_a:
   sheet: two
   user: valid
   domain_option: change_options_1
-  # response: 2
+  # value: 2
 
 domain_value_to_update_b1:
   variable: change_domain_options
   sheet: two
   user: valid
   domain_option: change_options_2
-  # response: 3
+  # value: 3
 
 domain_value_to_update_b2:
   variable: change_domain_options
   sheet: two
   user: valid
   domain_option: change_options_2
-  # response: 3
+  # value: 3
 
 domain_value_to_update_c1:
   variable: change_domain_options
   sheet: two
   user: valid
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 domain_value_to_update_c2:
   variable: change_domain_options
   sheet: two
   user: valid
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 domain_value_to_update_c3:
   variable: change_domain_options
   sheet: two
   user: valid
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 domain_data_captured:
   variable: data_captured
   sheet: domain_data_captured
   user: valid
   domain_option: two_restaurants_1
-  # response: 1
+  # value: 1
 
 has_grid:
   variable: grid
   sheet: has_grid
-  # response
+  # value:
   user: valid
 
 has_grid_with_file:
   variable: grid
   sheet: has_grid_with_file
-  # response:
+  # value:
   user: valid
 
 weight_subject_one:
   variable: weight
   sheet: weight_and_gender_subject_one
-  response: 70.0
+  value: 70.0
   user: valid
 
 gender_subject_one:
@@ -221,12 +221,12 @@ gender_subject_one:
   sheet: weight_and_gender_subject_one
   user: valid
   domain_option: var_dropdown_m
-  # response: m
+  # value: m
 
 weight_subject_two:
   variable: weight
   sheet: weight_and_gender_subject_two
-  response: 60.0
+  value: 60.0
   user: valid
 
 gender_subject_two:
@@ -234,26 +234,26 @@ gender_subject_two:
   sheet: weight_and_gender_subject_two
   user: valid
   domain_option: var_dropdown_f
-  # response: f
+  # value: f
 
 half_filled_first_answer:
   variable: one
   sheet: filled_out_half_visible
   user: valid
   domain_option: var_one_2
-  # response: 2
+  # value: 2
 
 not_triggering_hidden_first_answer:
   variable: one
   sheet: filled_out_all_visible
   user: valid
   domain_option: var_one_2
-  # response: 2
+  # value: 2
 
 date_visible_third_answer:
   variable: date
   sheet: filled_out_all_visible
-  response: 2014-05-05
+  value: 2014-05-05
   user: valid
 
 filled_out_all_first:
@@ -261,19 +261,19 @@ filled_out_all_first:
   sheet: filled_out_entire_sheet
   user: valid
   domain_option: var_one_1
-  # response: 1
+  # value: 1
 
 # TODO: Check if string variables can have domains
 filled_out_all_second:
   variable: two
   sheet: filled_out_entire_sheet
   user: valid
-  response: Text Response
+  value: Text Response
 
 filled_out_all_third:
   variable: date
   sheet: filled_out_entire_sheet
-  response: "2014-05-06"
+  value: "2014-05-06"
   user: valid
 
 filled_out_some_first:
@@ -281,26 +281,26 @@ filled_out_some_first:
   sheet: all_visible_not_all_answered
   user: valid
   domain_option: var_one_1
-  # response: 1
+  # value: 1
 
 # TODO: Check if string variables can have domains
 filled_out_some_second:
   variable: two
   sheet: all_visible_not_all_answered
   user: valid
-  response: Text Response
+  value: Text Response
 
 # TODO: Check if string variables can have domains
 hidden_response_answered:
   variable: two
   sheet: hidden_response_answered
   user: valid
-  response: Some response
+  value: Some response
 
 exportable_one:
   variable: checkbox
   sheet: checkbox_example_one
-  # response: "['econ101','math123']" # Through association with responses.yml
+  # value: "['econ101','math123']" # Through association with responses.yml
   user: valid
 
 exportable_two:
@@ -308,11 +308,11 @@ exportable_two:
   sheet: checkbox_example_one
   user: valid
   domain_option: var_radio_1
-  # response: 1
+  # value: 1
 
 eligible_for_randomization:
   variable: randomize
   sheet: required_for_randomization
   user: valid
   domain_option: randomize_yes_no_1
-  # response: 1
+  # value: 1

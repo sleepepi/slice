@@ -38,8 +38,8 @@ module Pats
       generic_table(project, start_date, 'Eligible', objects, date_variable: date_variable)
     end
 
-    def eligible_to_continue_to_baseline_sheets(project, response: '1')
-      eligible_sheets(project, response: response)
+    def eligible_to_continue_to_baseline_sheets(project, value: '1')
+      eligible_sheets(project, value: value)
     end
 
     def eligible_to_continue_to_baseline_sheets_print(project)

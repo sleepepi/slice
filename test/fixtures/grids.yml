@@ -4,7 +4,7 @@ one:
   position: 0
   user: valid
   domain_option: var_one_1
-  # response: 1
+  # value: 1
 
 two:
   sheet_variable: one
@@ -12,7 +12,7 @@ two:
   position: 1
   user: valid
   domain_option: var_one_2
-  # response: 2
+  # value: 2
 
 # This grid had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" variable should change this value to '1'
@@ -22,7 +22,7 @@ value_to_update_a:
   user: valid
   position: 0
   domain_option: var_change_options_1
-  # response: 2
+  # value: 2
 
 value_to_update_b1:
   sheet_variable: grid
@@ -30,7 +30,7 @@ value_to_update_b1:
   user: valid
   position: 1
   domain_option: var_change_options_2
-  # response: 3
+  # value: 3
 
 value_to_update_b2:
   sheet_variable: grid
@@ -38,7 +38,7 @@ value_to_update_b2:
   user: valid
   position: 2
   domain_option: var_change_options_2
-  # response: 3
+  # value: 3
 
 value_to_update_c1:
   sheet_variable: grid
@@ -46,7 +46,7 @@ value_to_update_c1:
   user: valid
   position: 3
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 value_to_update_c2:
   sheet_variable: grid
@@ -54,7 +54,7 @@ value_to_update_c2:
   user: valid
   position: 4
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 value_to_update_c3:
   sheet_variable: grid
@@ -62,7 +62,7 @@ value_to_update_c3:
   user: valid
   position: 5
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 
 # This grid had "Option 1" selected that was incorrectly mapped to the value '2'
@@ -73,7 +73,7 @@ domain_value_to_update_a:
   user: valid
   position: 0
   domain_option: change_options_1
-  # response: 2
+  # value: 2
 
 domain_value_to_update_b1:
   sheet_variable: grid
@@ -81,7 +81,7 @@ domain_value_to_update_b1:
   user: valid
   position: 1
   domain_option: change_options_2
-  # response: 3
+  # value: 3
 
 domain_value_to_update_b2:
   sheet_variable: grid
@@ -89,7 +89,7 @@ domain_value_to_update_b2:
   user: valid
   position: 2
   domain_option: change_options_2
-  # response: 3
+  # value: 3
 
 domain_value_to_update_c1:
   sheet_variable: grid
@@ -97,7 +97,7 @@ domain_value_to_update_c1:
   user: valid
   position: 3
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 domain_value_to_update_c2:
   sheet_variable: grid
@@ -105,7 +105,7 @@ domain_value_to_update_c2:
   user: valid
   position: 4
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 domain_value_to_update_c3:
   sheet_variable: grid
@@ -113,7 +113,7 @@ domain_value_to_update_c3:
   user: valid
   position: 5
   domain_option: change_options_3
-  # response: 1
+  # value: 1
 
 has_grid_row_one_var_a:
   sheet_variable: has_grid
@@ -121,12 +121,12 @@ has_grid_row_one_var_a:
   user: valid
   position: 0
   domain_option: var_change_options_3
-  # response: 1
+  # value: 1
 
 has_grid_row_one_var_b:
   sheet_variable: has_grid
   variable: file
-  # response:
+  # value:
   user: valid
   position: 0
   response_file: rails.png
@@ -134,49 +134,49 @@ has_grid_row_one_var_b:
 has_grid_row_one_var_c:
   sheet_variable: has_grid
   variable: checkbox
-  # response:
+  # value:
   user: valid
   position: 0
 
 has_grid_row_one_var_d:
   sheet_variable: has_grid
   variable: height
-  response: 1.5
+  value: 1.5
   user: valid
   position: 0
 
 has_grid_row_one_var_e:
   sheet_variable: has_grid
   variable: weight
-  response: 70.0
+  value: 70.0
   user: valid
   position: 0
 
 has_grid_row_one_var_f:
   sheet_variable: has_grid
   variable: calculated
-  response: 31.11
+  value: 31.11
   user: valid
   position: 0
 
 has_grid_row_one_var_g:
   sheet_variable: has_grid
   variable: integer
-  response: 25
+  value: 25
   user: valid
   position: 0
 
 has_grid_row_one_var_h:
   sheet_variable: has_grid
   variable: time_of_day
-  response: 11:59:59
+  value: 11:59:59
   user: valid
   position: 0
 
 has_grid_row_one_attached_file:
   sheet_variable: has_grid_with_file
   variable: file
-  # response:
+  # value:
   user: valid
   position: 0
   response_file: rails.png
@@ -187,12 +187,12 @@ has_grid_row_two_var_a:
   user: valid
   position: 1
   domain_option: var_change_options_1
-  # response: 2
+  # value: 2
 
 has_grid_row_two_var_b:
   sheet_variable: has_grid
   variable: file
-  # response:
+  # value:
   user: valid
   position: 1
   # response_file: rails.png
@@ -200,49 +200,49 @@ has_grid_row_two_var_b:
 has_grid_row_two_var_c:
   sheet_variable: has_grid
   variable: checkbox
-  # response:
+  # value:
   user: valid
   position: 1
 
 has_grid_row_two_var_d:
   sheet_variable: has_grid
   variable: height
-  response: 2.6
+  value: 2.6
   user: valid
   position: 1
 
 has_grid_row_two_var_e:
   sheet_variable: has_grid
   variable: weight
-  response: 80.0
+  value: 80.0
   user: valid
   position: 1
 
 has_grid_row_two_var_f:
   sheet_variable: has_grid
   variable: calculated
-  response: 11.83
+  value: 11.83
   user: valid
   position: 1
 
 has_grid_row_two_var_g:
   sheet_variable: has_grid
   variable: integer
-  response: 36
+  value: 36
   user: valid
   position: 1
 
 has_grid_row_two_var_h:
   sheet_variable: has_grid
   variable: time_of_day
-  response: 12:00:00
+  value: 12:00:00
   user: valid
   position: 1
 
 has_grid_row_two_no_attached_file:
   sheet_variable: has_grid_with_file
   variable: file
-  # response:
+  # value:
   user: valid
   position: 1
   # response_file: rails.png
