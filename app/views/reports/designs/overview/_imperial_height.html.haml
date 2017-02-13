@@ -19,7 +19,7 @@
       %th.center Total
   %tbody
     %tr
-      %td.center= filter_link Sheet.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
       %td.center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         - if mean
@@ -44,5 +44,5 @@
       %td.center
         - inches = Sheet.array_calculation(valid_sheets, variable, 'array_max')
         = render 'reports/designs/overview/links/imperial_height_link', design: @design, variable: variable, inches: inches, event_id: event_id
-      %td.center.hidden-xs= filter_link Sheet.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
-      %td.center= filter_link Sheet.array_count(responses), @design, nil, nil, event_id: event_id
+      %td.center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

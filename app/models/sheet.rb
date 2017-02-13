@@ -221,47 +221,6 @@ class Sheet < ApplicationRecord
     end
   end
 
-  def self.array_mean(array)
-    return nil if array.size == 0
-    array.inject(:+).to_f / array.size
-  end
-
-  def self.array_sample_variance(array)
-    m = array_mean(array)
-    sum = array.inject(0) { |a, e| a + (e - m)**2 }
-    sum / (array.length - 1).to_f
-  end
-
-  def self.array_standard_deviation(array)
-    return nil if array.size < 2
-    Math.sqrt(array_sample_variance(array))
-  end
-
-  def self.array_median(array)
-    return nil if array.size == 0
-    array = array.sort
-    len = array.size
-    if len.odd?
-      array[len / 2]
-    else
-      (array[len / 2 - 1] + array[len / 2]).to_f / 2
-    end
-  end
-
-  def self.array_max(array)
-    array.max
-  end
-
-  def self.array_min(array)
-    array.min
-  end
-
-  def self.array_count(array)
-    size = array.size
-    size = nil if size == 0
-    size
-  end
-
   def self.array_responses(sheet_scope, variable)
     responses = []
     if variable && %w(site sheet_date).include?(variable.variable_type)
@@ -284,9 +243,9 @@ class Sheet < ApplicationRecord
         # New, to account for sheets that are scoped based on a
         # missing/non-entered value, should be counted as the count of sheets,
         # not the count of responses.
-        send(calculation, sheet_scope.pluck(:id))
+        Statistics.send(calculation, sheet_scope.pluck(:id))
       else
-        send(calculation, array_responses(sheet_scope, variable))
+        Statistics.send(calculation, array_responses(sheet_scope, variable))
       end
 
     if calculation != 'array_count' && !number.nil?
@@ -326,13 +285,14 @@ class Sheet < ApplicationRecord
       # Filtering against "BMI for example, only include known responses"
       sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(calculator)
     end
-
     sheet_scope = filter_sheet_scope(sheet_scope, filters, current_user)
-    number = (calculator ? array_calculation(sheet_scope, calculator, calculation) : array_count(sheet_scope.pluck(:id)))
-
-    name = (number == nil ? '-' : number)
+    number = if calculator
+               array_calculation(sheet_scope, calculator, calculation)
+             else
+               Statistics.array_count(sheet_scope.pluck(:id))
+             end
+    name = (number.nil? ? '-' : number)
     number = 0 unless number
-
     [name, number]
   end
 

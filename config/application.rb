@@ -46,5 +46,8 @@ module Slice
 
     # Add Search Module to autoload path
     config.autoload_paths << Rails.root.join('app', 'models', 'search')
+
+    # Add Statistics Module to autoload path
+    config.autoload_paths << Rails.root.join('app', 'models', 'statistics')
   end
 end
