@@ -1,4 +1,4 @@
-## 0.48.1
+## 0.48.1 (February 13, 2017)
 
 ### Enhancements
 - **Sheet Changes**
