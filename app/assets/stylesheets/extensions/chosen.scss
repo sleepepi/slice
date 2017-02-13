@@ -14,8 +14,6 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
 // @group Base
 .chosen-container {
   display: inline-block;
-  font-size: 13px;
-  padding-top: 7px;
   position: relative;
   user-select: none;
   vertical-align: middle;
@@ -131,10 +129,10 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
     box-shadow: $input-shadow;
     color: $input-color;
     display: block;
-    height: 25px;
-    line-height: 24px;
+    height: 36px;
+    line-height: 35px;
     overflow: hidden;
-    padding: 0 0 0 8px;
+    padding: 0 0 0 12px;
     position: relative;
     text-decoration: none;
     white-space: nowrap;
@@ -146,7 +144,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
       height: 12px;
       position: absolute;
       right: 26px;
-      top: 6px;
+      top: 12px;
       width: 12px;
 
       &:hover {
@@ -159,7 +157,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
       height: 100%;
       position: absolute;
       right: 0;
-      top: 0;
+      top: 6px;
       width: 18px;
 
       b {
@@ -222,7 +220,6 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   &.chosen-container-single-nosearch .chosen-search {
     clip: rect(0, 0, 0, 0);
     position: absolute;
-
   }
 }
 

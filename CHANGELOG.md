@@ -1,6 +1,8 @@
 ## 0.49.0
 
 ### Enhancements
+- **General Changes**
+  - Improved consistency of dropdown styling
 - **Design Changes**
   - Minor improvement to reordering sections and questions on designs
 - **Export Changes**
