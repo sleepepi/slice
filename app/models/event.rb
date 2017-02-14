@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# Groups together a set of designs on a specific date.
 class Event < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Forkable
+  include Searchable, Deletable, Forkable, Sluggable
 
   attr_accessor :design_hashes
   after_save :set_event_designs
@@ -39,14 +40,6 @@ class Event < ApplicationRecord
       .distinct
   end
 
-  def to_param
-    slug.blank? ? id : slug
-  end
-
-  def self.find_by_param(input)
-    find_by 'events.slug = ? or events.id = ?', input.to_s, input.to_i
-  end
-
   def unlink_sheets_in_background!(current_user, remote_ip)
     fork_process(:unlink_sheets!, current_user, remote_ip)
   end
@@ -67,7 +60,7 @@ class Event < ApplicationRecord
     design_hashes.each_with_index do |hash, index|
       next if design_ids.include? hash[:design_id].to_i
       design_ids << hash[:design_id].to_i
-      design = project.designs.find_by_id hash[:design_id]
+      design = project.designs.find_by(id: hash[:design_id])
       event_designs.create(design_id: design.id, position: index, handoff_enabled: hash[:handoff_enabled]) if design
     end
   end

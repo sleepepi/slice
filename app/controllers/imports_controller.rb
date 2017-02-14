@@ -10,16 +10,15 @@ class ImportsController < ApplicationController
   # def index
   # end
 
-  # GET /designs/1/imports/new
+  # GET /designs/imports/new
   def new
     @design = @project.designs.new
     @variables = []
   end
 
-  # Essentially a type of show action
   # POST /designs/1/imports/progress.js
-  def progress
-  end
+  # def progress
+  # end
 
   # GET /designs/1/imports/edit
   def edit

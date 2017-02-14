@@ -7,7 +7,7 @@
 # out an adverse event for the subject.
 class Category < ApplicationRecord
   # Concerns
-  include Searchable, Deletable
+  include Searchable, Deletable, Sluggable
 
   # Model Validation
   validates :name, :user_id, :project_id, presence: true
@@ -21,14 +21,4 @@ class Category < ApplicationRecord
   belongs_to :project
   belongs_to :user
   has_many :designs, -> { current }
-
-  # Model Methods
-
-  def to_param
-    slug.blank? ? id : slug
-  end
-
-  def self.find_by_param(input)
-    find_by 'categories.slug = ? or categories.id = ?', input.to_s, input.to_i
-  end
 end
