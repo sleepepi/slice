@@ -10,7 +10,7 @@ class Randomization < ApplicationRecord
   serialize :weighted_eligible_arms, Array
 
   # Concerns
-  include Deletable, Siteable, Forkable, Latexable
+  include Deletable, Siteable, Forkable, Latexable, Blindable
 
   # Model Validation
   validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
@@ -35,14 +35,6 @@ class Randomization < ApplicationRecord
   delegate :site, to: :subject
 
   # Scopes
-  def self.blinding_scope(user)
-    joins(:project)
-      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
-      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
-      .where('projects.blinding_enabled = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, user.id, true, true)
-      .distinct
-  end
-
   def self.year(year)
     where 'extract(year from randomizations.randomized_at) = ?', year
   end

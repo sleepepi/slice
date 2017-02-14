@@ -3,7 +3,7 @@
 # A completable project todo that is within a specific window and has a due date
 class Task < ApplicationRecord
   # Concerns
-  include Deletable, Searchable
+  include Deletable, Searchable, Blindable
 
   # Model Validation
   validates :project_id, :user_id, :description, :due_date, :window_start_date, :window_end_date, presence: true
@@ -29,20 +29,6 @@ class Task < ApplicationRecord
 
   def editable_by?(current_user)
     current_user.all_tasks.where(id: id).count == 1
-  end
-
-  # Shows tasks IF
-  # Project has Blind module disabled
-  # OR Task not set as Only Blinded
-  # OR User is Project Owner
-  # OR User is Unblinded Project Member
-  # OR User is Unblinded Site Member
-  def self.blinding_scope(user)
-    joins(:project)
-      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
-      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
-      .where('projects.blinding_enabled = ? or tasks.only_unblinded = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, false, user.id, true, true)
-      .distinct
   end
 
   def self.searchable_attributes

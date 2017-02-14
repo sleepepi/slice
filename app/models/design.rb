@@ -19,7 +19,7 @@ class Design < ApplicationRecord
   ]
 
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable
+  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable, Blindable
 
   attr_writer :questions
   attr_accessor :reimport
@@ -44,20 +44,6 @@ class Design < ApplicationRecord
   has_many :variables, through: :design_options
 
   # Model Methods
-
-  # Shows designs IF
-  # Project has Blind module disabled
-  # OR Design not set as Only Blinded
-  # OR User is Project Owner
-  # OR User is Unblinded Project Member
-  # OR User is Unblinded Site Member
-  def self.blinding_scope(user)
-    joins(:project)
-      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
-      .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
-      .where('projects.blinding_enabled = ? or designs.only_unblinded = ? or projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ?', false, false, user.id, true, true)
-      .distinct
-  end
 
   def self.searchable_attributes
     %w(name)
