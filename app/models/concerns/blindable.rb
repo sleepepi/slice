@@ -1,31 +1,39 @@
 # frozen_string_literal: true
 
 # Provides scope for models that need to be filtered when project blinding is
-# enabled.
+# enabled. Blindable shows the associated object if the user is the project
+# owner, or if the user is an unblinded project member, or if the user is an
+# unblinded site member, or if the project-level blinding module is disabled, or
+# if the object is not set to be only visible to unblinded members.
 module Blindable
   extend ActiveSupport::Concern
 
   included do
-    # Shows model IF
-    # User is Project Owner
-    # OR User is Unblinded Project Member
-    # OR User is Unblinded Site Member
-    # OR Project has Blind module disabled
-    # OR model not set as Only Blinded
     def self.blinding_scope(user)
       joins(:project)
-        .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{user.id}")
-        .joins("LEFT OUTER JOIN site_users ON site_users.project_id = projects.id and site_users.user_id = #{user.id}")
+        .left_joins_team_member(:project_users, user)
+        .left_joins_team_member(:site_users, user)
         .blinding_scope_where(user)
         .distinct
     end
 
+    def self.left_joins_team_member(association_table, user)
+      joins("LEFT OUTER JOIN #{association_table} "\
+            "ON #{association_table}.project_id = projects.id "\
+            "AND #{association_table}.user_id = #{user.id}")
+    end
+
     def self.blinding_scope_where(user)
+      conditions = [
+        'projects.user_id = ?', 'project_users.unblinded = ?',
+        'site_users.unblinded = ?', 'projects.blinding_enabled = ?'
+      ]
+      values = [user.id, true, true, false]
       if column_names.include?('only_unblinded')
-        where("projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ? or projects.blinding_enabled = ? or #{table_name}.only_unblinded = ?", user.id, true, true, false, false)
-      else
-        where('projects.user_id = ? or project_users.unblinded = ? or site_users.unblinded = ? or projects.blinding_enabled = ?', user.id, true, true, false)
+        conditions << "#{table_name}.only_unblinded = ?"
+        values << false
       end
+      where(conditions.join(' or '), *values)
     end
   end
 end
