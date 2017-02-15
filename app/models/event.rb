@@ -41,13 +41,24 @@ class Event < ApplicationRecord
 
   def set_event_designs
     return unless design_hashes && design_hashes.is_a?(Array)
+    reset_event_designs
+    create_event_designs
+  end
+
+  def reset_event_designs
     event_designs.destroy_all
-    design_ids = []
+  end
+
+  def create_event_designs
+    design_hashes.uniq! { |hash| hash[:design_id].to_i }
     design_hashes.each_with_index do |hash, index|
-      next if design_ids.include? hash[:design_id].to_i
-      design_ids << hash[:design_id].to_i
       design = project.designs.find_by(id: hash[:design_id])
-      event_designs.create(design_id: design.id, position: index, handoff_enabled: hash[:handoff_enabled]) if design
+      next unless design
+      event_designs.create(
+        design_id: design.id,
+        position: index,
+        handoff_enabled: hash[:handoff_enabled]
+      )
     end
   end
 end

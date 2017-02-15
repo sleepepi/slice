@@ -44,7 +44,10 @@ class EventsControllerTest < ActionController::TestCase
         event: {
           name: 'New Event',
           description: @event.description,
-          design_hashes: [{ design_id: designs(:one).id, handoff_enabled: '0' }, { design_id: designs(:all_variable_types).id, handoff_enabled: '1' }]
+          design_hashes: [
+            { design_id: designs(:one).id, handoff_enabled: '0' },
+            { design_id: designs(:all_variable_types).id, handoff_enabled: '1' }
+          ]
         }
       }
     end
@@ -56,9 +59,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_difference('Event.count', 0) do
       post :create, params: { project_id: @project, event: { name: '', description: @event.description } }
     end
-
     assert_not_nil assigns(:event)
-    assert assigns(:event).errors.size > 0
     assert_equal ["can't be blank"], assigns(:event).errors[:name]
     assert_template 'new'
   end
@@ -67,7 +68,6 @@ class EventsControllerTest < ActionController::TestCase
     assert_difference('Event.count', 0) do
       post :create, params: { project_id: -1, event: { name: 'New Event', description: @event.description } }
     end
-
     assert_nil assigns(:event)
     assert_nil assigns(:project)
     assert_redirected_to root_path
@@ -120,7 +120,6 @@ class EventsControllerTest < ActionController::TestCase
       event: { name: '', description: @event.description }
     }
     assert_not_nil assigns(:event)
-    assert assigns(:event).errors.size > 0
     assert_equal ["can't be blank"], assigns(:event).errors[:name]
     assert_template 'edit'
   end

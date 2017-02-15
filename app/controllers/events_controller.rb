@@ -8,9 +8,9 @@ class EventsController < ApplicationController
   before_action :find_event_or_redirect, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_event, only: [:show, :edit, :update, :destroy]
 
-  # POST /events/add_design.js
-  def add_design
-  end
+  # # POST /events/add_design.js
+  # def add_design
+  # end
 
   # GET /events
   def index
@@ -20,18 +20,18 @@ class EventsController < ApplicationController
                       .page(params[:page]).per(40)
   end
 
-  # GET /events/1
-  def show
-  end
+  # # GET /events/1
+  # def show
+  # end
 
   # GET /events/new
   def new
     @event = current_user.events.where(project_id: @project.id).new(position: (@project.events.count + 1) * 10)
   end
 
-  # GET /events/1/edit
-  def edit
-  end
+  # # GET /events/1/edit
+  # def edit
+  # end
 
   # POST /events
   def create
@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   private
 
   def find_event_or_redirect
-    @event = current_user.all_events.where(project: @project).find_by_param params[:id]
+    @event = current_user.all_events.where(project: @project).find_by_param(params[:id])
     redirect_without_event
   end
 
