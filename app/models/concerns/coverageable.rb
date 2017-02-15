@@ -55,19 +55,20 @@ module Coverageable
     "coverage-#{(percent.to_i / 10) * 10}"
   end
 
+  def color_ranges
+    [
+      { color: '#337ab7', minimum: 100 },
+      { color: '#5cb85c', minimum: 80 },
+      { color: '#f0ad4e', minimum: 60 },
+      { color: '#f0ad4e', minimum: 40 },
+      { color: '#d9534f', minimum: 1 }
+    ]
+  end
+
   def color
-    if percent.to_i == 100
-      '#337ab7'
-    elsif percent.to_i >= 80
-      '#5cb85c'
-    elsif percent.to_i >= 60
-      '#f0ad4e'
-    elsif percent.to_i >= 40
-      '#f0ad4e'
-    elsif percent.to_i >= 1
-      '#d9534f'
-    else
-      '#777777'
+    color_ranges.each do |hash|
+      return hash[:color] if percent.to_i >= hash[:minimum]
     end
+    '#777777'
   end
 end
