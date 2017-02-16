@@ -105,6 +105,7 @@ $comment-border: $p100 !default;
   display: none;
   left: -$font-size-base;
   position: absolute;
+  padding: 15px 0;
 }
 
 @media screen and (min-width: $screen-sm-min) {
