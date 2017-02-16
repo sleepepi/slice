@@ -28,6 +28,7 @@ namespace :pats do
       recruitment[:eligibility_status_consented] = eligibility_status_consented(project)
       recruitment[:data_quality] = {}
       recruitment[:data_quality][:tables] = data_quality_tables(project)
+      recruitment[:data_quality][:graphs] = data_quality_graphs(project)
 
       recruitment[:exported_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
