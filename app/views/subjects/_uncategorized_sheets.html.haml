@@ -11,6 +11,5 @@
       %table.table.table-striped.table-borderless{ style: 'table-layout: fixed;margin-bottom:0;' }
         %col{ width: '60px' }
         %col
-        %col{ width: '120px' }
         - uncategorized_sheets.each do |sheet|
           = render 'subjects/sheet', sheet: sheet

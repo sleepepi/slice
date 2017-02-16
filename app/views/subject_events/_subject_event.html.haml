@@ -39,7 +39,7 @@
 
         - if sheets.count > 0
           - sheets.each do |sheet|
-            %tr{ class: "#{'warning' if sheets.count > 1}", data: { object: sheet.missing? ? nil : 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: sheet.missing? ? nil : 'cursor: move;' }
+            %tr{ class: "#{'warning' if sheets.count > 1} #{'highlight' if @sheet == sheet}", data: { object: sheet.missing? ? nil : 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: sheet.missing? ? nil : 'cursor: move;' }
               %td
                 - if sheet.missing?
                   %span.label.label-default{ rel: 'tooltip', title: 'Marked as Missing', data: { container: 'body', placement: 'right' } } M
@@ -65,7 +65,7 @@
                           Set as Not Missing
                 - else
                   - if sheet.comments.count > 0
-                    = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
+                    = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs btn-accent' do
                       = sheet.comments.count
                       %span.glyphicon.glyphicon-comment
                 - if sheets.count > 1
@@ -107,16 +107,16 @@
       %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
         %col{ width: '60px' }
         %col
-        %col{ width: '1px' }
         - non_design_sheets.each do |sheet|
-          %tr{ data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor: move;' }
+          %tr{ class: "#{'highlight' if @sheet == sheet}", data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor: move;' }
             %td{ id: "sheet_#{sheet.id}_coverage" }= render 'sheets/coverage', sheet: sheet
             %td
+              .pull-right
+                - if sheet.comments.count > 0
+                  = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
+                    = sheet.comments.count
+                    %span.glyphicon.glyphicon-comment
+
               %span.label.label-warning.hidden-xs{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } Extra
               %span.label.label-warning.hidden-sm.hidden-md.hidden-lg{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } E
               = link_to sheet.name, project_sheet_path(@project, sheet)
-            %td.text-right
-              - if sheet.comments.count > 0
-                = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
-                  = sheet.comments.count
-                  %span.glyphicon.glyphicon-comment

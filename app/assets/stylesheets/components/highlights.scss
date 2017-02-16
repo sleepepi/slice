@@ -1,7 +1,8 @@
-.highlight {
+.highlight,
+.table-striped > tbody > tr.highlight:nth-of-type(odd) {
   background-color: $state-warning-bg;
-  font-weight: bold;
 }
+
 
 .text-highlight {
   color: $brand-warning;

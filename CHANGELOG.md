@@ -9,6 +9,8 @@
   - Improved display of file sizes on exports index
 - **Sheet Changes**
   - Sheet transactions now link back to filtered sheets index
+  - Sheets not on an event now have their creation date listed on the subject
+    page
 
 ### Refactoring
 - Removed deprecated time parsing code
