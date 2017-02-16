@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved consistency of dropdown styling
+- **Adverse Event Changes**
+  - Adverse events index is now sortable and filterable
 - **Design Changes**
   - Minor improvement to reordering sections and questions on designs
 - **Export Changes**

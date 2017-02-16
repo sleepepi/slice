@@ -19,13 +19,14 @@
 
       - ae_sheets_count = @adverse_event.sheets.count
       - if ae_sheets_count > 0
-        Attachments:
-        - @adverse_event.sheets.order(:created_at).each_with_index do |sheet, index|
-          - if ae_sheets_count == index + 1
-            = link_to sheet.name, [sheet.project, sheet]
-          - else
-            = succeed ',' do
+        %div{ style: 'margin-top: 10px;' }
+          Attachments:
+          - @adverse_event.sheets.order(:created_at).each_with_index do |sheet, index|
+            - if ae_sheets_count == index + 1
               = link_to sheet.name, [sheet.project, sheet]
+            - else
+              = succeed ',' do
+                = link_to sheet.name, [sheet.project, sheet]
 
 .comment-outer
   .comment-left-fixed

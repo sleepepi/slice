@@ -22,10 +22,29 @@ class AdverseEventsController < ApplicationController
 
   # GET /adverse-events
   def index
-    @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at desc')
-    @adverse_events = viewable_adverse_events.search(params[:search])
-                                             .order(@order)
-                                             .page(params[:page]).per(40)
+    adverse_event_scope = viewable_adverse_events.search(params[:search])
+    adverse_event_scope = adverse_event_scope.with_site(params[:site_id]) if params[:site_id].present?
+    adverse_event_scope = adverse_event_scope.where(user_id: params[:reported_by_id]) if params[:reported_by_id].present?
+    adverse_event_scope = adverse_event_scope.where(closed: params[:status] == 'closed') if params[:status].present?
+    @order = params[:order]
+    case params[:order]
+    when 'adverse_events.reported_by'
+      adverse_event_scope = adverse_event_scope.includes(:user).order('users.last_name, users.first_name')
+    when 'adverse_events.reported_by desc'
+      adverse_event_scope = adverse_event_scope.includes(:user).order('users.last_name desc, users.first_name desc')
+    when 'adverse_events.site_name'
+      adverse_event_scope = adverse_event_scope.includes(subject: :site).order('sites.name')
+    when 'adverse_events.site_name desc'
+      adverse_event_scope = adverse_event_scope.includes(subject: :site).order('sites.name desc')
+    when 'adverse_events.subject_code'
+      adverse_event_scope = adverse_event_scope.includes(:subject).order('subjects.subject_code')
+    when 'adverse_events.subject_code desc'
+      adverse_event_scope = adverse_event_scope.includes(:subject).order('subjects.subject_code desc')
+    else
+      @order = scrub_order(AdverseEvent, params[:order], 'adverse_events.created_at desc')
+      adverse_event_scope = adverse_event_scope.order(@order)
+    end
+    @adverse_events = adverse_event_scope.page(params[:page]).per(40)
   end
 
   # GET /adverse-events/1
