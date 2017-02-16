@@ -16,7 +16,7 @@
   .col-md-10
     .row
       .col-md-6
-        = file_field_tag "section[image]", class: 'form-control', value: section.image
+        = file_field_tag "section[image]", class: 'form-control'
       - if section.image && section.image.size > 0
         .col-md-6
           %label.checkbox-inline.checkbox-radio-outline.negation

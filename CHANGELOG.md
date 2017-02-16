@@ -16,6 +16,10 @@
 - **PATS Changes**
   - Added Signal Quality Grades table and graph to Data Quality export
 
+### Bug Fix
+- Fixed a bug that would remove a section image after updating the section in
+  the design editor
+
 ### Refactoring
 - Removed deprecated time parsing code
 - Variable type `time` has been updated to `time_of_day` for clarity
