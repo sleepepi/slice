@@ -7,6 +7,7 @@
   - Adverse events index is now sortable and filterable
 - **Design Changes**
   - Minor improvement to reordering sections and questions on designs
+  - Improved consistency of text spacing in section descriptions
 - **Export Changes**
   - Improved display of file sizes on exports index
 - **Sheet Changes**

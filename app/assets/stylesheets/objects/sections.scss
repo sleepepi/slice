@@ -64,3 +64,10 @@
 .section-description {
   @include remove-last-child-bottom-margin;
 }
+
+.section-alert {
+  padding: 15px;
+  margin-bottom: 22px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}

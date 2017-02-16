@@ -19,7 +19,7 @@
     - 'alert-warning'
   - when 4
     - 'alert-danger'
-  .alert{ class: css_class }
+  .section-alert{ class: css_class }
     %strong= section.name
     = simple_markdown section.description unless section.description.blank?
     = render 'sections/image', design_option: design_option, section: section
