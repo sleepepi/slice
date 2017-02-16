@@ -21,6 +21,7 @@ require 'pats/categories/disinterested/all'
 require 'pats/categories/ent_failures/all'
 require 'pats/categories/psg_failures/all'
 require 'pats/categories/psg_overall_study_qualities/all'
+require 'pats/categories/signal_quality_grades/all'
 
 module Pats
   # Defines categories of variables.
@@ -91,7 +92,11 @@ module Pats
       'psg-1-fair' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality1,
       'psg-98-other' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality98,
       'psg-0-failed' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQuality0,
-      'psg-unknown' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQualityUnknown
+      'psg-unknown' => Pats::Categories::PSGOverallStudyQualities::PSGOverallStudyQualityUnknown,
+      'psg-e1-signal-quality-grade' => Pats::Categories::SignalQualityGrades::PSGE1SignalQualityGrade,
+      'psg-chest-signal-quality-grade' => Pats::Categories::SignalQualityGrades::PSGChestSignalQualityGrade,
+      'psg-cap-signal-quality-grade' => Pats::Categories::SignalQualityGrades::PSGCapSignalQualityGrade,
+      'psg-snore-signal-quality-grade' => Pats::Categories::SignalQualityGrades::PSGSnoreSignalQualityGrade
     }
 
     def self.for(category, project)

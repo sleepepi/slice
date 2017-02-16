@@ -14,6 +14,7 @@ require 'pats/characteristics/not_interested_in_participation'
 require 'pats/characteristics/ent_failures'
 require 'pats/characteristics/psg_failures'
 require 'pats/characteristics/psg_overall_study_quality'
+require 'pats/characteristics/signal_quality_grades'
 
 module Pats
   # Defines characteristic variables and associated subqueries.
@@ -31,7 +32,8 @@ module Pats
       'not-interested-in-participation' => Pats::Characteristics::NotInterestedInParticipation,
       'ent-failures' => Pats::Characteristics::ENTFailures,
       'psg-failures' => Pats::Characteristics::PSGFailures,
-      'psg-overall-study-quality' => Pats::Characteristics::PSGOverallStudyQuality
+      'psg-overall-study-quality' => Pats::Characteristics::PSGOverallStudyQuality,
+      'signal-quality-grades' => Pats::Characteristics::SignalQualityGrades
     }
 
     def self.for(characteristic, project)

@@ -67,6 +67,14 @@ module Pats
         row
       end
 
+      def compute_row_means(sheets)
+        row = []
+        row << row_label
+        row += compute_overall_total_cell_means(sheets)
+        row += compute_site_cell_means(sheets)
+        row
+      end
+
       def row_label
         { value: label, class: css_class }
       end
@@ -77,12 +85,29 @@ module Pats
         count_and_percent_cells(cell_count, column_total_count)
       end
 
+      def compute_overall_total_cell_means(sheets)
+        cells = []
+        mean = Sheet.array_calculation(filter_sheets(sheets), @variable, 'array_mean')
+        cells << { value: mean, class: [css_class, 'count'].compact }
+        cells
+      end
+
       def compute_site_cells(sheets)
         cells = []
         project.sites.each do |site|
           cell_count = count_subjects(filter_sheets(sheets).where(subjects: { site_id: site.id }))
           column_total_count = count_subjects(sheets.where(subjects: { site_id: site.id }))
           cells += count_and_percent_cells(cell_count, column_total_count)
+        end
+        cells
+      end
+
+      def compute_site_cell_means(sheets)
+        cells = []
+        project.sites.each do |site|
+          filtered_sheets = filter_sheets(sheets).where(subjects: { site_id: site.id })
+          mean = Sheet.array_calculation(filtered_sheets, @variable, 'array_mean')
+          cells << { value: mean, class: [css_class, 'count'].compact }
         end
         cells
       end

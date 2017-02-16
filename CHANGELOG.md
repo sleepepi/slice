@@ -13,6 +13,8 @@
   - Sheet transactions now link back to filtered sheets index
   - Sheets not on an event now have their creation date listed on the subject
     page
+- **PATS Changes**
+  - Added Signal Quality Grades table to Data Quality export
 
 ### Refactoring
 - Removed deprecated time parsing code
