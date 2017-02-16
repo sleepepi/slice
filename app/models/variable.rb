@@ -28,9 +28,9 @@ class Variable < ApplicationRecord
 
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
 
-  DISPLAY_NAME_VISIBILITY = [
-    %w(Inline visible),
-    %w(Underneath gone)
+  DISPLAY_LAYOUTS = [
+    ['Question Inline with Answer', 'visible'],
+    ['Question Above Answer ', 'gone']
   ]
 
   ALIGNMENT = [
@@ -643,5 +643,9 @@ class Variable < ApplicationRecord
     new_domain = project.domains.find_by(id: new_domain_id)
     old_domain.remove_domain_values! if old_domain
     new_domain.add_domain_values! if new_domain
+  end
+
+  def display_layout_name
+    DISPLAY_LAYOUTS.find { |_name, value| value == display_layout }.first
   end
 end

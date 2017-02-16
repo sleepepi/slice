@@ -203,7 +203,7 @@ class Export < ApplicationRecord
       csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description', 'Field Note',
               'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
               'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
-              'Display Name Visibility', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
+              'Display Layout', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
           section = design_option.section
@@ -252,7 +252,7 @@ class Export < ApplicationRecord
                       variable.multiple_rows, # Multiple Rows
                       variable.autocomplete_values, # Autocomplete Values
                       variable.show_current_button, # Show Current Button
-                      variable.display_name_visibility, # Display Name Visiblity
+                      variable.display_layout, # Display Layout
                       variable.alignment, # Alignment
                       variable.default_row_number, # Default Row Number
                       (variable.domain ? variable.domain.name : ''), # Domain Name

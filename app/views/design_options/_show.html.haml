@@ -54,18 +54,18 @@
             this variable from the design.
             - variable.deleted = true
       - else
-        - if !variable.uses_scale? && variable.display_name_visibility == 'gone'
+        - if !variable.uses_scale? && variable.display_layout == 'gone'
           %label
             = variable.display_name
             = render 'design_options/required', design_option: design_option
 
         .form-group
-          - if !variable.uses_scale? && variable.display_name_visibility == 'visible'
+          - if !variable.uses_scale? && variable.display_layout == 'visible'
             %label.col-md-3.control-label
               = variable.display_name
               = render 'design_options/required', design_option: design_option
 
-          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')}" }
+          %div{ class: "#{(variable.uses_scale? || variable.display_layout == 'gone' ? 'col-md-12' : 'col-md-9')}" }
             - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "design_options/show/#{variable.variable_type}", design: @design, design_option: design_option, variable: variable
               = render 'variables/field_note', variable: variable
@@ -125,7 +125,7 @@
             = render 'design_options/set_design_option', design_option: design_option, title: 'Options Alignment', values: Variable::ALIGNMENT, attribute: :alignment
 
           - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Layout', values: Variable::DISPLAY_NAME_VISIBILITY, attribute: :display_name_visibility
+            = render 'design_options/set_design_option', design_option: design_option, title: 'Layout', values: Variable::DISPLAY_LAYOUTS, attribute: :display_layout
 
           - if %w(time_of_day date).include?(variable.variable_type)
             - title = "Current #{variable.variable_type.titleize} Button"

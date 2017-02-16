@@ -174,7 +174,7 @@ class DesignOptionsController < ApplicationController
     parse_variable_dates
     params.require(:variable).permit(
       :name, :display_name, :description, :variable_type, :prepend, :append,
-      :field_note, :display_name_visibility, :show_current_button,
+      :field_note, :display_layout, :show_current_button,
       :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum,
       :date_soft_minimum, :time_duration_format, :calculation, :format,

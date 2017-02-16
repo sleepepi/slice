@@ -11,12 +11,12 @@
     - elsif variable
       %div{ class: cycle('variable-shade', 'variable-blind') }
         - sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
-        - if !variable.uses_scale? && variable.display_name_visibility == 'gone'
+        - if !variable.uses_scale? && variable.display_layout == 'gone'
           %label= variable.display_name
         .form-group
-          - if !variable.uses_scale? && variable.display_name_visibility == 'visible'
+          - if !variable.uses_scale? && variable.display_layout == 'visible'
             = label 'variables', "#{variable.id}", variable.display_name, class: 'col-md-3 control-label'
-          %div{ class: "#{(variable.uses_scale? || variable.display_name_visibility == 'gone' ? 'col-md-12' : 'col-md-9')}", style: 'line-height: 30px;padding-top: 4px;' }
+          %div{ class: "#{(variable.uses_scale? || variable.display_layout == 'gone' ? 'col-md-12' : 'col-md-9')}", style: 'line-height: 30px;padding-top: 4px;' }
             - if variable.variable_type == 'grid'
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, sheet_variable: sheet_variable
             - elsif Variable::TYPE.flatten.uniq.include?(variable.variable_type)

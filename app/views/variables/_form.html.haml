@@ -38,9 +38,9 @@
         %code var1_population
 
   .form-group
-    = f.label :display_name_visibility, nil, class: 'col-md-2 control-label'
+    = f.label :display_layout, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.select :display_name_visibility, Variable::DISPLAY_NAME_VISIBILITY, {}, class: 'form-control'
+      = f.select :display_layout, Variable::DISPLAY_LAYOUTS, {}, class: 'form-control'
 
   .form-group
     = f.label :description, nil, class: 'col-md-2 control-label'

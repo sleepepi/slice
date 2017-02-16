@@ -16,6 +16,7 @@
 - Improved consistency of internal data model, renamed Sheet and Grid `response`
   to `value`
 - Refactored sheet model and coverage methods
+- Renamed `display_name_visibility` to `display_layout`
 
 ## 0.48.1 (February 13, 2017)
 
