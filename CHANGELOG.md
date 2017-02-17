@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Improved consistency of dropdown styling
+  - Login cookies are now cross subdomain and work between www and non-www URLs
 - **Adverse Event Changes**
   - Adverse events index is now sortable and filterable
 - **Design Changes**
