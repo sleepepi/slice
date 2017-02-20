@@ -1,5 +1,9 @@
 ## 0.50.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to highcharts 5.0.7
+
 ## 0.49.0 (February 20, 2017)
 
 ### Enhancements
