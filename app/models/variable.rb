@@ -253,7 +253,7 @@ class Variable < ApplicationRecord
   def report_strata(include_missing, max_strata, hash, sheet_scope)
     strata = base_strata(sheet_scope, include_missing, hash)
     strata << missing_filter if include_missing && !%w(site sheet_date dropdown radio string checkbox).include?(variable_type)
-    strata.collect! { |s| s.merge(calculator: self, variable_id: id ? id : name) }
+    strata.collect! { |s| s.merge(calculator: self, variable: self) }
     strata.last(max_strata)
   end
 
@@ -285,11 +285,11 @@ class Variable < ApplicationRecord
   end
 
   def domain_filters(sheet_scope, include_missing)
-    filters = [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: 'N', tooltip: 'N', calculation: 'array_count' }]
+    filters = [{ filters: [{ variable: self, value: nil, operator: 'any' }], name: 'N', tooltip: 'N', calculation: 'array_count' }]
     unique_responses = unique_responses_for_sheets(sheet_scope)
     filters += options_or_autocomplete(include_missing)
                .select { |h| unique_responses.include?(h[:value]) }
-               .collect { |h| h.merge(filters: [{ variable_id: id, value: h[:value] }], tooltip: h[:value].present? ? "#{h[:value]}: #{h[:name]}" : h[:name]) }
+               .collect { |h| h.merge(filters: [{ variable: self, value: h[:value] }], tooltip: h[:value].present? ? "#{h[:value]}: #{h[:name]}" : h[:name]) }
     filters << blank_filter if include_missing
     filters
   end
@@ -297,7 +297,7 @@ class Variable < ApplicationRecord
   def design_filters
     project.designs.order(:name).collect do |design|
       {
-        filters: [{ variable_id: 'design', value: design.id.to_s }],
+        filters: [{ variable: self, value: design.id.to_s }],
         name: design.name,
         tooltip: design.name,
         link: "/projects/#{project.to_param}/reports/designs/#{design.id}/advanced",
@@ -311,7 +311,7 @@ class Variable < ApplicationRecord
   def site_filters
     project.sites.order(:name).collect do |site|
       {
-        filters: [{ variable_id: 'site', value: site.id.to_s }],
+        filters: [{ variable: self, value: site.id.to_s }],
         name: site.name,
         tooltip: site.name,
         value: site.id.to_s,
@@ -326,7 +326,7 @@ class Variable < ApplicationRecord
     date_buckets.reverse! unless hash[:axis] == 'col'
     date_buckets.collect do |date_bucket|
       {
-        filters: [{ variable_id: (id ? id : name),
+        filters: [{ variable: self,
                     start_date: date_bucket[:start_date],
                     end_date: date_bucket[:end_date] }],
         name: date_bucket[:name], tooltip: date_bucket[:tooltip],
@@ -338,15 +338,15 @@ class Variable < ApplicationRecord
 
   def presence_filters(hash)
     display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
-    [{ filters: [{ variable_id: id, value: nil, operator: 'any' }], name: display_name, tooltip: display_name, muted: false }]
+    [{ filters: [{ variable: self, value: nil, operator: 'any' }], name: display_name, tooltip: display_name, muted: false }]
   end
 
   def missing_filter
-    { filters: [{ variable_id: id, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing', muted: true }
+    { filters: [{ variable: self, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing', muted: true }
   end
 
   def blank_filter
-    { filters: [{ variable_id: id, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank', muted: true }
+    { filters: [{ variable: self, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank', muted: true }
   end
 
   def unique_responses_for_sheets(sheet_scope)

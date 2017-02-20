@@ -8,14 +8,15 @@ class Token
     new.parse(part)
   end
 
-  attr_accessor :key, :operator, :value
+  attr_accessor :key, :operator, :value, :variable
 
-  def initialize(key: nil, operator: nil, value: nil)
+  def initialize(key: nil, operator: nil, value: nil, variable: nil)
     @key = key
     @operator = operator
     @value = value
     @has_quotes = false
     @core_values = []
+    @variable = variable
   end
 
   def parse(part)

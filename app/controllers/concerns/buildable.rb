@@ -82,13 +82,9 @@ module Buildable
   end
 
   def set_sheet_scope
-    @sheet_before = parse_date(params[:sheet_before])
-    @sheet_after = parse_date(params[:sheet_after])
-    @by = %w(week month year).include?(params[:by]) ? params[:by] : 'month'
     @percent = %w(none row column).include?(params[:percent]) ? params[:percent] : 'none'
-    sheet_scope = current_user.all_viewable_sheets
-    sheet_scope = sheet_scope.where(design_id: @design ? @design.id : @project.designs.select(:id))
-    sheet_scope = sheet_scope.where(missing: false)
+    sheet_scope = current_user.all_viewable_sheets.where(project: @project, missing: false)
+    sheet_scope = sheet_scope.where(design: @design) if @design
     @sheets = sheet_scope
   end
 
@@ -130,9 +126,8 @@ module Buildable
 
     # Add filters to total rows to remove additional missing counts if missing
     # is set as false for a particular row variable
-    filters = @row_filters.select { |f| f[:missing] != '1' }
-                          .select { |f| f[:id].to_i > 0 }
-                          .collect { |f| { variable_id: f[:id], value: nil, operator: 'any' } }
+    filters = @row_filters.select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
+                          .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } }
 
     table_row += build_row(filters)
 
@@ -183,9 +178,8 @@ module Buildable
       cell[:filters] = (cell[:filters] || []) + filters
       # This adds in row specific missing filters to accurately calculate the total row count
       cell[:filters] += @column_filters
-                        .select { |f| f[:missing] != '1' }
-                        .select { |f| f[:id].to_i > 0 }
-                        .collect { |f| { variable_id: f[:id], value: nil, operator: 'any' } } if header[:column_type] == 'total'
+                        .select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
+                        .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } } if header[:column_type] == 'total'
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
       # cell[:debug] = '1'
       table_row << cell

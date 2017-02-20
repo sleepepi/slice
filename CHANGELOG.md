@@ -3,6 +3,8 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to highcharts 5.0.7
+- **Report Changes**
+  - Improved speed for generating advanced design reports
 
 ## 0.49.0 (February 20, 2017)
 

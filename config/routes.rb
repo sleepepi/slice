@@ -130,7 +130,7 @@ Rails.application.routes.draw do
       get 'designs/:id/basic', controller: :designs, action: :basic, as: :design_basic
       get 'designs/:id/overview', controller: :designs, action: :overview, as: :design_overview
       get 'designs/:id/advanced', controller: :designs, action: :advanced, as: :design_advanced
-      post 'designs/:id/advanced', controller: :designs, action: :advanced
+      post 'designs/:id/advanced', controller: :designs, action: :advanced_report
     end
 
     resources :adverse_events, path: 'adverse-events' do

@@ -19,7 +19,7 @@ class Reports::DesignsController < ApplicationController
 
   # GET /reports/designs/1/overview
   def overview
-    @event = @design.events.find_by_id(params[:event_id]) if @design.events.count > 1
+    @event = @design.events.find_by(id: params[:event_id]) if @design.events.count > 1
     sheet_scope = current_user.all_viewable_sheets
                               .where(project_id: @project.id, design_id: @design.id)
                               .where(missing: false)
@@ -27,16 +27,30 @@ class Reports::DesignsController < ApplicationController
     @sheets = sheet_scope
   end
 
+  # GET /reports/designs/1/advanced
+  # GET /reports/designs/1/advanced.csv
+  # GET /reports/designs/1/advanced.pdf
   def advanced
+    case params[:format]
+    when 'csv'
+      setup_report_new
+      generate_table_csv_new
+    when 'pdf'
+      setup_report_new
+      generate_advanced_pdf
+    end
+  end
+
+  # POST /reports/designs/1/advanced.js
+  def advanced_report
     setup_report_new
-    generate_table_csv_new if params[:format] == 'csv'
-    generate_advanced_pdf if params[:format] == 'pdf'
+    render :advanced
   end
 
   protected
 
   def find_viewable_design
-    @design = current_user.all_viewable_designs.find_by_param params[:id]
+    @design = current_user.all_viewable_designs.find_by_param(params[:id])
     redirect_without_design
   end
 

@@ -100,44 +100,34 @@ class Sheet < ApplicationRecord
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   # TODO: This can be cleaned up using the new Search module along with operators.
-  def self.with_stratum(current_user, stratum_id, stratum_value, operator, stratum_start_date = nil, stratum_end_date = nil)
-    stratum_variable = if stratum_id == 'design'
-                         Variable.design(0) # 0 project?...
-                       elsif stratum_id == 'site' || stratum_id.nil?
-                         Variable.site(0) # 0 project?...
-                       elsif stratum_id == 'sheet_date'
-                         Variable.sheet_date(0) # 0 project?...
-                       else
-                         Variable.find_by_id(stratum_id)
-                       end
-
-    if stratum_variable && stratum_variable.variable_type == 'design'
+  def self.with_stratum(current_user, variable, stratum_value, operator, stratum_start_date = nil, stratum_end_date = nil)
+    if variable.variable_type == 'design'
       where(design_id: stratum_value)
-    elsif stratum_variable && stratum_variable.variable_type == 'site'
+    elsif variable.variable_type == 'site'
       with_site(stratum_value)
-    elsif stratum_variable && operator == 'any' && !(%w(sheet_date).include?(stratum_variable.variable_type))
-      filter_variable(stratum_variable, current_user, 'any')
-    elsif stratum_variable && %w(sheet_date date).include?(stratum_variable.variable_type) && !%w(blank missing).include?(operator)
-      sheet_after_variable(stratum_variable, stratum_start_date).sheet_before_variable(stratum_variable, stratum_end_date)
-    elsif stratum_value.present? # Ex: stratum_id: variables(:gender).id, stratum_value: 'f'
-      if stratum_variable.variable_type == 'file'
+    elsif operator == 'any' && !%w(sheet_date).include?(variable.variable_type)
+      filter_variable(variable, current_user, 'any')
+    elsif %w(sheet_date date).include?(variable.variable_type) && !%w(blank missing).include?(operator)
+      sheet_after_variable(variable, stratum_start_date).sheet_before_variable(variable, stratum_end_date)
+    elsif stratum_value.present? # Ex: variable: variables(:gender), stratum_value: 'f'
+      if variable.variable_type == 'file'
         # TODO: This may be able to target a specific file.
-        filter_variable(stratum_variable, current_user, 'any')
-      elsif stratum_variable.variable_type == 'checkbox'
-        with_checkbox_variable_response(stratum_id, stratum_value)
+        filter_variable(variable, current_user, 'any')
+      elsif variable.variable_type == 'checkbox'
+        with_checkbox_variable_response(variable, stratum_value)
       else
-        with_variable_response(stratum_id, stratum_value)
+        with_variable_response(variable, stratum_value)
       end
-    elsif stratum_variable && operator == 'blank'
-      filter_variable(stratum_variable, current_user, operator)
-    else # Ex: stratum_id: variables(:gender).id, stratum_value: nil
-      filter_variable(stratum_variable, current_user, 'missing')
+    elsif operator == 'blank'
+      filter_variable(variable, current_user, operator)
+    else # Ex: variable: variables(:gender), stratum_value: nil
+      filter_variable(variable, current_user, 'missing')
     end
   end
 
   # TODO: Temporary rewrite to use Search instead of sheet scopes
   def self.filter_variable(variable, current_user, operator)
-    token = Token.new(key: variable.name, operator: operator)
+    token = Token.new(key: variable.name, operator: operator, variable: variable)
     Search.run_sheets(
       variable.project,
       current_user,
@@ -147,7 +137,7 @@ class Sheet < ApplicationRecord
   end
 
   def self.sheet_after_variable(variable, date)
-    if variable && variable.variable_type == 'date'
+    if variable.variable_type == 'date'
       with_variable_response_after(variable, date)
     else
       sheet_after(date)
@@ -155,7 +145,7 @@ class Sheet < ApplicationRecord
   end
 
   def self.sheet_before_variable(variable, date)
-    if variable && variable.variable_type == 'date'
+    if variable.variable_type == 'date'
       with_variable_response_before(variable, date)
     else
       sheet_before(date)
@@ -267,7 +257,7 @@ class Sheet < ApplicationRecord
       unless filter[:end_date].is_a?(Date)
         filter[:end_date] = Date.parse(filter[:end_date]) rescue filter[:start_date] = nil
       end
-      sheet_scope = sheet_scope.with_stratum(current_user, filter[:variable_id], filter[:value], filter[:operator], filter[:start_date], filter[:end_date])
+      sheet_scope = sheet_scope.with_stratum(current_user, filter[:variable], filter[:value], filter[:operator], filter[:start_date], filter[:end_date])
     end
     sheet_scope
   end

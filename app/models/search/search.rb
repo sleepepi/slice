@@ -78,7 +78,8 @@ class Search
   end
 
   def set_variable
-    @variable = @project.variables.find_by(name: @token.key)
+    @variable = @token.variable
+    @variable = @project.variables.find_by(name: @token.key) unless @variable
     return unless @variable
     if %w(any missing).include?(@operator)
       @values = []

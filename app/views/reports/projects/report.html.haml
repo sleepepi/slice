@@ -11,7 +11,7 @@
     = hidden_field_tag :page
 
     %label By
-    = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: @by
+    = render 'layouts/radio_button_group', name: 'by', options: [['Week', 'week'], ['Month', 'month'], ['Year', 'year']], selected: (params[:by].present? ? params[:by] : 'month')
 
     &middot;
     %label Percent
