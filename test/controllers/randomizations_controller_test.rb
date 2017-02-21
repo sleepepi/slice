@@ -52,6 +52,76 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomizations)
   end
 
+  test 'should get index ordered by scheme' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.scheme' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by scheme desc' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.scheme desc' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by site' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.site_name' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by site desc' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.site_name desc' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by treament arm' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.treatment_arm' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by treament arm desc' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.treatment_arm desc' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by randomized by' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.randomized_by' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by randomized by desc' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.randomized_by desc' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by subject code' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.subject_code' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
+  test 'should get index ordered by subject code desc' do
+    login(users(:site_one_editor))
+    get :index, params: { project_id: @project, order: 'randomizations.subject_code desc' }
+    assert_response :success
+    assert_not_nil assigns(:randomizations)
+  end
+
   test 'should get index for site viewer' do
     login(users(:site_one_viewer))
     get :index, params: { project_id: @project }
