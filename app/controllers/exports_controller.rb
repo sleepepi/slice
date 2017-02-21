@@ -77,12 +77,12 @@ class ExportsController < ApplicationController
   end
 
   def find_viewable_export_or_redirect
-    @export = viewable_exports.find_by_id params[:id]
+    @export = viewable_exports.find_by(id: params[:id])
     redirect_without_export
   end
 
   def find_editable_export_or_redirect
-    @export = current_user.all_exports.where(project_id: @project.id).find_by_id params[:id]
+    @export = current_user.all_exports.where(project_id: @project.id).find_by(id: params[:id])
     redirect_without_export
   end
 

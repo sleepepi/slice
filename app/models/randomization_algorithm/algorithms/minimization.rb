@@ -111,7 +111,7 @@ module RandomizationAlgorithm
             dice_roll: dice_roll,
             dice_roll_cutoff: dice_roll_cutoff,
             past_distributions: past_distributions,
-            weighted_eligible_arms: weighted_eligible_arms.collect{ |arm| { name: arm.name, id: arm.id } }.sort{|a,b| a[:name] <=> b[:name]}
+            weighted_eligible_arms: weighted_eligible_arms.collect { |arm| { name: arm.name, id: arm.id } }.sort { |a, b| a[:name] <=> b[:name] }
           )
         end
 
@@ -133,10 +133,10 @@ module RandomizationAlgorithm
           next unless criteria
           stratification_factor_counts[criteria.join('x')] ||= {}
           if sf.stratifies_by_site?
-            site = @randomization_scheme.project.sites.find_by_id(criteria.last)
+            site = @randomization_scheme.project.sites.find_by(id: criteria.last)
             stratification_factor_counts[criteria.join('x')][:name] = site.name if site
           else
-            sfo = @randomization_scheme.stratification_factor_options.find_by_id(criteria.last)
+            sfo = @randomization_scheme.stratification_factor_options.find_by(id: criteria.last)
             stratification_factor_counts[criteria.join('x')][:name] = sfo.label if sfo
           end
         end

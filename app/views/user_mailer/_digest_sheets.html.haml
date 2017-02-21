@@ -9,7 +9,7 @@
       %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
     %tr
       %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;' }
-        - project = Project.find_by_id(project_id)
+        - project = Project.find_by(id: project_id)
         = project ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.to_param}", style: link_style) : 'No Project'
     - if project_sheets.size > 15
       %tr
@@ -20,7 +20,7 @@
           recently entered
     - else
       - project_sheets.group_by{|s| s.subject_id}.each do |subject_id, subject_sheets|
-        - subject = Subject.find_by_id(subject_id)
+        - subject = Subject.find_by(id: subject_id)
         %tr
           %td{ colspan: 3, style: 'padding-left:10px;text-align:left;padding-top:10px;padding-right:20px;' }
             - if subject and subject.new_digest_subject?(subject_sheets.collect{|s| s.id})

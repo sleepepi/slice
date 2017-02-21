@@ -8,6 +8,7 @@
 
 ### Refactoring
 - Removed unused grid variable validations
+- Rewrote dynamic find_by_* methods
 
 ## 0.49.0 (February 20, 2017)
 

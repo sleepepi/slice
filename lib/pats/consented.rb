@@ -11,7 +11,7 @@ module Pats
       graph = {}
       categories = generate_categories_months(start_date)
       series = []
-      date_variable = project.variables.find_by_name 'ciw_consent_date'
+      date_variable = project.variables.find_by(name: 'ciw_consent_date')
       project.sites.each do |site|
         series << {
           name: site.short_name,
@@ -34,7 +34,7 @@ module Pats
 
     def consented_table(project, start_date)
       objects = informed_consent_sheets(project)
-      date_variable = project.variables.find_by_name 'ciw_consent_date'
+      date_variable = project.variables.find_by(name: 'ciw_consent_date')
       generic_table(project, start_date, 'Consented', objects, date_variable: date_variable)
     end
 

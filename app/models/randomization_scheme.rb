@@ -143,7 +143,7 @@ class RandomizationScheme < ApplicationRecord
   def set_expected_randomizations
     return unless expected_randomizations_hashes && expected_randomizations_hashes.is_a?(Array)
     expected_randomizations_hashes.each do |hash|
-      site = project.sites.find_by_id(hash[:site_id])
+      site = project.sites.find_by(id: hash[:site_id])
       next unless site
       expected = hash[:expected].to_s.gsub(/[^\d,]/, '').split(',').reject(&:blank?).join(',')
       expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create

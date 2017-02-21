@@ -12,7 +12,7 @@ module Pats
       end
 
       def variable
-        @variable ||= project.variables.find_by_name(variable_name)
+        @variable ||= project.variables.find_by(name: variable_name)
       end
 
       def label

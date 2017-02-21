@@ -21,7 +21,7 @@
     %div{ style: 'margin-bottom: 20px;' }
       %span.dropdown
         = link_to '#', class: "btn btn-xs dropdown-toggle #{params[:site_id].blank? ? 'btn-default': 'btn-primary'}", data: { toggle: 'dropdown' } do
-          - site = @project.sites.find_by_id(params[:site_id])
+          - site = @project.sites.find_by(id: params[:site_id])
           - if site
             = site.short_name
           - else
@@ -36,7 +36,7 @@
 
       %span.dropdown
         = link_to '#', class: "btn btn-xs dropdown-toggle #{params[:user_id].blank? ? 'btn-default': 'btn-primary'}", data: { toggle: 'dropdown' } do
-          - user = @project.members.find_by_id(params[:user_id])
+          - user = @project.members.find_by(id: params[:user_id])
           - if user
             = user.nickname
           - else

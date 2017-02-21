@@ -89,12 +89,12 @@ class RandomizationsController < ApplicationController
   private
 
   def find_viewable_randomization_or_redirect
-    @randomization = current_user.all_viewable_randomizations.find_by_id(params[:id])
+    @randomization = current_user.all_viewable_randomizations.find_by(id: params[:id])
     redirect_without_randomization
   end
 
   def find_editable_randomization_or_redirect
-    @randomization = current_user.all_randomizations.find_by_id(params[:id])
+    @randomization = current_user.all_randomizations.find_by(id: params[:id])
     redirect_without_randomization
   end
 

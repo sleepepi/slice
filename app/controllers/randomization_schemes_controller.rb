@@ -99,7 +99,7 @@ class RandomizationSchemesController < ApplicationController
 
     @randomization_scheme.stratification_factors_with_calculation.each do |sf|
       criteria_pair = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
-      sfo = sf.stratification_factor_options.find_by_id criteria_pair.last if criteria_pair
+      sfo = sf.stratification_factor_options.find_by(id: criteria_pair.last) if criteria_pair
       unless sfo && sfo.value.to_s == expected_stratification_factors[sf.id.to_s].to_s
         @randomization.errors.add(sf.name, 'does not match value specified on subject sheet')
         invalid_criteria_found = true
@@ -193,12 +193,12 @@ class RandomizationSchemesController < ApplicationController
   private
 
   def find_scheme_or_redirect
-    @randomization_scheme = @project.randomization_schemes.find_by_id(params[:id])
+    @randomization_scheme = @project.randomization_schemes.find_by(id: params[:id])
     redirect_without_scheme
   end
 
   def find_published_scheme_or_redirect
-    @randomization_scheme = @project.randomization_schemes.published.find_by_id(params[:id])
+    @randomization_scheme = @project.randomization_schemes.published.find_by(id: params[:id])
     redirect_without_scheme
   end
 

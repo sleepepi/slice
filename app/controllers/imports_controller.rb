@@ -56,7 +56,7 @@ class ImportsController < ApplicationController
   private
 
   def find_design_or_redirect
-    @design = current_user.all_designs.where(project_id: @project.id).find_by_param params[:id]
+    @design = current_user.all_designs.where(project_id: @project.id).find_by_param(params[:id])
     redirect_without_design
   end
 

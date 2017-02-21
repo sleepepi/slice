@@ -70,19 +70,19 @@ class SubjectsController < ApplicationController
   def event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.blinded_subject_events(current_user)
-                             .where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+                             .where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
   end
 
   def edit_event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
   end
 
   def update_event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
     parse_date_if_key_present(:subject_event, :event_date)
 
     if @subject_event.update(subject_event_params)
@@ -97,7 +97,7 @@ class SubjectsController < ApplicationController
 
   def destroy_event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by_id(params[:subject_event_id]) if @event
+    @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
     if @subject_event
       @subject_event.unlink_sheets!(current_user, request.remote_ip)
       @subject_event.destroy
@@ -269,12 +269,12 @@ class SubjectsController < ApplicationController
   private
 
   def find_viewable_subject_or_redirect
-    @subject = current_user.all_viewable_subjects.find_by_id(params[:id])
+    @subject = current_user.all_viewable_subjects.find_by(id: params[:id])
     redirect_without_subject
   end
 
   def find_editable_subject_or_redirect
-    @subject = current_user.all_subjects.find_by_id(params[:id])
+    @subject = current_user.all_subjects.find_by(id: params[:id])
     redirect_without_subject
   end
 
@@ -289,7 +289,7 @@ class SubjectsController < ApplicationController
   end
 
   def set_design
-    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param params[:design_id]
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param(params[:design_id])
     empty_response_or_root_path(data_entry_project_subject_path(@project, @subject)) unless @design
   end
 

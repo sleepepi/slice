@@ -62,11 +62,11 @@ class TasksController < ApplicationController
   end
 
   def set_viewable_task
-    @task = viewable_tasks.find_by_id params[:id]
+    @task = viewable_tasks.find_by(id: params[:id])
   end
 
   def set_editable_task
-    @task = current_user.all_tasks.where(project_id: @project.id).find_by_id params[:id]
+    @task = current_user.all_tasks.where(project_id: @project.id).find_by(id: params[:id])
   end
 
   def redirect_without_task

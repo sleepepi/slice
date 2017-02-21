@@ -132,7 +132,7 @@ class DesignOptionsController < ApplicationController
   private
 
   def set_editable_design
-    @design = @project.designs.find_by_param params[:design_id]
+    @design = @project.designs.find_by_param(params[:design_id])
   end
 
   def redirect_without_design
@@ -144,7 +144,7 @@ class DesignOptionsController < ApplicationController
   end
 
   def set_design_option
-    @design_option = @design.design_options.find_by_id params[:id]
+    @design_option = @design.design_options.find_by(id: params[:id])
     redirect_without_design_option
   end
 

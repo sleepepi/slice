@@ -45,7 +45,7 @@
         %hr
 
         - @variables.each do |hash|
-          - variable = @project.variables.find_by_name hash[:name]
+          - variable = @project.variables.find_by(name: hash[:name])
 
           - if params[:variables] && params[:variables][hash[:name]]
             - display_name = params[:variables][hash[:name]][:display_name]

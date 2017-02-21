@@ -25,7 +25,7 @@ class Handoff < ApplicationRecord
     clean_input = input.to_param.to_s
     handoff_id = clean_input.split('-').first
     handoff_token = clean_input.gsub(/^#{handoff_id}-/, '')
-    handoff = Handoff.find_by_id handoff_id
+    handoff = Handoff.find_by(id: handoff_id)
     # Use Devise.secure_compare to mitigate timing attacks
     handoff if handoff && Devise.secure_compare(handoff.token, handoff_token)
   end

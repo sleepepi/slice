@@ -67,7 +67,7 @@ class BlockSizeMultipliersController < ApplicationController
   end
 
   def set_randomization_scheme
-    @randomization_scheme = @project.randomization_schemes.find_by_id(params[:randomization_scheme_id])
+    @randomization_scheme = @project.randomization_schemes.find_by(id: params[:randomization_scheme_id])
   end
 
   def redirect_without_randomization_scheme
@@ -75,7 +75,7 @@ class BlockSizeMultipliersController < ApplicationController
   end
 
   def set_block_size_multiplier
-    @block_size_multiplier = @randomization_scheme.block_size_multipliers.find_by_id(params[:id])
+    @block_size_multiplier = @randomization_scheme.block_size_multipliers.find_by(id: params[:id])
   end
 
   def redirect_without_block_size_multiplier

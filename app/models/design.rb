@@ -240,7 +240,7 @@ class Design < ApplicationRecord
   def create_variables!(variable_hashes)
     new_variables = []
     variable_hashes.each do |name, hash|
-      v = project.variables.find_by_name(name.to_s)
+      v = project.variables.find_by(name: name.to_s)
       next if hash[:ignore] == '1' or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
       v = project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: user_id, user_id: user_id) unless v
       new_variables << v
@@ -275,7 +275,7 @@ class Design < ApplicationRecord
     counter = 0
 
     variables_and_column_names = load_variables.collect do |hash|
-      variable = project.variables.find_by_name hash[:name]
+      variable = project.variables.find_by(name: hash[:name])
       column_name = hash[:column_name]
       [variable, column_name]
     end
@@ -335,7 +335,7 @@ class Design < ApplicationRecord
   end
 
   def generate_import(site_id, current_user, remote_ip)
-    site = project.sites.find_by_id(site_id)
+    site = project.sites.find_by(id: site_id)
     create_sheets!(site, current_user, remote_ip)
   end
 

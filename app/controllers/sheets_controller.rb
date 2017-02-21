@@ -59,12 +59,13 @@ class SheetsController < ApplicationController
   end
 
   def file
-    @sheet_variable = @sheet.sheet_variables.find_by_id(params[:sheet_variable_id])
+    @sheet_variable = @sheet.sheet_variables.find_by(id: params[:sheet_variable_id])
     @object = if params[:position].blank? || params[:variable_id].blank?
-      @sheet_variable
-    else
-      @sheet_variable.grids.find_by_variable_id_and_position(params[:variable_id], params[:position].to_i) if @sheet_variable  # Grid
-    end
+                @sheet_variable
+              else
+                # Grid
+                @sheet_variable.grids.find_by(variable_id: params[:variable_id], position: params[:position].to_i) if @sheet_variable
+              end
 
     if @object && @object.response_file.size > 0
       send_file File.join(CarrierWave::Uploader::Base.root, @object.response_file.url)
@@ -114,7 +115,7 @@ class SheetsController < ApplicationController
   # POST /sheets/1/reassign?subject_id=1
   def reassign
     original_subject = @sheet.subject
-    subject = @project.subjects.find_by_id(params[:subject_id])
+    subject = @project.subjects.find_by(id: params[:subject_id])
     if subject && subject == original_subject
       redirect_to [@project, @sheet], alert: 'No changes made to sheet.'
     elsif subject
@@ -129,7 +130,7 @@ class SheetsController < ApplicationController
   end
 
   def move_to_event
-    subject_event = @sheet.subject.subject_events.find_by_id(params[:subject_event_id])
+    subject_event = @sheet.subject.subject_events.find_by(id: params[:subject_event_id])
     if !@sheet.auto_locked?
       if subject_event
         SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
@@ -157,17 +158,17 @@ class SheetsController < ApplicationController
   private
 
   def find_viewable_sheet_or_redirect
-    @sheet = current_user.all_viewable_sheets.find_by_id(params[:id])
+    @sheet = current_user.all_viewable_sheets.find_by(id: params[:id])
     redirect_without_sheet
   end
 
   def find_editable_sheet_or_redirect
-    @sheet = current_user.all_sheets.find_by_id(params[:id])
+    @sheet = current_user.all_sheets.find_by(id: params[:id])
     redirect_without_sheet
   end
 
   def find_subject_or_redirect
-    @subject = current_user.all_subjects.where(project_id: @project.id).find_by_id params[:subject_id]
+    @subject = current_user.all_subjects.where(project_id: @project.id).find_by(id: params[:subject_id])
     redirect_without_subject
   end
 

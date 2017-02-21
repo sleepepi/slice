@@ -11,11 +11,15 @@ module Pats
       graph = {}
       categories = generate_categories_months(start_date)
       series = []
-      date_variable = project.variables.find_by_name 'ciw_eligibility_date'
+      date_variable = project.variables.find_by(name: 'ciw_eligibility_date')
       project.sites.each do |site|
         series << {
           name: site.short_name,
-          data: by_month_of_attribute(eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }), start_date, date_variable)
+          data: by_month_of_attribute(
+            eligible_to_continue_to_baseline_sheets(project).where(subjects: { site_id: site.id }),
+            start_date,
+            date_variable
+          )
         }
       end
       series << {
@@ -34,7 +38,7 @@ module Pats
 
     def eligible_table(project, start_date)
       objects = eligible_to_continue_to_baseline_sheets(project)
-      date_variable = project.variables.find_by_name 'ciw_eligibility_date'
+      date_variable = project.variables.find_by(name: 'ciw_eligibility_date')
       generic_table(project, start_date, 'Eligible', objects, date_variable: date_variable)
     end
 
@@ -43,7 +47,11 @@ module Pats
     end
 
     def eligible_to_continue_to_baseline_sheets_print(project)
-      sheets_by_site_print(project, eligible_to_continue_to_baseline_sheets(project), 'Eligible to Continue To Baseline')
+      sheets_by_site_print(
+        project,
+        eligible_to_continue_to_baseline_sheets(project),
+        'Eligible to Continue To Baseline'
+      )
     end
   end
 end

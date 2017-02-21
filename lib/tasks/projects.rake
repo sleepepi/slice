@@ -4,7 +4,7 @@ namespace :projects do
   desc 'Copy a project to a new blank project'
   task copy: :environment do
     project_id = ARGV[1].to_s.gsub('PROJECT=', '')
-    original = Project.current.find_by_param project_id
+    original = Project.current.find_by_param(project_id)
     if original
       copy = copy_project(original)
       copy_project_sites(original, copy)

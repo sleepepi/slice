@@ -69,7 +69,7 @@ class DomainsController < ApplicationController
   private
 
   def find_domain_or_redirect
-    @domain = @project.domains.find_by_id params[:id]
+    @domain = @project.domains.find_by(id: params[:id])
     redirect_without_domain
   end
 

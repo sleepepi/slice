@@ -23,7 +23,7 @@ class HandoffsController < ApplicationController
   private
 
   def set_editable_subject
-    @subject = current_user.all_subjects.find_by_id params[:id]
+    @subject = current_user.all_subjects.find_by(id: params[:id])
   end
 
   def redirect_without_subject

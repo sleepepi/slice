@@ -132,13 +132,13 @@ class Project < ApplicationRecord
     elsif variable_id == 'sheet_date'
       Variable.sheet_date(id)
     else
-      variables.find_by_id(variable_id)
+      variables.find_by(id: variable_id)
     end
   end
 
   def create_valid_subject(site_id)
     create_default_site if sites.count == 0
-    site = sites.find_by_id(site_id)
+    site = sites.find_by(id: site_id)
     site_id = sites.first.id unless site
     subject_code = SecureRandom.hex(8)
     subjects.create(subject_code: subject_code, site_id: site_id)

@@ -90,13 +90,13 @@ class SitesController < ApplicationController
   end
 
   def find_viewable_site_or_redirect
-    @site = viewable_sites.find_by_id params[:id]
+    @site = viewable_sites.find_by(id: params[:id])
     redirect_without_site
   end
 
   def find_editable_site_or_redirect
     @site = current_user.all_editable_sites.where(project_id: @project.id)
-                        .find_by_id params[:id]
+                        .find_by(id: params[:id])
     redirect_without_site
   end
 

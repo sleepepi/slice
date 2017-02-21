@@ -35,7 +35,7 @@ class ListsController < ApplicationController
   private
 
   def find_randomization_scheme_or_redirect
-    @randomization_scheme = @project.randomization_schemes.find_by_id params[:randomization_scheme_id]
+    @randomization_scheme = @project.randomization_schemes.find_by(id: params[:randomization_scheme_id])
     redirect_without_randomization_scheme
   end
 
@@ -44,7 +44,7 @@ class ListsController < ApplicationController
   end
 
   def find_list_or_redirect
-    @list = @randomization_scheme.lists.find_by_id(params[:id])
+    @list = @randomization_scheme.lists.find_by(id: params[:id])
     redirect_without_list
   end
 

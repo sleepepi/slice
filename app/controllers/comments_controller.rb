@@ -48,7 +48,7 @@ class CommentsController < ApplicationController
   private
 
   def set_viewable_sheet
-    @sheet = current_user.all_viewable_sheets.find_by_id params[:sheet_id]
+    @sheet = current_user.all_viewable_sheets.find_by(id: params[:sheet_id])
     redirect_without_sheet
   end
 
@@ -57,17 +57,17 @@ class CommentsController < ApplicationController
   end
 
   def set_viewable_comment
-    @comment = current_user.all_viewable_comments.find_by_id params[:id]
+    @comment = current_user.all_viewable_comments.find_by(id: params[:id])
     redirect_without_comment
   end
 
   def set_editable_comment
-    @comment = current_user.all_editable_comments.find_by_id params[:id]
+    @comment = current_user.all_editable_comments.find_by(id: params[:id])
     redirect_without_comment
   end
 
   def set_deletable_comment
-    @comment = current_user.all_deletable_comments.find_by_id params[:id]
+    @comment = current_user.all_deletable_comments.find_by(id: params[:id])
     redirect_without_comment
   end
 

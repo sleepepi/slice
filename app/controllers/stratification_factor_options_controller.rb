@@ -79,7 +79,7 @@ class StratificationFactorOptionsController < ApplicationController
   private
 
   def find_randomization_scheme_or_redirect
-    @randomization_scheme = @project.randomization_schemes.find_by_id params[:randomization_scheme_id]
+    @randomization_scheme = @project.randomization_schemes.find_by(id: params[:randomization_scheme_id])
     redirect_without_randomization_scheme
   end
 
@@ -88,7 +88,7 @@ class StratificationFactorOptionsController < ApplicationController
   end
 
   def find_stratification_factor_or_redirect
-    @stratification_factor = @randomization_scheme.stratification_factors.find_by_id params[:stratification_factor_id]
+    @stratification_factor = @randomization_scheme.stratification_factors.find_by(id: params[:stratification_factor_id])
     redirect_without_stratification_factor
   end
 
@@ -100,7 +100,7 @@ class StratificationFactorOptionsController < ApplicationController
   end
 
   def find_stratification_factor_option_or_redirect
-    @stratification_factor_option = @stratification_factor.stratification_factor_options.find_by_id params[:id]
+    @stratification_factor_option = @stratification_factor.stratification_factor_options.find_by(id: params[:id])
     redirect_without_stratification_factor_option
   end
 

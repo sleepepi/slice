@@ -16,11 +16,11 @@ class VariablesController < ApplicationController
   ]
 
   def report_lookup
-    @variable = @project.variable_by_id params[:variable_id]
+    @variable = @project.variable_by_id(params[:variable_id])
   end
 
   def copy
-    variable = viewable_variables.find_by_id params[:id]
+    variable = viewable_variables.find_by(id: params[:id])
     @variable = current_user.variables.new(variable.copyable_attributes) if variable
 
     if @variable
@@ -140,12 +140,12 @@ class VariablesController < ApplicationController
   end
 
   def find_editable_variable_or_redirect
-    @variable = @project.variables.find_by_id(params[:id])
+    @variable = @project.variables.find_by(id: params[:id])
     redirect_without_variable
   end
 
   def find_restorable_variable_or_redirect
-    @variable = Variable.where(project_id: @project.id, deleted: true).find_by_id(params[:id])
+    @variable = Variable.where(project_id: @project.id, deleted: true).find_by(id: params[:id])
     redirect_without_variable
   end
 

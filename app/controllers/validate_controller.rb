@@ -13,12 +13,12 @@ class ValidateController < ApplicationController
   private
 
   def find_project_or_redirect
-    @project = Project.current.find_by_param params[:project_id]
+    @project = Project.current.find_by_param(params[:project_id])
     empty_response_or_root_path unless @project
   end
 
   def find_variable_or_redirect
-    @variable = @project.variables.find_by_id params[:variable_id]
+    @variable = @project.variables.find_by(id: params[:variable_id])
     empty_response_or_root_path unless @variable
   end
 end

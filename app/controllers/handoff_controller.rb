@@ -36,17 +36,17 @@ class HandoffController < ApplicationController
   end
 
   def set_project
-    @project = Project.current.find_by_param params[:project]
+    @project = Project.current.find_by_param(params[:project])
     redirect_to handoff_completed_path unless @project
   end
 
   def set_handoff
-    @handoff = @project.handoffs.find_by_param params[:handoff]
+    @handoff = @project.handoffs.find_by_param(params[:handoff])
     redirect_to handoff_completed_path unless @handoff
   end
 
   def set_design
-    @design = @project.designs.find_by_param params[:design]
+    @design = @project.designs.find_by_param(params[:design])
     redirect_to handoff_completed_path unless @design
   end
 

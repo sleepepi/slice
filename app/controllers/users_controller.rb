@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
 
   def find_user_or_redirect
-    @user = User.current.find_by_id params[:id]
+    @user = User.current.find_by(id: params[:id])
     redirect_without_user
   end
 

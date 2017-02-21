@@ -81,7 +81,7 @@ class DesignsController < ApplicationController
   private
 
   def find_viewable_design_or_redirect
-    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param params[:id]
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param(params[:id])
     redirect_without_design
   end
 
@@ -90,7 +90,7 @@ class DesignsController < ApplicationController
   end
 
   def find_editable_design_or_redirect
-    @design = editable_designs.find_by_param params[:id]
+    @design = editable_designs.find_by_param(params[:id])
     redirect_without_design
   end
 

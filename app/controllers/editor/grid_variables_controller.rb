@@ -52,7 +52,7 @@ class Editor::GridVariablesController < Editor::EditorController
   private
 
   def set_grid_variable
-    @grid_variable = @project.grid_variables.find_by_id params[:id]
+    @grid_variable = @project.grid_variables.find_by(id: params[:id])
   end
 
   def grid_variable_params

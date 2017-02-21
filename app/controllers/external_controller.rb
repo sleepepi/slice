@@ -17,7 +17,7 @@ class ExternalController < ApplicationController
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
     if @design
-      @design_option = @design.design_options.find_by_id params[:design_option_id]
+      @design_option = @design.design_options.find_by(id: params[:design_option_id])
       @project = @design.project
     end
   end
@@ -51,24 +51,24 @@ class ExternalController < ApplicationController
   end
 
   def set_publicly_viewabled_design
-    Design.current.where(publicly_available: true).find_by_param params[:design]
+    Design.current.where(publicly_available: true).find_by_param(params[:design])
   end
 
   def set_handoff_design
-    handoff = Handoff.find_by_param params[:handoff]
+    handoff = Handoff.find_by_param(params[:handoff])
     handoff.subject_event.event.designs.find_by_param(params[:design]) if handoff
   end
 
   def set_current_user_design
-    current_user.all_viewable_designs.find_by_param params[:design] if current_user
+    current_user.all_viewable_designs.find_by_param(params[:design]) if current_user
   end
 
   def set_section
-    @section = @design.sections.find_by_id(params[:section_id]) if @design
+    @section = @design.sections.find_by(id: params[:section_id]) if @design
   end
 
   def set_variable
-    @variable = @design.variables.find_by_id(params[:variable_id]) if @design
+    @variable = @design.variables.find_by(id: params[:variable_id]) if @design
     empty_response_or_root_path unless @variable
   end
 end

@@ -41,7 +41,7 @@ class NotificationsController < ApplicationController
   private
 
   def find_notification_or_redirect
-    @notification = current_user.notifications.find_by_id params[:id]
+    @notification = current_user.notifications.find_by(id: params[:id])
     redirect_to notifications_path unless @notification
   end
 

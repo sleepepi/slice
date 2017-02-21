@@ -8,9 +8,9 @@
       %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
     %tr
       %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;' }
-        = ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.to_param}", style: link_style) : 'No Project')
+        = ((project = Project.find_by(id: project_id)) ? link_to(project.name, "#{ENV['website_url']}/projects/#{project.to_param}", style: link_style) : 'No Project')
     - comments.group_by{|s| s.sheet_id}.each do |sheet_id, comments|
-      - sheet = Sheet.find_by_id(sheet_id)
+      - sheet = Sheet.find_by(id: sheet_id)
       %tr
         %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;' }
           = link_to sheet.subject.name, "#{ENV['website_url']}/projects/#{sheet.project.to_param}/subjects/#{sheet.subject.id}", style: digest_link_style

@@ -118,11 +118,11 @@ class Editor::ProjectsController < ApplicationController
   end
 
   def associated_user_generic(email)
-    current_user.associated_users.find_by_email(email.split('[').last.to_s.split(']').first)
+    current_user.associated_users.find_by(email: email.split('[').last.to_s.split(']').first)
   end
 
   def member_scope_generic(site_id)
-    site = @project.sites.find_by_id(site_id)
+    site = @project.sites.find_by(id: site_id)
     if site
       site.site_users.where(project_id: @project)
     else

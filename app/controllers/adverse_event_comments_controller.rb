@@ -51,7 +51,7 @@ class AdverseEventCommentsController < ApplicationController
   private
 
   def set_adverse_event
-    @adverse_event = current_user.all_viewable_adverse_events.find_by_id params[:adverse_event_id]
+    @adverse_event = current_user.all_viewable_adverse_events.find_by(id: params[:adverse_event_id])
     redirect_without_adverse_event
   end
 
@@ -60,12 +60,12 @@ class AdverseEventCommentsController < ApplicationController
   end
 
   def set_viewable_adverse_event_comment
-    @adverse_event_comment = current_user.all_viewable_adverse_event_comments.find_by_id params[:id]
+    @adverse_event_comment = current_user.all_viewable_adverse_event_comments.find_by(id: params[:id])
     redirect_without_adverse_event_comment
   end
 
   def set_editable_adverse_event_comment
-    @adverse_event_comment = current_user.all_adverse_event_comments.find_by_id params[:id]
+    @adverse_event_comment = current_user.all_adverse_event_comments.find_by(id: params[:id])
     redirect_without_adverse_event_comment
   end
 

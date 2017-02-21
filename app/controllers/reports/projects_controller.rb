@@ -10,11 +10,11 @@ class Reports::ProjectsController < ApplicationController
   include Buildable
 
   def new_filter
-    @design = @project.designs.find_by_id params[:design_id]
+    @design = @project.designs.find_by(id: params[:design_id])
   end
 
   def edit_filter
-    @variable = @project.variable_by_id params[:variable_id]
+    @variable = @project.variable_by_id(params[:variable_id])
   end
 
   def filters

@@ -44,13 +44,13 @@ class SurveyController < ApplicationController
   private
 
   def find_public_design_or_redirect
-    @design = Design.current.where(publicly_available: true).find_by_slug params[:slug]
+    @design = Design.current.where(publicly_available: true).find_by(slug: params[:slug])
     @project = @design.project if @design
     redirect_without_design
   end
 
   def find_or_create_subject
-    @subject = @project.subjects.find_by_id(params[:subject_id])
+    @subject = @project.subjects.find_by(id: params[:subject_id])
     @subject = @project.create_valid_subject(params[:site_id]) unless @subject
   end
 
@@ -62,7 +62,7 @@ class SurveyController < ApplicationController
 
   def find_sheet_or_redirect
     return if params[:sheet_authentication_token].blank?
-    @sheet = @design.sheets.find_by_authentication_token params[:sheet_authentication_token]
+    @sheet = @design.sheets.find_by(authentication_token: params[:sheet_authentication_token])
     redirect_without_sheet
   end
 

@@ -16,7 +16,7 @@
         Transactions
 
 - @sheet_transactions = @sheet.sheet_transactions
-- variable = @project.variables.find_by_name(params[:variable])
+- variable = @project.variables.find_by(name: params[:variable])
 - sheet_transaction_total = @sheet_transactions.count
 
 - @sheet_transactions.each_with_index do |t,index|

@@ -106,12 +106,12 @@ class AdverseEventsController < ApplicationController
   end
 
   def set_viewable_adverse_event
-    @adverse_event = viewable_adverse_events.find_by_id params[:id]
+    @adverse_event = viewable_adverse_events.find_by(id: params[:id])
     redirect_without_adverse_event
   end
 
   def set_editable_adverse_event
-    @adverse_event = current_user.all_adverse_events.find_by_id params[:id]
+    @adverse_event = current_user.all_adverse_events.find_by(id: params[:id])
     redirect_without_adverse_event
   end
 

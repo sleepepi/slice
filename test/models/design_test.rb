@@ -2,9 +2,10 @@
 
 require 'test_helper'
 
+# Test to assure that design imports work as intended.
 class DesignTest < ActiveSupport::TestCase
   test 'sheet creation from import' do
-    valid = User.find_by_email('valid@example.com')
+    valid = User.find_by(email: 'valid@example.com')
     design = Design.create(
       name: 'Design Import from File',
       project_id: projects(:one).id,
@@ -22,9 +23,7 @@ class DesignTest < ActiveSupport::TestCase
     assert_difference('Sheet.count', 20) do
       design.create_sheets!(projects(:one).sites.first, valid, '127.0.0.1')
     end
-
     assert_equal 20, design.sheets.count
-
     assert_equal 2, design.sheets.with_site(sites(:valid_range)).count
     assert_equal 18, design.sheets.with_site(sites(:one)).count
   end

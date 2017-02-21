@@ -8,7 +8,7 @@ class Editor::EditorController < ApplicationController
   private
 
   def find_check_or_redirect(id = :check_id)
-    @check = @project.checks.find_by_param params[id]
+    @check = @project.checks.find_by_param(params[id])
     redirect_without_check
   end
 
@@ -17,7 +17,7 @@ class Editor::EditorController < ApplicationController
   end
 
   def find_filter_or_redirect(id = :check_filter_id)
-    @check_filter = @check.check_filters.find_by_id params[id]
+    @check_filter = @check.check_filters.find_by(id: params[id])
     redirect_without_filter
   end
 
@@ -26,7 +26,7 @@ class Editor::EditorController < ApplicationController
   end
 
   def find_filter_value_or_redirect(id = :check_filter_value_id)
-    @check_filter_value = @check_filter.check_filter_values.find_by_id params[id]
+    @check_filter_value = @check_filter.check_filter_values.find_by(id: params[id])
     redirect_without_filter_value
   end
 

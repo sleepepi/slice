@@ -53,8 +53,8 @@
             = stratification_factor.name
           .col-md-10
             - stratification_factor.option_hashes.each do |option_hash|
-              - site = current_user.all_editable_sites.where(project_id: @project.id).find_by_id(option_hash[:site_id])
-              - option = @randomization_scheme.stratification_factor_options.find_by_id(option_hash[:stratification_factor_option_id])
+              - site = current_user.all_editable_sites.where(project_id: @project.id).find_by(id: option_hash[:site_id])
+              - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
               - if site
                 - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
                 %label.radio-inline.checkbox-radio-outline{ class: "#{'selected' if selected}" }

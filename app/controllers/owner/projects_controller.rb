@@ -7,7 +7,7 @@ class Owner::ProjectsController < ApplicationController
 
   # POST /projects/1/transfer
   def transfer
-    new_owner = @project.users.find_by_id params[:user_id]
+    new_owner = @project.users.find_by(id: params[:user_id])
     if new_owner
       @project.transfer_to_user(new_owner, current_user)
       flash[:notice] = "Project was successfully transferred to #{new_owner.name}."

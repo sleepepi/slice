@@ -62,7 +62,7 @@ class TreatmentArmsController < ApplicationController
   private
 
   def find_randomization_scheme_or_redirect
-    @randomization_scheme = @project.randomization_schemes.find_by_id(params[:randomization_scheme_id])
+    @randomization_scheme = @project.randomization_schemes.find_by(id: params[:randomization_scheme_id])
     redirect_without_randomization_scheme
   end
 
@@ -71,7 +71,7 @@ class TreatmentArmsController < ApplicationController
   end
 
   def find_treatment_arm_or_redirect
-    @treatment_arm = @randomization_scheme.treatment_arms.find_by_id(params[:id])
+    @treatment_arm = @randomization_scheme.treatment_arms.find_by(id: params[:id])
     redirect_without_treatment_arm
   end
 

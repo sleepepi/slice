@@ -61,7 +61,7 @@ class AdverseEventFilesController < ApplicationController
   private
 
   def set_adverse_event
-    @adverse_event = current_user.all_viewable_adverse_events.find_by_id params[:adverse_event_id]
+    @adverse_event = current_user.all_viewable_adverse_events.find_by(id: params[:adverse_event_id])
     redirect_without_adverse_event
   end
 
@@ -70,7 +70,7 @@ class AdverseEventFilesController < ApplicationController
   end
 
   def set_adverse_event_file
-    @adverse_event_file = @adverse_event.adverse_event_files.find_by_id params[:id]
+    @adverse_event_file = @adverse_event.adverse_event_files.find_by(id: params[:id])
     redirect_without_adverse_event_file
   end
 
