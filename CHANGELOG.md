@@ -6,6 +6,9 @@
 - **Report Changes**
   - Improved speed for generating advanced design reports
 
+### Refactoring
+- Removed unused grid variable validations
+
 ## 0.49.0 (February 20, 2017)
 
 ### Enhancements

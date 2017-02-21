@@ -40,7 +40,6 @@ class Variable < ApplicationRecord
   ]
 
   # Callbacks
-  before_save :check_for_duplicate_variables
   after_save :update_domain_values!
 
   attr_accessor :questions, :grid_tokens
@@ -156,13 +155,6 @@ class Variable < ApplicationRecord
           responses.pluck_domain_option_value_or_value).uniq.reject(&:blank?)
       end
     end
-  end
-
-  def check_for_duplicate_variables
-    variable_ids = child_grid_variables.pluck(:child_variable_id)
-    return unless variable_ids.uniq.size < variable_ids.size
-    errors.add(:grid, 'variables must be unique')
-    throw :abort
   end
 
   def range_tooltip
