@@ -35,6 +35,48 @@ class AdverseEventsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:adverse_events)
   end
 
+  test 'should get index ordered by reported by' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.reported_by' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
+  test 'should get index ordered by reported by desc' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.reported_by desc' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
+  test 'should get index ordered by site name' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.site_name' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
+  test 'should get index ordered by site name desc' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.site_name desc' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
+  test 'should get index ordered by subject code' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.subject_code' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
+  test 'should get index ordered by subject code desc' do
+    login(users(:valid))
+    get :index, params: { project_id: @project, order: 'adverse_events.subject_code desc' }
+    assert_response :success
+    assert_not_nil assigns(:adverse_events)
+  end
+
   test 'should get new as project editor' do
     login(users(:valid))
     get :new, params: { project_id: @project }
