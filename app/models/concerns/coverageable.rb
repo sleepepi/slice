@@ -9,10 +9,10 @@ module Coverageable
     "#{response_count} of #{total_response_count} #{total_response_count == 1 ? 'question' : 'questions'}"
   end
 
+  # Sheets on empty designs should show as 100% complete.
   def compute_percent(rcount, trcount)
+    return 100 if trcount.zero?
     (rcount * 100.0 / trcount).to_i
-  rescue
-    nil
   end
 
   def non_hidden_variable_ids

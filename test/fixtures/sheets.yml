@@ -147,6 +147,12 @@ coverage_0:
   response_count: 0
   percent: 0
 
+coverage_empty:
+  design: two_copy
+  project: two
+  subject: sample
+  user: valid
+
 filled_out_half_visible:
   design: one
   project: one

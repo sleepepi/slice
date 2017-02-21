@@ -5,6 +5,11 @@
   - Updated to highcharts 5.0.7
 - **Report Changes**
   - Improved speed for generating advanced design reports
+- **Sheet Changes**
+  - Completion percentage of sheets for designs with no questions are now set to
+    100% complete as opposed to 0% complete
+      - This change helps mark handoff designs complete that only include
+        sections with descriptions
 
 ### Refactoring
 - Removed unused grid variable validations
