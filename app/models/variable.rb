@@ -513,7 +513,7 @@ class Variable < ApplicationRecord
   end
 
   def option_variable_name(domain_option)
-    "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28)
+    "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28).gsub(/^_+/, '')
   end
 
   def date_order

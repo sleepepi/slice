@@ -16,6 +16,10 @@
       - This change helps mark handoff designs complete that only include
         sections with descriptions
 
+### Bug Fixes
+- Fixed an issue in the R export script that could create invalid column names
+  starting with underscores for domain values
+
 ### Refactoring
 - Removed unused grid variable validations
 - Rewrote dynamic find_by_* methods
