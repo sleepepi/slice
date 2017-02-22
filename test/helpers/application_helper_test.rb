@@ -4,6 +4,7 @@ require 'test_helper'
 
 SimpleCov.command_name 'test:helpers'
 
+# Assure that date and time methods work as expected.
 class ApplicationHelperTest < ActionView::TestCase
   test 'should show date' do
     date = Time.zone.today + 5.days
@@ -56,8 +57,8 @@ class ApplicationHelperTest < ActionView::TestCase
     assert recent_activity(Time.zone.now - 2.days).is_a?(String)
     assert recent_activity(Time.zone.now - 1.week).is_a?(String)
     assert recent_activity(Time.zone.now - 1.month).is_a?(String)
-    assert recent_activity(Time.zone.now - 6.month).is_a?(String)
+    assert recent_activity(Time.zone.now - 6.months).is_a?(String)
     assert recent_activity(Time.zone.now - 1.year).is_a?(String)
-    assert recent_activity(Time.zone.now - 2.year).is_a?(String)
+    assert recent_activity(Time.zone.now - 2.years).is_a?(String)
   end
 end
