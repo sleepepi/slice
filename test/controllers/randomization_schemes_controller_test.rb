@@ -296,7 +296,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ["must be checked"], assigns(:randomization).errors[:attested]
+    assert_equal ['must be checked'], assigns(:randomization).errors[:attested]
     assert_response :success
   end
 
@@ -433,12 +433,12 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
   end
 
   test 'should update randomization_scheme' do
-    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: "Updated Randomization Scheme", description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: 'Updated Randomization Scheme', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
     assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
   end
 
   test 'should not update randomization scheme with existing name' do
-    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: "Randomization Scheme 2", description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: 'Randomization Scheme 2', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
     assert_not_nil assigns(:randomization_scheme)
     assert_equal ['has already been taken'], assigns(:randomization_scheme).errors[:name]
     assert_template 'edit'
