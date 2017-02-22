@@ -6,6 +6,8 @@
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
+- **Handoff Changes**
+  - Last edited at time is now set when handoff sheets are saved
 - **Report Changes**
   - Improved speed for generating advanced design reports
 - **Sheet Changes**

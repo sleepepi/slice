@@ -185,13 +185,9 @@ class SheetsController < ApplicationController
   end
 
   def sheet_params
-    current_time = Time.zone.now
-
     params[:sheet] ||= {}
-
     params[:sheet][:last_user_id] = current_user.id
-    params[:sheet][:last_edited_at] = current_time
-
+    params[:sheet][:last_edited_at] = Time.zone.now
     params.require(:sheet).permit(
       :design_id, :variable_ids, :last_user_id, :last_edited_at,
       :subject_event_id, :adverse_event_id, :missing

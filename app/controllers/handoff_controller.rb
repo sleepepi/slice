@@ -11,23 +11,27 @@ class HandoffController < ApplicationController
   before_action :set_design, only: [:design, :save]
   before_action :set_sheet, only: [:design, :save]
 
-  def start
-  end
+  # # GET /handoff/:project/:handoff
+  # def start
+  # end
 
-  def design
-  end
+  # # GET /handoff/:project/:handoff/:design
+  # def design
+  # end
 
+  # POST /handoff/:project/:handoff/:design
   def save
     update_type = (@sheet.new_record? ? 'public_sheet_create' : 'public_sheet_update')
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, update_type)
-      progress_to_next_design
+      proceed_to_next_design
     else
       render :design
     end
   end
 
-  def completed
-  end
+  # # GET /handoff/completed
+  # def completed
+  # end
 
   private
 
@@ -56,14 +60,18 @@ class HandoffController < ApplicationController
   end
 
   def sheet_params
-    { subject_id: @handoff.subject_event.subject_id, subject_event_id: @handoff.subject_event_id }
+    {
+      subject_id: @handoff.subject_event.subject_id,
+      subject_event_id: @handoff.subject_event_id,
+      last_edited_at: Time.zone.now
+    }
   end
 
   def variables_params
     (params[:variables].blank? ? {} : params.require(:variables).permit!)
   end
 
-  def progress_to_next_design
+  def proceed_to_next_design
     design = @handoff.next_design(@design)
     if design
       redirect_to handoff_design_path(@project, @handoff, design)

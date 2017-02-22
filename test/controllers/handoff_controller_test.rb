@@ -47,6 +47,8 @@ class HandoffControllerTest < ActionController::TestCase
         project: @project, handoff: @launched, design: designs(:sections_and_variables)
       }
     end
+    assert_not_nil assigns(:sheet)
+    assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to handoff_completed_path
   end
 
