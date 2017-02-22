@@ -185,7 +185,6 @@ class Variable < ApplicationRecord
     end
   end
 
-  # TODO: Remove/refactor Missing_codes
   def missing_codes
     domain_options.where(missing_code: true).pluck(:value)
   end
