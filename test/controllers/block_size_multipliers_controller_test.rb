@@ -84,7 +84,6 @@ class BlockSizeMultipliersControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:block_size_multiplier)
-    assert assigns(:block_size_multiplier).errors.size > 0
     assert_equal ['must be greater than or equal to 1'], assigns(:block_size_multiplier).errors[:value]
     assert_equal ['must be greater than or equal to 0'], assigns(:block_size_multiplier).errors[:allocation]
     assert_template 'new'
@@ -138,7 +137,6 @@ class BlockSizeMultipliersControllerTest < ActionController::TestCase
       block_size_multiplier: { value: 0, allocation: -1 }
     }
     assert_not_nil assigns(:block_size_multiplier)
-    assert assigns(:block_size_multiplier).errors.size > 0
     assert_equal ['must be greater than or equal to 1'], assigns(:block_size_multiplier).errors[:value]
     assert_equal ['must be greater than or equal to 0'], assigns(:block_size_multiplier).errors[:allocation]
     assert_template 'edit'

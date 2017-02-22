@@ -278,7 +278,6 @@ class VariablesControllerTest < ActionController::TestCase
       }
     }
     assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
     assert_equal ['can\'t be blank'], assigns(:variable).errors[:display_name]
     assert_template 'edit'
   end

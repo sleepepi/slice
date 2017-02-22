@@ -119,7 +119,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
         attested: '1'
       }
     end
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
@@ -184,7 +183,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['must be randomized to their site'], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
@@ -228,7 +226,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -244,7 +241,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['has already been randomized'], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
@@ -260,7 +256,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
@@ -275,7 +270,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -287,7 +281,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -303,7 +296,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ["must be checked"], assigns(:randomization).errors[:attested]
     assert_response :success
   end
@@ -315,7 +307,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['need to be generated before a subject can be randomized'], assigns(:randomization).errors[:lists]
     assert_response :success
   end
@@ -366,7 +357,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
         attested: '1'
       }
     end
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['is ineligible for randomization due to variable criteria', 'Eligible for Randomization? is not equal to 1'], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
@@ -400,7 +390,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
         attested: '1'
       }
     end
-    assert assigns(:randomization).errors.size > 0
     assert_equal ['does not match value specified on subject sheet'], assigns(:randomization).errors[:calculated]
     assert_response :success
   end
@@ -420,7 +409,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_difference('RandomizationScheme.count') do
       post :create, params: { project_id: @project, randomization_scheme: { name: 'New Randomization Scheme', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
     end
-
     assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
   end
 
@@ -429,7 +417,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
       post :create, params: { project_id: @project, randomization_scheme: { name: '', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
     end
     assert_not_nil assigns(:randomization_scheme)
-    assert assigns(:randomization_scheme).errors.size > 0
     assert_equal ["can't be blank"], assigns(:randomization_scheme).errors[:name]
     assert_template 'new'
     assert_response :success
@@ -453,7 +440,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
   test 'should not update randomization scheme with existing name' do
     patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: "Randomization Scheme 2", description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
     assert_not_nil assigns(:randomization_scheme)
-    assert assigns(:randomization_scheme).errors.size > 0
     assert_equal ['has already been taken'], assigns(:randomization_scheme).errors[:name]
     assert_template 'edit'
     assert_response :success
@@ -463,7 +449,6 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_difference('RandomizationScheme.current.count', -1) do
       delete :destroy, params: { project_id: @project, id: @randomization_scheme }
     end
-
     assert_redirected_to project_randomization_schemes_path(assigns(:project))
   end
 end

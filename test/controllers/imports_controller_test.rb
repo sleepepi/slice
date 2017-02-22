@@ -22,7 +22,6 @@ class ImportsControllerTest < ActionController::TestCase
     login(@editor)
     post :create, params: { project_id: @project, design: { csv_file: '' } }
     assert_equal 0, assigns(:variables).size
-    assert assigns(:design).errors.size > 0
     assert_equal ['must be selected'], assigns(:design).errors[:csv_file]
     assert_template 'new'
     assert_response :success
@@ -131,7 +130,6 @@ class ImportsControllerTest < ActionController::TestCase
     patch :update, params: {
       id: @design, project_id: @project, design: { csv_file: '', reimport: '1' }
     }
-    assert assigns(:design).errors.size > 0
     assert_equal ["can't be blank"], assigns(:design).errors[:csv_file]
     assert_template 'edit'
     assert_response :success

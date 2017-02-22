@@ -97,7 +97,6 @@ class SitesControllerTest < ActionController::TestCase
       }
     end
     assert_not_nil assigns(:site)
-    assert assigns(:site).errors.size > 0
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template 'new'
     assert_response :success

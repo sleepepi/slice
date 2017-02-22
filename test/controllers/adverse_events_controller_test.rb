@@ -144,7 +144,6 @@ class AdverseEventsControllerTest < ActionController::TestCase
     end
 
     assert_not_nil assigns(:adverse_event)
-    assert assigns(:adverse_event).errors.size > 0
     assert_equal ["can't be in the future"], assigns(:adverse_event).errors[:adverse_event_date]
     assert_template 'new'
     assert_response :success
@@ -275,7 +274,6 @@ class AdverseEventsControllerTest < ActionController::TestCase
       }
     }
     assert_not_nil assigns(:adverse_event)
-    assert assigns(:adverse_event).errors.size > 0
     assert_equal ["can't be blank"], assigns(:adverse_event).errors[:description]
     assert_template 'edit'
   end

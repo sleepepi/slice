@@ -133,7 +133,6 @@ class ProjectsControllerTest < ActionController::TestCase
       end
     end
     assert_not_nil assigns(:project)
-    assert assigns(:project).errors.size > 0
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
     assert_template 'new'
   end

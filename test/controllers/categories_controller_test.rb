@@ -57,7 +57,6 @@ class CategoriesControllerTest < ActionController::TestCase
       }
     end
     assert_not_nil assigns(:category)
-    assert assigns(:category).errors.size > 0
     assert_equal ["can't be blank"], assigns(:category).errors[:name]
     assert_template 'new'
   end
@@ -130,7 +129,6 @@ class CategoriesControllerTest < ActionController::TestCase
       }
     }
     assert_not_nil assigns(:category)
-    assert assigns(:category).errors.size > 0
     assert_equal ["can't be blank"], assigns(:category).errors[:name]
     assert_template 'edit'
   end

@@ -286,7 +286,6 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
     assert_not_nil assigns(:domain)
-    assert assigns(:domain).errors.size > 0
     assert_equal ["can't be blank", 'is invalid'], assigns(:domain).errors[:name]
     assert_template 'edit_domain'
   end
@@ -354,7 +353,6 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
     assert_not_nil assigns(:variable)
-    assert assigns(:variable).errors.size > 0
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
     assert_template 'new_variable'
   end
@@ -492,7 +490,6 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
-    assert assigns(:design_option).variable.errors.size > 0
     assert_equal ["can't be blank", 'is invalid'], assigns(:design_option).variable.errors[:name]
     assert_template 'edit'
   end
@@ -512,7 +509,6 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
-    assert assigns(:design_option).variable.errors.size > 0
     assert_equal ["can't be blank", 'is invalid'], assigns(:design_option).variable.errors[:name]
     assert_template 'edit'
   end

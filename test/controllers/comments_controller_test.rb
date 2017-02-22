@@ -33,11 +33,8 @@ class CommentsControllerTest < ActionController::TestCase
         comment: { description: '' }
       }, format: 'js'
     end
-
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:comment)
-
-    assert assigns(:comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
     assert_template 'edit'
     assert_response :success
@@ -113,7 +110,6 @@ class CommentsControllerTest < ActionController::TestCase
       comment: { description: '' }
     }, format: 'js'
     assert_not_nil assigns(:comment)
-    assert assigns(:comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
     assert_template 'edit'
     assert_response :success

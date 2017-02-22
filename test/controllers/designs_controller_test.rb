@@ -302,7 +302,6 @@ class DesignsControllerTest < ActionController::TestCase
   # test 'should not update design with blank name' do
   #   patch :update, id: @design, project_id: @project, design: { name: '' }
   #   assert_not_nil assigns(:design)
-  #   assert assigns(:design).errors.size > 0
   #   assert_equal ["can't be blank"], assigns(:design).errors[:name]
   #   assert_template 'edit'
   # end

@@ -93,7 +93,6 @@ class AdverseEventFilesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_file)
-    assert assigns(:adverse_event_file).errors.size > 0
     assert_equal ["can't be blank"], assigns(:adverse_event_file).errors[:attachment]
     assert_template 'new'
     assert_response :success

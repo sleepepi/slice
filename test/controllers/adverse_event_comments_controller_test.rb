@@ -59,7 +59,6 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert assigns(:adverse_event_comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
     assert_template 'edit'
     assert_response :success
@@ -196,7 +195,6 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert assigns(:adverse_event_comment).errors.size > 0
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
     assert_template 'edit'
     assert_response :success
