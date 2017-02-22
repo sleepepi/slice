@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
+# Assure certain task methods work as expected.
 class TaskTest < ActiveSupport::TestCase
   test 'task is a phonecall' do
     assert_equal true, Task.new(description: 'Five-Month Phonecall').phonecall?
