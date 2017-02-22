@@ -333,7 +333,7 @@ class Export < ApplicationRecord
       csv << ['Adverse Event ID', 'Reported By', 'Subject', 'Reported On', 'Description', 'Status']
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         csv << [
-          ae.name,
+          ae.number,
           ae.reported_by,
           ae.subject_code,
           ae.reported_on,
@@ -351,7 +351,7 @@ class Export < ApplicationRecord
       csv << ['Adverse Event ID', 'Sheet ID']
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         ae.sheets.order(id: :desc).each do |sheet|
-          csv << [ae.name, sheet.id]
+          csv << [ae.number, sheet.id]
         end
       end
     end
