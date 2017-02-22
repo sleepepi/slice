@@ -3,6 +3,9 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to highcharts 5.0.7
+- **Design Changes**
+  - Scale headers now stick to the top of the screen when scrolling past a set
+    of scale variables
 - **Report Changes**
   - Improved speed for generating advanced design reports
 - **Sheet Changes**

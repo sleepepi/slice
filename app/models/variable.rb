@@ -204,6 +204,20 @@ class Variable < ApplicationRecord
     end
   end
 
+  def last_scale_variable?(design)
+    return true unless design
+    position = design.design_options.pluck(:variable_id).index(id)
+    if position
+      design_option = design.design_options[position + 1]
+      next_variable = design_option.variable
+    end
+    if next_variable && next_variable.uses_scale? && next_variable.domain_id == domain_id
+      return false
+    else
+      return true
+    end
+  end
+
   def options_or_autocomplete(include_missing)
     if variable_type == 'string'
       NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.value, value: sv.value, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })

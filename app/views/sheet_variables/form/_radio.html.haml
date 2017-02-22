@@ -9,18 +9,11 @@
   = hidden_field_tag "#{field_name}", nil, disabled: disabled, data: { name: variable.name, variable_type: variable.variable_type }
   - if variable.alignment == 'scale'
     %table.table.table-borderless
-      %col{ width: '300px' }
+      %col{ width: '100px' }
       = ("<col width='#{100 / (domain_options.count + 2)}%'/>" * domain_options.count).html_safe
-      - if variable.first_scale_variable?(design)
-        %thead
-          %tr
-            %th
-            - domain_options.each do |domain_option|
-              %th.center
-                = domain_option.value_and_name(show_values: show_values)
       %tbody
         %tr
-          %th
+          %th{ style: 'min-width: 100px;' }
             = variable.display_name
             = render 'design_options/required', design_option: design_option if design_option
           - domain_options.each do |domain_option|

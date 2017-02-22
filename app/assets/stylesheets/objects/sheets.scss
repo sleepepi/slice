@@ -146,3 +146,42 @@ select {
 .calculation-hidden {
   display: none !important;
 }
+
+.sticky-scale-header {
+  position: sticky;
+  top: $header-height;
+  background-color: $dashboard-bg;
+  margin-bottom: 0;
+
+  table {
+    background-color: $dashboard-bg;
+    margin-bottom: 0;
+    position: sticky;
+    top: 0;
+  }
+}
+
+.scale-variable-reset {
+  &.col-xs-12 {
+    position: inherit;
+  }
+
+  .radio-inline,
+  .checkbox-inline {
+    position: inherit;
+  }
+
+  .radio,
+  .radio-inline {
+    input[type="radio"] {
+      position: inherit;
+    }
+  }
+
+  .checkbox,
+  .checkbox-inline {
+    input[type="checkbox"] {
+      position: inherit;
+    }
+  }
+}
