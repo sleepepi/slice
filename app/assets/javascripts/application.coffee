@@ -24,7 +24,7 @@
 
 # External
 #= require external/bootstrap-datepicker.js
-#= require external/clipboard-1.5.12.src.js
+#= require external/clipboard-1.6.0.src.js
 #= require external/google_analytics
 #= require external/highcharts-5.0.7.src.js
 #= require external/jquery.textcomplete-1.7.3.src.js

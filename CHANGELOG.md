@@ -17,6 +17,8 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **Gem Changes**
+  - Updated to clipboard.js 1.6.0
 
 ### Bug Fixes
 - Fixed an issue in the R export script that could create invalid column names
