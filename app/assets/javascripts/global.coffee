@@ -2,9 +2,6 @@
 @fadeAndRemove = (element) ->
   $(element).fadeOut(500, -> $(element).remove())
 
-@addGlobalNoTouchToBody = ->
-  $('body').addClass('no-touch') if (document.documentElement.ontouchstart == undefined)
-
 @setFocusToField = (element_id) ->
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
@@ -37,7 +34,6 @@
   usersReady()
   fileDragReady()
   randomizationSchemesReady()
-  addGlobalNoTouchToBody()
 
 # These functions only get called on the initial page visit (no turbolinks).
 # Browsers that don't support turbolinks will initialize all functions in
