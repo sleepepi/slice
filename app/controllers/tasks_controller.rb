@@ -3,12 +3,12 @@
 # Allows project members to view and modify tasks on a project.
 class TasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:index, :show]
-  before_action :set_editable_project_or_editable_site, only: [:new, :edit, :create, :update, :destroy]
-  before_action :redirect_without_project
-  before_action :set_viewable_task,                     only: [:show]
-  before_action :set_editable_task,                     only: [:edit, :update, :destroy]
-  before_action :redirect_without_task,                 only: [:show, :edit, :update, :destroy]
+  before_action :find_viewable_project_or_redirect, only: [:index, :show]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [
+    :new, :edit, :create, :update, :destroy
+  ]
+  before_action :find_viewable_task_or_redirect, only: [:show]
+  before_action :find_editable_task_or_redirect, only: [:edit, :update, :destroy]
 
   # GET /projects/1/tasks
   def index
@@ -61,12 +61,14 @@ class TasksController < ApplicationController
     current_user.all_viewable_tasks.where(project_id: @project.id)
   end
 
-  def set_viewable_task
+  def find_viewable_task_or_redirect
     @task = viewable_tasks.find_by(id: params[:id])
+    redirect_without_task
   end
 
-  def set_editable_task
+  def find_editable_task_or_redirect
     @task = current_user.all_tasks.where(project_id: @project.id).find_by(id: params[:id])
+    redirect_without_task
   end
 
   def redirect_without_task

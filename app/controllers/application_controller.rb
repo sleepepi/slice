@@ -26,44 +26,29 @@ class ApplicationController < ActionController::Base
   def scrub_order(model, params_order, default_order)
     (params_column, params_direction) = params_order.to_s.strip.downcase.split(' ')
     direction = (params_direction == 'desc' ? 'desc' : nil)
-    column_name = model.column_names.collect { |c| model.table_name + '.' + c }.find { |c| c == params_column }
+    column_name = model.column_names.collect { |c| "#{model.table_name}.#{c}" }.find { |c| c == params_column }
     column_name.blank? ? default_order : [column_name, direction].compact.join(' ')
   end
 
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :password, :password_confirmation, :emails_enabled])
+    devise_parameter_sanitizer.permit(
+      :sign_up,
+      keys: [:first_name, :last_name, :email, :password, :password_confirmation, :emails_enabled]
+    )
   end
 
-  # TODO: Will be deprecated
-  def set_viewable_project(id = :project_id)
-    @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
-  end
-
-  # TODO: Will replace original set_viewable_project
   def find_viewable_project_or_redirect(id = :project_id)
     @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
     redirect_without_project
   end
 
-  # TODO: Will be deprecated
-  def set_editable_project(id = :project_id)
-    @project = current_user.all_projects.find_by_param(params[id])
-  end
-
-  # TODO: Will replace original set_editable_project
   def find_editable_project_or_redirect(id = :project_id)
     @project = current_user.all_projects.find_by_param(params[id])
     redirect_without_project
   end
 
-  # TODO: Will be deprecated
-  def set_editable_project_or_editable_site
-    @project = current_user.all_sheet_editable_projects.find_by_param(params[:project_id])
-  end
-
-  # TODO: Will replace original set_editable_project_or_editable_site
   def find_editable_project_or_editable_site_or_redirect
     @project = current_user.all_sheet_editable_projects.find_by_param(params[:project_id])
     redirect_without_project

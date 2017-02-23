@@ -97,7 +97,7 @@ class NotificationsControllerTest < ActionController::TestCase
     assert_difference('Notification.where(read: false).count', 0) do
       patch :mark_all_as_read, format: 'js'
     end
-    assert_template 'mark_all_as_read'
+    assert_template nil
     assert_response :success
   end
 end

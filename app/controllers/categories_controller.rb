@@ -3,10 +3,8 @@
 # Categories can only be created and updated by project owners and editors.
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
-  before_action :redirect_without_project
-  before_action :set_category,              only: [:show, :edit, :update, :destroy]
-  before_action :redirect_without_category, only: [:show, :edit, :update, :destroy]
+  before_action :find_editable_project_or_redirect
+  before_action :find_category_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /categories
   def index
@@ -60,8 +58,9 @@ class CategoriesController < ApplicationController
     current_user.categories.where(project_id: @project.id)
   end
 
-  def set_category
+  def find_category_or_redirect
     @category = @project.categories.find_by_param(params[:id])
+    redirect_without_category
   end
 
   def redirect_without_category

@@ -4,11 +4,9 @@
 # of designs that can be filled out by a subject.
 class HandoffsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project_or_editable_site
-  before_action :redirect_without_project
-  before_action :set_editable_subject
-  before_action :redirect_without_subject
-  before_action :set_handoff
+  before_action :find_editable_project_or_editable_site_or_redirect
+  before_action :find_editable_subject_or_redirect
+  before_action :find_handoff
 
   # # GET /handoffs/new
   # def new
@@ -22,15 +20,16 @@ class HandoffsController < ApplicationController
 
   private
 
-  def set_editable_subject
+  def find_editable_subject_or_redirect
     @subject = current_user.all_subjects.find_by(id: params[:id])
+    redirect_without_subject
   end
 
   def redirect_without_subject
     empty_response_or_root_path(project_subjects_path(@project)) unless @subject
   end
 
-  def set_handoff
+  def find_handoff
     @handoff = @project.handoffs.where(handoff_params).first_or_create(user_id: current_user.id)
     @handoff.set_token
   end

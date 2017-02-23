@@ -3,21 +3,16 @@
 # Allows project editors to add sections and questions to designs.
 class DesignOptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
-  before_action :redirect_without_project
-  before_action :set_editable_design
-  before_action :redirect_without_design
-
-  before_action :set_new_design_option,
-                only: [
-                  :new_section, :new_variable, :new_existing_variable,
-                  :create_section, :create_variable, :create_existing_variable
-                ]
-  before_action :set_design_option,
-                only: [
-                  :show, :edit, :edit_variable, :edit_domain, :update,
-                  :update_domain, :destroy
-                ]
+  before_action :find_editable_project_or_redirect
+  before_action :find_editable_design_or_redirect
+  before_action :find_new_design_option, only: [
+    :new_section, :new_variable, :new_existing_variable, :create_section,
+    :create_variable, :create_existing_variable
+  ]
+  before_action :find_design_option_or_redirect, only: [
+    :show, :edit, :edit_variable, :edit_domain, :update, :update_domain,
+    :destroy
+  ]
 
   # # GET /designs/:design_id/design_options/new
   # def new
@@ -143,19 +138,20 @@ class DesignOptionsController < ApplicationController
 
   private
 
-  def set_editable_design
+  def find_editable_design_or_redirect
     @design = @project.designs.find_by_param(params[:design_id])
+    redirect_without_design
   end
 
   def redirect_without_design
     empty_response_or_root_path(project_designs_path(@project)) unless @design
   end
 
-  def set_new_design_option
+  def find_new_design_option
     @design_option = @design.design_options.new(design_option_params_new)
   end
 
-  def set_design_option
+  def find_design_option_or_redirect
     @design_option = @design.design_options.find_by(id: params[:id])
     redirect_without_design_option
   end

@@ -3,9 +3,8 @@
 # Allows files to be attached and removed from adverse events.
 class AdverseEventFilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:index, :show, :download]
-  before_action :set_editable_project_or_editable_site, only: [:new, :create, :create_multiple, :destroy]
-  before_action :redirect_without_project
+  before_action :find_viewable_project_or_redirect, only: [:index, :show, :download]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [:new, :create, :create_multiple, :destroy]
   before_action :set_adverse_event
   before_action :set_adverse_event_file, only: [:show, :download, :destroy]
 

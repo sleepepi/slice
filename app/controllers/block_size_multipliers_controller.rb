@@ -4,14 +4,10 @@
 # schemes using the permuted-block algorithm.
 class BlockSizeMultipliersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_editable_project
-  before_action :redirect_without_project
-  before_action :set_randomization_scheme
-  before_action :redirect_without_randomization_scheme
-
-  before_action :set_block_size_multiplier,               only: [:show, :edit, :update, :destroy]
-  before_action :redirect_without_block_size_multiplier,  only: [:show, :edit, :update, :destroy]
-  before_action :redirect_with_published_scheme,          only: [:new, :create, :edit, :update, :destroy]
+  before_action :find_editable_project_or_redirect
+  before_action :find_randomization_scheme_or_redirect
+  before_action :find_block_size_multiplier_or_redirect, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_with_published_scheme, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /block_size_multipliers
   def index
@@ -66,16 +62,18 @@ class BlockSizeMultipliersController < ApplicationController
     @randomization_scheme.block_size_multipliers.where(project_id: @project.id, user_id: current_user.id)
   end
 
-  def set_randomization_scheme
+  def find_randomization_scheme_or_redirect
     @randomization_scheme = @project.randomization_schemes.find_by(id: params[:randomization_scheme_id])
+    redirect_without_randomization_scheme
   end
 
   def redirect_without_randomization_scheme
     empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
   end
 
-  def set_block_size_multiplier
+  def find_block_size_multiplier_or_redirect
     @block_size_multiplier = @randomization_scheme.block_size_multipliers.find_by(id: params[:id])
+    redirect_without_block_size_multiplier
   end
 
   def redirect_without_block_size_multiplier

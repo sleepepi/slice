@@ -3,13 +3,16 @@
 # Tracks updates to adverse events.
 class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project,                  only: [:index, :show, :forms]
-  before_action :set_editable_project,                  only: [:export]
-  before_action :set_editable_project_or_editable_site, only: [:new, :create, :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link]
-  before_action :redirect_without_project
+  before_action :find_viewable_project_or_redirect, only: [:index, :show, :forms]
+  before_action :find_editable_project_or_redirect, only: [:export]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [
+    :new, :create, :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link
+  ]
   before_action :redirect_blinded_users
-  before_action :set_viewable_adverse_event,            only: [:show, :forms]
-  before_action :set_editable_adverse_event,            only: [:edit, :update, :destroy, :set_shareable_link, :remove_shareable_link]
+  before_action :find_viewable_adverse_event_or_redirect, only: [:show, :forms]
+  before_action :find_editable_adverse_event_or_redirect, only: [
+    :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link
+  ]
 
   # GET /adverse-events/export
   def export
@@ -105,12 +108,12 @@ class AdverseEventsController < ApplicationController
     current_user.all_viewable_adverse_events.where(project_id: @project.id)
   end
 
-  def set_viewable_adverse_event
+  def find_viewable_adverse_event_or_redirect
     @adverse_event = viewable_adverse_events.find_by(id: params[:id])
     redirect_without_adverse_event
   end
 
-  def set_editable_adverse_event
+  def find_editable_adverse_event_or_redirect
     @adverse_event = current_user.all_adverse_events.find_by(id: params[:id])
     redirect_without_adverse_event
   end
