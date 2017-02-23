@@ -48,9 +48,13 @@
   addGlobalNoTouchToBody()
   wideContainer()
 
-# These functions only get called on the initial page visit (no turbolinks)
+# These functions only get called on the initial page visit (no turbolinks).
+# Browsers that don't support turbolinks will initialize all functions in
+# turbolinks on page load. Those that do support Turbolinks won't call these
+# methods here, but instead will wait for `turbolinks:load` event to prevent
+# running the functions twice.
 @initialLoadReady = ->
-  turbolinksReady()
+  turbolinksReady() unless Turbolinks.supported
   timeoutReady()
 
 $(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty

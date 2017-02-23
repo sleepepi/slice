@@ -23,6 +23,8 @@
 ### Bug Fixes
 - Fixed an issue in the R export script that could create invalid column names
   starting with underscores for domain values
+- Fixed a bug that caused JavaScript functions to run twice in browsers that
+  supported Turbolinks
 
 ### Refactoring
 - Removed unused grid variable validations
