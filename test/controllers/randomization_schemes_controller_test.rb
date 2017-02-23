@@ -10,6 +10,15 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     @randomization_scheme = randomization_schemes(:one)
   end
 
+  def randomization_scheme_params
+    {
+      name: 'New Randomization Scheme',
+      description: @randomization_scheme.description,
+      published: @randomization_scheme.published,
+      randomization_goal: @randomization_scheme.randomization_goal
+    }
+  end
+
   test 'should get randomize subject for published scheme' do
     get :randomize_subject, params: { project_id: @project, id: @randomization_scheme }
     assert_not_nil assigns(:randomization_scheme)
@@ -218,7 +227,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
           id: randomization_schemes(:minimization_with_lists),
           subject_code: '2TWO02',
           stratification_factors: {
-            "#{ActiveRecord::FixtureSet.identify(:gender_with_lists)}" => "#{ActiveRecord::FixtureSet.identify(:male_min_with_lists)}"
+            ActiveRecord::FixtureSet.identify(:gender_with_lists).to_s => ActiveRecord::FixtureSet.identify(:male_min_with_lists).to_s
           },
           attested: '1'
         }
@@ -234,8 +243,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     post :randomize_subject_to_list, params: {
       project_id: @project, id: @randomization_scheme, subject_code: 'Code01',
       stratification_factors: {
-        "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}",
-        "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}"
+        ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
+        ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
       attested: '1'
     }
@@ -249,8 +258,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     post :randomize_subject_to_list, params: {
       project_id: @project, id: @randomization_scheme, subject_code: '',
       stratification_factors: {
-        "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}",
-        "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}"
+        ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
+        ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
       attested: '1'
     }
@@ -264,7 +273,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     post :randomize_subject_to_list, params: {
       project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
       stratification_factors: {
-        "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}"
+        ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s
       },
       attested: '1'
     }
@@ -289,8 +298,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     post :randomize_subject_to_list, params: {
       project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
       stratification_factors: {
-        "#{ActiveRecord::FixtureSet.identify(:gender)}" => "#{ActiveRecord::FixtureSet.identify(:male)}",
-        "#{ActiveRecord::FixtureSet.identify(:age)}" => "#{ActiveRecord::FixtureSet.identify(:ltforty)}"
+        ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
+        ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
       attested: '0'
     }
@@ -329,8 +338,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
           id: randomization_schemes(:minimization_for_testing_edge_case),
           subject_code: 'edge10',
           stratification_factors: {
-            "#{ActiveRecord::FixtureSet.identify(:edge_gender)}" => "#{ActiveRecord::FixtureSet.identify(:edge_male)}",
-            "#{ActiveRecord::FixtureSet.identify(:edge_site)}" => "#{ActiveRecord::FixtureSet.identify(:two)}"
+            ActiveRecord::FixtureSet.identify(:edge_gender).to_s => ActiveRecord::FixtureSet.identify(:edge_male).to_s,
+            ActiveRecord::FixtureSet.identify(:edge_site).to_s => ActiveRecord::FixtureSet.identify(:two).to_s
           },
           attested: '1'
         }
@@ -349,7 +358,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     # Stratification Factors { 'Site' => 'SITE ID' }
     assert_difference('RandomizationCharacteristic.count', 0) do
       post :randomize_subject_to_list, params: {
-        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable), subject_code: '2TWO02',
+        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable),
+        subject_code: '2TWO02',
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:required_variable_site).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s,
           ActiveRecord::FixtureSet.identify(:required_and_calculated).to_s => ActiveRecord::FixtureSet.identify(:required_and_calculated_one).to_s
@@ -365,7 +375,8 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     # Stratification Factors { 'Site' => 'SITE ID' }
     assert_difference('RandomizationCharacteristic.count', 2) do
       post :randomize_subject_to_list, params: {
-        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable), subject_code: 'eligible_for_randomization',
+        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable),
+        subject_code: 'eligible_for_randomization',
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:required_variable_site).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s,
           ActiveRecord::FixtureSet.identify(:required_and_calculated).to_s => ActiveRecord::FixtureSet.identify(:required_and_calculated_one).to_s
@@ -407,14 +418,18 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
 
   test 'should create randomization_scheme' do
     assert_difference('RandomizationScheme.count') do
-      post :create, params: { project_id: @project, randomization_scheme: { name: 'New Randomization Scheme', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+      post :create, params: {
+        project_id: @project, randomization_scheme: randomization_scheme_params
+      }
     end
     assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
   end
 
   test 'should not create randomization scheme with blank name' do
     assert_difference('RandomizationScheme.count', 0) do
-      post :create, params: { project_id: @project, randomization_scheme: { name: '', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+      post :create, params: {
+        project_id: @project, randomization_scheme: randomization_scheme_params.merge(name: '')
+      }
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_equal ["can't be blank"], assigns(:randomization_scheme).errors[:name]
@@ -433,12 +448,18 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
   end
 
   test 'should update randomization_scheme' do
-    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: 'Updated Randomization Scheme', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+    patch :update, params: {
+      project_id: @project, id: @randomization_scheme,
+      randomization_scheme: randomization_scheme_params.merge(name: 'Updated Randomization Scheme')
+    }
     assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
   end
 
   test 'should not update randomization scheme with existing name' do
-    patch :update, params: { project_id: @project, id: @randomization_scheme, randomization_scheme: { name: 'Randomization Scheme 2', description: @randomization_scheme.description, published: @randomization_scheme.published, randomization_goal: @randomization_scheme.randomization_goal } }
+    patch :update, params: {
+      project_id: @project, id: @randomization_scheme,
+      randomization_scheme: randomization_scheme_params.merge(name: 'Randomization Scheme 2')
+    }
     assert_not_nil assigns(:randomization_scheme)
     assert_equal ['has already been taken'], assigns(:randomization_scheme).errors[:name]
     assert_template 'edit'

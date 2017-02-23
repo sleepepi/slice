@@ -25,13 +25,13 @@ namespace :sheets do
         project.sheets.where(missing: false).order(:id).find_each.with_index do |sheet, index|
           count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{format('%0.2f', ((index + 1) * 100.0 / total_project_sheets))}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{format('%0.2f', ((current_sheet + 1) * 100.0 / total_sheets))}%)]"
           if sheet.successfully_validated?
-            print "\r#{'%6d' % sheet.id}:" + ' VALID'.colorize(:green) + count_message
+            print "\r#{format('%6d', sheet.id)}:" + ' VALID'.colorize(:green) + count_message
             project_results[project_index][:valid_sheets_count] += 1
           else
             in_memory_sheet = Validation::InMemorySheet.new(sheet)
             in_memory_sheet.variables = sheet.design.variables.to_a
             if in_memory_sheet.valid?
-              print "\r#{'%6d' % sheet.id}:" + ' VALID'.colorize(:green) + count_message
+              print "\r#{format('%6d', sheet.id)}:" + ' VALID'.colorize(:green) + count_message
               project_results[project_index][:valid_sheets_count] += 1
               sheet.update_column :successfully_validated, true
             else
@@ -64,7 +64,6 @@ namespace :sheets do
   task reset_coverage: :environment do
     sheet_count = Sheet.count
     Sheet.update_all(total_response_count: nil, percent: nil)
-
     puts "Reset coverage for #{sheet_count} sheet#{'s' if sheet_count != 1}."
   end
 end

@@ -148,10 +148,10 @@ select {
 }
 
 .sticky-scale-header {
-  position: sticky;
-  top: $header-height;
   background-color: $dashboard-bg;
   margin-bottom: 0;
+  position: sticky;
+  top: $header-height;
 
   table {
     background-color: $dashboard-bg;
