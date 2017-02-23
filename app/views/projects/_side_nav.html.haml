@@ -9,7 +9,7 @@
             = link_to @project.name, @project
           %ul.side-nav-section-links.active
             %li
-              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || current_page?(@project) ? 'active' : nil) do
+              = link_to project_subjects_path(@project), class: (params[:controller] == 'subjects' || current_page?(project_path(@project)) ? 'active' : nil) do
                 Subjects
             %li
               = link_to project_sheets_path(@project), class: (params[:controller] == 'sheets' ? 'active' : nil) do
