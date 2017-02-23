@@ -11,13 +11,13 @@ class AdverseEventCommentsController < ApplicationController
   before_action :set_viewable_adverse_event_comment,     only: [:show]
   before_action :set_editable_adverse_event_comment,     only: [:edit, :update, :destroy]
 
-  # GET /adverse-events/:adverse_event_id/comments/1.js
-  def show
-  end
+  # # GET /adverse-events/:adverse_event_id/comments/1.js
+  # def show
+  # end
 
-  # GET /adverse-events/:adverse_event_id/comments/1/edit.js
-  def edit
-  end
+  # # GET /adverse-events/:adverse_event_id/comments/1/edit.js
+  # def edit
+  # end
 
   # POST /adverse-events/:adverse_event_id/comments.js
   def create

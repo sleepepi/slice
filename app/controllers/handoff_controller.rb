@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# Handles tablet handoff after control has been passed to the subject
+# Handles tablet handoff after control has been passed to the subject.
 class HandoffController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token
-
   before_action :clean_layout
   before_action :set_project, except: [:completed]
   before_action :set_handoff, except: [:completed]

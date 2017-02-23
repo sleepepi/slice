@@ -18,18 +18,18 @@ class BlockSizeMultipliersController < ApplicationController
     @block_size_multipliers = @randomization_scheme.block_size_multipliers.order(:value).page(params[:page]).per(40)
   end
 
-  # GET /block_size_multipliers/1
-  def show
-  end
+  # # GET /block_size_multipliers/1
+  # def show
+  # end
 
   # GET /block_size_multipliers/new
   def new
     @block_size_multiplier = block_size_multipliers.new
   end
 
-  # GET /block_size_multipliers/1/edit
-  def edit
-  end
+  # # GET /block_size_multipliers/1/edit
+  # def edit
+  # end
 
   # POST /block_size_multipliers
   def create
@@ -84,15 +84,14 @@ class BlockSizeMultipliersController < ApplicationController
   end
 
   def redirect_with_published_scheme
-    if @randomization_scheme.published?
-      flash[:alert] = "Block size multipliers can't be created or edited on published randomization scheme."
-      redirect_path = if @block_size_multiplier
-                        [@project, @randomization_scheme, @block_size_multiplier]
-                      else
-                        project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
-                      end
-      empty_response_or_root_path(redirect_path)
-    end
+    return unless @randomization_scheme.published?
+    flash[:alert] = "Block size multipliers can't be created or edited on published randomization scheme."
+    redirect_path = if @block_size_multiplier
+                      [@project, @randomization_scheme, @block_size_multiplier]
+                    else
+                      project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
+                    end
+    empty_response_or_root_path(redirect_path)
   end
 
   def block_size_multiplier_params

@@ -7,12 +7,11 @@ class SheetUnlockRequestsController < ApplicationController
   before_action :find_editable_sheet_or_redirect
   before_action :find_sheet_unlock_request_or_redirect, only: [:destroy]
 
-  # POST /unlock/requests.js
+  # POST /projects/:project_id/sheets/:sheet_id/unlock/requests.js
   def create
     @sheet_unlock_request = current_user.sheet_unlock_requests
                                         .where(sheet_id: @sheet.id)
                                         .new(sheet_unlock_request_params)
-
     if @sheet_unlock_request.save
       render :create
     else
@@ -20,7 +19,7 @@ class SheetUnlockRequestsController < ApplicationController
     end
   end
 
-  # DELETE /unlock/requests/1
+  # DELETE /projects/:project_id/sheets/:sheet_id/unlock/requests/1
   def destroy
     @sheet_unlock_request.destroy
     redirect_to [@project, @sheet], notice: 'Sheet unlock request was successfully deleted.'

@@ -14,10 +14,11 @@ class RandomizationSchemesController < ApplicationController
   before_action :find_published_scheme_or_redirect,
                 only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
 
-  # POST /template/add_task.js
-  def add_task
-  end
+  # # POST /template/add_task.js
+  # def add_task
+  # end
 
+  # GET /schemes/1/randomize-subject
   def randomize_subject
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
     if params[:subject_code].present? && params[:stratification_factors].blank?
@@ -26,6 +27,7 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
+  # GET /schemes/1/subject_search
   def subject_search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
                             .search(params[:q]).order('subject_code').limit(5)
@@ -59,6 +61,7 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
+  # POST /schemes/1/randomize-subject
   def randomize_subject_to_list
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
@@ -151,18 +154,18 @@ class RandomizationSchemesController < ApplicationController
                                      .page(params[:page]).per(40)
   end
 
-  # GET /schemes/1
-  def show
-  end
+  # # GET /schemes/1
+  # def show
+  # end
 
   # GET /schemes/new
   def new
     @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id).new
   end
 
-  # GET /schemes/1/edit
-  def edit
-  end
+  # # GET /schemes/1/edit
+  # def edit
+  # end
 
   # POST /schemes
   def create
@@ -208,10 +211,8 @@ class RandomizationSchemesController < ApplicationController
 
   def randomization_scheme_params
     params[:randomization_scheme] ||= { blank: '1' }
-
     check_key_and_set_default_value(:randomization_scheme, :randomization_goal, 0)
     check_key_and_set_default_value(:randomization_scheme, :chance_of_random_treatment_arm_selection, 30)
-
     if @randomization_scheme && @randomization_scheme.randomized_subjects?
       params.require(:randomization_scheme).permit(
         :name, :description, :randomization_goal,

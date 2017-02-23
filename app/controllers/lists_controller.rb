@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows randomization scheme lists to be displayed
+# Allows randomization scheme lists to be displayed.
 class ListsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_editable_project_or_redirect
@@ -28,9 +28,9 @@ class ListsController < ApplicationController
     @lists = @randomization_scheme.lists.order(:id).page(params[:page]).per(40)
   end
 
-  # GET /lists/1
-  def show
-  end
+  # # GET /lists/1
+  # def show
+  # end
 
   private
 

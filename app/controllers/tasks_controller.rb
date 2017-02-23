@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows project members to view and modify tasks on a project
+# Allows project members to view and modify tasks on a project.
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:index, :show]
@@ -17,18 +17,18 @@ class TasksController < ApplicationController
                            .page(params[:page]).per(40)
   end
 
-  # GET /tasks/1
-  def show
-  end
+  # # GET /tasks/1
+  # def show
+  # end
 
   # GET /tasks/new
   def new
     @task = current_user.tasks.where(project_id: @project.id).new
   end
 
-  # GET /tasks/1/edit
-  def edit
-  end
+  # # GET /tasks/1/edit
+  # def edit
+  # end
 
   # POST /tasks
   def create

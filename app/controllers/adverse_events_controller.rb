@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Tracks updates to adverse events
+# Tracks updates to adverse events.
 class AdverseEventsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project,                  only: [:index, :show, :forms]
@@ -47,18 +47,18 @@ class AdverseEventsController < ApplicationController
     @adverse_events = adverse_event_scope.page(params[:page]).per(40)
   end
 
-  # GET /adverse-events/1
-  def show
-  end
+  # # GET /adverse-events/1
+  # def show
+  # end
 
   # GET /adverse-events/new
   def new
     @adverse_event = viewable_adverse_events.new(subject_code: params[:subject_code])
   end
 
-  # GET /adverse-events/1/edit
-  def edit
-  end
+  # # GET /adverse-events/1/edit
+  # def edit
+  # end
 
   # POST /adverse-events
   def create

@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 # Allows project members to invite others to collaborate on project.
-# Others can accept invite tokens to be added to projects
+# Others can accept invite tokens to be added to projects.
 class ProjectUsersController < ApplicationController
   before_action :authenticate_user!, except: [:invite]
 
+  # GET /invite/:invite_token
   def invite
     session[:invite_token] = params[:invite_token]
     if current_user
@@ -18,7 +19,6 @@ class ProjectUsersController < ApplicationController
   def resend
     @project_user = ProjectUser.find_by(id: params[:id])
     @project = current_user.all_projects.find_by(id: @project_user.project_id) if @project_user
-
     if @project && @project_user
       @project_user.send_user_invited_email_in_background!
       render :update
@@ -27,6 +27,7 @@ class ProjectUsersController < ApplicationController
     end
   end
 
+  # GET /project_users/accept
   def accept
     invite_token = session.delete(:invite_token)
     @project_user = ProjectUser.find_by(invite_token: invite_token)
@@ -64,7 +65,6 @@ class ProjectUsersController < ApplicationController
     if @project.blank? && @project_user && current_user == @project_user.user
       @project = current_user.all_viewable_and_site_projects.find_by(id: @project_user.project_id)
     end
-
     if @project && @project_user
       @project_user.destroy
       render 'projects/members'

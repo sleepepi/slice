@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows project owners, editors, and viewers to leave comments on a sheet
+# Allows project owners, editors, and viewers to leave comments on a sheet.
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_sheet, only: [:new, :create]
@@ -17,9 +17,9 @@ class CommentsController < ApplicationController
     end
   end
 
-  # GET /comments/1/edit
-  def edit
-  end
+  # # GET /comments/1/edit
+  # def edit
+  # end
 
   # POST /comments
   def create

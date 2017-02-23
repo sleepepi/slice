@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows users to be notified inside the web application of new changes to
-# adverse events, new comments on sheets, and completed tablet handoffs
+# adverse events, new comments on sheets, and completed tablet handoffs.
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_notification_or_redirect, only: [:show, :update]
@@ -32,7 +32,7 @@ class NotificationsController < ApplicationController
   def mark_all_as_read
     if @project
       @notifications = current_user.notifications.where(project_id: @project.id)
-      @notifications.update_all read: true
+      @notifications.update_all(read: true)
     else
       @notifications = Notification.none
     end

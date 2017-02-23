@@ -4,7 +4,7 @@
 class InternalController < ApplicationController
   before_action :authenticate_user!
 
-  # POST /keep-me-active.js
-  def keep_me_active
-  end
+  # # POST /keep-me-active.js
+  # def keep_me_active
+  # end
 end

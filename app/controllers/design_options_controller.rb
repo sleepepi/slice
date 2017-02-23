@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows project editors to add sections and questions to designs
+# Allows project editors to add sections and questions to designs.
 class DesignOptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
@@ -19,30 +19,38 @@ class DesignOptionsController < ApplicationController
                   :update_domain, :destroy
                 ]
 
-  def new
-  end
+  # # GET /designs/:design_id/design_options/new
+  # def new
+  # end
 
+  # GET /designs/:design_id/design_options/new_section
   def new_section
     @section = @design.sections.new
   end
 
+  # GET /designs/:design_id/design_options/new_variable
   def new_variable
     @variable = @project.variables.new(variable_params)
   end
 
-  def new_existing_variable
-  end
+  # # GET /designs/:design_id/design_options/new_existing_variable
+  # def new_existing_variable
+  # end
 
-  def edit
-  end
+  # # GET /designs/:design_id/design_options/1/edit
+  # def edit
+  # end
 
-  def edit_variable
-  end
+  # # GET /designs/:design_id/design_options/1/edit_variable
+  # def edit_variable
+  # end
 
+  # GET /designs/:design_id/design_options/1/edit_domain
   def edit_domain
     @domain = @design_option.variable.domain || @project.domains.new
   end
 
+  # POST /designs/:design_id/design_options/create_section
   def create_section
     @section = current_user.sections.where(project_id: @project.id, design_id: @design.id).new(section_params)
     @design_option.branching_logic = params[:design_option][:branching_logic] if params[:design_option] && params[:design_option][:branching_logic].present?
@@ -58,6 +66,7 @@ class DesignOptionsController < ApplicationController
     end
   end
 
+  # POST /designs/:design_id/design_options/create_variable
   def create_variable
     @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
@@ -74,6 +83,7 @@ class DesignOptionsController < ApplicationController
     end
   end
 
+  # POST /designs/:design_id/design_options/create_existing_variable
   def create_existing_variable
     if @design_option.save
       @design.insert_new_design_option!(@design_option)
@@ -83,6 +93,7 @@ class DesignOptionsController < ApplicationController
     end
   end
 
+  # PATCH /designs/:design_id/design_options/1
   def update
     @design_option.update(design_option_params)
     if @design_option.section && @design_option.section.update(section_params)
@@ -95,6 +106,7 @@ class DesignOptionsController < ApplicationController
     end
   end
 
+  # PATCH /designs/:design_id/design_options/1/update_domain
   def update_domain
     @domain = @design_option.variable.domain || @project.domains.new(domain_params)
     if @domain.new_record? && @domain.save && @design_option.variable.update(domain_id: @domain.id)
@@ -108,25 +120,25 @@ class DesignOptionsController < ApplicationController
     end
   end
 
+  # DELETE /designs/:design_id/design_options/1
   def destroy
     @design_option.destroy
     @design.recalculate_design_option_positions!
     render :index
   end
 
+  # POST /designs/:design_id/design_options/update_section_order
   def update_section_order
     section_order = params[:sections].to_s.split(',').collect(&:to_i)
     @design.reorder_sections(section_order, current_user)
     render 'update_order'
   end
 
+  # POST /designs/:design_id/design_options/update_option_order
   def update_option_order
     row_order = params[:rows].to_s.split(',').collect(&:to_i)
     @design.reorder_options(row_order, current_user)
     render 'update_order'
-  end
-
-  def reorder
   end
 
   private
@@ -173,14 +185,11 @@ class DesignOptionsController < ApplicationController
     params[:variable] ||= { blank: '1' }
     parse_variable_dates
     params.require(:variable).permit(
-      :name, :display_name, :description, :variable_type, :prepend, :append,
-      :field_note, :display_layout, :show_current_button,
-      :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum,
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum,
-      :date_soft_minimum, :time_duration_format, :calculation, :format,
-      :hide_calculation, :units, { grid_tokens: [:variable_id] },
-      :multiple_rows, :default_row_number, :autocomplete_values,
-      { questions: [:question_name, :question_type] }, :alignment, :domain_id
+      :name, :display_name, :description, :variable_type, :prepend, :append, :field_note, :display_layout,
+      :show_current_button, :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :domain_id,
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :time_duration_format,
+      :calculation, :format, :hide_calculation, :units, :multiple_rows, :default_row_number, :autocomplete_values,
+      { grid_tokens: [:variable_id] }, { questions: [:question_name, :question_type] }, :alignment
     )
   end
 
@@ -193,12 +202,9 @@ class DesignOptionsController < ApplicationController
 
   def domain_params
     params[:domain] ||= {}
-
     # Always update user_id to correctly track sheet transactions
     params[:domain][:user_id] = current_user.id # unless @domain
-
     params[:domain] = Domain.clean_option_tokens(params[:domain])
-
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,
       option_tokens: [:name, :value, :description, :missing_code, :site_id, :domain_option_id, :archived]

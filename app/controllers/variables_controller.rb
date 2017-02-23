@@ -15,14 +15,15 @@ class VariablesController < ApplicationController
     :show, :edit, :update, :destroy
   ]
 
+  # POST /projects/:project_id/variables/report_lookup
   def report_lookup
     @variable = @project.variable_by_id(params[:variable_id])
   end
 
+  # GET /projects/:project_id/variables/1/copy
   def copy
     variable = viewable_variables.find_by(id: params[:id])
     @variable = current_user.variables.new(variable.copyable_attributes) if variable
-
     if @variable
       render :new
     else
@@ -30,11 +31,12 @@ class VariablesController < ApplicationController
     end
   end
 
+  # POST /projects/:project_id/variables/add_grid_variable.js
   def add_grid_variable
     @child_grid_variable = @project.grid_variables.new
   end
 
-  # GET /variables
+  # GET /projects/:project_id/variables
   def index
     @order = scrub_order(Variable, params[:order], 'variables.name')
     variable_scope = viewable_variables.search(params[:search]).order(@order)
@@ -43,7 +45,7 @@ class VariablesController < ApplicationController
     @variables = variable_scope.page(params[:page]).per(20)
   end
 
-  # GET /search.json
+  # GET /projects/:project_id/search.json
   def search
     variable_scope = viewable_variables.where(variable_type: %w(dropdown checkbox radio string integer numeric date calculated imperial_height imperial_weight))
                                        .where('name ILIKE (?)', "#{params[:q]}%")
@@ -51,12 +53,13 @@ class VariablesController < ApplicationController
     render json: variable_scope.pluck(:name)
   end
 
+  # GET /projects/:project_id/variables/values_search
   def values_search
     @variable = viewable_variables.where('name ILIKE ?', params[:q].split(':').first).first
-    render json: (@variable ? @variable.domain_options.collect { |o| { value: o.value, name: o.name } } : []) + [{value: 'any'}, { value: 'missing' }]
+    render json: (@variable ? @variable.domain_options.collect { |o| { value: o.value, name: o.name } } : []) + [{ value: 'any' }, { value: 'missing' }]
   end
 
-  # GET /checks_search.json
+  # GET /projects/:project_id/variables/checks_search.json
   def checks_search
     check_scope = @project.checks.runnable
                           .where('slug ILIKE (?)', "#{params[:q]}%")
@@ -64,7 +67,7 @@ class VariablesController < ApplicationController
     render json: check_scope.pluck(:slug)
   end
 
-  # GET /events_search.json
+  # GET /projects/:project_id/variables/events_search.json
   def events_search
     event_scope = @project.events
                           .where('slug ILIKE (?) or id = ?', "#{params[:q]}%", params[:q].to_i)
@@ -72,20 +75,20 @@ class VariablesController < ApplicationController
     render json: event_scope.collect(&:to_param)
   end
 
-  # GET /variables/1
-  def show
-  end
+  # # GET /projects/:project_id/variables/1
+  # def show
+  # end
 
-  # GET /variables/new
+  # GET /projects/:project_id/variables/new
   def new
     @variable = current_user.variables.where(project_id: @project.id).new
   end
 
-  # GET /variables/1/edit
-  def edit
-  end
+  # # GET /projects/:project_id/variables/1/edit
+  # def edit
+  # end
 
-  # POST /variables
+  # POST /projects/:project_id/variables
   def create
     @variable = current_user.variables.where(project_id: @project.id).new(variable_params)
     if @variable.save
@@ -102,7 +105,7 @@ class VariablesController < ApplicationController
     end
   end
 
-  # PATCH /variables/1
+  # PATCH /projects/:project_id/variables/1
   def update
     if @variable.update(variable_params)
       @variable.update_grid_tokens!
@@ -117,17 +120,16 @@ class VariablesController < ApplicationController
     end
   end
 
-  # DELETE /variables/1
+  # DELETE /projects/:project_id/variables/1
   def destroy
     @variable.destroy
-
     respond_to do |format|
       format.html { redirect_to project_variables_path(@project) }
       format.js
     end
   end
 
-  # POST /variables/1/restore
+  # POST /projects/:project_id/variables/1/restore
   def restore
     @variable.update deleted: false
     redirect_to [@project, @variable]

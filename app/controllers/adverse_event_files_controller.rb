@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows files to be attached and removed from adverse events
+# Allows files to be attached and removed from adverse events.
 class AdverseEventFilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [:index, :show, :download]
@@ -42,6 +42,7 @@ class AdverseEventFilesController < ApplicationController
     render :index
   end
 
+  # GET /adverse-events/:adverse_event_id/files/1/download
   def download
     if @adverse_event_file.pdf?
       send_file File.join(CarrierWave::Uploader::Base.root, @adverse_event_file.attachment.url),

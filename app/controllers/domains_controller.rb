@@ -26,18 +26,18 @@ class DomainsController < ApplicationController
                        .order(@order).page(params[:page]).per(20)
   end
 
-  # GET /domains/1
-  def show
-  end
+  # # GET /domains/1
+  # def show
+  # end
 
   # GET /domains/new
   def new
     @domain = @project.domains.new
   end
 
-  # GET /domains/1/edit
-  def edit
-  end
+  # # GET /domains/1/edit
+  # def edit
+  # end
 
   # POST /domains
   def create

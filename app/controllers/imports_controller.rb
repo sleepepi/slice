@@ -7,9 +7,6 @@ class ImportsController < ApplicationController
   before_action :find_editable_project_or_redirect
   before_action :find_design_or_redirect, only: [:progress, :edit, :update]
 
-  # def index
-  # end
-
   # GET /designs/imports/new
   def new
     @design = @project.designs.new

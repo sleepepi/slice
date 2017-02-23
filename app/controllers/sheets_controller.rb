@@ -45,18 +45,18 @@ class SheetsController < ApplicationController
     @sheet.check_response_count_change
   end
 
-  # GET /sheets/1/transactions
-  def transactions
-  end
+  # # GET /sheets/1/transactions
+  # def transactions
+  # end
 
   # GET /sheets/new
   def new
     redirect_to @project, notice: 'Sheet creation is launched from subject pages.'
   end
 
-  # GET /sheets/1/edit
-  def edit
-  end
+  # # GET /sheets/1/edit
+  # def edit
+  # end
 
   def file
     @sheet_variable = @sheet.sheet_variables.find_by(id: params[:sheet_variable_id])
@@ -66,7 +66,6 @@ class SheetsController < ApplicationController
                 # Grid
                 @sheet_variable.grids.find_by(variable_id: params[:variable_id], position: params[:position].to_i) if @sheet_variable
               end
-
     if @object && @object.response_file.size > 0
       send_file File.join(CarrierWave::Uploader::Base.root, @object.response_file.url)
     else
@@ -129,17 +128,19 @@ class SheetsController < ApplicationController
     end
   end
 
+  # PATCH /sheets/1/move_to_event
   def move_to_event
+    return if @sheet.auto_locked?
     subject_event = @sheet.subject.subject_events.find_by(id: params[:subject_event_id])
-    if !@sheet.auto_locked?
-      if subject_event
-        SheetTransaction.save_sheet!(@sheet, { subject_event_id: subject_event.id, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
-      else
-        SheetTransaction.save_sheet!(@sheet, { subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
-      end
-    end
+    SheetTransaction.save_sheet!(
+      @sheet, {
+        subject_event_id: subject_event ? subject_event.id : nil,
+        last_user_id: current_user.id, last_edited_at: Time.zone.now
+      }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true
+    )
   end
 
+  # POST /sheets/1/remove_shareable_link
   def remove_shareable_link
     @sheet.update authentication_token: nil
     redirect_to [@project, @sheet]
@@ -148,7 +149,6 @@ class SheetsController < ApplicationController
   # DELETE /sheets/1
   def destroy
     @sheet.destroy
-
     respond_to do |format|
       format.html { redirect_to project_subject_path(@project, @sheet.subject) }
       format.js
@@ -200,7 +200,7 @@ class SheetsController < ApplicationController
 
   def generate_pdf
     pdf_location = Sheet.latex_file_location([@sheet], current_user)
-    if File.exist? pdf_location
+    if File.exist?(pdf_location)
       send_file pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: 'application/pdf', disposition: 'inline'
     else
       redirect_to [@project, @sheet], alert: 'Unable to generate PDF.'

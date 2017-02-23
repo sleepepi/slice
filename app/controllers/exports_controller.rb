@@ -15,16 +15,15 @@ class ExportsController < ApplicationController
     end
   end
 
-  # POST /exports/1.js
-  def progress
-  end
+  # # POST /exports/1.js
+  # def progress
+  # end
 
   # GET /exports
   def index
     @order = scrub_order(Export, params[:order], 'exports.created_at desc')
-    @exports = viewable_exports.search(params[:search]).order(@order)
-                               .page(params[:page]).per(20)
-    redirect_to new_project_export_path(@project) if viewable_exports.count == 0
+    @exports = viewable_exports.search(params[:search]).order(@order).page(params[:page]).per(20)
+    redirect_to new_project_export_path(@project) if viewable_exports.count.zero?
   end
 
   # GET /exports/1
@@ -36,17 +35,7 @@ class ExportsController < ApplicationController
   def new
     @last_export = current_user.exports.where(project_id: @project.id).last
     @export = current_user.exports.where(project_id: @project.id).new
-    if @last_export
-      @export.include_csv_labeled = @last_export.include_csv_labeled
-      @export.include_csv_raw = @last_export.include_csv_raw
-      @export.include_sas = @last_export.include_sas
-      @export.include_r = @last_export.include_r
-      @export.include_pdf = @last_export.include_pdf
-      @export.include_files = @last_export.include_files
-      @export.include_data_dictionary = @last_export.include_data_dictionary
-      @export.include_adverse_events = @last_export.include_adverse_events
-      @export.include_randomizations = @last_export.include_randomizations
-    end
+    set_export_defaults if @last_export
   end
 
   # POST /exports/1/mark_unread
@@ -100,5 +89,16 @@ class ExportsController < ApplicationController
 
   def export_name
     "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
+  end
+
+  def set_export_defaults
+    default_columns = %w(
+      include_csv_labeled include_csv_raw include_sas include_r include_pdf
+      include_files include_data_dictionary include_adverse_events
+      include_randomizations
+    )
+    default_columns.each do |default_column|
+      @export.send("#{default_column}=", @last_export.send(default_column))
+    end
   end
 end

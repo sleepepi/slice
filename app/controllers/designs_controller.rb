@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Designs can be created and updated by project editors and owners
+# Designs can be created and updated by project editors and owners.
 class DesignsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:print]
@@ -8,9 +8,9 @@ class DesignsController < ApplicationController
   before_action :find_viewable_design_or_redirect, only: [:print]
   before_action :find_editable_design_or_redirect, only: [:show, :edit, :update, :destroy, :reorder]
 
-  # POST /designs/add_question.js
-  def add_question
-  end
+  # # POST /designs/add_question.js
+  # def add_question
+  # end
 
   # GET /designs
   def index
@@ -21,6 +21,7 @@ class DesignsController < ApplicationController
   end
 
   # This is the latex view
+  # GET /designs/1/print
   def print
     file_pdf_location = @design.latex_file_location(current_user)
     if File.exist?(file_pdf_location)
@@ -32,19 +33,23 @@ class DesignsController < ApplicationController
     end
   end
 
-  # GET /designs/1
-  def show
-  end
+  # # GET /designs/1
+  # def show
+  # end
+
+  # # GET /designs/1/reorder
+  # def reorder
+  # end
 
   # GET /designs/new
   def new
     @design = @project.designs.new(design_params)
   end
 
-  # GET /designs/1/edit
-  # GET /designs/1/edit.js
-  def edit
-  end
+  # # GET /designs/1/edit
+  # # GET /designs/1/edit.js
+  # def edit
+  # end
 
   # POST /designs
   def create
@@ -71,7 +76,6 @@ class DesignsController < ApplicationController
   # DELETE /designs/1.js
   def destroy
     @design.destroy
-
     respond_to do |format|
       format.html { redirect_to project_designs_path(@project) }
       format.js

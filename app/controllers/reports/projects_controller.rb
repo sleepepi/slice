@@ -50,7 +50,7 @@ class Reports::ProjectsController < ApplicationController
 
   def generate_report_pdf
     pdf_location = generate_pdf_location
-    if File.exist? pdf_location
+    if File.exist?(pdf_location)
       file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
       send_file pdf_location,
                 filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf",

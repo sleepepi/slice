@@ -4,22 +4,20 @@
 class ExternalController < ApplicationController
   prepend_before_action { request.env['devise.skip_timeout'] = true }
   skip_before_action :verify_authenticity_token
-
   before_action :set_design, only: [:add_grid_row, :section_image]
   before_action :set_section, only: [:section_image]
   before_action :set_variable, only: [:add_grid_row]
 
-  # GET /landing
-  def landing
-  end
+  # # GET /landing
+  # def landing
+  # end
 
   # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
-    if @design
-      @design_option = @design.design_options.find_by(id: params[:design_option_id])
-      @project = @design.project
-    end
+    return unless @design
+    @design_option = @design.design_options.find_by(id: params[:design_option_id])
+    @project = @design.project
   end
 
   # Image returned or blank

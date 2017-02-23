@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Categories can only be created and updated by project owners and editors
+# Categories can only be created and updated by project owners and editors.
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project
@@ -16,18 +16,18 @@ class CategoriesController < ApplicationController
                           .page(params[:page]).per(40)
   end
 
-  # GET /categories/1
-  def show
-  end
+  # # GET /categories/1
+  # def show
+  # end
 
   # GET /categories/new
   def new
     @category = categories.new(position: @project.categories.count + 1)
   end
 
-  # GET /categories/1/edit
-  def edit
-  end
+  # # GET /categories/1/edit
+  # def edit
+  # end
 
   # POST /categories
   def create

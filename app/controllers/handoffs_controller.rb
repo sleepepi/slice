@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows project members to launch a tablet handoff that encapsulates a series
-# of designs that can be filled out by a subject
+# of designs that can be filled out by a subject.
 class HandoffsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_editable_project_or_editable_site
@@ -10,9 +10,9 @@ class HandoffsController < ApplicationController
   before_action :redirect_without_subject
   before_action :set_handoff
 
-  # GET /handoffs/new
-  def new
-  end
+  # # GET /handoffs/new
+  # def new
+  # end
 
   # POST /handoffs
   def create

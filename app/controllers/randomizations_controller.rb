@@ -10,13 +10,13 @@ class RandomizationsController < ApplicationController
   before_action :find_viewable_randomization_or_redirect, only: [:show, :schedule]
   before_action :find_editable_randomization_or_redirect, only: [:undo]
 
+  # GET /randomizations/choose-scheme
   def choose_scheme
-    if @project.randomization_schemes.published.count == 1
-      redirect_to randomize_subject_to_list_project_randomization_scheme_path(
-        @project,
-        @project.randomization_schemes.published.first
-      )
-    end
+    return unless @project.randomization_schemes.published.count == 1
+    redirect_to randomize_subject_to_list_project_randomization_scheme_path(
+      @project,
+      @project.randomization_schemes.published.first
+    )
   end
 
   # GET /randomizations/export
@@ -66,15 +66,15 @@ class RandomizationsController < ApplicationController
     @randomizations = randomization_scope.select('randomizations.*').page(params[:page]).per(40)
   end
 
-  # GET /randomizations/1
-  def show
-  end
+  # # GET /randomizations/1
+  # def show
+  # end
 
   # GET /randomizations/1/schedule.pdf
   def schedule
-    file_pdf_location = @randomization.latex_file_location(current_user)
-    if File.exist? file_pdf_location
-      send_file file_pdf_location, filename: 'schedule.pdf', type: 'application/pdf', disposition: 'inline'
+    pdf_location = @randomization.latex_file_location(current_user)
+    if File.exist?(pdf_location)
+      send_file pdf_location, filename: 'schedule.pdf', type: 'application/pdf', disposition: 'inline'
     else
       redirect_to [@project, @randomization], alert: 'Unable to generate PDF.'
     end

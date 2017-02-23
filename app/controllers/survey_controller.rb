@@ -11,17 +11,21 @@ class SurveyController < ApplicationController
 
   layout 'layouts/minimal_layout'
 
+  # GET /survey
   def index
     render layout: 'layouts/application'
   end
 
+  # GET /survey/:slug
   def new
     @sheet = @project.sheets.new
   end
 
-  def edit
-  end
+  # # GET /survey/:slug/:sheet_authentication_token
+  # def edit
+  # end
 
+  # POST /survey/:slug
   def create
     @sheet = @project.sheets.where(design_id: @design.id)
                      .new(subject_id: @subject.id, authentication_token: SecureRandom.hex(8))
@@ -33,6 +37,7 @@ class SurveyController < ApplicationController
     end
   end
 
+  # PATCH /survey/:slug/:sheet_authentication_token
   def update
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_update')
       redirect_to about_survey_path(survey: @design.slug, a: @sheet.authentication_token)

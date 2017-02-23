@@ -28,9 +28,11 @@ class SubjectsController < ApplicationController
   ]
   before_action :check_for_randomizations, only: [:destroy]
 
-  def data_entry
-  end
+  # # GET /projects/:project_id/subjects/1/data-entry
+  # def data_entry
+  # end
 
+  # GET /projects/:project_id/subjects/1/data-entry/:design_id
   def new_data_entry
     # subject_event_id = params[:sheet][:subject_event_id] if params[:sheet] && params[:sheet].key?(:subject_event_id)
     # @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: subject_event_id)
@@ -40,7 +42,7 @@ class SubjectsController < ApplicationController
     render 'sheets/new'
   end
 
-  # POST /subjects/1/data-missing/:design_id/:subject_event_id.js
+  # POST /projects/:project_id/subjects/1/data-missing/:design_id/:subject_event_id.js
   def set_sheet_as_missing
     @sheet = @subject.sheets.new(
       project_id: @project.id, design_id: @design.id,
@@ -51,9 +53,9 @@ class SubjectsController < ApplicationController
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
   end
 
-  # GET /subjects/1/send-url
-  def send_url
-  end
+  # # GET /projects/:project_id/subjects/1/send-url
+  # def send_url
+  # end
 
   # POST /subjects/1/set_sheet_as_shareable
   def set_sheet_as_shareable
@@ -64,22 +66,29 @@ class SubjectsController < ApplicationController
     redirect_to [@project, @sheet]
   end
 
-  def choose_event
-  end
+  # # GET /projects/:project_id/subjects/1/choose-event
+  # def choose_event
+  # end
 
+  # GET /projects/:project_id/subjects/1/events/:event_id/:subject_event_id/:event_date
   def event
     @event = @project.events.find_by_param(params[:event_id])
-    @subject_event = @subject.blinded_subject_events(current_user)
-                             .where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
+    if @event
+      @subject_event = @subject.blinded_subject_events(current_user)
+                               .where(event_id: @event.id)
+                               .find_by(id: params[:subject_event_id])
+    end
     redirect_to [@project, @subject] unless @subject_event
   end
 
+  # GET /projects/:project_id/subjects/1/events/:event_id/:subject_event_id/:event_date/edit
   def edit_event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
     redirect_to [@project, @subject] unless @subject_event
   end
 
+  # POST /projects/:project_id/subjects/1/events/:event_id/:subject_event_id
   def update_event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
@@ -95,6 +104,7 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # DELETE /projects/:project_id/subjects/1/events/:event_id/:subject_event_id/:event_date
   def destroy_event
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event_id: @event.id).find_by(id: params[:subject_event_id]) if @event
@@ -105,24 +115,30 @@ class SubjectsController < ApplicationController
     redirect_to [@project, @subject]
   end
 
-  def events
-  end
+  # # GET /projects/:project_id/subjects/1/events
+  # def events
+  # end
 
-  def sheets
-  end
+  # # GET /projects/:project_id/subjects/1/sheets
+  # def sheets
+  # end
 
-  def timeline
-  end
+  # # GET /projects/:project_id/subjects/1/timeline
+  # def timeline
+  # end
 
+  # GET /projects/:project_id/subjects/1/comments
   def comments
     @comments = @subject.blinded_comments(current_user).includes(:user, :sheet)
                         .order(created_at: :desc).page(params[:page]).per(20)
   end
 
+  # GET /projects/:project_id/subjects/1/files
   def files
     @uploaded_files = @subject.uploaded_files(current_user).includes(:variable, :sheet).page(params[:page]).per(40)
   end
 
+  # POST /projects/:project_id/subjects/1/launch_subject_event
   def launch_subject_event
     @event = @project.events.find_by_param(params[:event_id])
     if @event
@@ -146,6 +162,7 @@ class SubjectsController < ApplicationController
   end
 
   # Event chosen! Choose a design time.
+  # GET /projects/:project_id/subjects/1/choose-date/:event_id
   def choose_date
     @event = @project.events.find_by_param(params[:event_id])
     if @event
@@ -156,6 +173,7 @@ class SubjectsController < ApplicationController
   end
 
   ## Find or create subject for the purpose of filling out a sheet for the subject.
+  # GET /projects/:project_id/subjects/choose-site
   def choose_site
     redirect_to @project if params[:subject_code].blank?
     @subject = current_user.all_viewable_subjects.where(project_id: @project.id)
@@ -168,10 +186,11 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # GET /projects/:project_id/subjects/search
   def search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
                             .search(params[:q]).order('subject_code').limit(10)
-    if @subjects.count == 0
+    if @subjects.count.zero?
       render json: [{ value: params[:q], subject_code: 'Subject Not Found' }]
     else
       json_result = @subjects.pluck(:subject_code).collect do |subject_code|
@@ -181,6 +200,7 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # GET /projects/:project_id/subjects/autocomplete
   def autocomplete
     subject_scope = current_user.all_viewable_subjects
                                 .where(project_id: @project.id)
@@ -198,7 +218,6 @@ class SubjectsController < ApplicationController
     subject_scope = filter_scope(subject_scope, params[:search])
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
     subject_scope = subject_scope.order(@order)
-
     # TODO: Remove, only launched from events page
     # Refactor to use advanced filter
     if params[:on_event_design_id].present? && params[:event_id].present?
@@ -214,27 +233,25 @@ class SubjectsController < ApplicationController
       subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
     end
     # END: TODO
-
     @subjects = subject_scope.page(params[:page]).per(20)
-
     if params[:search].present? && subject_scope.count == 1 &&
        subject_scope.first && subject_scope.first.subject_code == params[:search]
       redirect_to [@project, subject_scope.first]
     end
   end
 
-  # GET /subjects/1
-  def show
-  end
+  # # GET /subjects/1
+  # def show
+  # end
 
   # GET /subjects/new
   def new
     @subject = current_user.subjects.where(project_id: @project.id).new(subject_params)
   end
 
-  # GET /subjects/1/edit
-  def edit
-  end
+  # # GET /subjects/1/edit
+  # def edit
+  # end
 
   # POST /subjects
   def create
@@ -259,7 +276,6 @@ class SubjectsController < ApplicationController
   # DELETE /subjects/1.js
   def destroy
     @subject.destroy
-
     respond_to do |format|
       format.html { redirect_to project_subjects_path(@project) }
       format.js

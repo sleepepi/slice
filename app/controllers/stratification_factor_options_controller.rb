@@ -19,9 +19,9 @@ class StratificationFactorOptionsController < ApplicationController
                                      .order(:value).page(params[:page]).per(40)
   end
 
-  # GET /stratification_factor_options/1
-  def show
-  end
+  # # GET /stratification_factor_options/1
+  # def show
+  # end
 
   # GET /stratification_factor_options/new
   def new
@@ -33,9 +33,9 @@ class StratificationFactorOptionsController < ApplicationController
                                                           ).new
   end
 
-  # GET /stratification_factor_options/1/edit
-  def edit
-  end
+  # # GET /stratification_factor_options/1/edit
+  # def edit
+  # end
 
   # POST /stratification_factor_options
   def create

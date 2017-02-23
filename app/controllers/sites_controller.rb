@@ -13,13 +13,13 @@ class SitesController < ApplicationController
   before_action :find_editable_site_or_redirect,
                 only: [:edit, :update, :destroy]
 
-  # GET /setup
-  def setup
-  end
+  # # GET /setup
+  # def setup
+  # end
 
-  # POST /add-site-row.js
-  def add_site_row
-  end
+  # # POST /add-site-row.js
+  # def add_site_row
+  # end
 
   # POST /create-sites.js
   def create_sites
@@ -41,18 +41,18 @@ class SitesController < ApplicationController
                            .page(params[:page]).per(40)
   end
 
-  # GET /sites/1
-  def show
-  end
+  # # GET /sites/1
+  # def show
+  # end
 
   # GET /sites/new
   def new
     @site = current_user.sites.new
   end
 
-  # GET /sites/1/edit
-  def edit
-  end
+  # # GET /sites/1/edit
+  # def edit
+  # end
 
   # POST /sites
   def create

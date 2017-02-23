@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows project editors to view and modify treatment arms
+# Allows project editors to view and modify treatment arms.
 class TreatmentArmsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_editable_project_or_redirect
@@ -14,9 +14,9 @@ class TreatmentArmsController < ApplicationController
     @treatment_arms = @randomization_scheme.treatment_arms.order(:name).page(params[:page]).per(40)
   end
 
-  # GET /treatment_arms/1
-  def show
-  end
+  # # GET /treatment_arms/1
+  # def show
+  # end
 
   # GET /treatment_arms/new
   def new
@@ -25,9 +25,9 @@ class TreatmentArmsController < ApplicationController
                                           .new
   end
 
-  # GET /treatment_arms/1/edit
-  def edit
-  end
+  # # GET /treatment_arms/1/edit
+  # def edit
+  # end
 
   # POST /treatment_arms
   def create

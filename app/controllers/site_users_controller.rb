@@ -4,6 +4,7 @@
 class SiteUsersController < ApplicationController
   before_action :authenticate_user!, except: [:invite]
 
+  # GET /site-invite/:site_invite_token
   def invite
     session[:site_invite_token] = params[:site_invite_token]
     if current_user
@@ -33,6 +34,7 @@ class SiteUsersController < ApplicationController
     end
   end
 
+  # GET /sites_users/accept
   def accept
     site_invite_token = session.delete(:site_invite_token)
     @site_user = SiteUser.find_by(invite_token: site_invite_token)
@@ -68,7 +70,6 @@ class SiteUsersController < ApplicationController
     @site_user = SiteUser.find_by(id: params[:id])
     @site = current_user.all_sites.find_by(id: @site_user.site_id) if @site_user
     @project = @site_user.project if @site_user
-
     respond_to do |format|
       if @site && @project
         @site_user.destroy

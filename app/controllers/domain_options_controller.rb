@@ -12,18 +12,18 @@ class DomainOptionsController < ApplicationController
     @domain_options = @domain.domain_options.order(:value).page(params[:page]).per(20)
   end
 
-  # GET /domains/1/options/1
-  def show
-  end
+  # # GET /domains/1/options/1
+  # def show
+  # end
 
   # GET /domains/1/options/new
   def new
     @domain_option = @domain.domain_options.new
   end
 
-  # GET /domains/1/options/1/edit
-  def edit
-  end
+  # # GET /domains/1/options/1/edit
+  # def edit
+  # end
 
   # POST /domains/1/options
   def create

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Allows variables on project to be validated
+# Allows variables on project to be validated.
 class ValidateController < ApplicationController
   before_action :find_project_or_redirect
   before_action :find_variable_or_redirect
