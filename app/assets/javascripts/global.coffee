@@ -9,10 +9,6 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
-@wideContainer = ->
-  if $('[data-object~="wide-container"]').length > 0
-    $('.container').addClass('wide-container')
-
 @extensionsReady = ->
   clipboardReady()
   datepickerReady()
@@ -21,10 +17,6 @@
 
 @globalReady = ->
   window.$isDirty = false
-  # $("#global-search").typeahead(
-  #   remote: root_url + 'search?q=%QUERY'
-  # )
-  # setFocusToField("#search")
   extensionsReady()
   $('[data-object~="form-load"]').submit()
 
@@ -46,7 +38,6 @@
   fileDragReady()
   randomizationSchemesReady()
   addGlobalNoTouchToBody()
-  wideContainer()
 
 # These functions only get called on the initial page visit (no turbolinks).
 # Browsers that don't support turbolinks will initialize all functions in
@@ -103,12 +94,6 @@ $(document)
     $($(this).data('target')).hide()
   )
   .keydown( (e) ->
-    # p will enter the search box, Esc will exit
-    if e.which == 80 and not $("input, textarea, select, a").is(":focus")
-      $("#global-search").focus()
-      e.preventDefault()
-      return
-    $("#global-search").blur() if $("#global-search").is(':focus') and e.which == 27
     if $("#interactive_design_modal").is(':visible')
       hideInteractiveDesignModal()     if e.which == 27
     if e.which == 77 and not $("input, textarea, select, a").is(":focus")
@@ -132,13 +117,6 @@ $(document)
   .on('click', '[data-object~="toggle-visibility"]', ->
     $($(this).data('target')).toggle()
     false
-  )
-  # .on('typeahead:selected', "#global-search", (event, datum) ->
-  #   $(this).val(datum['value'])
-  #   $("#global-search-form").submit()
-  # )
-  .on('keydown', "#global-search", (e) ->
-    $("#global-search-form").submit() if e.which == 13
   )
   .on('change', ':input', ->
     if $("#isdirty").val() == '1'
