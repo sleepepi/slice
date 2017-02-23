@@ -31,7 +31,7 @@ class SheetsController < ApplicationController
     sheet_scope = sheet_scope.where(design_id: params[:design_id]) if params[:design_id].present?
     sheet_scope = sheet_scope.where(user_id: params[:user_id]) if params[:user_id].present?
     sheet_scope = sheet_scope.with_site(params[:site_id]) if params[:site_id].present?
-    @sheets = set_order(sheet_scope).page(params[:page]).per(40)
+    @sheets = order_sheets(sheet_scope).page(params[:page]).per(40)
   end
 
   # GET /sheets/1
@@ -244,7 +244,7 @@ class SheetsController < ApplicationController
     Search.run_sheets(@project, current_user, sheet_scope, token)
   end
 
-  def set_order(sheet_scope)
+  def order_sheets(sheet_scope)
     @order = params[:order]
     case params[:order]
     when 'sheets.site_name'

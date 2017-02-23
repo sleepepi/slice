@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# This class is used to merge stored database responses with newly entered
-# responses in order to validate a sheet, sheet_variables, responses, and grids
-# before saving back to database
-
 module Validation
+  # This class is used to merge stored database responses with newly entered
+  # responses in order to validate a sheet, sheet_variables, responses, and
+  # grids before saving back to database.
   class InMemorySheet
     # Concerns
     include Evaluatable
@@ -14,10 +13,20 @@ module Validation
 
     def initialize(sheet)
       @sheet_variables = sheet.sheet_variables.includes(:variable, :responses).collect do |sv|
-        InMemorySheetVariable.new(sv.variable, sv.value, sv.response_file, sv.responses)
+        InMemorySheetVariable.new(
+          sv.variable,
+          value: sv.value,
+          response_file: sv.response_file,
+          responses: sv.responses
+        )
       end
-      @grids = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id)).includes(:variable, :responses, sheet_variable: :variable).collect do |g|
-        InMemoryGrid.new(g.sheet_variable.variable, g.position, g.variable, g.value, g.response_file, g.responses)
+      grid_scope = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id))
+                       .includes(:variable, :responses, sheet_variable: :variable)
+      @grids = grid_scope.collect do |g|
+        InMemoryGrid.new(
+          g.sheet_variable.variable, g.position, g.variable,
+          value: g.value, response_file: g.response_file, responses: g.responses
+        )
       end
       @project = sheet.project
       @design = sheet.design
@@ -41,7 +50,7 @@ module Validation
       response.select! do |_key, vhash|
         vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
       end
-      response.each_pair { |k, v| }.each.with_index do |(key, variable_response_hash), position|
+      response.each_pair { |k, v| }.each.with_index do |(_key, variable_response_hash), position|
         variable_response_hash.each_pair do |grid_variable_id, res|
           grid_variable = @project.variables.find_by(id: grid_variable_id)
           load_grid!(variable, grid_variable, res, position) if grid_variable
@@ -50,13 +59,17 @@ module Validation
     end
 
     def load_grid!(variable, grid_variable, res, position)
-      grid = @grids.find { |g| g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id }
+      grid = @grids.find do |g|
+        g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id
+      end
       unless grid
         grid = InMemoryGrid.new(variable, position, grid_variable)
         @grids << grid
       end
       grid = store_temp_response(grid_variable, grid, res)
-      @grids.reject! { |g| g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id }
+      @grids.reject! do |g|
+        g.parent_variable.id == variable.id && g.position == position && g.variable.id == grid_variable.id
+      end
       @grids << grid
     end
 
@@ -97,7 +110,7 @@ module Validation
             variable.child_variables.each do |child_variable|
               grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
               grids.each do |grid|
-                value = child_variable.response_to_value(grid ? grid.get_raw_response : nil)
+                value = child_variable.response_to_value(grid ? grid.raw_response : nil)
                 validation_hash = child_variable.value_in_range?(value)
 
                 case validation_hash[:status]
@@ -111,7 +124,7 @@ module Validation
               end
             end
           else
-            value = variable.response_to_value(sheet_variable ? sheet_variable.get_raw_response : nil)
+            value = variable.response_to_value(sheet_variable ? sheet_variable.raw_response : nil)
             validation_hash = variable.value_in_range?(value)
 
             case validation_hash[:status]
@@ -150,7 +163,7 @@ module Validation
       if variable
         sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
         result = if sheet_variable
-                   sheet_variable.get_raw_response
+                   sheet_variable.raw_response
                  else
                    variable.variable_type == 'checkbox' ? [] : ''
                  end
