@@ -6,4 +6,3 @@
 
 @sessionTimedOut = ->
   location.reload true
-  # $('.flash-alert div').html("Your session expired, please sign in again to continue.")
