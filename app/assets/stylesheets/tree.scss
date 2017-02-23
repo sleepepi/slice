@@ -1,24 +1,15 @@
-// // Contour Styles
-// @import 'contour';
-// # TODO: Refactor old contour styles, and remove the contour folder
-@import 'fixes/contour/bootstrap-overrides';
-
 // Core Bootstrap styles
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
+// Font Awesome Icons
 @import 'font-awesome';
 
 // App Mixins
 @import 'mixins/all';
 
-// Components
+// App specific styles
 @import 'components/all';
-
-// Extensions
 @import 'extensions/all';
-
-// Fixes
 @import 'fixes/all';
-
-// Objects
 @import 'objects/all';

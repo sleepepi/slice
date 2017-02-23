@@ -1,0 +1,29 @@
+.nav-custom-tabs {
+  border: 0;
+
+  li {
+    margin: 0;
+
+    &.active a {
+      border-color: transparent;
+
+      &:hover {
+        border-color: transparent;
+      }
+    }
+
+    a {
+      color: $brand-white;
+
+      &:hover {
+        border-color: transparent;
+        color: $text-color;
+      }
+    }
+  }
+
+  + .dashboard-container {
+    border-top-left-radius: 0;
+    // border-top-right-radius: 0;
+  }
+}

@@ -1,76 +1,11 @@
 // Fixes for bootstrap to make sure popups and tooltips display over modals
 
-.panel-title {
-  .btn-success {
-    color: $btn-success-color;
-  }
-}
-
-.popover,
-.tooltip {
-  z-index: 2000;
-}
-
-// .navbar-fixed-bottom,
-// .navbar-fixed-top {
-//   z-index: 1080;
-// }
-
 .jumbotron {
   @include remove-last-child-bottom-margin;
-
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 .navbar a,
 .navbar-header,
 .navbar-header img {
   @include ignore-selection;
-}
-
-dl {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-dt,
-dd {
-  line-height: 18px;
-  min-height: 40px;
-}
-
-.dl-horizontal dt {
-  overflow: visible;
-  white-space: normal;
-}
-
-.nav-custom-tabs {
-  border: 0;
-
-  li {
-    margin: 0;
-
-    &.active a {
-      border-color: transparent;
-
-      &:hover {
-        border-color: transparent;
-      }
-    }
-
-    a {
-      color: $brand-white;
-
-      &:hover {
-        border-color: transparent;
-        color: $text-color;
-      }
-    }
-  }
-
-  + .dashboard-container {
-    border-top-left-radius: 0;
-    // border-top-right-radius: 0;
-  }
 }

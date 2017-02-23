@@ -1,0 +1,4 @@
+// Make sure some text is always viewable in the form control
+.form-control {
+  min-width: 100px;
+}
