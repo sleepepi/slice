@@ -169,7 +169,9 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
-    assert_equal [{ name: treatment_arms(:ongoing_a).name, id: treatment_arms(:ongoing_a).id }], assigns(:randomization).weighted_eligible_arms
+    assert_equal 1, assigns(:randomization).weighted_eligible_arms.size
+    assert_equal treatment_arms(:ongoing_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
+    assert_equal treatment_arms(:ongoing_a).id, assigns(:randomization).weighted_eligible_arms.first[:id]
     assert_equal treatment_arms(:ongoing_a), assigns(:randomization).treatment_arm
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
@@ -214,7 +216,13 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_equal 100, assigns(:randomization).dice_roll_cutoff
-    assert_equal [{ name: treatment_arms(:random_a).name, id: treatment_arms(:random_a).id }, { name: treatment_arms(:random_b).name, id: treatment_arms(:random_b).id }, { name: treatment_arms(:random_b).name, id: treatment_arms(:random_b).id }], assigns(:randomization).weighted_eligible_arms
+    assert_equal 3, assigns(:randomization).weighted_eligible_arms.size
+    assert_equal treatment_arms(:random_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
+    assert_equal treatment_arms(:random_a).id, assigns(:randomization).weighted_eligible_arms.first[:id]
+    assert_equal treatment_arms(:random_b).name, assigns(:randomization).weighted_eligible_arms.second[:name]
+    assert_equal treatment_arms(:random_b).id, assigns(:randomization).weighted_eligible_arms.second[:id]
+    assert_equal treatment_arms(:random_b).name, assigns(:randomization).weighted_eligible_arms.third[:name]
+    assert_equal treatment_arms(:random_b).id, assigns(:randomization).weighted_eligible_arms.third[:id]
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
