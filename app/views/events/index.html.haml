@@ -15,7 +15,33 @@
         = render 'search/toggle'
 
 = render 'search/simple', url: project_events_path(@project)
-= render 'events/events'
+
+- if @events.present?
+  .dashboard-container
+    %table.table.table-striped.table-borderless.table-hover
+      %col{ width: '1px' }
+      %col
+      %col.hidden-xs
+      %col.hidden-xs
+      %col.hidden-xs.hidden-sm
+      %col{ width: '1px' }
+      %thead
+        %tr
+          = th_sort_field @order, 'events.position', 'Position', extra_class: 'center'
+          = th_sort_field @order, 'events.name', 'Name'
+          %th.hidden-xs Launched
+          = th_sort_field @order, 'events.archived', 'Archived', extra_class: 'hidden-xs center'
+          %th.hidden-xs.hidden-sm.center Designs
+          %th Actions
+
+      - @events.each do |event|
+        %tr{ id: "event-#{event.id}-container" }
+          = render 'events/event_row', event: event
+
+  .center= paginate @events, theme: 'bootstrap'
+- else
+  .jumbotron
+    %p.center No events found.
 
 .docs-learn-more
   Learn about

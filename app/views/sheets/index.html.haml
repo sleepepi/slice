@@ -32,9 +32,7 @@
 
 - creation_ordered = ['sheets.created_at', 'sheets.created_at desc'].include?(params[:order])
 
-- if @sheets.count == 0
-  = render 'sheets/none'
-- else
+- if @sheets.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
   - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id)
   - all_creators = User.where(id: @project.sheets.select(:user_id))
@@ -111,3 +109,6 @@
     Learn about
     = succeed '.' do
       = link_to 'search filters', docs_filters_path
+- else
+  = render 'sheets/none'
+
