@@ -58,7 +58,7 @@ class Variable < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :domain
+  belongs_to :domain, counter_cache: true
   has_many :sheet_variables
   has_many :grids
   has_many :responses

@@ -21,6 +21,7 @@ class DomainsController < ApplicationController
   def index
     @order = scrub_order(Domain, params[:order], 'domains.name')
     @domains = @project.domains.search(params[:search], match_start: false)
+                       .includes(:domain_options)
                        .order(@order).page(params[:page]).per(20)
   end
 

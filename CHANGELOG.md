@@ -1,11 +1,15 @@
 ## 0.50.0
 
 ### Enhancements
+- **General Changes**
+  - Optimized loading times for a number of index pages
 - **Gem Changes**
   - Updated to highcharts 5.0.7
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
+- **Domain Changes**
+  - Domains can now be sorted by number of variables
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**
