@@ -7,8 +7,6 @@ class DomainsController < ApplicationController
   before_action :find_domain_or_redirect,
                 only: [:show, :edit, :update, :destroy]
 
-  # TODO: Check to see where domains/values is called from and if it can be
-  # removed.
   # POST /domains/values.js
   def values
     @domain = @project.domains.find_by(id: params[:domain_id])
