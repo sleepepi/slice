@@ -249,7 +249,7 @@ class Search
     if @operator.in?(%w(< > <= >=))
       full_expression = []
       @values.each do |subquery_value|
-        value = all_numeric? ? subquery_value : ActiveRecord::Base.sanitize(subquery_value)
+        value = all_numeric? ? subquery_value : ActiveRecord::Base.connection.quote(subquery_value)
         full_expression << "#{domain_option_value_or_attribute(type_cast)} #{database_operator} #{value}"
       end
       full_expression.join(' or ')
@@ -283,7 +283,7 @@ class Search
     if all_numeric?
       @values.sort.join(', ')
     else
-      @values.collect { |v| ActiveRecord::Base.sanitize(v) }.sort.join(', ')
+      @values.collect { |v| ActiveRecord::Base.connection.quote(v) }.sort.join(', ')
     end
   end
 end
