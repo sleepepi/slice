@@ -1,5 +1,9 @@
 ## rails 5.1 branch
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 5.1.0.beta1
+
 ## 0.50.0
 
 ### Enhancements
