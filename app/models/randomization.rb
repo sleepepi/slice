@@ -42,7 +42,7 @@ class Randomization < ApplicationRecord
   belongs_to :list
   belongs_to :user
   belongs_to :treatment_arm
-  belongs_to :subject
+  belongs_to :subject, counter_cache: true
   belongs_to :randomized_by, class_name: 'User', foreign_key: 'randomized_by_id'
   has_many :randomization_characteristics
   has_many :randomization_tasks

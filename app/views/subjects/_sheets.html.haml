@@ -13,7 +13,7 @@
     .col-sm-4.col-buffer
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)
         - scheme_count = @project.randomization_schemes.published.count
-        - if @subject.randomizations.count == 0 && scheme_count == 1
+        - if @subject.randomizations_count.zero? && scheme_count == 1
           - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
             = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: 'btn btn-lg btn-accent btn-shadow btn-block' do
               %span.glyphicon.glyphicon-random
