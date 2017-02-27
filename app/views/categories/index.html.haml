@@ -13,27 +13,29 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @categories.total_count
         = @title
 
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
-    %col{ width: '1px' }
-    %col
-    %col.hidden-xs.hidden-sm
-    %col.hidden-xs
-    %col{ width: '1px' }
-    %thead
-      %tr
-        = th_sort_field @order, 'categories.position', 'Position', extra_class: 'center'
-        %th Name
-        %th.hidden-xs.hidden-sm.center Use for adverse events
-        %th.hidden-xs Creator
-        %th Actions
-
-    %tbody
-      - @categories.each do |category|
+- if @categories.present?
+  .dashboard-container
+    %table.table.table-striped.table-borderless.table-hover
+      %col{ width: '1px' }
+      %col
+      %col.hidden-xs.hidden-sm
+      %col{ width: '1px' }
+      %thead
         %tr
-          %td.center= category.position
-          %td= link_to category.name, [@project, category]
-          %td.hidden-xs.hidden-sm.center= simple_check category.use_for_adverse_events
-          %td.hidden-xs= category.user.name
-          %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Are you sure you want to delete category #{category.name}?"
+          = th_sort_field @order, 'categories.position', 'Position', extra_class: 'center'
+          = th_sort_field @order, 'categories.name', 'Name'
+          %th.hidden-xs.hidden-sm.center Use for adverse events
+          %th Actions
+
+      %tbody
+        - @categories.each do |category|
+          %tr
+            %td.center= category.position
+            %td= link_to category.name, [@project, category]
+            %td.hidden-xs.hidden-sm.center= simple_check category.use_for_adverse_events
+            %td
+              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Are you sure you want to delete category #{category.name}?"
+- else
+  .jumbotron
+    %p.center
+      No categories found.
