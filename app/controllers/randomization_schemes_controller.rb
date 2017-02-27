@@ -134,6 +134,7 @@ class RandomizationSchemesController < ApplicationController
 
     if @randomization && @randomization.errors.full_messages == []
       @randomization.launch_tasks!
+      @randomization.generate_name!
       redirect_to [@project, @randomization],
                   notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
     elsif @randomization

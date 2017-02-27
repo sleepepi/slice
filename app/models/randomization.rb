@@ -5,6 +5,22 @@
 # permuted-block algorithm, and are generated dynamically by the minimization
 # algorithm.
 class Randomization < ApplicationRecord
+  ORDERS = {
+    'scheme' => 'randomization_schemes.name',
+    'scheme desc' => 'randomization_schemes.name desc',
+    'site' => 'sites.name',
+    'site desc' => 'sites.name desc',
+    'arm' => 'treatment_arms.name',
+    'arm desc' => 'treatment_arms.name desc',
+    'randomized_by' => 'users.last_name, users.first_name',
+    'randomized_by desc' => 'users.last_name desc, users.first_name desc',
+    'subject' => 'subjects.subject_code',
+    'subject desc' => 'subjects.subject_code desc',
+    'randomized' => 'randomizations.randomized_at nulls last',
+    'randomized desc' => 'randomizations.randomized_at desc nulls last'
+  }
+  DEFAULT_ORDER = 'randomizations.randomized_at desc nulls last'
+
   # Serialized
   serialize :past_distributions, Hash
   serialize :weighted_eligible_arms, Array
@@ -53,10 +69,6 @@ class Randomization < ApplicationRecord
     randomized_at
   end
 
-  def name
-    randomization_number.to_s
-  end
-
   def add_subject!(subject, current_user)
     params = { subject: subject,
                randomized_by: current_user,
@@ -69,6 +81,10 @@ class Randomization < ApplicationRecord
 
   def randomized?
     subject_id != nil
+  end
+
+  def generate_name!
+    update name: randomization_number
   end
 
   def randomization_number
@@ -109,6 +125,7 @@ class Randomization < ApplicationRecord
     randomization_characteristics.destroy_all
     randomization_tasks.destroy_all
     original_subject.reset_checks_in_background! if original_subject
+    randomization_scheme.reset_randomization_names!
   end
 
   def launch_tasks!

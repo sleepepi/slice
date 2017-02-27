@@ -94,6 +94,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
@@ -112,6 +113,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
@@ -168,6 +170,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
     assert_equal 1, assigns(:randomization).weighted_eligible_arms.size
     assert_equal treatment_arms(:ongoing_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
@@ -215,6 +218,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_equal 100, assigns(:randomization).dice_roll_cutoff
     assert_equal 3, assigns(:randomization).weighted_eligible_arms.size
     assert_equal treatment_arms(:random_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
@@ -355,6 +359,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
     # Should not include site in stratification factors
     assert_equal [{ count: 1.67, treatment_arm_id: treatment_arms(:edge_a_3).id }, { count: 1.0, treatment_arm_id: treatment_arms(:edge_b_1).id }], assigns(:randomization).past_distributions[:weighted_totals]
@@ -394,6 +399,7 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
+    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 

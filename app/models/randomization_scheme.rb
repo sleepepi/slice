@@ -119,6 +119,13 @@ class RandomizationScheme < ApplicationRecord
     expected_randomization.expected.to_s.split(',').reject(&:blank?).collect(&:to_i)
   end
 
+  def reset_randomization_names!
+    randomizations.update_all(name: nil)
+    randomizations.where.not(subject_id: nil).order(:randomized_at).each_with_index do |randomization, index|
+      randomization.update name: index + 1
+    end
+  end
+
   private
 
   def create_default_block_size_multipliers
