@@ -7,8 +7,6 @@ class DomainsController < ApplicationController
   before_action :find_domain_or_redirect,
                 only: [:show, :edit, :update, :destroy]
 
-  # TODO: Check to see where domains/values is called from and if it can be
-  # removed.
   # POST /domains/values.js
   def values
     @domain = @project.domains.find_by(id: params[:domain_id])
@@ -23,6 +21,7 @@ class DomainsController < ApplicationController
   def index
     @order = scrub_order(Domain, params[:order], 'domains.name')
     @domains = @project.domains.search(params[:search], match_start: false)
+                       .includes(:domain_options)
                        .order(@order).page(params[:page]).per(20)
   end
 

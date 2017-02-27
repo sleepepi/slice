@@ -215,6 +215,7 @@ class SubjectsController < ApplicationController
   def index
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
+    subject_scope = subject_includes(subject_scope)
     subject_scope = filter_scope(subject_scope, params[:search])
     subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
     subject_scope = subject_scope.order(@order)
@@ -330,6 +331,10 @@ class SubjectsController < ApplicationController
   def subject_event_params
     params[:subject_event] ||= { blank: '1' }
     params.require(:subject_event).permit(:event_date)
+  end
+
+  def subject_includes(scope)
+    scope.includes(:site)
   end
 
   def filter_scope(scope, search)

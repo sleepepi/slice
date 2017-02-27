@@ -30,40 +30,9 @@ class RandomizationsController < ApplicationController
 
   # GET /randomizations
   def index
-    randomization_scope = current_user.all_viewable_randomizations
-                                      .where(project_id: @project.id)
-                                      .includes(:subject)
-    randomization_scope = randomization_scope.with_site(params[:site_id]) if params[:site_id].present?
-    randomization_scope = randomization_scope.where(treatment_arm_id: params[:treatment_arm_id]) if params[:treatment_arm_id].present?
-    randomization_scope = randomization_scope.where(randomized_by_id: params[:randomized_by_id]) if params[:randomized_by_id].present?
-    randomization_scope = randomization_scope.where(randomization_scheme_id: params[:scheme_id]) if params[:scheme_id].present?
-    @order = params[:order]
-    case params[:order]
-    when 'randomizations.scheme'
-      randomization_scope = randomization_scope.includes(:randomization_scheme).order('randomization_schemes.name')
-    when 'randomizations.scheme desc'
-      randomization_scope = randomization_scope.includes(:randomization_scheme).order('randomization_schemes.name desc')
-    when 'randomizations.site_name'
-      randomization_scope = randomization_scope.includes(subject: :site).order('sites.name')
-    when 'randomizations.site_name desc'
-      randomization_scope = randomization_scope.includes(subject: :site).order('sites.name desc')
-    when 'randomizations.treatment_arm'
-      randomization_scope = randomization_scope.includes(:treatment_arm).order('treatment_arms.name')
-    when 'randomizations.treatment_arm desc'
-      randomization_scope = randomization_scope.includes(:treatment_arm).order('treatment_arms.name desc')
-    when 'randomizations.randomized_by'
-      randomization_scope = randomization_scope.includes(:randomized_by).order('users.last_name, users.first_name')
-    when 'randomizations.randomized_by desc'
-      randomization_scope = randomization_scope.includes(:randomized_by).order('users.last_name desc, users.first_name desc')
-    when 'randomizations.subject_code'
-      randomization_scope = randomization_scope.includes(:subject).order('subjects.subject_code')
-    when 'randomizations.subject_code desc'
-      randomization_scope = randomization_scope.includes(:subject).order('subjects.subject_code desc')
-    else
-      @order = scrub_order(Randomization, params[:order], 'randomizations.randomized_at desc nulls last')
-      randomization_scope = randomization_scope.order(@order)
-    end
-    @randomizations = randomization_scope.select('randomizations.*').page(params[:page]).per(40)
+    scope = current_user.all_viewable_randomizations.where(project_id: @project.id).includes(:subject)
+    scope = filter_randomizations(scope)
+    @randomizations = order_randomizations(scope).page(params[:page]).per(40)
   end
 
   # # GET /randomizations/1
@@ -100,5 +69,22 @@ class RandomizationsController < ApplicationController
 
   def redirect_without_randomization
     empty_response_or_root_path(project_randomizations_path(@project)) unless @randomization
+  end
+
+  def filter_randomizations(scope)
+    scope = scope.with_site(params[:site_id]) if params[:site_id].present?
+    [:treatment_arm_id, :randomized_by_id, :scheme_id].each do |key|
+      scope = scope.where(key => params[key]) if params[key].present?
+    end
+    scope
+  end
+
+  def order_randomizations(scope)
+    scope = scope.includes(
+      :list, :randomized_by, :randomization_scheme, { subject: :site },
+      :treatment_arm
+    )
+    @order = params[:order]
+    scope.order(Randomization::ORDERS[params[:order]] || Randomization::DEFAULT_ORDER)
   end
 end

@@ -18,97 +18,105 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @randomizations.total_count
         = @title
 
-- viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
-- filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
-- all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id))
-
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
-    %col{ width: '1px' }
-    %col
-    %col
-    %col.hidden-xs
-    %col.hidden-xs.hidden-sm
-    - if viewable_sites.count > 1
-      %col.hidden-xs.hidden-sm
-    - if @project.randomization_schemes.count > 1
-      %col.hidden-xs.hidden-sm
-    - if @project.site_or_project_editor?(current_user)
+- if @randomizations.present?
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
+  - all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:first_name, :last_name)
+  - schemes = @project.randomization_schemes.order(:name).to_a
+  - is_project_editor = @project.editable_by?(current_user)
+  .dashboard-container
+    %table.table.table-striped.table-borderless.table-hover
+      %col{ width: '1px' }
       %col
-    %thead
-      %tr
-        = th_sort_field_rev @order, 'randomizations.randomized_at', '#', extra_class: 'center', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
-        = th_sort_field @order, 'randomizations.subject_code', 'Subject', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
-        %th.nowrap{ class: ['randomizations.treatment_arm', 'randomizations.treatment_arm desc'].include?(params[:order]) ? 'sort-selected' : nil }
-          = link_to project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'randomizations.treatment_arm' ? 'randomizations.treatment_arm desc' : 'randomizations.treatment_arm'))) do
-            %span.hidden-xs Treatment
-            Arm
-          .dropdown{ style: 'display: inline-block' }
-            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-              - if params[:treatment_arm_id].present?
-                %span.glyphicon.glyphicon-filter.text-primary
-              - else
-                %span.glyphicon.glyphicon-filter
-            %ul.dropdown-menu
-              %li= link_to 'All Treatment Arms', project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: nil)), style: params[:treatment_arm_id].blank? ? 'font-weight:bold;' : ''
-              - @project.treatment_arms.order(:name).each do |treatment_arm|
-                %li= link_to treatment_arm.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: treatment_arm.id)), style: params[:treatment_arm_id].to_s == treatment_arm.id.to_s ? 'font-weight:bold;' : ''
-        = th_sort_field_rev @order, 'randomizations.randomized_at', 'Randomized At', extra_class: 'hidden-xs nowrap', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
-        %th.nowrap.hidden-xs.hidden-sm{ class: ['randomizations.randomized_by', 'randomizations.randomized_by desc'].include?(params[:order]) ? 'sort-selected' : nil }
-          = link_to 'Randomized By', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'randomizations.randomized_by' ? 'randomizations.randomized_by desc' : 'randomizations.randomized_by')))
-          .dropdown{ style: 'display: inline-block' }
-            = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-              - if params[:randomized_by_id].present?
-                %span.glyphicon.glyphicon-filter.text-primary
-              - else
-                %span.glyphicon.glyphicon-filter
-            %ul.dropdown-menu.dropdown-menu-right
-              %li= link_to 'All Users', project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: nil)), style: params[:randomized_by_id].blank? ? 'font-weight:bold;' : ''
-              - all_randomizers.order(:first_name, :last_name).each do |user|
-                %li= link_to user.name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: user.id)), style: params[:randomized_by_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
-        - if viewable_sites.count > 1
-          %th.nowrap.hidden-xs.hidden-sm{ class: ['randomizations.site_name', 'randomizations.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Site', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'randomizations.site_name' ? 'randomizations.site_name desc' : 'randomizations.site_name')))
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-                - if params[:site_id].present?
-                  %span.glyphicon.glyphicon-filter.text-primary
-                - else
-                  %span.glyphicon.glyphicon-filter
-              %ul.dropdown-menu
-                %li= link_to 'All Sites', project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
-                - viewable_sites.order(:name).each do |site|
-                  %li= link_to site.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
-        - if @project.randomization_schemes.count > 1
-          %th.nowrap.hidden-xs.hidden-sm{ class: ['randomizations.scheme', 'randomizations.scheme desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Scheme', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'randomizations.scheme' ? 'randomizations.scheme desc' : 'randomizations.scheme')))
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
-                - if params[:scheme_id].present?
-                  %span.glyphicon.glyphicon-filter.text-primary
-                - else
-                  %span.glyphicon.glyphicon-filter
-              %ul.dropdown-menu
-                %li= link_to 'All Schemes', project_randomizations_path(@project, filtered_params.merge(order: params[:order], scheme_id: nil)), style: params[:scheme_id].blank? ? 'font-weight:bold;' : ''
-                - @project.randomization_schemes.order(:name).each do |scheme|
-                  %li= link_to scheme.name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], scheme_id: scheme.id)), style: params[:scheme_id].to_s == scheme.id.to_s ? 'font-weight:bold;' : ''
-        - if @project.site_or_project_editor?(current_user)
-          %th Actions
-    %tbody
-      - @randomizations.each do |randomization|
+      %col
+      %col.hidden-xs
+      %col.hidden-xs.hidden-sm
+      - if viewable_sites.count > 1
+        %col.hidden-xs.hidden-sm
+      - if schemes.count > 1
+        %col.hidden-xs.hidden-sm
+      %thead
         %tr
-          %td.center= link_to randomization.name, [@project, randomization]
-          %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
-          %td= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
-          %td.hidden-xs= simple_time randomization.randomized_at
-          %td.hidden-xs.hidden-sm= randomization.randomized_by.name if randomization.randomized_by
+          = th_sort_field @order, 'randomized', '#', extra_class: 'center', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
+          = th_sort_field @order, 'subject', 'Subject', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
+          %th.center.nowrap{ class: ['arm', 'arm desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'arm' ? 'arm desc' : 'arm'))) do
+              Arm
+            .dropdown{ style: 'display: inline-block' }
+              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                - if params[:treatment_arm_id].present?
+                  %span.glyphicon.glyphicon-filter.text-primary
+                - else
+                  %span.glyphicon.glyphicon-filter
+              %ul.dropdown-menu
+                %li= link_to 'All Treatment Arms', project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: nil)), style: params[:treatment_arm_id].blank? ? 'font-weight:bold;' : ''
+                - @project.treatment_arms.order(:name).each do |treatment_arm|
+                  %li= link_to treatment_arm.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: treatment_arm.id)), style: params[:treatment_arm_id].to_s == treatment_arm.id.to_s ? 'font-weight:bold;' : ''
+          = th_sort_field @order, 'randomized', 'Randomized', extra_class: 'hidden-xs center', permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
+          %th.nowrap.hidden-xs.hidden-sm{ class: ['randomized_by', 'randomized_by desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Randomized By', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'randomized_by' ? 'randomized_by desc' : 'randomized_by')))
+            .dropdown{ style: 'display: inline-block' }
+              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                - if params[:randomized_by_id].present?
+                  %span.glyphicon.glyphicon-filter.text-primary
+                - else
+                  %span.glyphicon.glyphicon-filter
+              %ul.dropdown-menu.dropdown-menu-right
+                %li= link_to 'All Users', project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: nil)), style: params[:randomized_by_id].blank? ? 'font-weight:bold;' : ''
+                - all_randomizers.each do |user|
+                  %li= link_to user.name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: user.id)), style: params[:randomized_by_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
           - if viewable_sites.count > 1
-            %td.hidden-xs.hidden-sm= randomization.site.short_name if randomization.subject
-          - if @project.randomization_schemes.count > 1
-            %td.hidden-xs.hidden-sm= link_to_if @project.editable_by?(current_user), randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
-          - if @project.site_or_project_editor?(current_user)
-            %td
-              - if randomization.editable_by?(current_user) && randomization.randomized?
-                = link_to 'Undo', undo_project_randomization_path(@project, randomization), method: :patch, class: 'btn btn-danger-inverse btn-xs', data: { confirm: "Are you sure you want to remove subject#{" from #{randomization.list.name}" if randomization.list}?" }
+            %th.nowrap.hidden-xs.hidden-sm{ class: ['site', 'site desc'].include?(params[:order]) ? 'sort-selected' : nil }
+              = link_to 'Site', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'site' ? 'site desc' : 'site')))
+              .dropdown{ style: 'display: inline-block' }
+                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                  - if params[:site_id].present?
+                    %span.glyphicon.glyphicon-filter.text-primary
+                  - else
+                    %span.glyphicon.glyphicon-filter
+                %ul.dropdown-menu
+                  %li= link_to 'All Sites', project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
+                  - viewable_sites.each do |site|
+                    %li= link_to site.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
+          - if schemes.count > 1
+            %th.nowrap.hidden-xs.hidden-sm{ class: ['scheme', 'scheme desc'].include?(params[:order]) ? 'sort-selected' : nil }
+              = link_to 'Scheme', project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == 'scheme' ? 'scheme desc' : 'scheme')))
+              .dropdown{ style: 'display: inline-block' }
+                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                  - if params[:scheme_id].present?
+                    %span.glyphicon.glyphicon-filter.text-primary
+                  - else
+                    %span.glyphicon.glyphicon-filter
+                %ul.dropdown-menu
+                  %li= link_to 'All Schemes', project_randomizations_path(@project, filtered_params.merge(order: params[:order], scheme_id: nil)), style: params[:scheme_id].blank? ? 'font-weight:bold;' : ''
+                  - schemes.each do |scheme|
+                    %li= link_to scheme.name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], scheme_id: scheme.id)), style: params[:scheme_id].to_s == scheme.id.to_s ? 'font-weight:bold;' : ''
+      %tbody
+        - @randomizations.each do |randomization|
+          %tr
+            %td.center
+              = link_to [@project, randomization] do
+                - if randomization.name
+                  = randomization.name
+                - else
+                  %i.fa.fa-spinner.fa-pulse{ aria: { hidden: 'true' } }
+            %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
+            %td.center= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
+            %td.hidden-xs.center
+              - if randomization.randomized_at
+                %abbr{ rel: 'tooltip', data: { title: randomization.randomized_at.strftime('%-l:%M %p'), container: 'body', placement: 'right' } }
+                  = randomization.randomized_at.strftime('%b %-d, %Y')
+            %td.hidden-xs.hidden-sm= randomization.randomized_by.name if randomization.randomized_by
+            - if viewable_sites.count > 1
+              %td.hidden-xs.hidden-sm= randomization.site.short_name if randomization.subject
+            - if schemes.count > 1
+              %td.hidden-xs.hidden-sm= link_to_if is_project_editor, randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
 
-.center= paginate @randomizations, theme: 'bootstrap'
+  .center= paginate @randomizations, theme: 'bootstrap'
+- else
+  .jumbotron
+    %p.center
+      No randomizations found.
+      - if params[:site_id].present? || params[:treatment_arm_id].present? || params[:randomized_by_id].present? || params[:scheme_id].present? || params[:user_id].present? || params[:search].present?
+        = succeed '.' do
+          = link_to 'Clear filters', project_randomizations_path(@project)

@@ -48,7 +48,7 @@
               - @subject.blinded_sheets(current_user).includes(:design).limit(5).order('designs.name').each do |sheet|
                 %li= link_to sheet.name, [@project, sheet], class: "#{'active' if @sheet == sheet}"
 
-        - if @project.randomizations_enabled? && @project.unblinded?(current_user) && @subject.randomizations.count > 0
+        - if @project.randomizations_enabled? && @project.unblinded?(current_user) && @subject.randomizations_count.positive?
           %li.side-nav-section
             .side-nav-section-header
               = link_to 'Randomization', [@project, @subject.randomizations.first]

@@ -235,6 +235,13 @@ class Project < ApplicationRecord
     AUTO_LOCK_SHEETS.find { |_name, value| value == auto_lock_sheets }.first
   end
 
+  def reset_adverse_event_numbers!
+    adverse_events.update_all(number: nil)
+    adverse_events.order(:created_at).each_with_index do |adverse_event, index|
+      adverse_event.update number: index + 1
+    end
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

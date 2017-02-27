@@ -68,6 +68,8 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:use_for_adverse_events, :name, :slug, :position, :description)
+    params.require(:category).permit(
+      :use_for_adverse_events, :name, :slug, :position, :description
+    )
   end
 end
