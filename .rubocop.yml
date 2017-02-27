@@ -30,3 +30,5 @@ Style/MutableConstant:
 Rails/DynamicFindBy:
   Whitelist:
     - find_by_param
+Rails/SkipsModelValidations:
+  Enabled: false
