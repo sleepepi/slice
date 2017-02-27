@@ -22,6 +22,7 @@
       - This change helps mark handoff designs complete that only include
         sections with descriptions
 - **Gem Changes**
+  - Updated to rails 5.0.2.rc1
   - Updated to clipboard.js 1.6.0
 
 ### Bug Fixes
