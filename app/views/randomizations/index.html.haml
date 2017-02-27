@@ -18,13 +18,12 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @randomizations.total_count
         = @title
 
-- viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
-- filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
-- all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:first_name, :last_name)
-- schemes = @project.randomization_schemes.order(:name).to_a
-- is_project_editor = @project.editable_by?(current_user)
-
 - if @randomizations.present?
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
+  - all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:first_name, :last_name)
+  - schemes = @project.randomization_schemes.order(:name).to_a
+  - is_project_editor = @project.editable_by?(current_user)
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
       %col{ width: '1px' }

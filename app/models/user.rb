@@ -194,9 +194,9 @@ class User < ApplicationRecord
   # Only Project Editors and Site Editors can modify adverse event
   def all_adverse_events
     AdverseEvent
-     .current
-     .with_site(all_editable_sites.select(:id))
-     .blinding_scope(self)
+      .current
+      .with_site(all_editable_sites.select(:id))
+      .blinding_scope(self)
   end
 
   # Project Editors and Viewers and Site Members can view adverse event

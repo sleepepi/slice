@@ -3,10 +3,22 @@
 # Adverse events track the initial report and discussion of an adverse event,
 # along with associated designs and files uploaded to the adverse event report.
 class AdverseEvent < ApplicationRecord
-  # Concerns
-  include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable, Blindable
+  ORDERS = {
+    'site' => 'sites.name',
+    'site desc' => 'sites.name desc',
+    'reported_by' => 'users.last_name, users.first_name',
+    'reported_by desc' => 'users.last_name desc, users.first_name desc',
+    'subject' => 'subjects.subject_code',
+    'subject desc' => 'subjects.subject_code desc',
+    'created' => 'adverse_events.created_at',
+    'created desc' => 'adverse_events.created_at desc'
+  }
+  DEFAULT_ORDER = 'adverse_events.created_at desc'
 
   SHAREABLE_LINKS_ENABLED = false
+
+  # Concerns
+  include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable, Blindable
 
   # Model Alerts
   after_touch :create_notifications
@@ -41,7 +53,11 @@ class AdverseEvent < ApplicationRecord
     "AE##{number}"
   end
 
-  def number
+  def generate_number!
+    update number: adverse_event_number
+  end
+
+  def adverse_event_number
     AdverseEvent.where(project: project).order(:created_at).pluck(:id).index(id) + 1
   rescue
     nil
@@ -117,7 +133,10 @@ class AdverseEvent < ApplicationRecord
 
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
-    project.unblinded_members_for_site(site).where.not(id: user_id).where(emails_enabled: true).select { |u| project.emails_enabled?(u) }
+    project.unblinded_members_for_site(site)
+           .where.not(id: user_id)
+           .where(emails_enabled: true)
+           .select { |u| project.emails_enabled?(u) }
   end
 
   def send_email_in_background
@@ -141,6 +160,7 @@ class AdverseEvent < ApplicationRecord
   def destroy
     super
     notifications.destroy_all
+    project.reset_adverse_event_numbers!
   end
 
   def id_and_token
