@@ -7,38 +7,37 @@ class DomainsController < ApplicationController
   before_action :find_domain_or_redirect,
                 only: [:show, :edit, :update, :destroy]
 
-  # POST /domains/values.js
+  # POST /projects/:project_id/domains/values.js
   def values
     @domain = @project.domains.find_by(id: params[:domain_id])
   end
 
-  # POST /domains/add_option.js
+  # POST /projects/:project_id/domains/add_option.js
   def add_option
     @domain_options = (0..2).collect { DomainOption.new }
   end
 
-  # GET /domains
+  # GET /projects/:project_id/domains
   def index
-    @order = scrub_order(Domain, params[:order], 'domains.name')
-    @domains = @project.domains.search(params[:search], match_start: false)
-                       .includes(:domain_options)
-                       .order(@order).page(params[:page]).per(20)
+    scope = @project.domains.search(params[:search], match_start: false)
+    scope = scope_includes(scope)
+    @domains = scope_order(scope).page(params[:page]).per(20)
   end
 
-  # # GET /domains/1
+  # # GET /projects/:project_id/domains/1
   # def show
   # end
 
-  # GET /domains/new
+  # GET /projects/:project_id/domains/new
   def new
     @domain = @project.domains.new
   end
 
-  # # GET /domains/1/edit
+  # # GET /projects/:project_id/domains/1/edit
   # def edit
   # end
 
-  # POST /domains
+  # POST /projects/:project_id/domains
   def create
     @domain = @project.domains.new(domain_params)
     if @domain.save
@@ -49,7 +48,7 @@ class DomainsController < ApplicationController
     end
   end
 
-  # PATCH /domains/1
+  # PATCH /projects/:project_id/domains/1
   def update
     if @domain.update(domain_params)
       @domain.update_option_tokens!
@@ -59,7 +58,7 @@ class DomainsController < ApplicationController
     end
   end
 
-  # DELETE /domains/1
+  # DELETE /projects/:project_id/domains/1
   def destroy
     @domain.destroy
     redirect_to project_domains_path(@project)
@@ -93,5 +92,14 @@ class DomainsController < ApplicationController
     else
       [@project, @domain]
     end
+  end
+
+  def scope_includes(scope)
+    scope.includes(:domain_options)
+  end
+
+  def scope_order(scope)
+    @order = scrub_order(Domain, params[:order], 'domains.name')
+    scope.order(@order)
   end
 end

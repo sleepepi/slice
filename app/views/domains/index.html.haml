@@ -27,7 +27,7 @@
         %tr
           = th_sort_field @order, 'domains.name', 'Name'
           %th.hidden-xs Options
-          = th_sort_field_rev @order, 'domains.variables_count', '# Variables', extra_class: 'hidden-xs hidden-sm center nowrap'
+          = th_sort_field_rev @order, 'domains.variables_count', 'Variables', extra_class: 'hidden-xs hidden-sm center'
           %th Actions
 
       - @domains.each do |domain|

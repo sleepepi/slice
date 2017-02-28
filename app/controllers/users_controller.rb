@@ -13,8 +13,9 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'
       return
     end
-    @order = scrub_order(User, params[:order], 'users.current_sign_in_at desc')
-    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per(40)
+    scope = User.current
+    scope = scope_filter(scope)
+    @users = scope_order(scope).page(params[:page]).per(40)
   end
 
   # GET /users/invite
@@ -63,5 +64,14 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name, :last_name, :email, :theme, :beta_enabled, :emails_enabled
     )
+  end
+
+  def scope_filter(scope)
+    scope.search(params[:search] || params[:q])
+  end
+
+  def scope_order(scope)
+    @order = scrub_order(User, params[:order], 'users.current_sign_in_at desc')
+    scope.order(@order)
   end
 end

@@ -28,26 +28,38 @@ class DesignsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test 'should get index by user_name' do
-    get :index, params: { project_id: @project, order: 'designs.user_name' }
+  test 'should get index by design' do
+    get :index, params: { project_id: @project, order: 'design' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
 
-  test 'should get index by user_name desc' do
-    get :index, params: { project_id: @project, order: 'designs.user_name desc' }
+  test 'should get index by design desc' do
+    get :index, params: { project_id: @project, order: 'design desc' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
 
-  test 'should get index by category_name' do
-    get :index, params: { project_id: @project, order: 'designs.category_name' }
+  test 'should get index by category' do
+    get :index, params: { project_id: @project, order: 'category' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end
 
-  test 'should get index by category_name desc' do
-    get :index, params: { project_id: @project, order: 'designs.category_name desc' }
+  test 'should get index by category desc' do
+    get :index, params: { project_id: @project, order: 'category desc' }
+    assert_not_nil assigns(:designs)
+    assert_response :success
+  end
+
+  test 'should get index by variables' do
+    get :index, params: { project_id: @project, order: 'variables' }
+    assert_not_nil assigns(:designs)
+    assert_response :success
+  end
+
+  test 'should get index by variables desc' do
+    get :index, params: { project_id: @project, order: 'variables desc' }
     assert_not_nil assigns(:designs)
     assert_response :success
   end

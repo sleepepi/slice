@@ -8,20 +8,20 @@ class DesignsController < ApplicationController
   before_action :find_viewable_design_or_redirect, only: [:print]
   before_action :find_editable_design_or_redirect, only: [:show, :edit, :update, :destroy, :reorder]
 
-  # # POST /designs/add_question.js
+  # # POST /projects/:project_id/designs/add_question.js
   # def add_question
   # end
 
-  # GET /designs
+  # GET /projects/:project_id/designs
   def index
-    design_scope = editable_designs.search(params[:search], match_start: false)
-    design_scope = sort_order(design_scope)
-    design_scope = design_scope.where(category_id: params[:category_id]) if params[:category_id].present?
-    @designs = design_scope.page(params[:page]).per(40)
+    scope = editable_designs.search(params[:search], match_start: false)
+    scope = scope_includes(scope)
+    scope = scope_filter(scope)
+    @designs = scope_order(scope).page(params[:page]).per(40)
   end
 
   # This is the latex view
-  # GET /designs/1/print
+  # GET /projects/:project_id/designs/1/print
   def print
     file_pdf_location = @design.latex_file_location(current_user)
     if File.exist?(file_pdf_location)
@@ -33,25 +33,25 @@ class DesignsController < ApplicationController
     end
   end
 
-  # # GET /designs/1
+  # # GET /projects/:project_id/designs/1
   # def show
   # end
 
-  # # GET /designs/1/reorder
+  # # GET /projects/:project_id/designs/1/reorder
   # def reorder
   # end
 
-  # GET /designs/new
+  # GET /projects/:project_id/designs/new
   def new
     @design = @project.designs.new(design_params)
   end
 
-  # # GET /designs/1/edit
-  # # GET /designs/1/edit.js
+  # # GET /projects/:project_id/designs/1/edit
+  # # GET /projects/:project_id/designs/1/edit.js
   # def edit
   # end
 
-  # POST /designs
+  # POST /projects/:project_id/designs
   def create
     @design = current_user.designs.where(project_id: @project.id).create(design_params)
 
@@ -63,7 +63,7 @@ class DesignsController < ApplicationController
     end
   end
 
-  # PATCH /designs/1.js
+  # PATCH /projects/:project_id/designs/1.js
   def update
     if @design.update(design_params)
       render :show
@@ -72,8 +72,8 @@ class DesignsController < ApplicationController
     end
   end
 
-  # DELETE /designs/1
-  # DELETE /designs/1.js
+  # DELETE /projects/:project_id/designs/1
+  # DELETE /projects/:project_id/designs/1.js
   def destroy
     @design.destroy
     respond_to do |format|
@@ -126,16 +126,19 @@ class DesignsController < ApplicationController
     params[:design][:redirect_url] = ''
   end
 
-  def sort_order(design_scope)
-    @order = params[:order]
-    case params[:order]
-    when 'designs.category_name'
-      design_scope.includes(:category).order('categories.name', :name)
-    when 'designs.category_name desc'
-      design_scope.includes(:category).order('categories.name desc', :name)
-    else
-      @order = scrub_order(Design, params[:order], 'designs.name')
-      design_scope.order(@order)
+  def scope_includes(scope)
+    scope.includes(:category)
+  end
+
+  def scope_filter(scope)
+    [:category_id].each do |key|
+      scope = scope.where(key => params[key]) if params[key].present?
     end
+    scope
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(Design::ORDERS[params[:order]] || Design::DEFAULT_ORDER)
   end
 end

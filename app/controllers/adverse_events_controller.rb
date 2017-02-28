@@ -14,7 +14,7 @@ class AdverseEventsController < ApplicationController
     :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link
   ]
 
-  # GET /adverse-events/export
+  # GET /projects/:project_id/adverse-events/export
   def export
     @export = current_user.exports
                           .where(project_id: @project.id, name: @project.name_with_date_for_file, total_steps: 1)
@@ -23,23 +23,24 @@ class AdverseEventsController < ApplicationController
     redirect_to [@project, @export]
   end
 
-  # GET /adverse-events
+  # GET /projects/:project_id/adverse-events
   def index
-    scope = viewable_adverse_events.search(params[:search]).includes(:subject, { subject: :site }, :user)
-    scope = filter_adverse_events(scope)
-    @adverse_events = order_adverse_events(scope).page(params[:page]).per(40)
+    scope = viewable_adverse_events
+    scope = scope_includes(scope)
+    scope = scope_filter(scope)
+    @adverse_events = scope_order(scope).page(params[:page]).per(40)
   end
 
-  # # GET /adverse-events/1
+  # # GET /projects/:project_id/adverse-events/1
   # def show
   # end
 
-  # GET /adverse-events/new
+  # GET /projects/:project_id/adverse-events/new
   def new
     @adverse_event = viewable_adverse_events.new(subject_code: params[:subject_code])
   end
 
-  # # GET /adverse-events/1/edit
+  # # GET /projects/:project_id/adverse-events/1/edit
   # def edit
   # end
 
@@ -56,7 +57,7 @@ class AdverseEventsController < ApplicationController
     end
   end
 
-  # PATCH /adverse-events/1
+  # PATCH /projects/:project_id/adverse-events/1
   def update
     if @adverse_event.update(adverse_event_params)
       redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully updated.'
@@ -65,19 +66,19 @@ class AdverseEventsController < ApplicationController
     end
   end
 
-  # POST /adverse-events/1/set_shareable_link
+  # POST /projects/:project_id/adverse-events/1/set_shareable_link
   def set_shareable_link
     @adverse_event.set_token
     redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully created.'
   end
 
-  # POST /adverse-events/1/remove_shareable_link
+  # POST /projects/:project_id/adverse-events/1/remove_shareable_link
   def remove_shareable_link
     @adverse_event.update authentication_token: nil
     redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully removed.'
   end
 
-  # DELETE /adverse-events/1
+  # DELETE /projects/:project_id/adverse-events/1
   def destroy
     @adverse_event.destroy
     redirect_to project_adverse_events_path(@project), notice: 'Adverse event was successfully deleted.'
@@ -111,14 +112,25 @@ class AdverseEventsController < ApplicationController
     )
   end
 
-  def filter_adverse_events(scope)
+  def scope_includes(scope)
+    scope.includes(:subject, { subject: :site }, :user)
+  end
+
+  def scope_filters_extra(scope)
     scope = scope.with_site(params[:site_id]) if params[:site_id].present?
-    scope = scope.where(user_id: params[:reported_by_id]) if params[:reported_by_id].present?
     scope = scope.where(closed: params[:status] == 'closed') if params[:status].present?
     scope
   end
 
-  def order_adverse_events(scope)
+  def scope_filter(scope)
+    scope = scope_filters_extra(scope)
+    [:user_id].each do |key|
+      scope = scope.where(key => params[key]) if params[key].present?
+    end
+    scope.search(params[:search])
+  end
+
+  def scope_order(scope)
     @order = params[:order]
     scope.order(AdverseEvent::ORDERS[params[:order]] || AdverseEvent::DEFAULT_ORDER)
   end
