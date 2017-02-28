@@ -12,9 +12,6 @@ class Sheet < ApplicationRecord
   scope :sheet_before, -> (*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
   scope :sheet_after, -> (*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
 
-  scope :with_variable_response, -> (*args) { where('sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value = ?)', args.first, args[1]) }
-  scope :with_checkbox_variable_response, -> (*args) { where('sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value = ? )', args.first, args[1]) }
-
   # These don't include blank codes
   scope :with_variable_response_after, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value >= ? and sheet_variables.value != '')", args.first, args[1]) }
   scope :with_variable_response_before, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value <= ? and sheet_variables.value != '')", args.first, args[1]) }
@@ -114,9 +111,9 @@ class Sheet < ApplicationRecord
         # TODO: This may be able to target a specific file.
         filter_variable(variable, current_user, 'any')
       elsif variable.variable_type == 'checkbox'
-        with_checkbox_variable_response(variable, stratum_value)
+        filter_variable(variable, current_user, '=', value: stratum_value)
       else
-        with_variable_response(variable, stratum_value)
+        filter_variable(variable, current_user, '=', value: stratum_value)
       end
     elsif operator == 'blank'
       filter_variable(variable, current_user, operator)
@@ -126,8 +123,8 @@ class Sheet < ApplicationRecord
   end
 
   # TODO: Temporary rewrite to use Search instead of sheet scopes
-  def self.filter_variable(variable, current_user, operator)
-    token = Token.new(key: variable.name, operator: operator, variable: variable)
+  def self.filter_variable(variable, current_user, operator, value: nil)
+    token = Token.new(key: variable.name, operator: operator, variable: variable, value: value)
     Search.run_sheets(
       variable.project,
       current_user,
