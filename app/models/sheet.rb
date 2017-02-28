@@ -2,6 +2,24 @@
 
 # Defines a collection of responses to a design for a subject.
 class Sheet < ApplicationRecord
+  ORDERS = {
+    'site' => 'sites.name',
+    'site desc' => 'sites.name desc',
+    'design' => 'designs.name',
+    'design desc' => 'designs.name desc',
+    'created_by' => 'users.last_name, users.first_name',
+    'created_by desc' => 'users.last_name desc nulls last, users.first_name desc nulls last',
+    'subject' => 'subjects.subject_code',
+    'subject desc' => 'subjects.subject_code desc',
+    'percent' => 'sheets.percent',
+    'percent desc' => 'sheets.percent desc nulls last',
+    'created' => 'sheets.created_at',
+    'created desc' => 'sheets.created_at desc',
+    'edited' => 'sheets.last_edited_at',
+    'edited desc' => 'sheets.last_edited_at desc nulls last'
+  }
+  DEFAULT_ORDER = 'sheets.last_edited_at desc nulls last'
+
   # Concerns
   include Deletable, Latexable, Siteable, Evaluatable, AutoLockable, Forkable, Coverageable
 

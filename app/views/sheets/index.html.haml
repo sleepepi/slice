@@ -30,11 +30,11 @@
               = link_to url, class: 'btn btn-default' do
                 &times;
 
-- creation_ordered = ['sheets.created_at', 'sheets.created_at desc'].include?(params[:order])
+- creation_ordered = ['created', 'created desc'].include?(params[:order])
 
 - if @sheets.present?
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
-  - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id)
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id).order(:name).to_a
   - all_creators = User.where(id: @project.sheets.select(:user_id))
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
@@ -48,9 +48,9 @@
       %thead
         %tr
           - filtered_params = params.permit(:design_id, :site_id, :user_id, :search)
-          = th_sort_field_rev @order, 'sheets.percent', 'Coverage', extra_class: 'hidden-xs', permit: [:design_id, :site_id, :user_id]
-          %th.nowrap{ class: ['sheets.design_name', 'sheets.design_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Sheet', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.design_name desc' ? 'sheets.design_name' : 'sheets.design_name desc')))
+          = th_sort_field_rev @order, 'percent', 'Coverage', extra_class: 'hidden-xs', permit: [:design_id, :site_id, :user_id]
+          %th.nowrap{ class: ['design', 'design desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Sheet', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'design desc' ? 'design' : 'design desc')))
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                 - if params[:design_id].present?
@@ -59,23 +59,23 @@
                   %span.glyphicon.glyphicon-filter
               %ul.dropdown-menu
                 %li= link_to 'All Designs', project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: nil)), style: params[:design_id].blank? ? 'font-weight:bold;' : ''
-                - viewable_designs.order(:name).each do |design|
+                - viewable_designs.each do |design|
                   %li= link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: design.id)), style: params[:design_id].to_s == design.id.to_s ? 'font-weight:bold;' : ''
-          = th_sort_field @order, 'sheets.subject_code', 'Subject', permit: [:design_id, :site_id, :user_id]
+          = th_sort_field @order, 'subject', 'Subject', permit: [:design_id, :site_id, :user_id]
           %th.hidden-xs.hidden-sm
             - if creation_ordered
-              = link_to 'Created', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.created_at desc' ? 'sheets.created_at' : 'sheets.created_at desc')))
+              = link_to 'Created', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'created desc' ? 'created' : 'created desc')))
             - else
-              = link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.last_edited_at' ? 'sheets.last_edited_at desc' : 'sheets.last_edited_at')))
+              = link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'edited' ? 'edited desc' : 'edited')))
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                 %span.glyphicon.glyphicon-filter
               %ul.dropdown-menu
-                %li= link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: 'sheets.last_edited_at desc')), style: !creation_ordered ? 'font-weight:bold;' : ''
-                %li= link_to 'Created', project_sheets_path(@project, filtered_params.merge(order: 'sheets.created_at desc')), style: creation_ordered ? 'font-weight:bold;' : ''
+                %li= link_to 'Last Edited', project_sheets_path(@project, filtered_params.merge(order: 'edited desc')), style: !creation_ordered ? 'font-weight:bold;' : ''
+                %li= link_to 'Created', project_sheets_path(@project, filtered_params.merge(order: 'created desc')), style: creation_ordered ? 'font-weight:bold;' : ''
           - if viewable_sites.count > 1
-            %th.nowrap.hidden-xs{ class: ['sheets.site_name', 'sheets.site_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-              = link_to 'Site', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.site_name desc' ? 'sheets.site_name' : 'sheets.site_name desc')))
+            %th.nowrap.hidden-xs{ class: ['site', 'site desc'].include?(params[:order]) ? 'sort-selected' : nil }
+              = link_to 'Site', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'site desc' ? 'site' : 'site desc')))
               .dropdown{ style: 'display: inline-block' }
                 = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                   - if params[:site_id].present?
@@ -84,10 +84,10 @@
                     %span.glyphicon.glyphicon-filter
                 %ul.dropdown-menu
                   %li= link_to 'All Sites', project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
-                  - viewable_sites.order(:name).each do |site|
+                  - viewable_sites.each do |site|
                     %li= link_to site.short_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
-          %th.nowrap.hidden-xs{ class: ['sheets.user_name', 'sheets.user_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Creator', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'sheets.user_name desc' ? 'sheets.user_name' : 'sheets.user_name desc')))
+          %th.nowrap.hidden-xs{ class: ['created_by', 'created_by desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Creator', project_sheets_path(@project, filtered_params.merge(order: (params[:order] == 'created_by desc' ? 'created_by' : 'created_by desc')))
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                 - if params[:user_id].present?

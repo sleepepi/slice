@@ -26,12 +26,11 @@ class SheetsController < ApplicationController
 
   # GET /sheets
   def index
-    sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false)
-    sheet_scope = filter_scope(sheet_scope, params[:search])
-    sheet_scope = sheet_scope.where(design_id: params[:design_id]) if params[:design_id].present?
-    sheet_scope = sheet_scope.where(user_id: params[:user_id]) if params[:user_id].present?
-    sheet_scope = sheet_scope.with_site(params[:site_id]) if params[:site_id].present?
-    @sheets = order_sheets(sheet_scope).page(params[:page]).per(40)
+    scope = current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false)
+    scope = scope_includes(scope)
+    scope = scope_search_filter(scope, params[:search])
+    scope = scope_filter(scope)
+    @sheets = scope_order(scope).page(params[:page]).per(40)
   end
 
   # GET /sheets/1
@@ -207,7 +206,7 @@ class SheetsController < ApplicationController
     end
   end
 
-  def filter_scope(scope, search)
+  def scope_search_filter(scope, search)
     @tokens = Search.pull_tokens(search)
     @tokens.reject { |t| t.key == 'search' }.each do |token|
       case token.key
@@ -221,52 +220,43 @@ class SheetsController < ApplicationController
     scope.search(terms.join(' '))
   end
 
-  def scope_by_date(sheet_scope, token)
+  def scope_by_date(scope, token)
     date = Date.strptime(token.value, '%Y-%m-%d')
     case token.operator
     when '<'
-      sheet_scope = sheet_scope.sheet_before(date - 1.day)
+      scope = scope.sheet_before(date - 1.day)
     when '>'
-      sheet_scope = sheet_scope.sheet_after(date + 1.day)
+      scope = scope.sheet_after(date + 1.day)
     when '<='
-      sheet_scope = sheet_scope.sheet_before(date)
+      scope = scope.sheet_before(date)
     when '>='
-      sheet_scope = sheet_scope.sheet_after(date)
+      scope = scope.sheet_after(date)
     else
-      sheet_scope = sheet_scope.sheet_before(date).sheet_after(date)
+      scope = scope.sheet_before(date).sheet_after(date)
     end
-    sheet_scope
+    scope
   rescue
-    sheet_scope
+    scope
   end
 
-  def scope_by_variable(sheet_scope, token)
-    Search.run_sheets(@project, current_user, sheet_scope, token)
+  def scope_by_variable(scope, token)
+    Search.run_sheets(@project, current_user, scope, token)
   end
 
-  def order_sheets(sheet_scope)
-    @order = params[:order]
-    case params[:order]
-    when 'sheets.site_name'
-      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name')
-    when 'sheets.site_name desc'
-      sheet_scope = sheet_scope.includes(subject: :site).order('sites.name desc')
-    when 'sheets.design_name'
-      sheet_scope = sheet_scope.includes(:design).order('designs.name').select('sheets.*, designs.name')
-    when 'sheets.design_name desc'
-      sheet_scope = sheet_scope.includes(:design).order('designs.name desc').select('sheets.*, designs.name')
-    when 'sheets.subject_code'
-      sheet_scope = sheet_scope.order('subjects.subject_code').select('sheets.*, subjects.subject_code')
-    when 'sheets.subject_code desc'
-      sheet_scope = sheet_scope.order('subjects.subject_code desc').select('sheets.*, subjects.subject_code')
-    when 'sheets.user_name'
-      sheet_scope = sheet_scope.includes(:user).order('users.last_name, users.first_name')
-    when 'sheets.user_name desc'
-      sheet_scope = sheet_scope.includes(:user).order('users.last_name desc, users.first_name desc')
-    else
-      @order = scrub_order(Sheet, params[:order], 'sheets.last_edited_at desc')
-      sheet_scope = sheet_scope.order(@order)
+  def scope_includes(scope)
+    scope.includes(:design, :subject, { subject: :site }, :user)
+  end
+
+  def scope_filter(scope)
+    scope = scope.with_site(params[:site_id]) if params[:site_id].present?
+    [:design_id, :user_id].each do |key|
+      scope = scope.where(key => params[key]) if params[key].present?
     end
-    sheet_scope
+    scope
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(Sheet::ORDERS[params[:order]] || Sheet::DEFAULT_ORDER)
   end
 end
