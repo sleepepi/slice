@@ -66,4 +66,13 @@ namespace :sheets do
     Sheet.update_all(total_response_count: nil, percent: nil)
     puts "Reset coverage for #{sheet_count} sheet#{'s' if sheet_count != 1}."
   end
+
+  desc 'Set sheet last edited at if blank'
+  task set_last_edited: :environment do
+    puts "Last Edited Blank Sheets: #{Sheet.where(last_edited_at: nil).count}"
+    Sheet.where(last_edited_at: nil).find_each do |s|
+      s.update last_edited_at: s.created_at if s.last_edited_at.nil?
+    end
+    puts "Last Edited Blank Sheets: #{Sheet.where(last_edited_at: nil).count}"
+  end
 end
