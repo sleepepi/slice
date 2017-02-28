@@ -177,9 +177,11 @@ module Buildable
       cell = header.dup
       cell[:filters] = (cell[:filters] || []) + filters
       # This adds in row specific missing filters to accurately calculate the total row count
-      cell[:filters] += @column_filters
-                        .select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
-                        .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } } if header[:column_type] == 'total'
+      if header[:column_type] == 'total'
+        cell[:filters] += @column_filters
+                          .select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
+                          .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } }
+      end
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
       # cell[:debug] = '1'
       table_row << cell

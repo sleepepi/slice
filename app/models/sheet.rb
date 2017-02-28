@@ -97,27 +97,27 @@ class Sheet < ApplicationRecord
 
   # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
   # TODO: This can be cleaned up using the new Search module along with operators.
-  def self.with_stratum(current_user, variable, stratum_value, operator, stratum_start_date = nil, stratum_end_date = nil)
+  def self.with_stratum(current_user, variable, value, operator, stratum_start_date = nil, stratum_end_date = nil)
     if variable.variable_type == 'design'
-      where(design_id: stratum_value)
+      where(design_id: value)
     elsif variable.variable_type == 'site'
-      with_site(stratum_value)
+      with_site(value)
     elsif operator == 'any' && !%w(sheet_date).include?(variable.variable_type)
       filter_variable(variable, current_user, 'any')
     elsif %w(sheet_date date).include?(variable.variable_type) && !%w(blank missing).include?(operator)
       sheet_after_variable(variable, stratum_start_date).sheet_before_variable(variable, stratum_end_date)
-    elsif stratum_value.present? # Ex: variable: variables(:gender), stratum_value: 'f'
+    elsif value.present? # Ex: variable: variables(:gender), value: 'f'
       if variable.variable_type == 'file'
         # TODO: This may be able to target a specific file.
         filter_variable(variable, current_user, 'any')
       elsif variable.variable_type == 'checkbox'
-        filter_variable(variable, current_user, '=', value: stratum_value)
+        filter_variable(variable, current_user, '=', value: value)
       else
-        filter_variable(variable, current_user, '=', value: stratum_value)
+        filter_variable(variable, current_user, '=', value: value)
       end
     elsif operator == 'blank'
       filter_variable(variable, current_user, operator)
-    else # Ex: variable: variables(:gender), stratum_value: nil
+    else # Ex: variable: variables(:gender), value: nil
       filter_variable(variable, current_user, 'missing')
     end
   end
