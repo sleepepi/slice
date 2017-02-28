@@ -31,8 +31,9 @@ class RandomizationsController < ApplicationController
   # GET /randomizations
   def index
     scope = current_user.all_viewable_randomizations.where(project_id: @project.id).includes(:subject)
-    scope = filter_randomizations(scope)
-    @randomizations = order_randomizations(scope).page(params[:page]).per(40)
+    scope = scope_includes(scope)
+    scope = scope_filter(scope)
+    @randomizations = scope_order(scope).page(params[:page]).per(40)
   end
 
   # # GET /randomizations/1
@@ -71,7 +72,14 @@ class RandomizationsController < ApplicationController
     empty_response_or_root_path(project_randomizations_path(@project)) unless @randomization
   end
 
-  def filter_randomizations(scope)
+  def scope_includes(scope)
+    scope.includes(
+      :list, :randomized_by, :randomization_scheme, { subject: :site },
+      :treatment_arm
+    )
+  end
+
+  def scope_filter(scope)
     scope = scope.with_site(params[:site_id]) if params[:site_id].present?
     [:treatment_arm_id, :randomized_by_id, :scheme_id].each do |key|
       scope = scope.where(key => params[key]) if params[key].present?
@@ -79,11 +87,7 @@ class RandomizationsController < ApplicationController
     scope
   end
 
-  def order_randomizations(scope)
-    scope = scope.includes(
-      :list, :randomized_by, :randomization_scheme, { subject: :site },
-      :treatment_arm
-    )
+  def scope_order(scope)
     @order = params[:order]
     scope.order(Randomization::ORDERS[params[:order]] || Randomization::DEFAULT_ORDER)
   end

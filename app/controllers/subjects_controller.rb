@@ -213,31 +213,14 @@ class SubjectsController < ApplicationController
 
   # GET /subjects
   def index
-    @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
-    subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
-    subject_scope = subject_includes(subject_scope)
-    subject_scope = filter_scope(subject_scope, params[:search])
-    subject_scope = subject_scope.where(site_id: params[:site_id]) unless params[:site_id].blank?
-    subject_scope = subject_scope.order(@order)
-    # TODO: Remove, only launched from events page
-    # Refactor to use advanced filter
-    if params[:on_event_design_id].present? && params[:event_id].present?
-      subject_scope = subject_scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
-    elsif params[:not_on_event_design_id].present? && params[:event_id].present?
-      subject_scope = subject_scope.with_unentered_design_on_event(params[:not_on_event_design_id], params[:event_id])
-    elsif params[:event_id].present?
-      subject_scope = subject_scope.with_event(params[:event_id])
-    elsif params[:without_event_id].present?
-      subject_scope = subject_scope.without_event(params[:without_event_id])
-    else
-      subject_scope = subject_scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
-      subject_scope = subject_scope.with_design(params[:design_id]) if params[:design_id].present?
-    end
-    # END: TODO
-    @subjects = subject_scope.page(params[:page]).per(20)
-    if params[:search].present? && subject_scope.count == 1 &&
-       subject_scope.first && subject_scope.first.subject_code == params[:search]
-      redirect_to [@project, subject_scope.first]
+    scope = current_user.all_viewable_subjects.where(project_id: @project.id)
+    scope = scope_includes(scope)
+    scope = scope_search_filter(scope, params[:search])
+    scope = scope_filter(scope)
+    scope = scope_advanced_filters(scope)
+    @subjects = scope_order(scope).page(params[:page]).per(20)
+    if params[:search].present? && scope.count == 1 && scope.first && scope.first.subject_code == params[:search]
+      redirect_to [@project, scope.first]
     end
   end
 
@@ -333,11 +316,18 @@ class SubjectsController < ApplicationController
     params.require(:subject_event).permit(:event_date)
   end
 
-  def subject_includes(scope)
+  def scope_includes(scope)
     scope.includes(:site)
   end
 
-  def filter_scope(scope, search)
+  def scope_filter(scope)
+    [:site_id].each do |key|
+      scope = scope.where(key => params[key]) if params[key].present?
+    end
+    scope
+  end
+
+  def scope_search_filter(scope, search)
     @tokens = Search.pull_tokens(search)
     # TODO: Remove randomized_used if left_outer_join is used in subject.rb
     randomized_used = false
@@ -368,5 +358,28 @@ class SubjectsController < ApplicationController
       end
     end
     scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
+  end
+
+  def scope_order(scope)
+    @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
+    scope.order(@order)
+  end
+
+  # TODO: Remove, only launched from events page
+  # Refactor to use advanced filter
+  def scope_advanced_filters(scope)
+    if params[:on_event_design_id].present? && params[:event_id].present?
+      scope = scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
+    elsif params[:not_on_event_design_id].present? && params[:event_id].present?
+      scope = scope.with_unentered_design_on_event(params[:not_on_event_design_id], params[:event_id])
+    elsif params[:event_id].present?
+      scope = scope.with_event(params[:event_id])
+    elsif params[:without_event_id].present?
+      scope = scope.without_event(params[:without_event_id])
+    else
+      scope = scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
+      scope = scope.with_design(params[:design_id]) if params[:design_id].present?
+    end
+    scope
   end
 end

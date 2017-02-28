@@ -38,7 +38,7 @@
           - if hash[:colspan].blank?
             %td
               %span{ class: "#{'text-muted' if hash[:count] == 0}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
-                - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
+                - filter_params = compute_filter_params(@design, hash[:filters] || [])
                 - link_name = project_sheets_path(@project, filter_params)
                 = '&plusmn;'.html_safe if hash[:symbol] == 'pm' && hash[:name] != '-'
                 = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: '_blank')
@@ -61,7 +61,7 @@
               - reverse_index = index - row[:cells].size + 1
               - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
               %span{ class: "#{'text-muted' if hash[:count] == 0 || hash[:muted]}", rel: 'tooltip', title: hash[:tooltip], data: { placement: 'right' } }
-                - filter_params = compute_filter_params(@project, @design, hash[:filters] || [])
+                - filter_params = compute_filter_params(@design, hash[:filters] || [])
                 - link_name = project_sheets_path(@project, filter_params)
                 = '&plusmn;'.html_safe if hash[:symbol] == 'pm' && hash[:name] != '-'
                 - if hash[:link].present?

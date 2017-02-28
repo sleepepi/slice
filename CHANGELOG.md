@@ -36,6 +36,8 @@
   starting with underscores for domain values
 - Fixed a bug that caused JavaScript functions to run twice in browsers that
   supported Turbolinks
+- Fixed a bug that prevented stratifying by radio, dropdown, and checkbox
+  variables on advanced design reports
 
 ### Refactoring
 - Removed unused grid variable validations

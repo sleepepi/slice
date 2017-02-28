@@ -8,10 +8,8 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @order = scrub_order(Category, params[:order], 'categories.position')
-    @categories = @project.categories
-                          .search(params[:search]).reorder(@order)
-                          .page(params[:page]).per(40)
+    scope = @project.categories.search(params[:search])
+    @categories = scope_order(scope).page(params[:page]).per(40)
   end
 
   # # GET /categories/1
@@ -71,5 +69,10 @@ class CategoriesController < ApplicationController
     params.require(:category).permit(
       :use_for_adverse_events, :name, :slug, :position, :description
     )
+  end
+
+  def scope_order(scope)
+    @order = scrub_order(Category, params[:order], 'categories.position')
+    scope.reorder(@order)
   end
 end

@@ -17,6 +17,7 @@
 = render 'search/simple', url: project_designs_path(@project)
 
 - if @designs.present?
+  - filtered_params = params.permit(:category_id, :search)
   .dashboard-container
     %table.table.table-striped
       %col{ width: '1px' }
@@ -27,17 +28,17 @@
       %thead
         %tr
           %th Abbr
-          = th_sort_field @order, 'designs.name', 'Name'
-          %th.hidden-xs Variables
-          %th.hidden-xs.nowrap{ class: ['designs.category_name', 'designs.category_name desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Category', project_designs_path(@project, order: (params[:order] == 'designs.category_name' ? 'designs.category_name desc' : 'designs.category_name'), category_id: params[:category_id])
+          = th_sort_field_rev @order, 'design', 'Name', permit: [:category_id]
+          = th_sort_field_rev @order, 'variables', 'Variables', extra_class: 'hidden-xs center'
+          %th.hidden-xs.nowrap{ class: ['category', 'category desc'].include?(params[:order]) ? 'sort-selected' : nil }
+            = link_to 'Category', project_designs_path(@project, filtered_params.merge(order: (params[:order] == 'category' ? 'category desc' : 'category'), category_id: params[:category_id]))
             .dropdown{ style: 'display: inline-block' }
               = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
                 %span.glyphicon.glyphicon-filter
               %ul.dropdown-menu.dropdown-menu-right
-                %li= link_to 'All Categories', project_designs_path(@project, order: params[:order]), style: params[:category_id].blank? ? 'font-weight:bold;' : ''
+                %li= link_to 'All Categories', project_designs_path(@project, filtered_params.merge(order: params[:order], category_id: nil)), style: params[:category_id].blank? ? 'font-weight:bold;' : ''
                 - @project.categories.each do |category|
-                  %li= link_to category.name, project_designs_path(@project, order: params[:order], category_id: category.id), style: params[:category_id].to_s == category.id.to_s ? 'font-weight:bold;' : ''
+                  %li= link_to category.name, project_designs_path(@project, filtered_params.merge(order: params[:order], category_id: category.id)), style: params[:category_id].to_s == category.id.to_s ? 'font-weight:bold;' : ''
           %th Actions
 
       - @designs.each do |design|
@@ -46,7 +47,7 @@
           %td
             = link_to design.name, [@project, design]
             = render 'layouts/unblinded_only', project: @project, object: design, placement: 'right'
-          %td.hidden-xs= design.variables.count
+          %td.hidden-xs.center= design.variables_count
           %td.hidden-xs= design.category.name if design.category
           %td
             = render 'layouts/edit_delete_dropdown', edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Delete #{design.name}?"
@@ -54,9 +55,14 @@
     = paginate @designs, theme: 'bootstrap'
 - else
   .jumbotron
-    %p.center No designs found.
+    %p.center
+      No designs found.
+      - if params[:search].present? && params[:category_id].present?
+        = succeed '.' do
+          = link_to 'Clear filters', project_designs_path(@project, search: params[:search])
 
 .docs-learn-more
   Learn about
   = succeed '.' do
     = link_to 'designs', docs_designs_path
+

@@ -12,6 +12,9 @@
           = link_to plus_or('New Category'), new_project_category_path(@project), class: 'btn btn-accent btn-shadow'
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @categories.total_count
         = @title
+        = render 'search/toggle'
+
+= render 'search/simple', url: project_categories_path(@project)
 
 - if @categories.present?
   .dashboard-container

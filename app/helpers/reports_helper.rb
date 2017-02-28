@@ -2,14 +2,13 @@
 
 # Helps convert report filters to sheet search filters.
 module ReportsHelper
-  def compute_filter_params(project, design, filters)
+  def compute_filter_params(design, filters)
     filter_params = {}
     search = nil
     filters.each do |filter|
       search_parts = []
-      variable = convert_variable_from_filter(project, filter)
+      variable = convert_variable_from_filter(filter)
       value = convert_value_from_filter(filter)
-
       if %(site_id).include?(variable)
         filter_params[variable.to_sym] = filter[:value]
       elsif value.present?
@@ -25,19 +24,14 @@ module ReportsHelper
     filter_params
   end
 
-  def convert_variable_from_filter(project, filter)
-    case filter[:variable_id]
+  def convert_variable_from_filter(filter)
+    case filter[:variable].variable_type
     when 'sheet_date'
       'created'
     when 'site'
       'site_id'
     else
-      v = project.variables.find_by id: filter[:variable_id]
-      if v
-        v.name
-      else
-        filter[:variable_id].to_s
-      end
+      filter[:variable].name
     end
   end
 

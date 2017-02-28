@@ -137,67 +137,91 @@ class SheetsControllerTest < ActionController::TestCase
   end
 
   test 'should get paginated index order by site' do
-    get :index, params: { project_id: @project, order: 'sheets.site_name' }
+    get :index, params: { project_id: @project, order: 'site' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
   test 'should get paginated index order by site descending' do
-    get :index, params: { project_id: @project, order: 'sheets.site_name desc' }
+    get :index, params: { project_id: @project, order: 'site desc' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by design_name' do
-    get :index, params: { project_id: @project, order: 'sheets.design_name' }
+  test 'should get index by design' do
+    get :index, params: { project_id: @project, order: 'design' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by design_name desc' do
+  test 'should get index by design desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.design_name desc'
+      project_id: @project, order: 'design desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by subject_code' do
-    get :index, params: { project_id: @project, order: 'sheets.subject_code' }
+  test 'should get index by subject' do
+    get :index, params: { project_id: @project, order: 'subject' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by subject_code desc' do
+  test 'should get index by subject desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.subject_code desc'
+      project_id: @project, order: 'subject desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by project_name' do
-    get :index, params: { project_id: @project, order: 'sheets.project_name' }
+  test 'should get index by percent' do
+    get :index, params: { project_id: @project, order: 'percent' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by project_name desc' do
+  test 'should get index by percent desc' do
     get :index, params: {
-      project_id: @project, order: 'sheets.project_name desc'
+      project_id: @project, order: 'percent desc'
     }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by user_name' do
-    get :index, params: { project_id: @project, order: 'sheets.user_name' }
+  test 'should get index by created by' do
+    get :index, params: { project_id: @project, order: 'created_by' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end
 
-  test 'should get index by user_name desc' do
-    get :index, params: { project_id: @project, order: 'sheets.user_name desc' }
+  test 'should get index by created by desc' do
+    get :index, params: { project_id: @project, order: 'created_by desc' }
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test 'should get index by created' do
+    get :index, params: { project_id: @project, order: 'created' }
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test 'should get index by created desc' do
+    get :index, params: { project_id: @project, order: 'created desc' }
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test 'should get index by edited' do
+    get :index, params: { project_id: @project, order: 'edited' }
+    assert_not_nil assigns(:sheets)
+    assert_template 'index'
+  end
+
+  test 'should get index by edited desc' do
+    get :index, params: { project_id: @project, order: 'edited desc' }
     assert_not_nil assigns(:sheets)
     assert_template 'index'
   end

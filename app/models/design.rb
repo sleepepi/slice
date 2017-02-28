@@ -5,6 +5,16 @@
 class Design < ApplicationRecord
   mount_uploader :csv_file, SpreadsheetUploader
 
+  ORDERS = {
+    'category' => 'categories.name, designs.name',
+    'category desc' => 'categories.name desc, designs.name',
+    'variables' => 'designs.variables_count',
+    'variables desc' => 'designs.variables_count desc',
+    'design' => 'designs.name',
+    'design desc' => 'designs.name desc'
+  }
+  DEFAULT_ORDER = 'designs.name'
+
   # Callbacks
   after_save :reset_sheet_total_response_count, :set_slug
 
@@ -321,7 +331,12 @@ class Design < ApplicationRecord
   def recalculate_design_option_positions!
     design_options.each_with_index { |design_option, index| design_option.update(position: index) }
     reset_sheet_total_response_count
+    recompute_variables_count!
     reload
+  end
+
+  def recompute_variables_count!
+    update variables_count: variables.count
   end
 
   def name_from_csv!
