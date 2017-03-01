@@ -54,10 +54,10 @@ class RandomizationSchemesController < ApplicationController
         status: status, site_id: s.site_id, stratification_factors: stratification_factors }
     end
 
-    if @subjects.count == 0
-      render json: [{ value: params[:q], subject_code: 'Subject Not Found', status_class: 'default', status: '', site_id: nil, stratification_factors: [] }]
-    else
+    if @subjects.present?
       render json: result
+    else
+      render json: [{ value: params[:q], subject_code: 'Subject Not Found', status_class: 'default', status: '', site_id: nil, stratification_factors: [] }]
     end
   end
 
