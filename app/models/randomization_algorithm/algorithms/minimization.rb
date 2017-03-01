@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module RandomizationAlgorithm
-
   module Algorithms
-
+    # Handles list creation and randomization for minimization randomization
+    # schemes.
     class Minimization < Default
-
       attr_reader :randomization_scheme
 
       def initialize(randomization_scheme)
@@ -17,29 +16,32 @@ module RandomizationAlgorithm
       # end
 
       def add_missing_lists!(current_user)
-        if self.stratify_lists_by_site?
-
+        if stratify_lists_by_site?
           list_option_ids = []
-
-          if self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
-            list_option_ids = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first.option_hashes.collect{|i| [i]}
+          if number_of_lists > 0 && number_of_lists < RandomizationScheme::MAX_LISTS
+            list_option_ids = @randomization_scheme.stratification_factors
+                                                   .find_by(stratifies_by_site: true)
+                                                   .option_hashes.collect { |i| [i] }
           end
-
           list_option_ids.each do |option_hashes|
-            unless self.find_list_by_option_hashes(option_hashes)
-              extra_options = option_hashes.select{ |oh| oh[:extra] }
-              @randomization_scheme.lists.create(project_id: @randomization_scheme.project_id, user_id: current_user.id, extra_options: extra_options)
+            unless find_list_by_option_hashes(option_hashes)
+              extra_options = option_hashes.select { |oh| oh[:extra] }
+              @randomization_scheme.lists.create(
+                project_id: @randomization_scheme.project_id,
+                user_id: current_user.id,
+                extra_options: extra_options
+              )
             end
           end
         else
-          if @randomization_scheme.lists.count == 0 and self.number_of_lists > 0 and self.number_of_lists < RandomizationScheme::MAX_LISTS
+          if @randomization_scheme.lists.count == 0 && number_of_lists > 0 && number_of_lists < RandomizationScheme::MAX_LISTS
             @randomization_scheme.lists.create(project_id: @randomization_scheme.project_id, user_id: current_user.id)
           end
         end
       end
 
       def number_of_lists
-        if self.stratify_lists_by_site?
+        if stratify_lists_by_site?
           @randomization_scheme.project.sites.count
         else
           super
@@ -47,8 +49,8 @@ module RandomizationAlgorithm
       end
 
       def find_list_by_criteria_pairs(criteria_pairs)
-        if self.stratify_lists_by_site?
-          site_only_criteria_pairs = criteria_pairs.select do |stratification_factor_id, option_id|
+        if stratify_lists_by_site?
+          site_only_criteria_pairs = criteria_pairs.select do |stratification_factor_id, _option_id|
             @randomization_scheme.stratification_factors.where(id: stratification_factor_id, stratifies_by_site: true).count == 1
           end
 
@@ -85,23 +87,18 @@ module RandomizationAlgorithm
 
       def generate_next_randomization!(list, current_user, criteria_pairs)
         criteria_pairs.collect! { |sfid, oid| [sfid.to_i, oid.to_i] }
-
         return nil unless all_criteria_selected?(criteria_pairs)
-
         # If 30% chance, select random treatment arm
         dice_roll = rand(100)
         dice_roll_cutoff = @randomization_scheme.chance_of_random_treatment_arm_selection
         past_distributions = {}
         weighted_eligible_arms = nil
-
         if dice_roll < dice_roll_cutoff
           (treatment_arm, weighted_eligible_arms) = select_random_treatment_arm
         else
           (treatment_arm, weighted_eligible_arms, past_distributions) = get_treatment_arm(list, criteria_pairs)
         end
-
         randomization = nil
-
         if treatment_arm && weighted_eligible_arms.is_a?(Array)
           randomization = list.randomizations.create(
             project_id: @randomization_scheme.project_id,
@@ -111,25 +108,22 @@ module RandomizationAlgorithm
             dice_roll: dice_roll,
             dice_roll_cutoff: dice_roll_cutoff,
             past_distributions: past_distributions,
-            weighted_eligible_arms: weighted_eligible_arms.collect { |arm| { name: arm.name, id: arm.id } }.sort { |a, b| a[:name] <=> b[:name] }
+            weighted_eligible_arms: weighted_eligible_arms.collect { |arm| { name: arm.name, id: arm.id } }
+                                                          .sort { |a, b| a[:name] <=> b[:name] }
           )
         end
-
         randomization
       end
 
       def get_treatment_arm(list, criteria_pairs)
         all_criteria_selected = true
         past_distributions = {}
-
         randomization_scope = list.randomizations
         treatment_arms_and_counts = []
-
         non_site_stratification_factors = @randomization_scheme.stratification_factors.where(stratifies_by_site: false)
-
         stratification_factor_counts = {}
         non_site_stratification_factors.each do |sf|
-          criteria = criteria_pairs.select { |sfid, _oid| sfid == sf.id }.first
+          criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
           next unless criteria
           stratification_factor_counts[criteria.join('x')] ||= {}
           if sf.stratifies_by_site?
@@ -144,7 +138,7 @@ module RandomizationAlgorithm
         @randomization_scheme.treatment_arms.positive_allocation.order(:name).each do |treatment_arm|
           randomization_ids = []
           non_site_stratification_factors.each do |sf|
-            criteria = criteria_pairs.select { |sfid, _oid| sfid == sf.id }.first
+            criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
             unless criteria
               all_criteria_selected = false
               next
@@ -152,11 +146,22 @@ module RandomizationAlgorithm
             randomization_scope = list.randomizations.includes(:randomization_characteristics)
                                       .where.not(subject_id: nil)
                                       .where(treatment_arm_id: treatment_arm.id)
-            criteria_randomization_ids = if sf.stratifies_by_site?
-                                           randomization_scope.where(randomization_characteristics: { stratification_factor_id: sf.id, site_id: criteria.last }).pluck(:id)
-                                         else
-                                           randomization_scope.where(randomization_characteristics: { stratification_factor_id: sf.id, stratification_factor_option_id: criteria.last }).pluck(:id)
-                                         end
+            criteria_randomization_ids = \
+              if sf.stratifies_by_site?
+                randomization_scope.where(
+                  randomization_characteristics: {
+                    stratification_factor_id: sf.id,
+                    site_id: criteria.last
+                  }
+                ).pluck(:id)
+              else
+                randomization_scope.where(
+                  randomization_characteristics: {
+                    stratification_factor_id: sf.id,
+                    stratification_factor_option_id: criteria.last
+                  }
+                ).pluck(:id)
+              end
             stratification_factor_counts[criteria.join('x')][treatment_arm.id.to_s] = criteria_randomization_ids.count
             randomization_ids += criteria_randomization_ids
           end
@@ -164,15 +169,20 @@ module RandomizationAlgorithm
         end
 
         # Arms should be weighted by their allocation
-        weighted_treatment_arms_and_counts = treatment_arms_and_counts.collect { |arm, count| [arm, (count / arm.allocation.to_f)] }
+        weighted_treatment_arms_and_counts = treatment_arms_and_counts.collect do |arm, count|
+          [arm, (count / arm.allocation.to_f)]
+        end
 
         # Compute past distributions
-        past_distributions[:treatment_arms] = @randomization_scheme.treatment_arms.positive_allocation.order(:name).collect { |arm| { name: arm.name, id: arm.id } }
+        past_distributions[:treatment_arms] = \
+          @randomization_scheme.treatment_arms.positive_allocation.order(:name).collect do |arm|
+            { name: arm.name, id: arm.id }
+          end
         past_distributions[:stratification_factors] = []
-
         non_site_stratification_factors.each do |sf|
           sf_hash = {}
-          if criteria = criteria_pairs.select{|sfid, oid| sfid == sf.id}.first
+          criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
+          if criteria
             name = stratification_factor_counts[criteria.join('x')][:name]
             sf_hash[:name] = name
             sf_hash[:criteria] = criteria
@@ -184,19 +194,22 @@ module RandomizationAlgorithm
           end
           past_distributions[:stratification_factors] << sf_hash
         end
-        past_distributions[:totals] = treatment_arms_and_counts.collect { |arm, count| { count: count, treatment_arm_id: arm.id } }
-        past_distributions[:weighted_totals] = weighted_treatment_arms_and_counts.collect { |arm, count| { count: count.round(2), treatment_arm_id: arm.id } }
+        past_distributions[:totals] = treatment_arms_and_counts.collect do |arm, count|
+          { count: count, treatment_arm_id: arm.id }
+        end
+        past_distributions[:weighted_totals] = weighted_treatment_arms_and_counts.collect do |arm, count|
+          { count: count.round(2), treatment_arm_id: arm.id }
+        end
         # End compute past distributions
 
         treatment_arm = nil
         weighted_eligible_arms = nil
-
         if all_criteria_selected
-          min_value = weighted_treatment_arms_and_counts.collect{|arm, count| count}.min
-          eligible_arms = weighted_treatment_arms_and_counts.select{|arm, count| count == min_value}.collect{|arm, count| arm}
+          min_value = weighted_treatment_arms_and_counts.collect { |_arm, count| count }.min
+          eligible_arms = weighted_treatment_arms_and_counts.select { |_arm, count| count == min_value }
+                                                            .collect { |arm, _count| arm }
           (treatment_arm, weighted_eligible_arms) = randomly_select_eligible_treatment_arm(eligible_arms)
         end
-
         [treatment_arm, weighted_eligible_arms, past_distributions]
       end
 
@@ -206,7 +219,7 @@ module RandomizationAlgorithm
       end
 
       def randomly_select_eligible_treatment_arm(eligible_arms)
-        weighted_eligible_arms = eligible_arms.collect{|arm| [arm]*arm.allocation}.flatten
+        weighted_eligible_arms = eligible_arms.collect { |arm| [arm] * arm.allocation }.flatten
         treatment_arm = weighted_eligible_arms[rand(weighted_eligible_arms.count)]
         [treatment_arm, weighted_eligible_arms]
       end

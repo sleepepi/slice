@@ -42,7 +42,7 @@ module RandomizationAlgorithm
       end
 
       def number_of_lists
-        @randomization_scheme.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i
+        @randomization_scheme.stratification_factors.collect { |sf| sf.option_hashes.count }.inject(:*).to_i
       end
 
       def find_list_by_criteria_pairs(criteria_pairs)
