@@ -32,6 +32,8 @@
   supported Turbolinks
 - Fixed a bug that prevented stratifying by radio, dropdown, and checkbox
   variables on advanced design reports
+- Fixed a visual bug that prevented radio buttons from being selected after
+  selecting a subject to randomize
 
 ### Refactoring
 - Removed unused grid variable validations
