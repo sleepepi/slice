@@ -49,7 +49,9 @@ module Pats
       psg_sheets = filter_sheets_by_category(project, screen_failure_sheets, 'psg-eligibility-not-met')
       tables << demographics_table(project, psg_sheets, 'psg-failures')
 
-      not_interested_in_participation_sheets = filter_sheets_by_category(project, sheets, 'caregiver-not-interested')
+      not_interested_in_participation_sheets = filter_sheets_by_category(
+        project, sheets, 'caregiver-not-interested-in-study-participation'
+      )
       tables << demographics_table(project, not_interested_in_participation_sheets, 'not-interested-in-participation')
       tables
     end

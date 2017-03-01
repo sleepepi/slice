@@ -12,7 +12,7 @@ module Pats
 
       def categories
         [
-          Pats::Categories.for('caregiver-not-interested', project),
+          Pats::Categories.for('caregiver-not-interested-in-study-participation', project),
           Pats::Categories.for('time-commitment-too-great', project),
           Pats::Categories.for('too-difficult-traveling-to-appointments', project),
           Pats::Categories.for('study-compensation-too-low', project),
