@@ -22,15 +22,15 @@ class Project < ApplicationRecord
   after_save :create_default_site, :create_default_categories
 
   # Scopes
-  scope :with_editor, -> (*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
-  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
+  scope :with_editor, ->(*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
+  scope :by_favorite, ->(arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
   scope :archived, -> { where(project_preferences: { archived: true }) }
   scope :unarchived, -> { where(project_preferences: { archived: [nil, false] }) }
-  scope :viewable_by_user, -> (arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :viewable_by_user, ->(arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
     OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)', arg, arg, arg) }
 
-  scope :editable_by_user, -> (arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :editable_by_user, ->(arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ? and project_users.editor = ?)
     OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)', arg, arg, true, arg, true) }
 

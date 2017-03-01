@@ -35,7 +35,7 @@
         %td
           %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
             = export.status
-        %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [export.project, export]
+        %td= link_to simple_time(export.created_at).gsub('on ', '').html_safe, [@project, export]
         %td.hidden-xs
           - if export.include_csv_labeled?
             %span.label.label-default CSV Labeled
@@ -82,7 +82,7 @@
                     Download
                 %li.divider{ role: 'separator' }
               %li
-                = link_to [export.project, export], method: :delete, data: { confirm: "Are you sure you want to delete Export #{export.name}?" } do
+                = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete

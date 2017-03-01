@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pats/categories/disinterested/caregiver_not_interested_in_study_participation'
 require 'pats/categories/disinterested/time_commitment_too_great'
 require 'pats/categories/disinterested/too_difficult_traveling_to_appointments'
 require 'pats/categories/disinterested/study_compensation_too_low'

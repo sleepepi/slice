@@ -25,12 +25,12 @@ module GridExport
         grid_group_variable.child_variables.includes(domain: :domain_options).each do |child_variable|
           if child_variable.variable_type == 'checkbox'
             child_variable.domain_options.each do |domain_option|
-              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_scope, sheet_ids, domain_option)
+              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(child_variable, sheet_scope, sheet_ids, domain_option)
               formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
               csv << [grid_group_variable.name, child_variable.option_variable_name(domain_option)] + formatted_responses
             end
           else
-            sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, child_variable, sheet_scope, sheet_ids)
+            sorted_responses = grid_sort_responses_by_sheet_id_generic(child_variable, sheet_scope, sheet_ids)
             formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
             csv << [grid_group_variable.name, child_variable.name] + formatted_responses
           end
@@ -49,7 +49,7 @@ module GridExport
     end
   end
 
-  def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_scope, sheet_ids, domain_option)
+  def grid_sort_responses_by_sheet_id_for_checkbox(variable, sheet_scope, sheet_ids, domain_option)
     responses = Response.joins(:grid)
                         .where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
                         .where.not(grid_id: nil)
@@ -57,10 +57,10 @@ module GridExport
                         .where(domain_options: { id: domain_option.id })
                         .order('sheet_id desc', 'grids.position').distinct
                         .pluck('domain_options.value', 'grids.position', :sheet_id)
-    grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
+    grid_sort_responses_by_sheet_id(responses, sheet_ids)
   end
 
-  def grid_sort_responses_by_sheet_id_generic(grid_group_variable, variable, sheet_scope, sheet_ids)
+  def grid_sort_responses_by_sheet_id_generic(variable, sheet_scope, sheet_ids)
     response_scope = Grid.joins(:sheet_variable).merge(SheetVariable.where(sheet_id: sheet_scope.select(:id)))
                          .where(variable_id: variable.id)
                          .order('sheet_id desc', :position)
@@ -72,10 +72,10 @@ module GridExport
                     .pluck('domain_options.value', :value, :position, :sheet_id)
                     .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
                 end
-    grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
+    grid_sort_responses_by_sheet_id(responses, sheet_ids)
   end
 
-  def grid_sort_responses_by_sheet_id(grid_group_variable, responses, sheet_scope, sheet_ids)
+  def grid_sort_responses_by_sheet_id(responses, sheet_ids)
     sorted_responses = Array.new(sheet_ids.count)
     response_counter = 0
     current_sheet_position = nil
@@ -100,7 +100,9 @@ module GridExport
   # returns the sheet_ids in descending order
   def compute_sheet_ids_with_max_position(sheet_scope)
     highest_hash = {}
-    all_positions = Grid.joins(:sheet_variable).merge(SheetVariable.where(sheet_id: sheet_scope.select(:id))).pluck(:sheet_id, :position)
+    all_positions = Grid.joins(:sheet_variable)
+                        .merge(SheetVariable.where(sheet_id: sheet_scope.select(:id)))
+                        .pluck(:sheet_id, :position)
     all_positions.each do |sheet_id, position|
       highest_hash[sheet_id.to_s] ||= 0
       highest_hash[sheet_id.to_s] = position if position > highest_hash[sheet_id.to_s]

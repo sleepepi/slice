@@ -26,21 +26,21 @@ class Sheet < ApplicationRecord
   before_save :check_subject_event_subject_match
 
   # Scopes
-  scope :search, -> (arg) { where('sheets.subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
-  scope :sheet_before, -> (*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
-  scope :sheet_after, -> (*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
+  scope :search, ->(arg) { where('sheets.subject_id in (select subjects.id from subjects where subjects.deleted = ? and LOWER(subjects.subject_code) LIKE ?) or design_id in (select designs.id from designs where designs.deleted = ? and LOWER(designs.name) LIKE ?)', false, arg.to_s.downcase.gsub(/^| |$/, '%'), false, arg.to_s.downcase.gsub(/^| |$/, '%')).references(:designs) }
+  scope :sheet_before, ->(*args) { where('sheets.created_at < ?', (args.first + 1.day).at_midnight) }
+  scope :sheet_after, ->(*args) { where('sheets.created_at >= ?', args.first.at_midnight) }
 
   # These don't include blank codes
-  scope :with_variable_response_after, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value >= ? and sheet_variables.value != '')", args.first, args[1]) }
-  scope :with_variable_response_before, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value <= ? and sheet_variables.value != '')", args.first, args[1]) }
+  scope :with_variable_response_after, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value >= ? and sheet_variables.value != '')", args.first, args[1]) }
+  scope :with_variable_response_before, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value <= ? and sheet_variables.value != '')", args.first, args[1]) }
 
   # # Includes entered values, or entered missing values
   # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '')", args.first) }
   # Includes only entered values (that are not marked as missing)
-  scope :with_any_variable_response_not_missing_code, -> (*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
-  scope :with_checkbox_any_variable_response_not_missing_code, -> (*args) { where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_any_variable_response_not_missing_code, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_checkbox_any_variable_response_not_missing_code, ->(*args) { where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
   # Include blank, unknown, or values entered as missing
-  scope :with_response_unknown_or_missing, -> (*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
+  scope :with_response_unknown_or_missing, ->(*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
   # Model Validation
   validates :design_id, :project_id, :subject_id, presence: true

@@ -48,7 +48,7 @@ class Variable < ApplicationRecord
   include Searchable, Deletable, DateAndTimeParser
 
   # Scopes
-  scope :with_user, -> (arg) { where user_id: arg }
+  scope :with_user, ->(arg) { where(user_id: arg) }
 
   # Model Validation
   validates :name, :display_name, :variable_type, :project_id, presence: true

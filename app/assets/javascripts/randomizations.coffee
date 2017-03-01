@@ -84,7 +84,7 @@
 
 @checkRandomizationOption = (element) ->
   $(element).prop('checked', true)
-  updateSelectedClass($(element).attr('name'))
+  updateSelectedClass(element)
 
 @randomizationTermSelected = (element, event, datum) ->
   checkRandomizationOption("#stratification_factors_#{$(element).data('sfo-id')}_#{datum['site_id']}")

@@ -63,6 +63,7 @@ module Pats
       'caregiver-understand-english' => Pats::Categories::ScreenFailures::CaregiverUnderstandEnglish,
       'moving-in-year' => Pats::Categories::ScreenFailures::MovingInYear,
       'foster-care' => Pats::Categories::ScreenFailures::FosterCare,
+      'caregiver-not-interested-in-study-participation' => Pats::Categories::Disinterested::CaregiverNotInterestedInStudyParticipation,
       'time-commitment-too-great' => Pats::Categories::Disinterested::TimeCommitmentTooGreat,
       'too-difficult-traveling-to-appointments' => Pats::Categories::Disinterested::TooDifficultTravelingToAppointments,
       'study-compensation-too-low' => Pats::Categories::Disinterested::StudyCompensationTooLow,

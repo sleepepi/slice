@@ -81,7 +81,7 @@ module Pats
 
       def compute_overall_total_cells(sheets)
         cell_count = count_subjects(filter_sheets(sheets))
-        column_total_count = sheets.count
+        column_total_count = count_subjects(sheets)
         count_and_percent_cells(cell_count, column_total_count)
       end
 

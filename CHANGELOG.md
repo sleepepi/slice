@@ -27,6 +27,14 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **PATS Changes**
+  - Updated "Reasons for Not Interested in Participation" eligibility table
+    - The eligibility table is now filtered on the "33. Is the caregiver
+      interested in study participation?"
+    - "Reason Unknown" no longer includes "Other reason(s)"
+    - Denominator for percentage calculation now correctly uses number of
+      subjects instead of number of sheets to match number of subjects in
+      numerator
 - **Gem Changes**
   - Updated to rails 5.0.2.rc1
   - Updated to clipboard.js 1.6.0
@@ -38,6 +46,8 @@
   supported Turbolinks
 - Fixed a bug that prevented stratifying by radio, dropdown, and checkbox
   variables on advanced design reports
+- Fixed a visual bug that prevented radio buttons from being selected after
+  selecting a subject to randomize
 
 ### Refactoring
 - Removed unused grid variable validations

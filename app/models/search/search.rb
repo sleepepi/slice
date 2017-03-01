@@ -227,17 +227,17 @@ class Search
     @variable.variable_type == 'checkbox' ? Response : SheetVariable
   end
 
-  def subjects(current_user)
+  def subjects
     if @variable
-      compute_subjects_for_variable(@current_user)
+      compute_subjects_for_variable
     elsif filter_type == 'randomized'
-      randomized_subjects(@current_user)
+      randomized_subjects
     else
       Subject.none
     end
   end
 
-  def compute_subjects_for_variable(current_user)
+  def compute_subjects_for_variable
     @current_user.all_viewable_subjects
                  .where(project: project)
                  .where(id: sheets.select(:subject_id))
