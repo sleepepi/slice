@@ -115,6 +115,11 @@ $comment-border: $p100 !default;
 }
 
 .comment-unread {
-  background-color: $state-warning-bg;
-  color: $state-warning-text;
+  background-color: $brand-highlight;
+  color: $brand-highlight-text;
+
+  a {
+    color: darken($brand-highlight-text, 10%);
+    font-weight: bold;
+  }
 }

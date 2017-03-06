@@ -18,10 +18,12 @@ $gray-lighter:           #adafae;
 $brand-primary:         #2a9fd6;
 $brand-success:         #77b300;
 $brand-info:            #93c;
-$brand-warning:         #f80;
+$brand-warning:         #96927d;
 // $brand-danger:          #c00;
 $brand-white:           $theme-white;
 $brand-gray:            #ccc;
+$brand-highlight:       #96927d;
+$brand-highlight-text:  #000;
 
 //== Scaffolding
 //
@@ -393,8 +395,8 @@ $state-info-text:                #dedede;
 $state-info-bg:                  $brand-info;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
 
-$state-warning-text:             #000;
-$state-warning-bg:               #96927d;
+$state-warning-text:             $brand-highlight-text;
+$state-warning-bg:               $brand-highlight;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 3%);
 
 $state-danger-text:              #dedede;

@@ -21,7 +21,7 @@
 // $brand-primary:         #428bca !default;
 // $brand-success:         #5cb85c !default;
 // $brand-info:            #5bc0de !default;
-// $brand-warning:         #f0ad4e !default;
+$brand-warning:         #f0ad4e !default;
 // $brand-danger:          #d9534f !default;
 
 $red: #d32f2f;
@@ -40,6 +40,8 @@ $brand-accent: $a200 !default;
 $brand-accent-text: $a200-text !default;
 $link-color: $a700 !default; // $a700 !default;
 $brand-muted: $p300 !default;
+$brand-highlight: #fcf8e3 !default;
+$brand-highlight-text: #000 !default;
 
 // //== Scaffolding
 // //
@@ -509,8 +511,8 @@ $jumbotron-bg:                   $p50 !default; // $gray-lighter !default;
 // $state-info-bg:                  #d9edf7 !default;
 // $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
-$state-warning-text:             #000 !default;
-$state-warning-bg:               #fcf8e3 !default;
+$state-warning-text:             $brand-highlight-text !default;
+$state-warning-bg:               $brand-highlight !default;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
 $state-danger-text:              $brand-danger;// DANGER MODIFIED: #a94442 !default;

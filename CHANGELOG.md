@@ -23,6 +23,8 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **Theme Changes**
+  - Improved consistency of warning and highlight colors across themes
 - **PATS Changes**
   - Updated "Reasons for Not Interested in Participation" eligibility table
     - The eligibility table is now filtered on the "33. Is the caregiver
