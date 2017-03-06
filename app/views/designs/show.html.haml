@@ -44,7 +44,7 @@
         = @title
         = render 'layouts/unblinded_only', project: @project, object: @design, placement: 'top'
 
-- if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated?
+- if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated? || @design.notifications_enabled?
   .dashboard-container
     %table.table.table-borderless
       %col.hidden-xs{ width: '30%' }
@@ -65,7 +65,10 @@
         %tr
           %th Repeated
           %td= simple_check @design.repeated?
-
+      - if @design.notifications_enabled?
+        %tr
+          %th Notifications Enabled
+          %td= simple_check @design.notifications_enabled?
       - if @design.total_rows > 0
         %tr
           %th Import Progress

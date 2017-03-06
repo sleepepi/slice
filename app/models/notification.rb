@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Tracks if a user has seen changes to adverse events, new sheet comments, and
-# completed tablet handoffs
+# completed tablet handoffs.
 class Notification < ApplicationRecord
   # Model Validation
   validates :user_id, :project_id, presence: true
@@ -13,6 +13,7 @@ class Notification < ApplicationRecord
   belongs_to :comment
   belongs_to :export
   belongs_to :handoff
+  belongs_to :sheet
   belongs_to :sheet_unlock_request
 
   # Notification Methods

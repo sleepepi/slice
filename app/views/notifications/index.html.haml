@@ -20,7 +20,7 @@
         = link_to 'All', notifications_path(all: '1'), class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] == '1' ? 'btn-primary' : 'btn-default' }"
   .col-sm-10
     - if @notifications.count > 0
-      - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff).group_by(&:project).each do |project, notifications|
+      - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff, :sheet).group_by(&:project).each do |project, notifications|
         .dashboard-container
           %table.table.table-fixed
             %col{ width: '32px' }

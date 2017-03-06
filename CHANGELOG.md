@@ -8,6 +8,8 @@
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
+  - Project editors can enable notifications allowing project members to receive
+    notifications when sheets for that design are created
 - **Domain Changes**
   - Domains can now be sorted by number of variables
 - **Export Changes**

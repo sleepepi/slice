@@ -350,6 +350,15 @@ class Sheet < ApplicationRecord
     end
   end
 
+  def create_notifications!
+    return unless design.notifications_enabled?
+    users.each do |u|
+      next if u == user
+      notification = u.notifications.where(project_id: project_id, sheet_id: id).first_or_create
+      notification.mark_as_unread!
+    end
+  end
+
   protected
 
   def check_subject_event_subject_match

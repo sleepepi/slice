@@ -6,6 +6,8 @@
   = render 'notifications/show/export', notification: notification
 - elsif notification.handoff
   = render 'notifications/show/handoff', notification: notification
+- elsif notification.sheet
+  = render 'notifications/show/sheet', notification: notification
 - elsif notification.sheet_unlock_request
   = render 'notifications/show/sheet_unlock_request', notification: notification
 - else
