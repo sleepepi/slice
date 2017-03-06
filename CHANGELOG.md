@@ -30,7 +30,7 @@
       subjects instead of number of sheets to match number of subjects in
       numerator
 - **Gem Changes**
-  - Updated to rails 5.0.2.rc1
+  - Updated to rails 5.0.2
   - Updated to clipboard.js 1.6.0
 
 ### Bug Fixes
