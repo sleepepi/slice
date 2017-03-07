@@ -7,41 +7,39 @@
 // Variables
 // --------------------------------------------------
 
+// $red:                   #d32f2f !default;
+$red:                   #d50000 !default;
+$green:                 #2e7b32;
+$green-bar:             #4caf50;
+$highlighter:           #fcf8e3;
+
+$brand-black:           #000 !default;
+$brand-white:           #fff !default;
+$brand-gray:            #ccc !default;
 
 //== Colors
 //
 //## Gray and brand colors for use across Bootstrap.
 
-// $gray-darker:            lighten(#070, 13.5%) !default; // #222
-// $gray-dark:              lighten(#070, 20%) !default;   // #333
-// $gray:                   lighten(#070, 33.5%) !default; // #555
-// $gray-light:             lighten(#070, 46.7%) !default; // #777
-// $gray-lighter:           lighten(#070, 93.5%) !default; // #eee
-
-// $brand-primary:         #428bca !default;
-// $brand-success:         #5cb85c !default;
-// $brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
-// $brand-danger:          #d9534f !default;
-
-$red: #d32f2f;
-
-$green: #2e7b32;
-$green-bar: #4caf50;
-
-$brand-danger: $red;
-
-
-$brand-white:           #fff;
-$brand-gray:            #ccc;
+$gray-darker:            lighten($brand-black, 13.5%) !default; // #222
+$gray-dark:              lighten($brand-black, 20%) !default;   // #333
+$gray:                   lighten($brand-black, 33.5%) !default; // #555
+$gray-light:             lighten($brand-black, 46.7%) !default; // #777
+$gray-lighter:           lighten($brand-black, 93.5%) !default; // #eee
 
 $brand-primary: $p500 !default;
+// $brand-success:         #5cb85c !default;
+$brand-info:            $a100 !default;
+$brand-warning:         #f0ad4e !default;
+$brand-danger:          $red !default;
+
 $brand-accent: $a200 !default;
 $brand-accent-text: $a200-text !default;
-$link-color: $a700 !default; // $a700 !default;
 $brand-muted: $p300 !default;
-$brand-highlight: #fcf8e3 !default;
-$brand-highlight-text: #000 !default;
+$brand-highlight: $highlighter !default;
+$brand-highlight-text: $brand-black !default;
+
+$link-color: $a700 !default; // $a700 !default;
 
 // //== Scaffolding
 // //
@@ -51,7 +49,7 @@ $brand-highlight-text: #000 !default;
 // $body-bg:               $p50 !default; // #fff !default;
 $body-bg:               #fff !default;
 // //** Global text color on `<body>`.
-// $text-color:            $gray-dark !default;
+$text-color:            $gray-dark !default;
 
 // //** Global textual link color.
 // $link-color:            $brand-primary !default;
@@ -507,17 +505,17 @@ $jumbotron-bg:                   $p50 !default; // $gray-lighter !default;
 // $state-success-bg:               #dff0d8 !default;
 // $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-// $state-info-text:                #31708f !default;
-// $state-info-bg:                  #d9edf7 !default;
-// $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+$state-info-text:                $brand-highlight-text;
+$state-info-bg:                  $p50;
+$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
 
 $state-warning-text:             $brand-highlight-text !default;
 $state-warning-bg:               $brand-highlight !default;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-$state-danger-text:              $brand-danger;// DANGER MODIFIED: #a94442 !default;
-// $state-danger-bg:                #f2dede !default;
-// $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+$state-danger-text:              $brand-danger !default;
+$state-danger-bg:                $brand-danger !default;
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 
 
 // //== Tooltips
@@ -644,7 +642,7 @@ $state-danger-text:              $brand-danger;// DANGER MODIFIED: #a94442 !defa
 // $alert-warning-border:        $state-warning-border !default;
 
 // $alert-danger-bg:             $state-danger-bg !default;
-// $alert-danger-text:           $state-danger-text !default;
+$alert-danger-text:           $brand-white !default;
 // $alert-danger-border:         $state-danger-border !default;
 
 

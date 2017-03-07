@@ -7,21 +7,8 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
-$black: #000;
-$white: #fff;
-
-$gray:                   lighten($black, 33.5%); // #555
-$gray-darker:            lighten($black, 13.5%); // #222
-$gray-dark:              lighten($black, 20%);   // #333
-$gray-light:             lighten($black, 60%);   // #999
-$gray-lighter:           lighten($black, 93.5%); // #eee
-
 $brand-primary:         #2fa4e7;
 $brand-success:         #6ba848;
-$brand-info:            #43c3f5;
-$brand-danger:          #d11111;
-$brand-white:           $white;
-$brand-gray:            #ccc;
 
 //== Scaffolding
 //
@@ -471,7 +458,7 @@ $alert-warning-text:          #333;
 $alert-warning-border:        $state-warning-border;
 
 $alert-danger-bg:             $state-danger-bg;
-$alert-danger-text:           #333;
+$alert-danger-text:           $brand-white;
 $alert-danger-border:         $state-danger-border;
 
 
@@ -634,7 +621,7 @@ $carousel-caption-color:          #fff;
 
 $close-font-weight:           bold;
 $close-color:                 #000;
-$close-text-shadow:           0 1px 0 $white;
+$close-text-shadow:           0 1px 0 $brand-white;
 
 
 //== Code
