@@ -50,6 +50,7 @@ class NotificationsController < ApplicationController
     return @notification.comment if @notification.comment
     return [@notification.project, @notification.export] if @notification.export
     return subject_event_redirect_path if @notification.handoff
+    return [@notification.project, @notification.sheet] if @notification.sheet
     return [@notification.project, @notification.sheet_unlock_request.sheet] if @notification.sheet_unlock_request
     notifications_path
   end

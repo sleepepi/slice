@@ -21,7 +21,7 @@
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to [@project, @category], method: :delete, data: { confirm: "Are you sure you want to delete Category #{@category.name}?" } do
+                = link_to [@project, @category], method: :delete, data: { confirm: "Delete \"#{@category.name}\" category?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete

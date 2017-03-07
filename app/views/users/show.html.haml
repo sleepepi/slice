@@ -24,7 +24,7 @@
                 - unless current_user == @user
                   %li.divider{ role: 'separator' }
                   %li
-                    = link_to @user, method: :delete, data: { confirm: "Are you sure you want to delete #{@user.name}?" } do
+                    = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" } do
                       .text-danger
                         %span.glyphicon.glyphicon-trash
                         Delete

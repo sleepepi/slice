@@ -27,7 +27,7 @@
             Archive
       %li.divider{ role: 'separator' }
       %li
-        = link_to [@project, event], method: :delete, remote: true, data: { confirm: "Delete #{event.name}?" } do
+        = link_to [@project, event], method: :delete, remote: true, data: { confirm: "Delete \"#{event.name}\" event?" } do
           .text-danger
             %span.glyphicon.glyphicon-trash
             Delete

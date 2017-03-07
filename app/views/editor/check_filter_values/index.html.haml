@@ -35,4 +35,4 @@
           %td= link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
           %td.hidden-xs= check_filter_value.user.name
           %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Are you sure you want to delete value #{check_filter_value.value}?"
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Delete \"#{check_filter_value.value}\" filter value?"

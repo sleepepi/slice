@@ -21,7 +21,7 @@
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to [@project, @domain], method: :delete, data: { confirm: "Are you sure you want to delete Domain #{@domain.name}?" } do
+                = link_to [@project, @domain], method: :delete, data: { confirm: "Delete \"#{@domain.name}\" domain?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete

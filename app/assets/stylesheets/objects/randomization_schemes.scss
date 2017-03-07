@@ -1,3 +1,12 @@
+// These are colors from:
+// https://material.google.com/style/color.html#color-color-palette
+$block-blue: #2196f3 !default;  // $p500 blue
+$block-red: #f44336 !default;   // $p500 red
+$block-green: #4caf50 !default; // $p500 green
+$block-amber: #ffb300 !default; // $p600 $amber
+
+$block-color: $brand-white !default;
+
 .block-group {
   margin-bottom: 10px;
 }
@@ -9,24 +18,44 @@
 
 // Green
 .multiplier-1 {
-  background-color: lighten($state-success-bg, 7.5%);
-  border-color: lighten($state-success-border, 7.5%);
+  background-color: $block-green;
+  border-color: darken(adjust-hue($block-green, -10), 3%);
+  color: darken(adjust-hue($block-green, -10), 20%);
+
+  a {
+    color: $block-color;
+  }
 }
 
 // Red
 .multiplier-2 {
-  background-color: lighten($state-danger-bg, 7.5%);
-  border-color: lighten($state-danger-border, 7.5%);
+  background-color: $block-red;
+  border-color: darken(adjust-hue($block-red, -10), 3%);
+  color: darken(adjust-hue($block-red, -10), 20%);
+
+  a {
+    color: $block-color;
+  }
 }
 
 // Blue
 .multiplier-3 {
-  background-color: lighten($state-info-bg, 7.5%);
-  border-color: lighten($state-info-border, 7.5%);
+  background-color: $block-blue;
+  border-color: darken(adjust-hue($block-blue, 10), 3%);
+  color: darken(adjust-hue($block-blue, 10), 20%);
+
+  a {
+    color: $block-color;
+  }
 }
 
 // Yellow
 .multiplier-4 {
-  background-color: lighten($state-warning-bg, 7.5%);
-  border-color: lighten($state-warning-border, 7.5%);
+  background-color: $block-amber;
+  border-color: darken(adjust-hue($block-amber, 10), 3%);
+  color: darken(adjust-hue($block-amber, -10), 20%);
+
+  a {
+    color: $block-color;
+  }
 }

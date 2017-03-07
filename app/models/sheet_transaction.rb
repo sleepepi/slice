@@ -45,6 +45,7 @@ class SheetTransaction < ApplicationRecord
       unless skip_validation
         sheet.update_response_count!
         sheet.subject.reset_checks_in_background!
+        sheet.create_notifications! if %w(sheet_create public_sheet_create).include?(transaction_type)
       end
     end
 

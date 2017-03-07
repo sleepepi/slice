@@ -20,7 +20,7 @@
             Archive
       %li.divider{ role: 'separator' }
       %li
-        = link_to editor_project_check_path(@project, check), method: :delete, remote: true, data: { confirm: "Delete #{check.name}?" } do
+        = link_to editor_project_check_path(@project, check), method: :delete, remote: true, data: { confirm: "Delete \"#{check.name}\" check?" } do
           .text-danger
             %span.glyphicon.glyphicon-trash
             Delete

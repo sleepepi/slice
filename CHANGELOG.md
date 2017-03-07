@@ -9,11 +9,14 @@
 ### Enhancements
 - **General Changes**
   - Optimized loading times for a number of index pages
+  - Simplified messages when deleting items
 - **Gem Changes**
   - Updated to highcharts 5.0.7
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
+  - Project editors can enable notifications allowing project members to receive
+    notifications when sheets for that design are created
 - **Domain Changes**
   - Domains can now be sorted by number of variables
 - **Export Changes**
@@ -27,6 +30,12 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **Theme Changes**
+  - Improved consistency of warning and highlight colors across themes
+  - Improved the display of signature across themes, particularly in the night
+    theme
+  - Styling of permuted block randomization schemes is now more consistent
+    across themes
 - **PATS Changes**
   - Updated "Reasons for Not Interested in Participation" eligibility table
     - The eligibility table is now filtered on the "33. Is the caregiver
@@ -36,7 +45,7 @@
       subjects instead of number of sheets to match number of subjects in
       numerator
 - **Gem Changes**
-  - Updated to rails 5.0.2.rc1
+  - Updated to rails 5.0.2
   - Updated to clipboard.js 1.6.0
 
 ### Bug Fixes

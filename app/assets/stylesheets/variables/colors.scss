@@ -16,7 +16,7 @@ $calendar-today-bg: lighten($a200, 27%) !default;
 
 $calender-window-bg: $a700 !default;
 
-$dashboard-bg: $body-bg;
+$dashboard-bg: $body-bg !default;
 $dashboard-lead-bg: $a400;
 $section-lead-bg: $a700;
 

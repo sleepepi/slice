@@ -21,7 +21,7 @@
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to editor_project_check_path(@project, @check), method: :delete, data: { confirm: "Are you sure you want to delete Check #{@check.name}?" } do
+                = link_to editor_project_check_path(@project, @check), method: :delete, data: { confirm: "Delete \"#{@check.name}\" check?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete

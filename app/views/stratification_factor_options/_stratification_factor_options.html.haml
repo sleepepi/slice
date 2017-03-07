@@ -34,7 +34,7 @@
                 - unless @randomization_scheme.published?
                   %li.divider{ role: 'separator' }
                   %li
-                    = link_to [@project, @randomization_scheme, @stratification_factor, stratification_factor_option], method: :delete, data: { confirm: "Are you sure you want to delete Stratification Factor Option #{stratification_factor_option.name}?" } do
+                    = link_to [@project, @randomization_scheme, @stratification_factor, stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{stratification_factor_option.name}\"?" } do
                       .text-danger
                         %span.glyphicon.glyphicon-trash
                         Delete

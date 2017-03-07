@@ -22,7 +22,7 @@
                     Edit
                 %li.divider{ role: 'separator' }
                 %li
-                  = link_to [@project, @task], method: :delete, data: { confirm: "Are you sure you want to delete #{@task.name}?" } do
+                  = link_to [@project, @task], method: :delete, data: { confirm: "Delete \"#{@task.description}\" task?" } do
                     .text-danger
                       %span.glyphicon.glyphicon-trash
                       Delete

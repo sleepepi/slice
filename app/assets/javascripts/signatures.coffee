@@ -1,11 +1,24 @@
 @signaturesReady = ->
   $("[data-object~='signature']").each( (index, element) ->
     sig = $($(this).data('signature-target')).val() if $($(this).data('signature-target')).val()
-    $(this).signaturePad( drawOnly: true, lineWidth: 0, validateFields: false, canvas: $(this), output: $($(this).data('signature-target')) ).regenerate(sig)
+    $(this).signaturePad(
+      drawOnly: true
+      lineWidth: 0
+      validateFields: false
+      canvas: $(this)
+      output: $($(this).data('signature-target'))
+      bgColour: $(this).css('background-color') || "#ffffff"
+      penColour: $(this).css('color') || "#145394"
+    ).regenerate(sig)
   )
   $("[data-object~='signature-display']").each( (index, element) ->
-    sig = $(this).data('signature-string') # if $(this).data('signature-string')
-    $(this).signaturePad( displayOnly: true, canvas: $(this) ).regenerate(sig)
+    sig = $(this).data('signature-string')
+    $(this).signaturePad(
+      displayOnly: true
+      canvas: $(this)
+      bgColour: $(this).css('background-color') || "#ffffff"
+      penColour: $(this).css('color') || "#145394"
+    ).regenerate(sig)
   )
   false
 

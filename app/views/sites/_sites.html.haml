@@ -15,6 +15,6 @@
         %td.hidden-xs= link_to site.user.name, site.user if site.user
         %td
           - if current_user.all_sites.pluck(:id).include?(site.id)
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_site_path(site.project, site), delete_url: [site.project, site], delete_confirmation: "Are you sure you want to delete Site #{site.name}?"
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_site_path(site.project, site), delete_url: [site.project, site], delete_confirmation: "Delete #{site.name}?"
 
 .center= paginate @sites, theme: 'bootstrap'

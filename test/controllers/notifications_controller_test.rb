@@ -56,6 +56,14 @@ class NotificationsControllerTest < ActionController::TestCase
     )
   end
 
+  test 'should show sheet created notification' do
+    login(users(:valid))
+    get :show, params: { id: notifications(:sheet_created) }
+    assert_not_nil assigns(:notification)
+    assert_equal true, assigns(:notification).read
+    assert_redirected_to [assigns(:notification).project, assigns(:notification).sheet]
+  end
+
   test 'should show blank notification and redirect' do
     login(users(:valid))
     get :show, params: { id: notifications(:blank) }

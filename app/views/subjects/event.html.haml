@@ -20,7 +20,7 @@
                 Edit
             %li.divider{ role: 'separator' }
             %li
-              = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Are you sure you want to remove #{@subject_event.event.name} from subject? Associated sheets will not be deleted." } do
+              = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." } do
                 .text-danger
                   %span.glyphicon.glyphicon-trash
                   Delete

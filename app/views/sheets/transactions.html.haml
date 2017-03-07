@@ -80,7 +80,7 @@
                   %span{ rel: 'tooltip', title: 'Blank Response', data: { placement: 'right', container: 'body' } } &#9872;
                 - else
                   - if a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
-                    %canvas.pad{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_before}" } }
+                    %canvas.pad-display{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_before}" } }
                   - else
                     = a.value_before
               %td
@@ -94,6 +94,6 @@
                   %span{ rel: 'tooltip', title: 'Blank Response', data: { placement: 'right', container: 'body' } } &#9872;
                 - else
                   - if a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
-                    %canvas.pad{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_after}" } }
+                    %canvas.pad-display{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_after}" } }
                   - else
                     = a.value_after
