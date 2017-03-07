@@ -17,6 +17,12 @@ $dashboard-lead-bg: $p900;
 $section-lead-bg: $p700;
 $blockquote-text-color: $gray-dark;
 
+// https://material.google.com/style/color.html#color-color-palette
+$block-blue: darken(#2196f3, 30%);  // $p500 blue
+$block-red: darken(#f44336, 30%);   // $p500 red
+$block-green: darken(#4caf50, 30%); // $p500 green
+$block-amber: darken(#ffc107, 30%); // $p500 $amber
+
 @import 'tree';
 
 body,

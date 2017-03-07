@@ -28,6 +28,8 @@
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night
     theme
+  - Styling of permuted block randomization schemes is now more consistent
+    across themes
 - **PATS Changes**
   - Updated "Reasons for Not Interested in Participation" eligibility table
     - The eligibility table is now filtered on the "33. Is the caregiver
