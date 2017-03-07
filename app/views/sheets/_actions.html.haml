@@ -43,7 +43,7 @@
             Reassign
         %li.divider{ role: 'separator' }
         %li
-          = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Are you sure you want to delete Sheet #{sheet.name}?" } do
+          = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Delete #{sheet.name}?" } do
             .text-danger
               %span.glyphicon.glyphicon-trash
               Delete

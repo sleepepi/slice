@@ -24,7 +24,7 @@
                     Edit
                 %li.divider{ role: 'separator' }
                 %li
-                  = link_to [@project, @randomization_scheme, @block_size_multiplier], method: :delete, data: { confirm: "Are you sure you want to delete Block Size Multiplier #{@block_size_multiplier.name}?" } do
+                  = link_to [@project, @randomization_scheme, @block_size_multiplier], method: :delete, data: { confirm: "Delete \"#{@block_size_multiplier.name}\" block size multiplier?" } do
                     .text-danger
                       %span.glyphicon.glyphicon-trash
                       Delete

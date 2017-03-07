@@ -24,7 +24,7 @@
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), method: :delete, data: { confirm: "Are you sure you want to delete Value #{@check_filter_value.value}?" } do
+                = link_to editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), method: :delete, data: { confirm: "Delete \"#{@check_filter_value.value}\" filter value?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete

@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Optimized loading times for a number of index pages
+  - Simplified messages when deleting items
 - **Gem Changes**
   - Updated to highcharts 5.0.7
 - **Design Changes**

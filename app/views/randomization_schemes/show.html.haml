@@ -21,7 +21,7 @@
                   Edit
               %li.divider{ role: 'separator' }
               %li
-                = link_to [@project, @randomization_scheme], method: :delete, data: { confirm: "Are you sure you want to delete Randomization Scheme #{@randomization_scheme.name}?" } do
+                = link_to [@project, @randomization_scheme], method: :delete, data: { confirm: "Delete \"#{@randomization_scheme.name}\" randomization scheme?" } do
                   .text-danger
                     %span.glyphicon.glyphicon-trash
                     Delete
@@ -125,7 +125,7 @@
           = link_to 'Add Additional Lists', expand_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
         - elsif !@randomization_scheme.randomized_subjects?
           - if @randomization_scheme.randomizations.size > 0
-            = link_to 'Regenerate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, data: { confirm: 'Are you sure you want to irreversibly destroy the existing lists?' }, class: 'btn btn-danger-inverse btn-xs'
+            = link_to 'Regenerate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, data: { confirm: 'Delete the existing lists?' }, class: 'btn btn-danger-inverse btn-xs'
           - else
             = link_to 'Generate Lists', generate_project_randomization_scheme_lists_path(@project, @randomization_scheme), method: :post, class: 'btn btn-default btn-xs'
 

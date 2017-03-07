@@ -106,7 +106,7 @@
                 %span.label.label-success Open
             - if site_or_project_editor
               %td
-                = render 'layouts/edit_delete_dropdown', edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Are you sure you want to delete Adverse Event #{adverse_event.name}?"
+                = render 'layouts/edit_delete_dropdown', edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Delete #{adverse_event.name}?"
 
   .center= paginate @adverse_events, theme: 'bootstrap'
 - else

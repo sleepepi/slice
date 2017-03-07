@@ -43,4 +43,4 @@
           %td= check_filter.operator
           %td.hidden-xs= check_filter.user.name
           %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_path(@project, @check, check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, check_filter), delete_confirmation: "Are you sure you want to delete filter #{check_filter.name}?"
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_path(@project, @check, check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, check_filter), delete_confirmation: "Delete \"#{check_filter.name}\" filter?"

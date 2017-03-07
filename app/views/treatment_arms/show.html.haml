@@ -24,7 +24,7 @@
                     Edit
                 %li.divider{ role: 'separator' }
                 %li
-                  = link_to [@project, @randomization_scheme, @treatment_arm], method: :delete, data: { confirm: "Delete #{@treatment_arm.name}?" } do
+                  = link_to [@project, @randomization_scheme, @treatment_arm], method: :delete, data: { confirm: "Delete \"#{@treatment_arm.name}\" arm?" } do
                     .text-danger
                       %span.glyphicon.glyphicon-trash
                       Delete

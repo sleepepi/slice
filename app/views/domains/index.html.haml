@@ -38,7 +38,7 @@
               = select_tag "#{domain.id}_options", options_for_select(domain.domain_options.collect(&:value_and_name)), style: 'width: 200px;', class: 'form-control'
           %td.hidden-xs.hidden-sm.center= domain.variables_count
           %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_path(@project, domain), delete_url: [@project, domain], delete_confirmation: "Are you sure you want to delete Domain #{domain.name}?"
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_path(@project, domain), delete_url: [@project, domain], delete_confirmation: "Delete \"#{domain.name}\" domain?"
 
   .center= paginate @domains, theme: 'bootstrap'
 - else

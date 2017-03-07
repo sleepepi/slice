@@ -39,7 +39,7 @@
             - if @randomization_scheme.published?
               = link_to label_or('Scheme Published', 'Published'), '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
             - else
-              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, treatment_arm), delete_url: [@project, @randomization_scheme, treatment_arm], delete_confirmation: "Are you sure you want to delete Treatment Arm #{treatment_arm.name}?"
+              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, treatment_arm), delete_url: [@project, @randomization_scheme, treatment_arm], delete_confirmation: "Delete \"#{treatment_arm.name}\" arm?"
 
 .docs-learn-more
   Learn about

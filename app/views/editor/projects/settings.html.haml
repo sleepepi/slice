@@ -230,4 +230,4 @@
             = link_to 'remove yourself as an editor', team_project_path(@project)
           from the Team page.
       %div
-        = link_to 'Delete Project', owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
+        = link_to 'Delete Project', owner_project_path(@project), method: :delete, class: 'btn btn-danger', data: { confirm: "Delete #{@project.name}?" }

@@ -23,7 +23,7 @@
                     = link_to edit_project_adverse_event_adverse_event_comment_path(@project, @adverse_event, adverse_event_comment), remote: true, class: 'btn btn-xs btn-default' do
                       %span.glyphicon.glyphicon-pencil
                   = succeed ' ' do
-                    = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: 'Are you sure you want to delete this comment?' }, class: 'btn btn-xs btn-danger-inverse' do
+                    = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: 'Delete this comment?' }, class: 'btn btn-xs btn-danger-inverse' do
                       %span.glyphicon.glyphicon-trash
                 = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: 'btn btn-link btn-xs', data: { object: 'scroll-anchor-keep-link' }
               %strong= adverse_event_comment.user.name

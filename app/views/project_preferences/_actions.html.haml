@@ -44,7 +44,7 @@
           Edit Project
     - if project.owner?(current_user)
       %li
-        = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Are you sure you want to delete Project #{project.name}?" } do
+        = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Delete #{project.name}?" } do
           .text-danger
             %span.glyphicon.glyphicon-trash
             Delete Project
