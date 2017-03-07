@@ -25,6 +25,8 @@
         sections with descriptions
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
+  - Improved the display of signature across themes, particularly in the night
+    theme
 - **PATS Changes**
   - Updated "Reasons for Not Interested in Participation" eligibility table
     - The eligibility table is now filtered on the "33. Is the caregiver

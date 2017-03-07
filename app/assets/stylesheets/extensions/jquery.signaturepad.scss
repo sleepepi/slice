@@ -12,7 +12,7 @@
   background-color: $input-bg;
   border: 1px solid $dropdown-fallback-border;
   border-radius: $input-border-radius;
-  box-shadow: inset 0 1px 1px $dropdown-border;
+  color: $link-color;
 
   // For cross browser compatibility, this should be an absolute URL
   // In IE the cursor is relative to the HTML document
@@ -33,6 +33,7 @@
 }
 
 .pad-display {
+  background-color: inherit;
   border: 0 solid transparent;
   cursor: default;
 }
