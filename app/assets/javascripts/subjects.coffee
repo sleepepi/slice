@@ -1,22 +1,3 @@
-@adverseEventsSubjectSearchReady = ->
-  $("#subject-search").typeahead('destroy')
-  $("#subject-search").each( ->
-    $this = $(this)
-    bloodhound = new Bloodhound(
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-      remote:
-        url: "#{root_url}projects/#{$this.data('project-slug')}/subjects/search?q=%QUERY"
-        wildcard: '%QUERY'
-    )
-    $this.typeahead({ hint: true },
-      display: 'value'
-      source: bloodhound
-      templates:
-        suggestion: (item) -> return "<div><strong>#{item.subject_code}</strong></div>"
-    )
-  )
-
 @subjectsAutocompleteReady = ->
   $('[data-object~="subjects-autocomplete"]').each( ->
     $this = $(this)
@@ -80,6 +61,40 @@
         },
         {
           name: 'search'
+          match: /(^|\s)designs\:([\w\-]*)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/subjects/designs_search", { q: term })
+              .done((resp) -> callback(resp) )
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1designs:#{item.value}"
+          template: (item) ->
+            if item.name?
+              "#{item.name}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+        {
+          name: 'search'
+          match: /(^|\s)events\:([\w\-]*)$/
+          search: (term, callback) ->
+            # callback(cache[term], true)
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/subjects/events_search", { q: term })
+              .done((resp) -> callback(resp) )
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1events:#{item.value}"
+          template: (item) ->
+            if item.name?
+              "#{item.name}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+        {
+          name: 'search'
           match: /(^|\s)([\w\-]+)$/
           search: (term, callback) ->
             # callback(cache[term], true)
@@ -92,7 +107,7 @@
         }
       ], { appendTo: 'body' }
     ).on('textComplete:select': (e, value, strategy) ->
-      if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not']
+      if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not', 'designs', 'events']
         $(this).closest('form').submit()
       else if strategy.name == 'submit-on-click'
         $(this).closest('form').submit()
@@ -100,5 +115,4 @@
   )
 
 @subjectsReady = ->
-  adverseEventsSubjectSearchReady()
   subjectsAutocompleteReady()

@@ -27,6 +27,7 @@
   sheetsReady()
   variablesReady()
   subjectsReady()
+  adverseEventsReady()
   projectsReady()
   eventsReady()
   randomizationsReady()

@@ -20,6 +20,18 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get designs search' do
+    login(@site_viewer)
+    get :designs_search, params: { project_id: @project, q: 'designs:' }, xhr: true, format: 'json'
+    assert_response :success
+  end
+
+  test 'should get events search' do
+    login(@site_viewer)
+    get :events_search, params: { project_id: @project, q: 'events:' }, xhr: true, format: 'json'
+    assert_response :success
+  end
+
   test 'should get data entry as site editor' do
     login(users(:site_one_editor))
     get :data_entry, params: { project_id: @project, id: @subject }

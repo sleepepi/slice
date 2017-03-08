@@ -27,6 +27,10 @@
 - **Site Changes**
   - Default site short name is now properly removed when the default site is
     renamed during the project setup process
+- **Subject Changes**
+  - Design and event filters added to subjects index
+    - `designs:NAME`
+    - `events:NAME`
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night

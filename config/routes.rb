@@ -308,6 +308,8 @@ Rails.application.routes.draw do
         get :choose_site, path: 'choose-site'
         get :search
         get :autocomplete
+        get :designs_search
+        get :events_search
       end
     end
 

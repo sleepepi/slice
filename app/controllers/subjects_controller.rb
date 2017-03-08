@@ -5,7 +5,8 @@ class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
     :index, :show, :timeline, :comments, :files, :adverse_events,
-    :events, :sheets, :event, :report, :search, :choose_site, :autocomplete
+    :events, :sheets, :event, :report, :search, :choose_site, :autocomplete,
+    :designs_search, :events_search
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
@@ -206,9 +207,25 @@ class SubjectsController < ApplicationController
                                 .where(project_id: @project.id)
                                 .where('subject_code ILIKE (?)', "#{params[:q]}%")
                                 .order(:subject_code).limit(10)
-    terms = ['adverse-events', 'has', 'is', 'not']
+    terms = ['adverse-events', 'has', 'is', 'not', 'events', 'designs']
     additional_terms = terms.reject { |term| (/^#{params[:q]}/ =~ term).nil? }
     render json: additional_terms + subject_scope.pluck(:subject_code)
+  end
+
+  # GET /projects/:project_id/subjects/designs_search.json
+  def designs_search
+    scope = @project.designs
+                    .where('name ILIKE (?) or slug ILIKE (?) or id = ?', "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
+                    .order(:slug, :name).limit(10)
+    render json: scope.collect { |d| { value: d.to_param, name: d.name } }
+  end
+
+  # GET /projects/:project_id/subjects/events_search.json
+  def events_search
+    scope = @project.events
+                    .where('name ILIKE (?) or slug ILIKE (?) or id = ?', "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
+                    .order(:slug, :name).limit(10)
+    render json: scope.collect { |e| { value: e.to_param, name: e.name } }
   end
 
   # GET /subjects
@@ -353,6 +370,9 @@ class SubjectsController < ApplicationController
           end
       when 'comments'
         scope = scope.where(id: current_user.sheets_with_comments(@project).select(:subject_id))
+      when 'designs', 'events'
+        sheet_scope = Search.run_sheets(@project, current_user, @project.sheets, token)
+        scope = scope.where(id: sheet_scope.select(:subject_id))
       when 'files'
         scope = scope.where(id: current_user.sheets_with_files(@project).select(:subject_id))
       end
