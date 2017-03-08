@@ -62,3 +62,9 @@ auto_lock_site_one:
   # description:
   project: auto_lock
   user: valid
+
+default_site:
+  name: Default Site
+  short_name: Default Site
+  project: default
+  user: valid

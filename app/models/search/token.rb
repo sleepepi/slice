@@ -29,7 +29,7 @@ class Token
       @key = @value
       @value = '1'
       @operator = '='
-    elsif %w(not).include?(@key)
+    elsif %w(not no).include?(@key)
       @key = @value
       @value = '1'
       @operator = '!='

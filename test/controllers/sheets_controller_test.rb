@@ -124,6 +124,18 @@ class SheetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should search for sheets for randomized subjects' do
+    get :index, params: { project_id: @project, search: 'is:randomized' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
+  test 'should search for sheets for un-randomized subjects' do
+    get :index, params: { project_id: @project, search: 'not:randomized' }
+    assert_not_nil assigns(:sheets)
+    assert_response :success
+  end
+
   test 'should get index with invalid project' do
     get :index, params: { project_id: -1 }
     assert_nil assigns(:sheets)

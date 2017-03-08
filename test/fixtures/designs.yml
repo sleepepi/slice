@@ -3,6 +3,7 @@ one:
   user: valid
   project: one
   notifications_enabled: true
+  slug: design-one
 
 two:
   name: Design Two

@@ -29,7 +29,9 @@ class Design < ApplicationRecord
   ]
 
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable, Blindable
+  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable, Blindable, Squishable
+
+  squish :name, :slug, :short_name
 
   attr_writer :questions
   attr_accessor :reimport

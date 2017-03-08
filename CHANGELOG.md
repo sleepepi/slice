@@ -17,8 +17,13 @@
     of scale variables
   - Project editors can enable notifications allowing project members to receive
     notifications when sheets for that design are created
+  - Saving a design automatically removes any extra white space in and around
+    the design `name`, `short_name`, and `slug`
 - **Domain Changes**
   - Domains can now be sorted by number of variables
+- **Event Changes**
+  - Saving an event automatically removes any extra white space in and around
+    the event `name` and `slug`
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**
@@ -30,6 +35,19 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **Site Changes**
+  - Default site short name is now properly removed when the default site is
+    renamed during the project setup process
+- **Subject Changes**
+  - Design and event filters added to subjects index
+    - `designs:NAME`
+    - `events:NAME`
+    - `designs:!=NAME`
+    - `events:!=NAME`
+  - Adverse events, comments, and files now have "no" filters on the index
+    - `no:adverse-events`
+    - `no:comments`
+    - `no:files`
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night

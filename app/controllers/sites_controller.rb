@@ -21,12 +21,16 @@ class SitesController < ApplicationController
   # def add_site_row
   # end
 
-  # POST /create-sites.js
+  # POST /create-sites
   def create_sites
     params[:sites].select { |hash| hash[:name].present? }.each do |hash|
-      site = @project.sites.find_by id: hash[:id]
+      site = @project.sites.find_by(id: hash[:id])
       if site
-        site.update name: hash[:name]
+        if hash[:name] == 'Default Site'
+          site.update(name: hash[:name])
+        else
+          site.update(name: hash[:name], short_name: nil)
+        end
       else
         @project.sites.create name: hash[:name], user_id: current_user.id
       end
