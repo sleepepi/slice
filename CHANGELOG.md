@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 5.1.0.beta1
+  - Updated to haml 5.0.0.beta.2
 
 ## 0.50.0
 

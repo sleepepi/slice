@@ -3,7 +3,6 @@
 source 'https://rubygems.org'
 
 gem 'rails',                '5.1.0.beta1'
-gem 'erubis'
 
 # Database Adapter
 gem 'pg',                   '0.19.0'
@@ -18,7 +17,7 @@ gem 'devise',               '~> 4.2.0'
 gem 'differ',               '~> 0.1.2'
 gem 'figaro',               '~> 1.1.1'
 gem 'font-awesome-rails',   '~> 4.7.0'
-gem 'haml',                 '~> 4.0.7'
+gem 'haml',                 '~> 5.0.0.beta.2'
 gem 'jquery-ui-rails',      '~> 6.0.1'
 gem 'kaminari',             '~> 1.0.1'
 gem 'naturalsort',          '~> 1.2.0'
