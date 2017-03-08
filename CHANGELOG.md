@@ -11,6 +11,8 @@
     of scale variables
   - Project editors can enable notifications allowing project members to receive
     notifications when sheets for that design are created
+  - Saving a design automatically removes any extra white space in and around
+    the design `name`, `short_name`, and `slug`
 - **Domain Changes**
   - Domains can now be sorted by number of variables
 - **Export Changes**
