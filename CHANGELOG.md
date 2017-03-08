@@ -36,6 +36,12 @@
   - Design and event filters added to subjects index
     - `designs:NAME`
     - `events:NAME`
+    - `designs:!=NAME`
+    - `events:!=NAME`
+  - Adverse events, comments, and files now have "no" filters on the index
+    - `no:adverse-events`
+    - `no:comments`
+    - `no:files`
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night

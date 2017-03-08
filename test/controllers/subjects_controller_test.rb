@@ -389,13 +389,58 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get index for subjects with no adverse events' do
+    get :index, params: { project_id: @project, search: 'no:adverse-events' }
+    assert_response :success
+  end
+
   test 'should get index for subjects with comments' do
     get :index, params: { project_id: @project, search: 'has:comments' }
     assert_response :success
   end
 
+  test 'should get index for subjects with no comments' do
+    get :index, params: { project_id: @project, search: 'no:comments' }
+    assert_response :success
+  end
+
   test 'should get index for subjects with files' do
     get :index, params: { project_id: @project, search: 'has:files' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects with no files' do
+    get :index, params: { project_id: @project, search: 'no:files' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects missing designs' do
+    get :index, params: { project_id: @project, search: 'designs:missing' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects missing events' do
+    get :index, params: { project_id: @project, search: 'events:missing' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects with designs' do
+    get :index, params: { project_id: @project, search: 'designs:design-one' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects with events' do
+    get :index, params: { project_id: @project, search: 'events:event-one' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects without designs' do
+    get :index, params: { project_id: @project, search: 'designs:!=design-one' }
+    assert_response :success
+  end
+
+  test 'should get index for subjects without events' do
+    get :index, params: { project_id: @project, search: 'events:!=event-one' }
     assert_response :success
   end
 

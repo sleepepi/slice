@@ -73,6 +73,7 @@
                   %li= link_to 'All', project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == 'adverse-events' }.collect(&:to_s).join(' '))), style: @tokens.select { |t| t.key == 'adverse-events' }.blank? ? 'font-weight:bold;' : ''
                   %li= link_to 'Open', project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == 'adverse-events' }.collect(&:to_s) + ['adverse-events:open']).join(' '))), style: @tokens.select { |t| t.key == 'adverse-events' && t.value == 'open' }.present? ? 'font-weight:bold;' : ''
                   %li= link_to 'Closed', project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == 'adverse-events' }.collect(&:to_s) + ['adverse-events:closed']).join(' '))), style: @tokens.select { |t| t.key == 'adverse-events' && t.value == 'closed' }.present? ? 'font-weight:bold;' : ''
+                  %li= link_to 'None', project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == 'adverse-events' }.collect(&:to_s) + ['no:adverse-events']).join(' '))), style: @tokens.select { |t| t.key == 'adverse-events' && %w(missing !=).include?(t.operator) }.present? ? 'font-weight:bold;' : ''
 
       - @subjects.each do |subject|
         %tr{ id: "subject_#{subject.id}" }

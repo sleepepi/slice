@@ -47,6 +47,20 @@
         },
         {
           name: 'submit-on-click'
+          match: /(^|\s)no\:([\w\-]*)$/
+          search: (term, callback) ->
+            words = ['comments', 'files']
+            resp = $.map(words, (word) ->
+              if word.indexOf(term) == 0
+                word
+              else
+                null
+            )
+            callback(resp)
+          replace: (value) -> return "$1no:#{value}"
+        },
+        {
+          name: 'submit-on-click'
           match: /(^|\s)adverse-events\:([\w\-]*)$/
           search: (term, callback) ->
             words = ['open', 'closed']
@@ -107,7 +121,7 @@
         }
       ], { appendTo: 'body' }
     ).on('textComplete:select': (e, value, strategy) ->
-      if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not', 'designs', 'events']
+      if strategy.name == 'search' and value not in ['adverse-events', 'has', 'is', 'not', 'no', 'designs', 'events']
         $(this).closest('form').submit()
       else if strategy.name == 'submit-on-click'
         $(this).closest('form').submit()

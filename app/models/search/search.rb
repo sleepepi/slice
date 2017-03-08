@@ -183,7 +183,7 @@ class Search
 
   def compute_sheets_for_variable
     sheet_scope = all_viewable_sheets
-    return sheet_scope if @values.count == 0
+    return sheet_scope if @values.count.zero?
     select_sheet_ids = subquery_scope.where(variable: @variable).left_outer_joins(:domain_option).where(subquery).select(:sheet_id)
 
     if %w(missing unentered blank).include?(@operator)

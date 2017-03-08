@@ -207,7 +207,7 @@ class SubjectsController < ApplicationController
                                 .where(project_id: @project.id)
                                 .where('subject_code ILIKE (?)', "#{params[:q]}%")
                                 .order(:subject_code).limit(10)
-    terms = ['adverse-events', 'has', 'is', 'not', 'events', 'designs']
+    terms = ['adverse-events', 'designs', 'events', 'has', 'is', 'no', 'not']
     additional_terms = terms.reject { |term| (/^#{params[:q]}/ =~ term).nil? }
     render json: additional_terms + subject_scope.pluck(:subject_code)
   end
@@ -346,36 +346,8 @@ class SubjectsController < ApplicationController
 
   def scope_search_filter(scope, search)
     @tokens = Search.pull_tokens(search)
-    # TODO: Remove randomized_used if left_outer_join is used in subject.rb
-    randomized_used = false
-    @tokens.each do |token|
-      case token.key
-      when 'randomized'
-        break if randomized_used
-        scope = \
-          if token.operator == '!='
-            scope.unrandomized
-          else
-            scope.randomized
-          end
-        randomized_used = true
-      when 'adverse-events'
-        scope = \
-          if token.value == 'open'
-            scope.open_aes
-          elsif token.value == 'closed'
-            scope.closed_aes
-          else
-            scope.any_aes
-          end
-      when 'comments'
-        scope = scope.where(id: current_user.sheets_with_comments(@project).select(:subject_id))
-      when 'designs', 'events'
-        sheet_scope = Search.run_sheets(@project, current_user, @project.sheets, token)
-        scope = scope.where(id: sheet_scope.select(:subject_id))
-      when 'files'
-        scope = scope.where(id: current_user.sheets_with_files(@project).select(:subject_id))
-      end
+    @tokens.reject { |t| t.key == 'search' }.each do |token|
+      scope = SearchSubject.subjects(@project, current_user, scope, token)
     end
     scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
   end
