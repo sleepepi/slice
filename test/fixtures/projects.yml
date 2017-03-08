@@ -54,3 +54,8 @@ auto_lock:
   slug: auto-lock-sheets
   user: valid
   auto_lock_sheets: after24hours
+
+default:
+  name: Default
+  slug: default
+  user: valid

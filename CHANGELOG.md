@@ -24,6 +24,9 @@
     100% complete as opposed to 0% complete
       - This change helps mark handoff designs complete that only include
         sections with descriptions
+- **Site Changes**
+  - Default site short name is now properly removed when the default site is
+    renamed during the project setup process
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night

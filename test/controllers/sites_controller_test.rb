@@ -34,6 +34,36 @@ class SitesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get create site and keep default site short name' do
+    login(users(:valid))
+    assert_difference('Site.count', 0) do
+      post :create_sites, params: {
+        project_id: projects(:default),
+        sites: [
+          { id: sites(:default_site).id, name: 'Default Site' }
+        ]
+      }, format: 'js'
+    end
+    sites(:default_site).reload
+    assert_equal 'Default Site', sites(:default_site).short_name
+    assert_redirected_to invite_editor_project_path(projects(:default))
+  end
+
+  test 'should get create site and remove default site short name' do
+    login(users(:valid))
+    assert_difference('Site.count', 0) do
+      post :create_sites, params: {
+        project_id: projects(:default),
+        sites: [
+          { id: sites(:default_site).id, name: 'New Name' }
+        ]
+      }, format: 'js'
+    end
+    sites(:default_site).reload
+    assert_equal 'NN', sites(:default_site).short_name
+    assert_redirected_to invite_editor_project_path(projects(:default))
+  end
+
   test 'should get create sites' do
     login(@project_editor)
     assert_difference('Site.count') do
