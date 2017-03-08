@@ -3,7 +3,9 @@
 # Groups together a set of designs on a specific date.
 class Event < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Forkable, Sluggable, Blindable
+  include Searchable, Deletable, Forkable, Sluggable, Blindable, Squishable
+
+  squish :name, :slug
 
   attr_accessor :design_hashes
   after_save :set_event_designs

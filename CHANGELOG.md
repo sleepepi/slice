@@ -15,6 +15,9 @@
     the design `name`, `short_name`, and `slug`
 - **Domain Changes**
   - Domains can now be sorted by number of variables
+- **Event Changes**
+  - Saving an event automatically removes any extra white space in and around
+    the event `name` and `slug`
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**
