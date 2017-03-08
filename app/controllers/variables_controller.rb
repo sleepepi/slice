@@ -55,8 +55,27 @@ class VariablesController < ApplicationController
 
   # GET /projects/:project_id/variables/values_search
   def values_search
+    (variable_name, values) = params[:q].split(':')
+    first_values = values.to_s.split(',', -1)[0..-2].join(',')
+    last_value = values.to_s.split(',', -1)[-1].to_s
     @variable = viewable_variables.where('name ILIKE ?', params[:q].split(':').first).first
-    render json: (@variable ? @variable.domain_options.collect { |o| { value: o.value, name: o.name } } : []) + [{ value: 'any' }, { value: 'missing' }]
+    json = \
+      if @variable
+        filtered_options = \
+          @variable.domain_options.select do |o|
+            !(/^#{last_value}/i =~ o.value).nil? || !(/(^|\s)#{last_value}/i =~ o.name).nil?
+          end
+        filtered_options.collect do |o|
+          {
+            value: "#{variable_name}:#{"#{first_values}," unless first_values.blank?}#{o.value}",
+            name: o.value_and_name
+          }
+        end
+      else
+        []
+      end
+
+    render json: json + [{ value: "#{variable_name}:any", name: 'any' }, { value: "#{variable_name}:missing", name: 'missing' }]
   end
 
   # GET /projects/:project_id/variables/checks_search.json

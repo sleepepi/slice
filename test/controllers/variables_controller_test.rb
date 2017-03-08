@@ -419,6 +419,24 @@ class VariablesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get values search without colon' do
+    login(users(:valid))
+    get :values_search, params: { project_id: @project, q: 'var_gender' }, xhr: true, format: 'js'
+    assert_response :success
+  end
+
+  test 'should get values search with starting letter' do
+    login(users(:valid))
+    get :values_search, params: { project_id: @project, q: 'var_gender:m' }, xhr: true, format: 'js'
+    assert_response :success
+  end
+
+  test 'should get values search with multiple values' do
+    login(users(:valid))
+    get :values_search, params: { project_id: @project, q: 'var_gender:m,f' }, xhr: true, format: 'js'
+    assert_response :success
+  end
+
   test 'should get checks search' do
     login(users(:valid))
     get :checks_search, params: { project_id: @project, q: 'checks:' }, xhr: true, format: 'js'

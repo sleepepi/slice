@@ -444,6 +444,11 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get index for subjects with invalid key' do
+    get :index, params: { project_id: @project, search: 'nokey:something' }
+    assert_response :success
+  end
+
   test 'should get index with event' do
     get :index, params: { project_id: @project, event_id: events(:one).id }
     assert_response :success
