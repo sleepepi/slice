@@ -131,7 +131,6 @@
         {
           match: /(^|\s)checks\:([\w\-]*)$/
           search: (term, callback) ->
-            # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/checks_search", { q: term })
               .done((resp) -> callback(resp) )
               .fail(-> callback([]))
@@ -142,7 +141,6 @@
         {
           match: /(^|\s)events\:([\w\-]*)$/
           search: (term, callback) ->
-            # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/events_search", { q: term })
               .done((resp) -> callback(resp) )
               .fail(-> callback([]))
@@ -153,7 +151,6 @@
         {
           match: /(^|\s)(\w+)$/
           search: (term, callback) ->
-            # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
               .done((resp) -> callback(resp))
               .fail(-> callback([]))
@@ -162,17 +159,16 @@
           cache: true
         },
         {
-          match: /(^|\s)(\w+\:([\w\-\.]*,)*)$/
+          match: /(^|\s)(\w+\:[^\s]*)$/
           search: (term, callback) ->
-            # callback(cache[term], true)
             $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/values_search", { q: term })
               .done((resp) -> callback(resp) )
               .fail(-> callback([]))
           replace: (item) ->
-            return "$1$2#{item.value}"
+            return "$1#{item.value}"
           template: (item) ->
             if item.name?
-              "#{item.value}: #{item.name}"
+              "#{item.name}"
             else
               "#{item.value}"
           cache: true
