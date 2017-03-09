@@ -18,6 +18,10 @@
 - **Event Changes**
   - Saving an event automatically removes any extra white space in and around
     the event `name` and `slug`
+  - Designs on events can now be set as "Always Required" and "Conditionally
+    Required"
+    - "Conditionally Required" designs are required if the subject has a
+      matching on a variable value on a previous design and event
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**

@@ -56,11 +56,20 @@ class Event < ApplicationRecord
     design_hashes.each_with_index do |hash, index|
       design = project.designs.find_by(id: hash[:design_id])
       next unless design
-      event_designs.create(
-        design_id: design.id,
-        position: index,
-        handoff_enabled: hash[:handoff_enabled]
-      )
+      create_event_design(design, index, hash)
     end
+  end
+
+  def create_event_design(design, position, hash)
+    event_designs.create(
+      design_id: design.id, position: position,
+      handoff_enabled: hash[:handoff_enabled],
+      requirement: hash[:requirement].present? ? hash[:requirement] : 'always',
+      conditional_event_id: hash[:conditional_event_id],
+      conditional_design_id: hash[:conditional_design_id],
+      conditional_variable_id: hash[:conditional_variable_id],
+      conditional_value: hash[:conditional_value],
+      conditional_operator: hash[:conditional_operator].present? ? hash[:conditional_operator] : '='
+    )
   end
 end
