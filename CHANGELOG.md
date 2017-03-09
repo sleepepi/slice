@@ -47,6 +47,8 @@
     - `no:adverse-events`
     - `no:comments`
     - `no:files`
+- **Subject Event Changes**
+  - Improved the display of the event completion percentage
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night

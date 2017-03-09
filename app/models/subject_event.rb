@@ -55,4 +55,40 @@ class SubjectEvent < ApplicationRecord
   def handoffs?
     event.event_designs.where(handoff_enabled: true).count > 0
   end
+
+  # Filters designs on a subject event by the user's blinded status
+  def designs_on_subject_event(current_user)
+    current_user.all_viewable_designs.where(id: required_design_ids)
+  end
+
+  # Filters sheets on a subject event by the user's blinded status
+  def sheets_on_subject_event(current_user)
+    current_user.all_viewable_sheets
+                .where(subject_event_id: id)
+                .where(design_id: required_design_ids)
+  end
+
+  def extra_sheets_on_subject_event(current_user)
+    current_user.all_viewable_sheets
+                .where(subject_event_id: id)
+                .where.not(design_id: required_design_ids)
+  end
+
+  def required_design_ids
+    design_ids = []
+    event.event_designs.each do |event_design|
+      design_ids << event_design.design_id if event_design.required?(subject)
+    end
+    design_ids.uniq
+  end
+
+  def percent(current_user)
+    sheets_started = sheets_on_subject_event(current_user).pluck(:design_id).uniq.count
+    designs_count = designs_on_subject_event(current_user).count
+    if designs_count.positive?
+      sheets_started * 100 / designs_count
+    else
+      100
+    end
+  end
 end

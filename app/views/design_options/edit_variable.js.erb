@@ -1,7 +1,7 @@
 $("#interactive-design-container").html("<%=j render 'design_options/edit_variable' %>");
 showInteractiveDesignModal();
 $("#interactive-design-container").find('input, textarea').first().focus();
-$(".chosen-select").chosen({ allow_single_deselect: true });
+chosenReady();
 datepickerReady();
 
 $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });

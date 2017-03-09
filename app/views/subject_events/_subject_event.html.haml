@@ -7,19 +7,16 @@
       %span.hidden-xs= subject_event.event_date_to_s
       %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
 
-    - sheets_started = sheets_completed = current_user.sheets_on_subject_event(subject_event).pluck(:design_id).uniq.count
-    - designs_count = current_user.designs_on_subject_event(subject_event).count
+    - percent = subject_event.percent(current_user)
 
-    - if sheets_completed == designs_count
+    - if percent == 100
       %span.text-success
         %span.glyphicon.glyphicon-ok
-    - elsif sheets_started == 0
-      %span.text-muted
-        %span.glyphicon.glyphicon-tasks
-    - else
-      %span.text-highlight
-        %span.glyphicon.glyphicon-tasks
+
     = link_to subject_event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+    %small.hidden-xs
+      %strong= "#{percent}%"
+      complete
     = render 'layouts/unblinded_only', project: @project, object: subject_event.event, placement: 'top'
 
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
@@ -27,6 +24,10 @@
       .panel-body
         = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm btn-block'
   .panel-body{ style: 'padding: 0;' }
+    - if percent.positive?
+      .progress.progress-simple
+        .progress-bar.progress-bar-success{ style: "width: #{percent}%" }
+
     %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
       %col{ width: '60px' }
       %col
@@ -102,7 +103,7 @@
                       = link_to set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true do
                         / %span.glyphicon.glyphicon-trash
                         Set as Missing
-    - non_design_sheets = current_user.extra_sheets_on_subject_event(subject_event)
+    - non_design_sheets = subject_event.extra_sheets_on_subject_event(current_user)
     - if non_design_sheets && non_design_sheets.count > 0
       %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
         %col{ width: '60px' }
