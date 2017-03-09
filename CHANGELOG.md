@@ -4,8 +4,6 @@
 - **General Changes**
   - Optimized loading times for a number of index pages
   - Simplified messages when deleting items
-- **Gem Changes**
-  - Updated to highcharts 5.0.7
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
@@ -71,6 +69,7 @@
 - **Gem Changes**
   - Updated to rails 5.0.2
   - Updated to clipboard.js 1.6.0
+  - Updated to highcharts 5.0.7
 
 ### Bug Fixes
 - Fixed an issue in the R export script that could create invalid column names
