@@ -32,12 +32,9 @@
                     - if percent == 100
                       %span.text-success
                         %span.glyphicon.glyphicon-ok
-                    - elsif percent.zero?
-                      %span.text-muted
-                        %span.glyphicon.glyphicon-tasks
                     - else
-                      %span.text-highlight
-                        %span.glyphicon.glyphicon-tasks
+                      %span.text-muted
+                        %span.glyphicon.glyphicon-unchecked
                     = subject_event.event.name
         - else
           %li.side-nav-section
