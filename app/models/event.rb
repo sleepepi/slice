@@ -64,12 +64,13 @@ class Event < ApplicationRecord
     event_designs.create(
       design_id: design.id, position: position,
       handoff_enabled: hash[:handoff_enabled],
+      duplicates: hash[:duplicates].present? ? hash[:duplicates] : 'highlight',
       requirement: hash[:requirement].present? ? hash[:requirement] : 'always',
       conditional_event_id: hash[:conditional_event_id],
       conditional_design_id: hash[:conditional_design_id],
       conditional_variable_id: hash[:conditional_variable_id],
-      conditional_value: hash[:conditional_value],
-      conditional_operator: hash[:conditional_operator].present? ? hash[:conditional_operator] : '='
+      conditional_operator: hash[:conditional_operator].present? ? hash[:conditional_operator] : '=',
+      conditional_value: hash[:conditional_value]
     )
   end
 end

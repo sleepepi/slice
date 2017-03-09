@@ -82,9 +82,9 @@ class EventsController < ApplicationController
     params.require(:event).permit(
       :name, :slug, :description, :position, :archived, :only_unblinded,
       design_hashes: [
-        :design_id, :handoff_enabled, :requirement, :conditional_event_id,
-        :conditional_design_id, :conditional_variable_id, :conditional_value,
-        :conditional_operator
+        :design_id, :handoff_enabled, :duplicates, :requirement,
+        :conditional_event_id, :conditional_design_id, :conditional_variable_id,
+        :conditional_operator, :conditional_value
       ]
     )
   end

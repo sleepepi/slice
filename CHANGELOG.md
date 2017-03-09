@@ -22,6 +22,11 @@
     Required"
     - "Conditionally Required" designs are required if the subject has a
       matching on a variable value on a previous design and event
+  - Designs on events can now be set as "Highlight Duplicates" (default), or
+    "Ignore Duplicates"
+    - Both settings allow duplicates designs on a subject event, however only
+      the first draws attention to the duplicate design
+    - Duplicate sheets now also display their creation date on the subject event
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**

@@ -50,3 +50,8 @@
 .table-transparent {
   background-color: transparent;
 }
+
+.warning,
+.warning a {
+  color: darken($brand-highlight-text, 10%);
+}

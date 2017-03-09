@@ -9,6 +9,10 @@ class EventDesign < ApplicationRecord
     ['Conditionally Required', 'conditional']
   ]
   OPERATORS = %w(= < <= > >= !=)
+  DUPLICATES = [
+    ['Highlight Duplicates', 'highlight'],
+    ['Ignore Duplicates', 'ignore']
+  ]
 
   # Concerns
   include Squishable
@@ -31,6 +35,10 @@ class EventDesign < ApplicationRecord
 
   def conditionally_required?
     requirement == 'conditional'
+  end
+
+  def highlight_duplicates?
+    duplicates == 'highlight'
   end
 
   def requirement_name
