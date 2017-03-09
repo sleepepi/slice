@@ -8,7 +8,11 @@ class EventDesign < ApplicationRecord
     ['Always Required', 'always'],
     ['Conditionally Required', 'conditional']
   ]
-  OPERATORS = %w(= < <= > >=)
+  OPERATORS = %w(= < <= > >= !=)
+
+  # Concerns
+  include Squishable
+  squish :conditional_value
 
   # Validation
   validates :position, uniqueness: { scope: [:event_id, :design_id] }
@@ -16,6 +20,9 @@ class EventDesign < ApplicationRecord
   # Relationships
   belongs_to :event
   belongs_to :design
+  belongs_to :conditional_event, class_name: 'Event'
+  belongs_to :conditional_design, class_name: 'Design'
+  belongs_to :conditional_variable, class_name: 'Variable'
 
   # Methods
   def always_required?
@@ -28,5 +35,16 @@ class EventDesign < ApplicationRecord
 
   def requirement_name
     REQUIREMENTS.find { |_name, value| value == requirement }.first
+  end
+
+  def required?(subject)
+    return true if always_required?
+    subject.evaluate?(
+      event: conditional_event,
+      design: conditional_design,
+      variable: conditional_variable,
+      value: conditional_value,
+      operator: conditional_operator
+    )
   end
 end

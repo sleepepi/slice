@@ -70,7 +70,7 @@
                       %span.glyphicon.glyphicon-comment
                 - if sheets.count > 1
                   %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
-        - else
+        - elsif event_design.required?(@subject)
           %tr
             %td
               - if @subject.editable_by?(current_user)
