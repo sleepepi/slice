@@ -10,6 +10,13 @@ class EventsControllerTest < ActionController::TestCase
     @event = events(:one)
   end
 
+  test 'should add design' do
+    post :add_design, params: { project_id: @project }, format: 'js'
+    assert_not_nil assigns(:project)
+    assert_template 'add_design'
+    assert_response :success
+  end
+
   test 'should get index' do
     get :index, params: { project_id: @project }
     assert_response :success

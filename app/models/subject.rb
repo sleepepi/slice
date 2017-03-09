@@ -179,4 +179,24 @@ class Subject < ApplicationRecord
     sheets.find_each(&:reset_checks!)
     sheets.find_each(&:run_pending_checks!)
   end
+
+  def evaluate?(event: nil, design: nil, variable: nil, value: nil, operator: '=')
+    return true if variable.nil? || value.blank?
+    scope = sheets
+    scope = scope.joins(:subject_event).where(subject_events: { event: event }) if event
+    scope = scope.where(design: design) if design
+    value_scope = variable.sheet_variables.where(sheet_id: scope.select(:id))
+    value_scope = value_scope.where(variable: variable) if variable
+    values = value_scope.pluck_domain_option_value_or_value
+    count = \
+      case operator
+      when '<', '>', '<=', '>='
+        values.reject(&:blank?).count { |v| v.to_f.send(operator, value.to_f) }
+      when '!='
+        values.count { |v| v != value }
+      else
+        values.count { |v| v == value }
+      end
+    count.positive?
+  end
 end

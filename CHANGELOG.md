@@ -25,6 +25,15 @@
 - **Event Changes**
   - Saving an event automatically removes any extra white space in and around
     the event `name` and `slug`
+  - Designs on events can now be set as "Always Required" and "Conditionally
+    Required"
+    - "Conditionally Required" designs are required if the subject has a
+      matching on a variable value on a previous design and event
+  - Designs on events can now be set as "Highlight Duplicates" (default), or
+    "Ignore Duplicates"
+    - Both settings allow duplicates designs on a subject event, however only
+      the first draws attention to the duplicate design
+    - Duplicate sheets now also display their creation date on the subject event
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**
@@ -50,6 +59,8 @@
     - `no:adverse-events`
     - `no:comments`
     - `no:files`
+- **Subject Event Changes**
+  - Improved the display of the event completion percentage
 - **Theme Changes**
   - Improved consistency of warning and highlight colors across themes
   - Improved the display of signature across themes, particularly in the night
