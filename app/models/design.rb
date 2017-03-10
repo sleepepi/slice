@@ -360,6 +360,10 @@ class Design < ApplicationRecord
     reimport == '1'
   end
 
+  def export_value(raw_data)
+    raw_data ? id : name
+  end
+
   private
 
   # Reset all associated sheets total_response_count to nil to trigger refresh of sheet answer coverage

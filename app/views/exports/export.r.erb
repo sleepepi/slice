@@ -25,8 +25,8 @@ graphics.off
   # Design and Subject Variables
   label(slice$Subject)       <- "Subject ID"
   label(slice$Site)          <- "Site"
-  label(slice$Event.Name)    <- "Event Name"
-  label(slice$Design.Name)   <- "Design Name"
+  label(slice$Event)         <- "Event"
+  label(slice$Design)        <- "Design"
   label(slice$Sheet.ID)      <- "Sheet ID"
   label(slice$Sheet.Created) <- "Sheet Created"
   label(slice$Missing)       <- "Missing"
@@ -36,9 +36,14 @@ graphics.off
 <% end %>
 
 # Create 'factor' variables for single/multi-option choices
+  slice$Site <- factor(slice$Site, levels <- c(<%= @export_formatter.sites.collect { |s| "\"#{s.number_or_id}\"" }.join(',') %>))
+  levels(slice$Site) <- c(<%= @export_formatter.sites.collect { |s| "\"#{s.name.gsub('"', '\"')}\"" }.join(',') %>)
+  slice$Event <- factor(slice$Event, levels <- c(<%= @export_formatter.events.collect { |e| "\"#{e.id}\"" }.join(',') %>))
+  levels(slice$Event) <- c(<%= @export_formatter.events.collect { |e| "\"#{e.name.gsub('"', '\"')}\"" }.join(',') %>)
+  slice$Design <- factor(slice$Design, levels <- c(<%= @export_formatter.designs.collect { |d| "\"#{d.id}\"" }.join(',') %>))
+  levels(slice$Design) <- c(<%= @export_formatter.designs.collect { |d| "\"#{d.name.gsub('"', '\"')}\"" }.join(',') %>)
   slice$Missing <- factor(slice$Missing, levels <- c("0","1"))
   levels(slice$Missing) <- c("No","Yes")
-
 <% @export_formatter.factors.each do |name, domain_options| %>
   slice$<%= name %> <- factor(slice$<%= name %>, levels <- c(<%= domain_options.collect { |domain_option| "\"#{domain_option.value}\"" }.join(',') %>))
   levels(slice$<%= name %>) <- c(<%= domain_options.collect { |domain_option| "\"#{domain_option.name.gsub('"', '\"')}\"" }.join(',') %>)<% end %>
@@ -48,15 +53,15 @@ slice_grids=read.csv('<%= @export_formatter.filename %>_grids_raw.csv', skip = 2
 # Apply labels to grid variables
   names(slice_grids)[1] <- "Subject"
   names(slice_grids)[2] <- "Site"
-  names(slice_grids)[3] <- "Event.Name"
-  names(slice_grids)[4] <- "Design.Name"
+  names(slice_grids)[3] <- "Event"
+  names(slice_grids)[4] <- "Design"
   names(slice_grids)[5] <- "Sheet.ID"
 
   # Design and Subject Variables
   label(slice_grids$Subject)     <- "Subject ID"
   label(slice_grids$Site)        <- "Site"
-  label(slice_grids$Event.Name)  <- "Event Name"
-  label(slice_grids$Design.Name) <- "Design Name"
+  label(slice_grids$Event)       <- "Event"
+  label(slice_grids$Design)      <- "Design"
   label(slice_grids$Sheet.ID)    <- "Sheet ID"
 
   # Grid Variables

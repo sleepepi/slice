@@ -22,9 +22,9 @@ data slice<%= '_grids' if use_grids %>;
 
   /* Design and Subject Variables */
   informat _subject              $100.       ;   * Subject code ;
-  informat _site                 $500.       ;   * Subject site name ;
-  informat _event_name           $500.       ;   * Event name ;
-  informat _design_name          $500.       ;   * Design name ;
+  informat _site                 best32.     ;   * Site ;
+  informat _event                best32.     ;   * Event ;
+  informat _design               best32.     ;   * Design ;
   informat _sheet_id             best32.     ;   * Sheet ID ;
 <% unless use_grids %>  informat _sheet_created        anydtdtm40. ;   * Sheet Created ;
   informat _missing              best32.     ;   * Missing ;<% end %>
@@ -34,9 +34,9 @@ data slice<%= '_grids' if use_grids %>;
 
   /* Design and Subject Variables */
   format _subject                $100.       ;
-  format _site                   $500.       ;
-  format _event_name             $500.       ;
-  format _design_name            $500.       ;
+  format _site                   best32.     ;
+  format _event                  best32.     ;
+  format _design                 best32.     ;
   format _sheet_id               best32.     ;
 <% unless use_grids %>  format _sheet_created          datetime.   ;
   format _missing                best32.     ;<% end %>
@@ -49,8 +49,8 @@ data slice<%= '_grids' if use_grids %>;
   input
     _subject
     _site
-    _event_name
-    _design_name
+    _event
+    _design
     _sheet_id
 <% unless use_grids %>    _sheet_created
     _missing<% end %>

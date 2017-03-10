@@ -16,9 +16,9 @@ module GridExport
 
     CSV.open(tmp_export_file, 'wb') do |csv|
       csv << ['', 'Subject'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
-      csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.name : nil] })
-      csv << ['', 'Event Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil] })
-      csv << ['', 'Design Name'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:design).pluck(:id, :name))
+      csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil] })
+      csv << ['', 'Event'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil] })
+      csv << ['', 'Design'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(:design).collect { |s| [s.id, s.design ? s.design.export_value(raw_data) : nil] })
       csv << ['', 'Sheet ID'] + sheet_ids
 
       grid_group_variables.each do |grid_group_variable|

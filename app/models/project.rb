@@ -137,7 +137,7 @@ class Project < ApplicationRecord
   end
 
   def create_valid_subject(site_id)
-    create_default_site if sites.count == 0
+    create_default_site if sites.count.zero?
     site = sites.find_by(id: site_id)
     site_id = sites.first.id unless site
     subject_code = SecureRandom.hex(8)
@@ -246,8 +246,8 @@ class Project < ApplicationRecord
 
   # Creates a default site if the project has no site associated with it
   def create_default_site
-    return if sites.count > 0
-    sites.create(name: 'Default Site', short_name: 'Default Site', user_id: user_id)
+    return unless sites.count.zero?
+    sites.create(name: 'Default Site', short_name: 'Default Site', number: 1, user_id: user_id)
   end
 
   def create_default_categories

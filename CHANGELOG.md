@@ -29,6 +29,7 @@
     - Duplicate sheets now also display their creation date on the subject event
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
+  - Sites, events, and designs are encoded as numbers in R and SAS exports
 - **Handoff Changes**
   - Last edited at time is now set when handoff sheets are saved
 - **Randomization Schemes**
@@ -45,6 +46,8 @@
 - **Site Changes**
   - Default site short name is now properly removed when the default site is
     renamed during the project setup process
+  - Sites can now be assigned a unique number that is used in the raw sheet and
+    grid exports
 - **Subject Changes**
   - Design and event filters added to subjects index
     - `designs:NAME`

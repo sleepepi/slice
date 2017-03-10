@@ -20,14 +20,16 @@ class Site < ApplicationRecord
       .references(:site_users)
   end
 
-  # Model Validation
+  # Validation
   validates :name, :project_id, :user_id, presence: true
   validates :name, uniqueness: { scope: [:project_id, :deleted] }
+  validates :number, numericality: { greater_than_or_equal_to: 0, only_integer: true }, allow_blank: true
+  validates :number, uniqueness: { scope: :project_id }, allow_blank: true
   validates :subject_code_format,
             format: { with: /\A((\\d)|(\\l)|(\\L)|[a-zA-Z0-9])*\Z/ },
             allow_blank: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   has_many :expected_randomizations
@@ -47,8 +49,17 @@ class Site < ApplicationRecord
     Regexp.new("\\A#{regex_string}\\Z") if regex_string.present?
   end
 
+  def number_or_id
+    number || id
+  end
+
+  def export_value(raw_data)
+    raw_data ? number_or_id : name
+  end
+
   def destroy
     subjects.destroy_all
     super
+    update_column :number, nil
   end
 end

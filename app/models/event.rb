@@ -39,6 +39,10 @@ class Event < ApplicationRecord
     subject_events.destroy_all
   end
 
+  def export_value(raw_data)
+    raw_data ? id : name
+  end
+
   private
 
   def set_event_designs
