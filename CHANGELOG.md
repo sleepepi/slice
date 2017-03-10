@@ -47,8 +47,8 @@
   - Design and event filters added to subjects index
     - `designs:NAME`
     - `events:NAME`
-    - `designs:!=NAME`
-    - `events:!=NAME`
+    - `designs:!NAME`
+    - `events:!NAME`
   - Adverse events, comments, and files now have "no" filters on the index
     - `no:adverse-events`
     - `no:comments`
