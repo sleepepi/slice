@@ -1,8 +1,7 @@
-%h3.text-white.text-shadow Distributions
+- if @randomization_scheme.stratification_factors.present? && @randomization_scheme.stratification_factors.collect { |sf| sf.option_hashes.count }.inject(:*).to_i < RandomizationScheme::MAX_LISTS
+  %h3.text-white.text-shadow Distributions
 
-.dashboard-container
-  - if @randomization_scheme.stratification_factors.collect{ |sf| sf.option_hashes.count }.inject(:*).to_i < RandomizationScheme::MAX_LISTS
-
+  .dashboard-container
     - stratifications = [[]]
     - @randomization_scheme.stratification_factors.each do |stratification_factor|
       - stratifications = stratifications.product(stratification_factor.option_hashes)

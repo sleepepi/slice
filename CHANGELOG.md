@@ -31,6 +31,7 @@
   - Last edited at time is now set when handoff sheets are saved
 - **Randomization Schemes**
   - Lists are now only displayed after they have been generated
+  - Distributions are now only displayed after stratification factors are set
 - **Report Changes**
   - Improved speed for generating advanced design reports
 - **Sheet Changes**
