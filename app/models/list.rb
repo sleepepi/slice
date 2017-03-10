@@ -9,10 +9,10 @@ class List < ApplicationRecord
 
   # Scopes
 
-  # Model Validation
+  # Validations
   validates :project_id, :randomization_scheme_id, :user_id, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :randomization_scheme
   belongs_to :user
@@ -20,7 +20,7 @@ class List < ApplicationRecord
   has_many :options, through: :list_options
   has_many :randomizations, -> { current }
 
-  # Model Methods
+  # Methods
 
   def name
     names = extra_option_names + option_names

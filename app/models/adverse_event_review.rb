@@ -6,9 +6,9 @@
 #   - External adverse event reviewers can leave their name and comment on the
 #     adverse event
 class AdverseEventReview < ApplicationRecord
-  # Model Validation
+  # Validations
   validates :adverse_event_id, :name, :comment, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :adverse_event
 end

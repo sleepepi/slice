@@ -13,10 +13,10 @@ module Valuable
         .collect { |v1, v2| v1 || v2 }
     end
 
-    # Model Validation
+    # Validations
     validates :variable_id, presence: true
 
-    # Model Relationships
+    # Relationships
     belongs_to :variable
     has_many :responses
 

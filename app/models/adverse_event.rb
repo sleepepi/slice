@@ -3,6 +3,7 @@
 # Adverse events track the initial report and discussion of an adverse event,
 # along with associated designs and files uploaded to the adverse event report.
 class AdverseEvent < ApplicationRecord
+  # Constants
   ORDERS = {
     'site' => 'sites.name',
     'site desc' => 'sites.name desc',
@@ -14,23 +15,22 @@ class AdverseEvent < ApplicationRecord
     'created desc' => 'adverse_events.created_at desc'
   }
   DEFAULT_ORDER = 'adverse_events.created_at desc'
-
   SHAREABLE_LINKS_ENABLED = false
 
   # Concerns
   include DateAndTimeParser, Deletable, Searchable, Siteable, Forkable, Blindable
 
-  # Model Alerts
+  # Callbacks
   after_touch :create_notifications
 
-  # Model Validation
+  # Validations
   validates :adverse_event_date, presence: true
   validate :ae_date_cannot_be_in_future
   validates :description, presence: true
   validates :project_id, :subject_id, :user_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :subject
   belongs_to :user
@@ -43,7 +43,7 @@ class AdverseEvent < ApplicationRecord
 
   delegate :site, to: :subject
 
-  # Model Methods
+  # Methods
 
   def event_at
     created_at

@@ -5,16 +5,16 @@ class Task < ApplicationRecord
   # Concerns
   include Deletable, Searchable, Blindable
 
-  # Model Validation
+  # Validations
   validates :project_id, :user_id, :description, :due_date, :window_start_date, :window_end_date, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :user
   has_one :randomization_task
   has_one :randomization, through: :randomization_task
 
-  # Model Methods
+  # Methods
 
   def name
     "Task ##{id}"

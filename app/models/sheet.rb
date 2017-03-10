@@ -42,11 +42,11 @@ class Sheet < ApplicationRecord
   # Include blank, unknown, or values entered as missing
   scope :with_response_unknown_or_missing, ->(*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [''] : args.first.missing_codes)) }
 
-  # Model Validation
+  # Validations
   validates :design_id, :project_id, :subject_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :last_user, class_name: 'User'
   belongs_to :design
@@ -65,7 +65,7 @@ class Sheet < ApplicationRecord
   has_many :failed_checks, -> { runnable.where(status_checks: { failed: true }) },
            through: :status_checks, source: :check
 
-  # Model Methods
+  # Methods
   delegate :description, to: :design
 
   def name

@@ -9,7 +9,7 @@ class Category < ApplicationRecord
   # Concerns
   include Searchable, Deletable, Sluggable
 
-  # Model Validation
+  # Validations
   validates :name, :user_id, :project_id, presence: true
   validates :slug, uniqueness: { scope: [:project_id, :deleted] },
                    format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
@@ -17,7 +17,7 @@ class Category < ApplicationRecord
   validates :position, numericality: { greater_than_or_equal_to: 0,
                                        only_integer: true }
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :user
   has_many :designs, -> { current }

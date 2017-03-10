@@ -11,10 +11,10 @@ class User < ApplicationRecord
   # Concerns
   include Deletable, Expirable
 
-  # Model Validation
+  # Validations
   validates :first_name, :last_name, presence: true
 
-  # Model Relationships
+  # Relationships
   has_many :adverse_events, -> { current }
   has_many :adverse_event_comments, -> { current }
   has_many :adverse_event_files
@@ -58,7 +58,7 @@ class User < ApplicationRecord
     where conditions.join(' or '), *terms
   end
 
-  # Model Methods
+  # Methods
 
   def avatar_url(size = 80, default = 'mm')
     gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)

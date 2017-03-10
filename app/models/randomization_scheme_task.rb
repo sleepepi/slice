@@ -2,12 +2,12 @@
 
 # Creates a template for a task for a randomization scheme
 class RandomizationSchemeTask < ApplicationRecord
-  # Model Relationships
+  # Relationships
   belongs_to :randomization_scheme
 
   delegate :project, to: :randomization_scheme
 
-  # Model Methods
+  # Methods
 
   def create_task(base_date, user_id)
     project.tasks.create(

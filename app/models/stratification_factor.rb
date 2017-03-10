@@ -7,7 +7,7 @@ class StratificationFactor < ApplicationRecord
 
   # Scopes
 
-  # Model Validation
+  # Validations
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id] }
@@ -16,13 +16,13 @@ class StratificationFactor < ApplicationRecord
   validates :stratifies_by_site,
             uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, if: :stratifies_by_site
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :randomization_scheme
   has_many :stratification_factor_options, -> { current }
 
-  # Model Methods
+  # Methods
 
   def option_hashes
     if stratifies_by_site?

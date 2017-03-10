@@ -7,10 +7,10 @@ class Comment < ApplicationRecord
 
   after_create_commit :create_notifications
 
-  # Model Validation
+  # Validations
   validates :description, :sheet_id, :user_id, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :sheet
   has_many :notifications
@@ -26,7 +26,7 @@ class Comment < ApplicationRecord
     joins(:sheet).merge(Sheet.current.where(project_id: arg))
   end
 
-  # Model Methods
+  # Methods
 
   def event_at
     created_at

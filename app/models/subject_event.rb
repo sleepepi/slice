@@ -2,10 +2,10 @@
 
 # Tracks a series of designs filled out on an event date for a subject
 class SubjectEvent < ApplicationRecord
-  # Model Validation
+  # Validations
   validates :event_date, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :subject
   belongs_to :event
   belongs_to :user
@@ -13,7 +13,7 @@ class SubjectEvent < ApplicationRecord
 
   scope :with_current_subjects, -> { joins(:subject).merge(Subject.current) }
 
-  # Model Methods
+  # Methods
 
   def name
     event.name if event
