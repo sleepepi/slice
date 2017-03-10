@@ -5,16 +5,15 @@ class AdverseEventFile < ApplicationRecord
   # Uploaders
   mount_uploader :attachment, GenericUploader
 
-  # Model Validation
+  # Validations
   validates :project_id, :user_id, :adverse_event_id, :attachment, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :adverse_event, touch: true
   belongs_to :user
 
-  # Model Methods
-
+  # Methods
   def name
     attachment_identifier
   end

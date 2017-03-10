@@ -11,18 +11,19 @@ class AdverseEventComment < ApplicationRecord
   # Concerns
   include Deletable
 
-  # Model Validation
+  # Validations
   validates :project_id, :user_id, :adverse_event_id, presence: true
   validates :description, presence: true, if: :comment?
-  validates :comment_type, inclusion: { in: COMMENT_TYPE, message: '"%{value}" is not a valid adverse event comment type' }
+  validates :comment_type, inclusion: {
+    in: COMMENT_TYPE, message: '"%{value}" is not a valid adverse event comment type'
+  }
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :user
   belongs_to :adverse_event, touch: true
 
-  # Model Methods
-
+  # Methods
   def number
     adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 1
   rescue

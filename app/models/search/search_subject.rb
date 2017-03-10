@@ -13,6 +13,17 @@ class SearchSubject
     @current_user = current_user
     @scope = scope
     @token = token
+    unify_token_operator
+  end
+
+  def unify_token_operator
+    @token.operator = \
+      case @token.operator
+      when '!=', '!'
+        '!'
+      else
+        @token.operator
+      end
   end
 
   def subjects
@@ -39,7 +50,7 @@ class SearchSubject
       @scope.open_aes
     elsif @token.value == 'closed'
       @scope.closed_aes
-    elsif %w(missing !=).include?(@token.operator)
+    elsif %w(missing !).include?(@token.operator)
       @scope.where.not(id: @scope.any_aes.select(:id))
     else
       @scope.any_aes
@@ -48,7 +59,7 @@ class SearchSubject
 
   def filter_comments
     subject_ids = @current_user.sheets_with_comments(@project).select(:subject_id)
-    if %w(missing !=).include?(@token.operator)
+    if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
       @scope.where(id: subject_ids)
@@ -59,7 +70,7 @@ class SearchSubject
     set_designs
     return @scope unless @designs.present?
     subject_ids = @scope.joins(:sheets).where(sheets: { design: @designs }).select(:id)
-    if %w(missing !=).include?(@token.operator)
+    if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
       @scope.where(id: subject_ids)
@@ -70,7 +81,7 @@ class SearchSubject
     set_events
     return @scope unless @events.present?
     subject_ids = @scope.joins(:subject_events).where(subject_events: { event: @events }).select(:id)
-    if %w(missing !=).include?(@token.operator)
+    if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
       @scope.where(id: subject_ids)
@@ -79,7 +90,7 @@ class SearchSubject
 
   def filter_files
     subject_ids = @current_user.sheets_with_files(@project).select(:subject_id)
-    if %w(missing !=).include?(@token.operator)
+    if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
       @scope.where(id: subject_ids)
@@ -87,7 +98,7 @@ class SearchSubject
   end
 
   def filter_randomized
-    if @token.operator == '!='
+    if @token.operator == '!'
       @scope.unrandomized
     else
       @scope.randomized

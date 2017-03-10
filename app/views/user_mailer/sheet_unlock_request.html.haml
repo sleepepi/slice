@@ -16,4 +16,4 @@
 %blockquote{ style: blockquote_style }= @sheet_unlock_request.reason
 
 %p{ style: center_style }
-  = link_to "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", style: link_style
+  = link_to 'View Unlock Request', "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", style: link_style

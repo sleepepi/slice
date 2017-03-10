@@ -12,13 +12,13 @@ class Event < ApplicationRecord
 
   # Scopes
 
-  # Model Validation
+  # Validations
   validates :name, :project_id, :user_id, presence: true
   validates :name, uniqueness: { scope: [:project_id, :deleted] }
   validates :slug, uniqueness: { scope: [:project_id, :deleted] }, allow_blank: true
   validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   has_many :event_designs, -> { order(:position) }
@@ -26,7 +26,7 @@ class Event < ApplicationRecord
 
   has_many :subject_events
 
-  # Model Methods
+  # Methods
 
   def unlink_sheets_in_background!(current_user, remote_ip)
     fork_process(:unlink_sheets!, current_user, remote_ip)
@@ -37,6 +37,10 @@ class Event < ApplicationRecord
       subject_event.unlink_sheets!(current_user, remote_ip)
     end
     subject_events.destroy_all
+  end
+
+  def export_value(raw_data)
+    raw_data ? id : name
   end
 
   private

@@ -3,27 +3,27 @@
 - last_randomization = all_randomizations.last
 
 .dashboard-container.hidden-xs
-  %table.table.table-striped
+  %table.table.table-striped.table-borderless.table-hover
     %thead
       %tr
         %th
-        %th First Randomization
-        %th Most Recent Randomization
-        %th Days Since Last Randomization
+        %th.center First Randomization
+        %th.center Most Recent Randomization
+        %th.center Days Since Last Randomization
     %tbody
       %tr
         %th Overall
-        %td
+        %td.center
           - if first_randomization
             = first_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
-        %td
+        %td.center
           - if last_randomization
             = last_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
-        %td
+        %td.center
           - if last_randomization
             = (Time.zone.today - last_randomization.randomized_at.to_date).floor
           - else
@@ -34,17 +34,17 @@
         - last = site_randomizations.last
         %tr
           %th= site.short_name
-          %td
+          %td.center
             - if first
               = first.randomized_at.strftime '%b %-d, %Y'
             - else
               %span.text-muted -
-          %td
+          %td.center
             - if last
               = last.randomized_at.strftime '%b %-d, %Y'
             - else
               %span.text-muted -
-          %td
+          %td.center
             - if last
               = (Time.zone.today - last.randomized_at.to_date).floor
             - else
@@ -56,8 +56,8 @@
     .panel-heading
       %h3.panel-title Overall
 
-    .panel-body
-      %table.table.table-fixed.table-borderless
+    .panel-body{ style: 'padding: 0;' }
+      %table.table.table-striped.table-hover.table-fixed.table-borderless{ style: 'margin-bottom: 0;' }
         %tr
           %td.text-right
             %strong First
@@ -90,8 +90,8 @@
       - last = site_randomizations.last
       .panel-heading
         %h3.panel-title= site.short_name
-      .panel-body
-        %table.table.table-fixed.table-borderless
+      .panel-body{ style: 'padding: 0;' }
+        %table.table.table-striped.table-hover.table-fixed.table-borderless{ style: 'margin-bottom: 0;' }
           %tr
             %td.text-right
               %strong First

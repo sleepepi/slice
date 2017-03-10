@@ -435,12 +435,12 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get index for subjects without designs' do
-    get :index, params: { project_id: @project, search: 'designs:!=design-one' }
+    get :index, params: { project_id: @project, search: 'designs:!design-one' }
     assert_response :success
   end
 
   test 'should get index for subjects without events' do
-    get :index, params: { project_id: @project, search: 'events:!=event-one' }
+    get :index, params: { project_id: @project, search: 'events:!event-one' }
     assert_response :success
   end
 

@@ -6,6 +6,9 @@
 data slice<%= '_grids' if use_grids %>;
   set slice<%= '_grids' if use_grids %>;
 
+  format _site _sitef. ;
+  format _event _eventf. ;
+  format _design _designf. ;
 <% unless use_grids %>  format _missing _missingf. ;<% end %>
 <%= format_domains.join("\n") %>
 run;

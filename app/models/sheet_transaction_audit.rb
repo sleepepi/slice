@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SheetTransactionAudit < ApplicationRecord
-  # Model Relationships
+  # Relationships
   belongs_to :sheet_transaction
   belongs_to :user
   belongs_to :sheet

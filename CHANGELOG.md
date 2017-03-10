@@ -11,8 +11,6 @@
 - **General Changes**
   - Optimized loading times for a number of index pages
   - Simplified messages when deleting items
-- **Gem Changes**
-  - Updated to highcharts 5.0.7
 - **Design Changes**
   - Scale headers now stick to the top of the screen when scrolling past a set
     of scale variables
@@ -22,6 +20,8 @@
     the design `name`, `short_name`, and `slug`
 - **Domain Changes**
   - Domains can now be sorted by number of variables
+- **Email Changes**
+  - Improved display of long links in notification emails
 - **Event Changes**
   - Saving an event automatically removes any extra white space in and around
     the event `name` and `slug`
@@ -36,8 +36,12 @@
     - Duplicate sheets now also display their creation date on the subject event
 - **Export Changes**
   - Adverse Event IDs are now exported as numbers
+  - Sites, events, and designs are encoded as numbers in R and SAS exports
 - **Handoff Changes**
   - Last edited at time is now set when handoff sheets are saved
+- **Randomization Schemes**
+  - Lists are now only displayed after they have been generated
+  - Distributions are now only displayed after stratification factors are set
 - **Report Changes**
   - Improved speed for generating advanced design reports
 - **Sheet Changes**
@@ -49,16 +53,20 @@
 - **Site Changes**
   - Default site short name is now properly removed when the default site is
     renamed during the project setup process
+  - Sites can now be assigned a unique number that is used in the raw sheet and
+    grid exports
 - **Subject Changes**
   - Design and event filters added to subjects index
     - `designs:NAME`
     - `events:NAME`
-    - `designs:!=NAME`
-    - `events:!=NAME`
+    - `designs:!NAME`
+    - `events:!NAME`
   - Adverse events, comments, and files now have "no" filters on the index
     - `no:adverse-events`
     - `no:comments`
     - `no:files`
+  - Projects that randomize subjects without entered sheets are now shown a
+    randomization button on the subject page
 - **Subject Event Changes**
   - Improved the display of the event completion percentage
 - **Theme Changes**
@@ -78,6 +86,8 @@
 - **Gem Changes**
   - Updated to rails 5.0.2
   - Updated to clipboard.js 1.6.0
+  - Updated to highcharts 5.0.7
+  - Updated to sitemap_generator 5.3.1
 
 ### Bug Fixes
 - Fixed an issue in the R export script that could create invalid column names

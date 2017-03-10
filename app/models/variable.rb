@@ -2,7 +2,7 @@
 
 # Defines how data is captured, displayed, and exported.
 class Variable < ApplicationRecord
-  # CONSTANTS
+  # Constants
   TYPE = %w(
     calculated
     checkbox
@@ -50,12 +50,12 @@ class Variable < ApplicationRecord
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }
 
-  # Model Validation
+  # Validations
   validates :name, :display_name, :variable_type, :project_id, presence: true
   validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :domain, counter_cache: true
@@ -72,7 +72,7 @@ class Variable < ApplicationRecord
   has_many :parent_grid_variables, class_name: 'GridVariable', source: :parent_variable, foreign_key: :child_variable_id
   has_many :parent_variables, through: :parent_grid_variables
 
-  # Model Methods
+  # Methods
 
   def self.searchable_attributes
     %w(name description display_name)

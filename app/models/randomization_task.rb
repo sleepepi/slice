@@ -2,7 +2,7 @@
 
 # Links a set of tasks to a randomization.
 class RandomizationTask < ApplicationRecord
-  # Model Relationships
+  # Relationships
   belongs_to :randomization
   belongs_to :task, dependent: :destroy
 end

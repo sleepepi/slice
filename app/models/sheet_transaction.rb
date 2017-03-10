@@ -4,13 +4,13 @@
 class SheetTransaction < ApplicationRecord
   TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update)
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :sheet
   belongs_to :user
   has_many :sheet_transaction_audits, -> { order :id }
 
-  # Model Methods
+  # Methods
 
   # This modifies existing values the sheet with new unsaved values for
   # validation. None of these changes are saved to the database.

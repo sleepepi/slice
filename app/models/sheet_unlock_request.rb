@@ -9,15 +9,15 @@ class SheetUnlockRequest < ApplicationRecord
   # Concerns
   include Deletable, Forkable
 
-  # Model Validation
+  # Validations
   validates :user_id, :sheet_id, :reason, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :sheet
   has_many :notifications
 
-  # Model Methods
+  # Methods
   delegate :project_editors, to: :sheet
 
   def send_unlock_request_emails_in_background

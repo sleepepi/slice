@@ -28,7 +28,7 @@ class Randomization < ApplicationRecord
   # Concerns
   include Deletable, Siteable, Forkable, Latexable, Blindable
 
-  # Model Validation
+  # Validations
   validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
             :multiplier, :position, :treatment_arm_id, presence: true
   validates :subject_id, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, allow_nil: true
@@ -36,7 +36,7 @@ class Randomization < ApplicationRecord
   validates :multiplier, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :randomization_scheme
   belongs_to :list
@@ -59,7 +59,7 @@ class Randomization < ApplicationRecord
     where 'extract(month from randomizations.randomized_at) = ?', month
   end
 
-  # Model Methods
+  # Methods
 
   def editable_by?(current_user)
     current_user.all_randomizations.where(id: id).count == 1

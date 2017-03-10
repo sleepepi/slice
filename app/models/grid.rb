@@ -9,10 +9,10 @@ class Grid < ApplicationRecord
   # Scopes
   scope :with_files, -> { file_variables.where.not(response_file: [nil, '']) }
 
-  # Model Validation
+  # Validations
   validates :sheet_variable_id, :position, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :sheet_variable, touch: true
   belongs_to :user
   belongs_to :domain_option

@@ -14,9 +14,9 @@ module SheetExport
 
     CSV.open(tmp_export_file, 'wb') do |csv|
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)
-      csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.name : nil }
-      csv << ['Event Name'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.name : nil }
-      csv << ['Design Name'] + sheet_scope.joins(:design).pluck(:name)
+      csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil }
+      csv << ['Event'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil }
+      csv << ['Design'] + sheet_scope.includes(:design).collect { |s| s.design ? s.design.export_value(raw_data) : nil }
       csv << ['Sheet ID'] + sheet_scope.pluck(:id)
       csv << ['Sheet Created'] + sheet_scope.pluck(:created_at).collect { |created| created.strftime('%F %T') }
       csv << ['Missing'] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }

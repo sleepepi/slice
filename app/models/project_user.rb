@@ -5,11 +5,11 @@ class ProjectUser < ApplicationRecord
   # Concerns
   include Forkable
 
-  # Model Validation
+  # Validations
   validates :creator_id, :project_id, presence: true
   validates :invite_token, uniqueness: true, allow_nil: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
   belongs_to :project
   belongs_to :user

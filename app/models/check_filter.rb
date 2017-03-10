@@ -18,20 +18,20 @@ class CheckFilter < ApplicationRecord
     ['Randomized', 'randomized']
   ]
 
-  # Model Validation
+  # Validations
   validates :project_id, :user_id, :check_id, :operator, :filter_type,
             presence: true
   validates :operator, inclusion: { in: OPERATOR_TYPE.collect(&:second) }
   validates :filter_type, inclusion: { in: FILTER_TYPE.collect(&:second) }
 
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :user
   belongs_to :check, touch: true
   belongs_to :variable, optional: true
   has_many :check_filter_values, -> { order(:value) }
 
-  # Model Methods
+  # Methods
   def name
     if variable
       variable.name

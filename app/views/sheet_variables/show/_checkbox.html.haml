@@ -1,25 +1,19 @@
 - response_names = object ? object.get_response(:name) : []
 - response_raws = object ? object.get_response(:raw) : []
+- domain_options = variable.domain_options
 
 - if variable.alignment == 'scale'
   %table.table.table-borderless
-    %col{ width: '300px' }
-    - (1..variable.domain_options.count).each do
-      %col{ width: "#{100 / (variable.domain_options.count + 2)}%" }
-    %col{ width: '1px' }
-    - if variable.first_scale_variable?(@sheet.design)
-      %thead
-        %tr
-          %th
-          - variable.domain_options.each do |domain_option|
-            %th.center
-              = domain_option.value_and_name
+    %col{ width: '100px' }
+    - (1..domain_options.count).each do
+      %col{ width: "#{100 / (domain_options.count + 2)}%" }
     %tbody
       %tr
-        %th= variable.display_name
-        - variable.domain_options.each do |domain_option|
+        %th{ style: 'min-width: 100px;' }
+          = variable.display_name
+        - domain_options.each do |domain_option|
+          - selected = (response_raws.include?(domain_option.value))
           %td.center
-            - selected = (response_raws.include?(domain_option.value))
             %label.checkbox-inline.checkbox-radio-outline{ class: "#{'selected' if selected} #{'negation' if domain_option.missing_code?}" }
               = check_box_tag "#{variable.name}[]", domain_option.value, selected, disabled: true
 - else

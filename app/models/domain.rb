@@ -7,13 +7,13 @@ class Domain < ApplicationRecord
 
   attr_accessor :option_tokens
 
-  # Model Validation
+  # Validations
   validates :name, :display_name, :project_id, :user_id, presence: true
   validates :name, format: { with: /\A[a-z]\w*\Z/i },
                    length: { maximum: 30 },
                    uniqueness: { scope: [:deleted, :project_id] }
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   has_many :domain_options, -> { order('position nulls last', :id) }
@@ -22,7 +22,7 @@ class Domain < ApplicationRecord
   has_many :grids, through: :variables
   has_many :responses, through: :variables
 
-  # Model Methods
+  # Methods
 
   def self.searchable_attributes
     %w(name description)

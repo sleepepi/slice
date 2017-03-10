@@ -17,7 +17,7 @@ class RandomizationScheme < ApplicationRecord
   # Scopes
   scope :published, -> { where published: true }
 
-  # Model Validation
+  # Validations
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id] }
   validates :randomization_goal,
@@ -26,7 +26,7 @@ class RandomizationScheme < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100, only_integer: true }
   validate :minimization_must_have_stratification_factors
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :variable
@@ -39,7 +39,7 @@ class RandomizationScheme < ApplicationRecord
   has_many :stratification_factor_options, -> { current }
   has_many :treatment_arms,                -> { current.order(:name) }
 
-  # Model Methods
+  # Methods
 
   def add_missing_lists!(current_user)
     RandomizationAlgorithm.for(self).add_missing_lists!(current_user)

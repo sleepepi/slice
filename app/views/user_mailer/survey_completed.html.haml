@@ -12,4 +12,4 @@
   You can view the completed sheet here:
 
 %p{ style: center_style }
-  = link_to "#{ENV['website_url']}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}", "#{ENV['website_url']}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}", style: link_style
+  = link_to 'View Survey', "#{ENV['website_url']}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}", style: link_style

@@ -14,4 +14,26 @@
           .per-page= render 'layouts/per_page', per_page: 40, object_count: @sites.total_count
         = @title
 
-= render 'sites/sites'
+.dashboard-container
+  %table.table.table-striped.table-borderless.table-hover
+    %col.hidden-xs{ width: '1px' }
+    %col
+    %col.hidden-xs
+    %col{ width: '1px' }
+    %thead
+      %tr
+        = th_sort_field @order, 'sites.name', 'Number', extra_class: 'hidden-xs center'
+        = th_sort_field @order, 'sites.name', 'Name'
+        = th_sort_field @order, 'sites.user_id', 'Creator', extra_class: 'hidden-xs'
+        %th Actions
+
+    - @sites.each do |site|
+      %tr{ id: "site_#{site.id}" }
+        %td.hidden-xs.center= site.number
+        %td= link_to site.name, [site.project, site]
+        %td.hidden-xs= link_to site.user.name, site.user if site.user
+        %td
+          - if current_user.all_sites.pluck(:id).include?(site.id)
+            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_site_path(site.project, site), delete_url: [site.project, site], delete_confirmation: "Delete #{site.name}?"
+
+.center= paginate @sites, theme: 'bootstrap'

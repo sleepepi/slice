@@ -34,12 +34,12 @@ class Project < ApplicationRecord
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ? and project_users.editor = ?)
     OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)', arg, arg, true, arg, true) }
 
-  # Model Validation
+  # Validations
   validates :name, :user_id, presence: true
   validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
   validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
 
   has_many :project_users
@@ -68,7 +68,7 @@ class Project < ApplicationRecord
   has_many :treatment_arms, -> { current.joins(:randomization_scheme).merge(RandomizationScheme.current) }
   has_many :grid_variables
 
-  # Model Methods
+  # Methods
 
   def destroy
     super
@@ -137,7 +137,7 @@ class Project < ApplicationRecord
   end
 
   def create_valid_subject(site_id)
-    create_default_site if sites.count == 0
+    create_default_site if sites.count.zero?
     site = sites.find_by(id: site_id)
     site_id = sites.first.id unless site
     subject_code = SecureRandom.hex(8)
@@ -246,8 +246,8 @@ class Project < ApplicationRecord
 
   # Creates a default site if the project has no site associated with it
   def create_default_site
-    return if sites.count > 0
-    sites.create(name: 'Default Site', short_name: 'Default Site', user_id: user_id)
+    return unless sites.count.zero?
+    sites.create(name: 'Default Site', short_name: 'Default Site', number: 1, user_id: user_id)
   end
 
   def create_default_categories

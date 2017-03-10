@@ -8,10 +8,10 @@ class SheetVariable < ApplicationRecord
   # Scopes
   scope :with_files, -> { joins(variable: :design_options).where(variables: { variable_type: 'file' }).where.not(response_file: [nil, '']) }
 
-  # Model Validation
+  # Validations
   validates :sheet_id, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :sheet, touch: true
   belongs_to :user
   belongs_to :domain_option

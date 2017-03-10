@@ -3,10 +3,10 @@
 # Tracks if a user has seen changes to adverse events, new sheet comments, and
 # completed tablet handoffs.
 class Notification < ApplicationRecord
-  # Model Validation
+  # Validations
   validates :user_id, :project_id, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :adverse_event
@@ -16,8 +16,7 @@ class Notification < ApplicationRecord
   belongs_to :sheet
   belongs_to :sheet_unlock_request
 
-  # Notification Methods
-
+  # Methods
   def mark_as_unread!
     update created_at: Time.zone.now, read: false
   end

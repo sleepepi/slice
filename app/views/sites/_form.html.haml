@@ -11,6 +11,12 @@
       = f.text_field :short_name, class: 'form-control', placeholder: @site.computed_short_name
 
   .form-group
+    = f.label :number, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :number, class: 'form-control'
+      = render 'layouts/errors', object: @site, key: :number
+
+  .form-group
     = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Format', class: 'col-md-2 control-label'
     .col-md-10
       .input-group

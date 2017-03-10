@@ -24,7 +24,7 @@ class Subject < ApplicationRecord
   scope :closed_aes, -> { joins(:adverse_events).where(adverse_events: { closed: true }).distinct }
   scope :any_aes, -> { joins(:adverse_events).distinct }
 
-  # Model Validation
+  # Validations
   validates :project_id, :subject_code, :site_id, presence: true
   validates :subject_code, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id] }
   validate :validate_subject_format
@@ -33,7 +33,7 @@ class Subject < ApplicationRecord
     subject_code
   end
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :site
@@ -42,7 +42,7 @@ class Subject < ApplicationRecord
   has_many :sheets, -> { current }
   has_many :subject_events, -> { joins(:event).order(:event_date, 'events.position') }
 
-  # Model Methods
+  # Methods
 
   def self.searchable_attributes
     %w(subject_code)

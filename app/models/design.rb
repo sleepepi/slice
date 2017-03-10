@@ -36,13 +36,13 @@ class Design < ApplicationRecord
   attr_writer :questions
   attr_accessor :reimport
 
-  # Model Validation
+  # Validations
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
   validates :csv_file, presence: true, if: :reimport?
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :category, -> { current }
@@ -55,7 +55,7 @@ class Design < ApplicationRecord
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
 
-  # Model Methods
+  # Methods
 
   def self.searchable_attributes
     %w(name)
@@ -358,6 +358,10 @@ class Design < ApplicationRecord
 
   def reimport?
     reimport == '1'
+  end
+
+  def export_value(raw_data)
+    raw_data ? id : name
   end
 
   private

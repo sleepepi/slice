@@ -9,15 +9,15 @@ class Export < ApplicationRecord
   # Concerns
   include Searchable, Deletable, GridExport, SheetExport, Forkable
 
-  # Model Validation
+  # Validations
   validates :name, :user_id, :project_id, presence: true
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   has_many :notifications
 
-  # Model Methods
+  # Methods
 
   def self.searchable_attributes
     %w(name)

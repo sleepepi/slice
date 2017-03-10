@@ -9,4 +9,4 @@
   Click the following link to view the adverse event report:
 
 %p{ style: center_style }
-  = link_to "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", style: link_style
+  = link_to 'View Adverse Event', "#{ENV['website_url']}/projects/#{@adverse_event.project.to_param}/adverse-events/#{@adverse_event.id}", style: link_style

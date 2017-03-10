@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RandomizationCharacteristic < ApplicationRecord
-  # Model Relationships
+  # Relationships
   belongs_to :project
   belongs_to :randomization_scheme
   belongs_to :list

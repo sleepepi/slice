@@ -5,17 +5,17 @@ class Handoff < ApplicationRecord
   # Callbacks
   after_create_commit :set_token
 
-  # Model Validation
+  # Validations
   validates :user_id, :project_id, :subject_event_id, presence: true
   validates :token, uniqueness: { scope: :project_id }, allow_nil: true
   validates :subject_event_id, uniqueness: { scope: :project_id }
 
-  # Model Relationships
+  # Relationships
   belongs_to :user
   belongs_to :project
   belongs_to :subject_event
 
-  # Model Methods
+  # Methods
 
   def to_param
     "#{id}-#{token}"

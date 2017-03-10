@@ -3,6 +3,15 @@
 /* Step 3: Create formats for slice domain options */
 
 proc format;
+  value _sitef
+<%= @export_formatter.sites.collect { |s| "    #{s.number_or_id}='#{s.name.gsub("'", "''")}'" }.join("\n") %>
+  ;
+  value _eventf
+<%= @export_formatter.events.collect { |e| "    #{e.id}='#{e.name.gsub("'", "''")}'" }.join("\n") %>
+  ;
+  value _designf
+<%= @export_formatter.designs.collect { |d| "    #{d.id}='#{d.name.gsub("'", "''")}'" }.join("\n") %>
+  ;
 <% unless use_grids %>  value _missingf
     0='0: No'
     1='1: Yes'
