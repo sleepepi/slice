@@ -29,6 +29,8 @@
   - Adverse Event IDs are now exported as numbers
 - **Handoff Changes**
   - Last edited at time is now set when handoff sheets are saved
+- **Randomization Schemes**
+  - Lists are now only displayed after they have been generated
 - **Report Changes**
   - Improved speed for generating advanced design reports
 - **Sheet Changes**
