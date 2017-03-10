@@ -53,6 +53,8 @@
     - `no:adverse-events`
     - `no:comments`
     - `no:files`
+  - Projects that randomize subjects without entered sheets are now shown a
+    randomization button on the subject page
 - **Subject Event Changes**
   - Improved the display of the event completion percentage
 - **Theme Changes**
