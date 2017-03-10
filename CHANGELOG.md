@@ -80,6 +80,7 @@
   - Updated to rails 5.0.2
   - Updated to clipboard.js 1.6.0
   - Updated to highcharts 5.0.7
+  - Updated to sitemap_generator 5.3.1
 
 ### Bug Fixes
 - Fixed an issue in the R export script that could create invalid column names
