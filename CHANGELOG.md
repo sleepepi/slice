@@ -13,6 +13,8 @@
     the design `name`, `short_name`, and `slug`
 - **Domain Changes**
   - Domains can now be sorted by number of variables
+- **Email Changes**
+  - Improved display of long links in notification emails
 - **Event Changes**
   - Saving an event automatically removes any extra white space in and around
     the event `name` and `slug`
