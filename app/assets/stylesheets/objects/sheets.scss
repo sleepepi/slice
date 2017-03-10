@@ -149,7 +149,9 @@ select {
 
 .sticky-scale-header {
   background-color: $dashboard-bg;
+  border-left: 2px solid transparent;
   margin-bottom: 0;
+  padding: 0 10px;
   position: sticky;
   top: $header-height;
 

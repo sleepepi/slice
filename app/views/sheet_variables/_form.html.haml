@@ -1,18 +1,13 @@
 -# This file shows a variable for use in a sheet
 - disabled = '' if defined?(disabled) == nil
 - show_values = true unless defined?(show_values)
-
-
 - sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
 - response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.get_response(:raw) : nil) : params[:variables][variable.id.to_s])
-
 - value = variable.response_to_value(response)
-
 - validate_response = if @sheet && (@sheet.errors.count > 0 || !@sheet.new_record?)
   - variable.validate_value(design, value)
 - else
   - 'blank'
-
 - case validate_response
 - when 'error'
   - validation_class = 'variable-errors'
@@ -20,12 +15,11 @@
   - validation_class = 'variable-warnings'
 - else
   - validation_class = ''
-
 - hidden_class = (variable.variable_type == 'calculated' && variable.hide_calculation? ? 'calculation-hidden' : '')
 
 - if variable.uses_scale? && variable.first_scale_variable?(design)
   = '<div>'.html_safe
-  .form-group.sticky-scale-header{ style: 'padding: 0 10px;border-left: 2px solid transparent;' }
+  .form-group.sticky-scale-header
     - domain_options = variable.domain_options_with_user(response, current_user)
     .col-xs-12
       %table.table.table-borderless
@@ -38,13 +32,9 @@
             - domain_options.each do |domain_option|
               %th.center{ style: 'min-width: 57px;' }
                 = domain_option.value_and_name(show_values: show_values)
-
 - if variable.uses_scale? && variable.last_scale_variable?(design)
   = '</div>'.html_safe
-
-
 .form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
-
   - if variable.uses_scale?
     -# Nothing
   - elsif variable.display_layout == 'gone'
@@ -56,11 +46,8 @@
     %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
       = variable.display_name
       = render 'design_options/required', design_option: design_option
-
   - col_class = "col-xs-12#{' scale-variable-reset' if variable.uses_scale?}"
   - col_class = 'col-md-9' if variable.display_layout != 'gone' && !variable.uses_scale?
-
-
   %div{ class: col_class }
     .shade-or-blind-background
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
