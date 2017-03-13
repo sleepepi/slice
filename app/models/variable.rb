@@ -642,8 +642,8 @@ class Variable < ApplicationRecord
   end
 
   def update_domain_values!
-    return unless changes.key?(:domain_id)
-    (old_domain_id, new_domain_id) = changes[:domain_id]
+    return unless saved_changes.key?(:domain_id)
+    (old_domain_id, new_domain_id) = saved_changes[:domain_id]
     old_domain = project.domains.find_by(id: old_domain_id)
     new_domain = project.domains.find_by(id: new_domain_id)
     old_domain.remove_domain_values! if old_domain
