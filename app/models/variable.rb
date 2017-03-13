@@ -208,7 +208,7 @@ class Variable < ApplicationRecord
     position = design.design_options.pluck(:variable_id).index(id)
     if position
       design_option = design.design_options[position + 1]
-      next_variable = design_option.variable
+      next_variable = design_option.variable if design_option
     end
     if next_variable && next_variable.uses_scale? && next_variable.domain_id == domain_id
       return false

@@ -1,5 +1,9 @@
 ## 0.50.1
 
+### Bug Fix
+- Fixed an error that occurred when checking if a question was the last scale
+  variable
+
 ## 0.50.0 (March 13, 2017)
 
 ### Enhancements
