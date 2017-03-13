@@ -1,5 +1,9 @@
 ## 0.50.1
 
+### Enhancements
+- **Gem Changes**
+  - Updated to pg 0.20.0
+
 ### Bug Fix
 - Fixed an error that occurred when checking if a question was the last scale
   variable
