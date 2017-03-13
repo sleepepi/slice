@@ -149,7 +149,7 @@ $font-size-base:          16px; // 14px !default;
 // $table-condensed-cell-padding:  5px !default;
 
 // //** Default background color used for all tables.
-$table-bg:                      $body-bg; // transparent !default;
+$table-bg:                      $body-bg !default; // transparent !default;
 // //** Background color used for `.table-striped`.
 // $table-bg-accent:               #f9f9f9 !default;
 // //** Background color used for `.table-hover`.

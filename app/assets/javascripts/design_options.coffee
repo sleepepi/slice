@@ -4,6 +4,12 @@
   $('[data-object~="design-option-container"]').each( (index, variableContainer) ->
     updateDesignOptionContainer(variableContainer)
   )
+  $('[data-object~="design-option-scale-header"]').each( (index, element) ->
+    if elementVisible(element)
+      $(element).show()
+    else
+      $(element).hide()
+  )
   false
 
 @updateAlternatingVariableClasses = ->

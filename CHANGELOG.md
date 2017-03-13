@@ -6,6 +6,19 @@
   - Updated to haml 5.0.0.beta.2
   - Updated to carrierwave ref `1101628`
 
+## 0.50.1 (March 13, 2017)
+
+### Enhancements
+- **General Changes**
+  - Improved the display of scale variables hidden by branching logic
+  - Minor adjustments to night mode theme on randomizations schemes show page
+- **Gem Changes**
+  - Updated to pg 0.20.0
+
+### Bug Fix
+- Fixed an error that occurred when checking if a question was the last scale
+  variable
+
 ## 0.50.0 (March 13, 2017)
 
 ### Enhancements

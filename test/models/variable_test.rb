@@ -19,4 +19,8 @@ class VariableTest < ActiveSupport::TestCase
   test 'should be first scale variable if scale variable exists by itself in a grid' do
     assert_equal true, variables(:scale_in_grid).first_scale_variable?(designs(:contains_single_scale_in_grid))
   end
+
+  test 'should be the last scale variable if it is the last variable on a design' do
+    assert_equal true, variables(:scale).last_scale_variable?(designs(:two_scale_variables))
+  end
 end
