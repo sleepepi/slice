@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Improved the display of scale variables hidden by branching logic
+  - Minor adjustments to night mode theme on randomizations schemes show page
 - **Gem Changes**
   - Updated to pg 0.20.0
 

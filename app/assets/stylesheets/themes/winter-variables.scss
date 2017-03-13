@@ -28,7 +28,7 @@ $link-hover-color:      darken($link-color, 15%);
 //## Customizes the `.table` component with basic values, each used across all table variations.
 
 //** Default background color used for all tables.
-$table-bg:                      $body-bg; // transparent !default;
+$table-bg:                      $body-bg;
 //** Background color used for `.table-striped`.
 // $table-bg-accent:               #f9f9f9;
 //** Background color used for `.table-hover`.
