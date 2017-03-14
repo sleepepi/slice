@@ -139,7 +139,7 @@ class SheetTransaction < ApplicationRecord
       grid_id = object.id
       sheet_variable_id = object.sheet_variable.id
     end
-    next if value_before == value_after
+    return if value_before == value_after
     sheet_transaction_audits.create(
       value_before: value_before, value_after: value_after,
       label_before: label_before, label_after: label_after,
