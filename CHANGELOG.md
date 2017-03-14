@@ -1,5 +1,8 @@
 ## 0.51.0
 
+### Refactoring
+- Minor code cleanup for generating sheet transactions
+
 ## 0.50.1 (March 13, 2017)
 
 ### Enhancements
