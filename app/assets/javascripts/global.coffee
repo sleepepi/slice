@@ -49,7 +49,9 @@ $(window).onbeforeunload = -> return "You haven't saved your changes." if window
 $(document).ready(initialLoadReady)
 $(document)
   .on('turbolinks:load', turbolinksReady)
-  .on('turbolinks:click', -> confirm("You haven't saved your changes.") if window.$isDirty)
+  .on('turbolinks:before-visit', (event) ->
+    event.preventDefault() if window.$isDirty and !confirm("You haven't saved your changes.")
+  )
   .on('click', '[data-object~="suppress-click"]', -> false)
   .on('click', '[data-object~="remove-self"]', ->
     $(this).remove()

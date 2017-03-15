@@ -27,8 +27,7 @@ class SurveyController < ApplicationController
 
   # POST /survey/:slug
   def create
-    @sheet = @project.sheets.where(design_id: @design.id)
-                     .new(subject_id: @subject.id, authentication_token: SecureRandom.hex(8))
+    @sheet = @project.sheets.where(design_id: @design.id).new(sheet_params)
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, 'public_sheet_create')
       send_survey_completion_emails
       redirect_to survey_redirect_page
@@ -81,6 +80,14 @@ class SurveyController < ApplicationController
     return unless @sheet.auto_locked?
     flash[:alert] = 'This survey has been locked.'
     empty_response_or_root_path(about_survey_path(survey: @design.slug))
+  end
+
+  def sheet_params
+    {
+      subject_id: @subject.id,
+      authentication_token: SecureRandom.hex(8),
+      last_edited_at: Time.zone.now
+    }
   end
 
   def variables_params
