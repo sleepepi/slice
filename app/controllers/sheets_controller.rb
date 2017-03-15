@@ -157,7 +157,7 @@ class SheetsController < ApplicationController
   private
 
   def find_viewable_sheet_or_redirect
-    @sheet = current_user.all_viewable_sheets.find_by(id: params[:id])
+    @sheet = current_user.all_viewable_sheets.includes(:design).find_by(id: params[:id])
     redirect_without_sheet
   end
 

@@ -1,5 +1,9 @@
 ## 0.51.0
 
+### Enhancements
+- **Sheet Changes**
+  - Improved the load time of sheet show pages
+
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
 
