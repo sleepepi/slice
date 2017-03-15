@@ -44,9 +44,9 @@
   container = $(parent).closest('[data-object~="design-option-container"]')
   if data['status'] in ['invalid', 'out_of_range']
     setError(parent, data)
-  else if data['status'] == 'blank' and container.data('required') == 'required'
+  else if data['status'] == 'blank' and container.data('requirement') == 'required'
     setError(parent, data)
-  else if (data['status'] == 'blank' and container.data('required') == 'recommended') or (data['status'] == 'in_hard_range')
+  else if (data['status'] == 'blank' and container.data('requirement') == 'recommended') or (data['status'] == 'in_hard_range')
     setWarning(parent, data)
   else
     setSuccess(parent, data)
@@ -219,7 +219,7 @@
   )
 
 @checkRequiredAndInvalidFormat = ->
-  fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( ->
+  fields = $('[data-requirement~="required"]:visible').find('[data-status]:visible').filter( ->
     $(this).data('status') == "blank" || $(this).data('status') == "invalid"
   )
 
@@ -243,7 +243,7 @@ $(document)
     validateElement($(this))
   )
   .on('click', '[data-object~="scroll-to-first-error"]', ->
-    fields = $('[data-required~="required"]:visible').find('[data-status]:visible').filter( ->
+    fields = $('[data-requirement~="required"]:visible').find('[data-status]:visible').filter( ->
       $(this).data('status') == "blank" || $(this).data('status') == "invalid"
     )
     out_of_range_fields = $('[data-status]:visible').filter( ->

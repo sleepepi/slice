@@ -1,6 +1,6 @@
-- case design_option.required when 'required'
+- if design_option.required?
   %span.text-danger{ rel: 'tooltip', data: { object: 'suppress-click', title: 'Required Field', placement: 'top', container: 'body' } }
     *
-- when 'recommended'
+- elsif design_option.recommended?
   %span{ rel: 'tooltip', data: { object: 'suppress-click', title: 'Recommended Field', placement: 'top', container: 'body' } }
     *

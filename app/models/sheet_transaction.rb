@@ -26,20 +26,15 @@ class SheetTransaction < ApplicationRecord
 
   def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false)
     return false unless skip_validation || validate_variable_values(sheet, variables_params)
-
-    sheet_save_result = case transaction_type
-                        when 'sheet_create', 'public_sheet_create'
-                          sheet.save
-                        else
-                          sheet.update(sheet_params)
-                        end
-
-    ignore_attributes = %w(created_at updated_at authentication_token deleted successfully_validated)
-
-    original_attributes = sheet.previous_changes.collect { |k, v| [k, v[0]] }.reject { |k, _v| ignore_attributes.include?(k.to_s) }
-
+    (sheet_save_result, original_attributes) = save_or_update_sheet!(sheet, sheet_params, transaction_type)
     if sheet_save_result
-      sheet_transaction = create(transaction_type: transaction_type, project_id: sheet.project_id, sheet_id: sheet.id, user_id: (current_user ? current_user.id : nil), remote_ip: remote_ip)
+      sheet_transaction = create(
+        transaction_type: transaction_type,
+        project_id: sheet.project_id,
+        sheet_id: sheet.id,
+        user: current_user,
+        remote_ip: remote_ip
+      )
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
       unless skip_validation
@@ -48,43 +43,55 @@ class SheetTransaction < ApplicationRecord
         sheet.create_notifications! if %w(sheet_create public_sheet_create).include?(transaction_type)
       end
     end
-
     sheet_save_result
+  end
+
+  def self.save_or_update_sheet!(sheet, sheet_params, transaction_type)
+    sheet_save_result = \
+      case transaction_type
+      when 'sheet_create', 'public_sheet_create'
+        sheet.save
+      else
+        sheet.update(sheet_params)
+      end
+    [sheet_save_result, sheet.original_attributes]
   end
 
   def generate_audits!(original_attributes)
     original_attributes.each do |trackable_attribute, old_value|
-      value_before = (old_value == nil ? nil : old_value.to_s)
-      value_after = (self.sheet.send(trackable_attribute) == nil ? nil : self.sheet.send(trackable_attribute).to_s)
-      if value_before != value_after
-        self.sheet_transaction_audits.create( sheet_attribute_name: trackable_attribute.to_s, value_before: value_before, value_after: value_after, label_before: nil, label_after: nil, value_for_file: false, project_id: self.project_id, sheet_id: self.sheet_id, user_id: self.user_id )
-      end
+      value_before = (old_value.nil? ? nil : old_value.to_s)
+      value_after = (sheet.send(trackable_attribute).nil? ? nil : sheet.send(trackable_attribute).to_s)
+      next if value_before == value_after
+      sheet_transaction_audits.create(
+        project_id: project_id, user_id: user_id, sheet_id: sheet_id,
+        sheet_attribute_name: trackable_attribute.to_s,
+        value_before: value_before, value_after: value_after
+      )
     end
   end
 
   def update_variables!(variables_params, current_user)
     variables_params.each_pair do |variable_id, response|
-      # value_before = nil
-      # value_after = nil
-      # value_for_file = false
-      # sheet_variable_id = nil
-      # attribute_name = nil
       sv = sheet.sheet_variables
                 .where(variable_id: variable_id)
-                .first_or_create(user_id: (current_user ? current_user.id : nil))
-      case sv.variable.variable_type
-      when 'grid'
-        update_grid_responses!(sv, response, current_user)
-      else
-        update_response_with_transaction(sv, response, current_user)
-      end
+                .first_or_create(user: current_user)
+      update_sheet_variable_response!(sv, response, current_user)
     end
   end
 
+  def update_sheet_variable_response!(sv, response, current_user)
+    case sv.variable.variable_type
+    when 'grid'
+      update_grid_responses!(sv, response, current_user)
+    else
+      update_response_with_transaction(sv, response, current_user)
+    end
+  end
+
+  # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
+  #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
+  #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
   def update_grid_responses!(sheet_variable, response, current_user)
-    # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
-    #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
-    #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
     response.select! do |_key, vhash|
       vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
     end
@@ -92,7 +99,7 @@ class SheetTransaction < ApplicationRecord
       variable_response_hash.each_pair do |variable_id, res|
         grid = sheet_variable.grids
                              .where(variable_id: variable_id, position: position)
-                             .first_or_create(user_id: (current_user ? current_user.id : nil))
+                             .first_or_create(user: current_user)
         if grid.variable.variable_type == 'file'
           grid_old = sheet_variable.grids.find_by(variable_id: variable_id, position: key)
           if !res[:response_file].is_a?(Hash) || res[:remove_response_file] == '1' || res[:response_file_cache].present?
@@ -106,28 +113,23 @@ class SheetTransaction < ApplicationRecord
             res = { remove_response_file: '1' }
           end
         end
-
         update_response_with_transaction(grid, res, current_user)
       end
     end
-
     sheet_variable.grids.where('position >= ?', response.keys.size).destroy_all
   end
 
   def update_response_with_transaction(object, response, current_user)
     sheet_variable_id = nil
     grid_id = nil
-
     value_before = object.get_response(:raw).to_s
     label_before = object.get_response(:name).to_s
-
     if object.variable.variable_type == 'checkbox'
       response = [] if response.blank?
       object.update_responses!(response, current_user, sheet) # Response should be an array
     else
       object.update(object.format_response(response))
     end
-
     value_after = object.get_response(:raw).to_s
     label_after = object.get_response(:name).to_s
     value_for_file = (object.variable.variable_type == 'file')
@@ -137,15 +139,13 @@ class SheetTransaction < ApplicationRecord
       grid_id = object.id
       sheet_variable_id = object.sheet_variable.id
     end
-
-    if value_before != value_after
-      sheet_transaction_audits.create(
-        value_before: value_before, value_after: value_after,
-        label_before: label_before, label_after: label_after,
-        value_for_file: value_for_file, project_id: project_id,
-        sheet_id: sheet_id, user_id: user_id,
-        sheet_variable_id: sheet_variable_id, grid_id: grid_id
-      )
-    end
+    return if value_before == value_after
+    sheet_transaction_audits.create(
+      value_before: value_before, value_after: value_after,
+      label_before: label_before, label_after: label_after,
+      value_for_file: value_for_file, project_id: project_id,
+      sheet_id: sheet_id, user_id: user_id,
+      sheet_variable_id: sheet_variable_id, grid_id: grid_id
+    )
   end
 end

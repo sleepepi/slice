@@ -167,7 +167,7 @@ class DesignOptionsController < ApplicationController
   def design_option_params
     params[:design_option] ||= { blank: '1' }
     params.require(:design_option).permit(
-      :branching_logic, :position, :required
+      :branching_logic, :position, :requirement
     )
   end
 

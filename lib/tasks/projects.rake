@@ -230,7 +230,7 @@ def copy_designs(original, copy, variable_map)
         variable_id: variable_map[design_option.variable_id.to_s],
         section_id: section_map[design_option.section_id.to_s],
         position: design_option.position,
-        required: design_option.required,
+        requirement: design_option.requirement,
         branching_logic: design_option.branching_logic
       )
     end

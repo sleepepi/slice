@@ -8,6 +8,22 @@
 
 ## 0.51.0
 
+### Enhancements
+- **Sheet Changes**
+  - Improved the load time of sheet show pages
+  - Improved the load time of sheet edit pages
+
+### Refactoring
+- Minor code cleanup for generating sheet transactions
+- Refactored `DesignOption` requirements
+
+## 0.50.2 (March 15, 2017)
+
+### Bug Fixes
+- `last_edited_at` is now set when a survey is submitted
+- Page navigation is now properly canceled when editing a sheet and clicking
+  "Cancel"
+
 ## 0.50.1 (March 13, 2017)
 
 ### Enhancements

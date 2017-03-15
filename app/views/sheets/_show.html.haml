@@ -1,7 +1,7 @@
-- sheet_variables = @sheet.sheet_variables.includes(variable: [:domain]).to_a
+- sheet_variables = @sheet.sheet_variables.includes(:domain_option, responses: :domain_option, variable: { domain: :domain_options }).to_a
 %form.form-horizontal
   .design-header= @sheet.design.name
-  - @sheet.design.design_options.includes(:variable, :section).each do |design_option|
+  - @sheet.design.design_options.includes(:design, :section, variable: { domain: :domain_options }).each do |design_option|
     - next unless @sheet.show_design_option?(design_option.branching_logic)
     - section = design_option.section
     - variable = design_option.variable

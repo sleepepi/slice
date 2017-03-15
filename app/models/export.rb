@@ -256,7 +256,7 @@ class Export < ApplicationRecord
                       variable.alignment, # Alignment
                       variable.default_row_number, # Default Row Number
                       (variable.domain ? variable.domain.name : ''), # Domain Name
-                      design_option.required_string] # Required on Form?
+                      design_option.requirement_string] # Required on Form?
             end
           end
         end

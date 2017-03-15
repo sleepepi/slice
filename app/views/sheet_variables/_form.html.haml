@@ -5,7 +5,7 @@
 - response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.get_response(:raw) : nil) : params[:variables][variable.id.to_s])
 - value = variable.response_to_value(response)
 - validate_response = if @sheet && (@sheet.errors.count > 0 || !@sheet.new_record?)
-  - variable.validate_value(design, value)
+  - variable.validate_value(value, design_option)
 - else
   - 'blank'
 - case validate_response
@@ -34,7 +34,7 @@
                 = domain_option.value_and_name(show_values: show_values)
 - if variable.uses_scale? && variable.last_scale_variable?(design)
   = '</div>'.html_safe
-.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', required: (design_option ? design_option.required : nil), required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', requirement: design_option.requirement, required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif variable.display_layout == 'gone'
