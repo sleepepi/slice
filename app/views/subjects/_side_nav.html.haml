@@ -23,7 +23,7 @@
               = link_to 'Events', events_project_subject_path(@project, @subject), class: "#{'active' if current_page?(events_project_subject_path(@project, @subject))}"
 
             %ul.side-nav-section-links.active
-              - @subject.blinded_subject_events(current_user).each do |subject_event|
+              - @subject.blinded_subject_events(current_user).includes(:event).each do |subject_event|
                 %li{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: subject_event.id } }
                   - event_highlighted = ((params[:action] == 'event' && subject_event == @subject_event) || (params[:action].in?(['new_data_entry', 'show', 'edit', 'transactions', 'reassign']) && @sheet && @sheet.subject_event == subject_event))
                   = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "#{'active' if event_highlighted}" do
