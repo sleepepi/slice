@@ -4,6 +4,8 @@
 - **Sheet Changes**
   - Improved the load time of sheet show pages
   - Improved the load time of sheet edit pages
+- **Theme Changes**
+  - Adjusted the background gradient for the spring theme
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
