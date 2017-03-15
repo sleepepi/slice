@@ -433,7 +433,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       id: design_options(:sections_and_variables_sectiona),
       design_option: {
         branching_logic: '1 = 1',
-        required: 'required'
+        requirement: 'required'
       },
       section: {
         name: 'Section A Updated',
@@ -445,7 +445,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
     assert_equal '1 = 1', assigns(:design_option).branching_logic
-    assert_equal 'required', assigns(:design_option).required
+    assert_equal 'required', assigns(:design_option).requirement
     assert_equal 'Section A Updated', assigns(:design_option).section.name
     assert_equal 'Section Description', assigns(:design_option).section.description
     assert_equal 1, assigns(:design_option).section.level
@@ -458,7 +458,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       id: design_options(:sections_and_variables_dropdown),
       design_option: {
         branching_logic: '1 = 1',
-        required: 'required'
+        requirement: 'required'
       },
       variable: {
         name: 'var_gender_updated',
@@ -469,7 +469,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:design_option)
     assert_equal '1 = 1', assigns(:design_option).branching_logic
-    assert_equal 'required', assigns(:design_option).required
+    assert_equal 'required', assigns(:design_option).requirement
     assert_equal 'var_gender_updated', assigns(:design_option).variable.name
     assert_equal 'Gender Updated', assigns(:design_option).variable.display_name
     assert_template 'show'
@@ -481,7 +481,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       id: design_options(:sections_and_variables_dropdown),
       design_option: {
         branching_logic: '',
-        required: ''
+        requirement: ''
       },
       variable: {
         name: ''
@@ -500,7 +500,7 @@ class DesignOptionsControllerTest < ActionController::TestCase
       id: design_options(:sections_and_variables_dropdown),
       design_option: {
         branching_logic: '',
-        required: ''
+        requirement: ''
       },
       variable: {
         name: ''

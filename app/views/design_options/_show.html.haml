@@ -167,6 +167,6 @@
               Required on Form?
             .design-option-body
               .btn-group{ data: { toggle: 'buttons' } }
-                - DesignOption::REQUIRED.each do |label, value|
-                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { required: value }), remote: true, method: :patch, class: "btn btn-xs btn-default #{'active' if design_option.required.to_s == value}" do
+                - DesignOption::REQUIREMENTS.each do |label, value|
+                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-xs btn-default #{'active' if design_option.requirement.to_s == value}" do
                     = label

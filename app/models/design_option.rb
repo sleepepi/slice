@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 # Defines the position of sections and questions on designs. Design options also
-# have associated branching logic, and can be set as recommended or required
+# have associated branching logic, and can be set as required, recommended, or
+# optional.
 class DesignOption < ApplicationRecord
   # Constants
-  REQUIRED = [['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']]
+  REQUIREMENTS = [
+    ['Not Required', ''],
+    %w(Recommended recommended),
+    %w(Required required)
+  ]
 
   # Validations
   validates :design_id, presence: true
@@ -17,8 +22,8 @@ class DesignOption < ApplicationRecord
   belongs_to :section, dependent: :destroy
 
   # Methods
-  def required_string
-    element = REQUIRED.find { |_label, value| value == required }
+  def requirement_string
+    element = REQUIREMENTS.find { |_label, value| value == requirement }
     if element
       element.first
     else
@@ -26,8 +31,16 @@ class DesignOption < ApplicationRecord
     end
   end
 
-  def requirement_on_design
-    required.blank? ? 'optional' : required
+  def required?
+    requirement == 'required'
+  end
+
+  def recommended?
+    requirement == 'recommended'
+  end
+
+  def optional?
+    requirement == 'optional' || requirement.blank?
   end
 
   def self.cleaned_description(hash, domain_option)

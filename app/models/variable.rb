@@ -599,18 +599,17 @@ class Variable < ApplicationRecord
 
   def validate_value(value, design_option)
     validation_hash = value_in_range?(value)
-    requirement = design_option.requirement_on_design
-    validation_code(validation_hash[:status], requirement)
+    validation_code(validation_hash[:status], design_option)
   end
 
-  def validation_code(status, requirement)
+  def validation_code(status, design_option)
     if %w(invalid out_of_range).include?(status)
       'error'
-    elsif status == 'blank' && requirement == 'required'
+    elsif status == 'blank' && design_option.required?
       'error'
     elsif status == 'in_hard_range'
       'warning'
-    elsif status == 'blank' && requirement == 'recommended'
+    elsif status == 'blank' && design_option.recommended?
       'warning'
     else
       'valid'

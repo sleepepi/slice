@@ -7,6 +7,7 @@
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
+- Refactored `DesignOption` requirements
 
 ## 0.50.2 (March 15, 2017)
 

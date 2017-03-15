@@ -124,7 +124,7 @@ module Validation
 
           case validation_hash[:status]
           when 'blank' # AND REQUIRED
-            @errors << "#{variable.name} can't be blank" if design_option.requirement_on_design == 'required'
+            @errors << "#{variable.name} can't be blank" if design_option.required?
           when 'invalid'
             @errors << "#{variable.name} is invalid"
           when 'out_of_range'
