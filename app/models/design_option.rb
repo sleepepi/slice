@@ -3,6 +3,7 @@
 # Defines the position of sections and questions on designs. Design options also
 # have associated branching logic, and can be set as recommended or required
 class DesignOption < ApplicationRecord
+  # Constants
   REQUIRED = [['Not Required', ''], ['Recommended', 'recommended'], ['Required', 'required']]
 
   # Validations
@@ -16,7 +17,6 @@ class DesignOption < ApplicationRecord
   belongs_to :section, dependent: :destroy
 
   # Methods
-
   def required_string
     element = REQUIRED.find { |_label, value| value == required }
     if element
@@ -24,6 +24,10 @@ class DesignOption < ApplicationRecord
     else
       'Not Required'
     end
+  end
+
+  def requirement_on_design
+    required.blank? ? 'optional' : required
   end
 
   def self.cleaned_description(hash, domain_option)

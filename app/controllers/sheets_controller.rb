@@ -162,7 +162,7 @@ class SheetsController < ApplicationController
   end
 
   def find_editable_sheet_or_redirect
-    @sheet = current_user.all_sheets.find_by(id: params[:id])
+    @sheet = current_user.all_sheets.includes(:design).find_by(id: params[:id])
     redirect_without_sheet
   end
 

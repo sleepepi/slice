@@ -3,6 +3,7 @@
 ### Enhancements
 - **Sheet Changes**
   - Improved the load time of sheet show pages
+  - Improved the load time of sheet edit pages
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions

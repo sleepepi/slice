@@ -92,49 +92,43 @@ module Validation
       true
     end
 
-    def visible_on_sheet?(variable)
-      design_option = variable.design_options.find_by design_id: @design.id
-      if design_option
-        show_design_option?(design_option.branching_logic)
-      else
-        true
-      end
+    def visible_on_sheet?(design_option)
+      show_design_option?(design_option.branching_logic)
     end
 
     def valid?
       return false unless @design
-      @design.variables.each do |variable|
-        if visible_on_sheet?(variable)
-          sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
-          if sheet_variable && variable.variable_type == 'grid'
-            variable.child_variables.each do |child_variable|
-              grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
-              grids.each do |grid|
-                value = child_variable.response_to_value(grid ? grid.raw_response : nil)
-                validation_hash = child_variable.value_in_range?(value)
+      @design.design_options.includes(variable: { domain: :domain_options }).each do |design_option|
+        variable = design_option.variable
+        next unless variable
+        next unless visible_on_sheet?(design_option)
+        sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
+        if sheet_variable && variable.variable_type == 'grid'
+          variable.child_variables.each do |child_variable|
+            grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
+            grids.each do |grid|
+              value = child_variable.response_to_value(grid ? grid.raw_response : nil)
+              validation_hash = child_variable.value_in_range?(value)
 
-                case validation_hash[:status]
-                # when 'blank' # AND REQUIRED
-                #   @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
-                when 'invalid'
-                  @errors << "#{variable.name} #{child_variable.name} is invalid"
-                when 'out_of_range'
-                  @errors << "#{variable.name} #{child_variable.name} is out of range"
-                end
+              case validation_hash[:status]
+              when 'invalid'
+                @errors << "#{variable.name} #{child_variable.name} is invalid"
+              when 'out_of_range'
+                @errors << "#{variable.name} #{child_variable.name} is out of range"
               end
             end
-          else
-            value = variable.response_to_value(sheet_variable ? sheet_variable.raw_response : nil)
-            validation_hash = variable.value_in_range?(value)
+          end
+        else
+          value = variable.response_to_value(sheet_variable ? sheet_variable.raw_response : nil)
+          validation_hash = variable.value_in_range?(value)
 
-            case validation_hash[:status]
-            when 'blank' # AND REQUIRED
-              @errors << "#{variable.name} can't be blank" if variable.requirement_on_design(@design) == 'required'
-            when 'invalid'
-              @errors << "#{variable.name} is invalid"
-            when 'out_of_range'
-              @errors << "#{variable.name} is out of range"
-            end
+          case validation_hash[:status]
+          when 'blank' # AND REQUIRED
+            @errors << "#{variable.name} can't be blank" if design_option.requirement_on_design == 'required'
+          when 'invalid'
+            @errors << "#{variable.name} is invalid"
+          when 'out_of_range'
+            @errors << "#{variable.name} is out of range"
           end
         end
       end
