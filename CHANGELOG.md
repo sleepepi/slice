@@ -1,5 +1,8 @@
 ## 0.50.2
 
+### Bug Fixes
+- `last_edited_at` is now set when a survey is submitted
+
 ## 0.50.1 (March 13, 2017)
 
 ### Enhancements

@@ -44,6 +44,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
+    assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to about_survey_path(survey: assigns(:design).slug, a: assigns(:sheet).authentication_token)
   end
 
