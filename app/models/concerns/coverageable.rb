@@ -41,14 +41,20 @@ module Coverageable
   end
 
   def update_response_count!
-    rcount = non_hidden_responses
-    trcount = non_hidden_total_responses
+    if missing?
+      rcount = 0
+      trcount = 0
+    else
+      rcount = non_hidden_responses
+      trcount = non_hidden_total_responses
+    end
     pcount = compute_percent(rcount, trcount)
     update_columns(
       response_count: rcount,
       total_response_count: trcount,
       percent: pcount
     )
+    subject_event.update_coverage! if subject_event
   end
 
   def coverage

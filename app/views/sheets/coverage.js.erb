@@ -1,2 +1,14 @@
 $("#sheet_<%= @sheet.id %>_coverage").html("<%=j render 'sheets/coverage', sheet: @sheet %>");
+<% if @sheet.subject_event %>
+$("#subject-event-<%= @sheet.subject_event.id %>-coverage").html("<%=j render 'subject_events/coverage', subject_event: @sheet.subject_event %>");
+  <% if @project.unblinded?(current_user) %>
+    <% percent = @sheet.subject_event.unblinded_percent %>
+  <% else %>
+    <% percent = @sheet.subject_event.blinded_percent %>
+  <% end %>
+if($("#subject-event-<%= @sheet.subject_event.id %>-progress-bar-width").length > 0)
+  $("#subject-event-<%= @sheet.subject_event.id %>-progress-bar-width").css('width', "<%= percent %>%");
+else
+  $("#subject-event-<%= @sheet.subject_event.id %>-percent-progress-bar").html("<%=j render 'subject_events/progress_bar', subject_event: @sheet.subject_event %>");
+<% end %>
 tooltipsReady();

@@ -62,7 +62,7 @@ class SubjectsController < ApplicationController
   def set_sheet_as_shareable
     @sheet = @subject.sheets
                      .new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
-    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
+    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true, skip_callbacks: true)
     @sheet.set_token
     redirect_to [@project, @sheet]
   end
@@ -286,12 +286,12 @@ class SubjectsController < ApplicationController
   private
 
   def find_viewable_subject_or_redirect
-    @subject = current_user.all_viewable_subjects.find_by(id: params[:id])
+    @subject = current_user.all_viewable_subjects.includes(:project).find_by(id: params[:id])
     redirect_without_subject
   end
 
   def find_editable_subject_or_redirect
-    @subject = current_user.all_subjects.find_by(id: params[:id])
+    @subject = current_user.all_subjects.includes(:project).find_by(id: params[:id])
     redirect_without_subject
   end
 

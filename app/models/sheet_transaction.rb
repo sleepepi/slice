@@ -24,7 +24,7 @@ class SheetTransaction < ApplicationRecord
     sheet.errors.count.zero?
   end
 
-  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false)
+  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false, skip_callbacks: false)
     return false unless skip_validation || validate_variable_values(sheet, variables_params)
     (sheet_save_result, original_attributes) = save_or_update_sheet!(sheet, sheet_params, transaction_type)
     if sheet_save_result
@@ -37,8 +37,11 @@ class SheetTransaction < ApplicationRecord
       )
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)
-      unless skip_validation
+      unless skip_callbacks
         sheet.update_response_count!
+        sheet.subject.update_uploaded_file_counts!
+      end
+      unless skip_validation
         sheet.subject.reset_checks_in_background!
         sheet.create_notifications! if %w(sheet_create public_sheet_create).include?(transaction_type)
       end

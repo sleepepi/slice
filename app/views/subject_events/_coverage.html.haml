@@ -1,0 +1,13 @@
+- if @project.unblinded?(current_user)
+  - percent = subject_event.unblinded_percent
+  - responses = subject_event.unblinded_responses_count
+  - questions = subject_event.unblinded_questions_count
+- else
+  - percent = subject_event.blinded_percent
+  - responses = subject_event.blinded_responses_count
+  - questions = subject_event.blinded_questions_count
+
+- if percent
+  %small.hidden-xs
+    %strong{ rel: 'tooltip', data: { title: "#{responses} of #{questions} #{questions == 1 ? 'question' : 'questions'}", container: 'body', placement: 'top' } }= "#{percent}%"
+    complete

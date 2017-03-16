@@ -9,13 +9,19 @@
 ## 0.51.0
 
 ### Enhancements
+- **Event Changes**
+  - Event completion percentage is now based on total number of questions and
+    responses of the event's sheets
 - **Sheet Changes**
   - Improved the load time of sheet show pages
   - Improved the load time of sheet edit pages
+- **Theme Changes**
+  - Adjusted the background gradient for the spring theme
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
 - Refactored `DesignOption` requirements
+- Improved subject menu rendering by caching blinded and unblinded file counts
 
 ## 0.50.2 (March 15, 2017)
 

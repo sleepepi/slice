@@ -1,0 +1,9 @@
+- if @project.unblinded?(current_user)
+  - percent = subject_event.unblinded_percent
+- else
+  - percent = subject_event.blinded_percent
+
+
+- if percent && percent.positive?
+  .progress.progress-simple
+    .progress-bar.progress-bar-success{ id: "subject-event-#{subject_event.id}-progress-bar-width", style: "width: #{percent}%" }

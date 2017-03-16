@@ -77,6 +77,15 @@ class Subject < ApplicationRecord
                  .order(created_at: :desc)
   end
 
+  def uploaded_files_count(current_user)
+    update_uploaded_file_counts! if unblinded_uploaded_files_count.nil? || blinded_uploaded_files_count.nil?
+    if project.unblinded?(current_user)
+      unblinded_uploaded_files_count
+    else
+      blinded_uploaded_files_count
+    end
+  end
+
   # TODO: Should this look across grids or responses as well...?
   def has_value?(variable, value)
     domain_option = variable.domain_options.find_by(value: value)
@@ -178,6 +187,29 @@ class Subject < ApplicationRecord
   def reset_checks!
     sheets.find_each(&:reset_checks!)
     sheets.find_each(&:run_pending_checks!)
+  end
+
+  def unblinded_not_missing_sheets
+    sheets.where(missing: false)
+  end
+
+  def blinded_not_missing_sheets
+    if project.blinding_enabled?
+      sheets.where(missing: false)
+            .joins(:design).where(designs: { only_unblinded: false })
+            .left_joins(subject_event: :event).where(events: { only_unblinded: [nil, false] })
+    else
+      unblinded_not_missing_sheets
+    end
+  end
+
+  def update_uploaded_file_counts!
+    unblinded_count = SheetVariable.where(sheet_id: unblinded_not_missing_sheets.select(:id)).with_files.count
+    blinded_count = SheetVariable.where(sheet_id: blinded_not_missing_sheets.select(:id)).with_files.count
+    update_columns(
+      unblinded_uploaded_files_count: unblinded_count,
+      blinded_uploaded_files_count: blinded_count
+    )
   end
 
   def evaluate?(event: nil, design: nil, variable: nil, value: nil, operator: '=')

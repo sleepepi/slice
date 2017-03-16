@@ -2,6 +2,7 @@
 
 # Defines a collection of responses to a design for a subject.
 class Sheet < ApplicationRecord
+  # Constants
   ORDERS = {
     'site' => 'sites.name',
     'site desc' => 'sites.name desc',
@@ -362,6 +363,11 @@ class Sheet < ApplicationRecord
   def original_attributes
     ignore_attributes = %w(created_at updated_at authentication_token deleted successfully_validated)
     previous_changes.reject { |k, _v| ignore_attributes.include?(k.to_s) }.collect { |k, v| [k, v[0]] }
+  end
+
+  def destroy
+    super
+    subject.update_uploaded_file_counts!
   end
 
   protected
