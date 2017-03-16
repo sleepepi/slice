@@ -7,19 +7,9 @@
       %span.hidden-xs= subject_event.event_date_to_s
       %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
 
-    - if @project.unblinded?(current_user)
-      - percent = subject_event.unblinded_percent
-    - else
-      - percent = subject_event.blinded_percent
+    %span{ id: "subject-event-#{subject_event.id}-title" }
+      = render 'subject_events/title', subject_event: subject_event
 
-    - if percent == 100
-      %span.text-success
-        %span.glyphicon.glyphicon-ok
-    - else
-      %span.text-muted
-        %span.glyphicon.glyphicon-unchecked
-    = link_to subject_event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-    %span{ id: "subject-event-#{subject_event.id}-coverage" }= render 'subject_events/coverage', subject_event: subject_event
     = render 'layouts/unblinded_only', project: @project, object: subject_event.event, placement: 'top'
 
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?

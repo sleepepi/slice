@@ -7,6 +7,15 @@
   - responses = subject_event.blinded_responses_count
   - questions = subject_event.blinded_questions_count
 
+- if percent == 100
+  %span.text-success
+    %span.glyphicon.glyphicon-ok
+- else
+  %span.text-muted
+    %span.glyphicon.glyphicon-unchecked
+
+= link_to subject_event.name, event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
+
 - if percent
   %small.hidden-xs
     %strong{ rel: 'tooltip', data: { title: "#{responses} of #{questions} #{questions == 1 ? 'question' : 'questions'}", container: 'body', placement: 'top' } }= "#{percent}%"
