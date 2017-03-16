@@ -82,13 +82,63 @@ class SubjectEvent < ApplicationRecord
     design_ids.uniq
   end
 
-  def percent(current_user)
-    sheets_started = sheets_on_subject_event(current_user).pluck(:design_id).uniq.count
-    designs_count = designs_on_subject_event(current_user).count
-    if designs_count.positive?
-      sheets_started * 100 / designs_count
+  def unblinded_required_sheets
+    sheets.where(design_id: required_design_ids).where.not(total_response_count: nil)
+  end
+
+  def missing_unblinded_required_designs_question_count
+    covered_design_ids = unblinded_required_sheets.pluck(:design_id)
+    missing_design_ids = required_design_ids.reject { |id| covered_design_ids.include?(id) }
+    subject.project.designs.where(id: missing_design_ids).sum(:variables_count)
+  end
+
+  def blinded_required_sheets
+    if subject.project.blinding_enabled?
+      sheets.where(design_id: required_design_ids)
+            .joins(:design).where(designs: { only_unblinded: false })
+            .where.not(total_response_count: nil)
     else
-      100
+      unblinded_required_sheets
     end
+  end
+
+  def missing_blinded_required_designs_question_count
+    missing_unblinded_required_designs_question_count unless subject.project.blinding_enabled?
+    covered_design_ids = blinded_required_sheets.pluck(:design_id)
+    missing_design_ids = required_design_ids.reject { |id| covered_design_ids.include?(id) }
+    subject.project.designs.where(id: missing_design_ids, only_unblinded: false).sum(:variables_count)
+  end
+
+  def update_coverage!
+    update_unblinded_coverage!
+    update_blinded_coverage!
+  end
+
+  def update_unblinded_coverage!
+    urcount = unblinded_required_sheets.sum(:response_count)
+    uqcount = unblinded_required_sheets.sum(:total_response_count) + missing_unblinded_required_designs_question_count
+    upercent = compute_percent(urcount, uqcount)
+    update_columns(
+      unblinded_responses_count: urcount,
+      unblinded_questions_count: uqcount,
+      unblinded_percent: upercent
+    )
+  end
+
+  def update_blinded_coverage!
+    brcount = blinded_required_sheets.sum(:response_count)
+    bqcount = blinded_required_sheets.sum(:total_response_count) + missing_blinded_required_designs_question_count
+    bpercent = compute_percent(brcount, bqcount)
+    update_columns(
+      blinded_responses_count: brcount,
+      blinded_questions_count: bqcount,
+      blinded_percent: bpercent
+    )
+  end
+
+  # 0 out of 0 questions answered is 100% complete.
+  def compute_percent(rcount, qcount)
+    return 100 if qcount.zero?
+    (rcount * 100.0 / qcount).to_i
   end
 end

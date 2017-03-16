@@ -2,6 +2,7 @@
 
 # Defines a collection of responses to a design for a subject.
 class Sheet < ApplicationRecord
+  # Constants
   ORDERS = {
     'site' => 'sites.name',
     'site desc' => 'sites.name desc',

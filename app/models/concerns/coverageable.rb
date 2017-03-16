@@ -49,6 +49,7 @@ module Coverageable
       total_response_count: trcount,
       percent: pcount
     )
+    subject_event.update_coverage! if subject_event
   end
 
   def coverage

@@ -7,7 +7,10 @@
       %span.hidden-xs= subject_event.event_date_to_s
       %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
 
-    - percent = subject_event.percent(current_user)
+    - if @project.unblinded?(current_user)
+      - percent = subject_event.unblinded_percent
+    - else
+      - percent = subject_event.blinded_percent
 
     - if percent == 100
       %span.text-success
@@ -15,11 +18,8 @@
     - else
       %span.text-muted
         %span.glyphicon.glyphicon-unchecked
-
     = link_to subject_event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-    %small.hidden-xs
-      %strong= "#{percent}%"
-      complete
+    %span{ id: "subject-event-#{subject_event.id}-coverage" }= render 'subject_events/coverage', subject_event: subject_event
     = render 'layouts/unblinded_only', project: @project, object: subject_event.event, placement: 'top'
 
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
@@ -27,9 +27,8 @@
       .panel-body
         = link_to 'Launch Tablet Handoff', new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: 'btn btn-accent shadow-sm btn-block'
   .panel-body{ style: 'padding: 0;' }
-    - if percent.positive?
-      .progress.progress-simple
-        .progress-bar.progress-bar-success{ style: "width: #{percent}%" }
+    %div{ id: "subject-event-#{subject_event.id}-percent-progress-bar" }
+      = render 'subject_events/progress_bar', subject_event: subject_event
 
     %table.table.table-striped.table-borderless.table-hover{ style: 'margin-bottom: 0;' }
       %col{ width: '60px' }

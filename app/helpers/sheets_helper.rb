@@ -14,13 +14,12 @@ module SheetsHelper
     return coverage_helper(sheet, placement) unless sheet.total_response_count.nil?
     content_tag(:span, '-',
                 class: 'label label-coverage coverage-0',
-                rel: 'tooltip',
+                rel: 'tooltip', title: 'Calculating...',
                 data: {
                   container: 'body', placement: placement,
                   object: 'sheet-coverage-updater',
                   url: coverage_project_sheet_path(sheet.project, sheet)
-                },
-                title: 'Calculating...')
+                })
   end
 
   def filter_link(count, design, variable, value, event_id: nil)
