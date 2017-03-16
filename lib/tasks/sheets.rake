@@ -63,7 +63,8 @@ namespace :sheets do
   desc 'Reset sheet coverage computation'
   task reset_coverage: :environment do
     sheet_count = Sheet.count
-    Sheet.update_all(response_count: nil, total_response_count: nil, percent: nil)
+    Sheet.where(missing: false).update_all(response_count: nil, total_response_count: nil, percent: nil)
+    Sheet.where(missing: true).update_all(response_count: 0, total_response_count: 0, percent: 100)
     SubjectEvent.update_all(
       unblinded_responses_count: nil,
       unblinded_questions_count: nil,
