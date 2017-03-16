@@ -17,7 +17,7 @@
   - if @project.sites.count > 1
     %td.hidden-xs
       = select_tag 'domain[option_tokens][][site_id]', options_for_select([['--All Sites--', nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: 'form-control', tabindex: '-1'
-  %td{ style: 'vertical-align: middle;' }
+  %td.nowrap.text-right{ style: 'vertical-align: middle;' }
     - total_count = domain_option.captured_values_count
     - if total_count > 0
       .btn.btn-xs.btn-default{ style: 'cursor: default', rel: 'tooltip', data: { title: pluralize(total_count, 'response'), container: 'body', placement: 'top' } }
