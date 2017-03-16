@@ -365,6 +365,11 @@ class Sheet < ApplicationRecord
     previous_changes.reject { |k, _v| ignore_attributes.include?(k.to_s) }.collect { |k, v| [k, v[0]] }
   end
 
+  def destroy
+    super
+    subject.update_uploaded_file_counts!
+  end
+
   protected
 
   def check_subject_event_subject_match
