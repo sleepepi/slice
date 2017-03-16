@@ -13,6 +13,7 @@
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
 - Refactored `DesignOption` requirements
+- Improved subject menu rendering by caching blinded and unblinded file counts
 
 ## 0.50.2 (March 15, 2017)
 

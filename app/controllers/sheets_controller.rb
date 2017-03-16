@@ -103,7 +103,9 @@ class SheetsController < ApplicationController
   # POST /sheets/1/set_as_not_missing
   def set_as_not_missing
     if @sheet.missing?
-      SheetTransaction.save_sheet!(@sheet, { unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
+      SheetTransaction.save_sheet!(@sheet, {
+        unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false
+      }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
       flash[:notice] = 'Sheet was successfully set as not missing.'
     end
     redirect_to [@project, @sheet]

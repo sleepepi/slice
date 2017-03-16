@@ -1,4 +1,5 @@
 - if sheet_variable
+  - non_grid_variable_types = Variable::TYPE.flatten.uniq - ['grid']
   .table-responsive
     %table.table.table-hover.table-condensed{ style: "margin-top:-5px" }
       %thead
@@ -12,5 +13,5 @@
             - variable.child_variables.each do |child_variable|
               %td
                 - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }
-                - if grid && (Variable::TYPE.flatten.uniq - ['grid']).include?(grid.variable.variable_type)
+                - if grid && non_grid_variable_types.include?(grid.variable.variable_type)
                   = render "sheet_variables/show/#{grid.variable.variable_type}", variable: grid.variable, object: grid

@@ -76,9 +76,9 @@
                 = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
                   Comments
                   %span.badge= @subject.blinded_comments(current_user).count
-            - if @subject.uploaded_files(current_user).count > 0 || params[:action] == 'files'
+            - if @subject.uploaded_files_count(current_user).positive? || params[:action] == 'files'
               %li
                 = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
                   Files
-                  - if @subject.uploaded_files(current_user).count > 0
-                    %span.badge= @subject.uploaded_files(current_user).count
+                  - if @subject.uploaded_files_count(current_user).positive?
+                    %span.badge= @subject.uploaded_files_count(current_user)
