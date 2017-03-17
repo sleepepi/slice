@@ -12,3 +12,5 @@ else
   $("#subject-event-<%= @sheet.subject_event.id %>-percent-progress-bar").html("<%=j render 'subject_events/progress_bar', subject_event: @sheet.subject_event %>");
 <% end %>
 tooltipsReady();
+activateSheetDraggables();
+activateEventDroppables();
