@@ -52,6 +52,7 @@ class SubjectsController < ApplicationController
       last_edited_at: Time.zone.now
     )
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
+    render 'sheets/subject_event'
   end
 
   # # GET /projects/:project_id/subjects/1/send-url

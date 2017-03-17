@@ -83,7 +83,7 @@ class SubjectsControllerTest < ActionController::TestCase
     assert_equal users(:site_one_editor), assigns(:sheet).user
     assert_equal users(:site_one_editor), assigns(:sheet).last_user
     assert_not_nil assigns(:sheet).last_edited_at
-    assert_template 'set_sheet_as_missing'
+    assert_template 'sheets/subject_event'
     assert_response :success
   end
 

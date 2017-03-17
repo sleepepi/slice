@@ -100,15 +100,11 @@ class SheetsController < ApplicationController
     redirect_to [@project, @sheet], notice: 'Sheet was successfully unlocked.'
   end
 
-  # POST /sheets/1/set_as_not_missing
+  # POST /sheets/1/set_as_not_missing.js
   def set_as_not_missing
-    if @sheet.missing?
-      SheetTransaction.save_sheet!(@sheet, {
-        unlocked_at: Time.zone.now, last_user_id: current_user.id, last_edited_at: Time.zone.now, missing: false
-      }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
-      flash[:notice] = 'Sheet was successfully set as not missing.'
-    end
-    redirect_to [@project, @sheet]
+    @sheet.destroy if @sheet.missing?
+    @subject = @sheet.subject
+    render :subject_event
   end
 
   # GET /sheets/1/reassign
