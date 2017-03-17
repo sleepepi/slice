@@ -368,6 +368,7 @@ class Sheet < ApplicationRecord
   def destroy
     super
     subject.update_uploaded_file_counts!
+    subject_event.update_coverage! if subject_event
   end
 
   protected

@@ -697,9 +697,10 @@ d est laborum.',
     login(users(:valid))
     post :set_as_not_missing, params: {
       project_id: projects(:auto_lock), id: sheets(:missing)
-    }
-    assert_equal false, assigns(:sheet).missing?
-    assert_redirected_to [projects(:auto_lock), sheets(:missing)]
+    }, format: 'js'
+    assert_equal true, assigns(:sheet).deleted?
+    assert_template 'subject_event'
+    assert_response :success
   end
 
   test 'should update sheet' do

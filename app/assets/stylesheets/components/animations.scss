@@ -114,3 +114,13 @@
     transform: scaleX(1) scaleY(1) translate(600px, 100px) rotate(-270deg);
   }
 }
+
+@keyframes sun-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
+  }
+}

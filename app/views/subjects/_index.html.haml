@@ -10,6 +10,10 @@
         = @title
         = render 'search/toggle'
 
+.body-attachment
+  .container.attachment-container
+    = render 'theme/upper_right_icon'
+
 .search-container-relative
   .search-container{ class: params[:search].present? ? 'search-container-visible' : nil }
     - url = project_subjects_path(@project)

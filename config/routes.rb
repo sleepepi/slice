@@ -303,6 +303,7 @@ Rails.application.routes.draw do
         get 'handoff/:subject_event_id', controller: :handoffs, action: :new, as: :new_handoff
         post 'handoff/:subject_event_id', controller: :handoffs, action: :create, as: :create_handoff
         get 'handoff', to: redirect('projects/%{project_id}/subjects/%{id}')
+        post :event_coverage
       end
       collection do
         get :choose_site, path: 'choose-site'

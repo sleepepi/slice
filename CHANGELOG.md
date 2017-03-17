@@ -17,6 +17,11 @@
   - Improved the load time of sheet edit pages
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
+  - Added a sun and clouds to the spring theme
+
+### Bug Fixes
+- Tooltips now properly display for domain option statistics when editing a
+  domain in the design editor
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions

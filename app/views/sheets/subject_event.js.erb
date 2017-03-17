@@ -1,0 +1,16 @@
+<% if @sheet.subject_event %>
+$("#subject-event-<%= @sheet.subject_event.id %>-title").html("<%=j render 'subject_events/title', subject_event: @sheet.subject_event %>");
+$("#subject-event-<%= @sheet.subject_event.id %>-sheets").html("<%=j render 'subject_events/panel_body', subject_event: @sheet.subject_event %>");
+  <% if @project.unblinded?(current_user) %>
+    <% percent = @sheet.subject_event.unblinded_percent %>
+  <% else %>
+    <% percent = @sheet.subject_event.blinded_percent %>
+  <% end %>
+if($("#subject-event-<%= @sheet.subject_event.id %>-progress-bar-width").length > 0)
+  $("#subject-event-<%= @sheet.subject_event.id %>-progress-bar-width").css('width', "<%= percent %>%");
+else
+  $("#subject-event-<%= @sheet.subject_event.id %>-percent-progress-bar").html("<%=j render 'subject_events/progress_bar', subject_event: @sheet.subject_event %>");
+<% end %>
+tooltipsReady();
+activateSheetDraggables();
+activateEventDroppables();

@@ -9,12 +9,19 @@
 .body-attachment
   .container.attachment-container
     = render 'theme/lower_left_icon'
+    = render 'theme/upper_right_icon'
 
 .row
   .col-md-6
     .panel.panel-primary
       .panel-heading
-        %span.glyphicon.glyphicon-cog
+        - if current_user.theme == 'spring'
+          %span.fa-stack.flower-stack
+            %i.fa.fa-pagelines.fa-stack-1x
+            %i.fa.fa-circle.fa-stack-1x
+            %i.fa.fa-sun-o.fa-stack-1x
+        - else
+          %span.glyphicon.glyphicon-cog
         My Settings
       .panel-body
         = form_for current_user, url: settings_path, method: :post, html: { class: 'form-vertical' } do |f|

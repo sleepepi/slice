@@ -110,6 +110,10 @@ class SubjectEvent < ApplicationRecord
     subject.project.designs.where(id: missing_design_ids, only_unblinded: false).sum(:variables_count)
   end
 
+  def check_coverage
+    update_coverage! if unblinded_percent.nil? || blinded_percent.nil?
+  end
+
   def update_coverage!
     update_unblinded_coverage!
     update_blinded_coverage!

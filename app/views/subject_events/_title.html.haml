@@ -10,6 +10,15 @@
 - if percent == 100
   %span.text-success
     %span.glyphicon.glyphicon-ok
+- elsif percent.nil?
+  - if current_user.theme == 'spring'
+    %span.fa-stack.flower-stack
+      %i.fa.fa-pagelines.fa-stack-1x
+      %i.fa.fa-circle.fa-stack-1x
+      %i.fa.fa-sun-o.fa-stack-1x.flower-spin
+  - else
+    %i.fa.fa-spinner.fa-pulse.text-muted
+  %div{ style: 'display:none;', aria: { hidden: 'true' }, data: { object: 'sheet-coverage-updater', url: event_coverage_project_subject_path(@project, subject_event.subject, subject_event_id: subject_event.id) } }
 - else
   %span.text-muted
     %span.glyphicon.glyphicon-unchecked

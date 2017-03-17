@@ -370,6 +370,14 @@ class Design < ApplicationRecord
   def reset_sheet_total_response_count
     sheets.where(missing: false).update_all(response_count: nil, total_response_count: nil, percent: nil)
     sheets.where(missing: true).update_all(response_count: 0, total_response_count: 0, percent: 100)
+    SubjectEvent.where(id: sheets.select(:subject_event_id)).update_all(
+      unblinded_responses_count: nil,
+      unblinded_questions_count: nil,
+      unblinded_percent: nil,
+      blinded_responses_count: nil,
+      blinded_questions_count: nil,
+      blinded_percent: nil
+    )
   end
 
   def set_slug
