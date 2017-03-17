@@ -7,6 +7,8 @@
 - **Sheet Changes**
   - Improved the load time of sheet show pages
   - Improved the load time of sheet edit pages
+- **Site Changes**
+  - Sites index now lists subject code format for each site
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
   - Added a sun and clouds to the spring theme
