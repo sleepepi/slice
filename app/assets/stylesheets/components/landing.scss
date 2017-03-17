@@ -81,6 +81,53 @@ $landing-cog2-color: #dedede;
   }
 }
 
+.landing-upper-right {
+  color: $sun-color;
+  position: relative;
+
+  #sun {
+    animation: spin-cw 120s linear infinite;
+    position: absolute;
+    font-size: 128px;
+    right: -128px;
+    top: -64px;
+
+    i {
+      animation: sun-pulse 1s ease-in-out infinite alternate;
+
+      &.fa-sun-o {
+        font-size: 128px;
+        color: $sun-color;
+      }
+
+      &.fa-circle {
+        font-size: 100px;
+        color: $sun-inner-color;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .landing-upper-right {
+    #sun {
+      font-size: 512px;
+      right: -512px;
+      top: -512px;
+
+      i {
+        &.fa-sun-o {
+          font-size: 512px;
+        }
+
+        &.fa-circle {
+          font-size: 390px;
+        }
+      }
+    }
+  }
+}
+
 .background-search {
   color: $brand-muted;
   font-size: 512px;

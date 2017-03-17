@@ -10,6 +10,10 @@
           = link_to 'New Project', new_project_path, class: 'btn btn-accent'
           = link_to label_or('Archives', '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'.html_safe), projects_path, class: 'btn btn-default'
 
+.body-attachment
+  .container.attachment-container
+    = render 'theme/upper_right_icon'
+
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites
   %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }

@@ -9,6 +9,7 @@
   - Improved the load time of sheet edit pages
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
+  - Added a sun to the spring theme
 
 ### Bug Fixes
 - Tooltips now properly display for domain option statistics when editing a
