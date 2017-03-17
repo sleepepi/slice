@@ -14,6 +14,16 @@ class SubjectsControllerTest < ActionController::TestCase
     @site_viewer = users(:site_one_viewer)
   end
 
+  test 'should update event coverage' do
+    login(@site_viewer)
+    post :event_coverage, params: {
+      project_id: @project, id: @subject,
+      subject_event_id: subject_events(:one)
+    }, format: 'js'
+    assert_template 'subject_events/coverage'
+    assert_response :success
+  end
+
   test 'should get autocomplete as site viewer' do
     login(@site_viewer)
     get :autocomplete, params: { project_id: @project, q: 'Code' }

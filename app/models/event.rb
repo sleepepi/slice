@@ -8,7 +8,7 @@ class Event < ApplicationRecord
   squish :name, :slug
 
   attr_accessor :design_hashes
-  after_save :set_event_designs
+  after_save :set_event_designs, :reset_coverage
 
   # Scopes
 
@@ -44,6 +44,17 @@ class Event < ApplicationRecord
   end
 
   private
+
+  def reset_coverage
+    subject_events.update_all(
+      unblinded_responses_count: nil,
+      unblinded_questions_count: nil,
+      unblinded_percent: nil,
+      blinded_responses_count: nil,
+      blinded_questions_count: nil,
+      blinded_percent: nil
+    )
+  end
 
   def set_event_designs
     return unless design_hashes && design_hashes.is_a?(Array)

@@ -1,0 +1,13 @@
+<% if @subject_event %>
+$("#subject-event-<%= @subject_event.id %>-title").html("<%=j render 'subject_events/title', subject_event: @subject_event %>");
+  <% if @project.unblinded?(current_user) %>
+    <% percent = @subject_event.unblinded_percent %>
+  <% else %>
+    <% percent = @subject_event.blinded_percent %>
+  <% end %>
+if($("#subject-event-<%= @subject_event.id %>-progress-bar-width").length > 0)
+  $("#subject-event-<%= @subject_event.id %>-progress-bar-width").css('width', "<%= percent %>%");
+else
+  $("#subject-event-<%= @subject_event.id %>-percent-progress-bar").html("<%=j render 'subject_events/progress_bar', subject_event: @subject_event %>");
+<% end %>
+tooltipsReady();

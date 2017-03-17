@@ -6,7 +6,7 @@ class SubjectsController < ApplicationController
   before_action :find_viewable_project_or_redirect, only: [
     :index, :show, :timeline, :comments, :files, :adverse_events,
     :events, :sheets, :event, :report, :search, :choose_site, :autocomplete,
-    :designs_search, :events_search
+    :designs_search, :events_search, :event_coverage
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
   ]
   before_action :find_viewable_subject_or_redirect, only: [
     :show, :timeline, :comments, :files, :adverse_events, :events,
-    :sheets, :event
+    :sheets, :event, :event_coverage
   ]
   before_action :find_editable_subject_or_redirect, only: [
     :edit, :update, :destroy, :choose_date, :data_entry, :send_url,
@@ -28,6 +28,17 @@ class SubjectsController < ApplicationController
     :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
   ]
   before_action :check_for_randomizations, only: [:destroy]
+
+  # POST /projects/:project_id/subjects/1/event_coverage.js
+  def event_coverage
+    @subject_event = @subject.subject_events.find_by(id: params[:subject_event_id])
+    if @subject_event
+      @subject_event.check_coverage
+      render 'subject_events/coverage'
+    else
+      head :ok
+    end
+  end
 
   # # GET /projects/:project_id/subjects/1/data-entry
   # def data_entry
