@@ -39,6 +39,10 @@ class SubjectEvent < ApplicationRecord
     [name, event_date_to_s].compact.join(' - ')
   end
 
+  def sort_event_date
+    event_date
+  end
+
   def unlink_sheets!(current_user, remote_ip)
     sheets.find_each do |sheet|
       SheetTransaction.save_sheet!(

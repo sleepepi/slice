@@ -131,6 +131,18 @@ class AdverseEvent < ApplicationRecord
     adverse_event_date
   end
 
+  def sort_event_date
+    adverse_event_date
+  end
+
+  def event_date_to_s
+    adverse_event_date ? adverse_event_date.strftime('%a, %b %-d, %Y') : 'No Date'
+  end
+
+  def event_date_to_s_xs
+    adverse_event_date ? adverse_event_date.strftime('%b %-d, %Y') : 'No Date'
+  end
+
   # Adverse Events reports are sent to unblinded project editors
   def users_to_email
     project.unblinded_members_for_site(site)
