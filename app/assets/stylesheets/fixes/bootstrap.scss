@@ -9,3 +9,7 @@
 .navbar-header img {
   @include ignore-selection;
 }
+
+.has-error .input-group-addon {
+  color: $alert-danger-text;
+}

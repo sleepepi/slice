@@ -19,6 +19,7 @@
 ### Bug Fixes
 - Tooltips now properly display for domain option statistics when editing a
   domain in the design editor
+- Fixed an issue with units being hidden when an input field had an error
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions
