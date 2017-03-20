@@ -11,7 +11,7 @@
   - Sites index now lists subject code format for each site
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
-  - Added a sun and clouds to the spring theme
+  - Added a sun, clouds, and grass to the spring theme
 - **Gem Changes**
   - Updated to devise 4.2.1
   - Updated to simplecov 0.14.1
