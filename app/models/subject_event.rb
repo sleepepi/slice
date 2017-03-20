@@ -39,6 +39,10 @@ class SubjectEvent < ApplicationRecord
     [name, event_date_to_s].compact.join(' - ')
   end
 
+  def sort_event_date
+    event_date
+  end
+
   def unlink_sheets!(current_user, remote_ip)
     sheets.find_each do |sheet|
       SheetTransaction.save_sheet!(
@@ -72,7 +76,7 @@ class SubjectEvent < ApplicationRecord
   def extra_sheets_on_subject_event(current_user)
     current_user.all_viewable_sheets
                 .where(subject_event_id: id)
-                .where.not(design_id: required_design_ids)
+                .where.not(design_id: event.event_designs.select(:design_id))
   end
 
   def required_design_ids
@@ -145,5 +149,16 @@ class SubjectEvent < ApplicationRecord
   def compute_percent(rcount, qcount)
     return 100 if qcount.zero?
     (rcount * 100.0 / qcount).to_i
+  end
+
+  def reset_coverage!
+    update_columns(
+      unblinded_responses_count: nil,
+      unblinded_questions_count: nil,
+      unblinded_percent: nil,
+      blinded_responses_count: nil,
+      blinded_questions_count: nil,
+      blinded_percent: nil
+    )
   end
 end

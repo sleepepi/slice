@@ -7,7 +7,7 @@
 
     - sheets = @subject.sheets.where(subject_event_id: subject_event.id, design_id: design.id)
 
-    - if sheets.count > 0
+    - if sheets.present?
       - sheets.each do |sheet|
         %tr{ class: "#{'warning' if sheets.count > 1 && event_design.highlight_duplicates?} #{'highlight' if @sheet == sheet}", data: { object: sheet.missing? ? nil : 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: sheet.missing? ? nil : 'cursor: move;' }
           %td
@@ -26,7 +26,6 @@
                   %ul.dropdown-menu.dropdown-menu-right
                     %li
                       = link_to set_as_not_missing_project_sheet_path(@project, sheet), method: :post, remote: true do
-                        / %span.glyphicon.glyphicon-trash
                         Set as Not Missing
               - else
                 - if sheet.comments.count > 0
@@ -44,6 +43,8 @@
               %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
             = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
             = render 'layouts/unblinded_only', project: @project, object: design, placement: 'top'
+            - unless event_design.required?(@subject)
+              %span.text-warning{ rel: 'tooltip', data: { title: 'Not Required', container: 'body', placement: 'right' } } *
     - elsif event_design.required?(@subject)
       %tr
         %td

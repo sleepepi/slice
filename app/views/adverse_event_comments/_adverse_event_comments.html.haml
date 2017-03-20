@@ -69,7 +69,7 @@
             %abbr{ rel: 'tooltip', data: { title: sheet.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
               = time_ago_in_words sheet.created_at
               ago
-            - if sheet.created_at != sheet.updated_at
+            - unless sheet.recently_created?
               and updated
               %abbr{ rel: 'tooltip', data: { title: sheet.updated_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
                 = time_ago_in_words sheet.updated_at

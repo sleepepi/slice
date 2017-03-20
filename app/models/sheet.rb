@@ -82,7 +82,7 @@ class Sheet < ApplicationRecord
   end
 
   def recently_created?
-    (last_edited_at.nil? || ((last_edited_at - created_at) / 1.minute).to_i == 0)
+    last_edited_at.nil? || ((last_edited_at - created_at) / 1.minute).to_i.zero?
   end
 
   def self.latex_partial(partial)
@@ -93,7 +93,6 @@ class Sheet < ApplicationRecord
     jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}")
     output_folder = File.join('tmp', 'files', 'tex')
     file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
-
     File.open(file_tex, 'w') do |file|
       file.syswrite(ERB.new(latex_partial('header')).result(binding))
       sheets.each do |sheet|
@@ -102,7 +101,6 @@ class Sheet < ApplicationRecord
       end
       file.syswrite(ERB.new(latex_partial('footer')).result(binding))
     end
-
     generate_pdf(jobname, output_folder, file_tex)
   end
 
@@ -369,6 +367,13 @@ class Sheet < ApplicationRecord
     super
     subject.update_uploaded_file_counts!
     subject_event.update_coverage! if subject_event
+  end
+
+  def update_associated_subject_events!
+    subject_event.reset_coverage! if subject_event
+    subject.subject_events
+           .where(event_id: EventDesign.where(conditional_design_id: design_id).select(:event_id))
+           .find_each(&:reset_coverage!)
   end
 
   protected
