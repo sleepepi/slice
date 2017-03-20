@@ -9,19 +9,27 @@
 ## 0.51.0
 
 ### Enhancements
+- **General Changes**
+  - Reduced impact of shadows on containers and buttons
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets
 - **Sheet Changes**
   - Improved the load time of sheet show pages
   - Improved the load time of sheet edit pages
+- **Site Changes**
+  - Sites index now lists subject code format for each site
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
-  - Added a sun and clouds to the spring theme
+  - Added a sun, clouds, and grass to the spring theme
+- **Gem Changes**
+  - Updated to devise 4.2.1
+  - Updated to simplecov 0.14.1
 
 ### Bug Fixes
 - Tooltips now properly display for domain option statistics when editing a
   domain in the design editor
+- Fixed an issue with units being hidden when an input field had an error
 
 ### Refactoring
 - Minor code cleanup for generating sheet transactions

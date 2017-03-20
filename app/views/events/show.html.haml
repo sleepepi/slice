@@ -75,7 +75,7 @@
       %tr
         %th Design
         - if @project.handoffs_enabled?
-          %th Handoff Enabled
+          %th.center Handoff Enabled
         %th.center Entered
         %th.center Set as Missing
         %th.center Unentered
@@ -86,7 +86,7 @@
         %td
           = link_to design.name, [@project, design]
         - if @project.handoffs_enabled?
-          %td= simple_check_new event_design.handoff_enabled?
+          %td.center= simple_check_new event_design.handoff_enabled?
         %td.center
           - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
           - if entered_count > 0

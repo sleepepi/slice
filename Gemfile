@@ -14,7 +14,7 @@ gem 'bootstrap-sass',       '~> 3.3.7'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', ref: '1101628'
 gem 'chunky_png',           '~> 1.3.4'
 gem 'colorize',             '~> 0.8.1'
-gem 'devise',               '~> 4.2.0'
+gem 'devise',               '~> 4.2.1'
 gem 'differ',               '~> 0.1.2'
 gem 'figaro',               '~> 1.1.1'
 gem 'font-awesome-rails',   '~> 4.7.0'
@@ -39,7 +39,7 @@ gem 'turbolinks',           '~> 5'
 group :test do
   gem 'minitest'
   gem 'rails-controller-testing'
-  gem 'simplecov',          '~> 0.13.0', require: false
+  gem 'simplecov',          '~> 0.14.1', require: false
 end
 
 group :development do

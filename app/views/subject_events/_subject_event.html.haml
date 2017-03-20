@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default.box-shadow
   .panel-heading{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: subject_event.id } }
     .pull-right
       - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
