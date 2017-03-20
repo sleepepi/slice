@@ -12,6 +12,8 @@
 - **Theme Changes**
   - Adjusted the background gradient for the spring theme
   - Added a sun and clouds to the spring theme
+- **Gem Changes**
+  - Updated to devise 4.2.1
 
 ### Bug Fixes
 - Tooltips now properly display for domain option statistics when editing a
