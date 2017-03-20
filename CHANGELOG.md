@@ -8,6 +8,8 @@
     was recently created
   - Sheet related to adverse events are now grouped under the adverse event when
     viewing the subject show page
+- **Design Changes**
+  - Repeated designs on an event are now all created on the same subject event
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets

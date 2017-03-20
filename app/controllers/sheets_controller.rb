@@ -76,9 +76,17 @@ class SheetsController < ApplicationController
   def create
     @sheet = current_user.sheets.where(project_id: @project.id, subject_id: @subject.id).new(sheet_params)
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
+      url = \
+        if @sheet.subject_event
+          new_data_entry_project_subject_path(
+            @project, @subject, @sheet.design, sheet: { subject_event_id: @sheet.subject_event_id }
+          )
+        else
+          new_data_entry_project_subject_path(@project, @subject, @sheet.design)
+        end
       notices = []
       notices << 'Sheet was successfully created.'
-      notices << { label: 'Create another?', url:  new_data_entry_project_subject_path(@project, @subject, @sheet.design), class: 'fa-plus-square' }
+      notices << { label: 'Create another?', url: url, class: 'fa-plus-square' }
       redirect_to [@sheet.project, @sheet], notice: @sheet.design.repeated? ? notices : notices.first
     else
       render :new
