@@ -369,6 +369,13 @@ class Sheet < ApplicationRecord
     subject_event.update_coverage! if subject_event
   end
 
+  def update_associated_subject_events!
+    subject_event.reset_coverage! if subject_event
+    subject.subject_events
+           .where(event_id: EventDesign.where(conditional_design_id: design_id).select(:event_id))
+           .find_each(&:reset_coverage!)
+  end
+
   protected
 
   def check_subject_event_subject_match

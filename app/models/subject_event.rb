@@ -76,7 +76,7 @@ class SubjectEvent < ApplicationRecord
   def extra_sheets_on_subject_event(current_user)
     current_user.all_viewable_sheets
                 .where(subject_event_id: id)
-                .where.not(design_id: required_design_ids)
+                .where.not(design_id: event.event_designs.select(:design_id))
   end
 
   def required_design_ids

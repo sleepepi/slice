@@ -40,6 +40,7 @@ class SheetTransaction < ApplicationRecord
       unless skip_callbacks
         sheet.update_response_count!
         sheet.subject.update_uploaded_file_counts!
+        sheet.update_associated_subject_events!
       end
       unless skip_validation
         sheet.subject.reset_checks_in_background!

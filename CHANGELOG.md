@@ -11,6 +11,8 @@
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets
+  - Designs that are not conditionally required but exist on an event no longer
+    display twice and now have a "Not Required" tooltip
 - **Notification Changes**
   - Bell icon stops ringing when notifications are cleared
 - **Sheet Changes**
