@@ -25,25 +25,4 @@ $block-amber: darken(#ffc107, 30%); // $p500 $amber
 
 @import 'tree';
 
-body,
-.background-gradient {
-  background-color: $p900;
-  background-image: linear-gradient(180deg, $body-bg, $p900 95%, $p900);
-}
-
-.footer::before {
-  animation: sidescroll 120s linear infinite;
-  background: transparent asset-url('themes/night/fog.png') repeat;
-  bottom: 0;
-  content: '';
-  height: 181px;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  transform: translatez(0);
-  width: 100%;
-}
-
-.signature-image {
-  filter: invert(1);
-}
+@import 'themes/night/all';
