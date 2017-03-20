@@ -6,7 +6,7 @@
   - Updated to haml 5.0.0.beta.2
   - Updated to carrierwave ref `1101628`
 
-## 0.51.0
+## 0.51.0 (March 20, 2017)
 
 ### Enhancements
 - **General Changes**
