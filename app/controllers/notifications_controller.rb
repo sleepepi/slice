@@ -30,8 +30,9 @@ class NotificationsController < ApplicationController
 
   # PATCH /notifications/mark_all_as_read
   def mark_all_as_read
-    @notifications = current_user.notifications.where(project_id: @project.id)
-    @notifications.update_all(read: true)
+    notification_ids = current_user.notifications.where(project: @project, read: false).pluck(:id)
+    current_user.notifications.where(id: notification_ids).update_all(read: true)
+    @notifications = current_user.notifications.where(id: notification_ids)
   end
 
   private

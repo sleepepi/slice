@@ -11,6 +11,8 @@
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets
+- **Notification Changes**
+  - Bell icon stops ringing when notifications are cleared
 - **Sheet Changes**
   - Improved the load time of sheet show pages
   - Improved the load time of sheet edit pages
