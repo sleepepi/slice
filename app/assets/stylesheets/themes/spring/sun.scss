@@ -1,7 +1,7 @@
 body,
 .background-gradient {
   background-color: $p900;
-  background-image: linear-gradient(180deg, $a100, $a200 20%, $a400 31%, $a700 65%, $p900 95%, $p900);
+  background-image: linear-gradient(180deg, $a100, $a200 60%, $a400 80%, $a700 90%, $a700);
 }
 
 @keyframes cloud-slide {
