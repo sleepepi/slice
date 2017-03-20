@@ -3,6 +3,9 @@
 ### Enhancements
 - **General Changes**
   - Reduced impact of shadows on containers and buttons
+- **Adverse Event Changes**
+  - Sheets no longer display a created at and updated at timestamp if the sheet
+    was recently created
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets
