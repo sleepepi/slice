@@ -146,4 +146,15 @@ class SubjectEvent < ApplicationRecord
     return 100 if qcount.zero?
     (rcount * 100.0 / qcount).to_i
   end
+
+  def reset_coverage!
+    update_columns(
+      unblinded_responses_count: nil,
+      unblinded_questions_count: nil,
+      unblinded_percent: nil,
+      blinded_responses_count: nil,
+      blinded_questions_count: nil,
+      blinded_percent: nil
+    )
+  end
 end

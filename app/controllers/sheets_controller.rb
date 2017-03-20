@@ -128,7 +128,9 @@ class SheetsController < ApplicationController
   # PATCH /sheets/1/move_to_event
   def move_to_event
     return if @sheet.auto_locked?
+    @sheet.subject_event.reset_coverage! if @sheet.subject_event
     subject_event = @sheet.subject.subject_events.find_by(id: params[:subject_event_id])
+    subject_event.reset_coverage! if subject_event
     SheetTransaction.save_sheet!(
       @sheet, {
         subject_event_id: subject_event ? subject_event.id : nil,
