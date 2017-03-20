@@ -1,6 +1,8 @@
 ## 0.51.0
 
 ### Enhancements
+- **General Changes**
+  - Reduced impact of shadows on containers and buttons
 - **Event Changes**
   - Event completion percentage is now based on total number of questions and
     responses of the event's sheets
