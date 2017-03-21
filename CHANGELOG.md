@@ -1,5 +1,8 @@
 ## 0.51.1
 
+### Bug Fixes
+- The spring theme grass now displays correctly across different browsers
+
 ## 0.51.0 (March 20, 2017)
 
 ### Enhancements
