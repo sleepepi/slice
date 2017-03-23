@@ -6,6 +6,12 @@
   - Updated to haml 5.0.0.beta.2
   - Updated to carrierwave ref `1101628`
 
+## 0.52.0
+
+### Enhancements
+- **Gem Changes**
+  - Updated to Ruby 2.4.1
+
 ## 0.51.1 (March 21, 2017)
 
 ### Bug Fixes
