@@ -9,6 +9,7 @@
 
 ### Bug Fixes
 - The spring theme grass now displays correctly across different browsers
+- Fixed some minor typos when adding a user to a project (reported by @mmorrical)
 
 ## 0.51.0 (March 20, 2017)
 

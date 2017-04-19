@@ -44,7 +44,7 @@ class SiteUsersController < ApplicationController
       redirect_to root_path, alert: 'This invite has already been claimed.'
     elsif @site_user
       @site_user.update user_id: current_user.id
-      redirect_to @site_user.project, notice: 'You have been successfully been added to the project.'
+      redirect_to @site_user.project, notice: 'You have been successfully added to the project.'
     else
       redirect_to root_path, alert: 'Invalid invitation token.'
     end
