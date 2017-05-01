@@ -130,7 +130,7 @@
   .form-group{ data: { object: 'calculated' } }
     = f.label :calculation, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :calculation, class: 'form-control'
+      = f.text_area :calculation, rows: 7, class: 'form-control'
       %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
         %col.hidden-xs{ width: '30%' }
         %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }

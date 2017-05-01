@@ -1,6 +1,8 @@
 ## 0.52.0
 
 ### Enhancements
+- **Variable Changes**
+  - Increased size of calculation input for calculated variables
 - **Gem Changes**
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1
