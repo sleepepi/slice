@@ -647,8 +647,6 @@ class Variable < ApplicationRecord
 
   def time_of_day_format_name
     TIME_OF_DAY_FORMATS.find { |_name, value| value == time_of_day_format }.first
-  rescue
-    TIME_OF_DAY_FORMATS.first.first
   end
 
   def time_duration_format_name
