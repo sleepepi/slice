@@ -10,6 +10,8 @@
 ### Bug Fixes
 - `last_edited_at` is now set when a sheets are imported, and when sheets are
   set as shareable
+- Clicking "Current Time" at noon for time of day variables using the 12-hour
+  clock now properly sets the time to 12pm instead of 00pm
 
 ## 0.51.1 (March 21, 2017)
 

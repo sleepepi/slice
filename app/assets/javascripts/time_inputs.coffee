@@ -57,8 +57,10 @@
 
 @setCurrentTime12Hour = (element) ->
   currentTime = new Date()
+  hour = currentTime.getHours() % 12
+  hour = 12 if hour == 0
   time =
-    hours: pad(String(currentTime.getHours() % 12), 2)
+    hours: pad(String(hour), 2)
     minutes: pad(String(currentTime.getMinutes()), 2)
     seconds: pad(String(currentTime.getSeconds()), 2)
     period: if currentTime.getHours() < 12 then 'am' else 'pm'
