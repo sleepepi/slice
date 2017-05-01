@@ -118,6 +118,7 @@ def copy_variables(original, copy)
       default_row_number: v.default_row_number,
       scale_type: v.scale_type,
       domain_id: domain_map[v.domain_id.to_s],
+      time_of_day_format: v.time_of_day_format,
       show_seconds: v.show_seconds,
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation
@@ -154,6 +155,7 @@ def copy_variables(original, copy)
       default_row_number: v.default_row_number,
       scale_type: v.scale_type,
       domain_id: domain_map[v.domain_id.to_s],
+      time_of_day_format: v.time_of_day_format,
       show_seconds: v.show_seconds,
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation

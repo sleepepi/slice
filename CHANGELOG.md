@@ -3,6 +3,7 @@
 ### Enhancements
 - **Variable Changes**
   - Increased size of calculation input for calculated variables
+  - Time of day format can now be changed when editing variables
 - **Gem Changes**
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1

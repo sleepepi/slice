@@ -101,6 +101,11 @@
           Show Current Date/Time
 
   .form-group{ data: { object: 'time-of-day' } }
+    = f.label :time_of_day_format, 'Time of Day Format', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.select :time_of_day_format, Variable::TIME_OF_DAY_FORMATS, {}, class: 'form-control'
+
+  .form-group{ data: { object: 'time-of-day' } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label

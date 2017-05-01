@@ -137,15 +137,15 @@
             = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
 
           - if %w(time_of_day).include?(variable.variable_type)
-            - values = [['24-Hour', '24hour'], ['12-Hour AM/PM [AM]', '12hour'], ['12-Hour AM/PM [PM]', '12hour-pm']]
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :format
+            - values = Variable::TIME_OF_DAY_FORMATS
+            = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :time_of_day_format
 
           - if %w(time_of_day).include?(variable.variable_type)
-            - values = [['show', true],['hide', false]]
+            - values = [['show', true], ['hide', false]]
             = render 'design_options/set_design_option', design_option: design_option, title: 'Seconds Display', values: values, attribute: :show_seconds
 
           - if %w(time_duration).include?(variable.variable_type)
-            - values = [['HH:MM:SS', 'hh:mm:ss'], ['HH:MM', 'hh:mm'], ['MM:SS', 'mm:ss']]
+            - values = Variable::TIME_DURATION_FORMATS
             = render 'design_options/set_design_option', design_option: design_option, title: 'Time Duration Format', values: values, attribute: :time_duration_format
 
           - if %w(calculated).include?(variable.variable_type)

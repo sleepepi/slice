@@ -39,6 +39,18 @@ class Variable < ApplicationRecord
     %w(Scale scale)
   ]
 
+  TIME_OF_DAY_FORMATS = [
+    ['24-Hour', '24hour'],
+    ['12-Hour AM/PM [AM]', '12hour'],
+    ['12-Hour AM/PM [PM]', '12hour-pm']
+  ]
+
+  TIME_DURATION_FORMATS = [
+    ['HH:MM:SS', 'hh:mm:ss'],
+    ['HH:MM', 'hh:mm'],
+    ['MM:SS', 'mm:ss']
+  ]
+
   # Callbacks
   after_save :update_domain_values!
 
@@ -633,9 +645,21 @@ class Variable < ApplicationRecord
     time_duration_format == 'mm:ss'
   end
 
+  def time_of_day_format_name
+    TIME_OF_DAY_FORMATS.find { |_name, value| value == time_of_day_format }.first
+  rescue
+    TIME_OF_DAY_FORMATS.first.first
+  end
+
+  def time_duration_format_name
+    TIME_DURATION_FORMATS.find { |_name, value| value == time_duration_format }.first
+  rescue
+    TIME_DURATION_FORMATS.first.first
+  end
+
   # For Time of Day Variables
   def twelve_hour_clock?
-    %w(12hour 12hour-pm).include?(format)
+    %w(12hour 12hour-pm).include?(time_of_day_format)
   end
 
   def update_domain_values!
