@@ -5,6 +5,7 @@
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1
   - Updated to haml 5.0.0
+  - Updated to carrierwave 1.1.0
 
 ## 0.51.1 (March 21, 2017)
 
