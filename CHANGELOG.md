@@ -3,19 +3,21 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to rails 5.1.0.rc1
-  - Updated to haml 5.0.0.beta.2
-  - Updated to carrierwave ref `1101628`
 
 ## 0.52.0
 
 ### Enhancements
 - **Gem Changes**
   - Updated to Ruby 2.4.1
+  - Updated to jquery-rails 4.3.1
+  - Updated to haml 5.0.0
+  - Updated to carrierwave 1.1.0
 
 ## 0.51.1 (March 21, 2017)
 
 ### Bug Fixes
 - The spring theme grass now displays correctly across different browsers
+- Fixed some minor typos when adding a user to a project (reported by @mmorrical)
 
 ## 0.51.0 (March 20, 2017)
 

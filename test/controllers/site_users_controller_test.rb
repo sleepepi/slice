@@ -56,7 +56,7 @@ class SiteUsersControllerTest < ActionController::TestCase
     get :accept, params: { project_id: @project }
     assert_not_nil assigns(:site_user)
     assert_equal users(:two), assigns(:site_user).user
-    assert_equal 'You have been successfully been added to the project.', flash[:notice]
+    assert_equal 'You have been successfully added to the project.', flash[:notice]
     assert_redirected_to assigns(:site_user).site.project
   end
 

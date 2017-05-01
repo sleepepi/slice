@@ -3,7 +3,7 @@
 
 %td.nowrap{ class: "#{'text-muted' if notification.read?}" }
   .overflow-hidden
-    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }", data: { turbolinks: false } do
       = strip_tags(simple_markdown notification.comment.description).html_safe
 
 %td.hidden-xs

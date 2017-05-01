@@ -52,7 +52,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project_user)
     assert_equal users(:two), assigns(:project_user).user
     assert_equal(
-      'You have been successfully been added to the project.',
+      'You have been successfully added to the project.',
       flash[:notice]
     )
     assert_redirected_to assigns(:project_user).project
