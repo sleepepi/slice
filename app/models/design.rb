@@ -296,7 +296,9 @@ class Design < ApplicationRecord
       row = line.to_hash.with_indifferent_access
       subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Site'].to_s, current_user, default_site)
       if subject
-        sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id, last_user_id: current_user.id)
+        sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id)
+        sheet.last_user_id = current_user.id
+        sheet.last_edited_at = Time.zone.now
         transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')
         variables_params = {}
 

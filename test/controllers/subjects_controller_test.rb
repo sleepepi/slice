@@ -112,6 +112,7 @@ class SubjectsControllerTest < ActionController::TestCase
         subject_event_id: subject_events(:one)
       }
     end
+    assert_not_nil Sheet.last.last_edited_at
     assert_redirected_to [@project, Sheet.last]
   end
 

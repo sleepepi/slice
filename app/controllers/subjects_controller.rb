@@ -72,9 +72,14 @@ class SubjectsController < ApplicationController
 
   # POST /subjects/1/set_sheet_as_shareable
   def set_sheet_as_shareable
-    @sheet = @subject.sheets
-                     .new(project_id: @project.id, design_id: @design.id, subject_event_id: params[:subject_event_id])
-    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true, skip_callbacks: true)
+    @sheet = @subject.sheets.new(
+      project_id: @project.id, design_id: @design.id,
+      subject_event_id: params[:subject_event_id],
+      last_user_id: current_user.id, last_edited_at: Time.zone.now
+    )
+    SheetTransaction.save_sheet!(
+      @sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true, skip_callbacks: true
+    )
     @sheet.set_token
     redirect_to [@project, @sheet]
   end

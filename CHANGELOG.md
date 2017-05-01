@@ -7,6 +7,10 @@
   - Updated to haml 5.0.0
   - Updated to carrierwave 1.1.0
 
+### Bug Fixes
+- `last_edited_at` is now set when a sheets are imported, and when sheets are
+  set as shareable
+
 ## 0.51.1 (March 21, 2017)
 
 ### Bug Fixes

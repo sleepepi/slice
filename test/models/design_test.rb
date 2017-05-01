@@ -26,5 +26,6 @@ class DesignTest < ActiveSupport::TestCase
     assert_equal 20, design.sheets.count
     assert_equal 2, design.sheets.with_site(sites(:valid_range)).count
     assert_equal 18, design.sheets.with_site(sites(:one)).count
+    assert_not_nil design.sheets.first.last_edited_at
   end
 end
