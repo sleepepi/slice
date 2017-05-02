@@ -112,6 +112,11 @@
           = f.check_box :show_seconds
           Show Seconds
 
+  .form-group{ data: { object: 'time-duration' } }
+    = f.label :time_duration_format, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.select :time_duration_format, Variable::TIME_DURATION_FORMATS, {}, class: 'form-control'
+
   .form-group{ data: { object: 'date' } }
     = f.label :date_hard_minimum, nil, class: 'col-md-2 control-label'
     .col-md-10

@@ -66,6 +66,8 @@ class Variable < ApplicationRecord
   validates :name, :display_name, :variable_type, :project_id, presence: true
   validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
+  validates :time_of_day_format, inclusion: { in: TIME_OF_DAY_FORMATS.collect(&:second) }
+  validates :time_duration_format, inclusion: { in: TIME_DURATION_FORMATS.collect(&:second) }
 
   # Relationships
   belongs_to :user
@@ -651,8 +653,6 @@ class Variable < ApplicationRecord
 
   def time_duration_format_name
     TIME_DURATION_FORMATS.find { |_name, value| value == time_duration_format }.first
-  rescue
-    TIME_DURATION_FORMATS.first.first
   end
 
   # For Time of Day Variables

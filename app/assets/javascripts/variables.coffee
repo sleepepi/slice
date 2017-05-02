@@ -35,6 +35,10 @@
     $('[data-object~="time-of-day"]').show()
   else
     $('[data-object~="time-of-day"]').hide()
+  if $(element).val() in ['time_duration']
+    $('[data-object~="time-duration"]').show()
+  else
+    $('[data-object~="time-duration"]').hide()
   if $(element).val() in ['checkbox', 'radio']
     $('[data-object~="checkbox-or-radio"]').show()
   else

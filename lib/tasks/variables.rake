@@ -8,4 +8,9 @@ namespace :variables do
       variable.update time_of_day_format: variable.format if variable.format.present?
     end
   end
+
+  desc 'Fix default time duration format'
+  task update_time_duration_format: :environment do
+    Variable.where(time_duration_format: '').update_all(time_duration_format: 'hh:mm:ss')
+  end
 end
