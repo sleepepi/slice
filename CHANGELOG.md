@@ -1,6 +1,8 @@
 ## 0.52.0
 
 ### Enhancements
+- **Project Changes**
+  - Team invite email is now cleared after inviting a member to a team
 - **Variable Changes**
   - Increased size of calculation input for calculated variables
   - Time of day format and time duration format can now be changed when editing
