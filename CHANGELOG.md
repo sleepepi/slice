@@ -1,6 +1,8 @@
 ## 0.52.0
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Added adverse event descriptions to several subject pages for better context
 - **Project Changes**
   - Team invite email is now cleared after inviting a member to a team
 - **Variable Changes**
