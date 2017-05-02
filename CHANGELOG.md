@@ -18,6 +18,7 @@
   set as shareable
 - Clicking "Current Time" at noon for time of day variables using the 12-hour
   clock now properly sets the time to 12pm instead of 00pm
+- abbr elements are no longer underlined more than once
 
 ## 0.51.1 (March 21, 2017)
 
