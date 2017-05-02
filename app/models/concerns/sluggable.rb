@@ -9,6 +9,12 @@ module Sluggable
     def self.find_by_param(input)
       find_by "#{table_name}.slug = ? or #{table_name}.id = ?", input.to_param.to_s, input.to_param.to_i
     end
+
+    # # TODO: Make sluggable more generic with help of better exclusion validations
+    # validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
+    #                  exclusion: { in: %w(new edit create update destroy) },
+    #                  uniqueness: true,
+    #                  allow_nil: true
   end
 
   def to_param
