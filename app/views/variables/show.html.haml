@@ -132,7 +132,7 @@
       %tr
         %th Calculation
         %td
-          %tt= @variable.calculation
+          = render 'variables/calculation_with_links', variable: @variable
 
       %tr
         %th Format

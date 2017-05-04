@@ -1,7 +1,7 @@
 .form-group
   %label.col-md-2.control-label Calculation
   .col-md-10
-    = text_area_tag "variable[calculation]", @design_option.variable.calculation, rows: 4, autocomplete: 'off', class: "form-control"
+    = text_area_tag 'variable[calculation]', @design_option.variable.readable_calculation, rows: 4, autocomplete: 'off', class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
     %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
       %col.hidden-xs{ width: '30%' }
       %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
@@ -20,7 +20,7 @@
 .form-group
   %label.col-md-2.control-label Format
   .col-md-10
-    = text_field_tag "variable[format]", @design_option.variable.format, autocomplete: 'off', class: "form-control"
+    = text_field_tag 'variable[format]', @design_option.variable.format, autocomplete: 'off', class: 'form-control'
     %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
       %col.hidden-xs{ width: '30%' }
       %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }

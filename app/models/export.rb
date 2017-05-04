@@ -200,10 +200,13 @@ class Export < ApplicationRecord
     variables_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_variables.csv")
 
     CSV.open(variables_csv, 'wb') do |csv|
-      csv << ['Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description', 'Field Note',
-              'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
-              'Append', 'Format', 'Multiple Rows', 'Autocomplete Values', 'Show Current Button',
-              'Display Layout', 'Alignment', 'Default Row Number', 'Domain Name', 'Required on Form?']
+      csv << [
+        'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description', 'Field Note',
+        'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
+        'Append', 'Format', 'Time Duration Format', 'Time of Day Format', 'Multiple Rows', 'Autocomplete Values',
+        'Show Current Button', 'Display Layout', 'Alignment', 'Default Row Number', 'Domain Name',
+        'Required on Form?'
+      ]
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
           section = design_option.section
@@ -224,6 +227,8 @@ class Export < ApplicationRecord
                     nil, # Variable Units
                     nil, # Variable Append
                     nil, # Format
+                    nil, # Time Duration Format
+                    nil, # Time of Day Format
                     nil, # Multiple Rows
                     nil, # Autocomplete Values
                     nil, # Show Current Button
@@ -244,11 +249,13 @@ class Export < ApplicationRecord
                       (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
                       (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
                       (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
-                      variable.calculation, # Calculation
+                      variable.readable_calculation, # Calculation
                       variable.prepend, # Variable Prepend
                       variable.export_units, # Variable Units
                       variable.append, # Variable Append
                       variable.format, # Format
+                      (variable.variable_type == 'time_duration' ? variable.time_duration_format : nil), # Time Duration Format
+                      (variable.variable_type == 'time_of_day' ? variable.time_of_day_format : nil), # Time of Day Format
                       variable.multiple_rows, # Multiple Rows
                       variable.autocomplete_values, # Autocomplete Values
                       variable.show_current_button, # Show Current Button

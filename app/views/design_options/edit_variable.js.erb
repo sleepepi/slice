@@ -3,14 +3,5 @@ showInteractiveDesignModal();
 $("#interactive-design-container").find('input, textarea').first().focus();
 chosenReady();
 datepickerReady();
-
 $('#form_grid_variables[data-object~="sortable"]').sortable({ placeholder: "well alert alert-block" });
-
-<% if false %>
-<% if ['variable_domain', 'variable_grid_variables'].include?(params[:edit]) %>
-
-<% end %>
-<% if ['variable_domain'].include?(params[:edit]) %>
-  activateDomainOptions();
-<% end %>
-<% end %>
+variablesReady();

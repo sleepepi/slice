@@ -64,7 +64,7 @@ class Variable < ApplicationRecord
 
   # Validations
   validates :name, :display_name, :variable_type, :project_id, presence: true
-  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }
+  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }, exclusion: { in: %w(new edit create update destroy overlap) }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :time_of_day_format, inclusion: { in: TIME_OF_DAY_FORMATS.collect(&:second) }
   validates :time_duration_format, inclusion: { in: TIME_DURATION_FORMATS.collect(&:second) }
@@ -87,6 +87,29 @@ class Variable < ApplicationRecord
   has_many :parent_variables, through: :parent_grid_variables
 
   # Methods
+
+  def readable_calculation
+    calculation.to_s.gsub(/\#{(\d+)}/) do
+      v = project.variables.find_by(id: $1)
+      if v
+        v.name
+      else
+        $1
+      end
+    end
+  end
+
+  def calculation=(calculation)
+    calculation.to_s.gsub!(/\w+/) do |word|
+      v = project.variables.find_by(name: word)
+      if v
+        "\#{#{v.id}}"
+      else
+        word
+      end
+    end
+    self[:calculation] = calculation.try(:strip)
+  end
 
   def self.searchable_attributes
     %w(name description display_name)
@@ -253,7 +276,7 @@ class Variable < ApplicationRecord
   end
 
   def formatted_calculation
-    calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
+    readable_calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
   def statistics?

@@ -13,4 +13,17 @@ namespace :variables do
   task update_time_duration_format: :environment do
     Variable.where(time_duration_format: '').update_all(time_duration_format: 'hh:mm:ss')
   end
+
+  desc 'Reconfigure variable calculations'
+  task update_calculations: :environment do
+    Variable.where(variable_type: 'calculated').each do |v|
+      old_calculation = v.calculation
+      v.update calculation: v.readable_calculation
+      next if old_calculation == v.calculation
+      puts "FROM: #{old_calculation}"
+      puts "  TO: #{v.calculation}"
+      puts "VERI: #{v.readable_calculation}"
+      puts "---"
+    end
+  end
 end
