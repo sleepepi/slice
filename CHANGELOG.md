@@ -23,6 +23,8 @@
 - Clicking "Current Time" at noon for time of day variables using the 12-hour
   clock now properly sets the time to 12pm instead of 00pm
 - abbr elements are no longer underlined more than once
+- Imperial height and weight variables are now evaluated correctly in
+  stratification factor calculations
 
 ## 0.51.1 (March 21, 2017)
 

@@ -2,11 +2,8 @@
 
 module Formatters
   # Formats imperial weight.
-  class ImperialWeightFormatter < DefaultFormatter
+  class ImperialWeightFormatter < IntegerFormatter
     include DateAndTimeParser
-    # def raw_response(response)
-    #   response
-    # end
 
     def name_response(response)
       hash = parse_imperial_weight(response)

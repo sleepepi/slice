@@ -2,11 +2,8 @@
 
 module Formatters
   # Formats imperial height.
-  class ImperialHeightFormatter < DefaultFormatter
+  class ImperialHeightFormatter < IntegerFormatter
     include DateAndTimeParser
-    # def raw_response(response)
-    #   response
-    # end
 
     def name_response(response)
       hash = parse_imperial_height(response)
