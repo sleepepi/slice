@@ -158,15 +158,15 @@ class Subject < ApplicationRecord
   end
 
   def expand_calculation(calculation)
-    calculation.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |v| variable_javascript_value(v) }
+    calculation.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
   end
 
-  def variable_javascript_value(variable_name)
-    variable = project.variables.find_by(name: variable_name)
+  def variable_javascript_value(variable_id)
+    variable = project.variables.find_by(id: variable_id)
     if variable
       response_for_variable(variable)
     else
-      variable_name
+      "\#{#{variable_id}}"
     end
   end
 

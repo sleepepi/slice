@@ -57,7 +57,7 @@ class Variable < ApplicationRecord
   attr_accessor :questions, :grid_tokens
 
   # Concerns
-  include Searchable, Deletable, DateAndTimeParser
+  include Searchable, Deletable, DateAndTimeParser, Calculable
 
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }
@@ -87,30 +87,6 @@ class Variable < ApplicationRecord
   has_many :parent_variables, through: :parent_grid_variables
 
   # Methods
-
-  def readable_calculation
-    calculation.to_s.gsub(/\#{(\d+)}/) do
-      v = project.variables.find_by(id: $1)
-      if v
-        v.name
-      else
-        $1
-      end
-    end
-  end
-
-  def calculation=(calculation)
-    calculation.to_s.gsub!(/\w+/) do |word|
-      v = project.variables.find_by(name: word)
-      if v
-        "\#{#{v.id}}"
-      else
-        word
-      end
-    end
-    self[:calculation] = calculation.try(:strip)
-  end
-
   def self.searchable_attributes
     %w(name description display_name)
   end

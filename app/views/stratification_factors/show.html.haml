@@ -56,5 +56,4 @@
         - if @stratification_factor.calculation.present?
           %tr
             %th Calculation
-            %td
-              %tt= @stratification_factor.calculation
+            %td= render 'variables/calculation_with_links', object: @stratification_factor

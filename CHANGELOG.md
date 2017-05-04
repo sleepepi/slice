@@ -5,6 +5,10 @@
   - Added adverse event descriptions to several subject pages for better context
 - **Project Changes**
   - Team invite email is now cleared after inviting a member to a team
+- **Stratification Factor Changes**
+  - Calculations for stratification factors now store variables names interally
+    as ids allowing referenced variables to be renamed without breaking existing
+    calculations
 - **Variable Changes**
   - Increased size of calculation input for calculated variables
   - Time of day format and time duration format can now be changed when editing
