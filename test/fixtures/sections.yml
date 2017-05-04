@@ -3,7 +3,6 @@
 one:
   name: MyString
   description: MyText
-  branching_logic: MyText
   image: MyString
   project_id: 1
   design_id: 1
@@ -13,7 +12,6 @@ one:
 two:
   name: MyString
   description: MyText
-  branching_logic: MyText
   image: MyString
   project_id: 1
   design_id: 1
@@ -23,7 +21,6 @@ two:
 public:
   name: Public Section
   # description:
-  # branching_logic:
   image: rails.png
   project: three
   design: admin_public_design
@@ -33,7 +30,6 @@ public:
 private:
   name: Private Section
   # description:
-  # branching_logic:
   image: rails.png
   project: one
   design: sections_and_variables
@@ -43,7 +39,6 @@ private:
 sectiona:
   name: Section A
   # description:
-  # branching_logic:
   # image:
   project: one
   design: sections_and_variables
@@ -53,7 +48,6 @@ sectiona:
 sectionb:
   name: Section B
   # description:
-  # branching_logic:
   # image:
   project: one
   design: sections_and_variables
@@ -63,7 +57,6 @@ sectionb:
 header_section_a:
   name: Section A
   # description:
-  # branching_logic:
   # image:
   project: one
   design: section_and_file
@@ -73,7 +66,6 @@ header_section_a:
 grid_header:
   name: Grid to Follow
   # description:
-  # branching_logic:
   # image:
   project: one
   design: has_grid
@@ -83,7 +75,6 @@ grid_header:
 no_sites_header:
   name: No Sites Section
   # description:
-  # branching_logic:
   # image:
   project: one
   design: no_sites
@@ -93,7 +84,6 @@ no_sites_header:
 admin_design_header:
   name: Admin Design Section
   # description:
-  # branching_logic:
   # image:
   project: one
   design: admin_design
@@ -103,7 +93,6 @@ admin_design_header:
 public_with_required_fields_section:
   name: Public with Required Fields
   # description:
-  # branching_logic:
   # image:
   project: one
   design: admin_public_design_with_required_fields
@@ -113,7 +102,6 @@ public_with_required_fields_section:
 public_with_required_fields_section:
   name: Public with Redirect
   # description:
-  # branching_logic:
   # image:
   project: one
   design: admin_public_design_with_redirect
@@ -123,10 +111,8 @@ public_with_required_fields_section:
 single_design_section:
   name: Single Design Section
   # description:
-  # branching_logic:
   # image:
   project: single_design
   design: single_design
   user: valid
   level: 0
-

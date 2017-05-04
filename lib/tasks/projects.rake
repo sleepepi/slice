@@ -183,7 +183,6 @@ def copy_sections(d, dc)
       name: s.name,
       description: s.description,
       level: s.level,
-      branching_logic: s.branching_logic,
       image: s.image,
       user_id: s.user_id
     )
