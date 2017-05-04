@@ -110,11 +110,11 @@ class Design < ApplicationRecord
   end
 
   def branching_logic(design_option)
-    design_option.branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |m| variable_replacement($1) }.to_json
+    design_option.branching_logic.to_s.gsub(/\#{(\d+)}/) { variable_replacement($1) }.to_json
   end
 
-  def variable_replacement(variable_name)
-    variable = variables.find_by name: variable_name
+  def variable_replacement(variable_id)
+    variable = variables.find_by(id: variable_id)
     if variable && ['radio'].include?(variable.variable_type)
       "$(\"[name='variables[#{variable.id}]']:checked\").val()"
     elsif variable && ['checkbox'].include?(variable.variable_type)
@@ -122,7 +122,7 @@ class Design < ApplicationRecord
     elsif variable
       "$(\"#variables_#{variable.id}\").val()"
     else
-      variable_name
+      "\#{#{variable_id}}"
     end
   end
 

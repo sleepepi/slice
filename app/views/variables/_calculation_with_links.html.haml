@@ -1,5 +1,5 @@
 %tt
-  - (first, word, last) = object.calculation.partition(/\#{\d+}/)
+  - (first, word, last) = object.calculation.to_s.partition(/\#{\d+}/)
   - while word.present? do
     %span>= first if first.present?
     - v = object.project.variables.find_by(id: word.gsub(/[^\d]/, ''))

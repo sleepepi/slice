@@ -14,7 +14,7 @@ one_two:
   # section:
   position: 1
   # requirement:
-  branching_logic: var_1 == 1
+  branching_logic: "#{<%= ActiveRecord::FixtureSet.identify(:one) %>} == 1"
 
 one_date:
   design: one
@@ -95,7 +95,7 @@ all_variable_types_string:
   # section:
   position: 3
   # requirement:
-  branching_logic: "var_year == 1 || overlap(var_course_work, ['acct101', 'econ101'], 1)"
+  branching_logic: "#{<%= ActiveRecord::FixtureSet.identify(:radio) %>} == 1 || overlap(#{<%= ActiveRecord::FixtureSet.identify(:checkbox) %>}, ['acct101', 'econ101'], 1)"
 
 all_variable_types_text:
   design: all_variable_types

@@ -158,7 +158,7 @@ class Subject < ApplicationRecord
   end
 
   def expand_calculation(calculation)
-    calculation.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
+    calculation.to_s.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
   end
 
   def variable_javascript_value(variable_id)

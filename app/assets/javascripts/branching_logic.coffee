@@ -10,6 +10,6 @@
     try
       visible = eval(branching_logic)
     catch error
-      console.log "Error in branching logic syntax. #{error}"
+      console.log "Error in branching logic syntax. #{error} #{$(element).data('branching-logic')}"
 
   return visible

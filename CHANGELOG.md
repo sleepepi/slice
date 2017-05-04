@@ -3,10 +3,14 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Added adverse event descriptions to several subject pages for better context
+- **Design Changes**
+  - Branching logic on designs now store variable names interally as ids
+    allowing referenced variables to be renamed without breaking existing
+    branching logic
 - **Project Changes**
   - Team invite email is now cleared after inviting a member to a team
 - **Stratification Factor Changes**
-  - Calculations for stratification factors now store variables names interally
+  - Calculations for stratification factors now store variable names interally
     as ids allowing referenced variables to be renamed without breaking existing
     calculations
 - **Variable Changes**

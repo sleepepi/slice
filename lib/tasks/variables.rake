@@ -35,5 +35,15 @@ namespace :variables do
       puts "VERI: #{sf.readable_calculation}"
       puts "---"
     end
+
+    DesignOption.where.not(design_id: nil).find_each do |option|
+      old_branching_logic = option.branching_logic
+      option.update branching_logic: option.readable_branching_logic
+      next if old_branching_logic == option.branching_logic
+      puts "FROM: #{old_branching_logic}"
+      puts "  TO: #{option.branching_logic}"
+      puts "VERI: #{option.readable_branching_logic}"
+      puts "---"
+    end
   end
 end

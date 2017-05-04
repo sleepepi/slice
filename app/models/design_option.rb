@@ -22,6 +22,29 @@ class DesignOption < ApplicationRecord
   belongs_to :section, dependent: :destroy
 
   # Methods
+  def readable_branching_logic
+    branching_logic.to_s.gsub(/\#{(\d+)}/) do
+      v = design.variables.find_by(id: $1)
+      if v
+        v.name
+      else
+        $1
+      end
+    end
+  end
+
+  def branching_logic=(branching_logic)
+    branching_logic.to_s.gsub!(/\w+/) do |word|
+      v = design.variables.find_by(name: word)
+      if v
+        "\#{#{v.id}}"
+      else
+        word
+      end
+    end
+    self[:branching_logic] = branching_logic.try(:strip)
+  end
+
   def requirement_string
     element = REQUIREMENTS.find { |_label, value| value == requirement }
     if element

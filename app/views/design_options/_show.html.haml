@@ -31,7 +31,7 @@
           .design-option-lead
             Show If
           .design-option-body
-            = design_option.branching_logic
+            = render 'design_options/branching_logic_with_links', design_option: design_option
 
 - elsif variable
   .row
@@ -108,7 +108,7 @@
           .design-option-lead
             Show If
           .design-option-body
-            = design_option.branching_logic
+            = render 'design_options/branching_logic_with_links', design_option: design_option
         - unless variable.deleted?
           - variable_types = if ['string', 'text'].include?(variable.variable_type)
             - ['string', 'text']
