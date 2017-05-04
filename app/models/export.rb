@@ -245,25 +245,25 @@ class Export < ApplicationRecord
                       variable.description,
                       variable.field_note,
                       variable.export_variable_type,
-                      (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum), # Hard Min
-                      (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum), # Soft Min
-                      (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum), # Soft Max
-                      (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum), # Hard Max
-                      variable.readable_calculation, # Calculation
-                      variable.prepend, # Variable Prepend
-                      variable.export_units, # Variable Units
-                      variable.append, # Variable Append
-                      variable.format, # Format
-                      (variable.variable_type == 'time_duration' ? variable.time_duration_format : nil), # Time Duration Format
-                      (variable.variable_type == 'time_of_day' ? variable.time_of_day_format : nil), # Time of Day Format
-                      variable.multiple_rows, # Multiple Rows
-                      variable.autocomplete_values, # Autocomplete Values
-                      variable.show_current_button, # Show Current Button
-                      variable.display_layout, # Display Layout
-                      variable.alignment, # Alignment
-                      variable.default_row_number, # Default Row Number
-                      (variable.domain ? variable.domain.name : ''), # Domain Name
-                      design_option.requirement_string] # Required on Form?
+                      (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum),
+                      (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum),
+                      (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum),
+                      (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum),
+                      variable.readable_calculation,
+                      variable.prepend,
+                      variable.export_units,
+                      variable.append,
+                      variable.format,
+                      (variable.variable_type == 'time_duration' ? variable.time_duration_format : nil),
+                      (variable.variable_type == 'time_of_day' ? variable.time_of_day_format : nil),
+                      variable.multiple_rows,
+                      variable.autocomplete_values,
+                      variable.show_current_button,
+                      variable.display_layout,
+                      variable.alignment,
+                      variable.default_row_number,
+                      (variable.domain ? variable.domain.name : ''),
+                      design_option.requirement_string]
             end
           end
         end
