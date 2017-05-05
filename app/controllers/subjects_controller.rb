@@ -251,7 +251,6 @@ class SubjectsController < ApplicationController
     scope = scope_includes(scope)
     scope = scope_search_filter(scope, params[:search])
     scope = scope_filter(scope)
-    scope = scope_advanced_filters(scope)
     @subjects = scope_order(scope).page(params[:page]).per(20)
     if params[:search].present? && scope.count == 1 && scope.first && scope.first.subject_code == params[:search]
       redirect_to [@project, scope.first]
@@ -335,9 +334,10 @@ class SubjectsController < ApplicationController
 
   # Sets site id to nil if it's not part of users editable sites.
   def clean_site_id
-    params[:subject][:site_id] = if current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i)
-                                   params[:site_id].to_i
-                                 end
+    params[:subject][:site_id] = \
+      if current_user.all_editable_sites.pluck(:id).include?(params[:site_id].to_i)
+        params[:site_id].to_i
+      end
   end
 
   def sheet_params
@@ -372,23 +372,5 @@ class SubjectsController < ApplicationController
   def scope_order(scope)
     @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
     scope.order(@order)
-  end
-
-  # TODO: Remove, only launched from events page
-  # Refactor to use advanced filter
-  def scope_advanced_filters(scope)
-    if params[:on_event_design_id].present? && params[:event_id].present?
-      scope = scope.with_entered_design_on_event(params[:on_event_design_id], params[:event_id])
-    elsif params[:not_on_event_design_id].present? && params[:event_id].present?
-      scope = scope.with_unentered_design_on_event(params[:not_on_event_design_id], params[:event_id])
-    elsif params[:event_id].present?
-      scope = scope.with_event(params[:event_id])
-    elsif params[:without_event_id].present?
-      scope = scope.without_event(params[:without_event_id])
-    else
-      scope = scope.without_design(params[:without_design_id]) if params[:without_design_id].present?
-      scope = scope.with_design(params[:design_id]) if params[:design_id].present?
-    end
-    scope
   end
 end

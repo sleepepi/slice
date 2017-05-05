@@ -461,29 +461,39 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should get index with event' do
-    get :index, params: { project_id: @project, event_id: events(:one).id }
+    get :index, params: {
+      project_id: @project, search: "events:#{events(:one).to_param}"
+    }
     assert_response :success
   end
 
   test 'should get index without event' do
     get :index, params: {
-      project_id: @project, without_event_id: events(:one).id
+      project_id: @project, search: "events:!#{events(:one).to_param}"
     }
     assert_response :success
   end
 
-  test 'should get index with design on event' do
+  test 'should get index with event with entered design' do
     get :index, params: {
-      project_id: @project, on_event_design_id: designs(:one).id,
-      event_id: events(:one).id
+      project_id: @project,
+      search: "#{events(:one).to_param}:#{designs(:one).to_param}"
     }
     assert_response :success
   end
 
-  test 'should get index with design not on event' do
+  test 'should get index with event with unentered design' do
     get :index, params: {
-      project_id: @project, not_on_event_design_id: designs(:one).id,
-      event_id: events(:one).id
+      project_id: @project,
+      search: "#{events(:one).to_param}:#{designs(:one).to_param}:unentered"
+    }
+    assert_response :success
+  end
+
+  test 'should get index with event with missing design' do
+    get :index, params: {
+      project_id: @project,
+      search: "#{events(:one).to_param}:#{designs(:one).to_param}:missing"
     }
     assert_response :success
   end

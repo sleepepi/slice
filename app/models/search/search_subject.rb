@@ -41,7 +41,27 @@ class SearchSubject
     when 'randomized'
       filter_randomized
     else
-      Subject.none
+      event = find_event
+      (design, modifier) = find_design_and_modifier
+      if event && design
+        subjects = @project.subjects.joins(:subject_events).where(subject_events: { event: event })
+        case modifier
+        when 'missing'
+          subjects.joins(subject_events: :sheets)
+                  .where(subject_events: { event: event, sheets: { design: design, missing: true } })
+        when 'unentered'
+          subjects.where.not(
+            id: subjects.joins(subject_events: :sheets)
+                        .where(subject_events: { event: event, sheets: { design: design, missing: [true, false] } })
+                        .select(:id)
+          )
+        else
+          subjects.joins(subject_events: :sheets)
+                  .where(subject_events: { event: event, sheets: { design: design, missing: false } })
+        end
+      else
+        Subject.none
+      end
     end
   end
 
@@ -129,5 +149,18 @@ class SearchSubject
           @token.values.collect(&:to_i)
         )
       end
+  end
+
+  def find_event
+    @project.events.find_by('slug ilike ? or id = ?', @token.key, @token.key.to_i)
+  end
+
+  def find_design_and_modifier
+    (design_slug, modifier) = @token.value.split(':', 2)
+    design = \
+      if design_slug
+        @project.designs.find_by('slug ilike ? or id = ?', design_slug, design_slug.to_i)
+      end
+    [design, modifier]
   end
 end
