@@ -105,7 +105,6 @@ def copy_variables(original, copy)
       date_soft_minimum: v.date_soft_minimum,
       soft_maximum: v.soft_maximum,
       soft_minimum: v.soft_minimum,
-      calculation: v.calculation,
       format: v.format,
       units: v.units,
       multiple_rows: v.multiple_rows,
@@ -123,6 +122,7 @@ def copy_variables(original, copy)
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation
     )
+    vc.update_column :calculation, v.readable_calculation
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"
   end
@@ -142,7 +142,6 @@ def copy_variables(original, copy)
       date_soft_minimum: v.date_soft_minimum,
       soft_maximum: v.soft_maximum,
       soft_minimum: v.soft_minimum,
-      calculation: v.calculation,
       format: v.format,
       units: v.units,
       multiple_rows: v.multiple_rows,
@@ -160,6 +159,7 @@ def copy_variables(original, copy)
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation
     )
+    vc.update_column calculation: v.readable_calculation
     v.child_grid_variables.each_with_index do |child_grid_variable, index|
       vc.child_grid_variables.create(
         project_id: copy.id,
@@ -170,6 +170,7 @@ def copy_variables(original, copy)
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"
   end
+  copy.variables.find_each { |v| v.update calculation: v.readable_calculation }
   variable_map
 end
 
@@ -227,13 +228,13 @@ def copy_designs(original, copy, variable_map)
     )
     section_map = copy_sections(d, dc)
     d.design_options.each do |design_option|
-      dc.design_options.create(
+      doc = dc.design_options.create(
         variable_id: variable_map[design_option.variable_id.to_s],
         section_id: section_map[design_option.section_id.to_s],
         position: design_option.position,
-        requirement: design_option.requirement,
-        branching_logic: design_option.branching_logic
+        requirement: design_option.requirement
       )
+      doc.update(branching_logic: design_option.readable_branching_logic)
     end
     design_map[d.id.to_s] = dc.id
     puts "Added #{dc.name.colorize(:white)} design"
@@ -248,7 +249,6 @@ def copy_schemes(original, copy, variable_map)
       name: rs.name,
       description: rs.description,
       user_id: rs.user_id,
-      published: rs.published,
       randomization_goal: rs.randomization_goal,
       algorithm: rs.algorithm,
       chance_of_random_treatment_arm_selection: rs.chance_of_random_treatment_arm_selection,
@@ -259,6 +259,7 @@ def copy_schemes(original, copy, variable_map)
     copy_stratification_factors(rs, rsc)
     copy_treatment_arms(rs, rsc)
     rsc.generate_lists!(rsc.user)
+    rsc.update(published: rs.published)
     puts "Added #{rsc.name.colorize(:white)} randomization scheme"
   end
 end
@@ -284,7 +285,7 @@ def copy_stratification_factors(rs, rsc)
       user_id: sf.user_id,
       name: sf.name,
       stratifies_by_site: sf.stratifies_by_site,
-      calculation: sf.calculation
+      calculation: sf.readable_calculation
     )
     copy_stratification_factor_options(sf, sfc)
     puts "Added #{sfc.name.colorize(:white)} stratification factor"
