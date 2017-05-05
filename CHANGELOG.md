@@ -44,6 +44,8 @@
   stratification factor calculations
 - Event design tables now link correctly to filtered lists of subjects with
   designs that are entered, unentered, and set as missing
+- Setting a sheet as missing on an event now properly refreshes the event
+  coverage
 
 ## 0.51.1 (March 21, 2017)
 
