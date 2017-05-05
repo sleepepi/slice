@@ -11,9 +11,9 @@ Warden::Manager.after_set_user do |record, warden, options|
     last_request_at = warden.session(scope)['last_request_at']
 
     if last_request_at.is_a?(Integer)
-      last_request_at = Time.at(last_request_at).utc
+      last_request_at = Time.zone.at(last_request_at)
     elsif last_request_at.is_a?(String)
-      last_request_at = Time.parse(last_request_at)
+      last_request_at = Time.zone.parse(last_request_at)
     end
 
     proxy = Devise::Hooks::Proxy.new(warden)
@@ -25,7 +25,7 @@ Warden::Manager.after_set_user do |record, warden, options|
     end
 
     unless env['devise.skip_trackable']
-      warden.session(scope)['last_request_at'] = Time.now.utc.to_i
+      warden.session(scope)['last_request_at'] = Time.zone.now.utc.to_i
     end
   end
 end

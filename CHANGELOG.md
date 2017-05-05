@@ -9,6 +9,8 @@
     branching logic
 - **Project Changes**
   - Team invite email is now cleared after inviting a member to a team
+- **Timeout Changes**
+  - Desktop notifications can be enabled to notify users of an expiring session
 - **Stratification Factor Changes**
   - Calculations for stratification factors now store variable names interally
     as ids allowing referenced variables to be renamed without breaking existing
