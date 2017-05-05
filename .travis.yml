@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.3.3
+  - 2.3.4
   - 2.4.1
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
