@@ -159,7 +159,7 @@ def copy_variables(original, copy)
       time_duration_format: v.time_duration_format,
       hide_calculation: v.hide_calculation
     )
-    vc.update_column calculation: v.readable_calculation
+    vc.update_column :calculation, v.readable_calculation
     v.child_grid_variables.each_with_index do |child_grid_variable, index|
       vc.child_grid_variables.create(
         project_id: copy.id,
@@ -188,7 +188,7 @@ def copy_sections(d, dc)
       user_id: s.user_id
     )
     section_map[s.id.to_s] = sc.id
-    puts "Added #{sc.name.colorize(:white)} section"
+    puts "Added #{sc.name.to_s.colorize(:white)} section"
   end
   section_map
 end
