@@ -41,9 +41,9 @@ connection, server url, and application name.
 ```
 ruby lib/initial_setup.rb
 
-bundle exec rake db:migrate RAILS_ENV=production
+rails db:migrate RAILS_ENV=production
 
-bundle exec rake assets:precompile RAILS_ENV=production
+rails assets:precompile RAILS_ENV=production
 ```
 
 Run Rails Server (or use Apache or nginx)
