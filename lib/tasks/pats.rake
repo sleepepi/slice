@@ -35,6 +35,7 @@ namespace :pats do
       recruitment[:unscheduled_events][:adverse_events] = adverse_events_data(project, start_date)
       recruitment[:unscheduled_events][:protocol_deviations] = protocol_deviations_data(project, start_date)
       recruitment[:unscheduled_events][:unblinding_events] = unblinding_events_data(project, start_date)
+      recruitment[:failing_checks] = failing_checks(project)
       recruitment[:export_completed_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
       File.open(recruitment_json_file, 'w') do |f|

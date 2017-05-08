@@ -34,6 +34,7 @@
   - Added an export of data completion by site and by event
   - Added an export of adverse events, protocol deviations, and unblinding
     events by site by month
+  - Added an export providing counts of failing checks
 - **Gem Changes**
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1

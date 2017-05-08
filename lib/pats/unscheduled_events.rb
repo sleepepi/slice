@@ -3,7 +3,7 @@
 require 'pats/core'
 
 module Pats
-  # Export grades for each site.
+  # Export unscheduled events for each site.
   module UnscheduledEvents
     include Pats::Core
 
