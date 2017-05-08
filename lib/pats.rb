@@ -8,6 +8,7 @@ require 'pats/eligible'
 require 'pats/grades'
 require 'pats/randomized'
 require 'pats/screened'
+require 'pats/unscheduled_events'
 
 # Helps export data from PATS project for display on patstrial.org.
 module Pats
@@ -19,4 +20,5 @@ module Pats
   include Pats::Grades
   include Pats::Randomized
   include Pats::Screened
+  include Pats::UnscheduledEvents
 end
