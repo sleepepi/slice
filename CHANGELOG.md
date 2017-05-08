@@ -50,6 +50,7 @@
   designs that are entered, unentered, and set as missing
 - Setting a sheet as missing on an event now properly refreshes the event
   coverage
+- Fixed a bug preventing sorting adverse events by adverse event date
 
 ## 0.51.1 (March 21, 2017)
 
