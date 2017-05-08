@@ -30,6 +30,8 @@
     variables
   - Variable calculations now store variable names internally as ids allowing
     referenced variables to be renamed without breaking existing calculations
+- **PATS Changes**
+  - Added an export of data completion by site and by event
 - **Gem Changes**
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1

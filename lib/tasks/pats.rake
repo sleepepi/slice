@@ -11,6 +11,7 @@ namespace :pats do
     project = Project.current.find_by(slug: slug)
     start_date = Date.parse('2016-06-01')
     if project
+      recruitment[:exported_at] = Time.zone.now
       recruitment[:screened] = screened_graph(project, start_date)
       recruitment[:screened][:table] = screened_table(project, start_date)
       recruitment[:consented] = consented_graph(project, start_date)
@@ -29,8 +30,8 @@ namespace :pats do
       recruitment[:data_quality] = {}
       recruitment[:data_quality][:tables] = data_quality_tables(project)
       recruitment[:data_quality][:graphs] = data_quality_graphs(project)
-
-      recruitment[:exported_at] = Time.zone.now
+      recruitment[:grades] = grades(project)
+      recruitment[:export_completed_at] = Time.zone.now
       recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
       File.open(recruitment_json_file, 'w') do |f|
         f.write(recruitment.to_json)
