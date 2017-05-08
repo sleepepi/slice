@@ -4,7 +4,7 @@
 %td.nowrap{ class: "#{'text-muted' if notification.read?}" }
   .overflow-hidden
     = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
-      %strong Updated
+      Updated
       = notification.adverse_event.name
       for
       = notification.adverse_event.subject.name
