@@ -7,6 +7,9 @@
   - Branching logic on designs now store variable names interally as ids
     allowing referenced variables to be renamed without breaking existing
     branching logic
+- **Export Changes**
+  - Modified exported SAS script to order output by variable position instead of
+    alphabetically, (by @mrueschman)
 - **Project Changes**
   - Team invite email is now cleared after inviting a member to a team
 - **Timeout Changes**
