@@ -64,7 +64,7 @@ class Variable < ApplicationRecord
 
   # Validations
   validates :name, :display_name, :variable_type, :project_id, presence: true
-  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }, exclusion: { in: %w(new edit create update destroy overlap) }
+  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }, exclusion: { in: %w(new edit create update destroy overlap null) }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :time_of_day_format, inclusion: { in: TIME_OF_DAY_FORMATS.collect(&:second) }
   validates :time_duration_format, inclusion: { in: TIME_DURATION_FORMATS.collect(&:second) }
