@@ -62,22 +62,36 @@ module Pats
 
     def protocol_deviations_table(project, start_date)
       objects = protocol_deviations(project)
-      generic_table(project, start_date, 'Protocol Deviations', objects, by_distinct_subject: false)
+      date_variable = project.variables.find_by(name: 'pdev_date_of_deviation')
+      generic_table(project, start_date, 'Protocol Deviations', objects, date_variable: date_variable, by_distinct_subject: false)
     end
 
     def protocol_deviations_graph(project, start_date)
       graph = {}
       categories = generate_categories_months(start_date)
       series = []
+      date_variable = project.variables.find_by(name: 'pdev_date_of_deviation')
       project.sites.each do |site|
         series << {
           name: site.short_name,
-          data: by_month(protocol_deviations(project).where(subjects: { site_id: site.id }), start_date, running_total: false, by_distinct_subject: false)
+          data: by_month_of_attribute(
+            protocol_deviations(project).where(subjects: { site_id: site.id }),
+            start_date,
+            date_variable,
+            running_total: false,
+            by_distinct_subject: false
+          )
         }
       end
       series << {
         name: 'Overall',
-        data: by_month(protocol_deviations(project), start_date, running_total: false, by_distinct_subject: false),
+        data: by_month_of_attribute(
+          protocol_deviations(project),
+          start_date,
+          date_variable,
+          running_total: false,
+          by_distinct_subject: false
+        ),
         lineWidth: 3,
         visible: false
       }
@@ -104,22 +118,36 @@ module Pats
 
     def unblinding_events_table(project, start_date)
       objects = unblinding_events(project)
-      generic_table(project, start_date, 'Unblinding Events', objects, by_distinct_subject: false)
+      date_variable = project.variables.find_by(name: 'unb_date')
+      generic_table(project, start_date, 'Unblinding Events', objects, date_variable: date_variable, by_distinct_subject: false)
     end
 
     def unblinding_events_graph(project, start_date)
       graph = {}
       categories = generate_categories_months(start_date)
       series = []
+      date_variable = project.variables.find_by(name: 'unb_date')
       project.sites.each do |site|
         series << {
           name: site.short_name,
-          data: by_month(unblinding_events(project).where(subjects: { site_id: site.id }), start_date, running_total: false, by_distinct_subject: false)
+          data: by_month_of_attribute(
+            unblinding_events(project).where(subjects: { site_id: site.id }),
+            start_date,
+            date_variable,
+            running_total: false,
+            by_distinct_subject: false
+          )
         }
       end
       series << {
         name: 'Overall',
-        data: by_month(unblinding_events(project), start_date, running_total: false, by_distinct_subject: false),
+        data: by_month_of_attribute(
+          unblinding_events(project),
+          start_date,
+          date_variable,
+          running_total: false,
+          by_distinct_subject: false
+        ),
         lineWidth: 3,
         visible: false
       }
