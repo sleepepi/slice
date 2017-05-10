@@ -36,7 +36,7 @@ gem 'turbolinks',           '~> 5'
 
 # Testing
 group :test do
-  gem 'minitest'
+  gem 'minitest', '5.10.1' # Remove version requirement when minitest is rereleased or rails is updated.
   gem 'rails-controller-testing'
   gem 'simplecov',          '~> 0.14.1', require: false
 end
