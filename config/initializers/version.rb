@@ -5,7 +5,7 @@ module Slice
     MAJOR = 0
     MINOR = 52
     TINY = 0
-    BUILD = 'rc3' # 'pre', 'beta1', 'beta2', 'rc', 'rc2', nil
+    BUILD = 'rc4' # 'pre', 'beta1', 'beta2', 'rc', 'rc2', nil
 
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.').freeze
   end
