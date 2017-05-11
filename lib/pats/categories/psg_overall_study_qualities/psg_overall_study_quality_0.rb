@@ -11,8 +11,9 @@ module Pats
           '0: Failed'
         end
 
-        def variable_name
-          'psg_study_passed'
+        # 'psg_study_passed'
+        def variable_id
+          14182
         end
 
         def subquery

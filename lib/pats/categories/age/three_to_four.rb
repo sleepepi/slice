@@ -11,8 +11,9 @@ module Pats
           '3 or 4 years old'
         end
 
-        def variable_name
-          'ciw_age_years'
+        # 'ciw_age_years'
+        def variable_id
+          13416
         end
 
         def subquery

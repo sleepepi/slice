@@ -11,8 +11,9 @@ module Pats
           'Child does not snore regularly'
         end
 
-        def variable_name
-          'ciw_parent_report_snoring'
+        # 'ciw_parent_report_snoring'
+        def variable_id
+          14294
         end
 
         def subquery

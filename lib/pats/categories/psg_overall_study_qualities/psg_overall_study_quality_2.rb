@@ -11,8 +11,9 @@ module Pats
           '2: Good'
         end
 
-        def variable_name
-          'psg_overall_study_quality'
+        # 'psg_overall_study_quality'
+        def variable_id
+          13521
         end
 
         def subquery

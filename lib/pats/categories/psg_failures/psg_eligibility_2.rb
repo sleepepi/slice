@@ -11,8 +11,9 @@ module Pats
           'Apnea-Hypopnea Index (AHI) >= 2'
         end
 
-        def variable_name
-          'ciw_psg_eligibility_not_met_yes'
+        # 'ciw_psg_eligibility_not_met_yes'
+        def variable_id
+          14327
         end
 
         def subquery

@@ -11,8 +11,9 @@ module Pats
           'BMI z-score > 3'
         end
 
-        def variable_name
-          'ciw_bmi_z_score_le3'
+        # 'ciw_bmi_z_score_le3'
+        def variable_id
+          13392
         end
 
         def subquery

@@ -11,8 +11,9 @@ module Pats
           'Psychiatric/Behavior disorder'
         end
 
-        def variable_name
-          'ciw_hx_psych_behavioral_disorder'
+        # 'ciw_hx_psych_behavioral_disorder'
+        def variable_id
+          14097
         end
 
         def subquery

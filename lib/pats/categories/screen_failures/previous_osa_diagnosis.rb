@@ -11,8 +11,9 @@ module Pats
           'Previous OSA diagnosis'
         end
 
-        def variable_name
-          'ciw_previous_osa_diagnosis'
+        # 'ciw_previous_osa_diagnosis'
+        def variable_id
+          14593
         end
 
         def subquery

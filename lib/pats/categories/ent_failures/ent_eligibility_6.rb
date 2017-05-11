@@ -11,8 +11,9 @@ module Pats
           'Physician did not provide approval for contact'
         end
 
-        def variable_name
-          'ciw_ent_eligibility_not_met_yes'
+        # 'ciw_ent_eligibility_not_met_yes'
+        def variable_id
+          14326
         end
 
         def subquery

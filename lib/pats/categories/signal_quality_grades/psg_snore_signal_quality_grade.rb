@@ -11,8 +11,9 @@ module Pats
           'Snore Signal Quality Grade'
         end
 
-        def variable_name
-          'psg_snore_signal_quality_grade'
+        # 'psg_snore_signal_quality_grade'
+        def variable_id
+          13263
         end
 
         def subquery

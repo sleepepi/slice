@@ -11,8 +11,9 @@ module Pats
           'Severe, chronic health problem'
         end
 
-        def variable_name
-          'ciw_dx_chronic_prob'
+        # 'ciw_dx_chronic_prob'
+        def variable_id
+          14295
         end
 
         def subquery

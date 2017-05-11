@@ -11,14 +11,14 @@ module Pats
       end
 
       def variable
-        @variable ||= project.variables.find_by(name: variable_name)
+        @variable ||= project.variables.find_by(id: variable_id)
       end
 
       def label
         'Default Characteristic'
       end
 
-      def variable_name
+      def variable_id
         nil
       end
 

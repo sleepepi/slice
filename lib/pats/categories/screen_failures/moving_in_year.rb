@@ -11,8 +11,9 @@ module Pats
           "Child's family plans to move within the year"
         end
 
-        def variable_name
-          'ciw_moving_in_year'
+        # 'ciw_moving_in_year'
+        def variable_id
+          13432
         end
 
         def subquery

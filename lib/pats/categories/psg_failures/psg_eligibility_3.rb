@@ -11,8 +11,9 @@ module Pats
           'SpO2 desaturations < 90% with obstructive events'
         end
 
-        def variable_name
-          'ciw_psg_eligibility_not_met_yes'
+        # 'ciw_psg_eligibility_not_met_yes'
+        def variable_id
+          14327
         end
 
         def subquery

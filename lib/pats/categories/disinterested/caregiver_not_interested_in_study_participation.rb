@@ -11,8 +11,9 @@ module Pats
           'Caregiver not interested in study participation'
         end
 
-        def variable_name
-          'ciw_caregiver_interested'
+        # 'ciw_caregiver_interested'
+        def variable_id
+          14300
         end
 
         def subquery

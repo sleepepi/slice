@@ -11,8 +11,9 @@ module Pats
           'With known medical condition'
         end
 
-        def variable_name
-          'ciw_known_cond_airway'
+        # 'ciw_known_cond_airway'
+        def variable_id
+          13411
         end
 
         def subquery

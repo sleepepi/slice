@@ -11,8 +11,9 @@ module Pats
           'Chest Signal Quality Grade'
         end
 
-        def variable_name
-          'psg_chest_signal_quality_grade'
+        # 'psg_chest_signal_quality_grade'
+        def variable_id
+          13378
         end
 
         def subquery

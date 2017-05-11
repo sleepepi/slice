@@ -10,8 +10,9 @@ module Pats
         'Gender'
       end
 
-      def variable_name
-        'ciw_sex'
+      # 'ciw_sex'
+      def variable_id
+        13419
       end
 
       def categories

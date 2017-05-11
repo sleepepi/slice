@@ -10,8 +10,9 @@ module Pats
         'Age'
       end
 
-      def variable_name
-        'ciw_age_years'
+      # 'ciw_age_years'
+      def variable_id
+        13416
       end
 
       def categories
