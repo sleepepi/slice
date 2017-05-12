@@ -1,5 +1,9 @@
 ## 0.52.1
 
+### Bug Fix
+- Fixed an issue exporting grid data for sheets that also had data on deleted
+  grids
+
 ## 0.52.0 (May 12, 2017)
 
 ### Enhancements
