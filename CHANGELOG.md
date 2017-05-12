@@ -27,7 +27,7 @@
       - Finds subjects who have entered a demographics sheet at baseline
     - `EVENT:DESIGN:unentered`, ex: `baseline:demographics:unentered`
       - Finds subjects who have not entered a demographics sheet at baseline
-    - `EVENT:DESIGN:missing, ex: `baseline:demographics:missing`
+    - `EVENT:DESIGN:missing`, ex: `baseline:demographics:missing`
       - Finds subjects who have a demographics sheet set as missing at baseline
 - **Variable Changes**
   - Increased size of calculation input for calculated variables
