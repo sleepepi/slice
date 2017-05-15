@@ -101,11 +101,21 @@
           Show Current Date/Time
 
   .form-group{ data: { object: 'time-of-day' } }
+    = f.label :time_of_day_format, 'Time of Day Format', class: 'col-md-2 control-label'
+    .col-md-10
+      = f.select :time_of_day_format, Variable::TIME_OF_DAY_FORMATS, {}, class: 'form-control'
+
+  .form-group{ data: { object: 'time-of-day' } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :show_seconds
           Show Seconds
+
+  .form-group{ data: { object: 'time-duration' } }
+    = f.label :time_duration_format, nil, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.select :time_duration_format, Variable::TIME_DURATION_FORMATS, {}, class: 'form-control'
 
   .form-group{ data: { object: 'date' } }
     = f.label :date_hard_minimum, nil, class: 'col-md-2 control-label'
@@ -130,7 +140,7 @@
   .form-group{ data: { object: 'calculated' } }
     = f.label :calculation, nil, class: 'col-md-2 control-label'
     .col-md-10
-      = f.text_field :calculation, class: 'form-control'
+      = f.text_area :calculation, value: @variable.readable_calculation, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
       %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
         %col.hidden-xs{ width: '30%' }
         %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }

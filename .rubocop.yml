@@ -32,3 +32,13 @@ Rails/DynamicFindBy:
     - find_by_param
 Rails/SkipsModelValidations:
   Enabled: false
+
+# Check quotes usage according to lint rule below.
+Style/StringLiterals:
+  Enabled: false
+  # Enabled: true
+  # EnforcedStyle: double_quotes
+
+# Allow perl backrefs.
+Style/PerlBackrefs:
+  Enabled: false

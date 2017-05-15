@@ -119,12 +119,20 @@
       %tr
         %th Show current time
         %td= simple_check @variable.show_current_button?
+      %tr
+        %th Time of Day Format
+        %td= @variable.time_of_day_format_name
+
+    - if ['time_duration'].include?(@variable.variable_type)
+      %tr
+        %th Time Duration Format
+        %td= @variable.time_duration_format_name
 
     - if ['calculated'].include?(@variable.variable_type)
       %tr
         %th Calculation
         %td
-          %tt= @variable.calculation
+          = render 'variables/calculation_with_links', object: @variable
 
       %tr
         %th Format

@@ -79,7 +79,7 @@ module Validation
         else
           time = parse_time_of_day(response)
           if @variable.twelve_hour_clock?
-            (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.format == '12hour-pm' ? 'pm' : 'am' })
+            (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.time_of_day_format == '12hour-pm' ? 'pm' : 'am' })
           else
             (time ? { hours: time[:hours_24], minutes: time[:minutes], seconds: time[:seconds] } : {})
           end

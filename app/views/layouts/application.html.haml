@@ -28,8 +28,9 @@
     = javascript_tag "var root_url='#{request.script_name + '/'}';"
   %body#top
     - if current_user
-      %div{ style: 'display:none', data: { object:  'current-user' } }
+      %div{ style: 'display:none', data: { object: 'current-user' } }
       = render 'timeout/modal'
+    %div{ style: 'display: none;', data: { object: 'notification-png', url: image_path('sad-slice.png') }}
 
     = yield :side_nav
 

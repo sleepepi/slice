@@ -11,8 +11,9 @@ module Pats
           'PSG requirement not met'
         end
 
-        def variable_name
-          'ciw_psg_eligibility_not_met'
+        # 'ciw_psg_eligibility_not_met'
+        def variable_id
+          14306
         end
 
         def subquery

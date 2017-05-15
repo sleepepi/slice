@@ -149,11 +149,11 @@ module Validation
     end
 
     def expanded_branching_logic(branching_logic)
-      branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |m| variable_javascript_value($1) }
+      branching_logic.to_s.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
     end
 
-    def variable_javascript_value(variable_name)
-      variable = @variables.find { |v| v.name == variable_name }
+    def variable_javascript_value(variable_id)
+      variable = @variables.find { |v| v.id.to_s == variable_id.to_s }
       if variable
         sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
         result = if sheet_variable
@@ -163,7 +163,7 @@ module Validation
                  end
         result.to_json
       else
-        variable_name
+        "\#{#{variable_id}}"
       end
     end
   end

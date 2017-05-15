@@ -43,7 +43,7 @@
           = th_sort_field @order, 'created', '#', extra_class: 'center', permit: [:site_id, :user_id, :status]
           = th_sort_field @order, 'subject', 'Subject', permit: [:site_id, :user_id, :status]
           %th.hidden-xs Description
-          = th_sort_field @order, 'adverse_events.adverse_event_date', 'Date of AE', extra_class: 'hidden-xs', permit: [:site_id, :user_id, :status]
+          = th_sort_field_rev @order, 'ae_date', 'Date of AE', extra_class: 'hidden-xs', permit: [:site_id, :user_id, :status]
           %th.nowrap.hidden-xs.hidden-sm{ class: ['reported_by', 'reported_by desc'].include?(params[:order]) ? 'sort-selected' : nil }
             = link_to 'Reported By', project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == 'reported_by' ? 'reported_by desc' : 'reported_by')))
             .dropdown{ style: 'display: inline-block' }

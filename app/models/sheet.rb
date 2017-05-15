@@ -182,12 +182,12 @@ class Sheet < ApplicationRecord
   end
 
   def expanded_branching_logic(branching_logic)
-    branching_logic.to_s.gsub(/([a-zA-Z]+[\w]*)/){|m| variable_javascript_value($1)}
+    branching_logic.to_s.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
   end
 
   # TODO: Check speed of function using where vs find (caching and memory)
-  def variable_javascript_value(variable_name)
-    variable = design.variables.find { |v| v.name == variable_name }
+  def variable_javascript_value(variable_id)
+    variable = design.variables.find { |v| v.id.to_s == variable_id.to_s }
     if variable
       sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
       result = if sheet_variable
@@ -197,7 +197,7 @@ class Sheet < ApplicationRecord
                end
       result.to_json
     else
-      variable_name
+      "\#{#{variable_id}}"
     end
   end
 

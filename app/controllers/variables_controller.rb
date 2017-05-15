@@ -191,7 +191,7 @@ class VariablesController < ApplicationController
       # For Date, Time of Day
       :show_current_button,
       # For Time of Day
-      :show_seconds,
+      :time_of_day_format, :show_seconds,
       # For Time Duration
       :time_duration_format,
       # For Calculated Variables

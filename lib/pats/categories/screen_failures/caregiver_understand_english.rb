@@ -11,8 +11,9 @@ module Pats
           'Caregiver is not able to read and write in English'
         end
 
-        def variable_name
-          'ciw_caregiver_understand_english'
+        # 'ciw_caregiver_understand_english'
+        def variable_id
+          14296
         end
 
         def subquery

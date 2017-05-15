@@ -93,4 +93,4 @@ required_and_calculated:
   randomization_scheme: minimization_with_required_variable
   user: valid
   name: calculated
-  calculation: randomize
+  calculation: "#{<%= ActiveRecord::FixtureSet.identify(:randomize) %>}"

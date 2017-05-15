@@ -45,7 +45,7 @@
 
                 - if @table_footer[:chart_type] == 'line' && hash[:count]
                   - if @percent == 'row' && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != 'total'
-                    %span.text-muted{ style: 'font-size:0.7em' }
+                    %span.text-muted.text-smaller
                       = (hash[:count] * 100 / @table_footer[:values].sum).to_s + '%'
           - else
             %td{ colspan: (hash[:colspan].blank? ? 1 : hash[:colspan]) }
@@ -71,10 +71,10 @@
 
                 - if row[:chart_type] == 'line' && hash[:count]
                   - if @percent == 'row' && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != 'total'
-                    %span.text-muted{ style: 'font-size:0.7em' }
+                    %span.text-muted.text-smaller
                       = (hash[:count] * 100 / row[:values].sum).to_s + '%'
                   - if @percent == 'column' && hash[:count] > 0 && column_count && column_count > 0
-                    %span.text-muted{ style: 'font-size:0.7em' }
+                    %span.text-muted.text-smaller
                       = (hash[:count] * 100 / column_count).to_s + '%'
 
 .center.text-muted= @report_caption

@@ -5,20 +5,80 @@
   - Updated to rails 5.1.0
   - Updated to devise ref `8321356`
 
-## 0.52.0
+## 0.53.0
+
+## 0.52.1 (May 12, 2017)
+
+### Bug Fix
+- Fixed an issue exporting grid data for sheets that also had data on deleted
+  grids
+
+## 0.52.0 (May 12, 2017)
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Added adverse event descriptions to several subject pages for better context
+- **Design Changes**
+  - Branching logic on designs now store variable names interally as ids
+    allowing referenced variables to be renamed without breaking existing
+    branching logic
+- **Export Changes**
+  - Modified exported SAS script to order output by variable position instead of
+    alphabetically, (by @mrueschman)
+- **Project Changes**
+  - Team invite email is now cleared after inviting a member to a team
+- **Timeout Changes**
+  - Desktop notifications can be enabled to notify users of an expiring session
+- **Stratification Factor Changes**
+  - Calculations for stratification factors now store variable names interally
+    as ids allowing referenced variables to be renamed without breaking existing
+    calculations
+- **Subjects Changes**
+  - The subjects index can now be filtered by subjects that have entered,
+    unentered, and missing designs by event:
+    - `EVENT:DESIGN`, ex: `baseline:demographics`
+      - Finds subjects who have entered a demographics sheet at baseline
+    - `EVENT:DESIGN:unentered`, ex: `baseline:demographics:unentered`
+      - Finds subjects who have not entered a demographics sheet at baseline
+    - `EVENT:DESIGN:missing`, ex: `baseline:demographics:missing`
+      - Finds subjects who have a demographics sheet set as missing at baseline
+- **Variable Changes**
+  - Increased size of calculation input for calculated variables
+  - Time of day format and time duration format can now be changed when editing
+    variables
+  - Variable calculations now store variable names internally as ids allowing
+    referenced variables to be renamed without breaking existing calculations
+- **PATS Changes**
+  - Added an export of data completion by site and by event
+  - Added an export of adverse events, protocol deviations, and unblinding
+    events by site by month
+  - Added an export providing counts of failing checks
 - **Gem Changes**
   - Updated to Ruby 2.4.1
   - Updated to jquery-rails 4.3.1
-  - Updated to haml 5.0.0
+  - Updated to haml 5.0.1
   - Updated to carrierwave 1.1.0
+
+### Bug Fixes
+- `last_edited_at` is now set when a sheets are imported, and when sheets are
+  set as shareable
+- Clicking "Current Time" at noon for time of day variables using the 12-hour
+  clock now properly sets the time to 12pm instead of 00pm
+- abbr elements are no longer underlined more than once
+- Imperial height and weight variables are now evaluated correctly in
+  stratification factor calculations
+- Event design tables now link correctly to filtered lists of subjects with
+  designs that are entered, unentered, and set as missing
+- Setting a sheet as missing on an event now properly refreshes the event
+  coverage
+- Fixed a bug preventing sorting adverse events by adverse event date
 
 ## 0.51.1 (March 21, 2017)
 
 ### Bug Fixes
 - The spring theme grass now displays correctly across different browsers
-- Fixed some minor typos when adding a user to a project (reported by @mmorrical)
+- Fixed some minor typos when adding a user to a project (reported by
+  @mmorrical)
 
 ## 0.51.0 (March 20, 2017)
 

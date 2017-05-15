@@ -11,8 +11,9 @@ module Pats
           'Total Screen Failures'
         end
 
-        def variable_name
-          'ciw_eligible_for_baseline'
+        # 'ciw_eligible_for_baseline'
+        def variable_id
+          14299
         end
 
         def subquery

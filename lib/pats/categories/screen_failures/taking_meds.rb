@@ -11,8 +11,9 @@ module Pats
           'Taking study-restricted medication'
         end
 
-        def variable_name
-          'ciw_taking_meds'
+        # 'ciw_taking_meds'
+        def variable_id
+          13424
         end
 
         def subquery

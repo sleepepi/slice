@@ -3,7 +3,7 @@
 # Provides options used to determine the list to which a subject is randomized
 class StratificationFactor < ApplicationRecord
   # Concerns
-  include Deletable
+  include Deletable, Calculable
 
   # Scopes
 

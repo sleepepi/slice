@@ -11,8 +11,9 @@ module Pats
           'Unknown or not reported'
         end
 
-        def variable_name
-          'ciw_sex'
+        # 'ciw_sex'
+        def variable_id
+          13419
         end
 
         def subquery

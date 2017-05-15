@@ -1,49 +1,28 @@
 @toggleOptions = (element) ->
-  if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
-    $('[data-object~="options"]').show()
-  else
-    $('[data-object~="options"]').hide()
-  if $(element).val() in ['integer', 'numeric']
-    $('[data-object~="number"]').show()
-  else
-    $('[data-object~="number"]').hide()
-  if $(element).val() in ['date']
-    $('[data-object~="date"]').show()
-  else
-    $('[data-object~="date"]').hide()
-  if $(element).val() in ['calculated']
-    $('[data-object~="calculated"]').show()
-  else
-    $('[data-object~="calculated"]').hide()
-  if $(element).val() in ['grid']
-    $('[data-object~="grid"]').show()
-  else
-    $('[data-object~="grid"]').hide()
-  if $(element).val() in ['calculated', 'integer', 'numeric']
-    $('[data-object~="calculated-or-number"]').show()
-  else
-    $('[data-object~="calculated-or-number"]').hide()
-  if $(element).val() in ['string']
-    $('[data-object~="autocomplete"]').show()
-  else
-    $('[data-object~="autocomplete"]').hide()
-  if $(element).val() in ['date', 'time_of_day']
-    $('[data-object~="date-or-time-of-day"]').show()
-  else
-    $('[data-object~="date-or-time-of-day"]').hide()
-  if $(element).val() in ['time_of_day']
-    $('[data-object~="time-of-day"]').show()
-  else
-    $('[data-object~="time-of-day"]').hide()
-  if $(element).val() in ['checkbox', 'radio']
-    $('[data-object~="checkbox-or-radio"]').show()
-  else
-    $('[data-object~="checkbox-or-radio"]').hide()
-  if $(element).val() in ['calculated', 'integer', 'numeric', 'string']
-    $('[data-object~="prepend-append"]').show()
-  else
-    $('[data-object~="prepend-append"]').hide()
-
+  $('[data-object~="options"]').hide()
+  $('[data-object~="number"]').hide()
+  $('[data-object~="date"]').hide()
+  $('[data-object~="calculated"]').hide()
+  $('[data-object~="grid"]').hide()
+  $('[data-object~="calculated-or-number"]').hide()
+  $('[data-object~="autocomplete"]').hide()
+  $('[data-object~="date-or-time-of-day"]').hide()
+  $('[data-object~="time-of-day"]').hide()
+  $('[data-object~="time-duration"]').hide()
+  $('[data-object~="checkbox-or-radio"]').hide()
+  $('[data-object~="prepend-append"]').hide()
+  $('[data-object~="options"]').show() if $(element).val() in ['dropdown', 'checkbox', 'radio', 'integer', 'numeric']
+  $('[data-object~="prepend-append"]').show() if $(element).val() in ['calculated', 'integer', 'numeric', 'string']
+  $('[data-object~="calculated-or-number"]').show() if $(element).val() in ['calculated', 'integer', 'numeric']
+  $('[data-object~="checkbox-or-radio"]').show() if $(element).val() in ['checkbox', 'radio']
+  $('[data-object~="number"]').show() if $(element).val() in ['integer', 'numeric']
+  $('[data-object~="date-or-time-of-day"]').show() if $(element).val() in ['date', 'time_of_day']
+  $('[data-object~="calculated"]').show() if $(element).val() in ['calculated']
+  $('[data-object~="date"]').show() if $(element).val() in ['date']
+  $('[data-object~="grid"]').show() if $(element).val() in ['grid']
+  $('[data-object~="autocomplete"]').show() if $(element).val() in ['string']
+  $('[data-object~="time-duration"]').show() if $(element).val() in ['time_duration']
+  $('[data-object~="time-of-day"]').show() if $(element).val() in ['time_of_day']
 
 @checkForBlankOptions = ->
   blank_options = $('[data-object~="option-name"]').filter( ->
@@ -54,20 +33,19 @@
     return false
   true
 
-# Ex: parseValue('ess1', 'integer', '')
-#     parseValue('gender', 'string', '')
-#     parseValue('bmi', 'float', '')
-# grid_string is used to specify a specific location in the grid
-
 @isNumber = (n) ->
   !isNaN(parseFloat(n)) && isFinite(n)
 
-@parseValue = (variable_name, format_type, grid_string) ->
-  elements = $("[data-name='#{variable_name}']#{grid_string}")
+# Ex: parseValue(ess1_id, 'integer', '')
+#     parseValue(gender_id, 'string', '')
+#     parseValue(bmi_id, 'float', '')
+# grid_string is used to specify a specific location in the grid
+@parseValueByID = (variable_id, format_type, grid_string) ->
+  elements = $("[data-calculation-id='#{variable_id}']#{grid_string}")
   variable_type = elements.data('variable-type')
   checked = ''
   checked = ':checked' if variable_type in ['radio', 'checkbox']
-  elements = $("[data-name='#{variable_name}']#{grid_string}#{checked}")
+  elements = $("[data-calculation-id='#{variable_id}']#{grid_string}#{checked}")
   vals = []
   $.each(elements, ->
     if format_type == 'integer'
@@ -97,17 +75,32 @@
       grid_string = ''
       if grid_position != '' and grid_position != null and grid_position != undefined
         grid_string = '[data-grid-position="' + grid_position + '"]'
-      calculation = calculation.replace(/([a-zA-Z]+[\w]*)/g, ($1) ->
-        if $1 == 'overlap'
-          'overlap'
-        else
-          "parseValue('#{$1}', 'float', '#{grid_string}')"
-      )
+      calculation = calculation.replace(/\#{(\d+)}/g, "parseValueByID('$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
       calculation_result = '' unless isNumber(calculation_result)
       target_name = $(this).data('target-name')
       $("##{target_name}").val(calculation_result)
       $("##{target_name}_calculation_result").val(calculation_result)
+  )
+
+@calculationTextcompleteReady = ->
+  $('[data-object~="calculation-variable-name-textcomplete"]').each(->
+    $this = $(this)
+    $this.textcomplete(
+      [
+        {
+          match: /(^|\s)(\w+)$/
+          search: (term, callback) ->
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
+              .done((resp) -> callback(resp))
+              .fail(-> callback([]))
+          replace: (value) ->
+            return "$1#{value}"
+          cache: true
+        }
+      ],
+      zIndex: 1060
+    )
   )
 
 @variableAutocompleteReady = ->
@@ -181,6 +174,8 @@
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'))
   variableAutocompleteReady()
+  calculationTextcompleteReady()
+
 
 $(document)
   .on('change', '#variable_variable_type', -> toggleOptions($(this)))

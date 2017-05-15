@@ -11,8 +11,9 @@ module Pats
           'Child is in foster care'
         end
 
-        def variable_name
-          'ciw_foster_care'
+        # 'ciw_foster_care'
+        def variable_id
+          14166
         end
 
         def subquery

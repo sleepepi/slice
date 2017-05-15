@@ -11,8 +11,9 @@ module Pats
           'Other reason(s)'
         end
 
-        def variable_name
-          'ciw_cg_reason_not_interested'
+        # 'ciw_cg_reason_not_interested'
+        def variable_id
+          14301
         end
 
         def subquery

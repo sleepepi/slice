@@ -1,0 +1,11 @@
+%tt
+  - (first, word, last) = design_option.branching_logic.to_s.partition(/\#{\d+}/)
+  - while word.present? do
+    %span>= first if first.present?
+    - v = design_option.design.variables.find_by(id: word.gsub(/[^\d]/, ''))
+    - if v
+      %span>= link_to v.name, project_variable_path(design_option.design.project, v)
+    - else
+      %span>= word
+    - (first, word, last) = last.partition(/\#{(\d+)}/)
+  %span>= first if first.present?

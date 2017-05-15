@@ -11,8 +11,9 @@ module Pats
           'Previous upper airway surgery'
         end
 
-        def variable_name
-          'ciw_prev_upper_airway_surgery'
+        # 'ciw_prev_upper_airway_surgery'
+        def variable_id
+          13406
         end
 
         def subquery

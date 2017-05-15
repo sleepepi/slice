@@ -10,8 +10,9 @@ module Pats
         'Ethnicity'
       end
 
-      def variable_name
-        'ciw_ethnicity'
+      # 'ciw_ethnicity'
+      def variable_id
+        13422
       end
 
       def categories

@@ -39,21 +39,35 @@ class Variable < ApplicationRecord
     %w(Scale scale)
   ]
 
+  TIME_OF_DAY_FORMATS = [
+    ['24-Hour', '24hour'],
+    ['12-Hour AM/PM [AM]', '12hour'],
+    ['12-Hour AM/PM [PM]', '12hour-pm']
+  ]
+
+  TIME_DURATION_FORMATS = [
+    ['HH:MM:SS', 'hh:mm:ss'],
+    ['HH:MM', 'hh:mm'],
+    ['MM:SS', 'mm:ss']
+  ]
+
   # Callbacks
   after_save :update_domain_values!
 
   attr_accessor :questions, :grid_tokens
 
   # Concerns
-  include Searchable, Deletable, DateAndTimeParser
+  include Searchable, Deletable, DateAndTimeParser, Calculable
 
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }
 
   # Validations
   validates :name, :display_name, :variable_type, :project_id, presence: true
-  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }
+  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }, exclusion: { in: %w(new edit create update destroy overlap null) }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
+  validates :time_of_day_format, inclusion: { in: TIME_OF_DAY_FORMATS.collect(&:second) }
+  validates :time_duration_format, inclusion: { in: TIME_DURATION_FORMATS.collect(&:second) }
 
   # Relationships
   belongs_to :user
@@ -73,7 +87,6 @@ class Variable < ApplicationRecord
   has_many :parent_variables, through: :parent_grid_variables
 
   # Methods
-
   def self.searchable_attributes
     %w(name description display_name)
   end
@@ -239,7 +252,7 @@ class Variable < ApplicationRecord
   end
 
   def formatted_calculation
-    calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
+    readable_calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
   end
 
   def statistics?
@@ -633,9 +646,17 @@ class Variable < ApplicationRecord
     time_duration_format == 'mm:ss'
   end
 
+  def time_of_day_format_name
+    TIME_OF_DAY_FORMATS.find { |_name, value| value == time_of_day_format }.first
+  end
+
+  def time_duration_format_name
+    TIME_DURATION_FORMATS.find { |_name, value| value == time_duration_format }.first
+  end
+
   # For Time of Day Variables
   def twelve_hour_clock?
-    %w(12hour 12hour-pm).include?(format)
+    %w(12hour 12hour-pm).include?(time_of_day_format)
   end
 
   def update_domain_values!

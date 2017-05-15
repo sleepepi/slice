@@ -11,8 +11,9 @@ module Pats
           'Native Hawaiian / Other Pacific Islander'
         end
 
-        def variable_name
-          'ciw_race_cat_single'
+        # 'ciw_race_cat_single'
+        def variable_id
+          15882
         end
 
         def subquery

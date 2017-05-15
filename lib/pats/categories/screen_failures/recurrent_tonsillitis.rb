@@ -11,8 +11,9 @@ module Pats
           'Recurrent Tonsillitis'
         end
 
-        def variable_name
-          'ciw_recurrent_tonsillitis'
+        # 'ciw_recurrent_tonsillitis'
+        def variable_id
+          13403
         end
 
         def subquery

@@ -183,9 +183,9 @@ class DesignOptionsController < ApplicationController
     params.require(:variable).permit(
       :name, :display_name, :description, :variable_type, :prepend, :append, :field_note, :display_layout,
       :show_current_button, :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :domain_id,
-      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :time_duration_format,
-      :calculation, :format, :hide_calculation, :units, :multiple_rows, :default_row_number, :autocomplete_values,
-      { grid_tokens: [:variable_id] }, { questions: [:question_name, :question_type] }, :alignment
+      :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :time_of_day_format,
+      :time_duration_format, :calculation, :format, :hide_calculation, :units, :multiple_rows, :default_row_number,
+      { grid_tokens: [:variable_id] }, { questions: [:question_name, :question_type] }, :alignment, :autocomplete_values
     )
   end
 

@@ -11,6 +11,8 @@ class AdverseEvent < ApplicationRecord
     'reported_by desc' => 'users.last_name desc, users.first_name desc',
     'subject' => 'subjects.subject_code',
     'subject desc' => 'subjects.subject_code desc',
+    'ae_date' => 'adverse_events.adverse_event_date',
+    'ae_date desc' => 'adverse_events.adverse_event_date desc',
     'created' => 'adverse_events.created_at',
     'created desc' => 'adverse_events.created_at desc'
   }

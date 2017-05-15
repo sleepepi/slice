@@ -10,14 +10,6 @@ class Subject < ApplicationRecord
 
   # Scopes
   scope :with_project, ->(arg) { where(project_id: arg) }
-  scope :without_design, ->(arg) { where('subjects.id NOT IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }
-  scope :with_design, ->(arg) { where('subjects.id IN (select sheets.subject_id from sheets where sheets.deleted = ? and sheets.design_id IN (?))', false, arg) }
-  scope :without_event, ->(event) { where('subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id IN (?))', event) }
-  scope :with_event, ->(event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id IN (?))', event) }
-  scope :with_entered_design_on_event, ->(design, event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.missing = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))', event, false, false, design) }
-  scope :with_missing_design_on_event, ->(design, event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.missing = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))', event, false, true, design) }
-  scope :with_unentered_design_on_event, ->(design, event) { where('subjects.id IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id NOT IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ? and sheets.subject_event_id IS NOT NULL))', event, false, design) }
-  scope :without_design_on_event, ->(design, event) { where('subjects.id NOT IN (select subject_events.subject_id from subject_events where subject_events.event_id = ? and subject_events.id IN (SELECT sheets.subject_event_id from sheets where sheets.deleted = ? and sheets.design_id = ?))', event, false, design) }
   scope :randomized, -> { where.not(randomizations_count: 0) }
   scope :unrandomized, -> { where(randomizations_count: 0) }
   scope :open_aes, -> { joins(:adverse_events).where(adverse_events: { closed: false }).distinct }
@@ -158,15 +150,15 @@ class Subject < ApplicationRecord
   end
 
   def expand_calculation(calculation)
-    calculation.to_s.gsub(/([a-zA-Z]+[\w]*)/) { |v| variable_javascript_value(v) }
+    calculation.to_s.gsub(/\#{(\d+)}/) { variable_javascript_value($1) }
   end
 
-  def variable_javascript_value(variable_name)
-    variable = project.variables.find_by(name: variable_name)
+  def variable_javascript_value(variable_id)
+    variable = project.variables.find_by(id: variable_id)
     if variable
       response_for_variable(variable)
     else
-      variable_name
+      "\#{#{variable_id}}"
     end
   end
 

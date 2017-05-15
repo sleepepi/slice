@@ -5,7 +5,7 @@
   %div{ class: "col-md-#{(response_file && response_file.size > 0) ? 6 : 12}" }
     .file-input.btn.btn-xs.btn-default
       %span.file-input-display Upload File
-      = file_field_tag "#{field_name}[response_file]", data: { content: variable.description, title: variable.display_name, object: "condition", html: 'true' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, class: 'upload', style: 'line-height:1;padding:0px;margin:0px', tabindex: '-1'
+      = file_field_tag "#{field_name}[response_file]", data: { content: variable.description, title: variable.display_name, object: 'condition', html: 'true' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, class: 'upload', style: 'line-height:1;padding:0px;margin:0px', tabindex: '-1'
     = hidden_field_tag "#{field_name}[response_file_cache]"
   - if response_file && response_file.size > 0
     .col-md-6

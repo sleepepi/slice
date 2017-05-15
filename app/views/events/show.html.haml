@@ -64,7 +64,7 @@
 
         - subject_count = @project.subjects.count
 
-  %table.table.table-fixed.table-striped
+  %table.table.table-fixed.table-striped.table-borderless.table-hover
     %thead
       %tr
         %th
@@ -88,32 +88,14 @@
         - if @project.handoffs_enabled?
           %td.center= simple_check_new event_design.handoff_enabled?
         %td.center
-          - entered_count = @project.subjects.with_entered_design_on_event(design, @event).count
-          - if entered_count > 0
-            = link_to entered_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
-            - if subject_count > 0
-              %span.text-muted{ style: "font-size:0.7em" }
-                = "#{(entered_count * 100.0 / subject_count).round}%"
+          - search = "#{@event.to_param}:#{design.to_param}"
+          = render 'events/compute_count', search: search
         %td.center
-          - missing_count = @project.subjects.with_missing_design_on_event(design, @event).count
-          - if missing_count > 0
-            = link_to missing_count, project_subjects_path(@project, on_event_design_id: design.id, event_id: @event.id)
-            - if subject_count > 0
-              %span.text-muted{ style: "font-size:0.7em" }
-                = "#{(missing_count * 100.0 / subject_count).round}%"
+          - search = "#{@event.to_param}:#{design.to_param}:missing"
+          = render 'events/compute_count', search: search
         %td.center
-          - unentered_count = assigned_subject_count - entered_count - missing_count
-          - if unentered_count > 0
-            = link_to unentered_count, project_subjects_path(@project, not_on_event_design_id: design.id, event_id: @event.id)
-            - if subject_count > 0
-              %span.text-muted{ style: "font-size:0.7em" }
-                = "#{(unentered_count * 100.0 / subject_count).round}%"
-          - else
-            %span.text-muted -
+          - search = "#{@event.to_param}:#{design.to_param}:unentered"
+          = render 'events/compute_count', search: search
         %td.center
-          - unassigned_count = @project.subjects.without_event(@event).count
-          - if unassigned_count > 0
-            = link_to unassigned_count, project_subjects_path(@project, without_event_id: @event.id)
-            - if subject_count > 0
-              %span.text-muted{ style: "font-size:0.7em" }
-                = "#{(unassigned_count * 100.0 / subject_count).round}%"
+          - search = "events:!#{@event.to_param}"
+          = render 'events/compute_count', search: search

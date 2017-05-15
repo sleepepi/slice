@@ -11,8 +11,9 @@ module Pats
           'E1 Signal Quality Grade'
         end
 
-        def variable_name
-          'psg_e1_signal_quality_grade'
+        # 'psg_e1_signal_quality_grade'
+        def variable_id
+          13158
         end
 
         def subquery

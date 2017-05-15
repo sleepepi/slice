@@ -37,6 +37,6 @@
     = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#branching-logic-info' }, tabindex: '-1' do
       %span.glyphicon.glyphicon-info-sign
   .col-md-10
-    = text_area_tag "design_option[branching_logic]", design_option.branching_logic, rows: 3, class: 'form-control'
+    = text_area_tag 'design_option[branching_logic]', design_option.readable_branching_logic, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
     = render 'layouts/branching_logic_examples'
 

@@ -18,7 +18,7 @@ gem 'devise', git: 'https://github.com/plataformatec/devise.git', ref: '8321356'
 gem 'differ',               '~> 0.1.2'
 gem 'figaro',               '~> 1.1.1'
 gem 'font-awesome-rails',   '~> 4.7.0'
-gem 'haml',                 '~> 5.0.0'
+gem 'haml',                 '~> 5.0.1'
 gem 'jquery-ui-rails',      '~> 6.0.1'
 gem 'kaminari',             '~> 1.0.1'
 gem 'naturalsort',          '~> 1.2.0'
@@ -37,7 +37,7 @@ gem 'turbolinks',           '~> 5'
 
 # Testing
 group :test do
-  gem 'minitest'
+  gem 'minitest', '5.10.1' # Remove version requirement when minitest is rereleased or rails is updated.
   gem 'rails-controller-testing'
   gem 'simplecov',          '~> 0.14.1', require: false
 end

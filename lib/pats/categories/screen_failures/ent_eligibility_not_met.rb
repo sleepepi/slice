@@ -11,8 +11,9 @@ module Pats
           'ENT requirement not met'
         end
 
-        def variable_name
-          'ciw_ent_eligibility_not_met'
+        # 'ciw_ent_eligibility_not_met'
+        def variable_id
+          14304
         end
 
         def subquery
