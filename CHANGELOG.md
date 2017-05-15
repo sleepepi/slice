@@ -1,6 +1,8 @@
 ## 0.53.0
 
 ### Enhancements
+- **Export Changes**
+  - Improved the speed of sheet exports
 - **Gem Changes**
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0

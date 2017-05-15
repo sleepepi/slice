@@ -7,29 +7,27 @@ module SheetExport
     sheet_scope = sheet_scope.order(id: :desc)
     tmp_export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
     export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
-
     t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
     variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: 'grid').includes(domain: :domain_options)
-
+    sheet_ids = sheet_scope.pluck(:id)
     CSV.open(tmp_export_file, 'wb') do |csv|
       csv << ['Subject'] + sheet_scope.joins(:subject).pluck(:subject_code)
       csv << ['Site'] + sheet_scope.includes(subject: :site).collect { |s| s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil }
       csv << ['Event'] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil }
       csv << ['Design'] + sheet_scope.includes(:design).collect { |s| s.design ? s.design.export_value(raw_data) : nil }
-      csv << ['Sheet ID'] + sheet_scope.pluck(:id)
+      csv << ['Sheet ID'] + sheet_ids
       csv << ['Sheet Created'] + sheet_scope.pluck(:created_at).collect { |created| created.strftime('%F %T') }
       csv << ['Missing'] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }
-
       variables.each do |v|
         if v.variable_type == 'checkbox'
           v.domain_options.each do |domain_option|
-            sorted_responses = sort_responses_by_sheet_id_for_checkbox(v, sheet_scope, domain_option)
+            sorted_responses = sort_responses_by_sheet_id_for_checkbox(v, sheet_ids, domain_option)
             formatted_responses = format_responses(v, raw_data, sorted_responses)
             csv << [v.option_variable_name(domain_option)] + formatted_responses
           end
         else
-          sorted_responses = sort_responses_by_sheet_id_generic(v, sheet_scope)
+          sorted_responses = sort_responses_by_sheet_id_generic(v, sheet_ids)
           formatted_responses = format_responses(v, raw_data, sorted_responses)
           csv << [v.name] + formatted_responses
         end
@@ -52,18 +50,17 @@ module SheetExport
     end
   end
 
-  def sort_responses_by_sheet_id_for_checkbox(variable, sheet_scope, domain_option)
-    responses = Response.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id, grid_id: nil)
+  def sort_responses_by_sheet_id_for_checkbox(variable, sheet_ids, domain_option)
+    responses = Response.where(sheet_id: sheet_ids, variable_id: variable.id, grid_id: nil)
                         .left_outer_joins(:domain_option)
                         .where(domain_options: { id: domain_option.id })
                         .order(sheet_id: :desc).distinct
                         .pluck('domain_options.value', :sheet_id)
-    sort_responses_by_sheet_id(responses, sheet_scope)
+    sort_responses_by_sheet_id(responses, sheet_ids)
   end
 
-  def sort_responses_by_sheet_id_generic(variable, sheet_scope)
-    # TODO: Change sheet_variables `response` to `value`
-    response_scope = SheetVariable.where(sheet_id: sheet_scope.select(:id), variable_id: variable.id)
+  def sort_responses_by_sheet_id_generic(variable, sheet_ids)
+    response_scope = SheetVariable.where(sheet_id: sheet_ids, variable_id: variable.id)
                                   .order(sheet_id: :desc)
     responses = if variable.variable_type == 'file'
                   response_scope.pluck(:response_file, :sheet_id).uniq
@@ -73,13 +70,12 @@ module SheetExport
                     .pluck('domain_options.value', :value, :sheet_id)
                     .collect { |v1, v2, sheet_id| [v1 || v2, sheet_id] }.uniq
                 end
-    sort_responses_by_sheet_id(responses, sheet_scope)
+    sort_responses_by_sheet_id(responses, sheet_ids)
   end
 
-  def sort_responses_by_sheet_id(responses, sheet_scope)
-    sorted_responses = Array.new(sheet_scope.count)
+  def sort_responses_by_sheet_id(responses, sheet_ids)
+    sorted_responses = Array.new(sheet_ids.size)
     response_counter = 0
-    sheet_ids = sheet_scope.pluck(:id)
     sheet_ids.each_with_index do |sheet_id, index|
       current_response_and_sheet_id = responses[response_counter]
       if current_response_and_sheet_id && current_response_and_sheet_id.last == sheet_id
