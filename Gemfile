@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails',                '5.1.0'
+gem 'rails',                '5.1.1'
 
 # Database Adapter
 gem 'pg',                   '0.20.0'
@@ -13,8 +13,7 @@ gem 'bootstrap-sass',       '~> 3.3.7'
 gem 'carrierwave',          '~> 1.1.0'
 gem 'chunky_png',           '~> 1.3.4'
 gem 'colorize',             '~> 0.8.1'
-# gem 'devise',               '~> 4.2.1'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git', ref: '8321356'
+gem 'devise',               '~> 4.3.0'
 gem 'differ',               '~> 0.1.2'
 gem 'figaro',               '~> 1.1.1'
 gem 'font-awesome-rails',   '~> 4.7.0'
@@ -37,7 +36,7 @@ gem 'turbolinks',           '~> 5'
 
 # Testing
 group :test do
-  gem 'minitest', '5.10.1' # Remove version requirement when minitest is rereleased or rails is updated.
+  gem 'minitest'
   gem 'rails-controller-testing'
   gem 'simplecov',          '~> 0.14.1', require: false
 end
