@@ -1,4 +1,4 @@
-## 0.52.2
+## 0.52.2 (May 18, 2017)
 
 ### Bug Fix
 - Fixed a bug that prevented labeled CSV exports from finishing on projects that
