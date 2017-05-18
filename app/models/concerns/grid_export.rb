@@ -5,38 +5,22 @@ module GridExport
 
   def generate_csv_grids(sheet_scope, filename, raw_data, folder)
     sheet_scope = sheet_scope.order(id: :desc)
-    tmp_export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
-    export_file = File.join('tmp', 'files', 'exports', "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
+    tmp_export_file = File.join("tmp", "files", "exports", "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
+    export_file = File.join("tmp", "files", "exports", "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
 
     t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
-    grid_group_variables = all_design_variables_using_design_ids(design_ids).where(variable_type: 'grid')
+    grid_group_variables = all_design_variables_using_design_ids(design_ids).where(variable_type: "grid")
 
     sheet_ids = compute_sheet_ids_with_max_position(sheet_scope)
 
-    CSV.open(tmp_export_file, 'wb') do |csv|
-      csv << ['', 'Subject'] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
-      csv << ['', 'Site'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil] })
-      csv << ['', 'Event'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil] })
-      csv << ['', 'Design'] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(:design).collect { |s| [s.id, s.design ? s.design.export_value(raw_data) : nil] })
-      csv << ['', 'Sheet ID'] + sheet_ids
-
-      grid_group_variables.each do |grid_group_variable|
-        grid_group_variable.child_variables.includes(domain: :domain_options).each do |child_variable|
-          if child_variable.variable_type == 'checkbox'
-            child_variable.domain_options.each do |domain_option|
-              sorted_responses = grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, child_variable, sheet_ids, domain_option)
-              formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
-              csv << [grid_group_variable.name, child_variable.option_variable_name(domain_option)] + formatted_responses
-            end
-          else
-            sorted_responses = grid_sort_responses_by_sheet_id_generic(grid_group_variable, child_variable, sheet_ids)
-            formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
-            csv << [grid_group_variable.name, child_variable.name] + formatted_responses
-          end
-        end
-        update_steps(1)
-      end
+    CSV.open(tmp_export_file, "wb") do |csv|
+      csv << ["", "Subject"] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
+      csv << ["", "Site"] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil] })
+      csv << ["", "Event"] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject_event: :event).collect { |s| [s.id, s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil] })
+      csv << ["", "Design"] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(:design).collect { |s| [s.id, s.design ? s.design.export_value(raw_data) : nil] })
+      csv << ["", "Sheet ID"] + sheet_ids
+      load_all_grids(grid_group_variables, sheet_ids, raw_data, csv)
     end
     transpose_tmp_csv(tmp_export_file, export_file)
     Rails.logger.debug "Total Time: #{Time.zone.now - t} seconds"
@@ -49,33 +33,89 @@ module GridExport
     end
   end
 
-  def grid_sort_responses_by_sheet_id_for_checkbox(grid_group_variable, variable, sheet_ids, domain_option)
-    responses = \
-      Response.joins(grid: :sheet_variable)
-              .where(sheet_variables: { sheet_id: sheet_ids, variable_id: grid_group_variable.id })
-              .where(sheet_id: sheet_ids, variable_id: variable.id)
-              .left_outer_joins(:domain_option)
-              .where(domain_options: { id: domain_option.id })
-              .order('sheet_id desc', 'grids.position').distinct
-              .pluck('domain_options.value', 'grids.position', :sheet_id)
-    grid_sort_responses_by_sheet_id(responses, sheet_ids)
+  def load_all_grids(grid_group_variables, sheet_ids, raw_data, csv)
+    check_stuff = load_all_grid_checkboxes(grid_group_variables, sheet_ids)
+    file_stuff = load_all_grid_files(grid_group_variables, sheet_ids)
+    other_stuff = load_all_grid_other_variables(grid_group_variables, sheet_ids)
+
+    grid_group_variables.each do |grid_group_variable|
+      grid_group_variable.child_variables.includes(domain: :domain_options).each do |child_variable|
+        if child_variable.variable_type == "checkbox"
+          child_variable.domain_options.each do |domain_option|
+            key = "#{grid_group_variable.id}:#{child_variable.id}:#{domain_option.id}"
+            responses = pull_grid_checkbox_responses(check_stuff, key)
+            sorted_responses = grid_sort_responses_by_sheet_id(responses, sheet_ids)
+            formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
+            csv << [grid_group_variable.name, child_variable.option_variable_name(domain_option)] + formatted_responses
+          end
+        else
+          key = "#{grid_group_variable.id}:#{child_variable.id}"
+          responses = \
+            if child_variable.variable_type == "file"
+              pull_grid_responses(file_stuff, key)
+            else
+              pull_grid_responses(other_stuff, key)
+            end
+          file_stuff[key] = nil
+          other_stuff[key] = nil
+          sorted_responses = grid_sort_responses_by_sheet_id(responses, sheet_ids)
+          formatted_responses = format_responses(child_variable, raw_data, sorted_responses)
+          csv << [grid_group_variable.name, child_variable.name] + formatted_responses
+        end
+      end
+      update_steps(1)
+    end
   end
 
-  def grid_sort_responses_by_sheet_id_generic(grid_group_variable, variable, sheet_ids)
-    response_scope = \
-      Grid.joins(:sheet_variable)
-          .where(sheet_variables: { sheet_id: sheet_ids, variable_id: grid_group_variable.id })
-          .where(variable_id: variable.id)
-          .order('sheet_id desc', :position)
-    responses = if variable.variable_type == 'file'
-                  response_scope.pluck(:response_file, :position, :sheet_id).uniq
-                else
-                  response_scope
-                    .left_outer_joins(:domain_option)
-                    .pluck('domain_options.value', :value, :position, :sheet_id)
-                    .collect { |v1, v2, position, sheet_id| [v1 || v2, position, sheet_id] }.uniq
-                end
-    grid_sort_responses_by_sheet_id(responses, sheet_ids)
+  def pull_grid_responses(hash, key)
+    if hash[key].nil?
+      []
+    else
+      hash[key].collect { |_, _, value, position, sheet_id| [value, position, sheet_id] }
+    end
+  end
+
+  def pull_grid_checkbox_responses(hash, key)
+    if hash[key].nil?
+      []
+    else
+      hash[key].collect { |_, _, _, value, position, sheet_id| [value, position, sheet_id] }
+    end
+  end
+
+  def load_all_grid_checkboxes(grid_group_variables, sheet_ids)
+    Response
+      .joins(:variable, grid: :sheet_variable)
+      .where(variables: { variable_type: "checkbox" })
+      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
+      .where(sheet_id: sheet_ids)
+      .order("sheet_id desc", "grids.position")
+      .left_outer_joins(:domain_option)
+      .distinct
+      .pluck("sheet_variables.variable_id", :variable_id, "domain_options.id", "domain_options.value", "grids.position", :sheet_id).uniq
+      .group_by { |group_variable_id, variable_id, domain_option_id, _, _, _| "#{group_variable_id}:#{variable_id}:#{domain_option_id}" }
+  end
+
+  def load_all_grid_files(grid_group_variables, sheet_ids)
+    Grid
+      .joins(:variable, :sheet_variable)
+      .where(variables: { variable_type: "file" })
+      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
+      .order("sheet_id desc", :position)
+      .pluck("sheet_variables.variable_id", :variable_id, :response_file, :position, :sheet_id).uniq
+      .group_by { |group_variable_id, variable_id, _, _, _| "#{group_variable_id}:#{variable_id}" }
+  end
+
+  def load_all_grid_other_variables(grid_group_variables, sheet_ids)
+    filtered_variables = grid_group_variables.where.not(variable_type: %w(checkbox file))
+    Grid
+      .joins(:variable, :sheet_variable)
+      .where.not(variables: { variable_type: %w(checkbox file) })
+      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
+      .order("sheet_id desc", :position)
+      .left_outer_joins(:domain_option)
+      .pluck("sheet_variables.variable_id", :variable_id, domain_option_value_or_value(table: "grids"), :position, :sheet_id).uniq
+      .group_by { |group_variable_id, variable_id, _, _, _| "#{group_variable_id}:#{variable_id}" }
   end
 
   def grid_sort_responses_by_sheet_id(responses, sheet_ids)

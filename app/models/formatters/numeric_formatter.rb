@@ -7,6 +7,8 @@ module Formatters
       domain_option = shared_responses.find { |option| option.value == response }
       if domain_option
         domain_option.value
+      elsif response.blank?
+        response
       else
         Float(response)
       end
