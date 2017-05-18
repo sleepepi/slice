@@ -34,13 +34,13 @@ module RandomizationAlgorithm
         find_list_by_criteria_pairs(criteria_pairs)
       end
 
-      def find_list_by_criteria_pairs(criteria_pairs)
+      def find_list_by_criteria_pairs(_criteria_pairs)
         @randomization_scheme.lists.first
       end
 
       def add_randomization_characteristics!(randomization, criteria_pairs)
         @randomization_scheme.stratification_factors.each do |sf|
-          criteria = criteria_pairs.select { |sfid, _oid| sfid == sf.id }.first
+          criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
           next unless criteria
           if sf.stratifies_by_site?
             randomization.randomization_characteristics.create(
@@ -64,14 +64,14 @@ module RandomizationAlgorithm
       end
 
       def all_criteria_selected?(criteria_pairs)
-        criteria_pairs.collect!{|sfid,oid| [sfid.to_i, oid.to_i]}
+        criteria_pairs.collect! { |sfid, oid| [sfid.to_i, oid.to_i] }
         @randomization_scheme.stratification_factors.each do |sf|
-          if criteria_pairs.select{|sfid, oid| sfid == sf.id and oid.in?(sf.valid_values)}.count == 0
+          if criteria_pairs.count { |sfid, oid| sfid == sf.id && oid.in?(sf.valid_values) }.zero?
             # Return if not all criteria pairs are selected
             return false
           end
         end
-        return true
+        true
       end
     end
   end
