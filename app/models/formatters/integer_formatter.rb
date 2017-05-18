@@ -8,7 +8,7 @@ module Formatters
       if domain_option
         domain_option.value
       else
-        Integer(format('%d', response))
+        Integer(format("%d", response))
       end
     rescue
       response

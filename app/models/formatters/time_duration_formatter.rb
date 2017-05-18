@@ -7,13 +7,13 @@ module Formatters
 
     def name_response(response)
       hash = parse_time_duration(response, no_hours: @variable.no_hours?)
-      h = (hash[:hours] == 1 ? 'hour' : 'hours')
-      m = (hash[:minutes] == 1 ? 'minute' : 'minutes')
-      s = (hash[:seconds] == 1 ? 'second' : 'seconds')
+      h = (hash[:hours] == 1 ? "hour" : "hours")
+      m = (hash[:minutes] == 1 ? "minute" : "minutes")
+      s = (hash[:seconds] == 1 ? "second" : "seconds")
       case @variable.time_duration_format
-      when 'mm:ss'
+      when "mm:ss"
         "#{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"
-      when 'hh:mm'
+      when "hh:mm"
         "#{hash[:hours]} #{h} #{hash[:minutes]} #{m}"
       else
         "#{hash[:hours]} #{h} #{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"

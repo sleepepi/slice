@@ -9,14 +9,14 @@ module Formatters
 
     def name_response(response)
       format = case @variable.format
-               when '%d/%m/%Y'
-                 '%d/%m/%Y'
-               when '%Y-%m-%d'
-                 '%Y-%m-%d'
-               when 'dd-mmm-yyyy'
-                 '%d-%^b-%Y'
+               when "%d/%m/%Y"
+                 "%d/%m/%Y"
+               when "%Y-%m-%d"
+                 "%Y-%m-%d"
+               when "dd-mmm-yyyy"
+                 "%d-%^b-%Y"
                else
-                 '%m/%d/%Y'
+                 "%m/%d/%Y"
                end
       Date.parse(response).strftime(format)
     rescue

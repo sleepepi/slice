@@ -22,7 +22,7 @@ module Formatters
     def name_response(response, shared_responses = domain_options)
       domain_string = hash_value_and_name(response, shared_responses)
       if domain_string.blank?
-        components(response).compact.join(' ').squish if response.present?
+        components(response).compact.join(" ").squish if response.present?
       else
         domain_string
       end

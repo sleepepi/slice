@@ -7,8 +7,8 @@ module Formatters
 
     def name_response(response, shared_responses = domain_options)
       hash = parse_imperial_height(response)
-      f = (hash[:feet] == 1 ? 'foot' : 'feet')
-      i = (hash[:inches] == 1 ? 'inch' : 'inches')
+      f = (hash[:feet] == 1 ? "foot" : "feet")
+      i = (hash[:inches] == 1 ? "inch" : "inches")
       "#{hash[:feet]} #{f} #{hash[:inches]} #{i}"
     rescue
       response

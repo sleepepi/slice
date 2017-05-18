@@ -7,8 +7,8 @@ module Formatters
 
     def name_response(response)
       hash = parse_time_of_day(response)
-      minutes = format(':%02d', hash[:minutes])
-      seconds = @variable.show_seconds? ? format(':%02d', hash[:seconds]) : ''
+      minutes = format(":%02d", hash[:minutes])
+      seconds = @variable.show_seconds? ? format(":%02d", hash[:seconds]) : ""
       if @variable.twelve_hour_clock?
         "#{hash[:hours]}#{minutes}#{seconds} #{hash[:period]}"
       else

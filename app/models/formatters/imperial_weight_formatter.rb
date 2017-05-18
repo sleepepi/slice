@@ -7,8 +7,8 @@ module Formatters
 
     def name_response(response, shared_responses = domain_options)
       hash = parse_imperial_weight(response)
-      p = (hash[:pounds] == 1 ? 'pound' : 'pounds')
-      o = (hash[:ounces] == 1 ? 'ounce' : 'ounces')
+      p = (hash[:pounds] == 1 ? "pound" : "pounds")
+      o = (hash[:ounces] == 1 ? "ounce" : "ounces")
       "#{hash[:pounds]} #{p} #{hash[:ounces]} #{o}"
     rescue
       response

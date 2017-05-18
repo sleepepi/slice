@@ -36,7 +36,7 @@ module Formatters
     end
 
     def name_response(response)
-      components(response).compact.join(' ').strip if response.present?
+      components(response).compact.join(" ").strip if response.present?
     end
 
     def components(response)

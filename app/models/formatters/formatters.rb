@@ -4,18 +4,18 @@
 module Formatters
   DEFAULT_CLASS = Formatters::DefaultFormatter
   FORMATTER_CLASSES = {
-    'date' => Formatters::DateFormatter,
-    'checkbox' => Formatters::DomainFormatter,
-    'dropdown' => Formatters::DomainFormatter,
-    'radio' => Formatters::DomainFormatter,
-    'file' => Formatters::FileFormatter,
-    'integer' => Formatters::IntegerFormatter,
-    'calculated' => Formatters::NumericFormatter,
-    'numeric' => Formatters::NumericFormatter,
-    'imperial_height' => Formatters::ImperialHeightFormatter,
-    'imperial_weight' => Formatters::ImperialWeightFormatter,
-    'time_duration' => Formatters::TimeDurationFormatter,
-    'time_of_day' => Formatters::TimeOfDayFormatter
+    "date" => Formatters::DateFormatter,
+    "checkbox" => Formatters::DomainFormatter,
+    "dropdown" => Formatters::DomainFormatter,
+    "radio" => Formatters::DomainFormatter,
+    "file" => Formatters::FileFormatter,
+    "integer" => Formatters::IntegerFormatter,
+    "calculated" => Formatters::NumericFormatter,
+    "numeric" => Formatters::NumericFormatter,
+    "imperial_height" => Formatters::ImperialHeightFormatter,
+    "imperial_weight" => Formatters::ImperialWeightFormatter,
+    "time_duration" => Formatters::TimeDurationFormatter,
+    "time_of_day" => Formatters::TimeOfDayFormatter
   }
 
   def self.for(variable)
