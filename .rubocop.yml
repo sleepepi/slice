@@ -35,9 +35,8 @@ Rails/SkipsModelValidations:
 
 # Check quotes usage according to lint rule below.
 Style/StringLiterals:
-  Enabled: false
-  # Enabled: true
-  # EnforcedStyle: double_quotes
+  Enabled: true
+  EnforcedStyle: double_quotes
 
 # Allow perl backrefs.
 Style/PerlBackrefs:
