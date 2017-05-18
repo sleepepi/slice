@@ -186,6 +186,22 @@ time_duration:
   user: valid
   project: one
 
+imperial_height:
+  name: imperial_height
+  display_name: Enter your height in feet and inches.
+  # description:
+  variable_type: imperial_height
+  user: valid
+  project: one
+
+imperial_weight:
+  name: imperial_weight
+  display_name: Enter your weight in pounds and ounces.
+  # description:
+  variable_type: imperial_weight
+  user: valid
+  project: one
+
 file:
   name: var_file
   display_name: Upload a Picture

@@ -7,6 +7,12 @@
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0
 
+## 0.52.2 (May 18, 2017)
+
+### Bug Fix
+- Fixed a bug that prevented labeled CSV exports from finishing on projects that
+  collected imperial height and imperial weight
+
 ## 0.52.1 (May 12, 2017)
 
 ### Bug Fix

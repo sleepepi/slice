@@ -55,3 +55,18 @@ four:
   include_sas: false
   include_files: false
   include_r: false
+
+all_variables:
+  name: My All Variables Export
+  status: pending
+  user: valid
+  project: one
+  viewed: false
+  include_xls: false
+  include_csv_labeled: true
+  include_csv_raw: true
+  include_pdf: false
+  include_data_dictionary: false
+  include_sas: false
+  include_files: false
+  include_r: false

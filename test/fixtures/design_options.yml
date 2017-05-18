@@ -177,6 +177,22 @@ all_variable_types_time_duration:
   # requirement:
   # branching_logic:
 
+all_variable_types_imperial_height:
+  design: all_variable_types
+  variable: imperial_height
+  # section:
+  position: 14
+  # requirement:
+  # branching_logic:
+
+all_variable_types_imperial_weight:
+  design: all_variable_types
+  variable: imperial_weight
+  # section:
+  position: 15
+  # requirement:
+  # branching_logic:
+
 ## Design Has No Validations
 
 has_no_validations_integer_no_range:
