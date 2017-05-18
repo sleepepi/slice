@@ -147,6 +147,20 @@ time_duration:
   value: 205323
   user: valid
 
+# Represents 6 feet 2 inches
+imperial_height:
+  variable: imperial_height
+  sheet: all_variables
+  value: 74
+  user: valid
+
+# Represents 170 pounds 5 ounces
+imperial_weight:
+  variable: imperial_weight
+  sheet: all_variables
+  value: 2725
+  user: valid
+
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" domain should also change the associated sheet variable and grid values to '1'
 domain_value_to_update_a:

@@ -9,6 +9,46 @@ class ExportTest < ActiveSupport::TestCase
     assert_equal 'ready', exports(:two).status
   end
 
+  test 'generate a labeled export for all variables' do
+    sheets_with_all_variables = projects(:one).sheets.where(id: sheets(:all_variables))
+    (_, export_file) = exports(:all_variables).send(
+      :generate_csv_sheets, sheets_with_all_variables, 'test-export.csv', false, ''
+    )
+    rows = IO.readlines(export_file).collect(&:strip)
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+                 "var_gender,var_course_work__acct101,var_course_work__econ101,"\
+                 "var_course_work__math123,var_course_work__phys500,"\
+                 "var_course_work__biol327,var_year,radio_no_domain,"\
+                 "var_hobbies,var_life_goals,var_age,var_weight,var_date,"\
+                 "var_file,time_of_day,var_bmi,var_bmi_no_format,"\
+                 "var_autocomplete_animals,var_time_duration,imperial_height,"\
+                 "imperial_weight", rows[0]
+    assert_equal "Code01,#{sites(:one).name},,#{designs(:all_variable_types).name},"\
+                 "#{sheets(:all_variables).id},#{sheets(:all_variables).created_at.strftime('%F %T')},"\
+                 "0,m: Male,acct101: ACCT 101,econ101: ECON 101,,,,,,Weight Lifting and Salsa,\"This Text is across", rows[1]
+    assert_equal "Multiple Lines\",-9: Unknown,,04/17/2013,,22:30:00,24.36 kg / (m * m),,,57 hours 2 minutes 3 seconds,6 feet 2 inches,170 pounds 5 ounces", rows[2]
+  end
+
+  test 'generate a raw export for all variables' do
+    sheets_with_all_variables = projects(:one).sheets.where(id: sheets(:all_variables))
+    (_, export_file) = exports(:all_variables).send(
+      :generate_csv_sheets, sheets_with_all_variables, 'test-export.csv', true, ''
+    )
+    rows = IO.readlines(export_file).collect(&:strip)
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+                 "var_gender,var_course_work__acct101,var_course_work__econ101,"\
+                 "var_course_work__math123,var_course_work__phys500,"\
+                 "var_course_work__biol327,var_year,radio_no_domain,"\
+                 "var_hobbies,var_life_goals,var_age,var_weight,var_date,"\
+                 "var_file,time_of_day,var_bmi,var_bmi_no_format,"\
+                 "var_autocomplete_animals,var_time_duration,imperial_height,"\
+                 "imperial_weight", rows[0]
+    assert_equal "Code01,#{sites(:one).number_or_id},,#{designs(:all_variable_types).id},"\
+                 "#{sheets(:all_variables).id},#{sheets(:all_variables).created_at.strftime('%F %T')},"\
+                 "0,m,acct101,econ101,,,,,,Weight Lifting and Salsa,\"This Text is across", rows[1]
+    assert_equal "Multiple Lines\",-9,,2013-04-17,,81000,24.36,,,205323,74,2725", rows[2]
+  end
+
   test 'generate an export with checkbox values split across columns' do
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, 'test-export.csv', true, '')
