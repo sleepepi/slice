@@ -153,4 +153,5 @@ $(document)
       false
     else
       Turbolinks.visit(url)
+      false
   )
