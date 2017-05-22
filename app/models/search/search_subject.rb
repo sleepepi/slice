@@ -43,8 +43,9 @@ class SearchSubject
     else
       event = find_event
       (design, modifier) = find_design_and_modifier
+
       if event && design
-        subjects = @project.subjects.joins(:subject_events).where(subject_events: { event: event })
+        subjects = @scope.joins(:subject_events).where(subject_events: { event: event })
         case modifier
         when 'missing'
           subjects.joins(subject_events: :sheets)

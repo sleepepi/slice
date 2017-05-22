@@ -363,10 +363,11 @@ class SubjectsController < ApplicationController
 
   def scope_search_filter(scope, search)
     @tokens = Search.pull_tokens(search)
-    @tokens.reject { |t| t.key == 'search' }.each do |token|
+    @tokens.reject { |t| t.key == "search" }.each do |token|
       scope = SearchSubject.subjects(@project, current_user, scope, token)
     end
-    scope.search(@tokens.select { |t| t.key == 'search' }.collect(&:value).join(' '))
+    terms = @tokens.select { |t| t.key == "search" }.collect(&:value)
+    scope.search(terms.join(" "))
   end
 
   def scope_order(scope)

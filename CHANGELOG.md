@@ -10,6 +10,10 @@
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0
 
+### Bug Fix
+- Fixed a bug that prevented chaining multiple search conditions on the subjects
+  index
+
 ## 0.52.2 (May 18, 2017)
 
 ### Bug Fix
