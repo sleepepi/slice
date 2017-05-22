@@ -61,7 +61,7 @@ class SearchSubject
                   .where(subject_events: { event: event, sheets: { design: design, missing: false } })
         end
       else
-        Subject.none
+        @scope.none
       end
     end
   end
