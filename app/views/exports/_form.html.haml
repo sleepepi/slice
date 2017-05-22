@@ -1,29 +1,39 @@
-= form_for [@export.project, @export], html: { class: 'form-horizontal' } do |f|
+= form_with model: [@export.project, @export], class: 'form-horizontal', id: "new_export" do |f|
+  .row
+    .col-sm-4.col-buffer
+      = select_tag :subject_filters, options_for_select([["Sheets for Randomized Subjects", "is:randomized"], ["Sheets on Adverse Events", "has:adverse-events"]]), include_blank: true, data: { object: "export-filters-subjects", placeholder: "Subject Filters" }, class: "form-control chosen-select"
+    .col-sm-4.col-buffer
+      = select_tag :design_filters, grouped_options_for_select(current_user.all_viewable_designs.where(project: @project).includes(:category).order("categories.name", :name).group_by(&:category).collect { |category, category_designs| [category ? category.name : "Uncategorized", category_designs.collect { |d| [d.name, d.to_param] }] }), include_blank: true, data: { object: "export-filters", filter_type: "designs", placeholder: "Design Filters" }, class: "form-control chosen-select"
+    .col-sm-4.col-buffer
+      = select_tag :event_filters, options_for_select(current_user.all_viewable_events.where(project: @project).order(:position).collect { |e| [e.name, e.to_param] }), include_blank: true, data: { object: "export-filters", filter_type: "events", placeholder: "Event Filters" }, class: "form-control chosen-select"
+
+  %div{ style: "margin-bottom: 20px;" }
+    = f.text_field :filters, class: "form-control", autocomplete: "off", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, id: "export_filters", placeholder: "All Sheets"
   .row
     .col-md-4
       .download-container
         %h3 Comma-Separated Values
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_csv_labeled ? 'selected' : nil), rel: 'tooltip', data: { html: 'true', title: "<table style='background-color:transparent'><tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr><tr><td style='text-align:left'>T325</td><td style='text-align:left'>1: male</td><td style='text-align:left'>25 years</td></tr><tr><td style='text-align:left'>T349</td><td style='text-align:left'>2: female</td><td style='text-align:left'>30 years</td></tr></table>", container: 'body', placement: 'top' } }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_csv_labeled ? "selected" : nil), rel: "tooltip", data: { html: "true", title: "<table style='background-color:transparent'><tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr><tr><td style='text-align:left'>T325</td><td style='text-align:left'>1: male</td><td style='text-align:left'>25 years</td></tr><tr><td style='text-align:left'>T349</td><td style='text-align:left'>2: female</td><td style='text-align:left'>30 years</td></tr></table>", container: 'body', placement: 'top' } }
           = f.check_box :include_csv_labeled
           CSV Labeled
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_csv_raw ? 'selected' : nil), rel: 'tooltip', data: { html: 'true', title: "<table style='background-color:transparent'><tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr><tr><td style='text-align:left'>T325</td><td style='text-align:left'>1</td><td style='text-align:left'>25</td></tr><tr><td style='text-align:left'>T349</td><td style='text-align:left'>2</td><td style='text-align:left'>30</td></tr></table>", container: 'body', placement: 'top' } }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_csv_raw ? "selected" : nil), rel: "tooltip", data: { html: "true", title: "<table style='background-color:transparent'><tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr><tr><td style='text-align:left'>T325</td><td style='text-align:left'>1</td><td style='text-align:left'>25</td></tr><tr><td style='text-align:left'>T349</td><td style='text-align:left'>2</td><td style='text-align:left'>30</td></tr></table>", container: 'body', placement: 'top' } }
           = f.check_box :include_csv_raw
           CSV Raw
 
     .col-md-4
       .download-container
         %h3 Statistical
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_sas ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_sas ? "selected" : nil) }
           = f.check_box :include_sas
           SAS
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_r ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_r ? "selected" : nil) }
           = f.check_box :include_r
           R
 
     .col-md-4
       .download-container
         %h3 Portable Document Format
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_pdf ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_pdf ? "selected" : nil) }
           = f.check_box :include_pdf
           PDF
 
@@ -31,33 +41,33 @@
     .col-md-4
       .download-container
         %h3 Uploaded Files
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_files ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_files ? "selected" : nil) }
           = f.check_box :include_files
           Files
 
     .col-md-4
       .download-container
         %h3 Data Dictionary
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_data_dictionary ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_data_dictionary ? "selected" : nil) }
           = f.check_box :include_data_dictionary
           Data Dictionary
 
     .col-md-4.hidden-xs.hidden-sm
-      = f.submit 'Export', class: 'btn btn-primary btn-block btn-shadow', style: 'height: 122px;font-size: 24.5px;font-weight:300'
+      = link_to "Export", "#", class: "btn btn-primary btn-block btn-shadow", style: "height: 122px;line-height: 110px;font-size: 24.5px;font-weight:300", data: { object: "submit", target: "#new_export" }
 
   .row
     .col-md-4
       .download-container
         %h3 Adverse Events
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_adverse_events ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_adverse_events ? "selected" : nil) }
           = f.check_box :include_adverse_events
           Adverse Events
 
     .col-md-4
       .download-container
         %h3 Randomizations
-        %label.checkbox.checkbox-radio-outline{ class: (@export.include_randomizations ? 'selected' : nil) }
+        %label.checkbox.checkbox-radio-outline{ class: (@export.include_randomizations ? "selected" : nil) }
           = f.check_box :include_randomizations
           Randomizations
     .col-md-4.visible-xs.visible-sm
-      = f.submit 'Export', class: 'btn btn-primary btn-block btn-shadow', style: 'height: 122px;font-size: 24.5px;font-weight:300'
+      = link_to "Export", "#", class: "btn btn-primary btn-block btn-shadow", style: "height: 122px;line-height: 110px;font-size: 24.5px;font-weight:300", data: { object: "submit", target: "#new_export" }

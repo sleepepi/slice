@@ -1,7 +1,7 @@
-- @title = 'New Export'
+- @title = "New Export"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,9 +10,9 @@
       %h1.page-heading
         = @title
 
-= render 'form'
+= render "form"
 
 .docs-learn-more
   Learn about
-  = succeed '.' do
-    = link_to 'exports', docs_exports_path
+  = succeed "." do
+    = link_to "exports", docs_exports_path

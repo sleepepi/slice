@@ -21,14 +21,14 @@ class ExportsController < ApplicationController
 
   # GET /exports
   def index
-    @order = scrub_order(Export, params[:order], 'exports.created_at desc')
+    @order = scrub_order(Export, params[:order], "exports.created_at desc")
     @exports = viewable_exports.search(params[:search]).order(@order).page(params[:page]).per(20)
     redirect_to new_project_export_path(@project) if @exports.blank?
   end
 
   # GET /exports/1
   def show
-    @export.update viewed: true if @export.status == 'ready'
+    @export.update viewed: true if @export.status == "ready"
   end
 
   # GET /exports/new
@@ -83,7 +83,7 @@ class ExportsController < ApplicationController
     params.require(:export).permit(
       :include_csv_labeled, :include_csv_raw, :include_pdf, :include_files,
       :include_data_dictionary, :include_sas, :include_r,
-      :include_adverse_events, :include_randomizations
+      :include_adverse_events, :include_randomizations, :filters
     )
   end
 
@@ -95,10 +95,14 @@ class ExportsController < ApplicationController
     default_columns = %w(
       include_csv_labeled include_csv_raw include_sas include_r include_pdf
       include_files include_data_dictionary include_adverse_events
-      include_randomizations
+      include_randomizations filters
     )
     default_columns.each do |default_column|
-      @export.send("#{default_column}=", @last_export.send(default_column))
+      if params[default_column].present?
+        @export.send("#{default_column}=", params[default_column])
+      else
+        @export.send("#{default_column}=", @last_export.send(default_column))
+      end
     end
   end
 end

@@ -162,6 +162,10 @@ Rails.application.routes.draw do
     end
 
     resources :sheets do
+      collection do
+        get :search
+      end
+
       member do
         post :coverage
         get :file

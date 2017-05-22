@@ -5,7 +5,7 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :index, :show, :file, :coverage
+    :index, :search, :show, :file, :coverage
   ]
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
@@ -33,10 +33,37 @@ class SheetsController < ApplicationController
     @sheets = scope_order(scope).page(params[:page]).per(40)
   end
 
+  # GET /sheets/search.json
+  def search
+    array = []
+    if %w(full-word-colon).include?(params[:scope])
+      (key, val) = params[:search].to_s.split(":", 2)
+      words_for(key, @project).each do |word, label|
+        array << { label: label, value: [key, word].join(":") } if starts_with?(val, word) || contains_word?(val, label)
+      end
+    elsif %w(full-word-comma).include?(params[:scope])
+      (key, value_string) = params[:search].to_s.split(":", 2)
+      values = value_string.split(",", -1)
+      val = values.present? ? values.pop : ""
+      words_for(key, @project).each do |word, label|
+        if starts_with?(val, word) || contains_word?(val, label)
+          value_string = (values + [word]).join(",")
+          array << { label: label, value: [key, value_string].join(":") }
+        end
+      end
+    elsif params[:scope] == ""
+      %w(designs events has is not).each do |word|
+        val = params[:search].to_s
+        array << { value: word } if starts_with?(val, word)
+      end
+    end
+    render json: array
+  end
+
   # GET /sheets/1
   # GET /sheets/1.pdf
   def show
-    generate_pdf if params[:format] == 'pdf'
+    generate_pdf if params[:format] == "pdf"
   end
 
   # POST /sheets/1/coverage.js
@@ -50,7 +77,7 @@ class SheetsController < ApplicationController
 
   # GET /sheets/new
   def new
-    redirect_to @project, notice: 'Sheet creation is launched from subject pages.'
+    redirect_to @project, notice: "Sheet creation is launched from subject pages."
   end
 
   # # GET /sheets/1/edit
@@ -75,7 +102,7 @@ class SheetsController < ApplicationController
   # POST /sheets
   def create
     @sheet = current_user.sheets.where(project_id: @project.id, subject_id: @subject.id).new(sheet_params)
-    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_create')
+    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, "sheet_create")
       url = \
         if @sheet.subject_event
           new_data_entry_project_subject_path(
@@ -85,8 +112,8 @@ class SheetsController < ApplicationController
           new_data_entry_project_subject_path(@project, @subject, @sheet.design)
         end
       notices = []
-      notices << 'Sheet was successfully created.'
-      notices << { label: 'Create another?', url: url, class: 'fa-plus-square' }
+      notices << "Sheet was successfully created."
+      notices << { label: "Create another?", url: url, class: "fa-plus-square" }
       redirect_to [@sheet.project, @sheet], notice: @sheet.design.repeated? ? notices : notices.first
     else
       render :new
@@ -95,8 +122,8 @@ class SheetsController < ApplicationController
 
   # PATCH /sheets/1
   def update
-    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, 'sheet_update')
-      redirect_to [@sheet.project, @sheet], notice: 'Sheet was successfully updated.'
+    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, "sheet_update")
+      redirect_to [@sheet.project, @sheet], notice: "Sheet was successfully updated."
     else
       render :edit
     end
@@ -105,7 +132,7 @@ class SheetsController < ApplicationController
   # POST /sheets/1/unlock
   def unlock
     @sheet.reset_auto_lock!(current_user, request)
-    redirect_to [@project, @sheet], notice: 'Sheet was successfully unlocked.'
+    redirect_to [@project, @sheet], notice: "Sheet was successfully unlocked."
   end
 
   # POST /sheets/1/set_as_not_missing.js
@@ -121,14 +148,14 @@ class SheetsController < ApplicationController
     original_subject = @sheet.subject
     subject = @project.subjects.find_by(id: params[:subject_id])
     if subject && subject == original_subject
-      redirect_to [@project, @sheet], alert: 'No changes made to sheet.'
+      redirect_to [@project, @sheet], alert: "No changes made to sheet."
     elsif subject
-      notice = if params[:undo] == '1'
-                 'Your action has been undone.'
+      notice = if params[:undo] == "1"
+                 "Your action has been undone."
                else
-                 ["Reassigned sheet to <b>#{subject.subject_code}</b>.", { label: 'Undo', url: reassign_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: '1'), method: :patch }]
+                 ["Reassigned sheet to <b>#{subject.subject_code}</b>.", { label: "Undo", url: reassign_project_sheet_path(@project, @sheet, subject_id: original_subject.id, undo: "1"), method: :patch }]
                end
-      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true)
+      SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, "sheet_update", skip_validation: true)
       redirect_to [@project, @sheet], notice: notice
     end
   end
@@ -143,7 +170,7 @@ class SheetsController < ApplicationController
       @sheet, {
         subject_event_id: subject_event ? subject_event.id : nil,
         last_user_id: current_user.id, last_edited_at: Time.zone.now
-      }, {}, current_user, request.remote_ip, 'sheet_update', skip_validation: true
+      }, {}, current_user, request.remote_ip, "sheet_update", skip_validation: true
     )
   end
 
@@ -188,7 +215,7 @@ class SheetsController < ApplicationController
   end
 
   def redirect_with_auto_locked_sheet
-    redirect_to [@sheet.project, @sheet], notice: 'This sheet is locked.' if @sheet.auto_locked?
+    redirect_to [@sheet.project, @sheet], notice: "This sheet is locked." if @sheet.auto_locked?
   end
 
   def sheet_params
@@ -208,36 +235,37 @@ class SheetsController < ApplicationController
   def generate_pdf
     pdf_location = Sheet.latex_file_location([@sheet], current_user)
     if File.exist?(pdf_location)
-      send_file pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: 'application/pdf', disposition: 'inline'
+      send_file pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
     else
-      redirect_to [@project, @sheet], alert: 'Unable to generate PDF.'
+      redirect_to [@project, @sheet], alert: "Unable to generate PDF."
     end
   end
 
+  # TODO: Unify these with those in export.rb
   def scope_search_filter(scope, search)
     @tokens = Search.pull_tokens(search)
-    @tokens.reject { |t| t.key == 'search' }.each do |token|
+    @tokens.reject { |t| t.key == "search" }.each do |token|
       case token.key
-      when 'created'
+      when "created"
         scope = scope_by_date(scope, token)
       else
         scope = scope_by_variable(scope, token)
       end
     end
-    terms = @tokens.select { |t| t.key == 'search' }.collect(&:value)
-    scope.search(terms.join(' '))
+    terms = @tokens.select { |t| t.key == "search" }.collect(&:value)
+    scope.search(terms.join(" "))
   end
 
   def scope_by_date(scope, token)
-    date = Date.strptime(token.value, '%Y-%m-%d')
+    date = Date.strptime(token.value, "%Y-%m-%d")
     case token.operator
-    when '<'
+    when "<"
       scope = scope.sheet_before(date - 1.day)
-    when '>'
+    when ">"
       scope = scope.sheet_after(date + 1.day)
-    when '<='
+    when "<="
       scope = scope.sheet_before(date)
-    when '>='
+    when ">="
       scope = scope.sheet_after(date)
     else
       scope = scope.sheet_before(date).sheet_after(date)
@@ -266,5 +294,29 @@ class SheetsController < ApplicationController
   def scope_order(scope)
     @order = params[:order]
     scope.order(Sheet::ORDERS[params[:order]] || Sheet::DEFAULT_ORDER)
+  end
+
+  def starts_with?(search, word)
+    !(/^#{search}/i =~ word).nil?
+  end
+
+  def contains_word?(search, label)
+    !(/#{search}/i =~ label).nil?
+  end
+
+  # terms = ["adverse-events", "designs", "events", "has", "is", "no", "not"]
+  def words_for(key, project)
+    case key
+    when "is", "not"
+      %w(randomized).collect { |i| [i, i] }
+    when "has"
+      %w(adverse-events).collect { |i| [i, i] }
+    when "design", "designs"
+      project.designs.order(:slug, :name).collect { |d| [d.to_param, d.name] }
+    when "event", "events"
+      project.events.order(:slug, :name).collect { |e| [e.to_param, e.name] }
+    else
+      []
+    end
   end
 end

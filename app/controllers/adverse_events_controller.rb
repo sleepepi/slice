@@ -16,9 +16,11 @@ class AdverseEventsController < ApplicationController
 
   # GET /projects/:project_id/adverse-events/export
   def export
-    @export = current_user.exports
-                          .where(project_id: @project.id, name: @project.name_with_date_for_file, total_steps: 1)
-                          .create(include_csv_labeled: true, include_adverse_events: true)
+    @export = \
+      current_user
+      .exports
+      .where(project_id: @project.id, name: @project.name_with_date_for_file, total_steps: 1)
+      .create(include_csv_labeled: true, include_adverse_events: true, filters: "has:adverse-events")
     @export.generate_export_in_background!
     redirect_to [@project, @export]
   end

@@ -1,6 +1,6 @@
 $("#progress").html("<%=j render 'exports/progress' %>");
 
-<% if @export.total_steps > 0 && @export.total_steps == @export.steps_completed %>
+<% if %w(ready failed).include?(@export.status) %>
 clearInterval(<%= params[:interval] %>);
 $('#export_status').html("<%=j render 'exports/status' %>");
 <% end %>

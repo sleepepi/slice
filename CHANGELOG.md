@@ -3,6 +3,8 @@
 ### Enhancements
 - **Export Changes**
   - Improved the speed of sheet exports
+  - Exports can now be filtered by designs, events, randomization, and adverse
+    events
 - **Gem Changes**
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0

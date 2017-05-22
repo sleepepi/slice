@@ -49,12 +49,84 @@
     ), 1000 + index * 1000
   )
 
+@sheetFiltersTextcompleteReady = ->
+  $('[data-object~="sheet-filters-textcomplete"]').each( ->
+    $this = $(this)
+    $this.textcomplete(
+      [
+        {
+          name: 'search'
+          match: /(\b)([\w\-]+\:[\w\-]*)$/
+          search: (term, callback) ->
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/sheets/search", { search: term, scope: 'full-word-colon' })
+              .done((resp) -> callback(resp))
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1#{item.value}"
+          template: (item) ->
+            if item.label?
+              "#{item.label}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+        {
+          name: 'search'
+          match: /(\b)([\w\-]+\:([\w\-]+\,)+[\w\-]*)$/
+          search: (term, callback) ->
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/sheets/search", { search: term, scope: 'full-word-comma' })
+              .done((resp) -> callback(resp))
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1#{item.value}"
+          template: (item) ->
+            if item.label?
+              "#{item.label}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+        {
+          name: 'search'
+          match: /(^|\s)([\w\-]+)$/
+          search: (term, callback) ->
+            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/sheets/search", { search: term, scope: '' })
+              .done((resp) -> callback(resp))
+              .fail(-> callback([]))
+          replace: (item) ->
+            return "$1#{item.value}"
+          template: (item) ->
+            if item.label?
+              "#{item.label}"
+            else
+              "#{item.value}"
+          cache: true
+        },
+        {
+          name: 'search'
+          match: /(^|\s)(\w+\:[^\s]*)$/
+          search: (term, callback) ->
+            words = ['randomized']
+            resp = $.map(words, (word) ->
+              if word.indexOf(term) == 0
+                word
+              else
+                null
+            )
+            callback(resp)
+          replace: (value) -> return "$1is:#{value}"
+        }
+      ], { appendTo: 'body' }
+    )
+  )
+
 @sheetsReady = ->
   initializeSheet()
   activateSheetDraggables()
   activateEventDroppables()
   fix_ie10_placeholder()
   updateCoverage()
+  sheetFiltersTextcompleteReady()
 
 $(document)
   .on('click', '[data-object~="export"]', ->
@@ -73,4 +145,12 @@ $(document)
       return false
     else
       Turbolinks.visit($(this).data("link"))
+  )
+  .on('click', '[data-object~="sheet-export-link"]', (e) ->
+    url = "#{root_url}projects/#{$(this).data('project-id')}/exports/new?filters=#{$("#search").val()}"
+    if nonStandardClick(e)
+      window.open(url)
+      false
+    else
+      Turbolinks.visit(url)
   )

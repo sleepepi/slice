@@ -33,6 +33,10 @@
       %th Status
       %td#export_status
         = render 'exports/status'
+    - if @export.filters.present?
+      %tr
+        %th Filters
+        %td= link_to @export.filters, project_sheets_path(search: @export.filters)
     %tr
       %th Type
       %td

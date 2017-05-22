@@ -41,17 +41,56 @@ class Export < ApplicationRecord
   end
 
   def generate_export!
-    sheet_ids = project.sheets.pluck(:id)
+    sheet_ids = filter_sheets.pluck(:id)
+    # sheet_ids = project.sheets.pluck(:id)
     # Freeze the sheet scope to avoid data shifting during export.
     sheet_scope = Sheet.where(id: sheet_ids)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
     variables_count = all_variables.count
     grid_variables_count = all_variables.where(variable_type: 'grid').count
-    update sheet_ids_count: sheet_scope.count, variables_count: variables_count, grid_variables_count: grid_variables_count
+    update sheet_ids_count: sheet_ids.size, variables_count: variables_count, grid_variables_count: grid_variables_count
     calculate_total_steps
     finalize_export!(generate_zip_file(sheet_scope))
   rescue => e
     export_failed(e.message.to_s + e.backtrace.to_s)
+  end
+
+  def filter_sheets
+    scope = user.all_viewable_sheets.where(project: project)
+    tokens = Search.pull_tokens(filters)
+    tokens.reject { |t| t.key == "search" }.each do |token|
+      case token.key
+      when "created"
+        scope = scope_by_date(scope, token)
+      else
+        scope = scope_by_variable(scope, token)
+      end
+    end
+    terms = tokens.select { |t| t.key == "search" }.collect(&:value)
+    scope.search(terms.join(" "))
+  end
+
+  def scope_by_date(scope, token)
+    date = Date.strptime(token.value, "%Y-%m-%d")
+    case token.operator
+    when "<"
+      scope = scope.sheet_before(date - 1.day)
+    when ">"
+      scope = scope.sheet_after(date + 1.day)
+    when "<="
+      scope = scope.sheet_before(date)
+    when ">="
+      scope = scope.sheet_after(date)
+    else
+      scope = scope.sheet_before(date).sheet_after(date)
+    end
+    scope
+  rescue
+    scope
+  end
+
+  def scope_by_variable(scope, token)
+    Search.run_sheets(project, user, scope, token)
   end
 
   def destroy
