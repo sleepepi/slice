@@ -5,6 +5,7 @@
   - Improved the speed of sheet exports
   - Exports can now be filtered by designs, events, randomization, and adverse
     events
+  - Export file sizes are cached to improve loading speed of the exports index
 - **Gem Changes**
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0

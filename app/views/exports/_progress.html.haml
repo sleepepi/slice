@@ -19,10 +19,10 @@
     %tr
       %th File
       %td
-        - if @export.file.size > 0
+        - if @export.file_size.positive?
           - full_url = file_project_export_path(@project, @export)
           = link_to @export.file.to_s.split('/').last, full_url, target: '_blank', class: 'btn btn-default btn-xs'
-          %code= number_to_human_size @export.file.size
+          %code= number_to_human_size @export.file_size
           %div{ style: 'margin-top: 10px;' }
             %small.text-muted
               Export took

@@ -28,7 +28,7 @@ class Export < ApplicationRecord
   end
 
   def extension
-    file.size > 0 ? file.file.extension.to_s.downcase : ""
+    file.file.present? ? file.file.extension.to_s.downcase : ""
   end
 
   def create_notification
@@ -117,7 +117,13 @@ class Export < ApplicationRecord
   end
 
   def export_succeeded(export_file)
-    update status: "ready", file: File.open(export_file), file_created_at: Time.zone.now, steps_completed: total_steps
+    update(
+      status: "ready",
+      file: File.open(export_file),
+      file_created_at: Time.zone.now,
+      file_size: File.size(export_file),
+      steps_completed: total_steps
+    )
     create_notification
   end
 

@@ -8,7 +8,7 @@ class ExportsController < ApplicationController
   before_action :find_editable_export_or_redirect, only: [:destroy]
 
   def file
-    if @export.file.size > 0
+    if @export.file.file.present?
       send_file @export.zip_file_path
     else
       head :ok
