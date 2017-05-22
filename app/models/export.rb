@@ -28,7 +28,7 @@ class Export < ApplicationRecord
   end
 
   def extension
-    file.size > 0 ? file.file.extension.to_s.downcase : ''
+    file.size > 0 ? file.file.extension.to_s.downcase : ""
   end
 
   def create_notification
@@ -47,7 +47,7 @@ class Export < ApplicationRecord
     sheet_scope = Sheet.where(id: sheet_ids)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
     variables_count = all_variables.count
-    grid_variables_count = all_variables.where(variable_type: 'grid').count
+    grid_variables_count = all_variables.where(variable_type: "grid").count
     update sheet_ids_count: sheet_ids.size, variables_count: variables_count, grid_variables_count: grid_variables_count
     calculate_total_steps
     finalize_export!(generate_zip_file(sheet_scope))
@@ -59,12 +59,13 @@ class Export < ApplicationRecord
     scope = user.all_viewable_sheets.where(project: project)
     tokens = Search.pull_tokens(filters)
     tokens.reject { |t| t.key == "search" }.each do |token|
-      case token.key
-      when "created"
-        scope = scope_by_date(scope, token)
-      else
-        scope = scope_by_variable(scope, token)
-      end
+      scope = \
+        case token.key
+        when "created"
+          scope_by_date(scope, token)
+        else
+          scope_by_variable(scope, token)
+        end
     end
     terms = tokens.select { |t| t.key == "search" }.collect(&:value)
     scope.search(terms.join(" "))
@@ -74,17 +75,16 @@ class Export < ApplicationRecord
     date = Date.strptime(token.value, "%Y-%m-%d")
     case token.operator
     when "<"
-      scope = scope.sheet_before(date - 1.day)
+      scope.sheet_before(date - 1.day)
     when ">"
-      scope = scope.sheet_after(date + 1.day)
+      scope.sheet_after(date + 1.day)
     when "<="
-      scope = scope.sheet_before(date)
+      scope.sheet_before(date)
     when ">="
-      scope = scope.sheet_after(date)
+      scope.sheet_after(date)
     else
-      scope = scope.sheet_before(date).sheet_after(date)
+      scope.sheet_before(date).sheet_after(date)
     end
-    scope
   rescue
     scope
   end
@@ -110,37 +110,37 @@ class Export < ApplicationRecord
 
   def failure_details
     if include_files?
-      'No sheets have had files uploaded. Zip file not created.'
+      "No sheets have had files uploaded. Zip file not created."
     else
-      'No files were created. At least one file type needs to be selected for exports.'
+      "No files were created. At least one file type needs to be selected for exports."
     end
   end
 
   def export_succeeded(export_file)
-    update status: 'ready', file: File.open(export_file), file_created_at: Time.zone.now, steps_completed: total_steps
+    update status: "ready", file: File.open(export_file), file_created_at: Time.zone.now, steps_completed: total_steps
     create_notification
   end
 
   def export_failed(details)
-    update status: 'failed', details: details
+    update status: "failed", details: details
     create_notification
   end
 
   def generate_all_files(sheet_scope, filename)
     all_files = [] # If numerous files are created then they need to be zipped!
-    all_files << generate_csv_sheets(sheet_scope, filename, false, 'csv') if include_csv_labeled?
-    all_files << generate_csv_grids(sheet_scope, filename, false, 'csv')  if include_csv_labeled? && include_grids?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'csv')  if include_csv_raw?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'csv')   if include_csv_raw? && include_grids?
-    all_files << generate_readme('csv')                                   if include_csv_labeled? || include_csv_raw?
+    all_files << generate_csv_sheets(sheet_scope, filename, false, "csv") if include_csv_labeled?
+    all_files << generate_csv_grids(sheet_scope, filename, false, "csv")  if include_csv_labeled? && include_grids?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, "csv")  if include_csv_raw?
+    all_files << generate_csv_grids(sheet_scope, filename, true, "csv")   if include_csv_raw? && include_grids?
+    all_files << generate_readme("csv")                                   if include_csv_labeled? || include_csv_raw?
     all_files += generate_pdf(sheet_scope)                                if include_pdf?
-    all_files += generate_data_dictionary                                 if include_data_dictionary?
+    all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
     all_files += generate_sas(sheet_scope, filename)                      if include_sas?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'sas')  if include_sas?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'sas')   if include_sas? && include_grids?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, "sas")  if include_sas?
+    all_files << generate_csv_grids(sheet_scope, filename, true, "sas")   if include_sas? && include_grids?
     all_files += generate_r(sheet_scope, filename)                        if include_r?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, 'r')    if include_r?
-    all_files << generate_csv_grids(sheet_scope, filename, true, 'r')     if include_r? && include_grids?
+    all_files << generate_csv_sheets(sheet_scope, filename, true, "r")    if include_r?
+    all_files << generate_csv_grids(sheet_scope, filename, true, "r")     if include_r? && include_grids?
     all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
     all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
     all_files << generate_csv_randomizations(filename)                    if include_randomizations?
@@ -150,7 +150,7 @@ class Export < ApplicationRecord
         all_files += sheet.files
         update_steps(1)
       end
-      all_files << generate_readme('files')
+      all_files << generate_readme("files")
     end
 
     all_files
@@ -165,7 +165,7 @@ class Export < ApplicationRecord
     return if all_files.empty?
 
     # Create a zip file
-    zipfile_name = File.join('tmp', 'files', 'exports', "#{filename} #{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..8]}.zip")
+    zipfile_name = File.join("tmp", "files", "exports", "#{filename} #{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..8]}.zip")
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       all_files.uniq.each do |location, input_file|
         # Two arguments:
@@ -211,15 +211,19 @@ class Export < ApplicationRecord
   def generate_pdf(sheet_scope)
     pdf_file = Sheet.latex_file_location(sheet_scope, user)
     update_steps(sheet_ids_count)
-    [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme('pdf')]
+    [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme("pdf")]
   end
 
-  def generate_data_dictionary
-    design_scope = project.designs.order(:name)
-    designs_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv")
+  def generate_data_dictionary(sheet_scope)
+    design_scope = project.designs.where(id: sheet_scope.select(:design_id)).order(:name)
+    designs_csv = \
+      File.join(
+        "tmp", "files", "exports",
+        "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv"
+      )
 
-    CSV.open(designs_csv, 'wb') do |csv|
-      csv << ['Design Name', 'Name', 'Display Name', 'Branching Logic', 'Description', 'Field Note']
+    CSV.open(designs_csv, "wb") do |csv|
+      csv << ["Design Name", "Name", "Display Name", "Branching Logic", "Description", "Field Note"]
 
       design_scope.each do |d|
         d.design_options.includes(:section, :variable).each do |design_option|
@@ -229,22 +233,26 @@ class Export < ApplicationRecord
             csv << [d.name, section.to_slug, section.name, design_option.branching_logic, section.description, nil]
           elsif variable
             variable.csv_columns_and_names.each do |variable_name, variable_display_name|
-              csv << [d.name, variable_name, variable_display_name, design_option.branching_logic, variable.description, variable.field_note]
+              csv << [
+                d.name, variable_name, variable_display_name,
+                design_option.branching_logic, variable.description,
+                variable.field_note
+              ]
             end
           end
         end
       end
     end
 
-    variables_csv = File.join('tmp', 'files', 'exports', "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_variables.csv")
+    variables_csv = File.join("tmp", "files", "exports", "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_variables.csv")
 
-    CSV.open(variables_csv, 'wb') do |csv|
+    CSV.open(variables_csv, "wb") do |csv|
       csv << [
-        'Design Name', 'Variable Name', 'Variable Display Name', 'Variable Description', 'Field Note',
-        'Variable Type', 'Hard Min', 'Soft Min', 'Soft Max', 'Hard Max', 'Calculation', 'Prepend', 'Units',
-        'Append', 'Format', 'Time Duration Format', 'Time of Day Format', 'Multiple Rows', 'Autocomplete Values',
-        'Show Current Button', 'Display Layout', 'Alignment', 'Default Row Number', 'Domain Name',
-        'Required on Form?'
+        "Design Name", "Variable Name", "Variable Display Name", "Variable Description", "Field Note",
+        "Variable Type", "Hard Min", "Soft Min", "Soft Max", "Hard Max", "Calculation", "Prepend", "Units",
+        "Append", "Format", "Time Duration Format", "Time of Day Format", "Multiple Rows", "Autocomplete Values",
+        "Show Current Button", "Display Layout", "Alignment", "Default Row Number", "Domain Name",
+        "Required on Form?"
       ]
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
@@ -284,24 +292,24 @@ class Export < ApplicationRecord
                       variable.description,
                       variable.field_note,
                       variable.export_variable_type,
-                      (variable.variable_type == 'date' ? variable.date_hard_minimum : variable.hard_minimum),
-                      (variable.variable_type == 'date' ? variable.date_soft_minimum : variable.soft_minimum),
-                      (variable.variable_type == 'date' ? variable.date_soft_maximum : variable.soft_maximum),
-                      (variable.variable_type == 'date' ? variable.date_hard_maximum : variable.hard_maximum),
+                      (variable.variable_type == "date" ? variable.date_hard_minimum : variable.hard_minimum),
+                      (variable.variable_type == "date" ? variable.date_soft_minimum : variable.soft_minimum),
+                      (variable.variable_type == "date" ? variable.date_soft_maximum : variable.soft_maximum),
+                      (variable.variable_type == "date" ? variable.date_hard_maximum : variable.hard_maximum),
                       variable.readable_calculation,
                       variable.prepend,
                       variable.export_units,
                       variable.append,
                       variable.format,
-                      (variable.variable_type == 'time_duration' ? variable.time_duration_format : nil),
-                      (variable.variable_type == 'time_of_day' ? variable.time_of_day_format : nil),
+                      (variable.variable_type == "time_duration" ? variable.time_duration_format : nil),
+                      (variable.variable_type == "time_of_day" ? variable.time_of_day_format : nil),
                       variable.multiple_rows,
                       variable.autocomplete_values,
                       variable.show_current_button,
                       variable.display_layout,
                       variable.alignment,
                       variable.default_row_number,
-                      (variable.domain ? variable.domain.name : ''),
+                      (variable.domain ? variable.domain.name : ""),
                       design_option.requirement_string]
             end
           end
@@ -309,11 +317,11 @@ class Export < ApplicationRecord
       end
     end
     csv_name = "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_domains.csv"
-    domains_csv = File.join('tmp', 'files', 'exports', csv_name)
-    CSV.open(domains_csv, 'wb') do |csv|
+    domains_csv = File.join("tmp", "files", "exports", csv_name)
+    CSV.open(domains_csv, "wb") do |csv|
       csv << [
-        'Domain Name', 'Description', 'Option Name', 'Option Value',
-        'Missing Code', 'Option Description'
+        "Domain Name", "Description", "Option Name", "Option Value",
+        "Missing Code", "Option Description"
       ]
       objects = []
       design_scope.each do |d|
@@ -337,17 +345,17 @@ class Export < ApplicationRecord
       ["dd/#{designs_csv.split('/').last}", designs_csv],
       ["dd/#{variables_csv.split('/').last}", variables_csv],
       ["dd/#{domains_csv.split('/').last}", domains_csv],
-      generate_readme('dd')
+      generate_readme("dd")
     ]
   end
 
   def generate_statistic_export_from_erb(sheet_scope, filename, language)
     @export_formatter = ExportFormatter.new(sheet_scope, filename)
 
-    erb_file = File.join('app', 'views', 'exports', "export.#{language}.erb")
-    export_file = File.join('tmp', 'files', 'exports', "#{filename}_#{language}.#{language}")
+    erb_file = File.join("app", "views", "exports", "export.#{language}.erb")
+    export_file = File.join("tmp", "files", "exports", "#{filename}_#{language}.#{language}")
 
-    File.open(export_file, 'w') do |file|
+    File.open(export_file, "w") do |file|
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
     end
 
@@ -355,18 +363,18 @@ class Export < ApplicationRecord
   end
 
   def generate_r(sheet_scope, filename)
-    generate_statistic_export_from_erb(sheet_scope, filename, 'r')
+    generate_statistic_export_from_erb(sheet_scope, filename, "r")
   end
 
   def generate_sas(sheet_scope, filename)
-    generate_statistic_export_from_erb(sheet_scope, filename, 'sas')
+    generate_statistic_export_from_erb(sheet_scope, filename, "sas")
   end
 
   def generate_readme(language, sheet_scope = Sheet.none)
-    erb_file = File.join('test', 'support', 'exports', language, 'README.erb')
-    readme = File.join('tmp', 'files', 'exports', "README_#{language}_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}.txt")
+    erb_file = File.join("test", "support", "exports", language, "README.erb")
+    readme = File.join("tmp", "files", "exports", "README_#{language}_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}.txt")
 
-    File.open(readme, 'w') do |file|
+    File.open(readme, "w") do |file|
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
     end
 
@@ -374,9 +382,9 @@ class Export < ApplicationRecord
   end
 
   def generate_csv_adverse_events(filename)
-    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes.csv")
-    CSV.open(export_file, 'wb') do |csv|
-      csv << ['Adverse Event ID', 'Reported By', 'Subject', 'Reported On', 'Description', 'Status']
+    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_aes.csv")
+    CSV.open(export_file, "wb") do |csv|
+      csv << ["Adverse Event ID", "Reported By", "Subject", "Reported On", "Description", "Status"]
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         csv << [
           ae.number,
@@ -384,7 +392,7 @@ class Export < ApplicationRecord
           ae.subject_code,
           ae.reported_on,
           ae.description,
-          ae.closed? ? 'Closed' : 'Open'
+          ae.closed? ? "Closed" : "Open"
         ]
       end
     end
@@ -392,9 +400,9 @@ class Export < ApplicationRecord
   end
 
   def generate_csv_adverse_events_master_list(filename)
-    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_aes_master_list.csv")
-    CSV.open(export_file, 'wb') do |csv|
-      csv << ['Adverse Event ID', 'Sheet ID']
+    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_aes_master_list.csv")
+    CSV.open(export_file, "wb") do |csv|
+      csv << ["Adverse Event ID", "Sheet ID"]
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         ae.sheets.order(id: :desc).each do |sheet|
           csv << [ae.number, sheet.id]
@@ -405,12 +413,12 @@ class Export < ApplicationRecord
   end
 
   def generate_csv_randomizations(filename)
-    export_file = Rails.root.join('tmp', 'files', 'exports', "#{filename}_randomizations.csv")
-    CSV.open(export_file, 'wb') do |csv|
+    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_randomizations.csv")
+    CSV.open(export_file, "wb") do |csv|
       randomizations = user.all_viewable_randomizations.where(project_id: project.id)
       schemes = project.randomization_schemes.where(id: randomizations.select(:randomization_scheme_id)).order(:name)
-      column_headers = ['Randomization #', 'Subject', 'Treatment Arm', 'List', 'Randomized At', 'Randomized By']
-      column_headers << 'Scheme' if schemes.count > 1
+      column_headers = ["Randomization #", "Subject", "Treatment Arm", "List", "Randomized At", "Randomized By"]
+      column_headers << "Scheme" if schemes.count > 1
       stratification_factors = []
       schemes.each do |scheme|
         scheme.stratification_factors.order(:name).each do |stratification_factor|
@@ -420,7 +428,7 @@ class Export < ApplicationRecord
       end
       csv << column_headers
       randomizations.includes(:subject, :treatment_arm, :list, :randomized_by, :randomization_scheme)
-                    .order('randomized_at desc nulls last').select('randomizations.*').each do |r|
+                    .order("randomized_at desc nulls last").select("randomizations.*").each do |r|
         row = [
           r.name,
           (r.subject ? r.subject.name : nil),
@@ -454,6 +462,6 @@ class Export < ApplicationRecord
   def all_design_variables_using_design_ids(design_ids)
     Variable.current.joins(:design_options)
             .where(design_options: { design_id: design_ids })
-            .order('design_options.design_id', 'design_options.position')
+            .order("design_options.design_id", "design_options.position")
   end
 end
