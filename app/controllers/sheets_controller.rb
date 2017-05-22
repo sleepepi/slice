@@ -285,7 +285,7 @@ class SheetsController < ApplicationController
 
   def scope_filter(scope)
     scope = scope.with_site(params[:site_id]) if params[:site_id].present?
-    [:design_id, :user_id].each do |key|
+    [:user_id].each do |key|
       scope = scope.where(key => params[key]) if params[key].present?
     end
     scope

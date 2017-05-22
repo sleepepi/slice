@@ -19,8 +19,9 @@ module ReportsHelper
       end
       search = (search_parts + [search]).reject(&:blank?).join(' ')
     end
-    filter_params[:design_id] = design.id if design
-    filter_params[:search] = search
+    filter_params[:search] = ""
+    filter_params[:search] += "designs:#{design.to_param} " if design
+    filter_params[:search] += search if search
     filter_params
   end
 

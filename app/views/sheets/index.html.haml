@@ -18,7 +18,6 @@
     - url = project_sheets_path(@project)
     = form_tag url, method: :get, class: "form-vertical", enforce_utf8: false do
       = hidden_field_tag :order, params[:order] if params[:order].present?
-      = hidden_field_tag :design_id, params[:design_id] if params[:design_id].present?
       = hidden_field_tag :site_id, params[:site_id] if params[:site_id].present?
       = hidden_field_tag :user_id, params[:user_id] if params[:user_id].present?
       .form-group{ style: "margin: 0;" }
@@ -52,21 +51,25 @@
       %col.hidden-xs
       %thead
         %tr
-          - filtered_params = params.permit(:design_id, :site_id, :user_id, :search)
-          = th_sort_field_rev @order, "percent", "Coverage", extra_class: "hidden-xs", permit: [:design_id, :site_id, :user_id]
+          - filtered_params = params.permit(:site_id, :user_id, :search)
+          = th_sort_field_rev @order, "percent", "Coverage", extra_class: "hidden-xs", permit: [:site_id, :user_id]
           %th.nowrap{ class: ["design", "design desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Sheet", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "design desc" ? "design" : "design desc")))
+            - token = @tokens.find { |t| t.key == "designs" }
+            - design_params = token ? token.values : []
             .dropdown{ style: "display: inline-block" }
               = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
-                - if params[:design_id].present?
+                - if design_params.present?
                   %span.glyphicon.glyphicon-filter.text-primary
                 - else
                   %span.glyphicon.glyphicon-filter
               %ul.dropdown-menu
-                %li= link_to "All Designs", project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: nil)), style: params[:design_id].blank? ? "font-weight:bold;" : ""
+                - design_search = @tokens.reject { |t| t.key == "designs" }.collect(&:to_s).join(" ")
+                %li= link_to "All Designs", project_sheets_path(@project, filtered_params.merge(order: params[:order], search: design_search)), style: design_params.blank? ? "font-weight:bold;" : ""
                 - viewable_designs.each do |design|
-                  %li= link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], design_id: design.id)), style: params[:design_id].to_s == design.id.to_s ? "font-weight:bold;" : ""
-          = th_sort_field @order, "subject", "Subject", permit: [:design_id, :site_id, :user_id]
+                  - design_search = (@tokens.reject { |t| t.key == "designs" }.collect(&:to_s) + ["designs:#{design.to_param}"]).join(" ")
+                  %li= link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], search: design_search)), style: design_params.include?(design.to_param) ? "font-weight:bold;" : ""
+          = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id]
           %th.hidden-xs.hidden-sm
             - if creation_ordered
               = link_to "Created", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "created desc" ? "created" : "created desc")))

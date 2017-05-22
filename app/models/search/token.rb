@@ -61,7 +61,7 @@ class Token
     if @has_quotes
       [@value]
     else
-      @value.split(',')
+      @value.split(",")
     end
   end
 
