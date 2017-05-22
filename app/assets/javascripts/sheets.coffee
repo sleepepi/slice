@@ -150,8 +150,7 @@ $(document)
     url = "#{root_url}projects/#{$(this).data('project-id')}/exports/new?filters=#{$("#search").val()}"
     if nonStandardClick(e)
       window.open(url)
-      false
     else
       Turbolinks.visit(url)
-      false
+    false
   )
