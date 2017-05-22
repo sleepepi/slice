@@ -8,7 +8,7 @@
       = select_tag :event_filters, options_for_select(current_user.all_viewable_events.where(project: @project).order(:position).collect { |e| [e.name, e.to_param] }), include_blank: true, data: { object: "export-filters", filter_type: "events", placeholder: "Event Filters" }, class: "form-control chosen-select"
 
   %div{ style: "margin-bottom: 20px;" }
-    = f.text_field :filters, class: "form-control", autocomplete: "off", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, id: "export_filters", placeholder: "All Sheets"
+    = f.text_field :filters, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, id: "export_filters", placeholder: "All Sheets"
   .row
     .col-md-4
       .download-container
