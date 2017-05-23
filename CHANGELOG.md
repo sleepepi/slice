@@ -10,6 +10,7 @@
   - White space around site names is now truncated
 - **Variable Changes**
   - White space around variable names and display names is now truncated
+  - Searching for variables on variables index is now less restrictive
 - **Gem Changes**
   - Updated to rails 5.1.1
   - Updated to devise 4.3.0
