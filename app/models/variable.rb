@@ -57,7 +57,9 @@ class Variable < ApplicationRecord
   attr_accessor :questions, :grid_tokens
 
   # Concerns
-  include Searchable, Deletable, DateAndTimeParser, Calculable
+  include Searchable, Deletable, DateAndTimeParser, Calculable, Squishable
+
+  squish :name, :display_name, :field_note, :prepend, :append, :units, :format
 
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }

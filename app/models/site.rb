@@ -4,7 +4,9 @@
 # members, and reports that are stratified by site.
 class Site < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, ShortNameable
+  include Searchable, Deletable, ShortNameable, Squishable
+
+  squish :name
 
   # Scopes
   def self.with_project_or_as_site_user(project_ids, user_id)
