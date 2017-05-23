@@ -7,13 +7,9 @@ module GridExport
     sheet_scope = sheet_scope.order(id: :desc)
     tmp_export_file = File.join("tmp", "files", "exports", "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
     export_file = File.join("tmp", "files", "exports", "#{filename}_grids_#{raw_data ? 'raw' : 'labeled'}.csv")
-
-    t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
     grid_group_variables = all_design_variables_using_design_ids(design_ids).where(variable_type: "grid")
-
     sheet_ids = compute_sheet_ids_with_max_position(sheet_scope)
-
     CSV.open(tmp_export_file, "wb") do |csv|
       csv << ["", "Subject"] + grid_get_corresponding_names(sheet_ids, sheet_scope.joins(:subject).pluck(:id, :subject_code))
       csv << ["", "Site"] + grid_get_corresponding_names(sheet_ids, sheet_scope.includes(subject: :site).collect { |s| [s.id, s.subject && s.subject.site ? s.subject.site.export_value(raw_data) : nil] })
@@ -23,7 +19,6 @@ module GridExport
       load_all_grids(grid_group_variables, sheet_ids, raw_data, csv)
     end
     transpose_tmp_csv(tmp_export_file, export_file)
-    Rails.logger.debug "Total Time: #{Time.zone.now - t} seconds"
     ["#{folder}/#{export_file.split('/').last}", export_file]
   end
 
@@ -37,7 +32,6 @@ module GridExport
     check_stuff = load_all_grid_checkboxes(grid_group_variables, sheet_ids)
     file_stuff = load_all_grid_files(grid_group_variables, sheet_ids)
     other_stuff = load_all_grid_other_variables(grid_group_variables, sheet_ids)
-
     grid_group_variables.each do |grid_group_variable|
       grid_group_variable.child_variables.includes(domain: :domain_options).each do |child_variable|
         if child_variable.variable_type == "checkbox"

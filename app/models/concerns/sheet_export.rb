@@ -7,7 +7,6 @@ module SheetExport
     sheet_scope = sheet_scope.order(id: :desc)
     tmp_export_file = File.join("tmp", "files", "exports", "#{filename}_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
     export_file = File.join("tmp", "files", "exports", "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
-    t = Time.zone.now
     design_ids = sheet_scope.select(:design_id)
     variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: "grid").includes(domain: :domain_options)
     sheet_ids = sheet_scope.pluck(:id)
@@ -22,8 +21,7 @@ module SheetExport
       load_all(variables, sheet_ids, raw_data, csv)
     end
     transpose_tmp_csv(tmp_export_file, export_file)
-    Rails.logger.debug "Total Time: #{Time.zone.now - t} seconds"
-    ["#{folder}/#{export_file.split("/").last}", export_file]
+    ["#{folder}/#{export_file.split('/').last}", export_file]
   end
 
   def load_all(variables, sheet_ids, raw_data, csv)
