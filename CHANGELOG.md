@@ -1,4 +1,4 @@
-## 0.53.0
+## 0.53.0 (May 25, 2017)
 
 ### Enhancements
 - **Export Changes**
