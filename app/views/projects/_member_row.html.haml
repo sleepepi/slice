@@ -14,10 +14,9 @@
         %span.glyphicon.glyphicon-eye-open.text-muted
       - else
         %span.glyphicon.glyphicon-eye-close.text-danger
-  %td.hidden-xs.text-muted
-    - if member.creator
-      = link_to member.creator.name, member.creator
-  %td
+  %td.hidden-xs
+    = member.creator.nickname if member.creator
+  %td.center
     - if member.is_a?(ProjectUser)
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
         .dropdown

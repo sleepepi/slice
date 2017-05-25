@@ -64,18 +64,24 @@
 
     %tr
       %th Site Members
-      %td
-        - if @site.site_users.size == 0
+      - if @site.site_users.blank?
+        %td
           %span.text-muted No Members on Site
-        - else
-          %table.table.table-fixed{ style: 'margin-top:-8px' }
-            %thead
-              %tr
-                %th Name
-                %th Role
-                - if @project.blinding_enabled?
-                  %th.center Blinding
-                %th Invited By
-                %th Actions
-            - @site.site_users.order(editor: :desc, id: :asc).each do |member|
-              = render 'projects/member_row', member: member
+    - if @site.site_users.present?
+      %table.table.table-striped.table-borderless.table-hover
+        %col
+        %col
+        - if @project.blinding_enabled?
+          %col
+        %col.hidden-xs
+        %col{ width: "1px" }
+        %thead
+          %tr
+            %th Name
+            %th Role
+            - if @project.blinding_enabled?
+              %th.center Blinding
+            %th.hidden-xs Invited By
+            %th.center Actions
+        - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
+          = render 'projects/member_row', member: member

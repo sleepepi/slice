@@ -1,5 +1,9 @@
 ## 0.54.0
 
+### Enhancements
+- **Site Changes**
+  - Improved the display of site members on the site show page on mobile
+
 ## 0.53.0 (May 25, 2017)
 
 ### Enhancements
