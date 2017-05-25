@@ -34,7 +34,7 @@ class SubjectsController < ApplicationController
     @subject_event = @subject.subject_events.find_by(id: params[:subject_event_id])
     if @subject_event
       @subject_event.check_coverage
-      render 'subject_events/coverage'
+      render "subject_events/coverage"
     else
       head :ok
     end
@@ -51,7 +51,7 @@ class SubjectsController < ApplicationController
     @sheet = @subject.sheets
                      .where(project_id: @project.id, design_id: @design.id, adverse_event_id: params[:adverse_event_id])
                      .new(sheet_params)
-    render 'sheets/new'
+    render "sheets/new"
   end
 
   # POST /projects/:project_id/subjects/1/data-missing/:design_id/:subject_event_id.js
@@ -62,8 +62,8 @@ class SubjectsController < ApplicationController
       user_id: current_user.id, last_user_id: current_user.id,
       last_edited_at: Time.zone.now
     )
-    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true)
-    render 'sheets/subject_event'
+    SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, "sheet_create", skip_validation: true)
+    render "sheets/subject_event"
   end
 
   # # GET /projects/:project_id/subjects/1/send-url
@@ -78,7 +78,7 @@ class SubjectsController < ApplicationController
       last_user_id: current_user.id, last_edited_at: Time.zone.now
     )
     SheetTransaction.save_sheet!(
-      @sheet, {}, {}, current_user, request.remote_ip, 'sheet_create', skip_validation: true, skip_callbacks: true
+      @sheet, {}, {}, current_user, request.remote_ip, "sheet_create", skip_validation: true, skip_callbacks: true
     )
     @sheet.set_token
     redirect_to [@project, @sheet]
@@ -116,7 +116,7 @@ class SubjectsController < ApplicationController
       redirect_to event_project_subject_path(@project, @subject, event_id: @event,
                                                                  subject_event_id: @subject_event.id,
                                                                  event_date: @subject_event.event_date_to_param),
-                  notice: 'Event updated successfully.'
+                  notice: "Event updated successfully."
     else
       render :edit_event
     end
@@ -170,7 +170,7 @@ class SubjectsController < ApplicationController
         redirect_to event_project_subject_path(@project, @subject, event_id: @event,
                                                                    subject_event_id: @subject_event.id,
                                                                    event_date: @subject_event.event_date_to_param),
-                    notice: 'Event created successfully.'
+                    notice: "Event created successfully."
       else
         render :choose_date
       end
@@ -195,7 +195,7 @@ class SubjectsController < ApplicationController
   def choose_site
     redirect_to @project if params[:subject_code].blank?
     @subject = current_user.all_viewable_subjects.where(project_id: @project.id)
-                           .where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
+                           .where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
     if !@project.site_or_project_editor?(current_user) && !@subject
       alert_text = params[:subject_code].blank? ? nil : "Subject <code>#{params[:subject_code]}</code> was not found."
       redirect_to @project, alert: alert_text
@@ -207,9 +207,9 @@ class SubjectsController < ApplicationController
   # GET /projects/:project_id/subjects/search
   def search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
-                            .search(params[:q]).order('subject_code').limit(10)
+                            .search(params[:q]).order("subject_code").limit(10)
     if @subjects.count.zero?
-      render json: [{ value: params[:q], subject_code: 'Subject Not Found' }]
+      render json: [{ value: params[:q], subject_code: "Subject Not Found" }]
     else
       json_result = @subjects.pluck(:subject_code).collect do |subject_code|
         { value: subject_code, subject_code: subject_code }
@@ -222,9 +222,9 @@ class SubjectsController < ApplicationController
   def autocomplete
     subject_scope = current_user.all_viewable_subjects
                                 .where(project_id: @project.id)
-                                .where('subject_code ILIKE (?)', "#{params[:q]}%")
+                                .where("subject_code ILIKE (?)", "#{params[:q]}%")
                                 .order(:subject_code).limit(10)
-    terms = ['adverse-events', 'designs', 'events', 'has', 'is', 'no', 'not']
+    terms = ["adverse-events", "designs", "events", "has", "is", "no", "not"]
     additional_terms = terms.reject { |term| (/^#{params[:q]}/ =~ term).nil? }
     render json: additional_terms + subject_scope.pluck(:subject_code)
   end
@@ -232,7 +232,7 @@ class SubjectsController < ApplicationController
   # GET /projects/:project_id/subjects/designs_search.json
   def designs_search
     scope = @project.designs
-                    .where('name ILIKE (?) or slug ILIKE (?) or id = ?', "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
+                    .where("name ILIKE (?) or slug ILIKE (?) or id = ?", "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
                     .order(:slug, :name).limit(10)
     render json: scope.collect { |d| { value: d.to_param, name: d.name } }
   end
@@ -240,7 +240,7 @@ class SubjectsController < ApplicationController
   # GET /projects/:project_id/subjects/events_search.json
   def events_search
     scope = @project.events
-                    .where('name ILIKE (?) or slug ILIKE (?) or id = ?', "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
+                    .where("name ILIKE (?) or slug ILIKE (?) or id = ?", "#{params[:q]}%", "#{params[:q]}%", params[:q].to_i)
                     .order(:slug, :name).limit(10)
     render json: scope.collect { |e| { value: e.to_param, name: e.name } }
   end
@@ -274,7 +274,7 @@ class SubjectsController < ApplicationController
   def create
     @subject = current_user.subjects.where(project_id: @project.id).new(subject_params)
     if @subject.save
-      redirect_to [@project, @subject], notice: 'Subject was successfully created.'
+      redirect_to [@project, @subject], notice: "Subject was successfully created."
     else
       render :new
     end
@@ -283,7 +283,7 @@ class SubjectsController < ApplicationController
   # PATCH /subjects/1
   def update
     if @subject.update(subject_params)
-      redirect_to [@project, @subject], notice: 'Subject was successfully updated.'
+      redirect_to [@project, @subject], notice: "Subject was successfully updated."
     else
       render :edit
     end
@@ -318,7 +318,7 @@ class SubjectsController < ApplicationController
   def check_for_randomizations
     return unless @subject.randomizations.count > 0
     redirect_to [@project, @subject],
-                alert: "You must undo this subject\'s randomizations in order to delete the subject."
+                alert: "You must undo this subject's randomizations in order to delete the subject."
   end
 
   def set_design
@@ -327,7 +327,7 @@ class SubjectsController < ApplicationController
   end
 
   def subject_params
-    params[:subject] ||= { blank: '1' }
+    params[:subject] ||= { blank: "1" }
     clean_site_id
     params.require(:subject).permit(:subject_code, :site_id)
   end
@@ -341,12 +341,12 @@ class SubjectsController < ApplicationController
   end
 
   def sheet_params
-    params[:sheet] ||= { blank: '1' }
+    params[:sheet] ||= { blank: "1" }
     params.require(:sheet).permit(:subject_event_id) # :adverse_event_id
   end
 
   def subject_event_params
-    params[:subject_event] ||= { blank: '1' }
+    params[:subject_event] ||= { blank: "1" }
     params.require(:subject_event).permit(:event_date)
   end
 
@@ -371,7 +371,7 @@ class SubjectsController < ApplicationController
   end
 
   def scope_order(scope)
-    @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
+    @order = scrub_order(Subject, params[:order], "subjects.subject_code")
     scope.order(@order)
   end
 end

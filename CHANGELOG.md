@@ -1,6 +1,8 @@
 ## 0.54.0
 
 ### Enhancements
+- **General Changes**
+  - Search boxes no longer try to autocorrect or spellcheck search text
 - **Site Changes**
   - Improved the display of site members on the site show page on mobile
 
