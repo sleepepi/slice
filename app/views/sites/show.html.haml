@@ -59,14 +59,10 @@
       %td= simple_format @site.description
 
     %tr
-      %th Creator
-      %td= link_to @site.user.name, @site.user if @site.user
-
-    %tr
       %th Site Members
       - if @site.site_users.blank?
         %td
-          %span.text-muted No Members on Site
+          %span.text-muted No Site Members
     - if @site.site_users.present?
       %table.table.table-striped.table-borderless.table-hover
         %col
