@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Search boxes no longer try to autocorrect or spellcheck search text
+- **Design Changes**
+  - Design link to "View Sheets" now filters sheets using the new search format
 - **Site Changes**
   - Improved the display of site members on the site show page on mobile
 

@@ -31,7 +31,7 @@
                   Print
 
               %li
-                = link_to project_sheets_path(@project, design_id: @design.id) do
+                = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}") do
                   %span.glyphicon.glyphicon-duplicate
                   View Sheets
 
