@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Search boxes no longer try to autocorrect or spellcheck search text
+  - Improved variable and value autocomplete in search boxes
 - **Design Changes**
   - Design link to "View Sheets" now filters sheets using the new search format
 - **Site Changes**

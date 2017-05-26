@@ -28,6 +28,14 @@ class Event < ApplicationRecord
 
   # Methods
 
+  def param_and_name
+    if slug.present?
+      "#{name} (#{slug})"
+    else
+      "#{name} (##{id})"
+    end
+  end
+
   def unlink_sheets_in_background!(current_user, remote_ip)
     fork_process(:unlink_sheets!, current_user, remote_ip)
   end

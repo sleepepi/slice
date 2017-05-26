@@ -3,7 +3,7 @@
 # Defines how data is captured, displayed, and exported.
 class Variable < ApplicationRecord
   # Constants
-  TYPE = %w(
+  TYPE_ALL = %w(
     calculated
     checkbox
     date
@@ -20,11 +20,15 @@ class Variable < ApplicationRecord
     time_of_day
     time_duration
     signature
-  ).sort.collect { |i| [i, i] }
+  )
+
+  TYPE = TYPE_ALL.sort.collect { |i| [i, i] }
 
   TYPE_IMPORTABLE = %w(
     string text integer numeric date time_of_day
   ).sort.collect { |i| [i, i] }
+
+  TYPE_SEARCHABLE = TYPE_ALL - %w(grid)
 
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
 

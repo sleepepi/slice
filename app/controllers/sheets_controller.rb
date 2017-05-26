@@ -41,6 +41,9 @@ class SheetsController < ApplicationController
       words_for(key, @project).each do |word, label|
         array << { label: label, value: [key, word].join(":") } if starts_with?(val, word) || contains_word?(val, label)
       end
+      options_start_with?(key, val).each do |option|
+        array << { label: option.value_and_name, value: [key, option.value].join(":") }
+      end
     elsif %w(full-word-comma).include?(params[:scope])
       (key, value_string) = params[:search].to_s.split(":", 2)
       values = value_string.split(",", -1)
@@ -51,11 +54,17 @@ class SheetsController < ApplicationController
           array << { label: label, value: [key, value_string].join(":") }
         end
       end
+      options_start_with?(key, val).each do |option|
+        value_string = (values + [option.value]).join(",")
+        array << { label: option.value_and_name, value: [key, value_string].join(":") }
+      end
     elsif params[:scope] == ""
       %w(designs events has is not).each do |word|
         val = params[:search].to_s
         array << { value: word } if starts_with?(val, word)
       end
+      array += variables_start_with?(params[:search].to_s)
+      array.sort_by! { |hash| hash[:value] }
     end
     render json: array
   end
@@ -314,9 +323,25 @@ class SheetsController < ApplicationController
     when "design", "designs"
       project.designs.order(:slug, :name).collect { |d| [d.to_param, d.name] }
     when "event", "events"
-      project.events.order(:slug, :name).collect { |e| [e.to_param, e.name] }
+      project.events.order(:slug, :name).collect { |e| [e.to_param, e.param_and_name] }
     else
       []
+    end
+  end
+
+  def variables_start_with?(search)
+    @project.variables
+            .where(variable_type: Variable::TYPE_SEARCHABLE)
+            .where("name ILIKE (?)", "#{search}%")
+            .order(:name).select(:name).collect { |v| { value: v.name } }
+  end
+
+  def options_start_with?(key, val)
+    variable = @project.variables.find_by(name: key)
+    if variable
+      variable.domain_options.where("value ILIKE (?) or name ILIKE (?)", "#{val}%", "%#{val}%")
+    else
+      DomainOption.none
     end
   end
 end
