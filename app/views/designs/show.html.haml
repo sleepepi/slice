@@ -53,14 +53,12 @@
         %tr
           %th Category
           %td= link_to @design.category.name, [@project, @design.category]
-      - if @design.publicly_available?
+      - if @design.publicly_available? && @design.slug.present?
         %tr
           %th Publicly Available
           %td
-            - if @design.slug.blank?
-              = link_to "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", "#{ENV['website_url']}/projects/#{@design.project_id}/surveys/#{@design.id}", class: "input-xxlarge", target: "_blank" if @design.publicly_available?
-            - else
-              = link_to "#{ENV['website_url']}/survey/#{@design.slug}", "#{ENV['website_url']}/survey/#{@design.slug}", class: "input-xxlarge", target: "_blank" if @design.publicly_available?
+            - url = new_survey_url(@design)
+            = link_to url, url, target: "_blank"
       - if @design.repeated?
         %tr
           %th Repeated
