@@ -44,6 +44,9 @@ class SheetsController < ApplicationController
       options_start_with?(key, val).each do |option|
         array << { label: option.value_and_name, value: [key, option.value].join(":") }
       end
+      other_words(key, @project).each do |word, label|
+        array << { label: label, value: [key, word].join(":") } if starts_with?(val, word)
+      end
     elsif %w(full-word-comma).include?(params[:scope])
       (key, value_string) = params[:search].to_s.split(":", 2)
       values = value_string.split(",", -1)
@@ -59,7 +62,7 @@ class SheetsController < ApplicationController
         array << { label: option.value_and_name, value: [key, value_string].join(":") }
       end
     elsif params[:scope] == ""
-      %w(designs events has is not).each do |word|
+      %w(adverse-events checks designs events has is not).each do |word|
         val = params[:search].to_s
         array << { value: word } if starts_with?(val, word)
       end
@@ -324,8 +327,25 @@ class SheetsController < ApplicationController
       project.designs.order(:slug, :name).collect { |d| [d.to_param, d.name] }
     when "event", "events"
       project.events.order(:slug, :name).collect { |e| [e.to_param, e.param_and_name] }
+    when "check", "checks"
+      project.checks.runnable.order(:slug, :name).collect { |c| [c.to_param, c.name] }
     else
       []
+    end
+  end
+
+  # any, missing, present, unentered, entered, blank, open, closed
+  def other_words(key, _project)
+    # open closed for adverse-events
+    case key
+    when "is", "not", "has", "design", "designs", "event", "events"
+      []
+    when "adverse-events"
+      %w(open closed).collect { |i| [i, i] }
+    when "checks"
+      %w(any).collect { |i| [i, i] }
+    else
+      %w(any missing entered blank).collect { |i| [i, i] }
     end
   end
 
