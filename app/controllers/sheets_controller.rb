@@ -344,8 +344,10 @@ class SheetsController < ApplicationController
       %w(open closed).collect { |i| [i, i] }
     when "checks"
       %w(any).collect { |i| [i, i] }
-    when "event", "events", "coverage"
+    when "event", "events"
       %w(any missing).collect { |i| [i, i] }
+    when "coverage"
+      %w(<70 >=70 missing).collect { |i| [i, i] }
     else
       %w(any missing entered blank).collect { |i| [i, i] }
     end
