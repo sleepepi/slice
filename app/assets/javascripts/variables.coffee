@@ -103,77 +103,9 @@
     )
   )
 
-@variableAutocompleteReady = ->
-  $('[data-object~="variable-name-autocomplete"]').each(->
-    $this = $(this)
-    $this.textcomplete(
-      [
-        {
-          match: /(^|\s)has\:([\w\-]*)$/
-          search: (term, callback) ->
-            words = ['adverse-events', 'comments', 'files']
-            resp = $.map(words, (word) ->
-              if word.indexOf(term) == 0
-                word
-              else
-                null
-            )
-            callback(resp)
-          replace: (value) -> return "$1has:#{value}"
-        },
-        {
-          match: /(^|\s)checks\:([\w\-]*)$/
-          search: (term, callback) ->
-            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/checks_search", { q: term })
-              .done((resp) -> callback(resp) )
-              .fail(-> callback([]))
-          replace: (value) ->
-            return "$1checks:#{value}"
-          cache: true
-        },
-        {
-          match: /(^|\s)events\:([\w\-]*)$/
-          search: (term, callback) ->
-            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/events_search", { q: term })
-              .done((resp) -> callback(resp) )
-              .fail(-> callback([]))
-          replace: (value) ->
-            return "$1events:#{value}"
-          cache: true
-        },
-        {
-          match: /(^|\s)(\w+)$/
-          search: (term, callback) ->
-            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/search", { q: term })
-              .done((resp) -> callback(resp))
-              .fail(-> callback([]))
-          replace: (value) ->
-            return "$1#{value}"
-          cache: true
-        },
-        {
-          match: /(^|\s)(\w+\:[^\s]*)$/
-          search: (term, callback) ->
-            $.getJSON("#{root_url}projects/#{$this.data('project-id')}/variables/values_search", { q: term })
-              .done((resp) -> callback(resp) )
-              .fail(-> callback([]))
-          replace: (item) ->
-            return "$1#{item.value}"
-          template: (item) ->
-            if item.name?
-              "#{item.name}"
-            else
-              "#{item.value}"
-          cache: true
-        }
-      ], { appendTo: 'body' }
-    )
-  )
-
 @variablesReady = ->
   if $('#variable_variable_type')
     toggleOptions($('#variable_variable_type'))
-  variableAutocompleteReady()
   calculationTextcompleteReady()
 
 

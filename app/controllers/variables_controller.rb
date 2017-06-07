@@ -4,7 +4,7 @@
 class VariablesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :report_lookup, :search, :checks_search, :events_search, :values_search
+    :report_lookup, :search
   ]
   before_action :find_editable_project_or_redirect, only: [
     :index, :show, :new, :edit, :create, :update, :destroy, :copy,
@@ -38,7 +38,7 @@ class VariablesController < ApplicationController
 
   # GET /projects/:project_id/variables
   def index
-    @order = scrub_order(Variable, params[:order], 'variables.name')
+    @order = scrub_order(Variable, params[:order], "variables.name")
     variable_scope = viewable_variables.search(params[:search], match_start: false).order(@order)
     variable_scope = variable_scope.where(user_id: params[:user_id]) if params[:user_id].present?
     variable_scope = variable_scope.where(variable_type: params[:variable_type]) if params[:variable_type].present?
@@ -48,50 +48,9 @@ class VariablesController < ApplicationController
   # GET /projects/:project_id/search.json
   def search
     variable_scope = viewable_variables.where(variable_type: %w(dropdown checkbox radio string integer numeric date calculated imperial_height imperial_weight))
-                                       .where('name ILIKE (?)', "#{params[:q]}%")
+                                       .where("name ILIKE (?)", "#{params[:q]}%")
                                        .order(:name).limit(10)
     render json: variable_scope.pluck(:name)
-  end
-
-  # GET /projects/:project_id/variables/values_search
-  def values_search
-    (variable_name, values) = params[:q].split(':')
-    first_values = values.to_s.split(',', -1)[0..-2].join(',')
-    last_value = values.to_s.split(',', -1)[-1].to_s
-    @variable = viewable_variables.where('name ILIKE ?', params[:q].split(':').first).first
-    json = \
-      if @variable
-        filtered_options = \
-          @variable.domain_options.select do |o|
-            !(/^#{last_value}/i =~ o.value).nil? || !(/(^|\s)#{last_value}/i =~ o.name).nil?
-          end
-        filtered_options.collect do |o|
-          {
-            value: "#{variable_name}:#{"#{first_values}," unless first_values.blank?}#{o.value}",
-            name: o.value_and_name
-          }
-        end
-      else
-        []
-      end
-
-    render json: json + [{ value: "#{variable_name}:any", name: 'any' }, { value: "#{variable_name}:missing", name: 'missing' }]
-  end
-
-  # GET /projects/:project_id/variables/checks_search.json
-  def checks_search
-    check_scope = @project.checks.runnable
-                          .where('slug ILIKE (?)', "#{params[:q]}%")
-                          .order(:slug).limit(10)
-    render json: check_scope.pluck(:slug)
-  end
-
-  # GET /projects/:project_id/variables/events_search.json
-  def events_search
-    event_scope = @project.events
-                          .where('slug ILIKE (?) or id = ?', "#{params[:q]}%", params[:q].to_i)
-                          .order(:slug).limit(10)
-    render json: event_scope.collect(&:to_param)
   end
 
   # # GET /projects/:project_id/variables/1
@@ -113,12 +72,12 @@ class VariablesController < ApplicationController
     if @variable.save
       @variable.create_variables_from_questions!
       @variable.update_grid_tokens!
-      url = if params[:continue].to_s == '1'
+      url = if params[:continue].to_s == "1"
               new_project_variable_path(@variable.project)
             else
               [@variable.project, @variable]
             end
-      redirect_to url, notice: 'Variable was successfully created.'
+      redirect_to url, notice: "Variable was successfully created."
     else
       render :new
     end
@@ -128,12 +87,12 @@ class VariablesController < ApplicationController
   def update
     if @variable.update(variable_params)
       @variable.update_grid_tokens!
-      url = if params[:continue].to_s == '1'
+      url = if params[:continue].to_s == "1"
               new_project_variable_path(@variable.project)
             else
               [@variable.project, @variable]
             end
-      redirect_to url, notice: 'Variable was successfully updated.'
+      redirect_to url, notice: "Variable was successfully updated."
     else
       render :edit
     end
