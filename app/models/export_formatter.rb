@@ -18,9 +18,9 @@ class ExportFormatter
     @sites = Site.where(id: sheet_scope.joins(:subject).select('subjects.site_id'))
     @events = Event.where(id: sheet_scope.joins(:subject_event).select('subject_events.event_id'))
     @designs = @design_scope
-    @variables = all_design_variables_without_grids
-    @domains = Domain.where(id: @variables.collect{|v| v.domain_id}).order('name')
-    @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order('design_options.design_id', 'design_options.position')
+    @variables = all_design_variables_without_grids.uniq
+    @domains = Domain.where(id: @variables.collect(&:domain_id)).order(:name)
+    @grid_group_variables = Variable.current.joins(:design_options).where(design_options: { design_id: sheet_scope.pluck(:design_id) }).where(variable_type: 'grid').order('design_options.design_id', 'design_options.position').uniq
     @grid_variables = []
     @grid_group_variables.each do |variable|
       variable.child_variables.each do |child_variable|
