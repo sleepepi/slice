@@ -8,6 +8,11 @@
   - Improved search filter autocomplete on the sheets index
   - Uploaded files counts are now cached
   - Sheet comments counts are now cached
+  - Sheets can now be filtered by open and closed adverse events
+    - `adverse-events:open`
+    - `adverse-events:closed`
+    - `has:adverse-events`
+    - `no:adverse-events`
 - **Design Changes**
   - Design link to "View Sheets" now filters sheets using the new search format
 - **Site Changes**

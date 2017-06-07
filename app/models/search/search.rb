@@ -108,7 +108,7 @@ class Search
 
   def sheets
     if @aes
-      all_viewable_sheets.where.not(adverse_event_id: nil)
+      filter_adverse_events
     elsif @comments
       filter_comments
     elsif @files
@@ -142,6 +142,18 @@ class Search
       subject_scope.where(id: @project.subjects.unrandomized.select(:id))
     else
       Subject.none
+    end
+  end
+
+  def filter_adverse_events
+    if @token.value == "open"
+      all_viewable_sheets.joins(:adverse_event).where(adverse_events: { closed: false })
+    elsif @token.value == "closed"
+      all_viewable_sheets.joins(:adverse_event).where(adverse_events: { closed: true })
+    elsif %w(missing !=).include?(@token.operator)
+      all_viewable_sheets.where(adverse_event_id: nil)
+    else
+      all_viewable_sheets.where.not(adverse_event_id: nil)
     end
   end
 
