@@ -1,23 +1,54 @@
 - is_grid = defined?(grid)
 
 .date-input.form-inline
-  - if variable.format == 'dd-mmm-yyyy'
+  - if variable.format == "dd-mmm-yyyy"
     %span.day-box
-      = text_field_tag "day_#{variable.name}", "", maxlength: 2, disabled: true, autocomplete: 'off', placeholder: 'dd', class: 'form-control', style: 'display: inline-block;'
+      = text_field_tag "day_#{variable.name}", "", maxlength: 2, disabled: true, autocomplete: "off", placeholder: "dd", class: "form-control", style: "display: inline-block;"
     \-
     %span.month-box
-      = select_tag "month_#{variable.name}", options_for_select(Date::ABBR_MONTHNAMES[1..12].collect.with_index { |m, i| [m.to_s.upcase, i+1] }), include_blank: true, placeholder: 'mmm', disabled: true, class: 'form-control', style: 'display: inline-block;'
+      = select_tag "month_#{variable.name}", options_for_select(Date::ABBR_MONTHNAMES[1..12].collect.with_index { |m, i| [m.to_s.upcase, i+1] }), include_blank: true, placeholder: "mmm", disabled: true, class: "form-control", style: "display: inline-block;"
     \-
     %span.year-box
-      = text_field_tag "year_#{variable.name}", "", maxlength: 4, disabled: true, autocomplete: 'off', placeholder: 'yyyy', class: 'form-control', style: 'display: inline-block;'
+      = text_field_tag "year_#{variable.name}", "", maxlength: 4, disabled: true, autocomplete: "off", placeholder: "yyyy", class: "form-control", style: "display: inline-block;"
   - else
     - variable.date_order.each_with_index do |component, index|
       - (formatting, string_format) = variable.date_formatting(component)
       %span{ class: "#{component}-box" }
-        = text_field_tag "#{component}_#{variable.name}", "", maxlength: formatting.size, disabled: true, autocomplete: 'off', placeholder: formatting, class: 'form-control', style: 'display: inline-block;'
+        = text_field_tag "#{component}_#{variable.name}", "", maxlength: formatting.size, disabled: true, autocomplete: "off", placeholder: formatting, class: "form-control", style: "display: inline-block;"
       = variable.date_separator unless index == variable.date_order.size - 1
   - if variable.show_current_button?
-    = link_to 'Today', '#', data: { object: 'suppress-click' }, class: 'btn btn-default btn-xs', tabindex: '-1', disabled: true if variable.show_current_button?
+    = link_to "Today", "#", data: { object: "suppress-click" }, class: "btn btn-default btn-xs", tabindex: "-1", disabled: true if variable.show_current_button?
 
 - unless is_grid
-  = link_to 'Edit Ranges', edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'date'), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow'
+  %div{ style: "margin-top: 10px; margin-bottom: 20px;" }
+    = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "date"), remote: true, method: :get, class: "design-preview-hide btn btn-xs btn-cutout btn-shadow"
+
+  - if variable.date_hard_minimum.present? || variable.date_soft_minimum.present? || variable.date_hard_maximum.present? || variable.date_soft_maximum.present?
+    - if variable.date_hard_maximum.present?
+      %div
+        %code
+          Hard Max:
+        %code
+          = variable.date_hard_maximum
+
+    - if variable.date_soft_maximum.present?
+      %div
+        %code
+          Soft Max:
+        %code
+          = variable.date_soft_maximum
+
+
+    - if variable.date_soft_minimum.present?
+      %div
+        %code
+          Soft Min:
+        %code
+          = variable.date_soft_minimum
+
+    - if variable.date_hard_minimum.present?
+      %div
+        %code
+          Hard Min:
+        %code
+          = variable.date_hard_minimum
