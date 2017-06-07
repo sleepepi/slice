@@ -97,6 +97,11 @@ class Variable < ApplicationRecord
     %w(name description display_name)
   end
 
+  def destroy
+    super
+    Domain.reset_counters(domain_id, :variables) unless domain_id.nil?
+  end
+
   def create_variables_from_questions!
     return unless variable_type == 'grid' && questions.present?
     questions.select { |hash| hash[:question_name].present? }.each_with_index do |question_hash, index|
