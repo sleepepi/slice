@@ -28,7 +28,7 @@ module SheetExport
     check_stuff = load_all_checkboxes(variables, sheet_ids)
     file_stuff = load_all_files(variables, sheet_ids)
     other_stuff = load_all_other_variables(variables, sheet_ids)
-    variables.each do |v|
+    variables.uniq.each do |v|
       if v.variable_type == "checkbox"
         v.domain_options.each do |domain_option|
           key = "#{v.id}:#{domain_option.id}"

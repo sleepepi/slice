@@ -32,7 +32,7 @@ module GridExport
     check_stuff = load_all_grid_checkboxes(grid_group_variables, sheet_ids)
     file_stuff = load_all_grid_files(grid_group_variables, sheet_ids)
     other_stuff = load_all_grid_other_variables(grid_group_variables, sheet_ids)
-    grid_group_variables.each do |grid_group_variable|
+    grid_group_variables.uniq.each do |grid_group_variable|
       grid_group_variable.child_variables.includes(domain: :domain_options).each do |child_variable|
         if child_variable.variable_type == "checkbox"
           child_variable.domain_options.each do |domain_option|

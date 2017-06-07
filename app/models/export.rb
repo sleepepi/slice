@@ -46,8 +46,8 @@ class Export < ApplicationRecord
     # Freeze the sheet scope to avoid data shifting during export.
     sheet_scope = Sheet.where(id: sheet_ids)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
-    variables_count = all_variables.count
-    grid_variables_count = all_variables.where(variable_type: "grid").count
+    variables_count = all_variables.uniq.count
+    grid_variables_count = all_variables.where(variable_type: "grid").uniq.count
     update sheet_ids_count: sheet_ids.size, variables_count: variables_count, grid_variables_count: grid_variables_count
     calculate_total_steps
     finalize_export!(generate_zip_file(sheet_scope))

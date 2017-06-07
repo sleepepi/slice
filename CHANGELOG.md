@@ -20,6 +20,10 @@
 - **Site Changes**
   - Improved the display of site members on the site show page on mobile
 
+### Bug Fix
+- Variables that exist on multiple designs no longer produce multiple columns in
+  CSV exports
+
 ## 0.53.0 (May 25, 2017)
 
 ### Enhancements
