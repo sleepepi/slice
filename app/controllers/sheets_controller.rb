@@ -62,7 +62,7 @@ class SheetsController < ApplicationController
         array << { label: option.value_and_name, value: [key, value_string].join(":") }
       end
     elsif params[:scope] == ""
-      %w(adverse-events checks designs events has is no not).each do |word|
+      %w(adverse-events checks coverage designs events has is no not).each do |word|
         val = params[:search].to_s
         array << { value: word } if starts_with?(val, word)
       end
@@ -344,7 +344,7 @@ class SheetsController < ApplicationController
       %w(open closed).collect { |i| [i, i] }
     when "checks"
       %w(any).collect { |i| [i, i] }
-    when "event", "events"
+    when "event", "events", "coverage"
       %w(any missing).collect { |i| [i, i] }
     else
       %w(any missing entered blank).collect { |i| [i, i] }
