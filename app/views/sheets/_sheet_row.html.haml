@@ -3,8 +3,8 @@
   = render "sheets/status/checks_bullet", sheet: sheet
   = link_to sheet.design.name, [@project, sheet]
   = render "layouts/unblinded_only", project: @project, object: sheet.design, placement: "right"
-  - if sheet.comments.size > 0
-    %span.glyphicon.glyphicon-comment{ rel: "tooltip", data: { title: pluralize(sheet.comments.size, "Comment"), container: "body", placement: "top" } }
+  - if sheet.comments_count.positive?
+    %span.glyphicon.glyphicon-comment{ rel: "tooltip", data: { title: pluralize(sheet.comments_count, "Comment"), container: "body", placement: "top" } }
   - if sheet.uploaded_files_count.to_i.positive?
     %span.glyphicon.glyphicon-paperclip{ rel: "tooltip", data: { title: pluralize(sheet.uploaded_files_count.to_i, "File"), container: "body", placement: "top" } }
 %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject

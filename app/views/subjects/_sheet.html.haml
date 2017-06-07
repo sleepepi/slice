@@ -2,10 +2,10 @@
   %td{ id: "sheet_#{sheet.id}_coverage", style: 'cursor: default;' }= render 'sheets/coverage', sheet: sheet
   %td
     .pull-right
-      - if sheet.comments.count > 0
+      - if sheet.comments_count.positive?
         = succeed ' ' do
           = link_to [@project, sheet], class: 'btn btn-xs btn-accent' do
-            = sheet.comments.count
+            = sheet.comments_count
             %span.glyphicon.glyphicon-comment
       %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime('%b %-d, %Y')
       %span.hidden-xs.nowrap= sheet.created_at.strftime('%a, %b %-d, %Y')

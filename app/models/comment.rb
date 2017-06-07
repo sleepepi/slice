@@ -12,7 +12,7 @@ class Comment < ApplicationRecord
 
   # Relationships
   belongs_to :user
-  belongs_to :sheet
+  belongs_to :sheet, counter_cache: true
   has_many :notifications
 
   delegate :project, to: :sheet
@@ -57,6 +57,7 @@ class Comment < ApplicationRecord
   def destroy
     super
     notifications.destroy_all
+    Sheet.reset_counters(sheet_id, :comments)
   end
 
   private

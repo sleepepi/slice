@@ -110,7 +110,7 @@ class Search
     if @aes
       all_viewable_sheets.where.not(adverse_event_id: nil)
     elsif @comments
-      all_viewable_sheets.where(id: Comment.current.select(:sheet_id))
+      filter_comments
     elsif @files
       filter_files
     elsif @checks
@@ -150,6 +150,14 @@ class Search
       all_viewable_sheets.where(uploaded_files_count: [nil, 0])
     else
       all_viewable_sheets.where.not(uploaded_files_count: [nil, 0])
+    end
+  end
+
+  def filter_comments
+    if %w(missing != blank).include?(@token.operator)
+      all_viewable_sheets.where(comments_count: 0)
+    else
+      all_viewable_sheets.where.not(comments_count: 0)
     end
   end
 

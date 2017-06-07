@@ -91,4 +91,11 @@ namespace :sheets do
     Sheet.where(uploaded_files_count: nil).find_each(&:update_uploaded_file_counts!)
     puts "DONE"
   end
+
+  desc "Cache sheet comments counts"
+  task cache_comments_counts: :environment do
+    print "Caching sheet comments counts..."
+    Sheet.find_each { |s| Sheet.reset_counters(s.id, :comments) }
+    puts "DONE"
+  end
 end

@@ -28,10 +28,10 @@
                       = link_to set_as_not_missing_project_sheet_path(@project, sheet), method: :post, remote: true do
                         Set as Not Missing
               - else
-                - if sheet.comments.count > 0
+                - if sheet.comments_count.positive?
                   = succeed ' ' do
                     = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs btn-accent' do
-                      = sheet.comments.count
+                      = sheet.comments_count
                       %span.glyphicon.glyphicon-comment
               - if sheets.count > 1 && event_design.highlight_duplicates?
                 %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: 'tooltip', title: 'Duplicate Entry', data: { placement: 'left', container: 'body' } }
@@ -87,9 +87,9 @@
         %td{ id: "sheet_#{sheet.id}_coverage" }= render 'sheets/coverage', sheet: sheet
         %td
           .pull-right
-            - if sheet.comments.count > 0
+            - if sheet.comments_count.positive?
               = link_to project_sheet_path(@project, sheet), class: 'btn btn-xs' do
-                = sheet.comments.count
+                = sheet.comments_count
                 %span.glyphicon.glyphicon-comment
 
           %span.label.label-warning.hidden-xs{ rel: 'tooltip', title: 'Not on base event', data: { placement: 'bottom', container: 'body' } } Extra

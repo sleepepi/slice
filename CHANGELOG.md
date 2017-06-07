@@ -7,6 +7,7 @@
 - **Sheet Changes**
   - Improved search filter autocomplete on the sheets index
   - Uploaded files counts are now cached
+  - Sheet comments counts are now cached
 - **Design Changes**
   - Design link to "View Sheets" now filters sheets using the new search format
 - **Site Changes**
