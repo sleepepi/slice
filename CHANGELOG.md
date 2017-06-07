@@ -4,6 +4,9 @@
 - **General Changes**
   - Search boxes no longer try to autocorrect or spellcheck search text
   - Improved variable and value autocomplete in search boxes
+- **Sheet Changes**
+  - Improved search filter autocomplete on the sheets index
+  - Uploaded files counts are now cached
 - **Design Changes**
   - Design link to "View Sheets" now filters sheets using the new search format
 - **Site Changes**

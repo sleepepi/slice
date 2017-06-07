@@ -22,7 +22,7 @@
       = hidden_field_tag :user_id, params[:user_id] if params[:user_id].present?
       .form-group{ style: "margin: 0;" }
         .input-group
-          = text_field_tag :search, params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "form-control", placeholder: "Search #{@title}", data: { object: "variable-name-autocomplete", project_id: @project.to_param }
+          = text_field_tag :search, params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, class: "form-control", placeholder: "Search #{@title}"
           %span.input-group-btn{ style: "vertical-align: bottom;" }
             = submit_tag "Search", class: "btn btn-primary", name: nil
             = link_to "#", class: "btn btn-default hidden-xs", data: { object: "sheet-export-link", project_id: @project.to_param } do

@@ -62,7 +62,7 @@ class SheetsController < ApplicationController
         array << { label: option.value_and_name, value: [key, value_string].join(":") }
       end
     elsif params[:scope] == ""
-      %w(adverse-events checks designs events has is not).each do |word|
+      %w(adverse-events checks designs events has is no not).each do |word|
         val = params[:search].to_s
         array << { value: word } if starts_with?(val, word)
       end
@@ -321,8 +321,8 @@ class SheetsController < ApplicationController
     case key
     when "is", "not"
       %w(randomized).collect { |i| [i, i] }
-    when "has"
-      %w(adverse-events).collect { |i| [i, i] }
+    when "has", "no"
+      %w(adverse-events comments files).collect { |i| [i, i] }
     when "design", "designs"
       project.designs.order(:slug, :name).collect { |d| [d.to_param, d.name] }
     when "event", "events"
@@ -338,12 +338,14 @@ class SheetsController < ApplicationController
   def other_words(key, _project)
     # open closed for adverse-events
     case key
-    when "is", "not", "has", "design", "designs", "event", "events"
+    when "is", "not", "no", "has", "design", "designs"
       []
     when "adverse-events"
       %w(open closed).collect { |i| [i, i] }
     when "checks"
       %w(any).collect { |i| [i, i] }
+    when "event", "events"
+      %w(any missing).collect { |i| [i, i] }
     else
       %w(any missing entered blank).collect { |i| [i, i] }
     end

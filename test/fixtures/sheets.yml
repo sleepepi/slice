@@ -28,6 +28,7 @@ file_attached:
   subject: three
   user: valid
   last_user: valid
+  uploaded_files_count: 1
 
 all_variables:
   design: all_variable_types

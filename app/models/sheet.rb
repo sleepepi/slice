@@ -376,6 +376,12 @@ class Sheet < ApplicationRecord
            .find_each(&:reset_coverage!)
   end
 
+  def update_uploaded_file_counts!
+    update_columns(
+      uploaded_files_count: sheet_variables.with_files.count + grids.with_files.count
+    )
+  end
+
   protected
 
   def check_subject_event_subject_match

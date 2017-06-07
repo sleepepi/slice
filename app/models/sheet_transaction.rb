@@ -39,6 +39,7 @@ class SheetTransaction < ApplicationRecord
       sheet_transaction.update_variables!(variables_params, current_user)
       unless skip_callbacks
         sheet.update_response_count!
+        sheet.update_uploaded_file_counts!
         sheet.subject.update_uploaded_file_counts!
         sheet.update_associated_subject_events!
       end

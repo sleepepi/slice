@@ -19,23 +19,22 @@ class Search
     @current_user = current_user
     @sheet_scope = sheet_scope
     @token = token
-    @operator = token.operator
     set_checks_or_variable
   end
 
   def set_checks_or_variable
     case @token.key
-    when 'checks'
+    when "checks"
       set_checks
-    when 'designs', 'design'
+    when "designs", "design"
       set_designs
-    when 'events'
+    when "events"
       set_events
-    when 'comments', 'comment'
+    when "comments", "comment"
       @comments = true
-    when 'aes', 'ae', 'adverse-events', 'adverse-events'
+    when "aes", "ae", "adverse-events", "adverse-events"
       @aes = true
-    when 'files', 'file'
+    when "files", "file"
       @files = true
     else
       set_variable
@@ -44,7 +43,7 @@ class Search
 
   def set_checks
     @checks = \
-      if @operator == 'any'
+      if @token.operator == "any"
         @project.checks.runnable
       else
         @project.checks.where(slug: @token.values)
@@ -53,11 +52,11 @@ class Search
 
   def set_designs
     @designs = \
-      if %w(any missing).include?(@operator)
+      if %w(any missing).include?(@token.operator)
         @project.designs
       else
         @project.designs.where(
-          'slug ilike any (array[?]) or id IN (?)',
+          "slug ilike any (array[?]) or id IN (?)",
           @token.values,
           @token.values.collect(&:to_i)
         )
@@ -66,11 +65,11 @@ class Search
 
   def set_events
     @events = \
-      if %w(any missing).include?(@operator)
+      if %w(any missing).include?(@token.operator)
         @project.events
       else
         @project.events.where(
-          'slug ilike any (array[?]) or id IN (?)',
+          "slug ilike any (array[?]) or id IN (?)",
           @token.values,
           @token.values.collect(&:to_i)
         )
@@ -81,7 +80,7 @@ class Search
     @variable = @token.variable
     @variable = @project.variables.find_by(name: @token.key) unless @variable
     return unless @variable
-    if %w(any missing).include?(@operator)
+    if %w(any missing).include?(@token.operator)
       @values = []
       @values = \
         if all_numeric?
@@ -89,7 +88,7 @@ class Search
         else
           @variable.captured_values.uniq - @variable.missing_codes
         end
-    elsif %w(entered present unentered blank).include?(@operator)
+    elsif %w(entered present unentered blank).include?(@token.operator)
       @values = @variable.captured_values.uniq
     else
       @values = parse_values_for_variable
@@ -113,9 +112,7 @@ class Search
     elsif @comments
       all_viewable_sheets.where(id: Comment.current.select(:sheet_id))
     elsif @files
-      all_viewable_sheets
-        .where(id: SheetVariable.with_files.select(:sheet_id))
-        .or(all_viewable_sheets.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
+      filter_files
     elsif @checks
       compute_sheets_for_checks
     elsif @designs
@@ -124,9 +121,9 @@ class Search
       compute_sheets_for_events
     elsif @variable
       compute_sheets_for_variable
-    elsif @token.key == 'randomized'
+    elsif @token.key == "randomized"
       randomized_subjects_sheets
-    elsif @token.key == 'coverage'
+    elsif @token.key == "coverage"
       compute_sheets_for_coverage
     else
       Sheet.none
@@ -139,12 +136,20 @@ class Search
 
   def randomized_subjects
     subject_scope = @current_user.all_viewable_subjects.where(project: @project)
-    if @operator == '=' || @operator.blank?
+    if @token.operator == "=" || @token.operator.blank?
       subject_scope.where(id: @project.subjects.randomized.select(:id))
-    elsif @operator == '!='
+    elsif @token.operator == "!="
       subject_scope.where(id: @project.subjects.unrandomized.select(:id))
     else
       Subject.none
+    end
+  end
+
+  def filter_files
+    if %w(missing != blank).include?(@token.operator)
+      all_viewable_sheets.where(uploaded_files_count: [nil, 0])
+    else
+      all_viewable_sheets.where.not(uploaded_files_count: [nil, 0])
     end
   end
 
@@ -158,7 +163,7 @@ class Search
   def compute_sheets_for_designs
     sheet_scope = all_viewable_sheets
     return sheet_scope if @designs.count.zero?
-    if @operator == 'missing'
+    if @token.operator == "missing"
       sheet_scope.where.not(design_id: @designs.select(:id))
     else
       sheet_scope.where(design_id: @designs.select(:id))
@@ -174,7 +179,7 @@ class Search
     end
     sheet_ids.flatten!
 
-    if @operator == 'missing'
+    if @token.operator == "missing"
       sheet_scope.where.not(id: sheet_ids)
     else
       sheet_scope.where(id: sheet_ids)
@@ -186,7 +191,7 @@ class Search
     return sheet_scope if @values.count.zero?
     select_sheet_ids = subquery_scope.where(variable: @variable).left_outer_joins(:domain_option).where(subquery).select(:sheet_id)
 
-    if %w(missing unentered blank).include?(@operator)
+    if %w(missing unentered blank).include?(@token.operator)
       sheet_scope.where.not(id: select_sheet_ids)
     else
       sheet_scope.where(id: select_sheet_ids)
@@ -195,11 +200,11 @@ class Search
 
   def compute_sheets_for_coverage
     sheet_scope = all_viewable_sheets
-    if %w(missing unentered blank).include?(@operator)
+    if %w(missing unentered blank).include?(@token.operator)
       sheet_scope.where(percent: nil)
-    elsif %w(any entered present).include?(@operator)
+    elsif %w(any entered present).include?(@token.operator)
       sheet_scope.where.not(percent: nil)
-    elsif @operator.in?(%w(< > <= >=))
+    elsif @token.operator.in?(%w(< > <= >=))
       sheet_scope.where("sheets.percent #{database_operator} ?", @token.value.to_i)
     else
       sheet_scope.where("sheets.percent #{database_operator} (?)", @token.values.collect(&:to_i))
@@ -216,7 +221,7 @@ class Search
 
   def subquery_attribute
     case @variable.variable_type
-    when 'file'
+    when "file"
       "#{subquery_scope.table_name}.response_file"
     else
       "#{subquery_scope.table_name}.value"
@@ -224,13 +229,13 @@ class Search
   end
 
   def subquery_scope
-    @variable.variable_type == 'checkbox' ? Response : SheetVariable
+    @variable.variable_type == "checkbox" ? Response : SheetVariable
   end
 
   def subjects
     if @variable
       compute_subjects_for_variable
-    elsif filter_type == 'randomized'
+    elsif filter_type == "randomized"
       randomized_subjects
     else
       Subject.none
@@ -244,18 +249,18 @@ class Search
   end
 
   def subquery
-    type_cast = all_numeric? ? 'numeric' : 'text'
+    type_cast = all_numeric? ? "numeric" : "text"
 
-    if @operator.in?(%w(< > <= >=))
+    if @token.operator.in?(%w(< > <= >=))
       full_expression = []
       @values.each do |subquery_value|
         value = all_numeric? ? subquery_value : ActiveRecord::Base.connection.quote(subquery_value)
         full_expression << "#{domain_option_value_or_attribute(type_cast)} #{database_operator} #{value}"
       end
-      full_expression.join(' or ')
+      full_expression.join(" or ")
     else
-      extra = ''
-      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if @operator == '!='
+      extra = ""
+      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if @token.operator == "!="
       "#{domain_option_value_or_attribute(type_cast)} #{database_operator} (#{subquery_values_joined})#{extra}"
     end
   end
@@ -267,23 +272,23 @@ class Search
   end
 
   def database_operator
-    case @operator
-    when '<', '>', '<=', '>='
-      @operator
-    when '!='
-      'NOT IN'
-    when 'entered', 'present', 'any', 'missing', 'unentered', 'blank'
-      'IN'
+    case @token.operator
+    when "<", ">", "<=", ">="
+      @token.operator
+    when "!="
+      "NOT IN"
+    when "entered", "present", "any", "missing", "unentered", "blank"
+      "IN"
     else
-      'IN'
+      "IN"
     end
   end
 
   def subquery_values_joined
     if all_numeric?
-      @values.sort.join(', ')
+      @values.sort.join(", ")
     else
-      @values.collect { |v| ActiveRecord::Base.connection.quote(v) }.sort.join(', ')
+      @values.collect { |v| ActiveRecord::Base.connection.quote(v) }.sort.join(", ")
     end
   end
 end
