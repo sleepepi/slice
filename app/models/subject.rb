@@ -4,7 +4,11 @@
 # randomizations, and events.
 class Subject < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Evaluatable, Squishable, Forkable
+  include Deletable
+  include Evaluatable
+  include Forkable
+  include Searchable
+  include Squishable
 
   squish :subject_code
 
@@ -26,13 +30,13 @@ class Subject < ApplicationRecord
   end
 
   # Relationships
-  belongs_to :user
   belongs_to :project
   belongs_to :site
+  belongs_to :user, optional: true
   has_many :adverse_events, -> { current }
   has_many :randomizations, -> { current }
   has_many :sheets, -> { current }
-  has_many :subject_events, -> { joins(:event).order(:event_date, 'events.position') }
+  has_many :subject_events, -> { joins(:event).order(:event_date, "events.position") }
 
   # Methods
 
@@ -204,7 +208,7 @@ class Subject < ApplicationRecord
     )
   end
 
-  def evaluate?(event: nil, design: nil, variable: nil, value: nil, operator: '=')
+  def evaluate?(event: nil, design: nil, variable: nil, value: nil, operator: "=")
     return true if variable.nil? || value.blank?
     scope = sheets
     scope = scope.joins(:subject_event).where(subject_events: { event: event }) if event
@@ -214,9 +218,9 @@ class Subject < ApplicationRecord
     values = value_scope.pluck_domain_option_value_or_value
     count = \
       case operator
-      when '<', '>', '<=', '>='
+      when "<", ">", "<=", ">="
         values.reject(&:blank?).count { |v| v.to_f.send(operator, value.to_f) }
-      when '!='
+      when "!="
         values.count { |v| v != value }
       else
         values.count { |v| v == value }
