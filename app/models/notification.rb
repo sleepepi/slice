@@ -9,12 +9,12 @@ class Notification < ApplicationRecord
   # Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :adverse_event
-  belongs_to :comment
-  belongs_to :export
-  belongs_to :handoff
-  belongs_to :sheet
-  belongs_to :sheet_unlock_request
+  belongs_to :adverse_event, optional: true
+  belongs_to :comment, optional: true
+  belongs_to :export, optional: true
+  belongs_to :handoff, optional: true
+  belongs_to :sheet, optional: true
+  belongs_to :sheet_unlock_request, optional: true
 
   # Methods
   def mark_as_unread!
