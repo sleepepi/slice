@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Tracks a list of randomizations.
 class List < ApplicationRecord
   # Serialized
   serialize :extra_options, Array
@@ -24,11 +25,11 @@ class List < ApplicationRecord
 
   def name
     names = extra_option_names + option_names
-    names.count == 0 ? 'List' : names.join(', ')
+    names.present? ? names.join(", ") : "List"
   end
 
   def option_names
-    list_options.includes(:option).order('stratification_factor_options.stratification_factor_id').collect(&:name)
+    list_options.includes(:option).order("stratification_factor_options.stratification_factor_id").collect(&:name)
   end
 
   def extra_option_names
@@ -42,7 +43,7 @@ class List < ApplicationRecord
   def generate_all_block_groups_up_to!(current_user, max_block_group, multipliers, arms)
     current_block_group = next_block_group
     (current_block_group..max_block_group).each do |block_group|
-      self.generate_block_group!(current_user, block_group, multipliers, arms)
+      generate_block_group!(current_user, block_group, multipliers, arms)
     end
   end
 
