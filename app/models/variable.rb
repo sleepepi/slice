@@ -33,26 +33,26 @@ class Variable < ApplicationRecord
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
 
   DISPLAY_LAYOUTS = [
-    ['Question Inline with Answer', 'visible'],
-    ['Question Above Answer ', 'gone']
+    ["Question Inline with Answer", "visible"],
+    ["Question Above Answer ", "gone"]
   ]
 
   ALIGNMENT = [
-    %w(Horizontal horizontal),
-    %w(Vertical vertical),
-    %w(Scale scale)
+    ["Horizontal", "horizontal"],
+    ["Vertical", "vertical"],
+    ["Scale", "scale"]
   ]
 
   TIME_OF_DAY_FORMATS = [
-    ['24-Hour', '24hour'],
-    ['12-Hour AM/PM [AM]', '12hour'],
-    ['12-Hour AM/PM [PM]', '12hour-pm']
+    ["24-Hour", "24hour"],
+    ["12-Hour AM/PM [AM]", "12hour"],
+    ["12-Hour AM/PM [PM]", "12hour-pm"]
   ]
 
   TIME_DURATION_FORMATS = [
-    ['HH:MM:SS', 'hh:mm:ss'],
-    ['HH:MM', 'hh:mm'],
-    ['MM:SS', 'mm:ss']
+    ["HH:MM:SS", "hh:mm:ss"],
+    ["HH:MM", "hh:mm"],
+    ["MM:SS", "mm:ss"]
   ]
 
   # Callbacks
@@ -61,7 +61,11 @@ class Variable < ApplicationRecord
   attr_accessor :questions, :grid_tokens
 
   # Concerns
-  include Searchable, Deletable, DateAndTimeParser, Calculable, Squishable
+  include Calculable
+  include DateAndTimeParser
+  include Deletable
+  include Searchable
+  include Squishable
 
   squish :name, :display_name, :field_note, :prepend, :append, :units, :format
 
@@ -70,26 +74,29 @@ class Variable < ApplicationRecord
 
   # Validations
   validates :name, :display_name, :variable_type, :project_id, presence: true
-  validates :name, format: { with: /\A[a-z]\w*\Z/i }, length: { maximum: 32 }, exclusion: { in: %w(new edit create update destroy overlap null) }
+  validates :name,
+            format: { with: /\A[a-z]\w*\Z/i },
+            length: { maximum: 32 },
+            exclusion: { in: %w(new edit create update destroy overlap null) }
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :time_of_day_format, inclusion: { in: TIME_OF_DAY_FORMATS.collect(&:second) }
   validates :time_duration_format, inclusion: { in: TIME_DURATION_FORMATS.collect(&:second) }
 
   # Relationships
-  belongs_to :user
   belongs_to :project
-  belongs_to :domain, counter_cache: true
+  belongs_to :user, optional: true # TODO: should not be optional
+  belongs_to :domain, optional: true, counter_cache: true
+  belongs_to :updater, optional: true, class_name: "User", foreign_key: "updater_id"
   has_many :sheet_variables
   has_many :grids
   has_many :responses
-  belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
   has_many :design_options, -> { order :position }
   has_many :designs, through: :design_options
-  has_many :child_grid_variables, -> { order('position nulls last') },
-           class_name: 'GridVariable', source: :child_variable,
+  has_many :child_grid_variables, -> { order("position nulls last") },
+           class_name: "GridVariable", source: :child_variable,
            foreign_key: :parent_variable_id
   has_many :child_variables, through: :child_grid_variables
-  has_many :parent_grid_variables, class_name: 'GridVariable', source: :parent_variable, foreign_key: :child_variable_id
+  has_many :parent_grid_variables, class_name: "GridVariable", source: :parent_variable, foreign_key: :child_variable_id
   has_many :parent_variables, through: :parent_grid_variables
 
   # Methods
@@ -103,19 +110,19 @@ class Variable < ApplicationRecord
   end
 
   def create_variables_from_questions!
-    return unless variable_type == 'grid' && questions.present?
+    return unless variable_type == "grid" && questions.present?
     questions.select { |hash| hash[:question_name].present? }.each_with_index do |question_hash, index|
       question_hash = question_hash.symbolize_keys
       name = question_hash[:question_name].to_s.downcase
-                                          .gsub(/[^a-zA-Z0-9]/, '_')
-                                          .gsub(/^[\d_]/, 'n')
-                                          .gsub(/_{2,}/, '_')
-                                          .gsub(/_$/, '')[0..31].strip
+                                          .gsub(/[^a-zA-Z0-9]/, "_")
+                                          .gsub(/^[\d_]/, "n")
+                                          .gsub(/_{2,}/, "_")
+                                          .gsub(/_$/, "")[0..31].strip
       name = "var_#{SecureRandom.hex(12)}" if project.variables.where(name: name).size != 0
       new_variable_type = if Design::QUESTION_TYPES.collect(&:second).include?(question_hash[:question_type])
                             question_hash[:question_type]
                           else
-                            'string'
+                            "string"
                           end
       params = {
         variable_type: new_variable_type,
@@ -137,7 +144,7 @@ class Variable < ApplicationRecord
   end
 
   def domain_options_with_user(response, current_user)
-    unarchived_domain_options = domain_options.where('domain_options.archived = ? OR domain_options.value IN (?)', false, response)
+    unarchived_domain_options = domain_options.where("domain_options.archived = ? OR domain_options.value IN (?)", false, response)
     return unarchived_domain_options unless current_user
     site_ids = current_user.all_editable_sites.where(project_id: project_id).select(:id)
     unarchived_domain_options.where(site_id: site_ids).or(unarchived_domain_options.where(site_id: nil))
@@ -148,7 +155,7 @@ class Variable < ApplicationRecord
   end
 
   def uses_scale?
-    %w(radio checkbox).include?(variable_type) && alignment == 'scale'
+    %w(radio checkbox).include?(variable_type) && alignment == "scale"
   end
 
   # Use inherited designs to include grid variables
@@ -170,7 +177,7 @@ class Variable < ApplicationRecord
   # Includes responses, grids, and sheet_variables
   def captured_values
     @captured_values ||= begin
-      if variable_type == 'file'
+      if variable_type == "file"
         (sheet_variables.pluck(:response_file) +
           grids.pluck(:response_file)).uniq.reject(&:blank?)
       else
@@ -182,10 +189,10 @@ class Variable < ApplicationRecord
   end
 
   def range_tooltip
-    result = ''
+    result = ""
     minimum = hard_minimum || soft_minimum
     maximum = hard_maximum || soft_maximum
-    with_units = (units.blank? ? '' : " #{units}")
+    with_units = (units.blank? ? "" : " #{units}")
     if !minimum.blank? && !maximum.blank?
       result = "[#{minimum}, #{maximum}]" + with_units
     elsif minimum.blank? && !maximum.blank?
@@ -242,8 +249,8 @@ class Variable < ApplicationRecord
   end
 
   def options_or_autocomplete(include_missing)
-    if variable_type == 'string'
-      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.value, value: sv.value, info: 'User Submitted' } }.uniq { |a| a[:value].downcase })
+    if variable_type == "string"
+      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.value, value: sv.value, info: "User Submitted" } }.uniq { |a| a[:value].downcase })
     else
       doscope = \
         if include_missing
@@ -252,7 +259,7 @@ class Variable < ApplicationRecord
           domain_options.where(missing_code: false)
         end
       doscope.collect do |domain_option|
-        { name: domain_option.name, value: domain_option.value, missing_code: domain_option.missing_code? ? '1' : '0' }
+        { name: domain_option.name, value: domain_option.value, missing_code: domain_option.missing_code? ? "1" : "0" }
       end
     end
   end
@@ -263,7 +270,7 @@ class Variable < ApplicationRecord
   end
 
   def formatted_calculation
-    readable_calculation.to_s.gsub(/\?|\:/, '<br/>&nbsp;\0<br/>').html_safe
+    readable_calculation.to_s.gsub(/\?|\:/, "<br/>&nbsp;\0<br/>").html_safe
   end
 
   def statistics?
@@ -287,13 +294,13 @@ class Variable < ApplicationRecord
   end
 
   def base_strata(sheet_scope, include_missing, hash)
-    if statistics? && hash[:axis] == 'col'
+    if statistics? && hash[:axis] == "col"
       statistic_filters
     elsif %w(dropdown radio string checkbox).include?(variable_type)
       domain_filters(sheet_scope, include_missing)
-    elsif variable_type == 'design'
+    elsif variable_type == "design"
       design_filters
-    elsif variable_type == 'site'
+    elsif variable_type == "site"
       site_filters
     elsif %w(sheet_date date).include?(variable_type)
       date_filters(sheet_scope, hash)
@@ -304,17 +311,17 @@ class Variable < ApplicationRecord
 
   def statistic_filters
     [
-      { filters: [], name: 'N',      tooltip: 'N',      calculation: 'array_count'                            },
-      { filters: [], name: 'Mean',   tooltip: 'Mean',   calculation: 'array_mean'                             },
-      { filters: [], name: 'StdDev', tooltip: 'StdDev', calculation: 'array_standard_deviation', symbol: 'pm' },
-      { filters: [], name: 'Median', tooltip: 'Median', calculation: 'array_median'                           },
-      { filters: [], name: 'Min',    tooltip: 'Min',    calculation: 'array_min'                              },
-      { filters: [], name: 'Max',    tooltip: 'Max',    calculation: 'array_max'                              }
+      { filters: [], name: "N",      tooltip: "N",      calculation: "array_count"                            },
+      { filters: [], name: "Mean",   tooltip: "Mean",   calculation: "array_mean"                             },
+      { filters: [], name: "StdDev", tooltip: "StdDev", calculation: "array_standard_deviation", symbol: "pm" },
+      { filters: [], name: "Median", tooltip: "Median", calculation: "array_median"                           },
+      { filters: [], name: "Min",    tooltip: "Min",    calculation: "array_min"                              },
+      { filters: [], name: "Max",    tooltip: "Max",    calculation: "array_max"                              }
     ]
   end
 
   def domain_filters(sheet_scope, include_missing)
-    filters = [{ filters: [{ variable: self, value: nil, operator: 'any' }], name: 'N', tooltip: 'N', calculation: 'array_count' }]
+    filters = [{ filters: [{ variable: self, value: nil, operator: "any" }], name: "N", tooltip: "N", calculation: "array_count" }]
     unique_responses = unique_responses_for_sheets(sheet_scope)
     filters += options_or_autocomplete(include_missing)
                .select { |h| unique_responses.include?(h[:value]) }
@@ -331,8 +338,8 @@ class Variable < ApplicationRecord
         tooltip: design.name,
         link: "/projects/#{project.to_param}/reports/designs/#{design.id}/advanced",
         value: design.id.to_s,
-        calculation: 'array_count',
-        hide_value: '1'
+        calculation: "array_count",
+        hide_value: "1"
       }
     end
   end
@@ -344,22 +351,22 @@ class Variable < ApplicationRecord
         name: site.name,
         tooltip: site.name,
         value: site.id.to_s,
-        calculation: 'array_count',
-        hide_value: '1'
+        calculation: "array_count",
+        hide_value: "1"
       }
     end
   end
 
   def date_filters(sheet_scope, hash)
-    date_buckets = generate_date_buckets(sheet_scope, hash[:by] || 'month')
-    date_buckets.reverse! unless hash[:axis] == 'col'
+    date_buckets = generate_date_buckets(sheet_scope, hash[:by] || "month")
+    date_buckets.reverse! unless hash[:axis] == "col"
     date_buckets.collect do |date_bucket|
       {
         filters: [{ variable: self,
                     start_date: date_bucket[:start_date],
                     end_date: date_bucket[:end_date] }],
         name: date_bucket[:name], tooltip: date_bucket[:tooltip],
-        calculation: 'array_count',
+        calculation: "array_count",
         start_date: date_bucket[:start_date], end_date: date_bucket[:end_date]
       }
     end
@@ -367,19 +374,19 @@ class Variable < ApplicationRecord
 
   def presence_filters(hash)
     display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
-    [{ filters: [{ variable: self, value: nil, operator: 'any' }], name: display_name, tooltip: display_name, muted: false }]
+    [{ filters: [{ variable: self, value: nil, operator: "any" }], name: display_name, tooltip: display_name, muted: false }]
   end
 
   def missing_filter
-    { filters: [{ variable: self, value: nil, operator: 'missing' }], name: 'Missing', tooltip: 'Missing', muted: true }
+    { filters: [{ variable: self, value: nil, operator: "missing" }], name: "Missing", tooltip: "Missing", muted: true }
   end
 
   def blank_filter
-    { filters: [{ variable: self, value: nil, operator: 'blank' }], name: 'Blank', tooltip: 'Blank', muted: true }
+    { filters: [{ variable: self, value: nil, operator: "blank" }], name: "Blank", tooltip: "Blank", muted: true }
   end
 
   def unique_responses_for_sheets(sheet_scope)
-    if variable_type == 'checkbox'
+    if variable_type == "checkbox"
       sheet_scope.sheet_responses_for_checkboxes(self).uniq
     else
       sheet_scope.sheet_responses(self).uniq
@@ -387,10 +394,10 @@ class Variable < ApplicationRecord
   end
 
   def edge_date(sheet_scope, method)
-    if variable_type == 'sheet_date'
+    if variable_type == "sheet_date"
       sheet_scope.pluck(:created_at).send(method).to_date
     else
-      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), '%Y-%m-%d')
+      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), "%Y-%m-%d")
     end
   rescue
     Time.zone.today
@@ -411,7 +418,7 @@ class Variable < ApplicationRecord
     date_buckets = []
     last_years = (min.year..max.year).last(max_length_of_time_in_years)
     case by
-    when 'week'
+    when "week"
       current_cweek = min.cweek
       last_years.each do |year|
         (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
@@ -422,7 +429,7 @@ class Variable < ApplicationRecord
         end
         current_cweek = 1
       end
-    when 'month'
+    when "month"
       current_month = min.month
       last_years.each do |year|
         (current_month..12).each do |month|
@@ -433,7 +440,7 @@ class Variable < ApplicationRecord
         end
         current_month = 1
       end
-    when 'year'
+    when "year"
       last_years.each do |year|
         start_date = Date.parse("#{year}-01-01")
         end_date = Date.parse("#{year}-12-31")
@@ -444,42 +451,42 @@ class Variable < ApplicationRecord
   end
 
   def self.site(project_id)
-    new project_id: project_id, name: 'site', display_name: 'Site', variable_type: 'site'
+    new project_id: project_id, name: "site", display_name: "Site", variable_type: "site"
   end
 
   def self.sheet_date(project_id)
-    new project_id: project_id, name: 'sheet_date', display_name: 'Sheet Date', variable_type: 'sheet_date'
+    new project_id: project_id, name: "sheet_date", display_name: "Sheet Date", variable_type: "sheet_date"
   end
 
   def self.design(project_id)
-    new project_id: project_id, name: 'design', display_name: 'Design', variable_type: 'design'
+    new project_id: project_id, name: "design", display_name: "Design", variable_type: "design"
   end
 
   def sas_informat
     if %w(string file).include?(variable_type)
-      '$500'
+      "$500"
     elsif %w(date).include?(variable_type)
-      'yymmdd10'
+      "yymmdd10"
     elsif %w(dropdown radio).include?(variable_type) && domain && !domain.all_numeric?
-      '$500'
+      "$500"
     elsif %w(numeric integer calculated imperial_height imperial_weight dropdown radio time_of_day time_duration).include?(variable_type)
-      'best32'
+      "best32"
     else # elsif %w(text).include?(variable_type)
-      '$5000'
+      "$5000"
     end
   end
 
   def sas_format
     case variable_type
-    when 'time_of_day'
-      'time8'
+    when "time_of_day"
+      "time8"
     else
       sas_informat
     end
   end
 
   def csv_column
-    if variable_type == 'checkbox'
+    if variable_type == "checkbox"
       domain_options.collect { |domain_option| option_variable_name(domain_option) }
     else
       name
@@ -487,7 +494,7 @@ class Variable < ApplicationRecord
   end
 
   def csv_columns_and_names
-    if variable_type == 'checkbox'
+    if variable_type == "checkbox"
       domain_options.collect do |domain_option|
         [option_variable_name(domain_option), "#{display_name} - #{domain_option.value_and_name}"]
       end
@@ -497,8 +504,8 @@ class Variable < ApplicationRecord
   end
 
   def sas_informat_definition
-    if variable_type == 'checkbox'
-      option_informat = (domain && !domain.all_numeric? ? '$500' : 'best32')
+    if variable_type == "checkbox"
+      option_informat = (domain && !domain.all_numeric? ? "$500" : "best32")
       domain_options.collect { |domain_option| "  informat #{option_variable_name(domain_option)} #{option_informat}. ;" }
     else
       "  informat #{name} #{sas_informat}. ;"
@@ -506,8 +513,8 @@ class Variable < ApplicationRecord
   end
 
   def sas_format_definition
-    if variable_type == 'checkbox'
-      option_format = (domain && !domain.all_numeric? ? '$500' : 'best32')
+    if variable_type == "checkbox"
+      option_format = (domain && !domain.all_numeric? ? "$500" : "best32")
       domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option)} #{option_format}. ;" }
     else
       "  format #{name} #{sas_format}. ;"
@@ -515,7 +522,7 @@ class Variable < ApplicationRecord
   end
 
   def sas_format_label
-    if variable_type == 'checkbox'
+    if variable_type == "checkbox"
       domain_options.collect { |domain_option| "  label #{option_variable_name(domain_option)}='#{display_name.gsub("'", "''")} (#{domain_option.name.gsub("'", "''")})' ;" }
     else
       "  label #{name}='#{display_name.gsub("'", "''")}';"
@@ -525,7 +532,7 @@ class Variable < ApplicationRecord
   def sas_format_domain
     if domain
       case variable_type
-      when 'checkbox'
+      when "checkbox"
         domain_options.collect { |domain_option| "  format #{option_variable_name(domain_option)} #{domain.sas_domain_name}. ;" }
       else
         "  format #{name} #{domain.sas_domain_name}. ;"
@@ -536,14 +543,14 @@ class Variable < ApplicationRecord
   end
 
   def option_variable_name(domain_option)
-    "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28).gsub(/^_+/, '')
+    "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28).gsub(/^_+/, "")
   end
 
   def date_order
     case format
-    when '%Y-%m-%d'
+    when "%Y-%m-%d"
       %w(year month day)
-    when '%d/%m/%Y'
+    when "%d/%m/%Y"
       %w(day month year)
     else
       %w(month day year)
@@ -552,34 +559,34 @@ class Variable < ApplicationRecord
 
   def date_formatting(component)
     case component
-    when 'month'
-      ['mm', '%m']
-    when 'day'
-      ['dd', '%d']
-    when 'year'
-      ['yyyy', '%Y']
+    when "month"
+      ["mm", "%m"]
+    when "day"
+      ["dd", "%d"]
+    when "year"
+      ["yyyy", "%Y"]
     end
   end
 
   def date_separator
     case format
-    when '%Y-%m-%d'
-      '-'
+    when "%Y-%m-%d"
+      "-"
     else
-      '/'
+      "/"
     end
   end
 
   def export_units
     case variable_type
-    when 'imperial_height'
-      'inches'
-    when 'imperial_weight'
-      'ounces'
-    when 'time_of_day'
-      'seconds since midnight'
-    when 'time_duration'
-      'seconds'
+    when "imperial_height"
+      "inches"
+    when "imperial_weight"
+      "ounces"
+    when "time_of_day"
+      "seconds since midnight"
+    when "time_duration"
+      "seconds"
     else
       units
     end
@@ -587,8 +594,8 @@ class Variable < ApplicationRecord
 
   def export_variable_type
     case variable_type
-    when 'imperial_height', 'imperial_weight', 'time_of_day', 'time_duration'
-      'integer'
+    when "imperial_height", "imperial_weight", "time_of_day", "time_duration"
+      "integer"
     else
       variable_type
     end
@@ -628,15 +635,15 @@ class Variable < ApplicationRecord
 
   def validation_code(status, design_option)
     if %w(invalid out_of_range).include?(status)
-      'error'
-    elsif status == 'blank' && design_option.required?
-      'error'
-    elsif status == 'in_hard_range'
-      'warning'
-    elsif status == 'blank' && design_option.recommended?
-      'warning'
+      "error"
+    elsif status == "blank" && design_option.required?
+      "error"
+    elsif status == "in_hard_range"
+      "warning"
+    elsif status == "blank" && design_option.recommended?
+      "warning"
     else
-      'valid'
+      "valid"
     end
   end
 
@@ -649,12 +656,12 @@ class Variable < ApplicationRecord
   end
 
   def single_choice?
-    variable_type != 'checkbox'
+    variable_type != "checkbox"
   end
 
   # For Time Duration Variables
   def no_hours?
-    time_duration_format == 'mm:ss'
+    time_duration_format == "mm:ss"
   end
 
   def time_of_day_format_name
