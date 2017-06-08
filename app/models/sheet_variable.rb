@@ -3,18 +3,19 @@
 # Stores a value for a single variable on a sheet.
 class SheetVariable < ApplicationRecord
   # Concerns
-  include Formattable, Valuable
+  include Formattable
+  include Valuable
 
   # Scopes
-  scope :with_files, -> { joins(variable: :design_options).where(variables: { variable_type: 'file' }).where.not(response_file: [nil, '']) }
+  scope :with_files, -> { joins(variable: :design_options).where(variables: { variable_type: "file" }).where.not(response_file: [nil, ""]) }
 
   # Validations
   validates :sheet_id, presence: true
 
   # Relationships
   belongs_to :sheet, touch: true
-  belongs_to :user
-  belongs_to :domain_option
+  belongs_to :user, optional: true
+  belongs_to :domain_option, optional: true
   has_many :grids
 
   def self.not_empty
@@ -22,16 +23,16 @@ class SheetVariable < ApplicationRecord
   end
 
   def self.all_empty
-    where(response_file: [nil, ''], value: [nil, ''], domain_option_id: nil)
+    where(response_file: [nil, ""], value: [nil, ""], domain_option_id: nil)
       .where(id: grids_empty.select(:id))
       .where(id: responses_empty.select(:id))
   end
 
   def self.grids_empty
-    left_outer_joins(:grids).having('COUNT(grids) = 0').group(:id)
+    left_outer_joins(:grids).having("COUNT(grids) = 0").group(:id)
   end
 
   def self.responses_empty
-    left_outer_joins(:responses).having('COUNT(responses) = 0').group(:id)
+    left_outer_joins(:responses).having("COUNT(responses) = 0").group(:id)
   end
 end
