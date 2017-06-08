@@ -10,9 +10,9 @@ class ProjectUser < ApplicationRecord
   validates :invite_token, uniqueness: true, allow_nil: true
 
   # Relationships
-  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
+  belongs_to :creator, class_name: "User", foreign_key: "creator_id"
   belongs_to :project
-  belongs_to :user
+  belongs_to :user, optional: true
 
   def send_user_invited_email_in_background!
     set_invite_token
@@ -26,7 +26,7 @@ class ProjectUser < ApplicationRecord
   private
 
   def set_invite_token
-    return unless invite_token.blank?
+    return if invite_token.present?
     update invite_token: SecureRandom.hex(12)
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
