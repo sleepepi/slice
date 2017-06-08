@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
-# Generates a full export of sheets to a chosen format for a project
+# Generates a full export of sheets to a chosen format for a project.
 class Export < ApplicationRecord
+  # Uploaders
   mount_uploader :file, ZipUploader
 
+  # Constants
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
 
   # Concerns
-  include Searchable, Deletable, GridExport, SheetExport, Forkable
+  include Deletable
+  include Forkable
+  include GridExport
+  include Searchable
+  include SheetExport
 
   # Validations
   validates :name, :user_id, :project_id, presence: true
