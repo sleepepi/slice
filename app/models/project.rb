@@ -6,33 +6,37 @@
 class Project < ApplicationRecord
   PER_PAGE = 40
   AUTO_LOCK_SHEETS = [
-    ['Never Lock Sheets', 'never'],
-    ['After 24 hours', 'after24hours'],
-    ['After 1 week', 'after1week'],
-    ['After 1 month', 'after1month']
+    ["Never Lock Sheets", "never"],
+    ["After 24 hours", "after24hours"],
+    ["After 1 week", "after1week"],
+    ["After 1 month", "after1month"]
   ]
 
   mount_uploader :logo, ImageUploader
 
   # Concerns
-  include Searchable, Deletable, Sluggable, Squishable, ShortNameable
+  include Deletable
+  include Searchable
+  include ShortNameable
+  include Sluggable
+  include Squishable
 
   squish :name
 
   after_save :create_default_site, :create_default_categories
 
   # Scopes
-  scope :with_editor, ->(*args) { where('projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))', args.first, args.first, args[1] ).references(:project_users) }
+  scope :with_editor, ->(*args) { where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))", args.first, args.first, args[1] ).references(:project_users) }
   scope :by_favorite, ->(arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
   scope :archived, -> { where(project_preferences: { archived: true }) }
   scope :unarchived, -> { where(project_preferences: { archived: [nil, false] }) }
-  scope :viewable_by_user, ->(arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :viewable_by_user, ->(arg) { where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ?)
-    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)', arg, arg, arg) }
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ?)", arg, arg, arg) }
 
-  scope :editable_by_user, ->(arg) { where('projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
+  scope :editable_by_user, ->(arg) { where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
     OR projects.id IN (SELECT project_users.project_id FROM project_users WHERE project_users.user_id = ? and project_users.editor = ?)
-    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)', arg, arg, true, arg, true) }
+    OR projects.id IN (SELECT sites.project_id FROM site_users, sites WHERE site_users.site_id = sites.id AND site_users.user_id = ? and site_users.editor = ?)", arg, arg, true, arg, true) }
 
   # Validations
   validates :name, :user_id, presence: true
@@ -80,11 +84,11 @@ class Project < ApplicationRecord
   end
 
   def name_for_file
-    name.gsub(/[^a-zA-Z0-9_]/, '_')
+    name.gsub(/[^a-zA-Z0-9_]/, "_")
   end
 
   def recent_sheets
-    sheets.where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.days : Time.zone.now - 1.day))
+    sheets.where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.days : Time.zone.now - 1.day))
   end
 
   def owner?(current_user)
@@ -113,7 +117,7 @@ class Project < ApplicationRecord
   end
 
   def subject_code_name_full
-    subject_code_name.to_s.strip.blank? ? 'Subject Code' : subject_code_name.to_s.strip
+    subject_code_name.to_s.strip.blank? ? "Subject Code" : subject_code_name.to_s.strip
   end
 
   # TODO: Refactor
@@ -123,13 +127,13 @@ class Project < ApplicationRecord
                                                      .select { |u| emails_enabled?(u) } # Project setting
   end
 
-  # Returns "fake" constructed variables like 'site' and 'sheet_date'
+  # Returns "fake" constructed variables like "site" and "sheet_date"
   def variable_by_id(variable_id)
-    if variable_id == 'design'
+    if variable_id == "design"
       Variable.design(id)
-    elsif variable_id == 'site'
+    elsif variable_id == "site"
       Variable.site(id)
-    elsif variable_id == 'sheet_date'
+    elsif variable_id == "sheet_date"
       Variable.sheet_date(id)
     else
       variables.find_by(id: variable_id)
@@ -180,13 +184,13 @@ class Project < ApplicationRecord
     return project_editors unless blinding_enabled
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
-      .where('(project_users.editor = ? and project_users.unblinded = ?) or users.id = ?', true, true, user_id)
+      .where("(project_users.editor = ? and project_users.unblinded = ?) or users.id = ?", true, true, user_id)
   end
 
   def project_editors
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
-      .where('project_users.editor = ? or users.id = ?', true, user_id)
+      .where("project_users.editor = ? or users.id = ?", true, user_id)
   end
 
   def unblinded_members
@@ -194,14 +198,14 @@ class Project < ApplicationRecord
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id")
-      .where('users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?', user_id, true, true)
+      .where("users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?", user_id, true, true)
   end
 
   def members
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id")
-      .where('users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL', user_id)
+      .where("users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL", user_id)
   end
 
   # Included unblinded project members and unblinded members for specified site
@@ -210,7 +214,7 @@ class Project < ApplicationRecord
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id and site_users.site_id = #{site.id}")
-      .where('users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?', user_id, true, true)
+      .where("users.id = ? or project_users.unblinded = ? or site_users.unblinded = ?", user_id, true, true)
   end
 
   # Includes project members and site members for specified site
@@ -218,7 +222,7 @@ class Project < ApplicationRecord
     User.current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = #{id} and project_users.user_id = users.id")
       .joins("LEFT OUTER JOIN site_users ON site_users.project_id = #{id} and site_users.user_id = users.id and site_users.site_id = #{site.id}")
-      .where('users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL', user_id)
+      .where("users.id = ? or project_users.unblinded IS NOT NULL or site_users.unblinded IS NOT NULL", user_id)
   end
 
   def transfer_to_user(new_owner, current_user)
@@ -228,7 +232,7 @@ class Project < ApplicationRecord
   end
 
   def auto_locking_enabled?
-    ['', 'never'].exclude?(auto_lock_sheets)
+    ["", "never"].exclude?(auto_lock_sheets)
   end
 
   def auto_lock_name
@@ -247,14 +251,14 @@ class Project < ApplicationRecord
   # Creates a default site if the project has no site associated with it
   def create_default_site
     return unless sites.count.zero?
-    sites.create(name: 'Default Site', short_name: 'Default Site', number: 1, user_id: user_id)
+    sites.create(name: "Default Site", short_name: "Default Site", number: 1, user_id: user_id)
   end
 
   def create_default_categories
     return if categories.count > 0
     categories.create(
-      name: 'Adverse Events',
-      slug: 'adverse-events',
+      name: "Adverse Events",
+      slug: "adverse-events",
       user_id: user_id,
       position: 1,
       use_for_adverse_events: true
