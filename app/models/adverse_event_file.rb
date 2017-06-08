@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Files can be uploaded and attached to adverse events
+# Files can be uploaded and attached to adverse events.
 class AdverseEventFile < ApplicationRecord
   # Uploaders
   mount_uploader :attachment, GenericUploader
@@ -19,7 +19,7 @@ class AdverseEventFile < ApplicationRecord
   end
 
   def pdf?
-    extension == 'pdf'
+    extension == "pdf"
   end
 
   def image?
