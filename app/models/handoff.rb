@@ -23,8 +23,8 @@ class Handoff < ApplicationRecord
 
   def self.find_by_param(input)
     clean_input = input.to_param.to_s
-    handoff_id = clean_input.split('-').first
-    handoff_token = clean_input.gsub(/^#{handoff_id}-/, '')
+    handoff_id = clean_input.split("-").first
+    handoff_token = clean_input.gsub(/^#{handoff_id}-/, "")
     handoff = Handoff.find_by(id: handoff_id)
     # Use Devise.secure_compare to mitigate timing attacks
     handoff if handoff && Devise.secure_compare(handoff.token, handoff_token)
@@ -55,7 +55,7 @@ class Handoff < ApplicationRecord
   end
 
   def set_token
-    return true unless token.blank?
+    return true if token.present?
     update token: SecureRandom.hex(8)
     true
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
