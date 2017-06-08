@@ -7,7 +7,9 @@
 # out an adverse event for the subject.
 class Category < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, Sluggable
+  include Deletable
+  include Searchable
+  include Sluggable
 
   # Validations
   validates :name, :user_id, :project_id, presence: true
