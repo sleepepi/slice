@@ -9,10 +9,11 @@ class RandomizationScheme < ApplicationRecord
 
   # Constants
   MAX_LISTS = 128
-  ALGORITHMS = [['Permuted-Block Algorithm', 'permuted-block'], ['Minimization Algorithm', 'minimization']]
+  ALGORITHMS = [["Permuted-Block Algorithm", "permuted-block"], ["Minimization Algorithm", "minimization"]]
 
   # Concerns
-  include Searchable, Deletable
+  include Deletable
+  include Searchable
 
   # Scopes
   scope :published, -> { where published: true }
@@ -29,7 +30,7 @@ class RandomizationScheme < ApplicationRecord
   # Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :variable
+  belongs_to :variable, optional: true
   has_many :expected_randomizations
   has_many :block_size_multipliers,        -> { current.order(:value) }
   has_many :lists,                         -> { current }
@@ -92,16 +93,16 @@ class RandomizationScheme < ApplicationRecord
     if name_value
       name_value[0]
     else
-      'No Algorithm Selected'
+      "No Algorithm Selected"
     end
   end
 
   def permuted_block?
-    algorithm == 'permuted-block'
+    algorithm == "permuted-block"
   end
 
   def minimization?
-    algorithm == 'minimization'
+    algorithm == "minimization"
   end
 
   def randomization_error_message
@@ -111,12 +112,12 @@ class RandomizationScheme < ApplicationRecord
   def stratification_factors_with_calculation
     stratification_factors
       .where(stratifies_by_site: false)
-      .where.not(calculation: ['', nil])
+      .where.not(calculation: ["", nil])
   end
 
   def expected_recruitment_by_month(site)
     expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create
-    expected_randomization.expected.to_s.split(',').reject(&:blank?).collect(&:to_i)
+    expected_randomization.expected.to_s.split(",").reject(&:blank?).collect(&:to_i)
   end
 
   def reset_randomization_names!
@@ -152,7 +153,7 @@ class RandomizationScheme < ApplicationRecord
     expected_randomizations_hashes.each do |hash|
       site = project.sites.find_by(id: hash[:site_id])
       next unless site
-      expected = hash[:expected].to_s.gsub(/[^\d,]/, '').split(',').reject(&:blank?).join(',')
+      expected = hash[:expected].to_s.gsub(/[^\d,]/, "").split(",").reject(&:blank?).join(",")
       expected_randomization = expected_randomizations.where(site_id: site.id).first_or_create
       expected_randomization.update expected: expected
     end
@@ -160,6 +161,6 @@ class RandomizationScheme < ApplicationRecord
 
   def minimization_must_have_stratification_factors
     return unless published? && minimization? && stratification_factors.where(stratifies_by_site: false).count == 0
-    errors.add(:published, 'missing stratification factors')
+    errors.add(:published, "missing stratification factors")
   end
 end
