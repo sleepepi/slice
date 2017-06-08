@@ -10,16 +10,16 @@ class ListsController < ApplicationController
 
   def generate
     if @randomization_scheme.generate_lists!(current_user)
-      flash[:notice] = 'Lists were successfully created.'
+      flash[:notice] = "Lists were successfully created."
     else
-      flash[:alert] = 'Lists were NOT successfully created. Please be sure to UNDO any existing randomizations.'
+      flash[:alert] = "Lists were NOT successfully created. Please be sure to UNDO any existing randomizations."
     end
     redirect_to [@project, @randomization_scheme]
   end
 
   def expand
     @randomization_scheme.add_missing_lists!(current_user)
-    flash[:notice] = 'Additional lists were successfully created.'
+    flash[:notice] = "Additional lists were successfully created."
     redirect_to [@project, @randomization_scheme]
   end
 
