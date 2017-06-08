@@ -41,3 +41,15 @@ Style/StringLiterals:
 # Allow perl backrefs.
 Style/PerlBackrefs:
   Enabled: false
+
+# Allow symbol arrays.
+Style/SymbolArray:
+  Enabled: false
+
+# Allow word arrays.
+Style/WordArray:
+  Enabled: false
+
+# Don't require brackets for white-space separated arrays.
+Style/PercentLiteralDelimiters:
+  Enabled: false
