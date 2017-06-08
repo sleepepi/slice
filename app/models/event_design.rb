@@ -5,13 +5,13 @@
 class EventDesign < ApplicationRecord
   # Constants
   REQUIREMENTS = [
-    ['Always Required', 'always'],
-    ['Conditionally Required', 'conditional']
+    ["Always Required", "always"],
+    ["Conditionally Required", "conditional"]
   ]
   OPERATORS = %w(= < <= > >= !=)
   DUPLICATES = [
-    ['Highlight Duplicates', 'highlight'],
-    ['Ignore Duplicates', 'ignore']
+    ["Highlight Duplicates", "highlight"],
+    ["Ignore Duplicates", "ignore"]
   ]
 
   # Concerns
@@ -24,21 +24,21 @@ class EventDesign < ApplicationRecord
   # Relationships
   belongs_to :event
   belongs_to :design
-  belongs_to :conditional_event, class_name: 'Event'
-  belongs_to :conditional_design, class_name: 'Design'
-  belongs_to :conditional_variable, class_name: 'Variable'
+  belongs_to :conditional_event, optional: true, class_name: "Event"
+  belongs_to :conditional_design, optional: true, class_name: "Design"
+  belongs_to :conditional_variable, optional: true, class_name: "Variable"
 
   # Methods
   def always_required?
-    requirement == 'always'
+    requirement == "always"
   end
 
   def conditionally_required?
-    requirement == 'conditional'
+    requirement == "conditional"
   end
 
   def highlight_duplicates?
-    duplicates == 'highlight'
+    duplicates == "highlight"
   end
 
   def requirement_name
