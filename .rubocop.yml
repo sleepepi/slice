@@ -53,3 +53,7 @@ Style/WordArray:
 # Don't require brackets for white-space separated arrays.
 Style/PercentLiteralDelimiters:
   Enabled: false
+
+# Don't require formatted string tokens.
+Style/FormatStringToken:
+  Enabled: false
