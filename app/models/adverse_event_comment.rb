@@ -6,6 +6,7 @@ class AdverseEventComment < ApplicationRecord
   # Constants
   COMMENT_TYPE = %w(commented closed reopened)
 
+  # Callbacks
   after_save :set_ae_status
 
   # Concerns
@@ -25,7 +26,7 @@ class AdverseEventComment < ApplicationRecord
 
   # Methods
   def number
-    adverse_event.adverse_event_comments.where.not(description: ['', nil]).pluck(:id).index(id) + 1
+    adverse_event.adverse_event_comments.where.not(description: ["", nil]).pluck(:id).index(id) + 1
   rescue
     0
   end
@@ -39,15 +40,15 @@ class AdverseEventComment < ApplicationRecord
   end
 
   def comment?
-    comment_type == 'commented'
+    comment_type == "commented"
   end
 
   def closed?
-    comment_type == 'closed'
+    comment_type == "closed"
   end
 
   def reopened?
-    comment_type == 'reopened'
+    comment_type == "reopened"
   end
 
   def set_ae_status
