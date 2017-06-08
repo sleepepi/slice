@@ -9,7 +9,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   # Concerns
-  include Deletable, Expirable
+  include Deletable
+  include Expirable
 
   # Validations
   validates :first_name, :last_name, presence: true
@@ -46,21 +47,21 @@ class User < ApplicationRecord
   # Scopes
 
   def self.search(arg)
-    term = arg.to_s.downcase.gsub(/^| |$/, '%')
+    term = arg.to_s.downcase.gsub(/^| |$/, "%")
     conditions = [
-      'LOWER(first_name) LIKE ?',
-      'LOWER(last_name) LIKE ?',
-      'LOWER(email) LIKE ?',
-      '((LOWER(first_name) || LOWER(last_name)) LIKE ?)',
-      '((LOWER(last_name) || LOWER(first_name)) LIKE ?)'
+      "LOWER(first_name) LIKE ?",
+      "LOWER(last_name) LIKE ?",
+      "LOWER(email) LIKE ?",
+      "((LOWER(first_name) || LOWER(last_name)) LIKE ?)",
+      "((LOWER(last_name) || LOWER(first_name)) LIKE ?)"
     ]
     terms = [term] * conditions.count
-    where conditions.join(' or '), *terms
+    where conditions.join(" or "), *terms
   end
 
   # Methods
 
-  def avatar_url(size = 80, default = 'mm')
+  def avatar_url(size = 80, default = "mm")
     gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)
     "//gravatar.com/avatar/#{gravatar_id}.png?&s=#{size}&r=pg&d=#{default}"
   end
@@ -70,7 +71,7 @@ class User < ApplicationRecord
       .current
       .left_outer_joins(:projects, :project_users, :site_users)
       .where(
-        'projects.id in (?) or project_users.project_id in (?) or site_users.project_id in (?)',
+        "projects.id in (?) or project_users.project_id in (?) or site_users.project_id in (?)",
         all_viewable_and_site_projects.select(:id),
         all_viewable_and_site_projects.select(:id),
         all_viewable_and_site_projects.select(:id)
@@ -144,7 +145,7 @@ class User < ApplicationRecord
       .with_site(all_editable_sites.select(:id))
       .where(design_id: all_viewable_designs.select(:id))
       .left_outer_joins(:subject_event)
-      .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
+      .where("sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)", all_viewable_events.select(:id))
   end
 
   # Project Editors and Viewers and Site Members can view sheets
@@ -154,7 +155,7 @@ class User < ApplicationRecord
       .with_site(all_viewable_sites.select(:id))
       .where(design_id: all_viewable_designs.select(:id))
       .left_outer_joins(:subject_event)
-      .where('sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)', all_viewable_events.select(:id))
+      .where("sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)", all_viewable_events.select(:id))
   end
 
   # Only Project Editors or Project Owner can modify randomization
@@ -221,7 +222,7 @@ class User < ApplicationRecord
   def all_adverse_event_comments
     AdverseEventComment
       .current
-      .where('user_id = ? or project_id in (?)', id, all_projects.select(:id))
+      .where("user_id = ? or project_id in (?)", id, all_projects.select(:id))
   end
 
   # Project Editors
@@ -266,7 +267,7 @@ class User < ApplicationRecord
   def all_editable_comments
     Comment
       .current
-      .where('sheet_id IN (?) or user_id = ?', all_sheets.select(:id), id)
+      .where("sheet_id IN (?) or user_id = ?", all_sheets.select(:id), id)
   end
 
   def all_deletable_comments
@@ -281,7 +282,7 @@ class User < ApplicationRecord
   def sheets_with_files(project)
     scope = all_viewable_sheets.where(project: project)
     scope.where(id: SheetVariable.with_files.select(:sheet_id))
-         .or(scope.where(id: Grid.with_files.joins(:sheet_variable).select('sheet_variables.sheet_id')))
+         .or(scope.where(id: Grid.with_files.joins(:sheet_variable).select("sheet_variables.sheet_id")))
   end
 
   # Overriding Devise built-in active_for_authentication? method
@@ -312,13 +313,13 @@ class User < ApplicationRecord
   def digest_sheets_created
     all_viewable_sheets
       .where(project_id: all_digest_projects.select(:id), missing: false)
-      .where('sheets.created_at > ?', last_business_day)
+      .where("sheets.created_at > ?", last_business_day)
   end
 
   def digest_comments
     all_viewable_comments
       .with_project(all_digest_projects.select(:id))
-      .where('comments.created_at > ?', last_business_day)
+      .where("comments.created_at > ?", last_business_day)
       .order(:created_at)
   end
 
