@@ -3,33 +3,43 @@
 # Provides a framework to layout a series of sections and variables that make
 # up a data collection form.
 class Design < ApplicationRecord
+  # Uploaders
   mount_uploader :csv_file, SpreadsheetUploader
 
+  # Constants
   ORDERS = {
-    'category' => 'categories.name, designs.name',
-    'category desc' => 'categories.name desc, designs.name',
-    'variables' => 'designs.variables_count',
-    'variables desc' => 'designs.variables_count desc',
-    'design' => 'designs.name',
-    'design desc' => 'designs.name desc'
+    "category" => "categories.name, designs.name",
+    "category desc" => "categories.name desc, designs.name",
+    "variables" => "designs.variables_count",
+    "variables desc" => "designs.variables_count desc",
+    "design" => "designs.name",
+    "design desc" => "designs.name desc"
   }
-  DEFAULT_ORDER = 'designs.name'
+  DEFAULT_ORDER = "designs.name"
+
+  QUESTION_TYPES = [
+    ["free text", "string"],
+    ["select one answer", "radio"],
+    ["select multiple answers", "checkbox"],
+    ["date", "date"],
+    ["time of day", "time_of_day"],
+    ["number", "numeric"],
+    ["file upload", "file"]
+  ]
 
   # Callbacks
   after_save :reset_sheet_total_response_count, :set_slug
 
-  QUESTION_TYPES = [
-    ['free text', 'string'],
-    ['select one answer', 'radio'],
-    ['select multiple answers', 'checkbox'],
-    ['date', 'date'],
-    ['time of day', 'time_of_day'],
-    ['number', 'numeric'],
-    ['file upload', 'file']
-  ]
-
   # Concerns
-  include Searchable, Deletable, Latexable, DateAndTimeParser, Sluggable, Forkable, ShortNameable, Blindable, Squishable
+  include Blindable
+  include DateAndTimeParser
+  include Deletable
+  include Forkable
+  include Latexable
+  include Searchable
+  include ShortNameable
+  include Sluggable
+  include Squishable
 
   squish :name, :slug, :short_name
 
@@ -45,13 +55,12 @@ class Design < ApplicationRecord
   # Relationships
   belongs_to :user
   belongs_to :project
-  belongs_to :category, -> { current }
+  belongs_to :category, -> { current }, optional: true
+  belongs_to :updater, class_name: "User", foreign_key: "updater_id", optional: true
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sections
-  belongs_to :updater, class_name: 'User', foreign_key: 'updater_id'
   has_many :event_designs
   has_many :events, through: :event_designs
-
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
 
@@ -62,26 +71,26 @@ class Design < ApplicationRecord
   end
 
   def self.order_by_user_name
-    joins('LEFT JOIN users ON users.id = designs.user_id')
-      .order('users.last_name, users.first_name')
-      .select('designs.*, users.last_name, users.first_name')
+    joins("LEFT JOIN users ON users.id = designs.user_id")
+      .order("users.last_name, users.first_name")
+      .select("designs.*, users.last_name, users.first_name")
   end
 
   def self.order_by_user_name_desc
-    joins('LEFT JOIN users ON users.id = designs.user_id')
-      .order('users.last_name desc, users.first_name desc')
-      .select('designs.*, users.last_name, users.first_name')
+    joins("LEFT JOIN users ON users.id = designs.user_id")
+      .order("users.last_name desc, users.first_name desc")
+      .select("designs.*, users.last_name, users.first_name")
   end
 
   def questions
-    @questions || [{ question_name: '', question_type: 'free text' }]
+    @questions || [{ question_name: "", question_type: "free text" }]
   end
 
   def create_variables_from_questions!
     questions.reject { |hash| hash[:question_name].blank? }.each_with_index do |question_hash, position|
-      name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, '_').gsub(/^[\d_]/, 'n').gsub(/_{2,}/, '_').gsub(/_$/, '')[0..31].strip
+      name = question_hash[:question_name].to_s.downcase.gsub(/[^a-zA-Z0-9]/, "_").gsub(/^[\d_]/, "n").gsub(/_{2,}/, "_").gsub(/_$/, "")[0..31].strip
       name = "var_#{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..27]}" if project.variables.where(name: name).size != 0
-      variable_type = (QUESTION_TYPES.collect { |_name, value| value }.include?(question_hash[:question_type]) ? question_hash[:question_type] : 'string')
+      variable_type = (QUESTION_TYPES.collect { |_name, value| value }.include?(question_hash[:question_type]) ? question_hash[:question_type] : "string")
       variable = project.variables.create(
         name: name,
         display_name: question_hash[:question_name],
@@ -101,7 +110,7 @@ class Design < ApplicationRecord
     design_options.includes(:variable, :section).each do |design_option|
       new_options << design_option
       variable = design_option.variable
-      next unless variable && variable.variable_type == 'grid'
+      next unless variable && variable.variable_type == "grid"
       variable.child_variables.each do |child_variable|
         new_options << DesignOption.new(variable_id: child_variable.id)
       end
@@ -115,9 +124,9 @@ class Design < ApplicationRecord
 
   def variable_replacement(variable_id)
     variable = variables.find_by(id: variable_id)
-    if variable && ['radio'].include?(variable.variable_type)
+    if variable && ["radio"].include?(variable.variable_type)
       "$(\"[name='variables[#{variable.id}]']:checked\").val()"
-    elsif variable && ['checkbox'].include?(variable.variable_type)
+    elsif variable && ["checkbox"].include?(variable.variable_type)
       "$.map($(\"[name='variables[#{variable.id}][]']:checked\"),function(el){return $(el).val();})"
     elsif variable
       "$(\"#variables_#{variable.id}\").val()"
@@ -132,16 +141,16 @@ class Design < ApplicationRecord
 
   def design_options_grouped_by_section
     result = []
-    current_section = ['', []]
+    current_section = ["", []]
     design_options.each do |design_option|
       if design_option.section
-        result << current_section unless current_section == ['', []]
+        result << current_section unless current_section == ["", []]
         current_section = [design_option.section.name, []]
       elsif design_option.variable
         current_section[1] << [design_option.variable.display_name, design_option.variable_id]
       end
     end
-    result << current_section unless current_section == ['', []]
+    result << current_section unless current_section == ["", []]
     result
   end
 
@@ -183,16 +192,16 @@ class Design < ApplicationRecord
   end
 
   def latex_partial(partial)
-    File.read(File.join('app', 'views', 'designs', 'latex', "_#{partial}.tex.erb"))
+    File.read(File.join("app", "views", "designs", "latex", "_#{partial}.tex.erb"))
   end
 
   def latex_file_location(current_user)
     jobname = "design_#{id}"
-    output_folder = File.join('tmp', 'files', 'tex')
-    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
+    output_folder = File.join("tmp", "files", "tex")
+    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
 
-    File.open(file_tex, 'w') do |file|
-      file.syswrite(ERB.new(latex_partial('print')).result(binding))
+    File.open(file_tex, "w") do |file|
+      file.syswrite(ERB.new(latex_partial("print")).result(binding))
     end
 
     Design.generate_pdf(jobname, output_folder, file_tex)
@@ -210,11 +219,11 @@ class Design < ApplicationRecord
     @table_footer = table_footer
 
     jobname = "project_#{@project.id}_design_#{id}_report"
-    output_folder = File.join('tmp', 'files', 'tex')
-    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
+    output_folder = File.join("tmp", "files", "tex")
+    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
 
-    File.open(file_tex, 'w') do |file|
-      file.syswrite(ERB.new(latex_partial('report_new')).result(binding))
+    File.open(file_tex, "w") do |file|
+      file.syswrite(ERB.new(latex_partial("report_new")).result(binding))
     end
 
     Design.generate_pdf(jobname, output_folder, file_tex)
@@ -226,9 +235,9 @@ class Design < ApplicationRecord
       raw_variables.reject! { |i| %w(Subject Site).include?(i) }
       variables = []
       raw_variables.each do |variable_token|
-        (variable_name, variable_type) = variable_token.to_s.split(':')
-        variable_type = 'string' unless Variable::TYPE_IMPORTABLE.flatten.include?(variable_type)
-        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ''), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token } unless variable_name.blank?
+        (variable_name, variable_type) = variable_token.to_s.split(":")
+        variable_type = "string" unless Variable::TYPE_IMPORTABLE.flatten.include?(variable_type)
+        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ""), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token } unless variable_name.blank?
       end
       variables
     end
@@ -239,7 +248,7 @@ class Design < ApplicationRecord
       result = []
       if csv_file.path
         current_line = 0
-        CSV.parse(File.open(csv_file.path, 'r:iso-8859-1:utf-8') { |f| f.read }) do |line|
+        CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read)) do |line|
           break unless current_line == 0
           result = line
           current_line += 1
@@ -253,7 +262,7 @@ class Design < ApplicationRecord
     new_variables = []
     variable_hashes.each do |name, hash|
       v = project.variables.find_by(name: name.to_s)
-      next if hash[:ignore] == '1' or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
+      next if hash[:ignore] == "1" or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
       v = project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: user_id, user_id: user_id) unless v
       new_variables << v
     end
@@ -272,7 +281,7 @@ class Design < ApplicationRecord
 
   def set_total_rows
     counter = 0
-    CSV.parse(File.open(csv_file.path, 'r:iso-8859-1:utf-8') { |f| f.read }, headers: true) { counter += 1 } if csv_file.path
+    CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read), headers: true) { counter += 1 } if csv_file.path
     update total_rows: counter
   end
 
@@ -292,14 +301,14 @@ class Design < ApplicationRecord
       [variable, column_name]
     end
 
-    CSV.parse(File.open(csv_file.path, 'r:iso-8859-1:utf-8') { |f| f.read }, headers: true) do |line|
+    CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read), headers: true) do |line|
       row = line.to_hash.with_indifferent_access
-      subject = Subject.first_or_create_with_defaults(project, row['Subject'], row['Site'].to_s, current_user, default_site)
+      subject = Subject.first_or_create_with_defaults(project, row["Subject"], row["Site"].to_s, current_user, default_site)
       if subject
         sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id)
         sheet.last_user_id = current_user.id
         sheet.last_edited_at = Time.zone.now
-        transaction_type = (sheet.new_record? ? 'sheet_create' : 'sheet_update')
+        transaction_type = (sheet.new_record? ? "sheet_create" : "sheet_update")
         variables_params = {}
 
         variables_and_column_names.each do |variable, column_name|
@@ -311,7 +320,7 @@ class Design < ApplicationRecord
         SheetTransaction.save_sheet!(sheet, {}, variables_params, current_user, remote_ip, transaction_type)
       end
       counter += 1
-      update(rows_imported: counter) if counter % 25 == 0 || counter == total_rows
+      update(rows_imported: counter) if (counter % 25).zero? || counter == total_rows
     end
 
     update import_ended_at: Time.zone.now
@@ -325,7 +334,7 @@ class Design < ApplicationRecord
   def insert_new_design_option!(design_option)
     design_options
       .where.not(id: design_option.id)
-      .where('position >= ?', design_option.position)
+      .where("position >= ?", design_option.position)
       .find_each do |dopt|
         dopt.update(position: dopt.position + 1)
       end
@@ -344,8 +353,8 @@ class Design < ApplicationRecord
   end
 
   def name_from_csv!
-    return unless name.blank? && csv_file.path && csv_file.path.split('/').last
-    self.name = csv_file.path.split('/').last.gsub(/csv|\./, '').humanize.capitalize
+    return unless name.blank? && csv_file.path && csv_file.path.split("/").last
+    self.name = csv_file.path.split("/").last.gsub(/csv|\./, "").humanize.capitalize
   end
 
   def generate_import_in_background(site_id, current_user, remote_ip)
@@ -359,7 +368,7 @@ class Design < ApplicationRecord
   end
 
   def reimport?
-    reimport == '1'
+    reimport == "1"
   end
 
   def export_value(raw_data)
