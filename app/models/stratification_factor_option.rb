@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Defines a specific value for a stratification factor.
 class StratificationFactorOption < ApplicationRecord
   # Concerns
   include Deletable
@@ -8,7 +9,9 @@ class StratificationFactorOption < ApplicationRecord
 
   # Validations
   validates :label, :user_id, :project_id, :randomization_scheme_id, :stratification_factor_id, presence: true
-  validates :label, :value, uniqueness: { case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id, :stratification_factor_id] }
+  validates :label, :value, uniqueness: {
+    case_sensitive: false, scope: [:deleted, :project_id, :randomization_scheme_id, :stratification_factor_id]
+  }
   validates :value, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
   # Relationships
