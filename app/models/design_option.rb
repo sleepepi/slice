@@ -6,9 +6,9 @@
 class DesignOption < ApplicationRecord
   # Constants
   REQUIREMENTS = [
-    ['Not Required', ''],
-    %w(Recommended recommended),
-    %w(Required required)
+    ["Not Required", ""],
+    ["Recommended", "recommended"],
+    ["Required", "required"]
   ]
 
   # Validations
@@ -18,8 +18,8 @@ class DesignOption < ApplicationRecord
 
   # Relationships
   belongs_to :design
-  belongs_to :variable
-  belongs_to :section, dependent: :destroy
+  belongs_to :variable, optional: true
+  belongs_to :section, optional: true, dependent: :destroy
 
   # Methods
   def readable_branching_logic
@@ -50,20 +50,20 @@ class DesignOption < ApplicationRecord
     if element
       element.first
     else
-      'Not Required'
+      "Not Required"
     end
   end
 
   def required?
-    requirement == 'required'
+    requirement == "required"
   end
 
   def recommended?
-    requirement == 'recommended'
+    requirement == "recommended"
   end
 
   def optional?
-    requirement == 'optional' || requirement.blank?
+    requirement == "optional" || requirement.blank?
   end
 
   def self.cleaned_description(hash, domain_option)
