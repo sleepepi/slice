@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-# A completable project todo that is within a specific window and has a due date
+# A completable project todo that is within a specific window and has a due
+# date.
 class Task < ApplicationRecord
   # Concerns
-  include Deletable, Searchable, Blindable
+  include Blindable
+  include Deletable
+  include Searchable
 
   # Validations
   validates :project_id, :user_id, :description, :due_date, :window_start_date, :window_end_date, presence: true
