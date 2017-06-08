@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# Represents a finite set of options for a given variable
+# Represents a finite set of options for a given variable.
 class Domain < ApplicationRecord
   # Concerns
-  include Searchable, Deletable
+  include Deletable
+  include Searchable
 
   attr_accessor :option_tokens
 
@@ -16,7 +17,7 @@ class Domain < ApplicationRecord
   # Relationships
   belongs_to :user
   belongs_to :project
-  has_many :domain_options, -> { order('position nulls last', :id) }
+  has_many :domain_options, -> { order("position nulls last", :id) }
   has_many :variables, -> { current }
   has_many :sheet_variables, through: :variables
   has_many :grids, through: :variables
@@ -33,7 +34,7 @@ class Domain < ApplicationRecord
   end
 
   def descriptions?
-    domain_options.where.not(description: [nil, '']).count > 0
+    domain_options.where.not(description: [nil, ""]).count > 0
   end
 
   def sites?
@@ -54,11 +55,11 @@ class Domain < ApplicationRecord
   end
 
   def sas_value_domain
-    "  value #{sas_domain_name}\n#{domain_options.collect { |o| "    #{"'" unless all_numeric? }#{o.value}#{"'" unless all_numeric? }='#{o.value}: #{o.name.gsub("'", "''")}'"}.join("\n")}\n  ;"
+    "  value #{sas_domain_name}\n#{domain_options.collect { |o| "    #{"'" unless all_numeric? }#{o.value}#{"'" unless all_numeric?}='#{o.value}: #{o.name.gsub("'", "''")}'" }.join("\n")}\n  ;"
   end
 
   def sas_domain_name
-    "#{ '$' unless all_numeric? }#{name}f"
+    "#{'$' unless all_numeric?}#{name}f"
   end
 
   def self.clean_option_tokens(params)
@@ -92,8 +93,8 @@ class Domain < ApplicationRecord
     {
       name: option_hash[:name], value: value, description: description,
       site_id: option_hash[:site_id], position: index,
-      missing_code: (option_hash[:missing_code] == '1'),
-      archived: (option_hash[:archived] == '1')
+      missing_code: (option_hash[:missing_code] == "1"),
+      archived: (option_hash[:archived] == "1")
     }
   end
 
