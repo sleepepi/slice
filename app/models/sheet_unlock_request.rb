@@ -7,7 +7,8 @@ class SheetUnlockRequest < ApplicationRecord
   after_create_commit :send_unlock_request_emails_in_background, :create_notifications
 
   # Concerns
-  include Deletable, Forkable
+  include Deletable
+  include Forkable
 
   # Validations
   validates :user_id, :sheet_id, :reason, presence: true
