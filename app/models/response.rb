@@ -6,7 +6,7 @@ class Response < ApplicationRecord
   # TODO: Move to valuable later...
   def self.pluck_domain_option_value_or_value
     left_outer_joins(:domain_option)
-      .pluck('domain_options.value', :value)
+      .pluck("domain_options.value", :value)
       .collect { |v1, v2| v1 || v2 }
   end
 
@@ -16,10 +16,10 @@ class Response < ApplicationRecord
   # Relationships
   belongs_to :variable
   belongs_to :sheet
-  belongs_to :sheet_variable
-  belongs_to :grid
-  belongs_to :user
-  belongs_to :domain_option
+  belongs_to :sheet_variable, optional: true
+  belongs_to :grid, optional: true
+  belongs_to :user, optional: true
+  belongs_to :domain_option, optional: true
 
   # Methods
   def domain_option_value_or_value
