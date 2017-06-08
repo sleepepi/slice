@@ -5,28 +5,33 @@
 # permuted-block algorithm, and are generated dynamically by the minimization
 # algorithm.
 class Randomization < ApplicationRecord
+  # Constants
   ORDERS = {
-    'scheme' => 'randomization_schemes.name',
-    'scheme desc' => 'randomization_schemes.name desc',
-    'site' => 'sites.name',
-    'site desc' => 'sites.name desc',
-    'arm' => 'treatment_arms.name',
-    'arm desc' => 'treatment_arms.name desc',
-    'randomized_by' => 'users.last_name, users.first_name',
-    'randomized_by desc' => 'users.last_name desc, users.first_name desc',
-    'subject' => 'subjects.subject_code',
-    'subject desc' => 'subjects.subject_code desc',
-    'randomized' => 'randomizations.randomized_at nulls last',
-    'randomized desc' => 'randomizations.randomized_at desc nulls last'
+    "scheme" => "randomization_schemes.name",
+    "scheme desc" => "randomization_schemes.name desc",
+    "site" => "sites.name",
+    "site desc" => "sites.name desc",
+    "arm" => "treatment_arms.name",
+    "arm desc" => "treatment_arms.name desc",
+    "randomized_by" => "users.last_name, users.first_name",
+    "randomized_by desc" => "users.last_name desc, users.first_name desc",
+    "subject" => "subjects.subject_code",
+    "subject desc" => "subjects.subject_code desc",
+    "randomized" => "randomizations.randomized_at nulls last",
+    "randomized desc" => "randomizations.randomized_at desc nulls last"
   }
-  DEFAULT_ORDER = 'randomizations.randomized_at desc nulls last'
+  DEFAULT_ORDER = "randomizations.randomized_at desc nulls last"
 
   # Serialized
   serialize :past_distributions, Hash
   serialize :weighted_eligible_arms, Array
 
   # Concerns
-  include Deletable, Siteable, Forkable, Latexable, Blindable
+  include Blindable
+  include Deletable
+  include Forkable
+  include Latexable
+  include Siteable
 
   # Validations
   validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
@@ -42,8 +47,8 @@ class Randomization < ApplicationRecord
   belongs_to :list
   belongs_to :user
   belongs_to :treatment_arm
-  belongs_to :subject, counter_cache: true
-  belongs_to :randomized_by, class_name: 'User', foreign_key: 'randomized_by_id'
+  belongs_to :subject, optional: true, counter_cache: true
+  belongs_to :randomized_by, optional: true, class_name: "User", foreign_key: "randomized_by_id"
   has_many :randomization_characteristics
   has_many :randomization_tasks
   has_many :tasks, -> { current.order(:due_date) }, through: :randomization_tasks
@@ -52,11 +57,11 @@ class Randomization < ApplicationRecord
 
   # Scopes
   def self.year(year)
-    where 'extract(year from randomizations.randomized_at) = ?', year
+    where "extract(year from randomizations.randomized_at) = ?", year
   end
 
   def self.month(month)
-    where 'extract(month from randomizations.randomized_at) = ?', month
+    where "extract(month from randomizations.randomized_at) = ?", month
   end
 
   # Methods
@@ -136,15 +141,15 @@ class Randomization < ApplicationRecord
   end
 
   def latex_partial(partial)
-    File.read(File.join('app', 'views', 'randomizations', 'latex', "_#{partial}.tex.erb"))
+    File.read(File.join("app", "views", "randomizations", "latex", "_#{partial}.tex.erb"))
   end
 
   def latex_file_location(current_user)
     jobname = "randomization_#{id}"
-    output_folder = File.join('tmp', 'files', 'tex')
-    file_tex = File.join('tmp', 'files', 'tex', jobname + '.tex')
-    File.open(file_tex, 'w') do |file|
-      file.syswrite(ERB.new(latex_partial('schedule')).result(binding))
+    output_folder = File.join("tmp", "files", "tex")
+    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
+    File.open(file_tex, "w") do |file|
+      file.syswrite(ERB.new(latex_partial("schedule")).result(binding))
     end
     Design.generate_pdf(jobname, output_folder, file_tex)
   end
