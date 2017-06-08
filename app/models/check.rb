@@ -6,12 +6,15 @@ class Check < ApplicationRecord
   after_commit :reset_checks_in_background!
 
   # Concerns
-  include Deletable, Sluggable, Squishable, Forkable
+  include Deletable
+  include Forkable
+  include Sluggable
+  include Squishable
 
   squish :name, :message
 
   # Scopes
-  scope :runnable, -> { current.where(archived: false).where.not(message: [nil, '']) }
+  scope :runnable, -> { current.where(archived: false).where.not(message: [nil, ""]) }
 
   # Validation
   validates :project_id, :user_id, :name, presence: true
@@ -30,7 +33,7 @@ class Check < ApplicationRecord
   def sheets
     sheet_scope = project.sheets
     check_filters.each_with_index do |check_filter, index|
-      if index == 0
+      if index.zero?
         sheet_scope = sheet_scope.where(id: check_filter.sheets.select(:id))
       else
         sheet_scope = Sheet.where(id: sheet_scope.select(:id)).or(Sheet.where(id: check_filter.sheets.select(:id)))
