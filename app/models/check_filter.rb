@@ -4,18 +4,18 @@
 class CheckFilter < ApplicationRecord
   # Constants
   OPERATOR_TYPE = [
-    ['Equal', 'eq'],
-    ['Not Equal', 'ne'],
-    ['Less Than', 'lt'],
-    ['Greater Than', 'gt'],
-    ['Less Than or Equal', 'le'],
-    ['Greater Than or Equal', 'ge'],
-    ['Missing', 'missing']
+    ["Equal", "eq"],
+    ["Not Equal", "ne"],
+    ["Less Than", "lt"],
+    ["Greater Than", "gt"],
+    ["Less Than or Equal", "le"],
+    ["Greater Than or Equal", "ge"],
+    ["Missing", "missing"]
   ]
 
   FILTER_TYPE = [
-    ['Variable', 'variable'],
-    ['Randomized', 'randomized']
+    ["Variable", "variable"],
+    ["Randomized", "randomized"]
   ]
 
   # Validations
@@ -35,10 +35,10 @@ class CheckFilter < ApplicationRecord
   def name
     if variable
       variable.name
-    elsif filter_type == 'randomized' && operator == 'eq'
-      'randomized'
-    elsif filter_type == 'randomized' && operator == 'ne'
-      'unrandomized'
+    elsif filter_type == "randomized" && operator == "eq"
+      "randomized"
+    elsif filter_type == "randomized" && operator == "ne"
+      "unrandomized"
     else
       filter_type
     end
@@ -47,10 +47,10 @@ class CheckFilter < ApplicationRecord
   def name_was
     if variable
       variable.name
-    elsif filter_type_was == 'randomized' && operator_was == 'eq'
-      'randomized'
-    elsif filter_type_was == 'randomized' && operator_was == 'ne'
-      'unrandomized'
+    elsif filter_type_was == "randomized" && operator_was == "eq"
+      "randomized"
+    elsif filter_type_was == "randomized" && operator_was == "ne"
+      "unrandomized"
     else
       filter_type_was
     end
@@ -68,7 +68,7 @@ class CheckFilter < ApplicationRecord
   def sheets
     if variable
       compute_sheets_for_variable
-    elsif filter_type == 'randomized'
+    elsif filter_type == "randomized"
       randomized_subjects_sheets
     else
       Sheet.none
@@ -81,9 +81,9 @@ class CheckFilter < ApplicationRecord
 
   def randomized_subjects
     subject_scope = project.subjects
-    if operator == 'eq'
+    if operator == "eq"
       subject_scope.where(id: project.subjects.randomized.select(:id))
-    elsif operator == 'ne'
+    elsif operator == "ne"
       subject_scope.where(id: project.subjects.unrandomized.select(:id))
     else
       Subject.none
@@ -92,9 +92,9 @@ class CheckFilter < ApplicationRecord
 
   def compute_sheets_for_variable
     sheet_scope = project.sheets
-    return sheet_scope if subquery_values.count == 0
+    return sheet_scope if subquery_values.blank?
     select_sheet_ids = subquery_scope.where(variable: variable).left_outer_joins(:domain_option).where(subquery).select(:sheet_id)
-    if operator == 'missing'
+    if operator == "missing"
       subjects = project.subjects.where(id: sheet_scope.where(id: select_sheet_ids).select(:subject_id))
       sheet_scope.where.not(subject_id: subjects.select(:id))
     else
@@ -108,7 +108,7 @@ class CheckFilter < ApplicationRecord
 
   def subquery_attribute
     case variable.variable_type
-    when 'file'
+    when "file"
       "#{subquery_scope.table_name}.response_file"
     else
       "#{subquery_scope.table_name}.value"
@@ -116,7 +116,7 @@ class CheckFilter < ApplicationRecord
   end
 
   def subquery_scope
-    variable.variable_type == 'checkbox' ? Response : SheetVariable
+    variable.variable_type == "checkbox" ? Response : SheetVariable
   end
 
   def subquery_values
@@ -126,7 +126,7 @@ class CheckFilter < ApplicationRecord
   def subjects
     if variable
       compute_subjects_for_variable
-    elsif filter_type == 'randomized'
+    elsif filter_type == "randomized"
       randomized_subjects
     else
       Subject.none
@@ -138,7 +138,7 @@ class CheckFilter < ApplicationRecord
   end
 
   def subquery
-    type_cast = all_numeric? ? 'numeric' : 'text'
+    type_cast = all_numeric? ? "numeric" : "text"
 
     if operator.in?(%w(lt gt le ge))
       full_expression = []
@@ -146,10 +146,10 @@ class CheckFilter < ApplicationRecord
         value = all_numeric? ? subquery_value : "'#{subquery_value}'"
         full_expression << "#{domain_option_value_or_attribute(type_cast)} #{database_operator} #{value}"
       end
-      full_expression.join(' or ')
+      full_expression.join(" or ")
     else
-      extra = ''
-      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if operator == 'ne'
+      extra = ""
+      extra = " or #{domain_option_value_or_attribute(type_cast)} IS NULL" if operator == "ne"
       "#{domain_option_value_or_attribute(type_cast)} #{database_operator} (#{subquery_values_joined})#{extra}"
     end
   end
@@ -162,28 +162,28 @@ class CheckFilter < ApplicationRecord
 
   def database_operator
     case operator
-    when 'lt'
-      '<'
-    when 'gt'
-      '>'
-    when 'le'
-      '<='
-    when 'ge'
-      '>='
-    when 'ne'
-      'NOT IN'
-    when 'missing'
-      'IN'
+    when "lt"
+      "<"
+    when "gt"
+      ">"
+    when "le"
+      "<="
+    when "ge"
+      ">="
+    when "ne"
+      "NOT IN"
+    when "missing"
+      "IN"
     else
-      'IN'
+      "IN"
     end
   end
 
   def subquery_values_joined
     if all_numeric?
-      subquery_values.sort.join(', ')
+      subquery_values.sort.join(", ")
     else
-      subquery_values.collect { |v| "'#{v}'" }.sort.join(', ')
+      subquery_values.collect { |v| "'#{v}'" }.sort.join(", ")
     end
   end
 end
