@@ -8,6 +8,6 @@ class GridVariable < ApplicationRecord
 
   # Relationships
   belongs_to :project
-  belongs_to :parent_variable, class_name: 'Variable'
-  belongs_to :child_variable, class_name: 'Variable'
+  belongs_to :parent_variable, class_name: "Variable"
+  belongs_to :child_variable, class_name: "Variable"
 end
