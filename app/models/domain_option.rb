@@ -14,8 +14,7 @@ class DomainOption < ApplicationRecord
 
   # Relationships
   belongs_to :domain
-  belongs_to :site
-
+  belongs_to :site, optional: true
   has_many :sheet_variables
   has_many :grids
   has_many :responses
@@ -49,7 +48,7 @@ class DomainOption < ApplicationRecord
 
   def prevent_value_merging
     return if captured_values_count.zero? || other_values_count.zero?
-    errors.add(:value, 'merging not permitted')
+    errors.add(:value, "merging not permitted")
   end
 
   def captured_values_count
