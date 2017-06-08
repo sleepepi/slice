@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
-# Allows main sections, subsections, and warnings to be added to designs
+# Allows main sections, subsections, and warnings to be added to designs.
 class Section < ApplicationRecord
   # Constants
   LEVELS = [
-    ['Section', 0],
-    ['Subsection', 1],
-    ['Informational', 2],
-    ['Warning', 3],
-    ['Alert', 4]
+    ["Section", 0],
+    ["Subsection", 1],
+    ["Informational", 2],
+    ["Warning", 3],
+    ["Alert", 4]
   ]
 
   # Uploaders
   mount_uploader :image, ImageUploader
 
+  # Validations
+  validates :project_id, :design_id, :user_id, presence: true
+
   # Relationships
   belongs_to :project
   belongs_to :design
   belongs_to :user
-
-  # Validations
-  validates :project_id, :design_id, :user_id, presence: true
 
   # Methods
 
@@ -31,7 +31,7 @@ class Section < ApplicationRecord
   def level_name
     LEVELS.find { |_name, value| value == level }.first
   rescue
-    'Section'
+    "Section"
   end
 
   def display_on_report?
