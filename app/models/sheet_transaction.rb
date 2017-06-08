@@ -2,12 +2,13 @@
 
 # Tracks a set of audits in a single transaction.
 class SheetTransaction < ApplicationRecord
+  # Constants
   TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update)
 
   # Relationships
   belongs_to :project
   belongs_to :sheet
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :sheet_transaction_audits, -> { order :id }
 
   # Methods
@@ -54,7 +55,7 @@ class SheetTransaction < ApplicationRecord
   def self.save_or_update_sheet!(sheet, sheet_params, transaction_type)
     sheet_save_result = \
       case transaction_type
-      when 'sheet_create', 'public_sheet_create'
+      when "sheet_create", "public_sheet_create"
         sheet.save
       else
         sheet.update(sheet_params)
@@ -86,7 +87,7 @@ class SheetTransaction < ApplicationRecord
 
   def update_sheet_variable_response!(sv, response, current_user)
     case sv.variable.variable_type
-    when 'grid'
+    when "grid"
       update_grid_responses!(sv, response, current_user)
     else
       update_response_with_transaction(sv, response, current_user)
@@ -105,9 +106,9 @@ class SheetTransaction < ApplicationRecord
         grid = sheet_variable.grids
                              .where(variable_id: variable_id, position: position)
                              .first_or_create(user: current_user)
-        if grid.variable.variable_type == 'file'
+        if grid.variable.variable_type == "file"
           grid_old = sheet_variable.grids.find_by(variable_id: variable_id, position: key)
-          if !res[:response_file].is_a?(Hash) || res[:remove_response_file] == '1' || res[:response_file_cache].present?
+          if !res[:response_file].is_a?(Hash) || res[:remove_response_file] == "1" || res[:response_file_cache].present?
             # New file added, do nothing
           elsif grid_old
             # Found preexisting grid
@@ -115,13 +116,13 @@ class SheetTransaction < ApplicationRecord
             res = { response_file: grid_old.response_file }
           else
             # No old grid found, remove file
-            res = { remove_response_file: '1' }
+            res = { remove_response_file: "1" }
           end
         end
         update_response_with_transaction(grid, res, current_user)
       end
     end
-    sheet_variable.grids.where('position >= ?', response.keys.size).destroy_all
+    sheet_variable.grids.where("position >= ?", response.keys.size).destroy_all
   end
 
   def update_response_with_transaction(object, response, current_user)
@@ -129,7 +130,7 @@ class SheetTransaction < ApplicationRecord
     grid_id = nil
     value_before = object.get_response(:raw).to_s
     label_before = object.get_response(:name).to_s
-    if object.variable.variable_type == 'checkbox'
+    if object.variable.variable_type == "checkbox"
       response = [] if response.blank?
       object.update_responses!(response, current_user, sheet) # Response should be an array
     else
@@ -137,7 +138,7 @@ class SheetTransaction < ApplicationRecord
     end
     value_after = object.get_response(:raw).to_s
     label_after = object.get_response(:name).to_s
-    value_for_file = (object.variable.variable_type == 'file')
+    value_for_file = (object.variable.variable_type == "file")
     if object.class == SheetVariable
       sheet_variable_id = object.id
     elsif object.class == Grid
