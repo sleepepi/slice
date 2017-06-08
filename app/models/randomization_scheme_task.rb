@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Creates a template for a task for a randomization scheme
+# Creates a template for a task for a randomization scheme.
 class RandomizationSchemeTask < ApplicationRecord
   # Relationships
   belongs_to :randomization_scheme
@@ -44,11 +44,11 @@ class RandomizationSchemeTask < ApplicationRecord
   end
 
   def clean_offset_units
-    %w(days weeks months years).include?(offset_units) ? offset_units : 'days'
+    %w(days weeks months years).include?(offset_units) ? offset_units : "days"
   end
 
   def clean_window_units
-    %w(days weeks).include?(window_units) ? window_units : 'days'
+    %w(days weeks).include?(window_units) ? window_units : "days"
   end
 
   def closest_weekday(date)
