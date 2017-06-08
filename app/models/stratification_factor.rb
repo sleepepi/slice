@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# Provides options used to determine the list to which a subject is randomized
+# Provides options used to determine the list to which a subject is randomized.
 class StratificationFactor < ApplicationRecord
   # Concerns
-  include Deletable, Calculable
+  include Calculable
+  include Deletable
 
   # Scopes
 
