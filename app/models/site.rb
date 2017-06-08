@@ -4,20 +4,23 @@
 # members, and reports that are stratified by site.
 class Site < ApplicationRecord
   # Concerns
-  include Searchable, Deletable, ShortNameable, Squishable
+  include Deletable
+  include Searchable
+  include ShortNameable
+  include Squishable
 
   squish :name
 
   # Scopes
   def self.with_project_or_as_site_user(project_ids, user_id)
-    where('sites.project_id IN (?) or sites.id in (select site_users.site_id '\
-      'from site_users where site_users.user_id = ?)', project_ids, user_id)
+    where("sites.project_id IN (?) or sites.id in (select site_users.site_id "\
+      "from site_users where site_users.user_id = ?)", project_ids, user_id)
       .references(:site_users)
   end
 
   def self.with_project_or_as_site_editor(project_ids, user_id)
-    where('sites.project_id IN (?) or sites.id in (select site_users.site_id '\
-      'from site_users where site_users.user_id = ? and site_users.editor = ?)',
+    where("sites.project_id IN (?) or sites.id in (select site_users.site_id "\
+      "from site_users where site_users.user_id = ? and site_users.editor = ?)",
           project_ids, user_id, true)
       .references(:site_users)
   end
@@ -42,9 +45,9 @@ class Site < ApplicationRecord
   def regex_string
     subject_code_format
       .to_s
-      .gsub('\d', '[0-9]')
-      .gsub('\l', '[a-z]')
-      .gsub('\L', '[A-Z]')
+      .gsub("\\d", "[0-9]")
+      .gsub("\\l", "[a-z]")
+      .gsub("\\L", "[A-Z]")
   end
 
   def subject_regex
