@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-# Allows editors and viewers to comment on sheets
+# Allows editors and viewers to comment on sheets.
 class Comment < ApplicationRecord
   # Concerns
-  include Searchable, Deletable
+  include Deletable
+  include Searchable
 
+  # Callbacks
   after_create_commit :create_notifications
 
   # Validations
@@ -21,7 +23,6 @@ class Comment < ApplicationRecord
   delegate :editable_by?, to: :sheet
 
   # Scopes
-
   def self.with_project(arg)
     joins(:sheet).merge(Sheet.current.where(project_id: arg))
   end
