@@ -22,7 +22,9 @@ class ListsControllerTest < ActionController::TestCase
 
   test "should generate lists for minimization scheme with multiple sites" do
     assert_difference("List.count", 2) do
-      post :generate, params: { project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization) }
+      post :generate, params: {
+        project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization)
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:randomization_scheme)
@@ -52,7 +54,9 @@ class ListsControllerTest < ActionController::TestCase
 
   test "should expand lists for minimization scheme with multiple sites" do
     assert_difference("List.count", 2) do
-      post :expand, params: { project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization) }
+      post :expand, params: {
+        project_id: projects(:two), randomization_scheme_id: randomization_schemes(:minimization)
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:randomization_scheme)
