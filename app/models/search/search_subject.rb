@@ -81,7 +81,7 @@ class SearchSubject
   end
 
   def filter_comments
-    subject_ids = @current_user.sheets_with_comments(@project).select(:subject_id)
+    subject_ids = all_viewable_sheets.where.not(comments_count: 0).select(:subject_id)
     if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
@@ -91,7 +91,7 @@ class SearchSubject
 
   def filter_designs
     set_designs
-    return @scope unless @designs.present?
+    return @scope if @designs.blank?
     subject_ids = @scope.joins(:sheets).where(sheets: { design: @designs }).select(:id)
     if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
@@ -102,7 +102,7 @@ class SearchSubject
 
   def filter_events
     set_events
-    return @scope unless @events.present?
+    return @scope if @events.blank?
     subject_ids = @scope.joins(:subject_events).where(subject_events: { event: @events }).select(:id)
     if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
@@ -112,7 +112,7 @@ class SearchSubject
   end
 
   def filter_files
-    subject_ids = @current_user.sheets_with_files(@project).select(:subject_id)
+    subject_ids = all_viewable_sheets.where.not(uploaded_files_count: [nil, 0]).select(:subject_id)
     if %w(missing !).include?(@token.operator)
       @scope.where.not(id: subject_ids)
     else
@@ -165,5 +165,9 @@ class SearchSubject
         @project.designs.find_by("slug ilike ? or id = ?", design_slug, design_slug.to_i)
       end
     [design, modifier]
+  end
+
+  def all_viewable_sheets
+    @current_user.all_viewable_sheets.where(project: @project)
   end
 end
