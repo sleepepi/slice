@@ -48,6 +48,10 @@ class Subject < ApplicationRecord
     Comment.current.where(sheet_id: blinded_sheets(current_user).select(:id))
   end
 
+  def blinded_comments_count(current_user)
+    blinded_sheets(current_user).sum(:comments_count)
+  end
+
   def editable_by?(current_user)
     current_user.all_subjects.where(id: id).count == 1
   end

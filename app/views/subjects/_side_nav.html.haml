@@ -71,11 +71,11 @@
             = link_to 'Extra', timeline_project_subject_path(@project, @subject)
           %ul.side-nav-section-links.active
             %li= link_to 'Timeline', timeline_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'timeline'}"
-            - if @subject.blinded_comments(current_user).count > 0 || params[:action] == 'comments'
+            - if @subject.blinded_comments_count(current_user).positive? || params[:action] == 'comments'
               %li
                 = link_to comments_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'comments'}" do
                   Comments
-                  %span.badge= @subject.blinded_comments(current_user).count
+                  %span.badge= @subject.blinded_comments_count(current_user)
             - if @subject.uploaded_files_count(current_user).positive? || params[:action] == 'files'
               %li
                 = link_to files_project_subject_path(@project, @subject), class: "#{'active' if params[:action] == 'files'}" do
