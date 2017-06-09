@@ -12,11 +12,11 @@ module AutoLockable
 
   def auto_lock_at
     case project.auto_lock_sheets
-    when 'after24hours'
+    when "after24hours"
       base_lock_time + 24.hours
-    when 'after1week'
+    when "after1week"
       base_lock_time + 1.week
-    when 'after1month'
+    when "after1month"
       base_lock_time + 1.month
     end
   end
@@ -34,7 +34,7 @@ module AutoLockable
       self, {
         unlocked_at: Time.zone.now,
         last_edited_at: Time.zone.now, last_user_id: current_user.id
-      }, {}, current_user, request.remote_ip, 'sheet_update',
+      }, {}, current_user, request.remote_ip, "sheet_update",
       skip_validation: true,
       skip_callbacks: true
     )
@@ -43,7 +43,7 @@ module AutoLockable
   end
 
   def recent_unlock_requests
-    sheet_unlock_requests.where('created_at > ?', base_lock_time)
+    sheet_unlock_requests.where("created_at > ?", base_lock_time)
   end
 
   def recent_unlock_requested?(current_user)

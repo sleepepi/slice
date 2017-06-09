@@ -63,11 +63,11 @@ module Coverageable
 
   def color_ranges
     [
-      { color: '#337ab7', minimum: 100 },
-      { color: '#5cb85c', minimum: 80 },
-      { color: '#f0ad4e', minimum: 60 },
-      { color: '#f0ad4e', minimum: 40 },
-      { color: '#d9534f', minimum: 1 }
+      { color: "#337ab7", minimum: 100 },
+      { color: "#5cb85c", minimum: 80 },
+      { color: "#f0ad4e", minimum: 60 },
+      { color: "#f0ad4e", minimum: 40 },
+      { color: "#d9534f", minimum: 1 }
     ]
   end
 
@@ -75,6 +75,6 @@ module Coverageable
     color_ranges.each do |hash|
       return hash[:color] if percent.to_i >= hash[:minimum]
     end
-    '#777777'
+    "#777777"
   end
 end

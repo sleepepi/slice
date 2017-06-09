@@ -19,21 +19,21 @@ module Evaluatable
 
   # Compiled CoffeeScript from designs.js.coffee
   def js_index_of
-    'var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.l'\
-    'ength; i < l; i++) { if (i in this && this[i] === item) return i; } retur'\
-    'n -1; };'
+    "var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.l"\
+    "ength; i < l; i++) { if (i in this && this[i] === item) return i; } retur"\
+    "n -1; };"
   end
 
   def js_intersection
-    'this.intersection = function(a, b) { var value, _i, _len, _ref, _results;'\
-    ' if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _r'\
-    'esults = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_'\
-    'i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return'\
-    ' _results; };'
+    "this.intersection = function(a, b) { var value, _i, _len, _ref, _results;"\
+    " if (a.length > b.length) { _ref = [b, a], a = _ref[0], b = _ref[1]; } _r"\
+    "esults = []; for (_i = 0, _len = a.length; _i < _len; _i++) { value = a[_"\
+    "i]; if (__indexOf.call(b, value) >= 0) { _results.push(value); } } return"\
+    " _results; };"
   end
 
   def js_overlap
-    'this.overlap = function(a, b, c) { if (c == null) { c = 1; } return inter'\
-    'section(a, b).length >= c; };'
+    "this.overlap = function(a, b, c) { if (c == null) { c = 1; } return inter"\
+    "section(a, b).length >= c; };"
   end
 end

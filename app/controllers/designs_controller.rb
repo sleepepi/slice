@@ -25,7 +25,7 @@ class DesignsController < ApplicationController
   def print
     file_pdf_location = @design.latex_file_location(current_user)
     if File.exist?(file_pdf_location)
-      send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: 'application/pdf', disposition: 'inline'
+      send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: "application/pdf", disposition: "inline"
     else
       # TODO: Redirect to a location that a viewer could see as well, perhaps
       # the basic design report project_reports_basic(@project, @design)
@@ -122,9 +122,9 @@ class DesignsController < ApplicationController
   def parse_redirect_url
     return unless params[:design].key?(:redirect_url)
     uri = URI.parse(params[:design][:redirect_url])
-    params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ''
+    params[:design][:redirect_url] = uri.is_a?(URI::HTTP) ? uri.to_s : ""
   rescue
-    params[:design][:redirect_url] = ''
+    params[:design][:redirect_url] = ""
   end
 
   def scope_includes(scope)

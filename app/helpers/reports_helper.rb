@@ -17,7 +17,7 @@ module ReportsHelper
         search_parts << "#{variable}:>=#{filter[:start_date]}" if filter[:start_date].present?
         search_parts << "#{variable}:<=#{filter[:end_date]}" if filter[:end_date].present?
       end
-      search = (search_parts + [search]).reject(&:blank?).join(' ')
+      search = (search_parts + [search]).reject(&:blank?).join(" ")
     end
     filter_params[:search] = ""
     filter_params[:search] += "designs:#{design.to_param} " if design
@@ -27,10 +27,10 @@ module ReportsHelper
 
   def convert_variable_from_filter(filter)
     case filter[:variable].variable_type
-    when 'sheet_date'
-      'created'
-    when 'site'
-      'site_id'
+    when "sheet_date"
+      "created"
+    when "site"
+      "site_id"
     else
       filter[:variable].name
     end

@@ -15,19 +15,19 @@ class ApplicationController < ActionController::Base
   protected
 
   def devise_login?
-    params[:controller] == 'devise/sessions' && params[:action] == 'create'
+    params[:controller] == "devise/sessions" && params[:action] == "create"
   end
 
   def check_system_admin
     return if current_user.system_admin?
-    redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'
+    redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
   end
 
   def scrub_order(model, params_order, default_order)
-    (params_column, params_direction) = params_order.to_s.strip.downcase.split(' ')
-    direction = (params_direction == 'desc' ? 'desc' : nil)
+    (params_column, params_direction) = params_order.to_s.strip.downcase.split(" ")
+    direction = (params_direction == "desc" ? "desc" : nil)
     column_name = model.column_names.collect { |c| "#{model.table_name}.#{c}" }.find { |c| c == params_column }
-    column_name.blank? ? default_order : [column_name, direction].compact.join(' ')
+    column_name.blank? ? default_order : [column_name, direction].compact.join(" ")
   end
 
   private
@@ -72,9 +72,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cache_buster
-    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
   def check_key_and_set_default_value(object, key, default_value)

@@ -2,21 +2,21 @@
 
 namespace :variables do
   # TODO: Remove in v0.53.0
-  desc 'Separate variable calculation formats from time of day formats.'
+  desc "Separate variable calculation formats from time of day formats."
   task populate_time_of_day_format: :environment do
-    Variable.where(variable_type: 'time_of_day').find_each do |variable|
+    Variable.where(variable_type: "time_of_day").find_each do |variable|
       variable.update time_of_day_format: variable.format if variable.format.present?
     end
   end
 
-  desc 'Fix default time duration format'
+  desc "Fix default time duration format"
   task update_time_duration_format: :environment do
-    Variable.where(time_duration_format: '').update_all(time_duration_format: 'hh:mm:ss')
+    Variable.where(time_duration_format: "").update_all(time_duration_format: "hh:mm:ss")
   end
 
-  desc 'Reconfigure variable and stratification factor calculations'
+  desc "Reconfigure variable and stratification factor calculations"
   task update_calculations: :environment do
-    Variable.where(variable_type: 'calculated').find_each do |v|
+    Variable.where(variable_type: "calculated").find_each do |v|
       old_calculation = v.calculation
       v.update calculation: v.readable_calculation
       next if old_calculation == v.calculation
@@ -47,10 +47,10 @@ namespace :variables do
     end
   end
 
-  desc 'Check for incorrect calculations and branching logic'
+  desc "Check for incorrect calculations and branching logic"
   task list_broken_calculations_and_branching_logic: :environment do
     variables = \
-      Variable.includes(:project).where(variable_type: 'calculated')
+      Variable.includes(:project).where(variable_type: "calculated")
               .select { |v| v.calculation.to_s.match(/\w+\b(?<!\bnull)(?<!\boverlap)(?<![\d+])/) }
     variables.each do |v|
       puts "#{ENV['website_url']}/projects/#{v.project.to_param}/variables/#{v.to_param}\n#{v.calculation}\n\n"

@@ -12,7 +12,7 @@ class TasksController < ApplicationController
 
   # GET /projects/1/tasks
   def index
-    @order = scrub_order(Task, params[:order], 'tasks.created_at desc')
+    @order = scrub_order(Task, params[:order], "tasks.created_at desc")
     @tasks = viewable_tasks.search(params[:search]).order(@order)
                            .page(params[:page]).per(40)
   end
@@ -34,7 +34,7 @@ class TasksController < ApplicationController
   def create
     @task = current_user.tasks.where(project_id: @project.id).new(task_params)
     if @task.save
-      redirect_to [@project, @task], notice: 'Task was successfully created.'
+      redirect_to [@project, @task], notice: "Task was successfully created."
     else
       render :new
     end
@@ -43,7 +43,7 @@ class TasksController < ApplicationController
   # PATCH /tasks/1
   def update
     if @task.update(task_params)
-      redirect_to [@project, @task], notice: 'Task was successfully updated.'
+      redirect_to [@project, @task], notice: "Task was successfully updated."
     else
       render :edit
     end
@@ -52,7 +52,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     @task.destroy
-    redirect_to project_tasks_path(@project), notice: 'Task was successfully deleted.'
+    redirect_to project_tasks_path(@project), notice: "Task was successfully deleted."
   end
 
   private
@@ -76,7 +76,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params[:task] ||= { blank: '1' }
+    params[:task] ||= { blank: "1" }
     parse_task_dates
     params.require(:task).permit(
       :description, :completed, :only_unblinded,

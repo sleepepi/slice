@@ -9,8 +9,8 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = if params[:all] == '1'
-                       current_user.notifications.where('notifications.created_at > ?', Time.zone.now - 7.days)
+    @notifications = if params[:all] == "1"
+                       current_user.notifications.where("notifications.created_at > ?", Time.zone.now - 7.days)
                      else
                        current_user.notifications.where(read: false)
                      end

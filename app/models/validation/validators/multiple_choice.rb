@@ -4,8 +4,8 @@ module Validation
   module Validators
     class MultipleChoice < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        in_soft_range: ''
+        blank: "",
+        in_soft_range: ""
       }
 
       def messages

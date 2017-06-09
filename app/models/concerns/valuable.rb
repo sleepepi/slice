@@ -9,7 +9,7 @@ module Valuable
     # Scopes
     def self.pluck_domain_option_value_or_value
       left_outer_joins(:domain_option)
-        .pluck('domain_options.value', :value)
+        .pluck("domain_options.value", :value)
         .collect { |v1, v2| v1 || v2 }
     end
 
@@ -58,24 +58,24 @@ module Valuable
     end
 
     case variable.variable_type
-    when 'file'
+    when "file"
       response = {} if response.blank?
-    when 'date'
+    when "date"
       month = parse_integer(response[:month])
       day = parse_integer(response[:day])
       year = parse_integer(response[:year])
-      # Save valuable to string in '%Y-%m-%d' db format, passing in a date
+      # Save valuable to string in "%Y-%m-%d" db format, passing in a date
       response = { value: parse_date("#{month}/#{day}/#{year}") }
-    when 'time_of_day'
+    when "time_of_day"
       # Save valuable to string in total seconds since midnight db format
       response = { value: parse_time_of_day_from_hash_to_s(response) }
-    when 'time_duration'
+    when "time_duration"
       # Save valuable to string in total seconds db format
       response = { value: parse_time_duration_from_hash_to_s(response, no_hours: variable.no_hours?) }
-    when 'imperial_height'
+    when "imperial_height"
       # Save valuable to string in total inches db format
       response = { value: parse_imperial_height_from_hash_to_s(response) }
-    when 'imperial_weight'
+    when "imperial_weight"
       # Save valuable to string in total ounces db format
       response = { value: parse_imperial_weight_from_hash_to_s(response) }
     else

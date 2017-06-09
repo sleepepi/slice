@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-desc 'Launched by crontab -e, send a daily digest of recent activities.'
+desc "Launched by crontab -e, send a daily digest of recent activities."
 task daily_digest: :environment do
   # At 1am every week day, in production mode, for users who have "daily digest" email notification selected
   return unless EMAILS_ENABLED && Time.zone.today.on_weekday?

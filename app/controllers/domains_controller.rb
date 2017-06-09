@@ -42,7 +42,7 @@ class DomainsController < ApplicationController
     @domain = @project.domains.new(domain_params)
     if @domain.save
       @domain.update_option_tokens!
-      redirect_to show_or_continue, notice: 'Domain was successfully created.'
+      redirect_to show_or_continue, notice: "Domain was successfully created."
     else
       render :new
     end
@@ -52,7 +52,7 @@ class DomainsController < ApplicationController
   def update
     if @domain.update(domain_params)
       @domain.update_option_tokens!
-      redirect_to show_or_continue, notice: 'Domain was successfully updated.'
+      redirect_to show_or_continue, notice: "Domain was successfully updated."
     else
       render :edit
     end
@@ -87,7 +87,7 @@ class DomainsController < ApplicationController
   end
 
   def show_or_continue
-    if params[:continue].to_s == '1'
+    if params[:continue].to_s == "1"
       new_project_domain_path(@project)
     else
       [@project, @domain]
@@ -99,7 +99,7 @@ class DomainsController < ApplicationController
   end
 
   def scope_order(scope)
-    @order = scrub_order(Domain, params[:order], 'domains.name')
+    @order = scrub_order(Domain, params[:order], "domains.name")
     scope.order(@order)
   end
 end

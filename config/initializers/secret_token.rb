@@ -12,4 +12,4 @@
 # Make sure the secrets in this file are kept private
 # if you're sharing your code publicly.
 
-Rails.application.config.secret_key_base = ENV['website_secret']
+Rails.application.config.secret_key_base = ENV["website_secret"]

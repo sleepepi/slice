@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Allows models to be filtered by site.
 module Siteable
   extend ActiveSupport::Concern
 

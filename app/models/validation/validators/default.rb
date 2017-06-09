@@ -6,11 +6,11 @@ module Validation
       include DateAndTimeParser
 
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Value',
-        out_of_range: 'Value Out of Range',
-        in_hard_range: 'Value Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Value",
+        out_of_range: "Value Out of Range",
+        in_hard_range: "Value Outside of Soft Range",
+        in_soft_range: ""
       }
 
       attr_reader :variable
@@ -66,15 +66,15 @@ module Validation
 
       def status(value)
         if blank_value?(value)
-          'blank'
+          "blank"
         elsif invalid_format?(value)
-          'invalid'
+          "invalid"
         elsif out_of_range?(value)
-          'out_of_range'
+          "out_of_range"
         elsif in_soft_range?(value)
-          'in_soft_range'
+          "in_soft_range"
         else
-          'in_hard_range'
+          "in_hard_range"
         end
       end
 

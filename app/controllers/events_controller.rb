@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 
   # GET /events
   def index
-    @order = scrub_order(Event, params[:order], 'events.position')
+    @order = scrub_order(Event, params[:order], "events.position")
     @events = @project.events.blinding_scope(current_user)
                       .search(params[:search]).order(@order)
                       .page(params[:page]).per(40)
@@ -37,7 +37,7 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.where(project_id: @project.id).new(event_params)
     if @event.save
-      redirect_to [@project, @event], notice: 'Event was successfully created.'
+      redirect_to [@project, @event], notice: "Event was successfully created."
     else
       render :new
     end
@@ -48,7 +48,7 @@ class EventsController < ApplicationController
   def update
     if @event.update(event_params)
       respond_to do |format|
-        format.html { redirect_to [@project, @event], notice: 'Event was successfully updated.' }
+        format.html { redirect_to [@project, @event], notice: "Event was successfully updated." }
         format.js
       end
     else
@@ -62,7 +62,7 @@ class EventsController < ApplicationController
     @event.unlink_sheets_in_background!(current_user, request.remote_ip)
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to project_events_path(@project), notice: 'Event was successfully deleted.' }
+      format.html { redirect_to project_events_path(@project), notice: "Event was successfully deleted." }
       format.js
     end
   end

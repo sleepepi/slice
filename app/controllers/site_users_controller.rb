@@ -14,7 +14,7 @@ class SiteUsersController < ApplicationController
         redirect_to accept_project_site_users_path(@site_user.project)
       else
         session[:site_invite_token] = nil
-        redirect_to root_path, alert: 'Invalid invitation token.'
+        redirect_to root_path, alert: "Invalid invitation token."
       end
     else
       redirect_to new_user_session_path
@@ -41,12 +41,12 @@ class SiteUsersController < ApplicationController
     if @site_user && @site_user.user == current_user
       redirect_to @site_user.site.project, notice: "You have already been added to #{@site_user.site.name}."
     elsif @site_user && @site_user.user
-      redirect_to root_path, alert: 'This invite has already been claimed.'
+      redirect_to root_path, alert: "This invite has already been claimed."
     elsif @site_user
       @site_user.update user_id: current_user.id
-      redirect_to @site_user.project, notice: 'You have been successfully added to the project.'
+      redirect_to @site_user.project, notice: "You have been successfully added to the project."
     else
-      redirect_to root_path, alert: 'Invalid invitation token.'
+      redirect_to root_path, alert: "Invalid invitation token."
     end
   end
 
@@ -56,7 +56,7 @@ class SiteUsersController < ApplicationController
     @project = current_user.all_projects.find_by_param(params[:project_id])
     @site_user = @project.site_users.find_by(id: params[:id]) if @project
     if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @site_user
-      @site_user.update unblinded: (params[:unblinded] == '1')
+      @site_user.update unblinded: (params[:unblinded] == "1")
       flash_notice = "Set member as #{@site_user.unblinded? ? 'un' : ''}blinded."
     end
     respond_to do |format|
@@ -74,12 +74,12 @@ class SiteUsersController < ApplicationController
       if @site && @project
         @site_user.destroy
         format.html { redirect_to [@site.project, @site] }
-        format.js { render 'projects/members' }
+        format.js { render "projects/members" }
       elsif @site_user.user == current_user && @project
         @site = @site_user.site
         @site_user.destroy
         format.html { redirect_to root_path }
-        format.js { render 'projects/members' }
+        format.js { render "projects/members" }
       else
         format.html { redirect_to root_path }
         format.js { head :ok }

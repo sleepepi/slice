@@ -2,7 +2,7 @@
 
 # Grants access to public surveys for section images and adding grid rows.
 class ExternalController < ApplicationController
-  prepend_before_action { request.env['devise.skip_timeout'] = true }
+  prepend_before_action { request.env["devise.skip_timeout"] = true }
   skip_before_action :verify_authenticity_token
   before_action :set_design, only: [:add_grid_row, :section_image]
   before_action :set_section, only: [:section_image]
@@ -32,7 +32,7 @@ class ExternalController < ApplicationController
 
   # GET /sitemap.xml.gz
   def sitemap_xml
-    sitemap_xml = File.join(CarrierWave::Uploader::Base.root, 'sitemaps', 'sitemap.xml.gz')
+    sitemap_xml = File.join(CarrierWave::Uploader::Base.root, "sitemaps", "sitemap.xml.gz")
     if File.exist?(sitemap_xml)
       send_file sitemap_xml
     else

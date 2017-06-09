@@ -13,7 +13,7 @@ module Latexable
       # Run twice to allow LaTeX to compile correctly (page numbers, etc)
       `#{ENV['latex_location']} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
       `#{ENV['latex_location']} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-      File.join('tmp', 'files', 'tex', "#{jobname}.pdf") # Return file name
+      File.join("tmp", "files", "tex", "#{jobname}.pdf") # Return file name
     end
   end
 

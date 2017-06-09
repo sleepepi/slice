@@ -29,7 +29,7 @@ class CategoriesController < ApplicationController
   def create
     @category = categories.new(category_params)
     if @category.save
-      redirect_to [@project, @category], notice: 'Category was successfully created.'
+      redirect_to [@project, @category], notice: "Category was successfully created."
     else
       render :new
     end
@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
   # PATCH /categories/1
   def update
     if @category.update(category_params)
-      redirect_to [@project, @category], notice: 'Category was successfully updated.'
+      redirect_to [@project, @category], notice: "Category was successfully updated."
     else
       render :edit
     end
@@ -47,7 +47,7 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1
   def destroy
     @category.destroy
-    redirect_to project_categories_path(@project), notice: 'Category was successfully deleted.'
+    redirect_to project_categories_path(@project), notice: "Category was successfully deleted."
   end
 
   private
@@ -72,7 +72,7 @@ class CategoriesController < ApplicationController
   end
 
   def scope_order(scope)
-    @order = scrub_order(Category, params[:order], 'categories.position')
+    @order = scrub_order(Category, params[:order], "categories.position")
     scope.reorder(@order)
   end
 end

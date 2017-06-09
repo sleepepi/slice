@@ -12,7 +12,7 @@ module RandomizationAlgorithm
       end
 
       def randomization_error_message
-        'Block Size Multipliers and Treatment Arms may not be set up correctly.'
+        "Block Size Multipliers and Treatment Arms may not be set up correctly."
       end
 
       def add_missing_lists!(current_user)

@@ -26,14 +26,14 @@ class ProjectsController < ApplicationController
   # POST /projects/1/favorite
   def favorite
     project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
-    project_preference.update favorited: (params[:favorited] == '1')
+    project_preference.update favorited: (params[:favorited] == "1")
     redirect_to root_path
   end
 
   # POST /projects/1/archive
   def archive
     project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
-    project_preference.update archived: (params[:undo] != '1')
+    project_preference.update archived: (params[:undo] != "1")
     redirect_to root_path, notice: archive_notice
   end
 
@@ -47,26 +47,26 @@ class ProjectsController < ApplicationController
     @last_date = (@anchor_date + @weeks_after.week) + 6.days
 
     @tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: @first_date..@last_date).to_a
-    @randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) IN (?)', @first_date..@last_date).to_a
+    @randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where("DATE(randomized_at) IN (?)", @first_date..@last_date).to_a
     @adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: @first_date..@last_date).to_a
-    @comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) IN (?)', @first_date..@last_date).to_a
+    @comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where("DATE(comments.created_at) IN (?)", @first_date..@last_date).to_a
     @subject_events = SubjectEvent.joins(:subject, :event).merge(current_user.all_viewable_subjects.where(project_id: @project.id)).merge(current_user.all_viewable_events.where(project_id: @project.id)).where(event_date: @first_date..@last_date).to_a
   end
 
   # GET /projects
   def index
-    @order = scrub_order(Project, params[:order], 'projects.name')
-    if @order == 'projects.name'
-      @order = 'lower(projects.name) asc'
-    elsif @order == 'projects.name desc'
-      @order = 'lower(projects.name) desc'
+    @order = scrub_order(Project, params[:order], "projects.name")
+    if @order == "projects.name"
+      @order = "lower(projects.name) asc"
+    elsif @order == "projects.name desc"
+      @order = "lower(projects.name) desc"
     end
     @projects = current_user.all_viewable_and_site_projects.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
   # GET /projects/1
   def show
-    @order = scrub_order(Subject, params[:order], 'subjects.subject_code')
+    @order = scrub_order(Subject, params[:order], "subjects.subject_code")
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
                                 .search(params[:search]).order(@order)
     @subjects = subject_scope.page(params[:page]).per(20)
@@ -83,7 +83,7 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.new(project_params)
     if @project.save
-      redirect_to setup_project_sites_path(@project), notice: 'Project was successfully created.'
+      redirect_to setup_project_sites_path(@project), notice: "Project was successfully created."
     else
       render :new
     end
@@ -109,12 +109,12 @@ class ProjectsController < ApplicationController
   end
 
   def archive_notice
-    if params[:undo] == '1'
-      'Your action has been undone.'
+    if params[:undo] == "1"
+      "Your action has been undone."
     else
       [
-        'Project archived.',
-        { label: 'Undo', url: archive_project_path(@project, undo: '1'), method: :post }
+        "Project archived.",
+        { label: "Undo", url: archive_project_path(@project, undo: "1"), method: :post }
       ]
     end
   end

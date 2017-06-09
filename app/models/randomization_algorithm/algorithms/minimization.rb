@@ -125,13 +125,13 @@ module RandomizationAlgorithm
         non_site_stratification_factors.each do |sf|
           criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
           next unless criteria
-          stratification_factor_counts[criteria.join('x')] ||= {}
+          stratification_factor_counts[criteria.join("x")] ||= {}
           if sf.stratifies_by_site?
             site = @randomization_scheme.project.sites.find_by(id: criteria.last)
-            stratification_factor_counts[criteria.join('x')][:name] = site.name if site
+            stratification_factor_counts[criteria.join("x")][:name] = site.name if site
           else
             sfo = @randomization_scheme.stratification_factor_options.find_by(id: criteria.last)
-            stratification_factor_counts[criteria.join('x')][:name] = sfo.label if sfo
+            stratification_factor_counts[criteria.join("x")][:name] = sfo.label if sfo
           end
         end
 
@@ -162,7 +162,7 @@ module RandomizationAlgorithm
                   }
                 ).pluck(:id)
               end
-            stratification_factor_counts[criteria.join('x')][treatment_arm.id.to_s] = criteria_randomization_ids.count
+            stratification_factor_counts[criteria.join("x")][treatment_arm.id.to_s] = criteria_randomization_ids.count
             randomization_ids += criteria_randomization_ids
           end
           treatment_arms_and_counts << [treatment_arm, randomization_ids.count]
@@ -183,12 +183,12 @@ module RandomizationAlgorithm
           sf_hash = {}
           criteria = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
           if criteria
-            name = stratification_factor_counts[criteria.join('x')][:name]
+            name = stratification_factor_counts[criteria.join("x")][:name]
             sf_hash[:name] = name
             sf_hash[:criteria] = criteria
             sf_hash[:treatment_arm_counts] = []
             @randomization_scheme.treatment_arms.positive_allocation.order(:name).each do |treatment_arm|
-              count = stratification_factor_counts[criteria.join('x')][treatment_arm.id.to_s]
+              count = stratification_factor_counts[criteria.join("x")][treatment_arm.id.to_s]
               sf_hash[:treatment_arm_counts] << { count: count, treatment_arm_id: treatment_arm.id }
             end
           end

@@ -41,7 +41,7 @@ class Editor::ProjectsController < ApplicationController
   # PATCH /editor/projects/1
   def update
     if @project.update(project_params)
-      redirect_to settings_editor_project_path(@project), notice: 'Project was successfully updated.'
+      redirect_to settings_editor_project_path(@project), notice: "Project was successfully updated."
     else
       render :edit
     end
@@ -106,19 +106,19 @@ class Editor::ProjectsController < ApplicationController
   end
 
   def editor_generic(editor)
-    (editor == '1')
+    (editor == "1")
   end
 
   def unblinded_generic(unblinded)
     if @project.unblinded?(current_user)
-      (unblinded == '1')
+      (unblinded == "1")
     else
       false
     end
   end
 
   def associated_user_generic(email)
-    current_user.associated_users.find_by(email: email.split('[').last.to_s.split(']').first)
+    current_user.associated_users.find_by(email: email.split("[").last.to_s.split("]").first)
   end
 
   def member_scope_generic(site_id)

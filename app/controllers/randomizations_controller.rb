@@ -44,16 +44,16 @@ class RandomizationsController < ApplicationController
   def schedule
     pdf_location = @randomization.latex_file_location(current_user)
     if File.exist?(pdf_location)
-      send_file pdf_location, filename: 'schedule.pdf', type: 'application/pdf', disposition: 'inline'
+      send_file pdf_location, filename: "schedule.pdf", type: "application/pdf", disposition: "inline"
     else
-      redirect_to [@project, @randomization], alert: 'Unable to generate PDF.'
+      redirect_to [@project, @randomization], alert: "Unable to generate PDF."
     end
   end
 
   # PATCH /randomizations/1/undo
   def undo
     @randomization.undo!
-    redirect_to project_randomizations_path(@project), notice: 'Randomization was successfully removed.'
+    redirect_to project_randomizations_path(@project), notice: "Randomization was successfully removed."
   end
 
   private

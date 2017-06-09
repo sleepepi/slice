@@ -21,7 +21,7 @@ class Owner::ProjectsController < ApplicationController
     @project.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Project was successfully deleted.' }
+      format.html { redirect_to root_path, notice: "Project was successfully deleted." }
       format.js
     end
   end

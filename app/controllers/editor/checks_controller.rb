@@ -26,7 +26,7 @@ class Editor::ChecksController < Editor::EditorController
   def create
     @check = current_user.checks.where(project_id: @project.id).new(check_params)
     if @check.save
-      redirect_to editor_project_check_path(@project, @check), notice: 'Check was successfully created.'
+      redirect_to editor_project_check_path(@project, @check), notice: "Check was successfully created."
     else
       render :new
     end
@@ -37,7 +37,7 @@ class Editor::ChecksController < Editor::EditorController
   def update
     if @check.update(check_params)
       respond_to do |format|
-        format.html { redirect_to editor_project_check_path(@project, @check), notice: 'Check was successfully updated.' }
+        format.html { redirect_to editor_project_check_path(@project, @check), notice: "Check was successfully updated." }
         format.js
       end
     else
@@ -50,7 +50,7 @@ class Editor::ChecksController < Editor::EditorController
   def destroy
     @check.destroy
     respond_to do |format|
-      format.html { redirect_to editor_project_checks_path(@project), notice: 'Check was successfully deleted.' }
+      format.html { redirect_to editor_project_checks_path(@project), notice: "Check was successfully deleted." }
       format.js
     end
   end

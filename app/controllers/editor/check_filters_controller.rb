@@ -31,7 +31,7 @@ class Editor::CheckFiltersController < Editor::EditorController
     if @check_filter.save
       redirect_to editor_project_check_check_filter_path(
         @project, @check, @check_filter
-      ), notice: 'Filter was successfully created.'
+      ), notice: "Filter was successfully created."
     else
       render :new
     end
@@ -42,7 +42,7 @@ class Editor::CheckFiltersController < Editor::EditorController
     if @check_filter.update(check_filter_params)
       redirect_to editor_project_check_check_filter_path(
         @project, @check, @check_filter
-      ), notice: 'Filter was successfully updated.'
+      ), notice: "Filter was successfully updated."
     else
       render :edit
     end
@@ -52,7 +52,7 @@ class Editor::CheckFiltersController < Editor::EditorController
   def destroy
     @check_filter.destroy
     redirect_to editor_project_check_check_filters_path(@project, @check),
-                notice: 'Filter was successfully deleted.'
+                notice: "Filter was successfully deleted."
   end
 
   private

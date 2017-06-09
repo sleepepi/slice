@@ -4,11 +4,11 @@ module Validation
   module Validators
     class ImperialWeight < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Weight',
-        out_of_range: 'Weight Outside of Range',
-        in_hard_range: 'Weight Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Weight",
+        out_of_range: "Weight Outside of Range",
+        in_hard_range: "Weight Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -27,8 +27,8 @@ module Validation
 
       def formatted_value(value)
         hash = parse_imperial_weight_from_hash(value)
-        p = (hash[:pounds] == 1 ? 'pound' : 'pounds')
-        o = (hash[:ounces] == 1 ? 'ounce' : 'ounces')
+        p = (hash[:pounds] == 1 ? "pound" : "pounds")
+        o = (hash[:ounces] == 1 ? "ounce" : "ounces")
         "#{hash[:pounds]} #{p} #{hash[:ounces]} #{o}"
       rescue
         nil

@@ -25,15 +25,15 @@ module Blindable
 
     def self.blinding_scope_where(user)
       conditions = [
-        'projects.user_id = ?', 'project_users.unblinded = ?',
-        'site_users.unblinded = ?', 'projects.blinding_enabled = ?'
+        "projects.user_id = ?", "project_users.unblinded = ?",
+        "site_users.unblinded = ?", "projects.blinding_enabled = ?"
       ]
       values = [user.id, true, true, false]
-      if column_names.include?('only_unblinded')
+      if column_names.include?("only_unblinded")
         conditions << "#{table_name}.only_unblinded = ?"
         values << false
       end
-      where(conditions.join(' or '), *values)
+      where(conditions.join(" or "), *values)
     end
   end
 end

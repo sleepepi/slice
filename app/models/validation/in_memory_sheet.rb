@@ -46,7 +46,7 @@ module Validation
     end
 
     def load_grids!(variable, response)
-      return unless variable.variable_type == 'grid'
+      return unless variable.variable_type == "grid"
       response.select! do |_key, vhash|
         vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
       end
@@ -103,7 +103,7 @@ module Validation
         next unless variable
         next unless visible_on_sheet?(design_option)
         sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
-        if sheet_variable && variable.variable_type == 'grid'
+        if sheet_variable && variable.variable_type == "grid"
           variable.child_variables.each do |child_variable|
             grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
             grids.each do |grid|
@@ -111,9 +111,9 @@ module Validation
               validation_hash = child_variable.value_in_range?(value)
 
               case validation_hash[:status]
-              when 'invalid'
+              when "invalid"
                 @errors << "#{variable.name} #{child_variable.name} is invalid"
-              when 'out_of_range'
+              when "out_of_range"
                 @errors << "#{variable.name} #{child_variable.name} is out of range"
               end
             end
@@ -123,11 +123,11 @@ module Validation
           validation_hash = variable.value_in_range?(value)
 
           case validation_hash[:status]
-          when 'blank' # AND REQUIRED
+          when "blank" # AND REQUIRED
             @errors << "#{variable.name} can't be blank" if design_option.required?
-          when 'invalid'
+          when "invalid"
             @errors << "#{variable.name} is invalid"
-          when 'out_of_range'
+          when "out_of_range"
             @errors << "#{variable.name} is out of range"
           end
         end
@@ -159,7 +159,7 @@ module Validation
         result = if sheet_variable
                    sheet_variable.raw_response
                  else
-                   variable.variable_type == 'checkbox' ? [] : ''
+                   variable.variable_type == "checkbox" ? [] : ""
                  end
         result.to_json
       else

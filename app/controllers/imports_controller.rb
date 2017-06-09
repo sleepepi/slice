@@ -27,7 +27,7 @@ class ImportsController < ApplicationController
   def create
     @design = current_user.designs.where(project_id: @project.id).new(design_params)
     if params[:variables].blank?
-      @design.errors.add(:csv_file, 'must be selected') if @design.csv_file.blank?
+      @design.errors.add(:csv_file, "must be selected") if @design.csv_file.blank?
     elsif @design.save
       @design.create_variables!(params[:variables])
       @design.generate_import_in_background(params[:site_id], current_user, request.remote_ip)
@@ -62,7 +62,7 @@ class ImportsController < ApplicationController
   end
 
   def design_params
-    params[:design] ||= { blank: '1' }
+    params[:design] ||= { blank: "1" }
     params.require(:design).permit(:name, :csv_file, :csv_file_cache, :reimport)
   end
 end

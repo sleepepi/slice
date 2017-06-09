@@ -9,8 +9,8 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    unless current_user.system_admin? || params[:format] == 'json'
-      redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'
+    unless current_user.system_admin? || params[:format] == "json"
+      redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
     scope = User.current
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   # GET /users/invite
   def invite
-    @users = current_user.associated_users.search(params[:q]).order('last_name, first_name').limit(10)
+    @users = current_user.associated_users.search(params[:q]).order("last_name, first_name").limit(10)
     render json: @users.collect { |u| { value: u.email, name: u.name } }
   end
 
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       @user.update_column :system_admin, params[:user][:system_admin]
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user, notice: "User was successfully updated."
     else
       render :edit
     end
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
   end
 
   def scope_order(scope)
-    @order = scrub_order(User, params[:order], 'users.current_sign_in_at desc')
+    @order = scrub_order(User, params[:order], "users.current_sign_in_at desc")
     scope.order(@order)
   end
 end

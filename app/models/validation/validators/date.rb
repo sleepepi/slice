@@ -4,11 +4,11 @@ module Validation
   module Validators
     class Date < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Date',
-        out_of_range: 'Date Outside of Range',
-        in_hard_range: 'Date Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Date",
+        out_of_range: "Date Outside of Range",
+        in_hard_range: "Date Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -34,7 +34,7 @@ module Validation
       end
 
       def formatted_value(value)
-        get_date(value).strftime('%B %-d, %Y')
+        get_date(value).strftime("%B %-d, %Y")
       rescue
         nil
       end

@@ -28,7 +28,7 @@ class Editor::GridVariablesController < Editor::EditorController
   def create
     @grid_variable = @project.grid_variables.new(grid_variable_params)
     if @grid_variable.save
-      redirect_to editor_project_grid_variable_path(@project, @grid_variable), notice: 'Grid variable was successfully created.'
+      redirect_to editor_project_grid_variable_path(@project, @grid_variable), notice: "Grid variable was successfully created."
     else
       render :new
     end
@@ -37,7 +37,7 @@ class Editor::GridVariablesController < Editor::EditorController
   # PATCH /grid-variables/1
   def update
     if @grid_variable.update(grid_variable_params)
-      redirect_to editor_project_grid_variable_path(@project, @grid_variable), notice: 'Grid variable was successfully updated.'
+      redirect_to editor_project_grid_variable_path(@project, @grid_variable), notice: "Grid variable was successfully updated."
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class Editor::GridVariablesController < Editor::EditorController
   # DELETE /grid-variables/1
   def destroy
     @grid_variable.destroy
-    redirect_to editor_project_grid_variables_path(@project), notice: 'Grid variable was successfully deleted.'
+    redirect_to editor_project_grid_variables_path(@project), notice: "Grid variable was successfully deleted."
   end
 
   private

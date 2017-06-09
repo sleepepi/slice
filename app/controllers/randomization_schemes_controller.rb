@@ -30,22 +30,22 @@ class RandomizationSchemesController < ApplicationController
   # GET /schemes/1/subject_search
   def subject_search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
-                            .search(params[:q]).order('subject_code').limit(5)
+                            .search(params[:q]).order(:subject_code).limit(5)
 
     result = @subjects.collect do |s|
-      status = 'E'
-      status_class = 'default'
+      status = "E"
+      status_class = "default"
       randomized = (s.randomizations.where(randomization_scheme_id: @randomization_scheme.id).count == 1)
       if @randomization_scheme.variable
         unless s.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
           # Subject Ineligible for Randomization
-          status = 'I'
-          status_class = 'danger'
+          status = "I"
+          status_class = "danger"
         end
       end
       if randomized
-        status = 'R'
-        status_class = 'primary'
+        status = "R"
+        status_class = "primary"
       end
 
       stratification_factors = s.stratification_factors(@randomization_scheme)
@@ -57,7 +57,7 @@ class RandomizationSchemesController < ApplicationController
     if @subjects.present?
       render json: result
     else
-      render json: [{ value: params[:q], subject_code: 'Subject Not Found', status_class: 'default', status: '', site_id: nil, stratification_factors: [] }]
+      render json: [{ value: params[:q], subject_code: "Subject Not Found", status_class: "default", status: "", site_id: nil, stratification_factors: [] }]
     end
   end
 
@@ -66,25 +66,25 @@ class RandomizationSchemesController < ApplicationController
     @randomization = @project.randomizations.where(randomization_scheme_id: @randomization_scheme).new
 
     subject = current_user.all_subjects.where(project_id: @project.id)
-                          .where('LOWER(subjects.subject_code) = ?', params[:subject_code].to_s.downcase).first
+                          .where("LOWER(subjects.subject_code) = ?", params[:subject_code].to_s.downcase).first
 
     if @randomization_scheme.lists.count == 0
-      @randomization.errors.add(:lists, 'need to be generated before a subject can be randomized')
-      render 'randomize_subject'
+      @randomization.errors.add(:lists, "need to be generated before a subject can be randomized")
+      render :randomize_subject
       return
     end
 
     unless subject
-      @randomization.errors.add(:subject_code, 'does not match an existing subject')
-      render 'randomize_subject'
+      @randomization.errors.add(:subject_code, "does not match an existing subject")
+      render :randomize_subject
       return
     end
 
     if @randomization_scheme.variable && !subject.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
       variable_message = "#{@randomization_scheme.variable.display_name} is not equal to #{@randomization_scheme.variable_value}"
-      @randomization.errors.add(:subject_id, 'is ineligible for randomization due to variable criteria')
+      @randomization.errors.add(:subject_id, "is ineligible for randomization due to variable criteria")
       @randomization.errors.add(:subject_id, variable_message)
-      render 'randomize_subject'
+      render :randomize_subject
       return
     end
 
@@ -104,13 +104,13 @@ class RandomizationSchemesController < ApplicationController
       criteria_pair = criteria_pairs.find { |sfid, _oid| sfid == sf.id }
       sfo = sf.stratification_factor_options.find_by(id: criteria_pair.last) if criteria_pair
       unless sfo && sfo.value.to_s == expected_stratification_factors[sf.id.to_s].to_s
-        @randomization.errors.add(sf.name, 'does not match value specified on subject sheet')
+        @randomization.errors.add(sf.name, "does not match value specified on subject sheet")
         invalid_criteria_found = true
       end
     end
 
     if invalid_criteria_found
-      render 'randomize_subject'
+      render :randomize_subject
       return
     end
 
@@ -118,15 +118,15 @@ class RandomizationSchemesController < ApplicationController
 
     if stratification_factor
       if subject.site_id.to_i != (params[:stratification_factors] || {})[stratification_factor.id.to_s.to_sym].to_i
-        @randomization.errors.add(:subject_id, 'must be randomized to their site')
-        render 'randomize_subject'
+        @randomization.errors.add(:subject_id, "must be randomized to their site")
+        render :randomize_subject
         return
       end
     end
 
-    if params[:attested] != '1'
-      @randomization.errors.add(:attested, 'must be checked')
-      render 'randomize_subject'
+    if params[:attested] != "1"
+      @randomization.errors.add(:attested, "must be checked")
+      render :randomize_subject
       return
     end
 
@@ -139,8 +139,8 @@ class RandomizationSchemesController < ApplicationController
                   notice: "Subject successfully randomized to #{@randomization.treatment_arm.name}."
     elsif @randomization
       @randomization.errors.delete(:subject_id)
-      @randomization.errors.add(:subject_id, 'has already been randomized')
-      render 'randomize_subject'
+      @randomization.errors.add(:subject_id, "has already been randomized")
+      render :randomize_subject
     else
       redirect_to choose_scheme_project_randomizations_path(@project),
                   alert: "Subject was NOT successfully randomized. #{@randomization_scheme.randomization_error_message}"
@@ -149,7 +149,7 @@ class RandomizationSchemesController < ApplicationController
 
   # GET /schemes
   def index
-    @order = scrub_order(RandomizationScheme, params[:order], 'randomization_schemes.name')
+    @order = scrub_order(RandomizationScheme, params[:order], "randomization_schemes.name")
     @randomization_schemes = @project.randomization_schemes
                                      .order(@order)
                                      .page(params[:page]).per(40)
@@ -173,7 +173,7 @@ class RandomizationSchemesController < ApplicationController
     @randomization_scheme = current_user.randomization_schemes.where(project_id: @project.id)
                                         .new(randomization_scheme_params)
     if @randomization_scheme.save
-      redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully created.'
+      redirect_to [@project, @randomization_scheme], notice: "Randomization scheme was successfully created."
     else
       render :new
     end
@@ -182,7 +182,7 @@ class RandomizationSchemesController < ApplicationController
   # PATCH /schemes/1
   def update
     if @randomization_scheme.update(randomization_scheme_params)
-      redirect_to [@project, @randomization_scheme], notice: 'Randomization scheme was successfully updated.'
+      redirect_to [@project, @randomization_scheme], notice: "Randomization scheme was successfully updated."
     else
       render :edit
     end
@@ -191,7 +191,7 @@ class RandomizationSchemesController < ApplicationController
   # DELETE /schemes/1
   def destroy
     @randomization_scheme.destroy
-    redirect_to project_randomization_schemes_path(@project), notice: 'Randomization scheme was successfully deleted.'
+    redirect_to project_randomization_schemes_path(@project), notice: "Randomization scheme was successfully deleted."
   end
 
   private
@@ -211,7 +211,7 @@ class RandomizationSchemesController < ApplicationController
   end
 
   def randomization_scheme_params
-    params[:randomization_scheme] ||= { blank: '1' }
+    params[:randomization_scheme] ||= { blank: "1" }
     check_key_and_set_default_value(:randomization_scheme, :randomization_goal, 0)
     check_key_and_set_default_value(:randomization_scheme, :chance_of_random_treatment_arm_selection, 30)
     if @randomization_scheme && @randomization_scheme.randomized_subjects?

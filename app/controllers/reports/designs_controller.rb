@@ -32,10 +32,10 @@ class Reports::DesignsController < ApplicationController
   # GET /reports/designs/1/advanced.pdf
   def advanced
     case params[:format]
-    when 'csv'
+    when "csv"
       setup_report_new
       generate_table_csv_new
-    when 'pdf'
+    when "pdf"
       setup_report_new
       generate_advanced_pdf
     end
@@ -61,18 +61,18 @@ class Reports::DesignsController < ApplicationController
   def generate_advanced_pdf
     pdf_location = generate_pdf_location
     if File.exist?(pdf_location)
-      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+      file_name = @report_title.gsub(" vs. ", " versus ").gsub(/[^\da-zA-Z ]/, "")
       send_file pdf_location,
                 filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf",
-                type: 'application/pdf',
-                disposition: 'inline'
+                type: "application/pdf",
+                disposition: "inline"
     else
-      redirect_to project_reports_design_advanced_path(@project, @design), alert: 'Unable to generate PDF.'
+      redirect_to project_reports_design_advanced_path(@project, @design), alert: "Unable to generate PDF."
     end
   end
 
   def generate_pdf_location
-    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
+    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : "portrait"
     @design.latex_report_new_file_location(
       current_user, orientation, @report_title, @report_subtitle,
       @report_caption, @percent, @table_header, @table_body, @table_footer

@@ -12,7 +12,7 @@ class AccountController < ApplicationController
                             .order("(favorited IS NULL or favorited = 'f') ASC, position, name")
                             .page(params[:page]).per(Project::PER_PAGE)
     @favorited_projects = @projects.where(project_preferences: { favorited: true })
-    @current_projects = @projects.where(project_preferences: { favorited: [false, nil] }).reorder('lower(name) asc')
+    @current_projects = @projects.where(project_preferences: { favorited: [false, nil] }).reorder("lower(name) asc")
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end
 
@@ -21,12 +21,12 @@ class AccountController < ApplicationController
     if current_user.valid_password?(params[:user][:current_password])
       if current_user.reset_password(params[:user][:password], params[:user][:password_confirmation])
         bypass_sign_in current_user
-        redirect_to settings_path, notice: 'Your password has been changed.'
+        redirect_to settings_path, notice: "Your password has been changed."
       else
         render :settings
       end
     else
-      current_user.errors.add :current_password, 'is invalid'
+      current_user.errors.add :current_password, "is invalid"
       render :settings
     end
   end
@@ -38,7 +38,7 @@ class AccountController < ApplicationController
   # POST /settings
   def update_settings
     current_user.update user_params
-    redirect_to settings_path, notice: 'Settings saved.'
+    redirect_to settings_path, notice: "Settings saved."
   end
 
   private
@@ -58,7 +58,7 @@ class AccountController < ApplicationController
         redirect_to accept_project_site_users_path(@site_user.project)
       else
         session[:site_invite_token] = nil
-        flash[:alert] = 'Invalid invitation token.'
+        flash[:alert] = "Invalid invitation token."
       end
     end
   end

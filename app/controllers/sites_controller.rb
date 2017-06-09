@@ -26,7 +26,7 @@ class SitesController < ApplicationController
     params[:sites].select { |hash| hash[:name].present? }.each do |hash|
       site = @project.sites.find_by(id: hash[:id])
       if site
-        if hash[:name] == 'Default Site'
+        if hash[:name] == "Default Site"
           site.update(name: hash[:name])
         else
           site.update(name: hash[:name], short_name: nil)
@@ -40,7 +40,7 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-    @order = scrub_order(Site, params[:order], 'sites.name')
+    @order = scrub_order(Site, params[:order], "sites.name")
     @sites = viewable_sites.search(params[:search]).order(@order)
                            .page(params[:page]).per(40)
   end
@@ -62,7 +62,7 @@ class SitesController < ApplicationController
   def create
     @site = current_user.sites.where(project_id: @project.id).new(site_params)
     if @site.save
-      redirect_to [@project, @site], notice: 'Site was successfully created.'
+      redirect_to [@project, @site], notice: "Site was successfully created."
     else
       render :new
     end
@@ -71,7 +71,7 @@ class SitesController < ApplicationController
   # PATCH /sites/1
   def update
     if @site.update(site_params)
-      redirect_to [@project, @site], notice: 'Site was successfully updated.'
+      redirect_to [@project, @site], notice: "Site was successfully updated."
     else
       render :edit
     end

@@ -22,7 +22,7 @@ class SheetUnlockRequestsController < ApplicationController
   # DELETE /projects/:project_id/sheets/:sheet_id/unlock/requests/1
   def destroy
     @sheet_unlock_request.destroy
-    redirect_to [@project, @sheet], notice: 'Sheet unlock request was successfully deleted.'
+    redirect_to [@project, @sheet], notice: "Sheet unlock request was successfully deleted."
   end
 
   private

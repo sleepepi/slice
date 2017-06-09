@@ -4,11 +4,11 @@ module Validation
   module Validators
     class TimeDuration < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Time Duration',
-        out_of_range: 'Time Duration Outside of Range',
-        in_hard_range: 'Time Duration Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Time Duration",
+        out_of_range: "Time Duration Outside of Range",
+        in_hard_range: "Time Duration Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -27,13 +27,13 @@ module Validation
 
       def formatted_value(value)
         hash = parse_time_duration_from_hash(value, no_hours: @variable.no_hours?)
-        h = (hash[:hours] == 1 ? 'hour' : 'hours')
-        m = (hash[:minutes] == 1 ? 'minute' : 'minutes')
-        s = (hash[:seconds] == 1 ? 'second' : 'seconds')
+        h = (hash[:hours] == 1 ? "hour" : "hours")
+        m = (hash[:minutes] == 1 ? "minute" : "minutes")
+        s = (hash[:seconds] == 1 ? "second" : "seconds")
         case @variable.time_duration_format
-        when 'mm:ss'
+        when "mm:ss"
           "#{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"
-        when 'hh:mm'
+        when "hh:mm"
           "#{hash[:hours]} #{h} #{hash[:minutes]} #{m}"
         else
           "#{hash[:hours]} #{h} #{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"

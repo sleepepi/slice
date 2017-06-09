@@ -49,7 +49,7 @@ class StratificationFactorOptionsController < ApplicationController
     if @stratification_factor_option.save
       redirect_to(
         [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option],
-        notice: 'Stratification factor option was successfully created.'
+        notice: "Stratification factor option was successfully created."
       )
     else
       render :new
@@ -61,7 +61,7 @@ class StratificationFactorOptionsController < ApplicationController
     if @stratification_factor_option.update(stratification_factor_option_params)
       redirect_to(
         [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option],
-        notice: 'Stratification factor option was successfully updated.'
+        notice: "Stratification factor option was successfully updated."
       )
     else
       render :edit
@@ -73,7 +73,7 @@ class StratificationFactorOptionsController < ApplicationController
     @stratification_factor_option.destroy
     redirect_to project_randomization_scheme_stratification_factor_stratification_factor_options_path(
       @project, @randomization_scheme, @stratification_factor
-    ), notice: 'Stratification factor option was successfully deleted.'
+    ), notice: "Stratification factor option was successfully deleted."
   end
 
   private

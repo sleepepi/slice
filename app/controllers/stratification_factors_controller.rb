@@ -37,7 +37,7 @@ class StratificationFactorsController < ApplicationController
     if @stratification_factor.save
       redirect_to(
         [@project, @randomization_scheme, @stratification_factor],
-        notice: 'Stratification factor was successfully created.'
+        notice: "Stratification factor was successfully created."
       )
     else
       render :new
@@ -49,7 +49,7 @@ class StratificationFactorsController < ApplicationController
     if @stratification_factor.update(stratification_factor_params)
       redirect_to(
         [@project, @randomization_scheme, @stratification_factor],
-        notice: 'Stratification factor was successfully updated.'
+        notice: "Stratification factor was successfully updated."
       )
     else
       render :edit
@@ -61,7 +61,7 @@ class StratificationFactorsController < ApplicationController
     @stratification_factor.destroy
     redirect_to(
       project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme),
-      notice: 'Stratification factor was successfully deleted.'
+      notice: "Stratification factor was successfully deleted."
     )
   end
 
@@ -101,7 +101,7 @@ class StratificationFactorsController < ApplicationController
   end
 
   def stratification_factor_params
-    params[:stratification_factor] ||= { blank: '1' }
+    params[:stratification_factor] ||= { blank: "1" }
     clean_calculation
     params.require(:stratification_factor).permit(:name, :stratifies_by_site, :calculation)
   end

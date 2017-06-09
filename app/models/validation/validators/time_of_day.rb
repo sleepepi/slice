@@ -4,11 +4,11 @@ module Validation
   module Validators
     class TimeOfDay < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Time of Day',
-        out_of_range: 'Time of Day Outside of Range',
-        in_hard_range: 'Time of Day Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Time of Day",
+        out_of_range: "Time of Day Outside of Range",
+        in_hard_range: "Time of Day Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -20,15 +20,15 @@ module Validation
         time_of_day = parse_time_of_day_from_hash(value)
         if time_of_day
           prepend = if time_of_day[:hours_24] == 12 && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
-                      'at noon'
+                      "at noon"
                     elsif time_of_day[:hours_24].zero? && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
-                      'at midnight'
+                      "at midnight"
                     elsif time_of_day[:hours_24] < 12
-                      'in the morning'
+                      "in the morning"
                     elsif time_of_day[:hours_24] < 17
-                      'in the afternoon'
+                      "in the afternoon"
                     else
-                      'in the evening'
+                      "in the evening"
                     end
           full_message = prepend + full_message
         end
@@ -47,8 +47,8 @@ module Validation
 
       def formatted_value(value)
         hash = parse_time_of_day_from_hash(value)
-        minutes = format('%02d', hash[:minutes])
-        seconds = format('%02d', hash[:seconds])
+        minutes = format("%02d", hash[:minutes])
+        seconds = format("%02d", hash[:seconds])
         if @variable.twelve_hour_clock?
           if @variable.show_seconds?
             "#{hash[:hours]}:#{minutes}:#{seconds} #{hash[:period]}"
@@ -79,7 +79,7 @@ module Validation
         else
           time = parse_time_of_day(response)
           if @variable.twelve_hour_clock?
-            (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.time_of_day_format == '12hour-pm' ? 'pm' : 'am' })
+            (time ? { hours: time[:hours], minutes: time[:minutes], seconds: time[:seconds], period: time[:period] } : { period: @variable.time_of_day_format == "12hour-pm" ? "pm" : "am" })
           else
             (time ? { hours: time[:hours_24], minutes: time[:minutes], seconds: time[:seconds] } : {})
           end

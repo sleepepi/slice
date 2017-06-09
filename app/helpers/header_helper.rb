@@ -7,7 +7,7 @@ module HeaderHelper
   end
 
   def label_or(label, small_label)
-    span_xs_sm = content_tag :span, class: 'hidden-md hidden-lg' do
+    span_xs_sm = content_tag :span, class: "hidden-md hidden-lg" do
       small_label
     end
     span_md_lg = content_tag :span, label, class: %w(hidden-xs hidden-sm)
@@ -15,6 +15,6 @@ module HeaderHelper
   end
 
   def plus_tag
-    content_tag :i, nil, class: %w(fa fa-plus), aria: { hidden: 'true' }
+    content_tag :i, nil, class: %w(fa fa-plus), aria: { hidden: "true" }
   end
 end

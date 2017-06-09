@@ -34,12 +34,12 @@ class ProjectUsersController < ApplicationController
     if @project_user && @project_user.user == current_user
       redirect_to @project_user.project, notice: "You have already been added to #{@project_user.project.name}."
     elsif @project_user && @project_user.user
-      redirect_to root_path, alert: 'This invite has already been claimed.'
+      redirect_to root_path, alert: "This invite has already been claimed."
     elsif @project_user
       @project_user.update user_id: current_user.id
-      redirect_to @project_user.project, notice: 'You have been successfully added to the project.'
+      redirect_to @project_user.project, notice: "You have been successfully added to the project."
     else
-      redirect_to root_path, alert: 'Invalid invitation token.'
+      redirect_to root_path, alert: "Invalid invitation token."
     end
   end
 
@@ -49,7 +49,7 @@ class ProjectUsersController < ApplicationController
     @project = current_user.all_projects.find_by(id: params[:project_id])
     @project_user = @project.project_users.find_by(id: params[:id]) if @project
     if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @project_user
-      @project_user.update unblinded: (params[:unblinded] == '1')
+      @project_user.update unblinded: (params[:unblinded] == "1")
       flash_notice = "Set member as #{@project_user.unblinded? ? 'un' : ''}blinded."
     end
     respond_to do |format|
@@ -67,7 +67,7 @@ class ProjectUsersController < ApplicationController
     end
     if @project && @project_user
       @project_user.destroy
-      render 'projects/members'
+      render "projects/members"
     else
       head :ok
     end

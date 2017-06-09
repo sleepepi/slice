@@ -124,16 +124,16 @@ class DesignOptionsController < ApplicationController
 
   # POST /designs/:design_id/design_options/update_section_order
   def update_section_order
-    section_order = params[:sections].to_s.split(',').collect(&:to_i)
+    section_order = params[:sections].to_s.split(",").collect(&:to_i)
     @design.reorder_sections(section_order, current_user)
-    render 'update_order'
+    render :update_order
   end
 
   # POST /designs/:design_id/design_options/update_option_order
   def update_option_order
-    row_order = params[:rows].to_s.split(',').collect(&:to_i)
+    row_order = params[:rows].to_s.split(",").collect(&:to_i)
     @design.reorder_options(row_order, current_user)
-    render 'update_order'
+    render :update_order
   end
 
   private
@@ -165,7 +165,7 @@ class DesignOptionsController < ApplicationController
   end
 
   def design_option_params
-    params[:design_option] ||= { blank: '1' }
+    params[:design_option] ||= { blank: "1" }
     params.require(:design_option).permit(
       :branching_logic, :position, :requirement
     )
@@ -178,7 +178,7 @@ class DesignOptionsController < ApplicationController
   end
 
   def variable_params
-    params[:variable] ||= { blank: '1' }
+    params[:variable] ||= { blank: "1" }
     parse_variable_dates
     params.require(:variable).permit(
       :name, :display_name, :description, :variable_type, :prepend, :append, :field_note, :display_layout,

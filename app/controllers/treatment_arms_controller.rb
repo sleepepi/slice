@@ -35,7 +35,7 @@ class TreatmentArmsController < ApplicationController
                                           .where(project_id: @project.id, user_id: current_user.id)
                                           .new(treatment_arm_params)
     if @treatment_arm.save
-      redirect_to [@project, @randomization_scheme, @treatment_arm], notice: 'Treatment arm was successfully created.'
+      redirect_to [@project, @randomization_scheme, @treatment_arm], notice: "Treatment arm was successfully created."
     else
       render :new
     end
@@ -44,7 +44,7 @@ class TreatmentArmsController < ApplicationController
   # PATCH /treatment_arms/1
   def update
     if @treatment_arm.update(treatment_arm_params)
-      redirect_to [@project, @randomization_scheme, @treatment_arm], notice: 'Treatment arm was successfully updated.'
+      redirect_to [@project, @randomization_scheme, @treatment_arm], notice: "Treatment arm was successfully updated."
     else
       render :edit
     end
@@ -55,7 +55,7 @@ class TreatmentArmsController < ApplicationController
     @treatment_arm.destroy
     redirect_to(
       project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme),
-      notice: 'Treatment arm was successfully deleted.'
+      notice: "Treatment arm was successfully deleted."
     )
   end
 
@@ -92,7 +92,7 @@ class TreatmentArmsController < ApplicationController
   end
 
   def treatment_arm_params
-    params[:treatment_arm] ||= { blank: '1' }
+    params[:treatment_arm] ||= { blank: "1" }
     check_key_and_set_default_value(:treatment_arm, :allocation, 0)
     params.require(:treatment_arm).permit(:name, :short_name, :allocation)
   end

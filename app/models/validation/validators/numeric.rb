@@ -5,11 +5,11 @@ module Validation
     # Used to help validate values for numeric variables.
     class Numeric < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Number',
-        out_of_range: 'Number Outside of Range',
-        in_hard_range: 'Number Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Number",
+        out_of_range: "Number Outside of Range",
+        in_hard_range: "Number Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -39,20 +39,20 @@ module Validation
 
       def formatted_value(value)
         if in_domain_options?(value)
-          ''
+          ""
         else
           "#{value}#{" #{variable.units}" unless variable.units.blank?}" unless value.blank?
         end
       end
 
       def show_full_message?(value)
-        message(value) != ''
+        message(value) != ""
       end
 
       private
 
       def get_number(value)
-        string_response = format('%g', value)
+        string_response = format("%g", value)
         begin
           Integer(string_response)
         rescue

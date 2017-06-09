@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 namespace :projects do
-  desc 'Copy a project to a new blank project'
+  desc "Copy a project to a new blank project"
   task copy: :environment do
-    project_id = ARGV[1].to_s.gsub('PROJECT=', '')
+    project_id = ARGV[1].to_s.gsub("PROJECT=", "")
     original = Project.current.find_by_param(project_id)
     if original
       copy = copy_project(original)
@@ -15,7 +15,7 @@ namespace :projects do
       copy_events(original, copy, design_map)
       puts "Project ID: #{copy.id}"
     else
-      puts 'Project Not Found'
+      puts "Project Not Found"
     end
   end
 end
@@ -89,7 +89,7 @@ def copy_variables(original, copy)
     puts "Added #{dc.name.colorize(:white)} domain"
   end
   puts "Variables: #{original.variables.count}"
-  original.variables.where.not(variable_type: 'grid').each do |v|
+  original.variables.where.not(variable_type: "grid").each do |v|
     vc = copy.variables.create(
       display_name: v.display_name,
       description: v.description,
@@ -126,7 +126,7 @@ def copy_variables(original, copy)
     variable_map[v.id.to_s] = vc.id
     puts "Added #{vc.name.colorize(:white)} variable"
   end
-  original.variables.where(variable_type: 'grid').each do |v|
+  original.variables.where(variable_type: "grid").each do |v|
     vc = copy.variables.create(
       display_name: v.display_name,
       description: v.description,

@@ -3,10 +3,10 @@
 # Helps parse dates and times in different formats to Ruby objects.
 module DateAndTimeParser
   def parse_date(date_string, default_date = nil)
-    if date_string.to_s.split('/', -1).last.size == 2
-      Date.strptime(date_string, '%m/%d/%y')
+    if date_string.to_s.split("/", -1).last.size == 2
+      Date.strptime(date_string, "%m/%d/%y")
     else
-      Date.strptime(date_string, '%m/%d/%Y')
+      Date.strptime(date_string, "%m/%d/%Y")
     end
   rescue
     default_date
@@ -19,13 +19,13 @@ module DateAndTimeParser
       year = parse_integer(date_hash[:year])
       parse_date("#{month}/#{day}/#{year}")
     else
-      parse_date('')
+      parse_date("")
     end
   end
 
-  # String is returned in database format '%Y-%m-%d'
-  def parse_date_from_hash_to_s(date_hash, default_date = '')
-    parse_date_from_hash(date_hash).strftime('%Y-%m-%d')
+  # String is returned in database format "%Y-%m-%d"
+  def parse_date_from_hash_to_s(date_hash, default_date = "")
+    parse_date_from_hash(date_hash).strftime("%Y-%m-%d")
   rescue
     default_date
   end
@@ -42,9 +42,9 @@ module DateAndTimeParser
     seconds = parse_integer(time_of_day_hash[:seconds]) || 0
     period = time_of_day_hash[:period]
     if hours && ((period.nil? && hours.in?(0..23)) || (hours.in?(1..12))) && minutes.in?(0..59) && seconds.in?(0..59)
-      if period == 'pm'
+      if period == "pm"
         hours = (hours % 12) + 12
-      elsif period == 'am'
+      elsif period == "am"
         hours = (hours % 12)
       end
       total_seconds_since_midnight = ((hours || 0).abs * 3600 + (minutes || 0).abs * 60 + (seconds || 0).abs)
@@ -52,7 +52,7 @@ module DateAndTimeParser
     end
   end
 
-  def parse_time_of_day_from_hash_to_s(time_of_day_hash, default_time_of_day: '')
+  def parse_time_of_day_from_hash_to_s(time_of_day_hash, default_time_of_day: "")
     hash = parse_time_of_day_from_hash(time_of_day_hash)
     hash[:total_seconds_since_midnight].to_s
   rescue
@@ -75,7 +75,7 @@ module DateAndTimeParser
     end
   end
 
-  def parse_time_duration_from_hash_to_s(time_duration_hash, default_time_duration: '', no_hours: false)
+  def parse_time_duration_from_hash_to_s(time_duration_hash, default_time_duration: "", no_hours: false)
     hash = parse_time_duration_from_hash(time_duration_hash, no_hours: no_hours)
     hash[:total_seconds].to_s
   rescue
@@ -83,7 +83,7 @@ module DateAndTimeParser
   end
 
   def parse_integer(string)
-    Integer(format('%g', string))
+    Integer(format("%g", string))
   rescue
     nil
   end
@@ -103,7 +103,7 @@ module DateAndTimeParser
     end
   end
 
-  def parse_imperial_height_from_hash_to_s(imperial_height_hash, default_imperial_height: '')
+  def parse_imperial_height_from_hash_to_s(imperial_height_hash, default_imperial_height: "")
     hash = parse_imperial_height_from_hash(imperial_height_hash)
     hash[:total_inches].to_s
   rescue
@@ -125,7 +125,7 @@ module DateAndTimeParser
     end
   end
 
-  def parse_imperial_weight_from_hash_to_s(imperial_weight_hash, default_imperial_weight: '')
+  def parse_imperial_weight_from_hash_to_s(imperial_weight_hash, default_imperial_weight: "")
     hash = parse_imperial_weight_from_hash(imperial_weight_hash)
     hash[:total_ounces].to_s
   rescue
@@ -146,7 +146,7 @@ module DateAndTimeParser
     hash[:hours] = 12 if hash[:hours].zero?
     hash[:minutes] = minutes
     hash[:seconds] = seconds
-    hash[:period] = hours < 12 ? 'am' : 'pm'
+    hash[:period] = hours < 12 ? "am" : "pm"
     hash[:total_seconds_since_midnight] = total_seconds_since_midnight
     hash
   end

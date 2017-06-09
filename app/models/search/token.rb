@@ -20,22 +20,22 @@ class Token
   end
 
   def parse(part)
-    (@key, @value) = part.split(':', 2)
+    (@key, @value) = part.split(":", 2)
     @value = remove_quotes(@value)
     if @value.blank?
       @value = @key
-      @key = 'search'
+      @key = "search"
     elsif %w(has is).include?(@key)
       @key = @value
-      @value = '1'
-      @operator = '='
+      @value = "1"
+      @operator = "="
     elsif %w(not no).include?(@key)
       @key = @value
-      @value = '1'
-      @operator = '!='
+      @value = "1"
+      @operator = "!="
     else
       @operator = set_operator
-      @value = @value.gsub(/^#{operator}/, '') unless @operator.nil?
+      @value = @value.gsub(/^#{operator}/, "") unless @operator.nil?
     end
     self
   end
@@ -46,11 +46,11 @@ class Token
 
   def to_s
     case @key
-    when 'search'
+    when "search"
       @value
-    when 'randomized'
+    when "randomized"
       "#{@operator == '=' ? 'is' : 'not'}:randomized"
-    when 'adverse-events'
+    when "adverse-events"
       "adverse-events:#{@value}"
     else
       "#{@key}:#{@operator}#{@value}"
@@ -69,13 +69,13 @@ class Token
     return val unless variable
     core_value = \
       case variable.variable_type
-      when 'time_duration'
+      when "time_duration"
         convert_time_duration(val)
-      when 'time_of_day'
+      when "time_of_day"
         convert_time_of_day(val)
-      when 'imperial_height'
+      when "imperial_height"
         convert_imperial_height(val)
-      when 'imperial_weight'
+      when "imperial_weight"
         convert_imperial_weight(val)
       else
         val
@@ -88,13 +88,13 @@ class Token
     original_value = val
     pounds = nil
     ounces = nil
-    if val.split('lb', 2).size == 2
-      (pounds, val) = val.split('lb', 2)
+    if val.split("lb", 2).size == 2
+      (pounds, val) = val.split("lb", 2)
       pounds = parse_integer(pounds)
     end
 
-    if val.split('oz', 2).size == 2
-      (ounces, val) = val.split('oz', 2)
+    if val.split("oz", 2).size == 2
+      (ounces, val) = val.split("oz", 2)
       ounces = parse_integer(ounces)
     end
 
@@ -109,13 +109,13 @@ class Token
     original_value = val
     feet = nil
     inches = nil
-    if val.split('ft', 2).size == 2
-      (feet, val) = val.split('ft', 2)
+    if val.split("ft", 2).size == 2
+      (feet, val) = val.split("ft", 2)
       feet = parse_integer(feet)
     end
 
-    if val.split('in', 2).size == 2
-      (inches, val) = val.split('in', 2)
+    if val.split("in", 2).size == 2
+      (inches, val) = val.split("in", 2)
       inches = parse_integer(inches)
     end
 
@@ -131,18 +131,18 @@ class Token
     hours = nil
     minutes = nil
     seconds = nil
-    if val.split('h', 2).size == 2
-      (hours, val) = val.split('h', 2)
+    if val.split("h", 2).size == 2
+      (hours, val) = val.split("h", 2)
       hours = parse_integer(hours)
     end
 
-    if val.split('m', 2).size == 2
-      (minutes, val) = val.split('m', 2)
+    if val.split("m", 2).size == 2
+      (minutes, val) = val.split("m", 2)
       minutes = parse_integer(minutes)
     end
 
-    if val.split('s', 2).size == 2
-      (seconds, val) = val.split('s', 2)
+    if val.split("s", 2).size == 2
+      (seconds, val) = val.split("s", 2)
       seconds = parse_integer(seconds)
     end
 
@@ -156,18 +156,18 @@ class Token
   # 12am, 12pm, 12:01am, 12:00:01am, 13:00:00, 1:00pm, 1pm, 1p 1a
   def convert_time_of_day(val)
     return val unless parse_integer(val).nil?
-    if val == 'noon'
-      val = '12pm'
-    elsif val == 'midnight'
-      val = '12am'
+    if val == "noon"
+      val = "12pm"
+    elsif val == "midnight"
+      val = "12am"
     elsif !(/a$/ =~ val).nil?
-      val.gsub!(/a$/, 'am')
+      val.gsub!(/a$/, "am")
     elsif !(/p$/ =~ val).nil?
-      val.gsub!(/p$/, 'pm')
+      val.gsub!(/p$/, "pm")
     end
-    hours = parse_integer(Time.zone.parse(val).strftime('%H'))
-    minutes = parse_integer(Time.zone.parse(val).strftime('%M'))
-    seconds = parse_integer(Time.zone.parse(val).strftime('%S'))
+    hours = parse_integer(Time.zone.parse(val).strftime("%H"))
+    minutes = parse_integer(Time.zone.parse(val).strftime("%M"))
+    seconds = parse_integer(Time.zone.parse(val).strftime("%S"))
     (hours * 3600 + minutes * 60 + seconds).to_s
   rescue
     val

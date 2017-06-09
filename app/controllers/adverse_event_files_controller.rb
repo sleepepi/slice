@@ -24,7 +24,7 @@ class AdverseEventFilesController < ApplicationController
                                       .where(project_id: @project.id, adverse_event_id: @adverse_event.id)
                                       .new(adverse_event_file_params)
     if @adverse_event_file.save
-      message = 'File was successfully attached.'
+      message = "File was successfully attached."
       redirect_to project_adverse_event_adverse_event_files_path(@project, @adverse_event), notice: message
     else
       render :new
@@ -45,7 +45,7 @@ class AdverseEventFilesController < ApplicationController
   def download
     if @adverse_event_file.pdf?
       send_file File.join(CarrierWave::Uploader::Base.root, @adverse_event_file.attachment.url),
-                type: 'application/pdf', disposition: 'inline'
+                type: "application/pdf", disposition: "inline"
     else
       send_file File.join(CarrierWave::Uploader::Base.root, @adverse_event_file.attachment.url)
     end
@@ -54,7 +54,7 @@ class AdverseEventFilesController < ApplicationController
   # DELETE /adverse-events/:adverse_event_id/files/1
   def destroy
     @adverse_event_file.destroy
-    message = 'File was successfully deleted.'
+    message = "File was successfully deleted."
     redirect_to project_adverse_event_adverse_event_files_path(@project, @adverse_event), notice: message
   end
 

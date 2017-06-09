@@ -53,7 +53,7 @@ class AdverseEventsController < ApplicationController
       @adverse_event.create_notifications
       @adverse_event.send_email_in_background
       @adverse_event.generate_number!
-      redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully created.'
+      redirect_to [@project, @adverse_event], notice: "Adverse event was successfully created."
     else
       render :new
     end
@@ -62,7 +62,7 @@ class AdverseEventsController < ApplicationController
   # PATCH /projects/:project_id/adverse-events/1
   def update
     if @adverse_event.update(adverse_event_params)
-      redirect_to [@project, @adverse_event], notice: 'Adverse event was successfully updated.'
+      redirect_to [@project, @adverse_event], notice: "Adverse event was successfully updated."
     else
       render :edit
     end
@@ -71,19 +71,19 @@ class AdverseEventsController < ApplicationController
   # POST /projects/:project_id/adverse-events/1/set_shareable_link
   def set_shareable_link
     @adverse_event.set_token
-    redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully created.'
+    redirect_to [@project, @adverse_event], notice: "Shareable link was successfully created."
   end
 
   # POST /projects/:project_id/adverse-events/1/remove_shareable_link
   def remove_shareable_link
     @adverse_event.update authentication_token: nil
-    redirect_to [@project, @adverse_event], notice: 'Shareable link was successfully removed.'
+    redirect_to [@project, @adverse_event], notice: "Shareable link was successfully removed."
   end
 
   # DELETE /projects/:project_id/adverse-events/1
   def destroy
     @adverse_event.destroy
-    redirect_to project_adverse_events_path(@project), notice: 'Adverse event was successfully deleted.'
+    redirect_to project_adverse_events_path(@project), notice: "Adverse event was successfully deleted."
   end
 
   private
@@ -120,7 +120,7 @@ class AdverseEventsController < ApplicationController
 
   def scope_filters_extra(scope)
     scope = scope.with_site(params[:site_id]) if params[:site_id].present?
-    scope = scope.where(closed: params[:status] == 'closed') if params[:status].present?
+    scope = scope.where(closed: params[:status] == "closed") if params[:status].present?
     scope
   end
 

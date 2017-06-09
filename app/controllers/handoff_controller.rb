@@ -2,7 +2,7 @@
 
 # Handles tablet handoff after control has been passed to the subject.
 class HandoffController < ApplicationController
-  prepend_before_action { request.env['devise.skip_timeout'] = true }
+  prepend_before_action { request.env["devise.skip_timeout"] = true }
   skip_before_action :verify_authenticity_token
   before_action :clean_layout
   before_action :set_project, except: [:completed]
@@ -20,7 +20,7 @@ class HandoffController < ApplicationController
 
   # POST /handoff/:project/:handoff/:design
   def save
-    update_type = (@sheet.new_record? ? 'public_sheet_create' : 'public_sheet_update')
+    update_type = (@sheet.new_record? ? "public_sheet_create" : "public_sheet_update")
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, update_type)
       proceed_to_next_design
     else

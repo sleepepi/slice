@@ -61,28 +61,28 @@ module Buildable
   private
 
   def setup_report_new
-    default_filters = [{ id: 'site', axis: 'row', missing: '0' },
-                       { id: 'sheet_date', axis: 'col', missing: '0', by: 'month' }]
+    default_filters = [{ id: "site", axis: "row", missing: "0" },
+                       { id: "sheet_date", axis: "col", missing: "0", by: "month" }]
     filters = (params[:f] || default_filters).uniq { |f| f[:id] }
     filters.collect! { |h| h.merge(variable: @project.variable_by_id(h[:id])) }.select! { |h| h[:variable].present? }
-    @column_filters = filters.select { |f| f[:axis] == 'col' }[0..0]
-    @row_filters = filters.select { |f| f[:axis] != 'col' }[0..2]
+    @column_filters = filters.select { |f| f[:axis] == "col" }[0..0]
+    @row_filters = filters.select { |f| f[:axis] != "col" }[0..2]
     params[:page] = (params[:page].to_i < 1 ? 1 : params[:page].to_i)
     set_sheet_scope
     build_row_strata
     build_table_header
     build_table_footer
     build_table_body
-    @report_caption = 'All Sheets'
+    @report_caption = "All Sheets"
     @report_title = [
-      @row_filters.collect { |i| i[:variable].display_name }.join(' & '),
-      @column_filters.collect { |h| h[:variable].display_name }.join(' & ')
-    ].select(&:present?).join(' vs. ')
-    @report_subtitle = (@design ? @design.name + ' &middot; ' + @design.project.name : @project.name)
+      @row_filters.collect { |i| i[:variable].display_name }.join(" & "),
+      @column_filters.collect { |h| h[:variable].display_name }.join(" & ")
+    ].select(&:present?).join(" vs. ")
+    @report_subtitle = (@design ? @design.name + " &middot; " + @design.project.name : @project.name)
   end
 
   def set_sheet_scope
-    @percent = %w(none row column).include?(params[:percent]) ? params[:percent] : 'none'
+    @percent = %w(none row column).include?(params[:percent]) ? params[:percent] : "none"
     sheet_scope = current_user.all_viewable_sheets.where(project: @project, missing: false)
     sheet_scope = sheet_scope.where(design: @design) if @design
     @sheets = sheet_scope
@@ -95,7 +95,7 @@ module Buildable
 
     @row_strata = []
     @row_filters.each do |hash|
-      strata = hash[:variable].report_strata(hash[:missing] == '1', max_strata, hash, @sheets)
+      strata = hash[:variable].report_strata(hash[:missing] == "1", max_strata, hash, @sheets)
 
       @row_strata = if @row_strata.blank?
                       strata.collect { |i| [i] }
@@ -115,28 +115,28 @@ module Buildable
     max_strata = 100
     @table_header = @row_filters.collect { |h| h[:variable].display_name }
     @column_filters.each do |filter|
-      @table_header += filter[:variable].report_strata(filter[:missing] == '1', max_strata, filter, @sheets)
+      @table_header += filter[:variable].report_strata(filter[:missing] == "1", max_strata, filter, @sheets)
     end
-    @table_header << { name: 'Total', tooltip: 'Total', calculation: 'array_count', column_type: 'total' }
+    @table_header << { name: "Total", tooltip: "Total", calculation: "array_count", column_type: "total" }
   end
 
   def build_table_footer
     table_row = []
-    table_row = [{ name: 'Total', colspan: @row_filters.size }] if @row_filters.size > 0
+    table_row = [{ name: "Total", colspan: @row_filters.size }] if @row_filters.size > 0
 
     # Add filters to total rows to remove additional missing counts if missing
     # is set as false for a particular row variable
-    filters = @row_filters.select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
-                          .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } }
+    filters = @row_filters.select { |f| f[:missing] != "1" && f[:id].to_i > 0 }
+                          .collect { |f| { variable: f[:variable], value: nil, operator: "any" } }
 
     table_row += build_row(filters)
 
     calculator = @column_filters.first[:variable] if @column_filters.first
     (values, chart_type) = if calculator && calculator.statistics?
-                             [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), 'box']
+                             [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), "box"]
                            else
-                             [table_row.select { |cell| cell[:column_type] != 'total' }
-                                       .collect { |cell| cell[:count] }.compact, 'line']
+                             [table_row.select { |cell| cell[:column_type] != "total" }
+                                       .collect { |cell| cell[:count] }.compact, "line"]
                            end
 
     @table_footer = { cells: table_row, values: values, chart_type: chart_type }
@@ -149,7 +149,7 @@ module Buildable
       table_row = []
       table_row += row_stratum.collect do |hash|
         name = \
-          if hash[:value].present? && hash[:hide_value] != '1'
+          if hash[:value].present? && hash[:hide_value] != "1"
             "#{hash[:value]}: #{hash[:name]}"
           else
             hash[:name]
@@ -159,10 +159,10 @@ module Buildable
       filters = row_stratum.collect { |hash| hash[:filters] }.flatten
       table_row += build_row(filters)
       (values, chart_type) = if calculator && calculator.statistics?
-                               [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), 'box']
+                               [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), "box"]
                              else
-                               [table_row.select { |cell| cell[:column_type] != 'total' }
-                                         .collect { |cell| cell[:count] }.compact, 'line']
+                               [table_row.select { |cell| cell[:column_type] != "total" }
+                                         .collect { |cell| cell[:count] }.compact, "line"]
                              end
       @table_body << { cells: table_row, values: values, chart_type: chart_type }
     end
@@ -177,13 +177,13 @@ module Buildable
       cell = header.dup
       cell[:filters] = (cell[:filters] || []) + filters
       # This adds in row specific missing filters to accurately calculate the total row count
-      if header[:column_type] == 'total'
+      if header[:column_type] == "total"
         cell[:filters] += @column_filters
-                          .select { |f| f[:missing] != '1' && f[:id].to_i > 0 }
-                          .collect { |f| { variable: f[:variable], value: nil, operator: 'any' } }
+                          .select { |f| f[:missing] != "1" && f[:id].to_i > 0 }
+                          .collect { |f| { variable: f[:variable], value: nil, operator: "any" } }
       end
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
-      # cell[:debug] = '1'
+      # cell[:debug] = "1"
       table_row << cell
     end
 
@@ -193,14 +193,14 @@ module Buildable
   def generate_table_csv_new
     @csv_string = CSV.generate do |csv|
       csv << [@report_title]
-      csv << [@report_subtitle.gsub('&middot;', ' - ')]
+      csv << [@report_subtitle.gsub("&middot;", " - ")]
       csv << [@report_caption]
       csv << []
 
       row = []
       @table_header.each do |header|
         row << if header.is_a?(Hash)
-                 (header[:name].blank? ? 'Missing' : header[:name].to_s)
+                 (header[:name].blank? ? "Missing" : header[:name].to_s)
                else
                  header
                end
@@ -210,7 +210,7 @@ module Buildable
       @table_body.each do |body|
         row = []
         body[:cells].each do |hash|
-          row << (hash[:name].blank? ? 'Missing' : hash[:name].to_s)
+          row << (hash[:name].blank? ? "Missing" : hash[:name].to_s)
         end
         csv << row
       end
@@ -218,19 +218,19 @@ module Buildable
       row = []
       @table_footer[:cells].each do |hash|
         if hash[:colspan].blank?
-          row << (hash[:name].blank? ? 'Missing' : hash[:name].to_s)
+          row << (hash[:name].blank? ? "Missing" : hash[:name].to_s)
         else
           row << hash[:name]
-          ([''] * (hash[:colspan] - 1)).each do |item|
+          ([""] * (hash[:colspan] - 1)).each do |item|
             row << item
           end
         end
       end
       csv << row
     end
-    file_name = @report_title.gsub('vs.', 'versus').gsub(/[^\da-zA-Z ]/, '')
+    file_name = @report_title.gsub("vs.", "versus").gsub(/[^\da-zA-Z ]/, "")
     send_data @csv_string,
-              type: 'text/csv; charset=iso-8859-1; header=present',
+              type: "text/csv; charset=iso-8859-1; header=present",
               disposition: "attachment; filename=\"#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.csv\""
   end
 end

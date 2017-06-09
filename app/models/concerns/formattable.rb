@@ -6,13 +6,13 @@ module Formattable
 
   def get_response(raw_format = :raw)
     case variable.variable_type
-    when 'file'
+    when "file"
       get_single_response(response_file, raw_format)
-    when 'checkbox'
+    when "checkbox"
       get_multiple_responses(raw_format)
-    when 'grid'
+    when "grid"
       get_grid_responses(raw_format)
-    when 'signature'
+    when "signature"
       get_signature_response(raw_format)
     else
       get_single_response(domain_option_value_or_value, raw_format)
@@ -48,7 +48,7 @@ module Formattable
   end
 
   def get_grid_responses(raw_format)
-    return get_single_response(domain_option_value_or_value, raw_format) unless respond_to?('grids')
+    return get_single_response(domain_option_value_or_value, raw_format) unless respond_to?("grids")
     build_grid_responses(raw_format)
   end
 
@@ -74,11 +74,11 @@ module Formattable
   end
 
   def save_signature_file
-    file = Tempfile.new('signature.png')
+    file = Tempfile.new("signature.png")
     begin
       create_signature_png(value, file.path)
       file.define_singleton_method(:original_filename) do
-        'signature.png'
+        "signature.png"
       end
       self.response_file = file
       save
@@ -92,7 +92,7 @@ module Formattable
   def create_signature_png(signature, filename)
     canvas = ChunkyPNG::Canvas.new(300, 55)
     signature_array(signature).each do |hash|
-      canvas.line(hash['mx'], hash['my'], hash['lx'], hash['ly'], ChunkyPNG::Color.parse('#145394'))
+      canvas.line(hash["mx"], hash["my"], hash["lx"], hash["ly"], ChunkyPNG::Color.parse("#145394"))
     end
     png = canvas.to_image
     png.save(filename)

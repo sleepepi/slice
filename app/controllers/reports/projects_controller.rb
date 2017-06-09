@@ -29,12 +29,12 @@ class Reports::ProjectsController < ApplicationController
   # POST /reports/projects/1/report.js
   def report
     params[:f] = [
-      { id: 'design', axis: 'row', missing: '0' },
-      { id: 'sheet_date', axis: 'col', missing: '0', by: params[:by] || 'month' }
+      { id: "design", axis: "row", missing: "0" },
+      { id: "sheet_date", axis: "col", missing: "0", by: params[:by] || "month" }
     ]
     setup_report_new
-    generate_table_csv_new if params[:format] == 'csv'
-    generate_report_pdf if params[:format] == 'pdf'
+    generate_table_csv_new if params[:format] == "csv"
+    generate_report_pdf if params[:format] == "pdf"
   end
 
   private
@@ -51,19 +51,19 @@ class Reports::ProjectsController < ApplicationController
   def generate_report_pdf
     pdf_location = generate_pdf_location
     if File.exist?(pdf_location)
-      file_name = @report_title.gsub(' vs. ', ' versus ').gsub(/[^\da-zA-Z ]/, '')
+      file_name = @report_title.gsub(" vs. ", " versus ").gsub(/[^\da-zA-Z ]/, "")
       send_file pdf_location,
                 filename: "#{file_name} #{Time.zone.now.strftime('%Y.%m.%d %Ih%M %p')}.pdf",
-                type: 'application/pdf',
-                disposition: 'inline'
+                type: "application/pdf",
+                disposition: "inline"
     else
-      redirect_to report_reports_project_path(@project), alert: 'Unable to generate PDF.'
+      redirect_to report_reports_project_path(@project), alert: "Unable to generate PDF."
     end
   end
 
   def generate_pdf_location
-    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : 'portrait'
-    @design = @project.designs.new(name: 'Summary Report')
+    orientation = %w(portrait landscape).include?(params[:orientation].to_s) ? params[:orientation].to_s : "portrait"
+    @design = @project.designs.new(name: "Summary Report")
     @design.latex_report_new_file_location(
       current_user, orientation, @report_title, @report_subtitle,
       @report_caption, @percent, @table_header, @table_body, @table_footer

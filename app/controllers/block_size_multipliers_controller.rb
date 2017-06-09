@@ -32,7 +32,7 @@ class BlockSizeMultipliersController < ApplicationController
     @block_size_multiplier = block_size_multipliers.new(block_size_multiplier_params)
 
     if @block_size_multiplier.save
-      message = 'Block size multiplier was successfully created.'
+      message = "Block size multiplier was successfully created."
       redirect_to [@project, @randomization_scheme, @block_size_multiplier], notice: message
     else
       render :new
@@ -42,7 +42,7 @@ class BlockSizeMultipliersController < ApplicationController
   # PATCH /block_size_multipliers/1
   def update
     if @block_size_multiplier.update(block_size_multiplier_params)
-      message = 'Block size multiplier was successfully updated.'
+      message = "Block size multiplier was successfully updated."
       redirect_to [@project, @randomization_scheme, @block_size_multiplier], notice: message
     else
       render :edit
@@ -53,7 +53,7 @@ class BlockSizeMultipliersController < ApplicationController
   def destroy
     @block_size_multiplier.destroy
     redirect_to project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme),
-                notice: 'Block size multiplier was successfully deleted.'
+                notice: "Block size multiplier was successfully deleted."
   end
 
   private
@@ -93,7 +93,7 @@ class BlockSizeMultipliersController < ApplicationController
   end
 
   def block_size_multiplier_params
-    params[:block_size_multiplier] ||= { blank: '1' }
+    params[:block_size_multiplier] ||= { blank: "1" }
     check_key_and_set_default_value(:block_size_multiplier, :value, 1)
     check_key_and_set_default_value(:block_size_multiplier, :allocation, 0)
     params.require(:block_size_multiplier).permit(:value, :allocation)

@@ -4,11 +4,11 @@ module Validation
   module Validators
     class ImperialHeight < Validation::Validators::Default
       MESSAGES = {
-        blank: '',
-        invalid: 'Not a Valid Height',
-        out_of_range: 'Height Outside of Range',
-        in_hard_range: 'Height Outside of Soft Range',
-        in_soft_range: ''
+        blank: "",
+        invalid: "Not a Valid Height",
+        out_of_range: "Height Outside of Range",
+        in_hard_range: "Height Outside of Soft Range",
+        in_soft_range: ""
       }
 
       def messages
@@ -27,8 +27,8 @@ module Validation
 
       def formatted_value(value)
         hash = parse_imperial_height_from_hash(value)
-        f = (hash[:feet] == 1 ? 'foot' : 'feet')
-        i = (hash[:inches] == 1 ? 'inch' : 'inches')
+        f = (hash[:feet] == 1 ? "foot" : "feet")
+        i = (hash[:inches] == 1 ? "inch" : "inches")
         "#{hash[:feet]} #{f} #{hash[:inches]} #{i}"
       rescue
         nil

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'pats'
+require "pats"
 include Pats
 
 namespace :pats do
-  desc 'Export recruitment data.'
+  desc "Export recruitment data."
   task recruitment: :environment do
     recruitment = {}
-    slug = 'pats'
+    slug = "pats"
     project = Project.current.find_by(slug: slug)
-    start_date = Date.parse('2016-06-01')
+    start_date = Date.parse("2016-06-01")
     if project
       recruitment[:exported_at] = Time.zone.now
       recruitment[:screened] = screened_graph(project, start_date)
@@ -37,13 +37,13 @@ namespace :pats do
       recruitment[:unscheduled_events][:unblinding_events] = unblinding_events_data(project, start_date)
       recruitment[:failing_checks] = failing_checks(project)
       recruitment[:export_completed_at] = Time.zone.now
-      recruitment_json_file = Rails.root.join('pats', 'recruitment.json')
-      File.open(recruitment_json_file, 'w') do |f|
+      recruitment_json_file = Rails.root.join("pats", "recruitment.json")
+      File.open(recruitment_json_file, "w") do |f|
         f.write(recruitment.to_json)
       end
-      puts 'Wrote file to: ' + recruitment_json_file.to_s.colorize(:green)
+      puts "Wrote file to: " + recruitment_json_file.to_s.colorize(:green)
     else
-      puts 'Unable to load project: ' + slug.colorize(:red)
+      puts "Unable to load project: " + slug.colorize(:red)
     end
   end
 end

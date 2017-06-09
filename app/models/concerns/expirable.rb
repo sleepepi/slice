@@ -44,7 +44,7 @@ module Expirable
   def password_used?(password)
     old_passwords.find_each do |old_password|
       if Devise::Encryptor.compare(self.class, old_password.encrypted_password, password)
-        errors.add :password, 'has already been used'
+        errors.add :password, "has already been used"
         return true
       end
     end

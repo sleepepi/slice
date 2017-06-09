@@ -3,22 +3,22 @@
 module Validation
   DEFAULT_CLASS = Validation::Validators::Default
   VALIDATOR_CLASSES = {
-    'calculated' => Validation::Validators::Numeric,
-    'checkbox' => Validation::Validators::MultipleChoice,
-    'date' => Validation::Validators::Date,
-    'dropdown' => Validation::Validators::SingleChoice,
-    'file' => Validation::Validators::File,
-    # 'grid' => Validation::Validators::Grid,
-    'integer' => Validation::Validators::Integer,
-    'numeric' => Validation::Validators::Numeric,
-    'imperial_height' => Validation::Validators::ImperialHeight,
-    'imperial_weight' => Validation::Validators::ImperialWeight,
-    'radio' => Validation::Validators::SingleChoice,
-    'signature' => Validation::Validators::Signature,
-    # 'string' => Validation::Validators::String,
-    # 'text' => Validation::Validators::Text,
-    'time_of_day' => Validation::Validators::TimeOfDay,
-    'time_duration' => Validation::Validators::TimeDuration
+    "calculated" => Validation::Validators::Numeric,
+    "checkbox" => Validation::Validators::MultipleChoice,
+    "date" => Validation::Validators::Date,
+    "dropdown" => Validation::Validators::SingleChoice,
+    "file" => Validation::Validators::File,
+    # "grid" => Validation::Validators::Grid,
+    "integer" => Validation::Validators::Integer,
+    "numeric" => Validation::Validators::Numeric,
+    "imperial_height" => Validation::Validators::ImperialHeight,
+    "imperial_weight" => Validation::Validators::ImperialWeight,
+    "radio" => Validation::Validators::SingleChoice,
+    "signature" => Validation::Validators::Signature,
+    # "string" => Validation::Validators::String,
+    # "text" => Validation::Validators::Text,
+    "time_of_day" => Validation::Validators::TimeOfDay,
+    "time_duration" => Validation::Validators::TimeDuration
   }
 
   def self.for(object)

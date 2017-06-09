@@ -15,7 +15,7 @@ module Validation
 
     def raw_response
       case @variable.variable_type
-      when 'checkbox'
+      when "checkbox"
         @responses.collect(&:value)
       else
         @value if @value.present?

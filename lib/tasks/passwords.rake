@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 namespace :passwords do
-  desc 'Launched by crontab -e, send a password expire email to users.'
+  desc "Launched by crontab -e, send a password expire email to users."
   task expire: :environment do
     # At 1am every week day, in production mode, for users who have "daily digest" email notification selected
     return unless EMAILS_ENABLED
