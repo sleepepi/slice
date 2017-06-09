@@ -153,7 +153,7 @@ class SubjectsController < ApplicationController
 
   # GET /projects/:project_id/subjects/1/files
   def files
-    @uploaded_files = @subject.uploaded_files(current_user).includes(:variable, :sheet).page(params[:page]).per(40)
+    @uploaded_files = @subject.uploaded_files(current_user)
   end
 
   # POST /projects/:project_id/subjects/1/launch_subject_event

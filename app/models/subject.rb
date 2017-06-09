@@ -69,8 +69,9 @@ class Subject < ApplicationRecord
   end
 
   def uploaded_files(current_user)
-    SheetVariable.where(sheet_id: blinded_sheets(current_user).select(:id)).with_files
-                 .order(created_at: :desc)
+    sheet_variable_scope = SheetVariable.where(sheet: blinded_sheets(current_user)).includes(:variable, :sheet)
+    grid_scope = Grid.where(sheet_variable: sheet_variable_scope).includes(:variable, sheet_variable: :sheet)
+    (sheet_variable_scope.with_files.to_a + grid_scope.with_files.to_a).sort_by(&:created_at).reverse
   end
 
   def uploaded_files_count(current_user)
@@ -200,11 +201,9 @@ class Subject < ApplicationRecord
   end
 
   def update_uploaded_file_counts!
-    unblinded_count = SheetVariable.where(sheet_id: unblinded_not_missing_sheets.select(:id)).with_files.count
-    blinded_count = SheetVariable.where(sheet_id: blinded_not_missing_sheets.select(:id)).with_files.count
     update_columns(
-      unblinded_uploaded_files_count: unblinded_count,
-      blinded_uploaded_files_count: blinded_count
+      unblinded_uploaded_files_count: unblinded_not_missing_sheets.sum(:uploaded_files_count),
+      blinded_uploaded_files_count: blinded_not_missing_sheets.sum(:uploaded_files_count)
     )
   end
 

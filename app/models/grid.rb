@@ -19,6 +19,7 @@ class Grid < ApplicationRecord
   belongs_to :domain_option, optional: true
 
   delegate :sheet_id, to: :sheet_variable
+  delegate :sheet, to: :sheet_variable
 
   # Methods
   def self.file_variables
