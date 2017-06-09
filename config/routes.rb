@@ -367,9 +367,8 @@ Rails.application.routes.draw do
 
   scope module: :external do
     get :landing
+    get :sitemap_xml, path: "sitemap.xml.gz"
   end
-
-  get "sitemap.xml.gz" => "external#sitemap_xml"
 
   namespace :external do
     post :add_grid_row
