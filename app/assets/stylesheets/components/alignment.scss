@@ -19,3 +19,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.breakword {
+  overflow-wrap: break-word;
+}

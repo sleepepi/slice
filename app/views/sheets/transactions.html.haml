@@ -55,7 +55,7 @@
         - t.sheet_transaction_audits.each do |a|
           - if !variable || (variable && a.sheet_variable && a.sheet_variable.variable_id == variable.id)
             %tr
-              %td{ style: 'overflow: hidden;' }
+              %td.breakword{ style: 'overflow: hidden;' }
                 = a.sheet_attribute_name
                 - if a.sheet_variable
                   - case a.sheet_variable.variable.variable_type
@@ -73,7 +73,7 @@
                   Row
                   = "##{a.grid.position + 1}"
                   = a.grid.variable.name
-              %td{ class: "#{'text-muted' if a.value_before == nil || a.value_before == ''}" }
+              %td.breakword{ class: "#{'text-muted' if a.value_before == nil || a.value_before == ''}" }
                 - if a.value_before == nil
                   nil
                 - elsif a.value_before == ''
@@ -83,11 +83,11 @@
                     %canvas.pad-display{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_before}" } }
                   - else
                     = a.value_before
-              %td
+              %td.breakword
                 - unless a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
                   - diff = Differ.diff_by_char(a.value_after.to_s, a.value_before.to_s)
                   = diff.format_as(:html).html_safe
-              %td{ class: "#{'text-muted' if a.value_after == nil || a.value_after == ''}" }
+              %td.breakword{ class: "#{'text-muted' if a.value_after == nil || a.value_after == ''}" }
                 - if a.value_after == nil
                   nil
                 - elsif a.value_after == ''
