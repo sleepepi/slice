@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rails',                '5.1.1'
 
 # Database Adapter
-gem 'pg',                   '0.20.0'
+gem 'pg',                   '0.21.0'
 
 # Gems used by project
 gem 'autoprefixer-rails'

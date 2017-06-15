@@ -21,6 +21,8 @@
   - Improved the display of site members on the site show page on mobile
 - **Subject Changes**
   - Subject file counts are now computed based on cached sheet file counts
+- **Gem Changes**
+  - Updated to pg 0.21.0
 
 ### Bug Fix
 - Variables that exist on multiple designs no longer produce multiple columns in
