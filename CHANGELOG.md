@@ -22,6 +22,7 @@
 - **Subject Changes**
   - Subject file counts are now computed based on cached sheet file counts
 - **Gem Changes**
+  - Updated to rails 5.1.2
   - Updated to pg 0.21.0
 
 ### Bug Fix
