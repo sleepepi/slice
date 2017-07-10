@@ -19,6 +19,8 @@
     variables on the design editor
 - **Export Changes**
   - Adverse event exports now more closely match the adverse events index
+  - CSV export READMEs now more accurately reflect the contents of the exported
+    zip file
 - **Site Changes**
   - Improved the display of site members on the site show page on mobile
 - **Subject Changes**

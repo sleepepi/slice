@@ -27,11 +27,19 @@ Included Files
 
 `-- csv
     |-- README.txt
-    |-- dataset_raw.csv
-<% if include_grids? %>    |-- dataset_grids_raw.csv
+<% if include_csv_labeled? && include_csv_raw? && include_grids? %>    |-- dataset_raw.csv
+    |-- dataset_grids_raw.csv
     |-- dataset_labeled.csv
     `-- dataset_grids_labeled.csv
-<% else %>    `-- dataset_labeled.csv<% end %>
+<% elsif include_csv_labeled? && include_csv_raw? %>    |-- dataset_raw.csv
+    `-- dataset_labeled.csv
+<% elsif include_csv_labeled? && include_grids? %>    |-- dataset_labeled.csv
+    `-- dataset_grids_labeled.csv
+<% elsif include_csv_raw? && include_grids? %>    |-- dataset_raw.csv
+    `-- dataset_grids_raw.csv
+<% elsif include_csv_labeled? %>    `-- dataset_labeled.csv
+<% else %>    `-- dataset_raw.csv
+<% end %>
 
 Variables and Grids
 ===================
