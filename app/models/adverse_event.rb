@@ -134,10 +134,6 @@ class AdverseEvent < ApplicationRecord
     user.name
   end
 
-  def reported_on
-    adverse_event_date
-  end
-
   def sort_event_date
     adverse_event_date
   end

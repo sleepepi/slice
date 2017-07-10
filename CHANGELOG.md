@@ -17,6 +17,8 @@
   - Design link to "View Sheets" now filters sheets using the new search format
   - Ranges for integers, numerics, and dates are now displayed underneath the
     variables on the design editor
+- **Export Changes**
+  - Adverse event exports now more closely match the adverse events index
 - **Site Changes**
   - Improved the display of site members on the site show page on mobile
 - **Subject Changes**

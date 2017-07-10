@@ -396,13 +396,13 @@ class Export < ApplicationRecord
   def generate_csv_adverse_events(filename)
     export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_aes.csv")
     CSV.open(export_file, "wb") do |csv|
-      csv << ["Adverse Event ID", "Reported By", "Subject", "Reported On", "Description", "Status"]
+      csv << ["Adverse Event ID", "Reported By", "Subject", "Date of AE", "Description", "Status"]
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
         csv << [
           ae.number,
           ae.reported_by,
           ae.subject_code,
-          ae.reported_on,
+          ae.adverse_event_date,
           ae.description,
           ae.closed? ? "Closed" : "Open"
         ]
