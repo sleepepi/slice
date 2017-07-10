@@ -384,6 +384,34 @@ class VariablesControllerTest < ActionController::TestCase
     assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
   end
 
+  # Removing "grid_change_options" variable from grid.
+  test "should update variable and remove first child variable from grid" do
+    assert_difference("GridVariable.count", -1) do
+      patch :update, params: {
+        project_id: @project,
+        id: variables(:grid),
+        variable: {
+          name: "grid",
+          display_name: "Grid of Variables",
+          description: "Testing for grid of Variables",
+          variable_type: "grid",
+          grid_tokens: [
+            { variable_id: ActiveRecord::FixtureSet.identify(:file) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:checkbox) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:height) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:weight) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:calculated) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:integer) },
+            { variable_id: ActiveRecord::FixtureSet.identify(:time_of_day) }
+          ]
+        }
+      }
+    end
+    assert_not_nil assigns(:variable)
+    assert_equal 7, assigns(:variable).child_grid_variables.count
+    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+  end
+
   test 'should destroy variable' do
     assert_difference('Variable.current.count', -1) do
       delete :destroy, params: { project_id: @project, id: @variable }

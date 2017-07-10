@@ -39,6 +39,8 @@
 - Variables that exist on multiple designs no longer produce multiple columns in
   CSV exports
 - Blinded project members can no longer filter subjects by adverse events
+- Adding and removing variables on grids no longer generates orphaned
+  `GridVariable`s
 
 ## 0.53.0 (May 25, 2017)
 

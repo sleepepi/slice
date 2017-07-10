@@ -40,7 +40,7 @@ grid_integer:
   child_variable: integer
   position: 6
 
-grid_time:
+grid_time_of_day:
   project: one
   parent_variable: grid
   child_variable: time_of_day

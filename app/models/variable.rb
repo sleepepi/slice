@@ -205,12 +205,12 @@ class Variable < ApplicationRecord
 
   def update_grid_tokens!
     return if grid_tokens.nil?
-    child_grid_variables.delete_all
+    child_grid_variables.destroy_all
     grid_tokens.each_with_index do |grid_hash, index|
-      next unless grid_hash[:variable_id].strip.to_i > 0
+      next unless grid_hash[:variable_id].to_i.positive?
       child_grid_variables.create(
         project_id: project_id,
-        child_variable_id: grid_hash[:variable_id].strip.to_i,
+        child_variable_id: grid_hash[:variable_id].to_i,
         position: index
       )
     end
