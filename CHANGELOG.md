@@ -23,6 +23,12 @@
   - Improved the display of site members on the site show page on mobile
 - **Subject Changes**
   - Subject file counts are now computed based on cached sheet file counts
+- **Variable Changes**
+  - Variables are now restricted to show up once either as part of a design or
+    on a grid
+    - This change helps eliminate unknowningly changing a variable across
+      designs, helps simplify data exports, and allows Slice to more directly
+      associate variables to subjects
 - **Gem Changes**
   - Updated to rails 5.1.2
   - Updated to pg 0.21.0

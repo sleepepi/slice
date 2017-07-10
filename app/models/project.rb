@@ -246,6 +246,19 @@ class Project < ApplicationRecord
     end
   end
 
+  # Project variables that are not part of a grid or on a design.
+  def unassigned_variables
+    variables.where.not(id:
+      variables.where(id: design_options.select(:variable_id)).or(
+        variables.where(id: grid_variables.select(:child_variable_id))
+      )
+    )
+  end
+
+  def design_options
+    DesignOption.where(design: designs)
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

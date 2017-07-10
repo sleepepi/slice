@@ -127,15 +127,14 @@
                 %br
                 Please enter the following information...
         - if variable_type == 'existing_question'
-          - variables = @project.variables.where.not(id: @design.variables.select(:id))
-          - if variables.count > 0
+          - if @project.unassigned_variables.count.positive?
             .col-md-4
               .download-container.editable-design-element{ data: { object: "new-existing-variable-popup", position: params[:position] } }
                 .download-container-after Existing Question
                 .center{ style: "margin-top:12px" }
                   %strong Existing Question
                   %br
-                  Add an existing variable from this project.
+                  Add an unnassigned variable from this project.
 
 .modal-footer
   %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
