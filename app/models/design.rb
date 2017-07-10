@@ -273,7 +273,6 @@ class Design < ApplicationRecord
   end
 
   def build_design_options_from_variable_array(variables)
-    design_options.delete_all
     variables.each_with_index do |variable, position|
       design_options.create variable_id: variable.id, position: position
     end
