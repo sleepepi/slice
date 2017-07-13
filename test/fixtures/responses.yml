@@ -25,17 +25,17 @@ has_grid_row_one_var_c:
   domain_option: var_checkbox_econ101
   # value: econ101
 
-pdf_variable_one:
+pdf_variable_yes:
   variable: checkbox_two
-  sheet: two
+  sheet: two_a
   sheet_variable: checkbox_two
   user: valid
   domain_option: checkbox_two_domain_yes
   # value: 1
 
-pdf_variable_one:
+pdf_variable_no:
   variable: checkbox_two
-  sheet: two
+  sheet: two_a
   sheet_variable: checkbox_two
   user: valid
   domain_option: checkbox_two_domain_no

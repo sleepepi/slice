@@ -1,5 +1,9 @@
 ## 0.54.1
 
+### Bug Fix
+- Fixed a rare occurence where sheets could have multiple responses saved for
+  single questions resulting in coverage over 100%
+
 ## 0.54.0 (July 11, 2017)
 
 ### Enhancements

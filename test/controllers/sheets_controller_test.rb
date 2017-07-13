@@ -639,7 +639,7 @@ d est laborum.',
 
   test 'should print sheet on project that hides values' do
     skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
-    get :show, params: { project_id: projects(:two), id: sheets(:two) }, format: 'pdf'
+    get :show, params: { project_id: projects(:two), id: sheets(:two_a) }, format: 'pdf'
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
