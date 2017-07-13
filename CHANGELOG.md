@@ -1,4 +1,4 @@
-## 0.54.1
+## 0.54.1 (July 13, 2017)
 
 ### Bug Fix
 - Fixed a rare occurence where sheets could have multiple responses saved for
