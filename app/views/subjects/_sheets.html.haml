@@ -32,7 +32,7 @@
     .center
       %p.lead No events have been added for this subject.
       = image_tag 'sad-slice.png'
-- elsif @subject.blinded_sheets(current_user).count == 0
+- elsif @subject.blinded_subject_events(current_user).count == 0 && @subject.blinded_sheets(current_user).count == 0
   .jumbotron.center
     %p.lead No data have been entered for this subject.
     = image_tag 'sad-slice.png'
