@@ -39,7 +39,7 @@ class SurveyController < ApplicationController
   # PATCH /survey/:slug/:sheet_authentication_token
   def update
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, "public_sheet_update")
-      redirect_to about_survey_path(survey: @design.slug, a: @sheet.authentication_token)
+      redirect_to survey_redirect_page
     else
       render :edit
     end
