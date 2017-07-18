@@ -59,3 +59,9 @@ default:
   name: Default
   slug: default
   user: valid
+
+api:
+  name: API Test
+  slug: api-test
+  user: valid
+  authentication_token: 4bf180956aec927f7a0f01f5

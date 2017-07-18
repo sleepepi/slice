@@ -132,3 +132,8 @@ auto_lock_site_one_subject_one:
   subject_code: auto_lock_01
   user: valid
   site: auto_lock_site_one
+
+api_one:
+  project: api
+  subject_code: API0001
+  site: api_site

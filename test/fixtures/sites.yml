@@ -68,3 +68,8 @@ default_site:
   short_name: Default Site
   project: default
   user: valid
+
+api_site:
+  name: "API Site"
+  project: api
+  user: valid

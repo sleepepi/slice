@@ -1,5 +1,9 @@
 ## 0.55.0
 
+### Enhancements
+- **API Changes**
+  - Added API to generate and retrieve a project's subjects and events
+
 ## 0.54.1 (July 13, 2017)
 
 ### Bug Fix

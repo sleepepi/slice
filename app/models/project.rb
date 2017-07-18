@@ -42,6 +42,7 @@ class Project < ApplicationRecord
   validates :name, :user_id, presence: true
   validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
   validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ }, allow_blank: true
+  validates :authentication_token, uniqueness: true, allow_nil: true
 
   # Relationships
   belongs_to :user
@@ -257,6 +258,17 @@ class Project < ApplicationRecord
 
   def design_options
     DesignOption.where(design: designs)
+  end
+
+  def id_and_token
+    "#{id}-#{authentication_token}"
+  end
+
+  def set_token
+    return if authentication_token.present?
+    update authentication_token: SecureRandom.hex(12)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    retry
   end
 
   private

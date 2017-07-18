@@ -20,6 +20,14 @@ Rails.application.routes.draw do
     get :change_password, to: redirect("settings")
   end
 
+  namespace :api do
+    namespace :v1 do
+      get "projects/:authentication_token", to: "projects#show", as: :project
+      get "projects/:authentication_token/subjects/:id", to: "subjects#show", as: :subject
+      get "projects/:authentication_token/subjects/:id/events", to: "subjects#events", as: :subject_events
+    end
+  end
+
   resources :comments
 
   get "docs", to: "docs#index", as: :docs
