@@ -22,4 +22,36 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:subject)
     assert_response :success
   end
+
+  test "should create subject" do
+    assert_difference("Subject.count") do
+      post api_v1_subjects_path(
+        authentication_token: @project.id_and_token,
+        subject: {
+          subject_code: "S00001",
+          site_id: sites(:api_site)
+        },
+        format: "json"
+      )
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_response :success
+  end
+
+  test "should create subject event" do
+    assert_difference("SubjectEvent.count") do
+      post api_v1_create_event_path(
+        authentication_token: @project.id_and_token,
+        id: @subject,
+        event_id: events(:api_event),
+        format: "json"
+      )
+    end
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_not_nil assigns(:event)
+    assert_not_nil assigns(:subject_event)
+    assert_response :success
+  end
 end

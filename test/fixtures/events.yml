@@ -48,3 +48,9 @@ auto_lock_event_one:
   description: Show that locks sheets can't be moved to event
   project: auto_lock
   user: valid
+
+api_event:
+  name: Baseline
+  slug: baseline
+  project: api
+  user: valid
