@@ -40,14 +40,21 @@ class Api::V1::SubjectsController < Api::V1::BaseController
     design = @project.designs.find_by(id: params[:design_id])
     subject_event = @subject.subject_events.find_by(id: params[:subject_event_id])
     sheet_params = {}
-    sheet_params = { design_id: design.id, subject_event_id: subject_event.id } if design && subject_event
+    if design && subject_event
+      sheet_params = { design_id: design.id, subject_event_id: subject_event.id }
+      @sheet = @subject.sheets.find_by(design: design, subject_event_id: subject_event)
+    end
 
-    @sheet = @project.sheets.where(subject: @subject).new(sheet_params)
-    if SheetTransaction.save_sheet!(@sheet, sheet_params, {}, nil, params[:remote_ip], "api_sheet_create")
-      @sheet.set_token
-      render :sheet, status: :created
+    if @sheet
+      render :sheet
     else
-      render json: @sheet.errors, status: :unprocessable_entity
+      @sheet = @project.sheets.where(subject: @subject).new(sheet_params)
+      if SheetTransaction.save_sheet!(@sheet, sheet_params, {}, nil, params[:remote_ip], "api_sheet_create")
+        @sheet.set_token
+        render :sheet, status: :created
+      else
+        render json: @sheet.errors, status: :unprocessable_entity
+      end
     end
   end
 
