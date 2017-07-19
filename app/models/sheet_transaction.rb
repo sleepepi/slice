@@ -3,7 +3,7 @@
 # Tracks a set of audits in a single transaction.
 class SheetTransaction < ApplicationRecord
   # Constants
-  TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update)
+  TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update api_sheet_create api_sheet_update)
 
   # Relationships
   belongs_to :project
@@ -46,7 +46,7 @@ class SheetTransaction < ApplicationRecord
       end
       unless skip_validation
         sheet.subject.reset_checks_in_background!
-        sheet.create_notifications! if %w(sheet_create public_sheet_create).include?(transaction_type)
+        sheet.create_notifications! if %w(sheet_create public_sheet_create api_sheet_create).include?(transaction_type)
       end
     end
     sheet_save_result
@@ -55,7 +55,7 @@ class SheetTransaction < ApplicationRecord
   def self.save_or_update_sheet!(sheet, sheet_params, transaction_type)
     sheet_save_result = \
       case transaction_type
-      when "sheet_create", "public_sheet_create"
+      when "sheet_create", "public_sheet_create", "api_sheet_create"
         sheet.save
       else
         sheet.update(sheet_params)

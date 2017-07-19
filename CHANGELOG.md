@@ -3,6 +3,7 @@
 ### Enhancements
 - **API Changes**
   - Added API to generate and retrieve a project's subjects and events
+  - Subject sheets can now be initialized using the API
 
 ### Bug Fix
 - Subjects with an event but no sheets now correctly display the event

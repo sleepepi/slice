@@ -44,3 +44,8 @@ auto_lock_subject_one_event_one:
   subject: auto_lock_site_one_subject_one
   event: auto_lock_event_one
   event_date: 2016-06-29
+
+api_one_api_event:
+  subject: api_one
+  event: api_event
+  event_date: 2017-07-19

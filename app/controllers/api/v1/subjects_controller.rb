@@ -3,7 +3,7 @@
 # API to generate and retrieve a subject's events and sheets.
 class Api::V1::SubjectsController < Api::V1::BaseController
   before_action :find_project_or_redirect
-  before_action :find_subject_or_redirect, only: [:show, :events, :create_event]
+  before_action :find_subject_or_redirect, only: [:show, :events, :create_event, :create_sheet]
 
   # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1.json
   # def show
@@ -28,9 +28,26 @@ class Api::V1::SubjectsController < Api::V1::BaseController
     @event = @project.events.find_by_param(params[:event_id])
     @subject_event = @subject.subject_events.where(event: @event).new(event_date: Time.zone.today)
     if @subject_event.save
+      @subject_event.update_coverage!
       render :events, status: :created
     else
       render json: @subject_event.errors, status: :unprocessable_entity
+    end
+  end
+
+  # POST /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/sheets.json
+  def create_sheet
+    design = @project.designs.find_by(id: params[:design_id])
+    subject_event = @subject.subject_events.find_by(id: params[:subject_event_id])
+    sheet_params = {}
+    sheet_params = { design_id: design.id, subject_event_id: subject_event.id } if design && subject_event
+
+    @sheet = @project.sheets.where(subject: @subject).new(sheet_params)
+    if SheetTransaction.save_sheet!(@sheet, sheet_params, {}, nil, params[:remote_ip], "api_sheet_create")
+      @sheet.set_token
+      render :sheet, status: :created
+    else
+      render json: @sheet.errors, status: :unprocessable_entity
     end
   end
 

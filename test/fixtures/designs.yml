@@ -126,3 +126,9 @@ auto_lock:
   project: auto_lock
   slug: auto-lock
   publicly_available: true
+
+api_design:
+  name: Design on API project
+  user: valid
+  project: api
+  slug: api-design

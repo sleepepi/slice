@@ -33,3 +33,8 @@ required_one:
   design: admin_public_design_with_required_fields
   position: 1
   handoff_enabled: true
+
+api_one:
+  event: api_event
+  design: api_design
+  position: 1

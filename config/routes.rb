@@ -25,8 +25,9 @@ Rails.application.routes.draw do
       get "projects/:authentication_token", to: "projects#show", as: :project
       get "projects/:authentication_token/subjects/:id", to: "subjects#show", as: :subject
       get "projects/:authentication_token/subjects/:id/events", to: "subjects#events", as: :subject_events
-      post "projects/:authentication_token/subjects", to: "subjects#create", as: :subjects
+      post "projects/:authentication_token/subjects", to: "subjects#create", as: :create_subject
       post "projects/:authentication_token/subjects/:id/events", to: "subjects#create_event", as: :create_event
+      post "projects/:authentication_token/subjects/:id/sheets", to: "subjects#create_sheet", as: :create_sheet
     end
   end
 
