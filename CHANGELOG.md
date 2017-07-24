@@ -1,5 +1,8 @@
 ## 0.54.2
 
+### Bug Fix
+- Signatures are no longer output as raw data in CSV exports
+
 ## 0.54.1 (July 13, 2017)
 
 ### Bug Fix

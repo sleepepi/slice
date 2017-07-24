@@ -45,7 +45,7 @@ module GridExport
         else
           key = "#{grid_group_variable.id}:#{child_variable.id}"
           responses = \
-            if child_variable.variable_type == "file"
+            if %w(file signature).include?(child_variable.variable_type)
               pull_grid_responses(file_stuff, key)
             else
               pull_grid_responses(other_stuff, key)
@@ -93,7 +93,7 @@ module GridExport
   def load_all_grid_files(grid_group_variables, sheet_ids)
     Grid
       .joins(:variable, :sheet_variable)
-      .where(variables: { variable_type: "file" })
+      .where(variables: { variable_type: %w(file signature) })
       .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
       .order("sheet_id desc", :position)
       .pluck("sheet_variables.variable_id", :variable_id, :response_file, :position, :sheet_id).uniq
@@ -101,14 +101,19 @@ module GridExport
   end
 
   def load_all_grid_other_variables(grid_group_variables, sheet_ids)
-    filtered_variables = grid_group_variables.where.not(variable_type: %w(checkbox file))
     Grid
       .joins(:variable, :sheet_variable)
-      .where.not(variables: { variable_type: %w(checkbox file) })
+      .where.not(variables: { variable_type: %w(checkbox file signature) })
       .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
       .order("sheet_id desc", :position)
       .left_outer_joins(:domain_option)
-      .pluck("sheet_variables.variable_id", :variable_id, domain_option_value_or_value(table: "grids"), :position, :sheet_id).uniq
+      .pluck(
+        "sheet_variables.variable_id",
+        :variable_id,
+        domain_option_value_or_value(table: "grids"),
+        :position,
+        :sheet_id
+      ).uniq
       .group_by { |group_variable_id, variable_id, _, _, _| "#{group_variable_id}:#{variable_id}" }
   end
 

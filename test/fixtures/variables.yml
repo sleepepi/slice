@@ -202,6 +202,14 @@ imperial_weight:
   user: valid
   project: one
 
+signature:
+  name: signature
+  display_name: Sign Here
+  # description:
+  variable_type: signature
+  user: valid
+  project: one
+
 file:
   name: var_file
   display_name: Upload a Picture
