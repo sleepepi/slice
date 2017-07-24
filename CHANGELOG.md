@@ -8,6 +8,11 @@
 ### Bug Fix
 - Subjects with an event but no sheets now correctly display the event
 
+## 0.54.2 (July 24, 2017)
+
+### Bug Fix
+- Signatures are no longer output as raw data in CSV exports
+
 ## 0.54.1 (July 13, 2017)
 
 ### Bug Fix

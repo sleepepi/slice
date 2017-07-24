@@ -40,7 +40,7 @@ module SheetExport
       else
         key = v.id.to_s
         responses = \
-          if v.variable_type == "file"
+          if %w(file signature).include?(v.variable_type)
             pull_responses(file_stuff, key)
           else
             pull_responses(other_stuff, key)
@@ -83,7 +83,7 @@ module SheetExport
   end
 
   def load_all_files(variables, sheet_ids)
-    filtered_variables = variables.where(variable_type: "file")
+    filtered_variables = variables.where(variable_type: %w(file signature))
     SheetVariable
       .where(sheet_id: sheet_ids, variable: filtered_variables)
       .order(sheet_id: :desc)
@@ -92,7 +92,7 @@ module SheetExport
   end
 
   def load_all_other_variables(variables, sheet_ids)
-    filtered_variables = variables.where.not(variable_type: %w(checkbox file))
+    filtered_variables = variables.where.not(variable_type: %w(checkbox file signature))
     SheetVariable
       .where(sheet_id: sheet_ids, variable: filtered_variables)
       .order(sheet_id: :desc)

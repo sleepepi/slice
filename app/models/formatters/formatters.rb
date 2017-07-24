@@ -14,6 +14,7 @@ module Formatters
     "numeric" => Formatters::NumericFormatter,
     "imperial_height" => Formatters::ImperialHeightFormatter,
     "imperial_weight" => Formatters::ImperialWeightFormatter,
+    "signature" => Formatters::SignatureFormatter,
     "time_duration" => Formatters::TimeDurationFormatter,
     "time_of_day" => Formatters::TimeOfDayFormatter
   }

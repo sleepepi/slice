@@ -193,6 +193,14 @@ all_variable_types_imperial_weight:
   # requirement:
   # branching_logic:
 
+all_variable_types_signature:
+  design: all_variable_types
+  variable: signature
+  # section:
+  position: 16
+  # requirement:
+  # branching_logic:
+
 ## Design Has No Validations
 
 has_no_validations_integer_no_range:
