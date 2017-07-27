@@ -14,7 +14,7 @@ class HandoffsController < ApplicationController
 
   # POST /handoffs
   def create
-    sign_out @user
+    sign_out current_user
     redirect_to handoff_start_path(@project, @handoff)
   end
 
