@@ -8,6 +8,9 @@
     %meta{ itemprop: 'description', content: 'Simplifying clinical trial and research data collection' }
     %meta{ name: 'description', content: 'Simple Data Collection and Reporting for Clinical Research' }
     %meta{ name: 'keywords', content: @keywords.present? ? @keywords : 'clinical trial management system, free, web survey, data collection, data reporting, online randomization, adverse event reporting' }
+    %meta{ name: "apple-mobile-web-app-capable", content: "yes" }
+    %meta{ name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
+    %meta{ name: "mobile-web-app-capable", content: "yes" }
     -# Don't cache any pages
     %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
     %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV['website_name']].flatten.compact.uniq.join(' - ').html_safe
