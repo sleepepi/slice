@@ -132,3 +132,9 @@ api_design:
   user: valid
   project: api
   slug: api-design
+
+api_design_two:
+  name: Design two on API project
+  user: valid
+  project: api
+  slug: api-design-two

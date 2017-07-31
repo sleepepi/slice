@@ -246,3 +246,10 @@ missing:
   user: valid
   created_at: 2016-04-01 12:34:56
   missing: true
+
+api_design_two:
+  design: api_design_two
+  project: api
+  subject: api_one
+  user: valid
+  subject_event: api_one_api_event

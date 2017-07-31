@@ -5,6 +5,11 @@ class Api::V1::SubjectsController < Api::V1::BaseController
   before_action :find_project_or_redirect
   before_action :find_subject_or_redirect, only: [:show, :events, :create_event, :create_sheet]
 
+  # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects.json
+  def index
+    @subjects = @project.subjects.page(params[:page]).per(20)
+  end
+
   # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1.json
   # def show
   # end

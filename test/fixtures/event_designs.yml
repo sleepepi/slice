@@ -38,3 +38,8 @@ api_one:
   event: api_event
   design: api_design
   position: 1
+
+api_two:
+  event: api_event
+  design: api_design_two
+  position: 2
