@@ -4,8 +4,6 @@
 - **API Changes**
   - Added API to generate and retrieve a project's subjects and events
   - Subject sheets can now be initialized using the API
-- **Gem Changes**
-  - Updated to rails 5.1.3.rc2
 
 ### Bug Fix
 - Subjects with an event but no sheets now correctly display the event
