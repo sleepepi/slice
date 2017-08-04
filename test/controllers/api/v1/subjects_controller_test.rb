@@ -100,7 +100,7 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         authentication_token: @project.id_and_token,
         id: @subject,
         subject_event_id: subject_events(:api_one_api_event),
-        design_id: designs(:api_design).id,
+        design_id: designs(:api_design_two).id,
         format: "json"
       )
     end
@@ -116,7 +116,7 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         authentication_token: @project.id_and_token,
         id: @subject,
         subject_event_id: subject_events(:api_one_api_event),
-        design_id: designs(:api_design_two).id,
+        design_id: designs(:api_design).id,
         format: "json"
       )
     end

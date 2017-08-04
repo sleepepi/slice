@@ -420,3 +420,20 @@ string_on_auto_lock:
   variable_type: string
   user: valid
   project: auto_lock
+
+api_radio:
+  name: api_radio
+  display_name: API Radio Button
+  # description:
+  variable_type: radio
+  user: valid
+  project: api
+  domain: api_radio_options
+
+api_integer:
+  name: api_integer
+  display_name: API Integer
+  # description:
+  variable_type: integer
+  user: valid
+  project: api

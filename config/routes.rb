@@ -29,6 +29,10 @@ Rails.application.routes.draw do
       post "projects/:authentication_token/subjects", to: "subjects#create", as: :create_subject
       post "projects/:authentication_token/subjects/:id/events", to: "subjects#create_event", as: :create_event
       post "projects/:authentication_token/subjects/:id/sheets", to: "subjects#create_sheet", as: :create_sheet
+
+      get "projects/:authentication_token/subjects/:id/surveys/:event/:design", to: "surveys#show_survey", as: :show_survey
+      get "projects/:authentication_token/subjects/:id/surveys/:event/:design/:page", to: "surveys#show_survey_page", as: :show_survey_page
+      patch "projects/:authentication_token/subjects/:id/surveys/:event/:design/:page", to: "surveys#update_survey_response", as: :update_survey_response
     end
   end
 

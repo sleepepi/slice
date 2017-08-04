@@ -1,6 +1,8 @@
 ## 0.56.0
 
 ### Enhancements
+- **API Changes**
+  - Added API to show and save survey questions one at a time
 - **Gem Changes**
   - Updated to rails 5.1.3
 

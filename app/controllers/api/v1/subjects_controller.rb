@@ -49,7 +49,6 @@ class Api::V1::SubjectsController < Api::V1::BaseController
       sheet_params = { design_id: design.id, subject_event_id: subject_event.id }
       @sheet = @subject.sheets.find_by(design: design, subject_event_id: subject_event)
     end
-
     if @sheet
       render :sheet
     else
@@ -64,11 +63,6 @@ class Api::V1::SubjectsController < Api::V1::BaseController
   end
 
   private
-
-  def find_subject_or_redirect
-    @subject = @project.subjects.find_by(id: params[:id])
-    head :no_content unless @subject
-  end
 
   def subject_params
     params[:subject] ||= { blank: "1" }

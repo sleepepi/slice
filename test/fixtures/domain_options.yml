@@ -294,3 +294,15 @@ randomize_yes_no_2:
   name: "No"
   value: 2
   position: 1
+
+api_domain_options_1:
+  domain: api_domain_options
+  name: "Option 1"
+  value: 1
+  position: 0
+
+api_domain_options_2:
+  domain: api_domain_options
+  name: "Option 2"
+  value: 2
+  position: 1

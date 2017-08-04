@@ -330,3 +330,10 @@ eligible_for_randomization:
   user: valid
   domain_option: randomize_yes_no_1
   # value: 1
+
+api_design_api_radio:
+  sheet: api_design
+  variable: api_radio
+  user: valid
+  domain_option: api_domain_options_1
+  # value: 1

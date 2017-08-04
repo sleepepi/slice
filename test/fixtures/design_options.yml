@@ -555,3 +555,20 @@ string_on_auto_lock_design_0:
   # requirement:
   # branching_logic:
 
+## API Design
+
+api_design_api_radio:
+  design: api_design
+  variable: api_radio
+  # section:
+  position: 0
+  # requirement:
+  # branching_logic:
+
+api_design_api_integer:
+  design: api_design
+  variable: api_integer
+  # section:
+  position: 1
+  # requirement:
+  # branching_logic:

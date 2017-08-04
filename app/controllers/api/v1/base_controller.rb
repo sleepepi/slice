@@ -29,4 +29,9 @@ class Api::V1::BaseController < ApplicationController
   def parse_project_id
     params[:authentication_token].to_s.split("-").first.to_s.gsub(/[^a-z0-9]/i, "")
   end
+
+  def find_subject_or_redirect
+    @subject = @project.subjects.find_by(id: params[:id])
+    head :no_content unless @subject
+  end
 end

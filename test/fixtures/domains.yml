@@ -112,3 +112,10 @@ randomize_yes_no:
   # description:
   user: valid
   project: two
+
+api_radio_options:
+  name: api_radio_options
+  display_name: API Radio Options
+  # description:
+  user: valid
+  project: api
