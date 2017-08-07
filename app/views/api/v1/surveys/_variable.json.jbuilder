@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 json.extract!(
-  variable, :id, :name, :display_name, :description, :variable_type, :units
+  variable, :id, :name, :display_name, :description, :variable_type, :units,
+  :prepend, :append, :field_note, :format, :time_duration_format,
+  :time_of_day_format, :show_current_button
 )
 
 json.domain_options do
