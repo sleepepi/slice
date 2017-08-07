@@ -5,6 +5,7 @@
   - Added API to show and save survey questions one at a time
 - **Gem Changes**
   - Updated to rails 5.1.3
+  - Updated to haml 5.0.2
 
 ## 0.55.0 (July 31, 2017)
 
