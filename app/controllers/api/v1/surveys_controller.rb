@@ -29,11 +29,13 @@ class Api::V1::SurveysController < Api::V1::BaseController
   # PATCH /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/surveys/:event/:design/:page.json
   def update_survey_response
     save_result = \
-      if @design_option && @design_option.variable
+      if @design_option && @design_option.variable && !@design_option.variable.variable_type.in?(%w(calculated grid file signature))
         SheetTransaction.save_sheet!(
           @sheet, {}, { @design_option.variable_id.to_s => params[:response] },
-          nil, params[:remote_ip], "api_sheet_update", skip_validation: true
+          nil, params[:remote_ip], "api_sheet_update"
         )
+      elsif @design_option && @design_option.variable && @design_option.variable.variable_type.in?(%w(calculated grid file signature))
+        true
       elsif @design_option && @design_option.section
         true
       end

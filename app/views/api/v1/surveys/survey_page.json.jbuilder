@@ -24,3 +24,8 @@ if @sheet_variable
     json.partial! "api/v1/surveys/sheet_variable", sheet_variable: @sheet_variable
   end
 end
+
+if @sheet
+  json.errors @sheet.errors
+  json.response params[:response]
+end
