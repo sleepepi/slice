@@ -12,7 +12,7 @@ module Squishable
       attributes.each do |attribute|
         class_eval <<-RUBY
           def #{attribute}=(attribute)
-            self[:#{attribute}] = attribute.try(:squish)
+            super(attribute.try(:squish))
           end
         RUBY
       end
