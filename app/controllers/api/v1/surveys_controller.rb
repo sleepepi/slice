@@ -43,7 +43,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
       if @design_option && @design_option.variable && !@design_option.variable.variable_type.in?(%w(calculated grid file signature))
         SheetTransaction.save_sheet!(
           @sheet, {}, { @design_option.variable_id.to_s => params[:response] },
-          nil, params[:remote_ip], "api_sheet_update"
+          nil, params[:remote_ip], "api_sheet_update", partial_validation: true
         )
       elsif @design_option && @design_option.variable && @design_option.variable.variable_type.in?(%w(calculated grid file signature))
         true

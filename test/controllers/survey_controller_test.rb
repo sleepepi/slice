@@ -62,7 +62,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-    assert_equal ["public_autocomplete_animals can't be blank"], assigns(:sheet).errors[:base]
+    assert_equal ["can't be blank"], assigns(:sheet).errors["public_autocomplete_animals"]
     assert_template "new"
     assert_response :success
   end
@@ -198,7 +198,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
-    assert_equal ["public_autocomplete_animals can\'t be blank"], assigns(:sheet).errors[:base]
+    assert_equal ["can't be blank"], assigns(:sheet).errors["public_autocomplete_animals"]
     assert_template "edit"
     assert_response :success
   end

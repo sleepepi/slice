@@ -9,24 +9,30 @@ module Validation
     include Evaluatable
 
     attr_accessor :sheet_variables, :grids, :project, :variables, :design
-    attr_accessor :errors
+    attr_accessor :errors, :partial_validation
 
-    def initialize(sheet)
-      @sheet_variables = sheet.sheet_variables.includes(:variable, :responses).collect do |sv|
-        InMemorySheetVariable.new(
-          sv.variable,
-          value: sv.value,
-          response_file: sv.response_file,
-          responses: sv.responses
-        )
-      end
-      grid_scope = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id))
-                       .includes(:variable, :responses, sheet_variable: :variable)
-      @grids = grid_scope.collect do |g|
-        InMemoryGrid.new(
-          g.sheet_variable.variable, g.position, g.variable,
-          value: g.value, response_file: g.response_file, responses: g.responses
-        )
+    def initialize(sheet, partial_validation: false)
+      @partial_validation = partial_validation
+      if @partial_validation
+        @sheet_variables = []
+        @grids = []
+      else
+        @sheet_variables = sheet.sheet_variables.includes(:variable, :responses).collect do |sv|
+          InMemorySheetVariable.new(
+            sv.variable,
+            value: sv.value,
+            response_file: sv.response_file,
+            responses: sv.responses
+          )
+        end
+        grid_scope = Grid.where(sheet_variable_id: sheet.sheet_variables.select(:id))
+                         .includes(:variable, :responses, sheet_variable: :variable)
+        @grids = grid_scope.collect do |g|
+          InMemoryGrid.new(
+            g.sheet_variable.variable, g.position, g.variable,
+            value: g.value, response_file: g.response_file, responses: g.responses
+          )
+        end
       end
       @project = sheet.project
       @design = sheet.design
@@ -103,6 +109,7 @@ module Validation
         next unless variable
         next unless visible_on_sheet?(design_option)
         sheet_variable = @sheet_variables.find { |sv| sv.variable.id == variable.id }
+        next if !sheet_variable && @partial_validation
         if sheet_variable && variable.variable_type == "grid"
           variable.child_variables.each do |child_variable|
             grids = @grids.select { |g| g.parent_variable.id == variable.id && g.variable.id == child_variable.id }
@@ -112,9 +119,9 @@ module Validation
 
               case validation_hash[:status]
               when "invalid"
-                @errors << "#{variable.name} #{child_variable.name} is invalid"
+                @errors << ["#{variable.name} #{child_variable.name}", "is invalid"]
               when "out_of_range"
-                @errors << "#{variable.name} #{child_variable.name} is out of range"
+                @errors << ["#{variable.name} #{child_variable.name}", "is out of range"]
               end
             end
           end
@@ -124,11 +131,11 @@ module Validation
 
           case validation_hash[:status]
           when "blank" # AND REQUIRED
-            @errors << "#{variable.name} can't be blank" if design_option.required?
+            @errors << [variable.name, "can't be blank"] if design_option.required?
           when "invalid"
-            @errors << "#{variable.name} is invalid"
+            @errors << [variable.name, "is invalid"]
           when "out_of_range"
-            @errors << "#{variable.name} is out of range"
+            @errors << [variable.name, "is out of range"]
           end
         end
       end

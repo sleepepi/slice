@@ -15,18 +15,18 @@ class SheetTransaction < ApplicationRecord
 
   # This modifies existing values the sheet with new unsaved values for
   # validation. None of these changes are saved to the database.
-  def self.validate_variable_values(sheet, variables_params)
-    in_memory_sheet = Validation::InMemorySheet.new(sheet)
+  def self.validate_variable_values(sheet, variables_params, partial_validation)
+    in_memory_sheet = Validation::InMemorySheet.new(sheet, partial_validation: partial_validation)
     in_memory_sheet.merge_form_params!(variables_params)
     in_memory_sheet.valid?
-    in_memory_sheet.errors.each do |error|
-      sheet.errors.add(:base, error)
+    in_memory_sheet.errors.each do |variable_name, error_message|
+      sheet.errors.add(variable_name.to_sym, error_message)
     end
     sheet.errors.count.zero?
   end
 
-  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false, skip_callbacks: false)
-    return false unless skip_validation || validate_variable_values(sheet, variables_params)
+  def self.save_sheet!(sheet, sheet_params, variables_params, current_user, remote_ip, transaction_type, skip_validation: false, skip_callbacks: false, partial_validation: false)
+    return false unless skip_validation || validate_variable_values(sheet, variables_params, partial_validation)
     (sheet_save_result, original_attributes) = save_or_update_sheet!(sheet, sheet_params, transaction_type)
     if sheet_save_result
       sheet_transaction = create(
