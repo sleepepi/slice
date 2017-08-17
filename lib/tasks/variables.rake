@@ -33,10 +33,10 @@ namespace :variables do
 
   desc "Migrate date variable format"
   task migrate_date_formats: :environment do
-    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format)
+    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format).inspect
     Variable.where(variable_type: "date", format: "%d/%m/%Y").update_all(date_format: "dd/mm/yyyy")
     Variable.where(variable_type: "date", format: "%Y-%m-%d").update_all(date_format: "yyyy-mm-dd")
     Variable.where(variable_type: "date", format: "dd-mmm-yyyy").update_all(date_format: "dd-mmm-yyyy")
-    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format)
+    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format).inspect
   end
 end
