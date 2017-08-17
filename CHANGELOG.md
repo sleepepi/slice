@@ -6,6 +6,7 @@
 - **Gem Changes**
   - Updated to rails 5.1.3
   - Updated to haml 5.0.2
+  - Updated to simplecov 0.15.0
 
 ## 0.55.0 (July 31, 2017)
 
