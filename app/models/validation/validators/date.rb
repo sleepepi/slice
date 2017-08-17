@@ -49,7 +49,7 @@ module Validation
         else
           # This parses the date from "%Y-%m-%d" database format
           date = begin
-            ::Date.parse(response)
+            ::Date.strptime(response, "%Y-%m-%d")
           rescue
             nil
           end

@@ -43,6 +43,13 @@ class Variable < ApplicationRecord
     ["Scale", "scale"]
   ]
 
+  DATE_FORMATS = [
+    ["mm/dd/yyyy (ex: 12/31/2017)", "mm/dd/yyyy"],
+    ["yyyy-mm-dd (ex: 2017-12-31)", "yyyy-mm-dd"],
+    ["dd/mm/yyyy (ex: 31/12/2017)", "dd/mm/yyyy"],
+    ["dd-mmm-yyyy (ex: 31-DEC-2017)", "dd-mmm-yyyy"]
+  ]
+
   TIME_OF_DAY_FORMATS = [
     ["24-Hour", "24hour"],
     ["12-Hour AM/PM [AM]", "12hour"],
@@ -547,12 +554,12 @@ class Variable < ApplicationRecord
   end
 
   def date_order
-    case format
-    when "%Y-%m-%d"
+    case date_format
+    when "yyyy-mm-dd"
       %w(year month day)
-    when "%d/%m/%Y"
+    when "dd/mm/yyyy"
       %w(day month year)
-    else
+    else # "mm/dd/yyyy"
       %w(month day year)
     end
   end
@@ -569,8 +576,8 @@ class Variable < ApplicationRecord
   end
 
   def date_separator
-    case format
-    when "%Y-%m-%d"
+    case date_format
+    when "yyyy-mm-dd"
       "-"
     else
       "/"
@@ -670,6 +677,10 @@ class Variable < ApplicationRecord
 
   def time_duration_format_name
     TIME_DURATION_FORMATS.find { |_name, value| value == time_duration_format }.first
+  end
+
+  def date_format_name
+    DATE_FORMATS.find { |_name, value| value == date_format }.first
   end
 
   # For Time of Day Variables

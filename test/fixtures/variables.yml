@@ -149,6 +149,7 @@ date:
   date_hard_minimum: 1990-01-01
   # date_soft_maximum:
   date_soft_minimum: 2000-01-01
+  # date_format: mm/dd/yyyy
 
 date_no_range:
   name: date_no_range
@@ -161,6 +162,7 @@ date_no_range:
   # date_hard_minimum:
   # date_soft_maximum:
   # date_soft_minimum:
+  # date_format: mm/dd/yyyy
 
 time_of_day:
   name: time_of_day

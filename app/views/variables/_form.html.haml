@@ -1,20 +1,20 @@
-= form_for [@variable.project, @variable], html: { class: 'form-horizontal' } do |f|
+= form_for [@variable.project, @variable], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :display_name, nil, class: 'col-md-2 control-label'
+    = f.label :display_name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :display_name, class: 'form-control', autocomplete: 'off', data: { object: (@variable.new_record? ? 'create-variable-name' : ''), variable_name_target: '#variable_name' }
-      = render 'layouts/errors', object: @variable, key: :display_name
+      = f.text_field :display_name, class: "form-control", autocomplete: "off", data: { object: (@variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
+      = render "layouts/errors", object: @variable, key: :display_name
 
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.text_field :name, maxlength: 32, class: 'form-control'
+        = f.text_field :name, maxlength: 32, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
             %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @variable, key: :name
-      #name-info.callout.callout-info{ style: 'display: none;' }
+      = render "layouts/errors", object: @variable, key: :name
+      #name-info.callout.callout-info{ style: "display: none;" }
         %strong Naming convention
 
         %ul
@@ -22,128 +22,133 @@
             Must be a letter
             %code a-zA-Z
             followed by letters
-            = succeed ',' do
+            = succeed "," do
               %code a-zA-Z
             numbers
-            = succeed ',' do
+            = succeed "," do
               %code 0-9
             or underscores
-            = succeed '.' do
+            = succeed "." do
               %code _
           %li
             Max length
-            = succeed '.' do
+            = succeed "." do
               %strong 32 characters
         Ex:
         %code var1_population
 
   .form-group
-    = f.label :display_layout, nil, class: 'col-md-2 control-label'
+    = f.label :display_layout, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.select :display_layout, Variable::DISPLAY_LAYOUTS, {}, class: 'form-control'
+      = f.select :display_layout, Variable::DISPLAY_LAYOUTS, {}, class: "form-control"
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
-    = f.label :field_note, nil, class: 'col-md-2 control-label'
+    = f.label :field_note, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :field_note, class: 'form-control'
+      = f.text_field :field_note, class: "form-control"
 
   .form-group
-    = f.label :variable_type, nil, class: 'col-md-2 control-label'
+    = f.label :variable_type, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.select :variable_type, [['---', nil]] + Variable::TYPE, {}, class: 'form-control'
-      = render 'layouts/errors', object: @variable, key: :variable_type
+      = f.select :variable_type, [["---", nil]] + Variable::TYPE, {}, class: "form-control"
+      = render "layouts/errors", object: @variable, key: :variable_type
 
-  .form-group{ data: { object: 'prepend-append' } }
-    = f.label :prepend, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "prepend-append" } }
+    = f.label :prepend, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :prepend, class: 'form-control'
+      = f.text_field :prepend, class: "form-control"
 
-  .form-group{ data: { object: 'prepend-append' } }
-    = f.label :append, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "prepend-append" } }
+    = f.label :append, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :append, class: 'form-control'
+      = f.text_field :append, class: "form-control"
 
-  .form-group{ data: { object: 'number' } }
-    = f.label :hard_minimum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "number" } }
+    = f.label :hard_minimum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.number_field :hard_minimum, class: 'form-control'
+      = f.number_field :hard_minimum, class: "form-control"
 
-  .form-group{ data: { object: 'number' } }
-    = f.label :hard_maximum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "number" } }
+    = f.label :hard_maximum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.number_field :hard_maximum, class: 'form-control'
+      = f.number_field :hard_maximum, class: "form-control"
 
-  .form-group{ data: { object: 'number' } }
-    = f.label :soft_minimum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "number" } }
+    = f.label :soft_minimum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.number_field :soft_minimum, class: 'form-control'
+      = f.number_field :soft_minimum, class: "form-control"
 
-  .form-group{ data: { object: 'number' } }
-    = f.label :soft_maximum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "number" } }
+    = f.label :soft_maximum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.number_field :soft_maximum, class: 'form-control'
+      = f.number_field :soft_maximum, class: "form-control"
 
-  .form-group{ data: { object: 'calculated-or-number' } }
-    = f.label :units, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "calculated-or-number" } }
+    = f.label :units, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :units, class: 'form-control'
+      = f.text_field :units, class: "form-control"
 
-  .form-group{ data: { object: 'date-or-time-of-day' } }
+  .form-group{ data: { object: "date-or-time-of-day" } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :show_current_button
           Show Current Date/Time
 
-  .form-group{ data: { object: 'time-of-day' } }
-    = f.label :time_of_day_format, 'Time of Day Format', class: 'col-md-2 control-label'
+  .form-group{ data: { object: "time-of-day" } }
+    = f.label :time_of_day_format, "Time of Day Format", class: "col-md-2 control-label"
     .col-md-10
-      = f.select :time_of_day_format, Variable::TIME_OF_DAY_FORMATS, {}, class: 'form-control'
+      = f.select :time_of_day_format, Variable::TIME_OF_DAY_FORMATS, {}, class: "form-control"
 
-  .form-group{ data: { object: 'time-of-day' } }
+  .form-group{ data: { object: "time-of-day" } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :show_seconds
           Show Seconds
 
-  .form-group{ data: { object: 'time-duration' } }
-    = f.label :time_duration_format, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "time-duration" } }
+    = f.label :time_duration_format, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.select :time_duration_format, Variable::TIME_DURATION_FORMATS, {}, class: 'form-control'
+      = f.select :time_duration_format, Variable::TIME_DURATION_FORMATS, {}, class: "form-control"
 
-  .form-group{ data: { object: 'date' } }
-    = f.label :date_hard_minimum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "date" } }
+    = f.label :date_format, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :date_hard_minimum, class: 'datepicker form-control', value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+      = f.select :date_format, Variable::DATE_FORMATS, {}, class: "form-control"
 
-  .form-group{ data: { object: 'date' } }
-    = f.label :date_hard_maximum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "date" } }
+    = f.label :date_hard_minimum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :date_hard_maximum, class: 'datepicker form-control', value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+      = f.text_field :date_hard_minimum, class: "datepicker form-control", value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime("%m/%d/%Y") : "", autocomplete: "off"
 
-  .form-group{ data: { object: 'date' } }
-    = f.label :date_soft_minimum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "date" } }
+    = f.label :date_hard_maximum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :date_soft_minimum, class: 'datepicker form-control', value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+      = f.text_field :date_hard_maximum, class: "datepicker form-control", value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime("%m/%d/%Y") : "", autocomplete: "off"
 
-  .form-group{ data: { object: 'date' } }
-    = f.label :date_soft_maximum, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "date" } }
+    = f.label :date_soft_minimum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :date_soft_maximum, class: 'datepicker form-control', value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+      = f.text_field :date_soft_minimum, class: "datepicker form-control", value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime("%m/%d/%Y") : "", autocomplete: "off"
 
-  .form-group{ data: { object: 'calculated' } }
-    = f.label :calculation, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "date" } }
+    = f.label :date_soft_maximum, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :calculation, value: @variable.readable_calculation, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
-      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-        %col.hidden-xs{ width: '30%' }
-        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+      = f.text_field :date_soft_maximum, class: "datepicker form-control", value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime("%m/%d/%Y") : "", autocomplete: "off"
+
+  .form-group{ data: { object: "calculated" } }
+    = f.label :calculation, nil, class: "col-md-2 control-label"
+    .col-md-10
+      = f.text_area :calculation, value: @variable.readable_calculation, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
+      %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
+        %col.hidden-xs{ width: "30%" }
+        %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
         %tr
           %th General
           %td
@@ -157,17 +162,17 @@
           %td
             %code (var1 + var2) / var3
 
-  .form-group{ data: { object: 'calculated' } }
-    = f.label :format, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "calculated" } }
+    = f.label :format, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :format, class: 'form-control'
-      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-        %col.hidden-xs{ width: '30%' }
-        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+      = f.text_field :format, class: "form-control"
+      %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
+        %col.hidden-xs{ width: "30%" }
+        %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
         %col
-        %col{ width: '1px' }
-        %col{ width: '1px' }
-        %col{ width: '1px' }
+        %col{ width: "1px" }
+        %col{ width: "1px" }
+        %col{ width: "1px" }
         %tr
           %th Precision
           %td
@@ -190,81 +195,81 @@
           %td
             0045
 
-  .form-group{ data: { object: 'options' } }
-    = f.label :domain_id, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "options" } }
+    = f.label :domain_id, nil, class: "col-md-2 control-label"
     .col-md-10
       - if @variable.project.domains.size == 0
         .alert.alert-info
           %strong Heads up!
           In order to have choices, variables need to be associated to a domain
           of options. Variables can share domains.
-          = link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-xs', target: '_blank'
+          = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-default btn-xs", target: "_blank"
       - else
         .row.col-buffer
           .col-xs-6.col-sm-9
-            = f.select :domain_id, [['---', nil]] + @variable.project.domains.order('name').collect{ |d| [d.name, d.id] }, {}, class: 'form-control', data: { project_id: @variable.project.to_param }
+            = f.select :domain_id, [["---", nil]] + @variable.project.domains.order("name").collect{ |d| [d.name, d.id] }, {}, class: "form-control", data: { project_id: @variable.project.to_param }
           .col-xs-6.col-sm-3
-            = link_to 'Create Domain', new_project_domain_path(@variable.project), class: 'btn btn-default btn-block', target: '_blank'
+            = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-default btn-block", target: "_blank"
         .row
           .col-md-9
-            .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;max-height:200px' }
+            .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
               .download-container-after Domain Values
-              #domain_values{ style: 'padding-top:10px' }
-                = render 'domains/values', domain: @variable.domain
+              #domain_values{ style: "padding-top:10px" }
+                = render "domains/values", domain: @variable.domain
           - if @variable.captured_values.size > 0
             .col-md-3
-              .download-container{ style: 'overflow-x:hidden;overflow-y:scroll;max-height:200px' }
+              .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
                 .download-container-after Captured Values
-                %div{ style: 'padding-top:10px' }
+                %div{ style: "padding-top:10px" }
                   %table
                     - @variable.captured_values.sort.each do |value|
                       %tr
-                        %td{ style: 'text-align:right' }= value
+                        %td{ style: "text-align:right" }= value
 
-  .form-group{ data: { object: 'checkbox-or-radio' } }
-    = f.label :alignment, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "checkbox-or-radio" } }
+    = f.label :alignment, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.select :alignment, Variable::ALIGNMENT, {}, class: 'form-control'
+      = f.select :alignment, Variable::ALIGNMENT, {}, class: "form-control"
 
-  .form-group{ data: { object: 'grid' } }
+  .form-group{ data: { object: "grid" } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :multiple_rows
           Multiple Rows
 
-  .form-group{ data: { object: 'grid' } }
+  .form-group{ data: { object: "grid" } }
     .col-md-10.col-md-offset-2
       .checkbox
         %label
           = f.check_box :default_row_number
           Default Row Number
 
-  .form-group{ data: { object: 'grid' } }
+  .form-group{ data: { object: "grid" } }
     %label.col-md-2.control-label Variables
     .col-md-10
-      #form_grid_variables{ data: { object: 'sortable' } }
+      #form_grid_variables{ data: { object: "sortable" } }
         - @variable.child_grid_variables.each do |child_grid_variable|
-          = render 'variables/edit_grid_variable', child_grid_variable: child_grid_variable
+          = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable
       .btn-toolbar
-        = link_to 'Add Variable', '#', id: 'add_grid_variable', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
+        = link_to "Add Variable", "#", id: "add_grid_variable", class: "btn btn-default btn-xs", data: { project_id: @project.to_param }
 
-  .form-group{ data: { object: 'autocomplete' } }
-    = f.label :autocomplete_values, nil, class: 'col-md-2 control-label'
+  .form-group{ data: { object: "autocomplete" } }
+    = f.label :autocomplete_values, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :autocomplete_values, rows: 7, rel: 'tooltip', title: 'Line-separated Strings', class: 'form-control'
+      = f.text_area :autocomplete_values, rows: 7, rel: "tooltip", title: "Line-separated Strings", class: "form-control"
 
-  .form-group{ data: { object: 'autocomplete' } }
+  .form-group{ data: { object: "autocomplete" } }
     %label.col-md-2.control-label User submitted
     .col-md-10
-      %div{ style: 'line-height:30px' }
-        = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(', ').html_safe
+      %div{ style: "line-height:30px" }
+        = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(", ").html_safe
 
-  = hidden_field_tag :continue, '0'
+  = hidden_field_tag :continue, "0"
 
   .form-group
     .col-md-10.col-md-offset-2
-      - form_name = @variable.new_record? ? 'new_variable' : "edit_variable_#{@variable.id}"
-      = f.submit nil, class: 'btn btn-primary', data: { target: "##{form_name}", object: 'form-check-before-submit' }
-      = f.submit @variable.new_record? ? 'Create Variable and Continue' : 'Update Variable and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "form-check-before-submit", continue: '1' }
-      = link_to 'Cancel', @variable.new_record? ? project_variables_path(@project) : [@project, @variable], class: 'btn btn-default'
+      - form_name = @variable.new_record? ? "new_variable" : "edit_variable_#{@variable.id}"
+      = f.submit nil, class: "btn btn-primary", data: { target: "##{form_name}", object: "form-check-before-submit" }
+      = f.submit @variable.new_record? ? "Create Variable and Continue" : "Update Variable and Continue", class: "btn btn-primary", data: { target: "##{form_name}", object: "form-check-before-submit", continue: "1" }
+      = link_to "Cancel", @variable.new_record? ? project_variables_path(@project) : [@project, @variable], class: "btn btn-default"

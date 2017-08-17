@@ -262,9 +262,9 @@ class Export < ApplicationRecord
       csv << [
         "Design Name", "Variable Name", "Variable Display Name", "Variable Description", "Field Note",
         "Variable Type", "Hard Min", "Soft Min", "Soft Max", "Hard Max", "Calculation", "Prepend", "Units",
-        "Append", "Format", "Time Duration Format", "Time of Day Format", "Multiple Rows", "Autocomplete Values",
-        "Show Current Button", "Display Layout", "Alignment", "Default Row Number", "Domain Name",
-        "Required on Form?"
+        "Append", "Format", "Date Format", "Time Duration Format", "Time of Day Format", "Multiple Rows",
+        "Autocomplete Values", "Show Current Button", "Display Layout", "Alignment", "Default Row Number",
+        "Domain Name", "Required on Form?"
       ]
       design_scope.each do |d|
         d.options_with_grid_sub_variables.each do |design_option|
@@ -286,6 +286,7 @@ class Export < ApplicationRecord
                     nil, # Variable Units
                     nil, # Variable Append
                     nil, # Format
+                    nil, # Date Format
                     nil, # Time Duration Format
                     nil, # Time of Day Format
                     nil, # Multiple Rows
@@ -313,6 +314,7 @@ class Export < ApplicationRecord
                       variable.export_units,
                       variable.append,
                       variable.format,
+                      (variable.variable_type == "date" ? variable.date_format : nil),
                       (variable.variable_type == "time_duration" ? variable.time_duration_format : nil),
                       (variable.variable_type == "time_of_day" ? variable.time_of_day_format : nil),
                       variable.multiple_rows,

@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Added API to show and save survey questions one at a time
+- **Variable Changes**
+  - Internal date formats for date variables have been streamlined
 - **Gem Changes**
   - Updated to rails 5.1.3
   - Updated to haml 5.0.2

@@ -2,77 +2,77 @@
   %p.center
     No sheets found.
     - if params[:search].present? && (params[:design_id].present? || params[:site_id].present? || params[:user_id].present?)
-      = succeed '.' do
-        = link_to 'Clear filters', project_sheets_path(@project, search: params[:search])
+      = succeed "." do
+        = link_to "Clear filters", project_sheets_path(@project, search: params[:search])
 
-- (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+- (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
 
 - if variable
   - case rand(9)
   - when 0
     .docs-learn-more
       Created this past week:
-      - search = "created:>#{(Time.zone.today - 7.days).strftime('%Y-%m-%d')}"
-      = succeed '.' do
+      - search = "created:>#{(Time.zone.today - 7.days).strftime("%Y-%m-%d")}"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 1
-    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
     - if variable
       - values = variable.sheet_variables.pluck_domain_option_value_or_value.uniq.reject(&:blank?).sort
       .docs-learn-more
         Try:
         - search = "#{variable.name}:>=#{values.last}"
-        = succeed '.' do
+        = succeed "." do
           = link_to search, project_sheets_path(@project, search: search)
   - when 2
-    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order('count(sheet_variables.variable_id) desc', 'random()').limit(1).count.first
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
     - if variable
       - values = variable.sheet_variables.pluck_domain_option_value_or_value.uniq.reject(&:blank?).sort
       .docs-learn-more
         Try:
-        - search = "#{variable.name}:#{values.join(',')}"
-        = succeed '.' do
+        - search = "#{variable.name}:#{values.join(",")}"
+        = succeed "." do
           = link_to search, project_sheets_path(@project, search: search)
   - when 3
     .docs-learn-more
       Randomized:
-      - search = 'is:randomized'
-      = succeed '.' do
+      - search = "is:randomized"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 4
     .docs-learn-more
       Not Randomized:
-      - search = 'not:randomized'
-      = succeed '.' do
+      - search = "not:randomized"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 5
     .docs-learn-more
       Attached Files:
-      - search = 'has:files'
-      = succeed '.' do
+      - search = "has:files"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 6
     .docs-learn-more
       Comments:
-      - search = 'has:comments'
-      = succeed '.' do
+      - search = "has:comments"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 7
     .docs-learn-more
       Adverse Events:
-      - search = 'has:adverse-events'
-      = succeed '.' do
+      - search = "has:adverse-events"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 8
     .docs-learn-more
       Coverage:
-      - search = 'coverage:<80'
-      = succeed '.' do
+      - search = "coverage:<80"
+      = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
 
 - else
   .docs-learn-more
     Created this past week:
-    - search = "created:>#{(Time.zone.today - 7.days).strftime('%Y-%m-%d')}"
-    = succeed '.' do
+    - search = "created:>#{(Time.zone.today - 7.days).strftime("%Y-%m-%d")}"
+    = succeed "." do
       = link_to search, project_sheets_path(@project, search: search)

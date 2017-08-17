@@ -2,8 +2,8 @@
 
 json.extract!(
   variable, :id, :name, :display_name, :description, :variable_type, :units,
-  :prepend, :append, :field_note, :format, :time_duration_format,
-  :time_of_day_format, :show_current_button
+  :prepend, :append, :field_note, :time_duration_format, :time_of_day_format,
+  :show_current_button, :date_format
 )
 
 json.domain_options do

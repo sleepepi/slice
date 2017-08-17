@@ -1,7 +1,7 @@
 - @title = @variable.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -11,7 +11,7 @@
         - if @variable.editable_by?(current_user)
           .pull-right
             .dropdown
-              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -23,7 +23,7 @@
                   = link_to copy_project_variable_path(@project, @variable) do
                     %span.glyphicon.glyphicon-duplicate
                     Copy
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to [@project, @variable], method: :delete, data: { confirm: "Delete \"#{@variable.name}\" variable?" } do
                     .text-danger
@@ -33,8 +33,8 @@
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     %tr
       %th Creator
       %td= link_to @variable.user.name, @variable.user if @variable.user
@@ -72,7 +72,7 @@
       %th Append
       %td= @variable.append
 
-    - if ['integer', 'numeric'].include?(@variable.variable_type)
+    - if ["integer", "numeric"].include?(@variable.variable_type)
       %tr
         %th Hard Minimum
         %td= @variable.hard_minimum
@@ -89,12 +89,12 @@
         %th Soft Maximum
         %td= @variable.soft_maximum
 
-    - if ['integer', 'numeric', 'calculated'].include?(@variable.variable_type)
+    - if ["integer", "numeric", "calculated"].include?(@variable.variable_type)
       %tr
         %th Units
         %td= @variable.units
 
-    - if ['date'].include?(@variable.variable_type)
+    - if ["date"].include?(@variable.variable_type)
       %tr
         %th Date Hard Minimum
         %td= format_date @variable.date_hard_minimum
@@ -115,7 +115,7 @@
         %th Show current date
         %td= simple_check @variable.show_current_button?
 
-    - if ['time_of_day'].include?(@variable.variable_type)
+    - if ["time_of_day"].include?(@variable.variable_type)
       %tr
         %th Show current time
         %td= simple_check @variable.show_current_button?
@@ -123,32 +123,37 @@
         %th Time of Day Format
         %td= @variable.time_of_day_format_name
 
-    - if ['time_duration'].include?(@variable.variable_type)
+    - if ["time_duration"].include?(@variable.variable_type)
       %tr
         %th Time Duration Format
         %td= @variable.time_duration_format_name
 
-    - if ['calculated'].include?(@variable.variable_type)
+    - if ["date"].include?(@variable.variable_type)
+      %tr
+        %th Date Format
+        %td= @variable.date_format_name
+
+    - if ["calculated"].include?(@variable.variable_type)
       %tr
         %th Calculation
         %td
-          = render 'variables/calculation_with_links', object: @variable
+          = render "variables/calculation_with_links", object: @variable
 
       %tr
         %th Format
         %td= @variable.format
 
-    - if ['string'].include?(@variable.variable_type)
+    - if ["string"].include?(@variable.variable_type)
       %tr
         %th Autocomplete Values
         %td= @variable.autocomplete_values
 
-    - if ['radio', 'checkbox'].include?(@variable.variable_type)
+    - if ["radio", "checkbox"].include?(@variable.variable_type)
       %tr
         %th Alignment
         %td= @variable.alignment.capitalize
 
-    - if ['grid'].include?(@variable.variable_type)
+    - if ["grid"].include?(@variable.variable_type)
       %tr
         %th Multiple Rows
         %td= simple_check @variable.multiple_rows?
@@ -175,10 +180,10 @@
         %td= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
 
   - if @variable.domain
-    = render 'domain_options/domain_options', domain: @variable.domain
+    = render "domain_options/domain_options", domain: @variable.domain
 
 - design_option = @variable.design_options.first
 - if design_option
   %form.form-horizontal
     .dashboard-container
-      = render 'sheet_variables/form', design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
+      = render "sheet_variables/form", design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

@@ -2,14 +2,14 @@
 - variable = design_option.variable
 - if section
   .row
-    .col-sm-6{ data: { object: 'design-preview-expand' } }
-      = render 'sections/show', design_option: design_option, section: section
+    .col-sm-6{ data: { object: "design-preview-expand" } }
+      = render "sections/show", design_option: design_option, section: section
     .col-sm-6.design-preview-hide
       .design-edit-box
         %h4
           .pull-right
             .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -18,7 +18,7 @@
                   = link_to edit_project_design_design_option_path(@project, @design, design_option), remote: true do
                     %span.glyphicon.glyphicon-edit
                     Edit
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{section.level_name} from design?" } do
                     .text-danger
@@ -31,11 +31,11 @@
           .design-option-lead
             Show If
           .design-option-body
-            = render 'design_options/branching_logic_with_links', design_option: design_option
+            = render "design_options/branching_logic_with_links", design_option: design_option
 
 - elsif variable
   .row
-    .col-sm-6{ style: 'overflow-x: scroll;overflow-y: hidden;', data: { object: 'design-preview-expand' } }
+    .col-sm-6{ style: "overflow-x: scroll;overflow-y: hidden;", data: { object: "design-preview-expand" } }
       - if variable.deleted?
         .form-group.error
           %label.col-md-3.control-label= variable.display_name
@@ -44,37 +44,37 @@
             - variable.deleted = false
             - if variable.valid?
               You can
-              = link_to 'restore', restore_project_variable_path(@project, variable), method: :post, class: 'btn btn-xs btn-success'
+              = link_to "restore", restore_project_variable_path(@project, variable), method: :post, class: "btn btn-xs btn-success"
               or
             - else
               A new variable with the same name already exists.
               %br
               You can
-            = link_to 'remove', project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: 'btn btn-xs btn-danger-inverse'
+            = link_to "remove", project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: "btn btn-xs btn-danger-inverse"
             this variable from the design.
             - variable.deleted = true
       - else
-        - if !variable.uses_scale? && variable.display_layout == 'gone'
+        - if !variable.uses_scale? && variable.display_layout == "gone"
           %label
             = variable.display_name
-            = render 'design_options/required', design_option: design_option
+            = render "design_options/required", design_option: design_option
 
         .form-group
-          - if !variable.uses_scale? && variable.display_layout == 'visible'
+          - if !variable.uses_scale? && variable.display_layout == "visible"
             %label.col-md-3.control-label
               = variable.display_name
-              = render 'design_options/required', design_option: design_option
+              = render "design_options/required", design_option: design_option
 
-          %div{ class: "#{(variable.uses_scale? || variable.display_layout == 'gone' ? 'col-md-12' : 'col-md-9')}" }
+          %div{ class: "#{(variable.uses_scale? || variable.display_layout == "gone" ? "col-md-12" : "col-md-9")}" }
             - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "design_options/show/#{variable.variable_type}", design: @design, design_option: design_option, variable: variable
-              = render 'variables/field_note', variable: variable
+              = render "variables/field_note", variable: variable
     .col-sm-6.design-preview-hide
       .design-edit-box
         %h4
           .pull-right
             .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -86,7 +86,7 @@
                       = link_to restore_project_variable_path(@project, variable), method: :post do
                         %span.glyphicon.glyphicon-edit
                         Restore
-                    %li.divider{ role: 'separator' }
+                    %li.divider{ role: "separator" }
                   - variable.deleted = true
                 - else
                   %li
@@ -97,7 +97,7 @@
                     = link_to [@project, variable] do
                       %span.glyphicon.glyphicon-eye-open
                       Show
-                  %li.divider{ role: 'separator' }
+                  %li.divider{ role: "separator" }
                 %li
                   = link_to project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{variable.name} from design?" } do
                     .text-danger
@@ -108,65 +108,65 @@
           .design-option-lead
             Show If
           .design-option-body
-            = render 'design_options/branching_logic_with_links', design_option: design_option
+            = render "design_options/branching_logic_with_links", design_option: design_option
         - unless variable.deleted?
-          - variable_types = if ['string', 'text'].include?(variable.variable_type)
-            - ['string', 'text']
-          - elsif ['integer', 'numeric'].include?(variable.variable_type)
-            - ['integer', 'numeric']
-          - elsif ['radio', 'dropdown'].include?(variable.variable_type)
-            - ['radio', 'dropdown']
+          - variable_types = if ["string", "text"].include?(variable.variable_type)
+            - ["string", "text"]
+          - elsif ["integer", "numeric"].include?(variable.variable_type)
+            - ["integer", "numeric"]
+          - elsif ["radio", "dropdown"].include?(variable.variable_type)
+            - ["radio", "dropdown"]
           - else
             - [variable.variable_type]
           - if variable_types.size > 1
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Type', values: variable_types.collect{|v| [v,v]}, attribute: :variable_type
+            = render "design_options/set_design_option", design_option: design_option, title: "Type", values: variable_types.collect{|v| [v,v]}, attribute: :variable_type
 
-          - if ['radio', 'checkbox'].include?(variable.variable_type)
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Options Alignment', values: Variable::ALIGNMENT, attribute: :alignment
+          - if ["radio", "checkbox"].include?(variable.variable_type)
+            = render "design_options/set_design_option", design_option: design_option, title: "Options Alignment", values: Variable::ALIGNMENT, attribute: :alignment
 
-          - unless ['radio', 'checkbox'].include?(variable.variable_type) and variable.alignment == 'scale'
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Layout', values: Variable::DISPLAY_LAYOUTS, attribute: :display_layout
+          - unless ["radio", "checkbox"].include?(variable.variable_type) and variable.alignment == "scale"
+            = render "design_options/set_design_option", design_option: design_option, title: "Layout", values: Variable::DISPLAY_LAYOUTS, attribute: :display_layout
 
           - if %w(time_of_day date).include?(variable.variable_type)
             - title = "Current #{variable.variable_type.titleize} Button"
-            - values = [['show', true],['hide', false]]
-            = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :show_current_button
+            - values = [["show", true],["hide", false]]
+            = render "design_options/set_design_option", design_option: design_option, title: title, values: values, attribute: :show_current_button
 
           - if %w(date).include?(variable.variable_type)
-            - values = [['MM/DD/YYYY', '%m/%d/%Y'], ['DD/MM/YYYY', '%d/%m/%Y'], ['YYYY-MM-DD', '%Y-%m-%d'], ['DD-MMM-YYYY', 'dd-mmm-yyyy']]
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Date Format', values: values, attribute: :format
+            - values = Variable::DATE_FORMATS
+            = render "design_options/set_design_option", design_option: design_option, title: "Date Format", values: values, attribute: :date_format
 
           - if %w(time_of_day).include?(variable.variable_type)
             - values = Variable::TIME_OF_DAY_FORMATS
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Time Format', values: values, attribute: :time_of_day_format
+            = render "design_options/set_design_option", design_option: design_option, title: "Time Format", values: values, attribute: :time_of_day_format
 
           - if %w(time_of_day).include?(variable.variable_type)
-            - values = [['show', true], ['hide', false]]
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Seconds Display', values: values, attribute: :show_seconds
+            - values = [["show", true], ["hide", false]]
+            = render "design_options/set_design_option", design_option: design_option, title: "Seconds Display", values: values, attribute: :show_seconds
 
           - if %w(time_duration).include?(variable.variable_type)
             - values = Variable::TIME_DURATION_FORMATS
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Time Duration Format', values: values, attribute: :time_duration_format
+            = render "design_options/set_design_option", design_option: design_option, title: "Time Duration Format", values: values, attribute: :time_duration_format
 
           - if %w(calculated).include?(variable.variable_type)
-            - title = 'Visibility During Data Entry'
-            - values = [['show', false],['hide', true]]
-            = render 'design_options/set_design_option', design_option: design_option, title: title, values: values, attribute: :hide_calculation
+            - title = "Visibility During Data Entry"
+            - values = [["show", false],["hide", true]]
+            = render "design_options/set_design_option", design_option: design_option, title: title, values: values, attribute: :hide_calculation
 
-          - if ['grid'].include?(variable.variable_type)
-            - values = [['enabled', true],['disabled', false]]
-            = render 'design_options/set_design_option', design_option: design_option, title: 'Allow Multiple Rows', values: values, attribute: :multiple_rows
+          - if ["grid"].include?(variable.variable_type)
+            - values = [["enabled", true],["disabled", false]]
+            = render "design_options/set_design_option", design_option: design_option, title: "Allow Multiple Rows", values: values, attribute: :multiple_rows
 
             .design-option-lead
               Default Row Number
             .design-option-body
-              = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: 'grid_rows'), method: :get, remote: true, class: 'btn btn-xs btn-default'
+              = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "grid_rows"), method: :get, remote: true, class: "btn btn-xs btn-default"
 
           - if %w(dropdown checkbox radio string text integer numeric date time_of_day time_duration signature imperial_height imperial_weight).include?(variable.variable_type)
             .design-option-lead
               Required on Form?
             .design-option-body
-              .btn-group{ data: { toggle: 'buttons' } }
+              .btn-group{ data: { toggle: "buttons" } }
                 - DesignOption::REQUIREMENTS.each do |label, value|
-                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-xs btn-default #{'active' if design_option.requirement.to_s == value}" do
+                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-xs btn-default #{"active" if design_option.requirement.to_s == value}" do
                     = label

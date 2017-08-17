@@ -30,4 +30,13 @@ namespace :variables do
     puts "               Broken Option Calculations: #{options.count}"
     puts "Broken Stratification Factor Calculations: #{stratification_factors.count}"
   end
+
+  desc "Migrate date variable format"
+  task migrate_date_formats: :environment do
+    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format)
+    Variable.where(variable_type: "date", format: "%d/%m/%Y").update_all(date_format: "dd/mm/yyyy")
+    Variable.where(variable_type: "date", format: "%Y-%m-%d").update_all(date_format: "yyyy-mm-dd")
+    Variable.where(variable_type: "date", format: "dd-mmm-yyyy").update_all(date_format: "dd-mmm-yyyy")
+    puts Variable.where(variable_type: "date").distinct.pluck(:format, :date_format)
+  end
 end
