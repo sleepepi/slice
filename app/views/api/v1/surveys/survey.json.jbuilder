@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+json.name @design.name
+
 json.event do
   json.extract!(@event, :id, :name, :slug)
 end

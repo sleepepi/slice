@@ -16,6 +16,17 @@ class Api::V1::SurveysController < Api::V1::BaseController
     end
   end
 
+  # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/surveys/:event/:design/resume.json
+  def resume_survey
+    (@design_option, @page) = @sheet.find_next_design_option if @sheet
+    if @sheet && @design_option
+      @sheet_variable = @sheet.sheet_variables.find_by(variable: @design_option.variable)
+      render :survey_page
+    else
+      head :no_content
+    end
+  end
+
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/surveys/:event/:design/:page.json
   def show_survey_page
     if @event && @design && @design_option
@@ -68,8 +79,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
   end
 
   def find_design_option
-    offset = [params[:page].to_i - 1, 0].max
-    @page = offset + 1
-    @design_option = @design.design_options.includes(:section, :variable).offset(offset).limit(1).first if @design
+    @page = [params[:page].to_i, 1].max
+    @design_option = @sheet.goto_page_number(@page) if @sheet
   end
 end

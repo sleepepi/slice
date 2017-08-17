@@ -389,6 +389,43 @@ class Sheet < ApplicationRecord
     )
   end
 
+  def find_next_design_option
+    sheet_variable_array = sheet_variables.includes(:domain_option, responses: :domain_option, variable: { domain: :domain_options }).to_a
+    current_design_option = nil
+    current_section = nil
+    page = 0
+    design.design_options.includes(:section, :variable).each do |design_option|
+      current_design_option = design_option
+      next unless show_design_option?(design_option.branching_logic)
+      page += 1
+      if design_option.section
+        current_section = current_design_option
+      elsif design_option.variable
+        sheet_variable = sheet_variable_array.select { |sv| sv.variable_id == design_option.variable.id }.first
+        response = (sheet_variable ? sheet_variable.get_response(:raw) : nil)
+        value = design_option.variable.response_to_value(response)
+        validation_hash = design_option.variable.value_in_range?(value)
+        break if validation_hash[:status].in?(%w(blank invalid out_of_range))
+        current_section = nil
+      end
+    end
+    if current_section
+      [current_section, page - 1]
+    else
+      [current_design_option, page]
+    end
+  end
+
+  def goto_page_number(page)
+    current_page = 0
+    design.design_options.includes(:section, :variable).each do |design_option|
+      next unless show_design_option?(design_option.branching_logic)
+      current_page += 1
+      return design_option if current_page == page
+    end
+    nil
+  end
+
   protected
 
   def check_subject_event_subject_match

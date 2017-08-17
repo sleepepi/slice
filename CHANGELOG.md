@@ -3,6 +3,7 @@
 ### Enhancements
 - **API Changes**
   - Added API to show and save survey questions one at a time
+  - Added API to resume a survey
 - **Variable Changes**
   - Internal date formats for date variables have been streamlined
 - **Gem Changes**
