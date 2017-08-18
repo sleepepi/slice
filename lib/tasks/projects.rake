@@ -120,6 +120,7 @@ def copy_variables(original, copy)
       time_of_day_format: v.time_of_day_format,
       show_seconds: v.show_seconds,
       time_duration_format: v.time_duration_format,
+      date_format: v.date_format,
       hide_calculation: v.hide_calculation
     )
     vc.update_column :calculation, v.readable_calculation
@@ -157,6 +158,7 @@ def copy_variables(original, copy)
       time_of_day_format: v.time_of_day_format,
       show_seconds: v.show_seconds,
       time_duration_format: v.time_duration_format,
+      date_format: v.date_format,
       hide_calculation: v.hide_calculation
     )
     vc.update_column :calculation, v.readable_calculation
