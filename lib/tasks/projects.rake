@@ -13,6 +13,7 @@ namespace :projects do
       design_map = copy_designs(original, copy, variable_map)
       copy_schemes(original, copy, variable_map)
       copy_events(original, copy, design_map)
+      initialize_counters(copy)
       puts "Project ID: #{copy.id}"
     else
       puts "Project Not Found"
@@ -347,4 +348,10 @@ def copy_event_designs(e, ec, design_map)
     )
     puts "Added #{edc.design.name.colorize(:white)} event design"
   end
+end
+
+def initialize_counters(copy)
+  copy.domains.find_each { |domain| Domain.reset_counters(domain.id, :variables) }
+  copy.subjects.find_each { |subject| Subject.reset_counters(subject.id, :randomizations) }
+  copy.designs.find_each(&:recompute_variables_count!)
 end
