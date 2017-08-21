@@ -295,14 +295,39 @@ randomize_yes_no_2:
   value: 2
   position: 1
 
-api_domain_options_1:
-  domain: api_domain_options
+api_radio_options_1:
+  domain: api_radio_options
   name: "Option 1"
   value: 1
   position: 0
 
-api_domain_options_2:
-  domain: api_domain_options
+api_radio_options_2:
+  domain: api_radio_options
   name: "Option 2"
   value: 2
   position: 1
+
+api_dropdown_options_1:
+  domain: api_dropdown_options
+  name: "Option 1"
+  value: 1
+  position: 0
+
+api_dropdown_options_2:
+  domain: api_dropdown_options
+  name: "Option 2"
+  value: 2
+  position: 1
+
+api_dropdown_options_3:
+  domain: api_dropdown_options
+  name: "Option 3"
+  value: 3
+  position: 2
+
+api_dropdown_options_9:
+  domain: api_dropdown_options
+  name: "Option -9"
+  value: -9
+  position: 3
+  missing_code: true

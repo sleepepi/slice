@@ -41,10 +41,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
   def update_survey_response
     save_result = \
       if @design_option && @design_option.variable && !@design_option.variable.variable_type.in?(%w(calculated grid file signature))
-        SheetTransaction.save_sheet!(
-          @sheet, {}, { @design_option.variable_id.to_s => params[:response] },
-          nil, params[:remote_ip], "api_sheet_update", partial_validation: true
-        )
+        save_response_to_sheet!(@sheet, @design_option, params[:response])
       elsif @design_option && @design_option.variable && @design_option.variable.variable_type.in?(%w(calculated grid file signature))
         true
       elsif @design_option && @design_option.section
@@ -53,7 +50,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
     if save_result
       @sheet.update_associated_subject_events!
       @sheet.subject_event.update_coverage! if @sheet.subject_event
-      render :survey_page, status: :ok
+      render json: {}, status: :ok
     else
       render :survey_page, status: :unprocessable_entity
     end
@@ -81,5 +78,41 @@ class Api::V1::SurveysController < Api::V1::BaseController
   def find_design_option
     @page = [params[:page].to_i, 1].max
     @design_option = @sheet.goto_page_number(@page) if @sheet
+  end
+
+  def save_response_to_sheet!(sheet, design_option, value)
+    value = value.to_unsafe_hash if value.is_a?(ActionController::Parameters)
+    variable = design_option.variable
+    validation_hash = variable.value_in_range?(value)
+    error_message = \
+      case validation_hash[:status]
+      when "blank" # AND REQUIRED
+        "Please enter a response." if design_option.required?
+      when "invalid"
+        "Please enter a valid response."
+      when "out_of_range"
+        "Please enter a response within the specified range."
+      end
+
+    if error_message.present?
+      sheet.errors.add(variable.name, error_message)
+      return false
+    end
+    case variable.variable_type
+    when "file", "grid", "signature"
+      false
+    when "checkbox"
+      value = [] if value.blank?
+      sheet_variable = sheet.sheet_variables.where(variable: variable).first_or_create(user: current_user)
+      sheet_variable.update_responses!(value, current_user, sheet) # Value should be an array
+    else
+      # "calculated", "dropdown", "imperial_height", "imperial_weight",
+      # "integer", "numeric", "radio", "string", "text", "time_of_day",
+      # "time_duration"
+      slicer = Slicers.for(variable)
+      update_hash = slicer.format_for_db_update(value)
+      sheet_variable = sheet.sheet_variables.where(variable: variable).first_or_create(user: current_user)
+      sheet_variable.update(update_hash)
+    end
   end
 end

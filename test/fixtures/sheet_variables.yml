@@ -335,5 +335,5 @@ api_design_api_radio:
   sheet: api_design
   variable: api_radio
   user: valid
-  domain_option: api_domain_options_1
+  domain_option: api_radio_options_1
   # value: 1

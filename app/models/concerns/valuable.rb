@@ -25,6 +25,7 @@ module Valuable
 
   # Methods
 
+  # TODO: Move method to "Slicers"
   def update_responses!(values, current_user, sheet)
     class_foreign_key = "#{self.class.name.underscore}_id".to_sym
 
@@ -52,41 +53,17 @@ module Valuable
   end
 
   # Returns response as a hash that can sent to update method
+  # TODO: Deprecate this in favor of using "Slicers"
   def format_response(response)
-    if response.is_a?(ActionController::Parameters)
-      response = response.to_unsafe_hash
-    end
-
-    case variable.variable_type
-    when "file"
-      response = {} if response.blank?
-    when "date"
-      month = parse_integer(response[:month])
-      day = parse_integer(response[:day])
-      year = parse_integer(response[:year])
-      # Save valuable to string in "%Y-%m-%d" db format, passing in a date
-      response = { value: parse_date("#{month}/#{day}/#{year}") }
-    when "time_of_day"
-      # Save valuable to string in total seconds since midnight db format
-      response = { value: parse_time_of_day_from_hash_to_s(response) }
-    when "time_duration"
-      # Save valuable to string in total seconds db format
-      response = { value: parse_time_duration_from_hash_to_s(response, no_hours: variable.no_hours?) }
-    when "imperial_height"
-      # Save valuable to string in total inches db format
-      response = { value: parse_imperial_height_from_hash_to_s(response) }
-    when "imperial_weight"
-      # Save valuable to string in total ounces db format
-      response = { value: parse_imperial_weight_from_hash_to_s(response) }
+    response = response.to_unsafe_hash if response.is_a?(ActionController::Parameters)
+    slicer = Slicers.for(variable)
+    update_hash = slicer.format_for_db_update(response)
+    if variable.variable_type == "file" && response.present?
+      response
+    elsif variable.variable_type == "file" && response.blank?
+      {}
     else
-      domain_option = variable.domain_options.find_by(value: response)
-      response = \
-        if domain_option
-          { value: nil, domain_option_id: domain_option.id }
-        else
-          { value: response, domain_option_id: nil }
-        end
+      update_hash
     end
-    response
   end
 end

@@ -439,3 +439,89 @@ api_integer:
   variable_type: integer
   user: valid
   project: api
+
+api_numeric:
+  name: api_numeric
+  display_name: API Numeric
+  # description:
+  variable_type: numeric
+  user: valid
+  project: api
+
+api_time_of_day:
+  name: api_time_of_day
+  display_name: 12-Hour AM/PM [AM]
+  description: Enter your favorite time of day.
+  variable_type: time_of_day
+  time_of_day_format: 12hour
+  user: valid
+  project: api
+
+api_time_duration:
+  name: api_time_duration
+  display_name: Total time in seconds
+  description: How long was your run?
+  variable_type: time_duration
+  time_duration_format: hh:mm:ss
+  user: valid
+  project: api
+
+api_imperial_height:
+  name: api_imperial_height
+  display_name: Enter your height in feet and inches.
+  # description:
+  variable_type: imperial_height
+  user: valid
+  project: api
+
+api_imperial_weight:
+  name: api_imperial_weight
+  display_name: Enter your weight in pounds and ounces.
+  # description:
+  variable_type: imperial_weight
+  user: valid
+  project: api
+
+api_date:
+  name: api_date
+  display_name: Enter a date.
+  # description:
+  variable_type: date
+  date_format: mm/dd/yyyy
+  user: valid
+  project: api
+
+api_dropdown:
+  name: api_dropdown
+  display_name: Dropdown Options
+  # description:
+  variable_type: dropdown
+  user: valid
+  project: api
+  domain: api_dropdown_options
+
+api_string:
+  name: api_string
+  display_name: API String
+  # description:
+  variable_type: string
+  user: valid
+  project: api
+
+api_text:
+  name: api_text
+  display_name: API Text
+  # description:
+  variable_type: text
+  user: valid
+  project: api
+
+api_calculated:
+  name: api_calculated
+  display_name: API Calculated
+  # description:
+  variable_type: calculated
+  calculation: api_integer + 1
+  format: "%0.02f"
+  user: valid
+  project: api
