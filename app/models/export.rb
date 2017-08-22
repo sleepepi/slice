@@ -262,7 +262,7 @@ class Export < ApplicationRecord
       csv << [
         "Design Name", "Variable Name", "Variable Display Name", "Variable Description", "Field Note",
         "Variable Type", "Hard Min", "Soft Min", "Soft Max", "Hard Max", "Calculation", "Prepend", "Units",
-        "Append", "Format", "Date Format", "Time Duration Format", "Time of Day Format", "Multiple Rows",
+        "Append", "Calculated Format", "Date Format", "Time Duration Format", "Time of Day Format", "Multiple Rows",
         "Autocomplete Values", "Show Current Button", "Display Layout", "Alignment", "Default Row Number",
         "Domain Name", "Required on Form?"
       ]
@@ -313,7 +313,7 @@ class Export < ApplicationRecord
                       variable.prepend,
                       variable.export_units,
                       variable.append,
-                      variable.format,
+                      variable.calculated_format,
                       (variable.variable_type == "date" ? variable.date_format : nil),
                       (variable.variable_type == "time_duration" ? variable.time_duration_format : nil),
                       (variable.variable_type == "time_of_day" ? variable.time_of_day_format : nil),

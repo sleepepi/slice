@@ -256,6 +256,7 @@ calculated:
   user: valid
   calculation: "weight / (height * height)"
   format: "%0.02f"
+  # TODO: Change .format to .calculated_format
   project: one
 
 calculated_without_format:
@@ -266,6 +267,7 @@ calculated_without_format:
   user: valid
   calculation: "weight / (height * height)"
   # format:
+  # TODO: Change .format to .calculated_format
   project: one
 
 external_calculated:
@@ -276,6 +278,7 @@ external_calculated:
   user: admin
   calculation: "weight / (height * height)"
   format: "%0.02f"
+  # TODO: Change .format to .calculated_format
   project: three
 
 # TODO: this one will be deprecated
@@ -523,5 +526,6 @@ api_calculated:
   variable_type: calculated
   calculation: api_integer + 1
   format: "%0.02f"
+  # TODO: Change .format to .calculated_format
   user: valid
   project: api

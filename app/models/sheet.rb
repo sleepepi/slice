@@ -261,8 +261,8 @@ class Sheet < ApplicationRecord
 
     if calculation != "array_count" && !number.nil?
       number = \
-        if variable.variable_type == "calculated" && variable.format.present?
-          format(variable.format, number) rescue number
+        if variable.variable_type == "calculated" && variable.calculated_format.present?
+          format(variable.calculated_format, number) rescue number
         else
           format("%0.02f", number)
         end

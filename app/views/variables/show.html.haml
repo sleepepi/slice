@@ -140,8 +140,8 @@
           = render "variables/calculation_with_links", object: @variable
 
       %tr
-        %th Format
-        %td= @variable.format
+        %th Calculated Format
+        %td= @variable.calculated_format
 
     - if ["string"].include?(@variable.variable_type)
       %tr

@@ -18,9 +18,10 @@
         %td
           %code (var1 + var2) / var3
 .form-group
-  %label.col-md-2.control-label Format
+  %label.col-md-2.control-label Calculated Format
   .col-md-10
-    = text_field_tag 'variable[format]', @design_option.variable.format, autocomplete: 'off', class: 'form-control'
+    -# TODO: Change .format to .calculated_format
+    = text_field_tag 'variable[format]', @design_option.variable.calculated_format, autocomplete: 'off', class: 'form-control'
     %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
       %col.hidden-xs{ width: '30%' }
       %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }

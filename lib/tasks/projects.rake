@@ -106,7 +106,7 @@ def copy_variables(original, copy)
       date_soft_minimum: v.date_soft_minimum,
       soft_maximum: v.soft_maximum,
       soft_minimum: v.soft_minimum,
-      format: v.format,
+      format: v.calculated_format, # TODO: Change .format to .calculated_format
       units: v.units,
       multiple_rows: v.multiple_rows,
       autocomplete_values: v.autocomplete_values,
@@ -144,7 +144,7 @@ def copy_variables(original, copy)
       date_soft_minimum: v.date_soft_minimum,
       soft_maximum: v.soft_maximum,
       soft_minimum: v.soft_minimum,
-      format: v.format,
+      format: v.calculated_format, # TODO: Change .format to .calculated_format
       units: v.units,
       multiple_rows: v.multiple_rows,
       autocomplete_values: v.autocomplete_values,
