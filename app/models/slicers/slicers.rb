@@ -8,7 +8,7 @@ module Slicers
     "checkbox" => CheckboxSlicer,
     "date" => DateSlicer,
     "dropdown" => DropdownSlicer,
-    # file
+    "file" => FileSlicer,
     # grid
     "imperial_height" => ImperialHeightSlicer,
     "imperial_weight" => ImperialWeightSlicer,
@@ -18,11 +18,11 @@ module Slicers
     "string" => StringSlicer,
     "text" => TextSlicer,
     "time_of_day" => TimeOfDaySlicer,
-    "time_duration" => TimeDurationSlicer
-    # signature
+    "time_duration" => TimeDurationSlicer,
+    "signature" => SignatureSlicer
   }
 
-  def self.for(variable)
-    (SLICER_CLASSES[variable.variable_type] || DEFAULT_CLASS).new(variable)
+  def self.for(variable, *args)
+    (SLICER_CLASSES[variable.variable_type] || DEFAULT_CLASS).new(variable, *args)
   end
 end

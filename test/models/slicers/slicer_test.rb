@@ -4,6 +4,8 @@ require "test_helper"
 
 # Test preparing values for storing in database.
 class SlicerTest < ActiveSupport::TestCase
+  include ActionDispatch::TestProcess
+
   test "should prepare value for db for calculated variable" do
     slicer = Slicers.for(variables(:api_calculated))
     assert_equal(
@@ -50,7 +52,13 @@ class SlicerTest < ActiveSupport::TestCase
   end
 
   test "should prepare value for db for file variable" do
-    skip
+    slicer = Slicers.for(variables(:api_file))
+    file = fixture_file_upload("../../test/support/projects/rails.png")
+    assert_equal({}, slicer.format_for_db_update(""))
+    assert_equal(
+      { response_file: file },
+      slicer.format_for_db_update(response_file: file)
+    )
   end
 
   test "should prepare value for db for grid variable" do
@@ -142,6 +150,11 @@ class SlicerTest < ActiveSupport::TestCase
   end
 
   test "should prepare value for db for signature variable" do
-    skip
+    slicer = Slicers.for(variables(:api_signature))
+    signature_points = "[{\"lx\":0,\"ly\":0,\"mx\":5,\"my\":5},{\"lx\":100,\"ly\":100,\"mx\":5,\"my\":5}]"
+    assert_equal(
+      { value: signature_points },
+      slicer.format_for_db_update(signature_points)
+    )
   end
 end

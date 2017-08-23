@@ -59,13 +59,6 @@ module Valuable
   def format_response(response)
     response = response.to_unsafe_hash if response.is_a?(ActionController::Parameters)
     slicer = Slicers.for(variable)
-    update_hash = slicer.format_for_db_update(response)
-    if variable.variable_type == "file" && response.present?
-      response
-    elsif variable.variable_type == "file" && response.blank?
-      {}
-    else
-      update_hash
-    end
+    slicer.format_for_db_update(response)
   end
 end

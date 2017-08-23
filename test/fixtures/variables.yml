@@ -538,3 +538,19 @@ api_calculated:
   # TODO: Change .format to .calculated_format
   user: valid
   project: api
+
+api_file:
+  name: api_file
+  display_name: Upload a File
+  # description:
+  variable_type: file
+  user: valid
+  project: api
+
+api_signature:
+  name: api_signature
+  display_name: Sign Here
+  # description:
+  variable_type: signature
+  user: valid
+  project: api
