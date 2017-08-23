@@ -98,21 +98,19 @@ class Api::V1::SurveysController < Api::V1::BaseController
       sheet.errors.add(variable.name, error_message)
       return false
     end
+
     case variable.variable_type
     when "file", "grid", "signature"
       false
-    when "checkbox"
-      value = [] if value.blank?
-      sheet_variable = sheet.sheet_variables.where(variable: variable).first_or_create(user: current_user)
-      sheet_variable.update_responses!(value, current_user, sheet) # Value should be an array
     else
-      # "calculated", "dropdown", "imperial_height", "imperial_weight",
-      # "integer", "numeric", "radio", "string", "text", "time_of_day",
-      # "time_duration"
-      slicer = Slicers.for(variable)
-      update_hash = slicer.format_for_db_update(value)
-      sheet_variable = sheet.sheet_variables.where(variable: variable).first_or_create(user: current_user)
-      sheet_variable.update(update_hash)
+      # "calculated", "checkbox", "dropdown", "imperial_height",
+      # "imperial_weight", "integer", "numeric", "radio", "string", "text",
+      # "time_of_day", "time_duration"
+      slicer = Slicers.for(variable, sheet: sheet, current_user: current_user, remote_ip: params[:remote_ip])
+      slicer.pre_audit
+      save_result = slicer.save(value)
+      slicer.record_audit
+      save_result
     end
   end
 end

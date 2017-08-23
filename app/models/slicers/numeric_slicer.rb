@@ -3,8 +3,5 @@
 module Slicers
   # Provides default methods for checking variables and saving to database.
   class NumericSlicer < DefaultSlicer
-    # def format_for_db_update(value)
-    #   super(value)
-    # end
   end
 end

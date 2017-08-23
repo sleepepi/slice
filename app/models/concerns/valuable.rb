@@ -32,8 +32,10 @@ module Valuable
     # Could use pluck, but pluck has issues with scopes and unsaved objects
     old_response_ids = responses.collect(&:id)
 
+    domain_options = variable.domain_options.to_a
+
     self.responses = values.select(&:present?).collect do |value|
-      domain_option = variable.domain_options.find_by(value: value)
+      domain_option = domain_options.find { |option| option.value == value.to_s }
       if domain_option
         new_domain_option_id = domain_option.id
         new_value = nil

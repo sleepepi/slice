@@ -435,6 +435,15 @@ api_radio:
   project: api
   domain: api_radio_options
 
+api_checkbox:
+  name: api_checkbox
+  display_name: API Checkbox
+  # description:
+  variable_type: checkbox
+  user: valid
+  project: api
+  domain: api_checkbox_options
+
 api_integer:
   name: api_integer
   display_name: API Integer

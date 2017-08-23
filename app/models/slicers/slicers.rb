@@ -5,7 +5,7 @@ module Slicers
   DEFAULT_CLASS = Slicers::DefaultSlicer
   SLICER_CLASSES = {
     "calculated" => CalculatedSlicer,
-    # checkbox
+    "checkbox" => CheckboxSlicer,
     "date" => DateSlicer,
     "dropdown" => DropdownSlicer,
     # file

@@ -126,3 +126,10 @@ api_dropdown_options:
   # description:
   user: valid
   project: api
+
+api_checkbox_options:
+  name: api_checkbox_options
+  display_name: API Checkbox Options
+  # description:
+  user: valid
+  project: api

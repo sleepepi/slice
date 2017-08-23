@@ -331,3 +331,21 @@ api_dropdown_options_9:
   value: -9
   position: 3
   missing_code: true
+
+api_checkbox_options_0:
+  domain: api_checkbox_options
+  name: "Option 0"
+  value: 0
+  position: 0
+
+api_checkbox_options_1:
+  domain: api_checkbox_options
+  name: "Option 1"
+  value: 1
+  position: 1
+
+api_checkbox_options_2:
+  domain: api_checkbox_options
+  name: "Option 2"
+  value: 2
+  position: 2

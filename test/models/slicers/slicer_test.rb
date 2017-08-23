@@ -14,7 +14,23 @@ class SlicerTest < ActiveSupport::TestCase
   end
 
   test "should prepare value for db for checkbox variable" do
-    skip
+    slicer = Slicers.for(variables(:api_checkbox))
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:api_checkbox_options_0).id },
+      slicer.format_for_db_update("0")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:api_checkbox_options_1).id },
+      slicer.format_for_db_update("1")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:api_checkbox_options_2).id },
+      slicer.format_for_db_update("2")
+    )
+    assert_equal(
+      { value: "3", domain_option_id: nil },
+      slicer.format_for_db_update("3")
+    )
   end
 
   test "should prepare value for db for date variable" do
