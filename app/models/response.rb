@@ -22,14 +22,6 @@ class Response < ApplicationRecord
   belongs_to :domain_option, optional: true
 
   # Methods
-  def domain_option_value_or_value
-    if domain_option
-      domain_option.value
-    else
-      value
-    end
-  end
-
   def domain_option_value_or_value_and_position
     if domain_option
       [domain_option.value, domain_option.position]
