@@ -4,3 +4,10 @@
 @import 'tree';
 
 @import 'themes/spring/all';
+
+.label-coverage {
+  &.coverage-30 {
+    background-color: $p200;
+    color: $p900;
+  }
+}
