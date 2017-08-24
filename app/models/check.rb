@@ -60,9 +60,13 @@ class Check < ApplicationRecord
     project.sheets.find_each do |sheet|
       status_checks.where(sheet_id: sheet.id).first_or_create
     end
-    status_checks.update_all failed: nil
-    status_checks.where(sheet_id: sheets.select(:id)).update_all failed: true
-    status_checks.where(failed: nil).update_all failed: false
+    run_pending_checks!
+  end
+
+  def run_pending_checks!
+    status_checks.update_all(failed: nil)
+    status_checks.where(sheet_id: sheets.select(:id)).update_all(failed: true)
+    status_checks.where(failed: nil).update_all(failed: false)
   end
 
   def destroy

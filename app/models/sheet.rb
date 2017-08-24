@@ -343,17 +343,7 @@ class Sheet < ApplicationRecord
     project.checks.runnable.find_each do |check|
       status_checks.where(check_id: check.id).first_or_create
     end
-    status_checks.update_all failed: nil
-  end
-
-  def run_pending_checks!
-    status_checks.where(failed: nil).find_each do |status_check|
-      if status_check.check.sheets.where(id: id).count == 1
-        status_check.update failed: true
-      else
-        status_check.update failed: false
-      end
-    end
+    status_checks.update_all(failed: nil)
   end
 
   def create_notifications!

@@ -187,7 +187,7 @@ class Subject < ApplicationRecord
 
   def reset_checks!
     sheets.find_each(&:reset_checks!)
-    sheets.find_each(&:run_pending_checks!)
+    project.checks.runnable.find_each(&:run_pending_checks!)
   end
 
   def unblinded_not_missing_sheets
