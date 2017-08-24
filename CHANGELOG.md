@@ -5,6 +5,8 @@
   - Added API to show and save survey questions one at a time
   - Added API to resume a survey
   - Sheets can now be partially validated to support incremental sheet updates
+- **Survey Changes**
+  - Removed excess padding for section descriptions on public surveys
 - **Variable Changes**
   - Internal date formats for date variables have been streamlined
   - Imperial height and weight can now have range checks
