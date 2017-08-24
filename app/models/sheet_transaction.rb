@@ -3,7 +3,11 @@
 # Tracks a set of audits in a single transaction.
 class SheetTransaction < ApplicationRecord
   # Constants
-  TRANSACTION_TYPE = %w(sheet_create sheet_update public_sheet_create public_sheet_update api_sheet_create api_sheet_update)
+  TRANSACTION_TYPE = %w(
+    sheet_create sheet_update
+    public_sheet_create public_sheet_update
+    api_sheet_create api_sheet_update
+  )
 
   # Relationships
   belongs_to :project
@@ -125,33 +129,11 @@ class SheetTransaction < ApplicationRecord
     sheet_variable.grids.where("position >= ?", response.keys.size).destroy_all
   end
 
-  def update_response_with_transaction(object, response, current_user)
-    sheet_variable_id = nil
-    grid_id = nil
-    value_before = object.get_response(:raw).to_s
-    label_before = object.get_response(:name).to_s
-    if object.variable.variable_type == "checkbox"
-      response = [] if response.blank?
-      object.update_responses!(response, current_user, sheet) # Response should be an array
-    else
-      object.update(object.format_response(response))
-    end
-    value_after = object.get_response(:raw).to_s
-    label_after = object.get_response(:name).to_s
-    value_for_file = (object.variable.variable_type == "file")
-    if object.class == SheetVariable
-      sheet_variable_id = object.id
-    elsif object.class == Grid
-      grid_id = object.id
-      sheet_variable_id = object.sheet_variable.id
-    end
-    return if value_before == value_after
-    sheet_transaction_audits.create(
-      value_before: value_before, value_after: value_after,
-      label_before: label_before, label_after: label_after,
-      value_for_file: value_for_file, project_id: project_id,
-      sheet_id: sheet_id, user_id: user_id,
-      sheet_variable_id: sheet_variable_id, grid_id: grid_id
-    )
+  def update_response_with_transaction(object, value, current_user)
+    slicer = Slicers.for(object.variable, sheet: sheet, current_user: current_user, object: object)
+    slicer.pre_audit
+    save_result = slicer.save(value)
+    slicer.record_audit(sheet_transaction: self)
+    save_result
   end
 end

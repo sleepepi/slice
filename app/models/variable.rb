@@ -615,23 +615,17 @@ class Variable < ApplicationRecord
   end
 
   def value_in_range?(value)
-    if value.is_a?(ActionController::Parameters)
-      value = value.to_unsafe_hash
-    end
+    value = clean_value(value)
     validator.value_in_range?(value)
   end
 
   def response_to_value(response)
-    if response.is_a?(ActionController::Parameters)
-      response = response.to_unsafe_hash
-    end
+    response = clean_value(response)
     validator.response_to_value(response)
   end
 
   def response_to_raw_value(response)
-    if response.is_a?(ActionController::Parameters)
-      response = response.to_unsafe_hash
-    end
+    response = clean_value(response)
     validator.response_to_raw_value(response)
   end
 
@@ -703,5 +697,11 @@ class Variable < ApplicationRecord
 
   def calculated_format
     self[:format]
+  end
+
+  private
+
+  def clean_value(value)
+    value.is_a?(ActionController::Parameters) ? value.to_unsafe_hash : value
   end
 end

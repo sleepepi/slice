@@ -81,7 +81,6 @@ class Api::V1::SurveysController < Api::V1::BaseController
   end
 
   def save_response_to_sheet!(sheet, design_option, value)
-    value = value.to_unsafe_hash if value.is_a?(ActionController::Parameters)
     variable = design_option.variable
     validation_hash = variable.value_in_range?(value)
     error_message = \

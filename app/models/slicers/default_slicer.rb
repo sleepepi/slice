@@ -3,13 +3,14 @@
 module Slicers
   # Provides default methods for checking variables and saving to database.
   class DefaultSlicer
-    attr_accessor :value_was, :label_was, :value_is, :label_is
+    attr_accessor :value_was, :label_was, :value_is, :label_is, :object
 
-    def initialize(variable, sheet: nil, current_user: nil, remote_ip: nil)
+    def initialize(variable, sheet: nil, current_user: nil, remote_ip: nil, object: nil)
       @variable = variable
       @sheet = sheet
       @current_user = current_user
       @remote_ip = remote_ip
+      @object = object
     end
 
     def format_for_db_update(value)
@@ -22,6 +23,7 @@ module Slicers
     end
 
     def save(value)
+      value = clean_value(value)
       object.update(format_for_db_update(value))
     end
 
@@ -65,6 +67,12 @@ module Slicers
       @object ||= begin
         @sheet.sheet_variables.where(variable: @variable).first_or_create(user: @current_user)
       end
+    end
+
+    private
+
+    def clean_value(value)
+      value.is_a?(ActionController::Parameters) ? value.to_unsafe_hash : value
     end
   end
 end

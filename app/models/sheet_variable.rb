@@ -7,7 +7,11 @@ class SheetVariable < ApplicationRecord
   include Valuable
 
   # Scopes
-  scope :with_files, -> { joins(variable: :design_options).where(variables: { variable_type: "file" }).where.not(response_file: [nil, ""]) }
+  def self.with_files
+    joins(variable: :design_options)
+      .where(variables: { variable_type: "file" })
+      .where.not(response_file: [nil, ""])
+  end
 
   # Validations
   validates :sheet_id, presence: true
