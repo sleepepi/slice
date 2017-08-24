@@ -118,8 +118,7 @@ $comment-border: $p100 !default;
   background-color: $brand-highlight;
   color: $brand-highlight-text;
 
-  a {
+  .btn-link {
     color: darken($brand-highlight-text, 10%);
-    font-weight: bold;
   }
 }
