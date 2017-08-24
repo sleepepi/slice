@@ -29,11 +29,12 @@ module Formattable
     end
   end
 
-  # TODO: Multiple responses...
   def get_multiple_responses(raw_format)
     formatter = Formatters.for(variable)
     # Collect is used here since responses may be "built" and not yet saved to database
-    values = responses.collect(&:domain_option_value_or_value)
+    values = responses.collect(&:domain_option_value_or_value_and_position)
+                      .sort { |a, b| a[1] && b[1] ? a[1] <=> b[1] : a[1] ? -1 : 1 }
+                      .collect(&:first)
     raw_data = (raw_format == :raw)
     formatter.format_array(values, raw_data)
   end

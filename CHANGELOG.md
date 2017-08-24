@@ -12,6 +12,9 @@
   - Updated to haml 5.0.2
   - Updated to simplecov 0.15.0
 
+### Bug Fix
+- Checkbox responses are now sorted properly on sheet show pages
+
 ## 0.55.0 (July 31, 2017)
 
 ### Enhancements

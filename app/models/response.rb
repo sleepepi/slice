@@ -29,4 +29,12 @@ class Response < ApplicationRecord
       value
     end
   end
+
+  def domain_option_value_or_value_and_position
+    if domain_option
+      [domain_option.value, domain_option.position]
+    else
+      [value, nil]
+    end
+  end
 end
