@@ -269,22 +269,36 @@ class SheetsController < ApplicationController
   end
 
   def scope_by_date(scope, token)
-    date = Date.strptime(token.value, "%Y-%m-%d")
+    (first_date, last_date) = smart_date_parse(token)
     case token.operator
     when "<"
-      scope = scope.sheet_before(date - 1.day)
+      scope = scope.sheet_before(first_date - 1.day)
     when ">"
-      scope = scope.sheet_after(date + 1.day)
+      scope = scope.sheet_after(last_date + 1.day)
     when "<="
-      scope = scope.sheet_before(date)
+      scope = scope.sheet_before(last_date)
     when ">="
-      scope = scope.sheet_after(date)
+      scope = scope.sheet_after(first_date)
     else
-      scope = scope.sheet_before(date).sheet_after(date)
+      scope = scope.sheet_before(last_date).sheet_after(first_date)
     end
     scope
   rescue
     scope
+  end
+
+  def smart_date_parse(token)
+    if !(/^\d{4}$/ =~ token.value).nil?
+      first_date = Date.strptime("#{token.value}-01-01", "%Y-%m-%d")
+      last_date = first_date.end_of_year
+    elsif !(/^\d{4}-\d{1,2}$/ =~ token.value).nil?
+      first_date = Date.strptime("#{token.value}-01", "%Y-%m-%d")
+      last_date = first_date.end_of_month
+    else
+      first_date = Date.strptime(token.value, "%Y-%m-%d")
+      last_date = first_date
+    end
+    [first_date, last_date]
   end
 
   def scope_by_variable(scope, token)

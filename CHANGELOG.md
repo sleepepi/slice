@@ -7,6 +7,17 @@
   - Sheets can now be partially validated to support incremental sheet updates
 - **Check Changes**
   - Reduced the number of checks that need to be run when updating sheets
+- **Sheet Changes**
+  - Sheets can now be filtered by year and month
+    - `created:2017` Sheets created in 2017
+    - `created:<2017` Sheets created before 2017
+    - `created:<=2017` Sheets created before or during 2017
+    - `created:>2017` Sheets created after 2017
+    - `created:>=2017` Sheets created after or during 2017
+    - `created:2017-02` Sheets created in February 2017
+    - `created:<2017-02` Sheets created before February 2017
+    - `created:<=2017-02` Sheets created before or during February 2017
+    - `created:>=2017-1 created:<=2017-3` Sheets created in Jan through Mar of 2017
 - **Survey Changes**
   - Removed excess padding for section descriptions on public surveys
 - **Variable Changes**
