@@ -7,6 +7,7 @@
   - Sheets can now be partially validated to support incremental sheet updates
 - **Variable Changes**
   - Internal date formats for date variables have been streamlined
+  - Imperial height and weight can now have range checks
 - **Gem Changes**
   - Updated to rails 5.1.3
   - Updated to haml 5.0.2

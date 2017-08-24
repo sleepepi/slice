@@ -25,6 +25,14 @@ module Validation
         !blank_value?(value) && !parse_imperial_weight_from_hash(value)
       end
 
+      def in_hard_range?(value)
+        value_in_hard_range?(get_number(value))
+      end
+
+      def in_soft_range?(value)
+        value_in_soft_range?(get_number(value))
+      end
+
       def formatted_value(value)
         hash = parse_imperial_weight_from_hash(value)
         p = (hash[:pounds] == 1 ? "pound" : "pounds")
@@ -40,17 +48,37 @@ module Validation
 
       def response_to_value(response)
         if response.is_a?(Hash)
-          response[:pounds] = parse_integer(response[:pounds])
-          response[:ounces] = parse_integer(response[:ounces])
-          response
+          parse_imperial_weight_from_hash(response) || {}
         else
-          weight = parse_imperial_weight(response)
-          (weight ? { pounds: weight[:pounds], ounces: weight[:ounces] } : {})
+          parse_imperial_weight(response) || {}
         end
       end
 
       def db_key_value_pairs(response)
         { value: parse_imperial_weight_from_hash_to_s(response) }
+      end
+
+      private
+
+      def get_number(value)
+        value = response_to_value(value)
+        value[:total_ounces]
+      end
+
+      def value_in_hard_range?(number)
+        less_or_equal_to?(number, @variable.hard_maximum) && greater_than_or_equal_to?(number, @variable.hard_minimum)
+      end
+
+      def value_in_soft_range?(number)
+        less_or_equal_to?(number, @variable.soft_maximum) && greater_than_or_equal_to?(number, @variable.soft_minimum)
+      end
+
+      def less_or_equal_to?(number, number_max)
+        !number || !number_max || (number_max && number <= number_max)
+      end
+
+      def greater_than_or_equal_to?(number, number_min)
+        !number || !number_min || (number_min && number >= number_min)
       end
     end
   end
