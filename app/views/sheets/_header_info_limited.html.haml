@@ -31,12 +31,13 @@
         - else
           = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time_short(@sheet.last_edited_at), transactions_project_sheet_path(@sheet.project, @sheet)
       %td.hidden-xs.nowrap
-        - if @sheet.recently_created?
-          - if @sheet.user
-            = @sheet.user.nickname
+        - if @sheet.recently_created? && @sheet.user
+          = @sheet.user.nickname
+        - elsif @sheet.last_user
+          = @sheet.last_user.nickname
         - else
-          - if @sheet.last_user
-            = @sheet.last_user.nickname
+          %span.text-muted Anonymous
+
 
 - if @sheet.authentication_token.present? && !@sheet.auto_locked?
   - clipboard_text = "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"

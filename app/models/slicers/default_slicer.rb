@@ -57,7 +57,7 @@ module Slicers
       @sheet.sheet_transactions.create(
         transaction_type: "api_sheet_update",
         sheet_id: @sheet.id,
-        user_id: @current_user,
+        user: @current_user,
         remote_ip: @remote_ip,
         project_id: @sheet.project_id
       )

@@ -109,6 +109,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
       slicer.pre_audit
       save_result = slicer.save(value)
       slicer.record_audit
+      sheet.audit_set_lasted_edited!
       save_result
     end
   end

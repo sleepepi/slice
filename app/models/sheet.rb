@@ -416,6 +416,12 @@ class Sheet < ApplicationRecord
     nil
   end
 
+  def audit_set_lasted_edited!
+    transaction = sheet_transactions.first
+    return unless transaction
+    update(last_edited_at: transaction.created_at, last_user: transaction.user)
+  end
+
   protected
 
   def check_subject_event_subject_match
