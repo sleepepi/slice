@@ -183,7 +183,6 @@ module Buildable
                           .collect { |f| { variable: f[:variable], value: nil, operator: "any" } }
       end
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
-      # cell[:debug] = "1"
       table_row << cell
     end
 
