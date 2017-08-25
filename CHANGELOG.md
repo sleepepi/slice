@@ -5,6 +5,8 @@
   - Added API to show and save survey questions one at a time
   - Added API to resume a survey
   - Sheets can now be partially validated to support incremental sheet updates
+- **General Changes**
+  - Simplified logo for timeout notifications
 - **Check Changes**
   - Reduced the number of checks that need to be run when updating sheets
 - **Sheet Changes**
