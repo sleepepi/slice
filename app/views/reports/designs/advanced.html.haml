@@ -40,7 +40,6 @@
 
           .form-group
             %label Report
-            %h1= @percent.inspect
             = render "layouts/radio_button_group", name: "percent", options: [["No Percents", "none"], ["% by Row", "row"], ["% by Column", "column"]], selected: params[:percent] || "none"
 
           .btn-group

@@ -156,8 +156,9 @@ module Buildable
           end
         { name: name, muted: hash[:muted], value: hash[:value], link: hash[:link] }
       end
+      row_total = row_stratum.collect { |h| h[:column_type] }.include?("total")
       filters = row_stratum.collect { |hash| hash[:filters] }.flatten
-      table_row += build_row(filters)
+      table_row += build_row(filters, row_total: row_total)
       (values, chart_type) = if calculator && calculator.statistics?
                                [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), "box"]
                              else
@@ -169,7 +170,7 @@ module Buildable
     @table_body
   end
 
-  def build_row(filters = [])
+  def build_row(filters = [], row_total: false)
     table_row = []
 
     @table_header.each do |header|
@@ -182,6 +183,7 @@ module Buildable
                           .select { |f| f[:missing] != "1" && f[:id].to_i > 0 }
                           .collect { |f| { variable: f[:variable], value: nil, operator: "any" } }
       end
+      cell[:row_type] = "total" if row_total
       (cell[:name], cell[:count]) = Sheet.array_calculation_with_filters(@sheets, cell[:calculator], cell[:calculation], cell[:filters], current_user)
       table_row << cell
     end

@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
-\usepackage[margin=0.5in<%= ',landscape' if orientation == 'landscape' %>]{geometry}
+\usepackage[margin=0.5in<%= ",landscape" if orientation == "landscape" %>]{geometry}
 \geometry{top=1.0in, bottom=1.0in}
 \usepackage{lastpage}
 \usepackage{wrapfig}
@@ -43,7 +43,7 @@
 
 \begin{document}
 
-\begin{longtable}{l@{\extracolsep{\fill}}<%= 'l'*@table_header.count %>}
+\begin{longtable}{l@{\extracolsep{\fill}}<%= "l" * @table_header.count %>}
   <%# Header %>
   <% @table_header.each do |header| %>
     &
@@ -58,7 +58,7 @@
 
   <%# Body %>
   <% @table_body.each do |row| %>
-    <% if row[:chart_type] == 'line' and row[:values].sum > 0 and row[:values].size > 0 %>
+    <% if row[:chart_type] == "line" && row[:values].sum > 0 && row[:values].size > 0 %>
       <% graph_row_counts = (row[:values].size == 1 ? row[:values] * 2 : row[:values]) %>
       \begin{sparkline}{4}
       \sparkrectangle 0.0 1.0
@@ -70,12 +70,12 @@
       &
       <% reverse_index = index - row[:cells].size + 1 %>
       <% column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index] %>
-      <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Missing}" : latex_safe(hash[:name]) %>
-        <% if row[:chart_type] == 'line' and hash[:count] %>
-          <% if @percent == 'row' and hash[:count] > 0 and row[:values].sum > 0 and hash[:column_type] != 'total' %>
+      <%= '\\pm' if hash[:symbol] == "pm" && hash[:name] != "-" %><%= hash[:name].blank? ? "\\textcolor[gray]{0.5}{Missing}" : latex_safe(hash[:name]) %>
+        <% if row[:chart_type] == "line" && hash[:count] %>
+          <% if @percent == "row" && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != "total" %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / row[:values].sum).to_s + "%") %>}}
           <% end %>
-          <% if @percent == 'column' and hash[:count] > 0 and column_count and column_count > 0 %>
+          <% if @percent == "column" && hash[:count] > 0 && column_count && column_count > 0 && hash[:row_type] != "total" %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / column_count).to_s + "%") %>}}
           <% end %>
         <% end %>
@@ -86,7 +86,7 @@
   <%# End Body %>
 
   <%# Footer %>
-  <% if @table_footer[:chart_type] == 'line' and @table_footer[:values].sum > 0 %>
+  <% if @table_footer[:chart_type] == "line" && @table_footer[:values].sum > 0 %>
     <% graph_row_counts = (@table_footer[:values].size == 1 ? @table_footer[:values] * 2 : @table_footer[:values]) %>
     \begin{sparkline}{4}
     \sparkrectangle 0.0 1.0
@@ -97,16 +97,16 @@
 
     <% @table_footer[:cells].each do |hash| %>
       <% if hash[:colspan].blank? %>
-        <%= '\\pm' if hash[:symbol] == 'pm' and hash[:name] != '-' %><%= latex_safe(hash[:name]) %>
-        <% if @table_footer[:chart_type] == 'line' and hash[:count] %>
-          <% if @percent == 'row' and hash[:count] > 0 and @table_footer[:values].sum > 0 and hash[:column_type] != 'total' %>
+        <%= '\\pm' if hash[:symbol] == "pm" && hash[:name] != "-" %><%= latex_safe(hash[:name]) %>
+        <% if @table_footer[:chart_type] == "line" && hash[:count] %>
+          <% if @percent == "row" && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != "total" %>
             \small{\textcolor[gray]{0.5}{<%= latex_safe((hash[:count] * 100 / @table_footer[:values].sum).to_s + "%") %>}
           <% end %>
         <% end %>
         &
       <% else %>
         <%= latex_safe(hash[:name]) %>
-        <%= '& '*(hash[:colspan].blank? ? 1 : hash[:colspan]) %>
+        <%= "& " * (hash[:colspan].blank? ? 1 : hash[:colspan]) %>
       <% end %>
     <% end %>
 

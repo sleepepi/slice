@@ -9,6 +9,8 @@
   - Simplified logo for timeout notifications
 - **Check Changes**
   - Reduced the number of checks that need to be run when updating sheets
+- **Report Changes**
+  - Improved computation of column percentages for advanced design reports
 - **Sheet Changes**
   - Sheets can now be filtered by year and month
     - `created:2017` Sheets created in 2017
