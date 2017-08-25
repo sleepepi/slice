@@ -328,7 +328,7 @@ class Variable < ApplicationRecord
   end
 
   def domain_filters(sheet_scope, include_missing)
-    filters = [{ filters: [{ variable: self, value: nil, operator: "any" }], name: "N", tooltip: "N", calculation: "array_count" }]
+    filters = [{ filters: [{ variable: self, value: nil, operator: "any" }], name: "N", tooltip: "N", calculation: "array_count", column_type: "total" }]
     unique_responses = unique_responses_for_sheets(sheet_scope)
     filters += options_or_autocomplete(include_missing)
                .select { |h| unique_responses.include?(h[:value]) }

@@ -1,10 +1,10 @@
 - @title = "#{@design.name} Report"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
-- @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
-- @breadcrumbs << ['Summary Report', report_reports_project_path(@project)]
+- @breadcrumbs << ["Reports", reports_reports_project_path(@project)]
+- @breadcrumbs << ["Summary Report", report_reports_project_path(@project)]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -19,39 +19,41 @@
     #filter-modal.modal-content
 
 .dashboard-container
-  = form_tag new_filter_reports_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: 'new_filter_form', style: 'display:none' do
+  = form_tag new_filter_reports_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: "new_filter_form", style: "display: none;" do
     &nbsp;
 
   .row
     .col-md-8
       .download-container
         .download-container-after Filters
-        = link_to 'Add Filter', '#', class: 'btn btn-default btn-xs pull-right', data: { object: 'open-new-filter-modal' }
-        = form_tag filters_reports_project_path(@design.project), method: :post, remote: true, id: 'filters_form' do
+        = link_to "Add Filter", "#", class: "btn btn-default btn-xs pull-right", data: { object: "open-new-filter-modal" }
+        = form_tag filters_reports_project_path(@design.project), method: :post, remote: true, id: "filters_form" do
           #filters
-            = render 'filters/filters'
+            = render "filters/filters"
 
     .col-md-4
       .download-container
         .download-container-after Format
 
-        = form_tag project_reports_design_advanced_path(@design.project, @design), method: :post, remote: true, data: { object: 'form-load-with-filters' }, class: "form-vertical", id: 'report_form', style: 'margin-top:15px' do
+        = form_tag project_reports_design_advanced_path(@design.project, @design), method: :post, remote: true, data: { object: "form-load-with-filters" }, class: "form-vertical", id: "report_form", style: "margin-top: 15px;" do
           = hidden_field_tag :page, params[:page]
 
           .form-group
             %label Report
-            = render 'layouts/radio_button_group', name: 'percent', options: [['No Percents', 'none'], ['% by Row', 'row'], ['% by Column', 'column']], selected: @percent
+            %h1= @percent.inspect
+            = render "layouts/radio_button_group", name: "percent", options: [["No Percents", "none"], ["% by Row", "row"], ["% by Column", "column"]], selected: params[:percent] || "none"
 
           .btn-group
-            = link_to '#', class: 'dropdown-toggle btn btn-default', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "dropdown-toggle btn btn-default", data: { toggle: "dropdown" } do
               Export
               %strong.caret
 
             %ul.dropdown-menu
-              %li= link_to 'CSV', '#', data: { object: 'export-csv-with-filters', format: 'csv', target: '#report_form' }
-              %li= link_to 'PDF - Portrait', '#', data: { object: 'export-report-pdf-with-filters', orientation: 'portrait', target: '#report_form' }
-              %li= link_to 'PDF - Landscape', '#', data: { object: 'export-report-pdf-with-filters', orientation: 'landscape', target: '#report_form' }
-          = link_to 'Refresh', '#', class: 'btn btn-primary', data: { object: 'refresh-report' }
+              %li= link_to "CSV", "#", data: { object: "export-csv-with-filters", format: "csv", target: "#report_form" }
+              %li= link_to "PDF - Portrait", "#", data: { object: "export-report-pdf-with-filters", orientation: "portrait", target: "#report_form" }
+              %li= link_to "PDF - Landscape", "#", data: { object: "export-report-pdf-with-filters", orientation: "landscape", target: "#report_form" }
+          = link_to "Refresh", "#", class: "btn btn-primary", data: { object: "refresh-report" }
 
 #report.dashboard-container
-  .center= image_tag 'try-slice-waiting.gif'
+  .center.text-primary
+    %i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw

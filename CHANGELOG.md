@@ -30,8 +30,10 @@
   - Updated to haml 5.0.2
   - Updated to simplecov 0.15.0
 
-### Bug Fix
+### Bug Fixes
 - Checkbox responses are now sorted properly on sheet show pages
+- "N" totals are no longer incorrectly included when computing percent by row on
+  advanced design reports
 
 ## 0.55.0 (July 31, 2017)
 

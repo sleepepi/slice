@@ -135,7 +135,7 @@ module Buildable
     (values, chart_type) = if calculator && calculator.statistics?
                              [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), "box"]
                            else
-                             [table_row.select { |cell| cell[:column_type] != "total" }
+                             [table_row.reject { |cell| cell[:column_type] == "total" }
                                        .collect { |cell| cell[:count] }.compact, "line"]
                            end
 
@@ -161,7 +161,7 @@ module Buildable
       (values, chart_type) = if calculator && calculator.statistics?
                                [Sheet.array_responses_with_filters(@sheets, calculator, filters, current_user), "box"]
                              else
-                               [table_row.select { |cell| cell[:column_type] != "total" }
+                               [table_row.reject { |cell| cell[:column_type] == "total" }
                                          .collect { |cell| cell[:count] }.compact, "line"]
                              end
       @table_body << { cells: table_row, values: values, chart_type: chart_type }
