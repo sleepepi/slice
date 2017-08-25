@@ -1,14 +1,24 @@
 - blank_responses = responses.select(&:blank?)
 - valid_responses = responses.reject(&:blank?)
+- formatter = Formatters.for(variable)
+- formatted_responses = formatter.format_array(valid_responses, true).uniq.compact.sort
 
 %table.table.table-fixed.table-borderless
   %thead
     %tr
       %th.center N
+      %th.center Min
+      %th.center Max
       %th.center.text-muted Blank
       %th.center Total
   %tbody
     %tr
-      %td.center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
-      %td.center= filter_link Statistics.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
+      %td.center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
+      %td.center
+        - min = formatted_responses.first
+        = min ? filter_link(formatter.name_response(min), @design, variable, min, event_id: event_id) : "-"
+      %td.center
+        - max = formatted_responses.last
+        = max ? filter_link(formatter.name_response(max), @design, variable, max, event_id: event_id) : "-"
+      %td.center= filter_link Statistics.array_count(blank_responses), @design, variable, ":blank", event_id: event_id
       %td.center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id
