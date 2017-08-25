@@ -22,7 +22,7 @@
     - `created:2017-02` Sheets created in February 2017
     - `created:<2017-02` Sheets created before February 2017
     - `created:<=2017-02` Sheets created before or during February 2017
-    - `created:>=2017-1 created:<=2017-3` Sheets created in Jan through Mar of 2017
+    - `created:>=2017-1 created:<=2017-3` Sheets created Jan through Mar of 2017
 - **Survey Changes**
   - Removed excess padding for section descriptions on public surveys
 - **Variable Changes**
