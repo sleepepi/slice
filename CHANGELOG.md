@@ -1,5 +1,9 @@
 ## 0.56.1
 
+### Enhancements
+- **API Changes**
+  - Added `show_seconds` for `time_of_day` and `time_duration` variables
+
 ## 0.56.0 (August 28, 2017)
 
 ### Enhancements
