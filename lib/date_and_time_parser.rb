@@ -2,7 +2,8 @@
 
 # Helps parse dates and times in different formats to Ruby objects.
 module DateAndTimeParser
-  def parse_date(date_string, default_date = nil)
+  def parse_date(date_string, default_date: nil)
+    return default_date if date_string.blank?
     if date_string.to_s.split("/", -1).last.size == 2
       Date.strptime(date_string, "%m/%d/%y")
     else
@@ -12,22 +13,25 @@ module DateAndTimeParser
     default_date
   end
 
-  def parse_date_from_hash(date_hash)
+  def parse_date_from_hash(date_hash, default_date: nil)
     if date_hash.is_a?(Hash)
       month = parse_integer(date_hash[:month])
       day = parse_integer(date_hash[:day])
       year = parse_integer(date_hash[:year])
-      parse_date("#{month}/#{day}/#{year}")
+      parse_date("#{month}/#{day}/#{year}", default_date: default_date)
     else
-      parse_date("")
+      default_date
     end
   end
 
   # String is returned in database format "%Y-%m-%d"
-  def parse_date_from_hash_to_s(date_hash, default_date = "")
-    parse_date_from_hash(date_hash).strftime("%Y-%m-%d")
-  rescue
-    default_date
+  def parse_date_from_hash_to_s(date_hash, default_date: "")
+    date = parse_date_from_hash(date_hash, default_date: default_date)
+    if date.is_a?(Date)
+      date.strftime("%Y-%m-%d")
+    else
+      default_date
+    end
   end
 
   def parse_time_of_day(seconds_since_midnight_string)
@@ -83,6 +87,7 @@ module DateAndTimeParser
   end
 
   def parse_integer(string)
+    return nil if string.blank?
     Integer(format("%g", string))
   rescue
     nil

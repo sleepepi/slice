@@ -4,6 +4,9 @@
 - **API Changes**
   - Added `show_seconds` for `time_of_day` and `time_duration` variables
 
+### Bug Fix
+- Blank dates no longer prevent PATS recruitment export from completing
+
 ## 0.56.0 (August 28, 2017)
 
 ### Enhancements
