@@ -5,7 +5,7 @@
 - @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
 - @breadcrumbs << [@sheet.subject_event.name, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
-= @subject = @sheet.subject; render 'subjects/side_nav'
+= @subject = @sheet.subject; render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -35,7 +35,7 @@
             %td= "##{sheet_transaction_total - index}"
             - if t.user
               %td
-                = image_tag t.user.avatar_url(16, 'identicon'), size: '16x16', alt: '', style: 'vertical-align: middle', class: 'img-rounded'
+                = image_tag t.user.avatar_url(16, "identicon"), size: "16x16", alt: "", style: "vertical-align: middle", class: "img-rounded"
                 = t.user.name
                 &middot;
                 = t.remote_ip
@@ -44,7 +44,7 @@
                 Anonymous &middot;
                 = t.remote_ip
             %td= t.transaction_type
-            %td= t.created_at.strftime('%b %d, %Y at %l:%M %p')
+            %td= t.created_at.strftime("%b %d, %Y at %l:%M %p")
       %table.table.table-borderless.table-striped.table-fixed
         %thead
           %tr
@@ -55,45 +55,47 @@
         - t.sheet_transaction_audits.each do |a|
           - if !variable || (variable && a.sheet_variable && a.sheet_variable.variable_id == variable.id)
             %tr
-              %td.breakword{ style: 'overflow: hidden;' }
+              %td.breakword{ style: "overflow: hidden;" }
                 = a.sheet_attribute_name
                 - if a.sheet_variable
                   - case a.sheet_variable.variable.variable_type
-                  - when 'signature', 'checkbox', 'text'
-                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? 'blank' : 'present'}")
+                  - when "signature", "checkbox", "text"
+                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : "present"}")
                   - else
                     - if !/\s/.match(a.value_after.to_s).nil?
                       - search = "\"#{a.value_after.to_s}\""
                     - else
                       - search = "#{a.value_after.to_s}"
-                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? 'blank' : search}")
+                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : search}")
                   = link_to a.sheet_variable.variable.name, url
                 - if a.grid
                   %br
                   Row
                   = "##{a.grid.position + 1}"
                   = a.grid.variable.name
-              %td.breakword{ class: "#{'text-muted' if a.value_before == nil || a.value_before == ''}" }
+              %td.breakword{ class: "#{"text-muted" if a.value_before == nil || a.value_before == ""}" }
                 - if a.value_before == nil
                   nil
-                - elsif a.value_before == ''
-                  %span{ rel: 'tooltip', title: 'Blank Response', data: { placement: 'right', container: 'body' } } &#9872;
+                - elsif a.value_before == ""
+                  %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+                    %i.fa.fa-ban
                 - else
-                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
-                    %canvas.pad-display{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_before}" } }
+                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
+                    %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_before}" } }
                   - else
                     = a.value_before
               %td.breakword
-                - unless a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
+                - unless a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
                   - diff = Differ.diff_by_char(a.value_after.to_s, a.value_before.to_s)
                   = diff.format_as(:html).html_safe
-              %td.breakword{ class: "#{'text-muted' if a.value_after == nil || a.value_after == ''}" }
+              %td.breakword{ class: "#{"text-muted" if a.value_after == nil || a.value_after == ""}" }
                 - if a.value_after == nil
                   nil
-                - elsif a.value_after == ''
-                  %span{ rel: 'tooltip', title: 'Blank Response', data: { placement: 'right', container: 'body' } } &#9872;
+                - elsif a.value_after == ""
+                  %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+                    %i.fa.fa-ban
                 - else
-                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == 'signature'
-                    %canvas.pad-display{ width: 250, height: 55, data: { object: 'signature-display', signature_string: "#{a.value_after}" } }
+                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
+                    %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_after}" } }
                   - else
                     = a.value_after
