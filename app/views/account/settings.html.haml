@@ -24,24 +24,24 @@
           %i.fa.fa-cog
         My Settings
       .panel-body
-        = form_for current_user, url: settings_path, method: :post, html: { class: "form-vertical" } do |f|
+        = form_for current_user, url: settings_path, method: :post, html: { class: "form-vertical" } do |form|
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :first_name
-            = f.text_field :first_name, class: "form-control"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :first_name
+            = form.text_field :first_name, class: "form-control"
 
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :last_name
-            = f.text_field :last_name, class: "form-control"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :last_name
+            = form.text_field :last_name, class: "form-control"
 
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :email
-            = f.text_field :email, class: "form-control"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :email
+            = form.text_field :email, class: "form-control"
 
           .form-group
-            = f.label :emails_enabled, "Email Settings"
+            = form.label :emails_enabled, "Email Settings"
             .checkbox
               %label
-                = f.check_box :emails_enabled
+                = form.check_box :emails_enabled
                 Allow
                 = ENV["website_name"]
                 to send you emails.
@@ -54,19 +54,26 @@
                 %li Password reset emails
 
           .form-group
-            = f.label :theme, "Theme", class: "control-label"
-            = f.select :theme, Slice::THEMES, { include_blank: "Default" }, class: "form-control"
+            = form.label :theme, "Theme", class: "control-label"
+            = form.select :theme, Slice::THEMES, { include_blank: "Default" }, class: "form-control"
+
+          .form-group
+            = form.label :sound_enabled, "Sound Enabled"
+            .checkbox
+              %label
+                = form.check_box :sound_enabled
+                Enable audio alerts when entering data.
 
           - if false
             .form-group
-              = f.label :beta_enabled, "Beta Preview"
+              = form.label :beta_enabled, "Beta Preview"
               .checkbox
                 %label
-                  = f.check_box :beta_enabled
+                  = form.check_box :beta_enabled
                   Enable Beta Preview
 
           .form-group.submit-btn-container
-            = f.submit "Save Settings", class: "btn btn-accent btn-shadow"
+            = form.submit "Save Settings", class: "btn btn-accent btn-shadow"
 
   .col-md-6
     .panel.panel-primary
@@ -74,18 +81,18 @@
         %span.glyphicon.glyphicon-lock
         Change Password
       .panel-body
-        = form_for current_user, url: change_password_path, method: :patch, html: { id: "reset_password", class: "form-vertical" } do |f|
+        = form_for current_user, url: change_password_path, method: :patch, html: { id: "reset_password", class: "form-vertical" } do |form|
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :current_password, key_name: "Current Password"
-            = f.password_field :current_password, class: "form-control", autocomplete: "off"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :current_password, key_name: "Current Password"
+            = form.password_field :current_password, class: "form-control", autocomplete: "off"
 
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :password, key_name: "New Password"
-            = f.password_field :password, class: "form-control", autocomplete: "off"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :password, key_name: "New Password"
+            = form.password_field :password, class: "form-control", autocomplete: "off"
 
           .form-group
-            = render "layouts/label_or_errors", f: f, object: current_user, key: :password_confirmation, key_name: "Password Confirmation"
-            = f.password_field :password_confirmation, class: "form-control", autocomplete: "off"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :password_confirmation, key_name: "Password Confirmation"
+            = form.password_field :password_confirmation, class: "form-control", autocomplete: "off"
 
           .form-group.submit-btn-container
             = link_to "Update Password", "#", class: "btn btn-accent btn-shadow", data: { object: "settings-save", target: "#reset_password" }

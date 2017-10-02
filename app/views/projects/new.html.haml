@@ -1,4 +1,4 @@
-- @title = 'New Project'
+- @title = "New Project"
 
 .background-gradient
 
@@ -16,14 +16,14 @@
     - url = editor_project_path(@project)
     - method = :patch
 
-  = form_for @project, url: url, method: method, html: { class: 'form-vertical' } do |f|
+  = form_for @project, url: url, method: method, html: { class: "form-vertical" } do |form|
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: @project, key: :name
-      = f.text_field :name, autocomplete: 'off', class: 'form-control'
+      = render "layouts/label_or_errors", form: form, object: @project, key: :name
+      = form.text_field :name, autocomplete: "off", class: "form-control"
 
     .form-group.submit-btn-container
-      = f.submit nil, class: 'btn btn-primary btn-block btn-shadow'
+      = form.submit nil, class: "btn btn-primary btn-block btn-shadow"
 
 .sign-up-form.center
   Need help?
-  = link_to 'View our docs.', docs_project_setup_path
+  = link_to "View our docs.", docs_project_setup_path

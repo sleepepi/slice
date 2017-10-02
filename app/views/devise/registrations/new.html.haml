@@ -1,4 +1,4 @@
-- @title = 'Join Slice'
+- @title = "Join Slice"
 
 - @no_footer = true
 
@@ -10,35 +10,35 @@
 .sign-up-form
   .sign-up-form-title
     Create your account
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-vertical', autocomplete: 'off' }) do |f|
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form-vertical", autocomplete: "off" }) do |form|
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: resource, key: :first_name
-      = f.text_field :first_name, class: 'form-control'
+      = render "layouts/label_or_errors", form: form, object: resource, key: :first_name
+      = form.text_field :first_name, class: "form-control"
 
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: resource, key: :last_name
-      = f.text_field :last_name, class: 'form-control'
+      = render "layouts/label_or_errors", form: form, object: resource, key: :last_name
+      = form.text_field :last_name, class: "form-control"
 
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: resource, key: :email
-      = f.email_field :email, class: 'form-control'
+      = render "layouts/label_or_errors", form: form, object: resource, key: :email
+      = form.email_field :email, class: "form-control"
 
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: resource, key: :password
-      = f.password_field :password, class: 'form-control', autocomplete: 'off'
+      = render "layouts/label_or_errors", form: form, object: resource, key: :password
+      = form.password_field :password, class: "form-control", autocomplete: "off"
 
     .form-group
-      = render 'layouts/label_or_errors', f: f, object: resource, key: :password_confirmation
-      = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+      = render "layouts/label_or_errors", form: form, object: resource, key: :password_confirmation
+      = form.password_field :password_confirmation, class: "form-control", autocomplete: "off"
 
     .form-group
       %label.control-label Receive Emails Notifications
       .checkbox
         %label
-          = f.check_box :emails_enabled
+          = form.check_box :emails_enabled
           Allow Slice to send you emails?
 
     .form-group.submit-btn-container
-      = f.submit 'Create an Account', class: 'btn btn-primary btn-block btn-shadow'
+      = form.submit "Create an Account", class: "btn btn-primary btn-block btn-shadow"
 
-= render 'layouts/simple_footer'
+= render "layouts/simple_footer"
