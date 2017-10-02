@@ -8,11 +8,11 @@
   }
 }
 
-.navbar-default .navbar-nav .notifications-link span {
+.navbar-default .navbar-nav .notifications-link i {
   animation: pulse-notification 2s ease-in infinite alternate;
   color: $notification-link-color;
 }
 
-.navbar-default .navbar-nav .notifications-link:hover span {
+.navbar-default .navbar-nav .notifications-link:hover i {
   color: darken($notification-link-color, 15%);
 }

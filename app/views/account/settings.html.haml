@@ -1,4 +1,4 @@
-- @title = 'My Settings'
+- @title = "My Settings"
 
 - content_for :header do
   .background-gradient
@@ -8,65 +8,65 @@
 
 .body-attachment
   .container.attachment-container
-    = render 'theme/lower_left_icon'
-    = render 'theme/upper_right_icon'
+    = render "theme/lower_left_icon"
+    = render "theme/upper_right_icon"
 
 .row
   .col-md-6
     .panel.panel-primary
       .panel-heading
-        - if current_user.theme == 'spring'
+        - if current_user.theme == "spring"
           %span.fa-stack.flower-stack
             %i.fa.fa-pagelines.fa-stack-1x
             %i.fa.fa-circle.fa-stack-1x
             %i.fa.fa-sun-o.fa-stack-1x
         - else
-          %span.glyphicon.glyphicon-cog
+          %i.fa.fa-cog
         My Settings
       .panel-body
-        = form_for current_user, url: settings_path, method: :post, html: { class: 'form-vertical' } do |f|
+        = form_for current_user, url: settings_path, method: :post, html: { class: "form-vertical" } do |f|
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :first_name
-            = f.text_field :first_name, class: 'form-control'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :first_name
+            = f.text_field :first_name, class: "form-control"
 
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :last_name
-            = f.text_field :last_name, class: 'form-control'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :last_name
+            = f.text_field :last_name, class: "form-control"
 
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :email
-            = f.text_field :email, class: 'form-control'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :email
+            = f.text_field :email, class: "form-control"
 
           .form-group
-            = f.label :emails_enabled, 'Email Settings'
+            = f.label :emails_enabled, "Email Settings"
             .checkbox
               %label
                 = f.check_box :emails_enabled
                 Allow
-                = ENV['website_name']
+                = ENV["website_name"]
                 to send you emails.
-              = link_to '#', class: 'btn btn-xs btn-default', tabindex: '-1', data: { object: 'toggle-visibility', target: "#email_information"} do
+              = link_to "#", class: "btn btn-xs btn-default", tabindex: "-1", data: { object: "toggle-visibility", target: "#email_information"} do
                 %span.glyphicon.glyphicon-info-sign
 
-            #email_information.callout.callout-info{ style: 'display: none' }
+            #email_information.callout.callout-info{ style: "display: none" }
               Unchecking this box will disable all emails. You will still receive emails for:
               %ul
                 %li Password reset emails
 
           .form-group
-            = f.label :theme, 'Theme', class: 'control-label'
-            = f.select :theme, Slice::THEMES, { include_blank: 'Default' }, class: 'form-control'
+            = f.label :theme, "Theme", class: "control-label"
+            = f.select :theme, Slice::THEMES, { include_blank: "Default" }, class: "form-control"
 
           - if false
             .form-group
-              = f.label :beta_enabled, 'Beta Preview'
+              = f.label :beta_enabled, "Beta Preview"
               .checkbox
                 %label
                   = f.check_box :beta_enabled
                   Enable Beta Preview
 
           .form-group.submit-btn-container
-            = f.submit 'Save Settings', class: 'btn btn-accent btn-shadow'
+            = f.submit "Save Settings", class: "btn btn-accent btn-shadow"
 
   .col-md-6
     .panel.panel-primary
@@ -74,27 +74,27 @@
         %span.glyphicon.glyphicon-lock
         Change Password
       .panel-body
-        = form_for current_user, url: change_password_path, method: :patch, html: { id: 'reset_password', class: 'form-vertical' } do |f|
+        = form_for current_user, url: change_password_path, method: :patch, html: { id: "reset_password", class: "form-vertical" } do |f|
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :current_password, key_name: 'Current Password'
-            = f.password_field :current_password, class: 'form-control', autocomplete: 'off'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :current_password, key_name: "Current Password"
+            = f.password_field :current_password, class: "form-control", autocomplete: "off"
 
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :password, key_name: 'New Password'
-            = f.password_field :password, class: 'form-control', autocomplete: 'off'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :password, key_name: "New Password"
+            = f.password_field :password, class: "form-control", autocomplete: "off"
 
           .form-group
-            = render 'layouts/label_or_errors', f: f, object: current_user, key: :password_confirmation, key_name: 'Password Confirmation'
-            = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
+            = render "layouts/label_or_errors", f: f, object: current_user, key: :password_confirmation, key_name: "Password Confirmation"
+            = f.password_field :password_confirmation, class: "form-control", autocomplete: "off"
 
           .form-group.submit-btn-container
-            = link_to 'Update Password', '#', class: 'btn btn-accent btn-shadow', data: { object: 'settings-save', target: '#reset_password' }
+            = link_to "Update Password", "#", class: "btn btn-accent btn-shadow", data: { object: "settings-save", target: "#reset_password" }
       .panel-footer
         - if current_user.password_expires_in > 0
           Your password will expire in
-          = pluralize current_user.password_expires_in, 'day'
+          = pluralize current_user.password_expires_in, "day"
           on
-          = current_user.password_expires_on.strftime('%a, %B %-d, %Y.')
+          = current_user.password_expires_on.strftime("%a, %B %-d, %Y.")
         - else
           Your password has expired.
 
@@ -102,7 +102,7 @@
       .panel-heading
         My Profile Picture
       .panel-body
-        .center= image_tag current_user.avatar_url(80, 'identicon'), class: 'img-rounded'
-        .callout.callout-accent{ style: 'margin-bottom:0' }
+        .center= image_tag current_user.avatar_url(80, "identicon"), class: "img-rounded"
+        .callout.callout-accent{ style: "margin-bottom:0" }
           You can change your picture at
-          = link_to 'gravatar.com', 'http://gravatar.com', class: 'callout-link'
+          = link_to "gravatar.com", "http://gravatar.com", class: "callout-link"

@@ -7,9 +7,9 @@
 .body-attachment
   .container.attachment-container
     .landing-cog
-      %span.glyphicon.glyphicon-cog
+      %i.fa.fa-cog
     .landing-cog2
-      %span.glyphicon.glyphicon-cog
+      %i.fa.fa-cog
 
 .row
   .col-sm-6
@@ -163,7 +163,7 @@
       - else
         %span.label.label-default Disabled
       = link_to edit_editor_project_path(@project), class: 'btn btn-default btn-xs btn-shadow' do
-        %span.glyphicon.glyphicon-cog
+        %i.fa.fa-cog
   .panel-body
     - if @project.auto_locking_enabled?
       %p

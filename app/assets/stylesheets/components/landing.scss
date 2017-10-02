@@ -42,7 +42,7 @@ $landing-cog2-color: #dedede;
   right: 0;
   top: 0;
 
-  span {
+  i {
     animation: spin-cw 16s linear infinite;
   }
 }
@@ -53,7 +53,7 @@ $landing-cog2-color: #dedede;
   right: -22px;
   top: 109px;
 
-  span {
+  i {
     animation: spin-ccw 8s linear infinite;
   }
 }
@@ -64,7 +64,7 @@ $landing-cog2-color: #dedede;
   left: -200px;
   top: -320px;
 
-  span {
+  i {
     animation: spin-cw 72s linear infinite;
   }
 }
@@ -161,7 +161,7 @@ $landing-cog2-color: #dedede;
   left: 0;
   top: 270px;
 
-  span {
+  i {
     animation: wander 15s ease-in-out 1;
     animation-fill-mode: forwards;
     opacity: 0;
