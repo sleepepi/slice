@@ -1,15 +1,15 @@
 %td.center= event.position
 %td
   = link_to event.name, [@project, event]
-  = render 'layouts/unblinded_only', project: @project, object: event, placement: 'right'
+  = render "layouts/unblinded_only", project: @project, object: event, placement: "right"
 %td.hidden-xs
   - assigned_count = event.subject_events.with_current_subjects.count
-  = pluralize assigned_count, 'event'
+  = pluralize assigned_count, "event"
 %td.hidden-xs.center= simple_check event.archived
 %td.hidden-xs.hidden-sm.center= event.designs.count
 %td
   .dropdown
-    = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+    = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
       Actions
       %strong.caret
 
@@ -19,15 +19,15 @@
           %span.glyphicon.glyphicon-edit
           Edit
       %li
-        = link_to project_event_path(@project, event, event: { archived: event.archived? ? '0' : '1' }), method: :patch, remote: true do
+        = link_to project_event_path(@project, event, event: { archived: event.archived? ? "0" : "1" }), method: :patch, remote: true do
           %span.glyphicon.glyphicon-briefcase
           - if event.archived?
             Restore
           - else
             Archive
-      %li.divider{ role: 'separator' }
+      %li.divider{ role: "separator" }
       %li
         = link_to [@project, event], method: :delete, remote: true, data: { confirm: "Delete \"#{event.name}\" event?" } do
           .text-danger
-            %span.glyphicon.glyphicon-trash
+            %i.fa.fa-trash
             Delete

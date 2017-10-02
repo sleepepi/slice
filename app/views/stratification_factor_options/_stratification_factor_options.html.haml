@@ -4,7 +4,7 @@
     %col
     %col
     %col.hidden-xs
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th Name
@@ -22,7 +22,7 @@
           %td.hidden-xs= link_to stratification_factor_option.user.name, stratification_factor_option.user if stratification_factor_option.user
           %td
             .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -32,9 +32,9 @@
                     %span.glyphicon.glyphicon-edit
                     Edit
                 - unless @randomization_scheme.published?
-                  %li.divider{ role: 'separator' }
+                  %li.divider{ role: "separator" }
                   %li
                     = link_to [@project, @randomization_scheme, @stratification_factor, stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{stratification_factor_option.name}\"?" } do
                       .text-danger
-                        %span.glyphicon.glyphicon-trash
+                        %i.fa.fa-trash
                         Delete

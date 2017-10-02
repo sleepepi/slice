@@ -5,13 +5,13 @@
   %label.col-md-2.control-label Display Name
   .col-md-10
     .input-group
-      = text_field_tag 'variable[display_name]', variable.display_name, autocomplete: 'off', class: 'form-control', data: { object: (variable.new_record? ? 'create-variable-name' : ''), variable_name_target: '#variable_name' }
+      = text_field_tag "variable[display_name]", variable.display_name, autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
       %span.input-group-btn
-        = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#display-name-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-    = render 'layouts/errors', object: variable, key: :display_name
+        = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#display-name-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+    = render "layouts/errors", object: variable, key: :display_name
 
-    #display-name-info.callout.callout-info{ style: 'display:none' }
+    #display-name-info.callout.callout-info{ style: "display:none" }
       %p
         The display name is the question as displayed to the user who is
         filling out the form.
@@ -23,12 +23,12 @@
   %label.col-md-2.control-label Name
   .col-md-10
     .input-group
-      = text_field_tag 'variable[name]', variable.name, maxlength: 32, class: 'form-control'
+      = text_field_tag "variable[name]", variable.name, maxlength: 32, class: "form-control"
       %span.input-group-btn
-        = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-    = render 'layouts/errors', object: variable, key: :name
-    #name-info.callout.callout-info{ style: 'display: none;' }
+        = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+    = render "layouts/errors", object: variable, key: :name
+    #name-info.callout.callout-info{ style: "display: none;" }
       %strong Naming convention
 
       %ul
@@ -36,17 +36,17 @@
           Must be a letter
           %code a-zA-Z
           followed by letters
-          = succeed ',' do
+          = succeed "," do
             %code a-zA-Z
           numbers
-          = succeed ',' do
+          = succeed "," do
             %code 0-9
           or underscores
-          = succeed '.' do
+          = succeed "." do
             %code _
         %li
           Max length
-          = succeed '.' do
+          = succeed "." do
             %strong 32 characters
       Ex:
       %code var1_population
@@ -54,22 +54,22 @@
 .form-group
   %label.col-md-2.control-label Field Note
   .col-md-10
-    = text_field_tag 'variable[field_note]', variable.field_note, class: 'form-control'
-    = render 'layouts/errors', object: variable, key: :field_note
+    = text_field_tag "variable[field_note]", variable.field_note, class: "form-control"
+    = render "layouts/errors", object: variable, key: :field_note
 
 - unless variable.new_record?
   .form-group
     %label.col-md-2.control-label
       Branching Logic
-      = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#branching-logic-info' }, tabindex: '-1' do
-        %span.glyphicon.glyphicon-info-sign
+      = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#branching-logic-info" }, tabindex: "-1" do
+        %i.fa.fa-info-circle
     .col-md-10
-      = text_area_tag 'design_option[branching_logic]', design_option.readable_branching_logic, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
-      = render 'layouts/branching_logic_examples'
+      = text_area_tag "design_option[branching_logic]", design_option.readable_branching_logic, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
+      = render "layouts/branching_logic_examples"
 
-- if variable.new_record? && variable.variable_type == 'grid'
+- if variable.new_record? && variable.variable_type == "grid"
   .form-group
-    = label :questions, 'Questions', class: 'col-md-2 control-label'
+    = label :questions, "Questions", class: "col-md-2 control-label"
     .col-md-10
       .callout.callout-info{ style: "margin-top:0px" }
         %strong Quick Start
@@ -81,7 +81,7 @@
           advanced editor will also provide finer control over responses to
           questions.
       #questions
-        - questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: '', question_type: 'free text' } ])
+        - questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: "", question_type: "free text" } ])
         - questions.each do |question_hash|
-          = render 'variables/question', question_hash: question_hash
-      = link_to 'Add Question', add_question_project_variables_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
+          = render "variables/question", question_hash: question_hash
+      = link_to "Add Question", add_question_project_variables_path(@project), method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top:6px"

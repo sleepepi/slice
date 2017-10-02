@@ -1,36 +1,36 @@
 .form-group
   %label.col-md-2.control-label Domain Display Name
   .col-md-10
-    = text_field_tag "domain[display_name]", @domain.display_name, class: 'form-control', autocomplete: 'off', data: { object: (@domain.new_record? ? 'create-domain-name' : ''), domain_target: '#domain_name' }
-    = render 'layouts/errors', object: @domain, key: :display_name
+    = text_field_tag "domain[display_name]", @domain.display_name, class: "form-control", autocomplete: "off", data: { object: (@domain.new_record? ? "create-domain-name" : ""), domain_target: "#domain_name" }
+    = render "layouts/errors", object: @domain, key: :display_name
 
 .form-group
   %label.col-md-2.control-label Domain Name
   .col-md-10
     .input-group
-      = text_field_tag "domain[name]", @domain.name, maxlength: 30, class: 'form-control', autocomplete: 'off'
+      = text_field_tag "domain[name]", @domain.name, maxlength: 30, class: "form-control", autocomplete: "off"
       %span.input-group-btn
-        = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-    = render 'layouts/errors', object: @domain, key: :name
-    #name-info.callout.callout-info{ style: 'display: none;' }
+        = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+    = render "layouts/errors", object: @domain, key: :name
+    #name-info.callout.callout-info{ style: "display: none;" }
       %strong Naming convention
       %ul
         %li
           Must be a letter
           %code a-zA-Z
           followed by letters
-          = succeed ',' do
+          = succeed "," do
             %code a-zA-Z
           numbers
-          = succeed ',' do
+          = succeed "," do
             %code 0-9
           or underscores
-          = succeed '.' do
+          = succeed "." do
             %code _
         %li
           Max length
-          = succeed '.' do
+          = succeed "." do
             %strong 30 characters
       Ex:
       %code domain1_population
@@ -39,14 +39,14 @@
   %label.col-md-2.control-label Options
   #domain_option.col-md-10{ data: { placement: "left" } }
     %table.table.table-borderless
-      %col{ width: '1px' }
-      %col{ style: @domain && @domain.new_record? ? 'display:none' : nil }
+      %col{ width: "1px" }
+      %col{ style: @domain && @domain.new_record? ? "display:none" : nil }
       %col
       %col.hidden-xs
       - if @project.sites.count > 1
         %col.hidden-xs
-      %col{ width: '1px' }
-      %tbody#options{ data: { object: 'sortable' } }
-        = render 'domains/options'
+      %col{ width: "1px" }
+      %tbody#options{ data: { object: "sortable" } }
+        = render "domains/options"
     .btn-toolbar
-      = link_to 'Add Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
+      = link_to "Add Options", "#", id: "add_more_domain_options", class: "btn btn-default btn-xs", data: { project_id: @project.to_param }

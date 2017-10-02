@@ -1,42 +1,42 @@
-= form_for [@project, @category], html: { class: 'form-horizontal' } do |f|
+= form_for [@project, @category], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@category.new_record? ? 'create-slug' : ''), target: '#category_slug' }
-      = render 'layouts/errors', object: @category, key: :name
+      = f.text_field :name, class: "form-control", autocomplete: "off", data: { object: (@category.new_record? ? "create-slug" : ""), target: "#category_slug" }
+      = render "layouts/errors", object: @category, key: :name
 
   .form-group
-    = f.label :slug, 'URL Slug', class: 'col-md-2 control-label', autocomplete: 'off'
+    = f.label :slug, "URL Slug", class: "col-md-2 control-label", autocomplete: "off"
     .col-md-10
       .input-group
-        = f.text_field :slug, class: 'form-control'
+        = f.text_field :slug, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @category, key: :slug
-      #slug-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#slug-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @category, key: :slug
+      #slug-info.callout.callout-info{ style: "display: none;" }
         %strong Naming convention
         %ul
           %li
             Must be a lowercase letter
             %code a-z
             followed by lowercase letters
-            = succeed ',' do
+            = succeed "," do
               %code a-z
             numbers
-            = succeed ',' do
+            = succeed "," do
               %code 0-9
             or dashes
-            = succeed '.' do
+            = succeed "." do
               %code -
         %p
           Ex:
           %code baseline-forms
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
     .col-md-10.col-md-offset-2
@@ -46,11 +46,11 @@
           Check this if designs in this category should be used with adverse events.
 
   .form-group
-    = f.label :position, nil, class: 'col-md-2 control-label'
+    = f.label :position, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :position, class: 'form-control'
-      = render 'layouts/errors', object: @category, key: :position
+      = f.text_field :position, class: "form-control"
+      = render "layouts/errors", object: @category, key: :position
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
+      = f.submit nil, class: "btn btn-primary"

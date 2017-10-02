@@ -22,7 +22,7 @@
                 %li
                   = link_to project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{section.level_name} from design?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Remove
 
           = section.level_name.titleize
@@ -101,7 +101,7 @@
                 %li
                   = link_to project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{variable.name} from design?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Remove
           = variable.name
         - unless design_option.branching_logic.blank?

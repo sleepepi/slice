@@ -1,6 +1,6 @@
 - if adverse_event.editable_by?(current_user)
   .dropdown
-    = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+    = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
       Actions
       %strong.caret
 
@@ -23,9 +23,9 @@
               Remove Shareable Link
 
 
-      %li.divider{ role: 'separator' }
+      %li.divider{ role: "separator" }
       %li
         = link_to [@project, adverse_event], method: :delete, data: { confirm: "Delete #{adverse_event.name}?" } do
           .text-danger
-            %span.glyphicon.glyphicon-trash
+            %i.fa.fa-trash
             Delete

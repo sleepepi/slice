@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -13,7 +13,7 @@
         .pull-right
           - unless @randomization_scheme.published?
             .dropdown
-              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -22,18 +22,18 @@
                   = link_to edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, @treatment_arm) do
                     %span.glyphicon.glyphicon-edit
                     Edit
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to [@project, @randomization_scheme, @treatment_arm], method: :delete, data: { confirm: "Delete \"#{@treatment_arm.name}\" arm?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     - if @treatment_arm[:short_name].present?
       %tr
         %th Abbreviation

@@ -1,29 +1,29 @@
-= form_for [@design.project, @design], html: { class: 'form-horizontal' } do |f|
+= form_for [@design.project, @design], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.text_field :name, class: 'form-control'
+        = f.text_field :name, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @design, key: :name
-      #name-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @design, key: :name
+      #name-info.callout.callout-info{ style: "display: none;" }
         %p
           The design name provides a quick indication of the type of questions
           that will be asked.
         %p
           Ex:
-          = succeed ',' do
+          = succeed "," do
             %code Demographics
-          = succeed ',' do
+          = succeed "," do
             %code Intake Questionnaire
           %code Education Survey
 
   .form-group
-    = f.label :short_name, 'Abbreviation', class: 'col-md-2 control-label'
+    = f.label :short_name, "Abbreviation", class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :short_name, class: 'form-control', placeholder: @design.computed_short_name
+      = f.text_field :short_name, class: "form-control", placeholder: @design.computed_short_name
 
   .form-group
     .col-md-10.col-md-offset-2
@@ -31,10 +31,10 @@
         %label
           = f.check_box :publicly_available
           Publicly Available
-        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#publicly-available-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-      #publicly-available-info.callout.callout-info{ style: 'display: none;' }
-        %strong What does 'Publicly Available' mean?
+        = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#publicly-available-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+      #publicly-available-info.callout.callout-info{ style: "display: none;" }
+        %strong What does "Publicly Available" mean?
         %p
           Make the design publicly available if you wish to send a link to
           others to answer the questions in a survey format.
@@ -45,10 +45,10 @@
         %label
           = f.check_box :repeated
           Repeated Design
-        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#repeated-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-      #repeated-info.callout.callout-info{ style: 'display: none;' }
-        %strong What does 'Repeated Design' mean?
+        = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#repeated-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+      #repeated-info.callout.callout-info{ style: "display: none;" }
+        %strong What does "Repeated Design" mean?
         %p
           A prompt to enter another design of the same type for the same subject
           is displayed for repeated designs.
@@ -59,10 +59,10 @@
         %label
           = f.check_box :show_site
           Show Site Selection on Survey
-        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#show-site-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-      #show-site-info.callout.callout-info{ style: 'display: none;' }
-        %strong What does 'Show Site Selection' mean?
+        = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#show-site-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+      #show-site-info.callout.callout-info{ style: "display: none;" }
+        %strong What does "Show Site Selection" mean?
         %p
           Public surveys will allow the respondent to also select the site for
           which they are filling out the survey.
@@ -75,7 +75,7 @@
           Notify Team Members on Sheet Creation
 
   .form-group
-    = label :questions, 'Questions', class: 'col-md-2 control-label'
+    = label :questions, "Questions", class: "col-md-2 control-label"
     .col-md-10
       .callout.callout-info{ style: "margin-top:0px" }
         %strong Optional:
@@ -85,10 +85,10 @@
         will also provide finer control over responses to questions.
       #questions
         - @design.questions.each do |question_hash|
-          = render 'designs/question', question_hash: question_hash
-      = link_to 'Add Question', add_question_project_designs_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
+          = render "designs/question", question_hash: question_hash
+      = link_to "Add Question", add_question_project_designs_path(@project), method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top:6px"
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @design.new_record? ? project_designs_path(@project) : [@project, @design], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      = link_to "Cancel", @design.new_record? ? project_designs_path(@project) : [@project, @design], class: "btn btn-default"

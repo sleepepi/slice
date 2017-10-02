@@ -1,7 +1,7 @@
 - @title = @check.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,7 +10,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -19,11 +19,11 @@
                 = link_to edit_editor_project_check_path(@project, @check) do
                   %span.glyphicon.glyphicon-edit
                   Edit
-              %li.divider{ role: 'separator' }
+              %li.divider{ role: "separator" }
               %li
                 = link_to editor_project_check_path(@project, @check), method: :delete, data: { confirm: "Delete \"#{@check.name}\" check?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
 
@@ -53,7 +53,7 @@
 
   .row
     .col-sm-2.col-buffer
-      %strong= link_to 'Filters', editor_project_check_check_filters_path(@project, @check)
+      %strong= link_to "Filters", editor_project_check_check_filters_path(@project, @check)
     .col-sm-10.col-buffer
       - all_sheets = current_user.all_viewable_sheets.where(id: @check.sheets.select(:id))
       - all_subjects = current_user.all_viewable_subjects.where(id: @check.subjects.select(:id))
@@ -78,7 +78,7 @@
               = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
             %td
               - if check_filter.variable
-                - if check_filter.operator == 'missing'
+                - if check_filter.operator == "missing"
                   %code MISSING
                 - else
                   %code= check_filter.database_operator
@@ -96,11 +96,11 @@
   %h3.text-white.text-shadow Top 40 Results
 - if all_sheets.count > 0
   .dashboard-container
-    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: 'btn btn-default' do
+    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-default" do
       View All Sheets
       %span.glyphicon.glyphicon-new-window
     %table.table.table-borderless.table-hover
-      %col{ width: '1px' }
+      %col{ width: "1px" }
       %thead
         %th Subject
         %th Sheet
@@ -108,7 +108,7 @@
           %th.center
             %code= check_filter.name
 
-      - all_sheets.includes(:subject).order('subjects.subject_code').limit(40).group_by(&:subject).each do |subject, sheets|
+      - all_sheets.includes(:subject).order("subjects.subject_code").limit(40).group_by(&:subject).each do |subject, sheets|
         %tbody
           - sheets.each_with_index do |sheet, index|
             %tr
@@ -116,7 +116,7 @@
               %td= link_to sheet.name, [sheet.project, sheet]
               - @check.check_filters.each do |check_filter|
                 %td.center
-                  - if check_filter.filter_type == 'randomized'
+                  - if check_filter.filter_type == "randomized"
                     = simple_check true
                   - elsif check_filter.variable
                     - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
@@ -127,7 +127,7 @@
   - if all_subjects.count > 0
     .dashboard-container
       %table.table.table-borderless.table-hover
-        %col{ width: '1px' }
+        %col{ width: "1px" }
         %thead
           %th Subject
           - @check.check_filters.each do |check_filter|
@@ -140,5 +140,5 @@
               %td= link_to subject.subject_code, [subject.project, subject]
               - @check.check_filters.each do |check_filter|
                 %td.center
-                  - if check_filter.filter_type == 'randomized'
+                  - if check_filter.filter_type == "randomized"
                     = simple_check true

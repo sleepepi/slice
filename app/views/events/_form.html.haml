@@ -1,20 +1,20 @@
-= form_for [@event.project, @event], html: { class: 'form-horizontal' } do |f|
+= form_for [@event.project, @event], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :name, class: 'form-control', autocomplete: 'off', data: { object: (@event.new_record? ? 'create-slug' : ''), target: '#event_slug' }
-      = render 'layouts/errors', object: @event, key: :name
+      = f.text_field :name, class: "form-control", autocomplete: "off", data: { object: (@event.new_record? ? "create-slug" : ""), target: "#event_slug" }
+      = render "layouts/errors", object: @event, key: :name
 
   .form-group
-    = f.label :slug, nil, class: 'col-md-2 control-label'
+    = f.label :slug, nil, class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.text_field :slug, class: 'form-control'
+        = f.text_field :slug, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#slug-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @event, key: :slug
-      #slug-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#slug-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @event, key: :slug
+      #slug-info.callout.callout-info{ style: "display: none;" }
         %strong
           Naming convention
         %ul
@@ -28,29 +28,29 @@
     .row
       .col-xs-1
       .col-xs-3.center
-        %small.text-muted{ style: 'font-variant: small-caps;' } Design
+        %small.text-muted{ style: "font-variant: small-caps;" } Design
       - if @project.handoffs_enabled?
         .col-xs-3.center
-          %small.text-muted{ style: 'font-variant: small-caps;' } Handoff
+          %small.text-muted{ style: "font-variant: small-caps;" } Handoff
       .col-xs-3.center
-        %small.text-muted{ style: 'font-variant: small-caps;' } Requirement
+        %small.text-muted{ style: "font-variant: small-caps;" } Requirement
       .col-xs-2
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
-    = f.label :position, nil, class: 'col-md-2 control-label'
+    = f.label :position, nil, class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.number_field :position, class: 'form-control', autocomplete: 'off', min: 0
+        = f.number_field :position, class: "form-control", autocomplete: "off", min: 0
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#position-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @event, key: :position
-      #position-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#position-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @event, key: :position
+      #position-info.callout.callout-info{ style: "display: none;" }
         Events with the same position will be shown side-by-side and subjects will typically only select one of these events.
 
   .form-group
@@ -59,9 +59,9 @@
         %label
           = f.check_box :archived
           Archive and hide the event from subject page
-        = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#archived-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
-      #archived-info.callout.callout-info{ style: 'display: none;' }
+        = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#archived-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
+      #archived-info.callout.callout-info{ style: "display: none;" }
         Archived events will still show up if the subject has sheets entered for the archived event.
 
   - if @project.blinding_enabled?
@@ -71,18 +71,18 @@
           %label
             = f.check_box :only_unblinded
             Only Unblinded
-          = link_to '#', class: 'btn btn-info btn-xs', data: { object: 'toggle-visibility', target: '#only-unblinded-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-        #only-unblinded-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#only-unblinded-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+        #only-unblinded-info.callout.callout-info{ style: "display: none;" }
           Select to hide the event and associated sheets and comments from blinded staff
 
-  #designs{ data: { object: 'sortable' } }
-    = hidden_field_tag 'event[design_ids][]', nil
+  #designs{ data: { object: "sortable" } }
+    = hidden_field_tag "event[design_ids][]", nil
     - @event.event_designs.each do |event_design|
-      = render 'events/event_design', event_design: event_design
-  = link_to 'Add Design', add_design_project_events_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top:6px'
+      = render "events/event_design", event_design: event_design
+  = link_to "Add Design", add_design_project_events_path(@project), method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top:6px"
 
   .form-group
     .col-md-offset-2.col-md-10
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @event.new_record? ? project_events_path(@project) : [@project, @event], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      = link_to "Cancel", @event.new_record? ? project_events_path(@project) : [@project, @event], class: "btn btn-default"

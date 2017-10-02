@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -13,7 +13,7 @@
         .pull-right
           - unless @randomization_scheme.published?
             .dropdown
-              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -22,18 +22,18 @@
                   = link_to edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor) do
                     %span.glyphicon.glyphicon-edit
                     Edit
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to [@project, @randomization_scheme, @stratification_factor], method: :delete, data: { confirm: "Delete \"#{@stratification_factor.name}\" stratification factor?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     %tr
       %th Creator
       %td= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
@@ -47,7 +47,7 @@
                 %li= site.name
       - else
         %tr
-          %th= link_to 'Options', project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
+          %th= link_to "Options", project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)
           %td
             %ul.list-unstyled
               - @stratification_factor.stratification_factor_options.each do |stratification_factor_option|
@@ -56,4 +56,4 @@
         - if @stratification_factor.calculation.present?
           %tr
             %th Calculation
-            %td= render 'variables/calculation_with_links', object: @stratification_factor
+            %td= render "variables/calculation_with_links", object: @stratification_factor

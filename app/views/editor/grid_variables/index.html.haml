@@ -1,7 +1,7 @@
-- @title = 'Grid Variables'
+- @title = "Grid Variables"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,7 +9,7 @@
     .container
       %h1.page-heading
         .pull-right
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @grid_variables.total_count
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @grid_variables.total_count
         %span.nowrap= @title
 
 .dashboard-container
@@ -17,7 +17,7 @@
     %col
     %col
     %col
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th Parent
@@ -33,7 +33,7 @@
           %td= grid_variable.position
           %td
             .dropdown
-              = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -42,16 +42,16 @@
                   = link_to edit_editor_project_grid_variable_path(@project, grid_variable) do
                     %span.glyphicon.glyphicon-edit
                     Edit
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to editor_project_grid_variable_path(@project, grid_variable), method: :delete, remote: true, data: { confirm: "Delete #{grid_variable.child_variable.name} from #{grid_variable.parent_variable.name}?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Delete
 
-.center= paginate @grid_variables, theme: 'bootstrap'
+.center= paginate @grid_variables, theme: "bootstrap"
 
 .docs-learn-more
   Learn about
-  = succeed '.' do
-    = link_to 'grids', docs_variables_path(anchor: 'grids')
+  = succeed "." do
+    = link_to "grids", docs_variables_path(anchor: "grids")

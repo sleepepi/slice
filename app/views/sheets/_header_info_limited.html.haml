@@ -1,9 +1,9 @@
 %table.table.table-striped
-  %col{ width: '1px' }
+  %col{ width: "1px" }
   %col
   %col
-  %col.hidden-xs{ width: '1px' }
-  %col.hidden-xs{ width: '1px' }
+  %col.hidden-xs{ width: "1px" }
+  %col.hidden-xs{ width: "1px" }
   %thead
     %tr
       %th Coverage
@@ -18,7 +18,7 @@
         By
   %tbody
     %tr
-      %td{ id: "sheet_#{@sheet.id}_coverage" }= render 'sheets/coverage', sheet: @sheet
+      %td{ id: "sheet_#{@sheet.id}_coverage" }= render "sheets/coverage", sheet: @sheet
       %td
         = link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject
       %td
@@ -40,16 +40,16 @@
 
 
 - if @sheet.authentication_token.present? && !@sheet.auto_locked?
-  - clipboard_text = "#{ENV['website_url']}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"
+  - clipboard_text = "#{ENV["website_url"]}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"
   .row
     .col-md-2
       %label Share via this Link
     .col-md-10
       .input-group
-        = text_field_tag 'shareable_link', clipboard_text, class: 'form-control'
+        = text_field_tag "shareable_link", clipboard_text, class: "form-control"
 
         .input-group-btn
-          = link_to '#', data: { object: 'suppress-click', clipboard_text: clipboard_text, placement: 'bottom', container: 'body', title: 'Copied!', trigger: 'manual' }, class: 'btn btn-default' do
+          = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, class: "btn btn-default" do
             %span.glyphicon.glyphicon-copy
-          = link_to remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: 'btn btn-danger-inverse', rel: 'tooltip', data: { confirm: 'Remove link?', title: 'Remove Link', container: 'body', placement: 'bottom' } do
-            %span.glyphicon.glyphicon-trash
+          = link_to remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: "btn btn-danger-inverse", rel: "tooltip", data: { confirm: "Remove link?", title: "Remove Link", container: "body", placement: "bottom" } do
+            %i.fa.fa-trash

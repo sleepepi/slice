@@ -1,31 +1,31 @@
-= form_for [@project, @site], html: { class: 'form-horizontal' } do |f|
+= form_for [@project, @site], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :name, class: 'form-control'
-      = render 'layouts/errors', object: @site, key: :name
+      = f.text_field :name, class: "form-control"
+      = render "layouts/errors", object: @site, key: :name
 
   .form-group
-    = f.label :short_name, nil, class: 'col-md-2 control-label'
+    = f.label :short_name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :short_name, class: 'form-control', placeholder: @site.computed_short_name
+      = f.text_field :short_name, class: "form-control", placeholder: @site.computed_short_name
 
   .form-group
-    = f.label :number, nil, class: 'col-md-2 control-label'
+    = f.label :number, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :number, class: 'form-control'
-      = render 'layouts/errors', object: @site, key: :number
+      = f.text_field :number, class: "form-control"
+      = render "layouts/errors", object: @site, key: :number
 
   .form-group
-    = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + ' ' : '') + 'Format', class: 'col-md-2 control-label'
+    = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + " " : "") + "Format", class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.text_field :subject_code_format, class: 'form-control'
+        = f.text_field :subject_code_format, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#subject-code-format-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @site, key: :subject_code_format
-      #subject-code-format-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#subject-code-format-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @site, key: :subject_code_format
+      #subject-code-format-info.callout.callout-info{ style: "display: none;" }
         %strong Format
         You may format in the following manner, in addition to letters, a-z A-Z, or numbers, 0-9.
         %ul
@@ -40,11 +40,11 @@
             Represent a single uppercase letter, A-Z
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @site.new_record? ? project_sites_path(@project) : [@project, @site], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      = link_to "Cancel", @site.new_record? ? project_sites_path(@project) : [@project, @site], class: "btn btn-default"

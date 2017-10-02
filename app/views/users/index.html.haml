@@ -1,4 +1,4 @@
-- @title = 'Users'
+- @title = "Users"
 
 - content_for :header do
   .background-gradient
@@ -6,11 +6,11 @@
     .container
       %h1.page-heading
         .pull-right
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @users.total_count
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @users.total_count
         = @title
-        = render 'search/toggle'
+        = render "search/toggle"
 
-= render 'search/simple', url: users_path
+= render "search/simple", url: users_path
 
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
@@ -18,19 +18,19 @@
     %col
     %col
     %col
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
-        = th_sort_field @order, 'users.last_name', 'Name'
-        = th_sort_field @order, 'users.current_sign_in_at', 'Recent Activity'
-        = th_sort_field @order, 'users.sign_in_count', 'Sign in Count', extra_class: 'text-right hidden-xs'
-        = th_sort_field @order, 'users.system_admin', 'System Admin', extra_class: 'center hidden-xs'
+        = th_sort_field @order, "users.last_name", "Name"
+        = th_sort_field @order, "users.current_sign_in_at", "Recent Activity"
+        = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right hidden-xs"
+        = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "center hidden-xs"
         %th
 
     - @users.each do |user|
       %tr
         %td.nowrap
-          = image_tag user.avatar_url(18), style: 'vertical-align:text-bottom', alt: ''
+          = image_tag user.avatar_url(18), style: "vertical-align:text-bottom", alt: ""
           = link_to user do
             %span.hidden-xs= user.name
             %span.hidden-sm.hidden-md.hidden-lg= user.nickname
@@ -40,7 +40,7 @@
         %td.nowrap
 
           .dropdown
-            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -50,11 +50,11 @@
                   %span.glyphicon.glyphicon-edit
                   Edit
               - unless current_user == user
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to user, method: :delete, data: { confirm: "Delete #{user.name}?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Delete
 
-.center= paginate @users, theme: 'bootstrap'
+.center= paginate @users, theme: "bootstrap"

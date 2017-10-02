@@ -1,7 +1,7 @@
 - @title = @subject.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'subjects/side_nav'
+= render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,7 +9,7 @@
     .container
       - if @subject.editable_by?(current_user)
         .dropdown.pull-right
-          = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+          = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
             Actions
             %strong.caret
 
@@ -38,11 +38,11 @@
               = link_to edit_project_subject_path(@subject.project, @subject) do
                 %span.glyphicon.glyphicon-edit
                 Edit Subject
-            %li.divider{ role: 'separator' }
+            %li.divider{ role: "separator" }
             %li
-              = link_to [@subject.project, @subject], method: :delete, data: { confirm: 'Delete subject?' } do
+              = link_to [@subject.project, @subject], method: :delete, data: { confirm: "Delete subject?" } do
                 .text-danger
-                  %span.glyphicon.glyphicon-trash
+                  %i.fa.fa-trash
                   Delete Subject
 
       %h1.page-heading
@@ -50,19 +50,19 @@
 
 - if @project.events.where(archived: false).count > 0
   - if @subject.subject_events.count == 0 && @subject.editable_by?(current_user)
-    = render 'subjects/choose_event'
+    = render "subjects/choose_event"
   - else
-    #subject-sheets= render 'subjects/sheets'
+    #subject-sheets= render "subjects/sheets"
 - else
   - if @subject.sheets.count == 0 && @subject.editable_by?(current_user)
-    = render 'subjects/data_entry'
+    = render "subjects/data_entry"
   - else
-    #subject-sheets= render 'subjects/sheets'
+    #subject-sheets= render "subjects/sheets"
 
-.dashboard-container{ style: 'margin-top: 40px' }
+.dashboard-container{ style: "margin-top: 40px" }
   %table.table.table-borderless.table-striped
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
     - if viewable_sites.count > 1
       %tr

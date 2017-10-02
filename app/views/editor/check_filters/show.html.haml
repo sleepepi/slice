@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -12,7 +12,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -21,19 +21,19 @@
                 = link_to edit_editor_project_check_check_filter_path(@project, @check, @check_filter) do
                   %span.glyphicon.glyphicon-edit
                   Edit
-              %li.divider{ role: 'separator' }
+              %li.divider{ role: "separator" }
               %li
                 = link_to editor_project_check_check_filter_path(@project, @check, @check_filter), method: :delete, data: { confirm: "Delete \"#{@check_filter.name}\" filter?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
 
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
 
     %tr
       %th Creator
@@ -54,7 +54,7 @@
       %td= @check_filter.operator
 
     %tr
-      %th= link_to 'Values', editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter)
+      %th= link_to "Values", editor_project_check_check_filter_check_filter_values_path(@project, @check, @check_filter)
       %td
         - @check_filter.check_filter_values.each do |check_filter_value|
           %code

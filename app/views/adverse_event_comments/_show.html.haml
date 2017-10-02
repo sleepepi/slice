@@ -12,46 +12,46 @@
     .comment-outer
       .comment-left-fixed
         - if adverse_event_comment.user
-          = image_tag adverse_event_comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+          = image_tag adverse_event_comment.user.avatar_url(48, "identicon"), size: "48x48", alt: ""
       .comment-right-fluid
         - unless adverse_event_comment.description.blank?
           .comment-comment
-            .comment-comment-header{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? 'comment-unread' : nil) }
+            .comment-comment-header{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? "comment-unread" : nil) }
               .pull-right
                 - if adverse_event_comment.editable_by?(current_user)
-                  = succeed ' ' do
-                    = link_to edit_project_adverse_event_adverse_event_comment_path(@project, @adverse_event, adverse_event_comment), remote: true, class: 'btn btn-xs btn-default' do
+                  = succeed " " do
+                    = link_to edit_project_adverse_event_adverse_event_comment_path(@project, @adverse_event, adverse_event_comment), remote: true, class: "btn btn-xs btn-default" do
                       %span.glyphicon.glyphicon-pencil
-                  = succeed ' ' do
-                    = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: 'Delete this comment?' }, class: 'btn btn-xs btn-danger-inverse' do
-                      %span.glyphicon.glyphicon-trash
-                = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: 'btn btn-link btn-xs', data: { object: 'scroll-anchor-keep-link' }
+                  = succeed " " do
+                    = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: "Delete this comment?" }, class: "btn btn-xs btn-danger-inverse" do
+                      %i.fa.fa-trash
+                = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: "btn btn-link btn-xs", data: { object: "scroll-anchor-keep-link" }
               %strong= adverse_event_comment.user.name
               commented
-              %abbr{ rel: 'tooltip', data: { title: adverse_event_comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+              %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
                 = time_ago_in_words(adverse_event_comment.created_at)
                 ago
             .comment-comment-body
-              = simple_markdown adverse_event_comment.description, 'table table-bordered table-striped'
+              = simple_markdown adverse_event_comment.description, "table table-bordered table-striped"
 - if adverse_event_comment.reopened?
   .comment-outer
     .comment-left-fixed
     .comment-right-fluid
-      .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? 'comment-unread' : nil) }
+      .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? "comment-unread" : nil) }
         %strong= adverse_event_comment.user.name
         %span.label.label-success reopened
         adverse event report
-        %abbr{ rel: 'tooltip', data: { title: adverse_event_comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+        %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
           = time_ago_in_words(adverse_event_comment.created_at)
           ago
 - if adverse_event_comment.closed?
   .comment-outer
     .comment-left-fixed
     .comment-right-fluid
-      .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? 'comment-unread' : nil) }
+      .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? "comment-unread" : nil) }
         %strong= adverse_event_comment.user.name
         %span.label.label-danger closed
         adverse event report
-        %abbr{ rel: 'tooltip', data: { title: adverse_event_comment.created_at.strftime('%-d %b %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+        %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
           = time_ago_in_words(adverse_event_comment.created_at)
           ago

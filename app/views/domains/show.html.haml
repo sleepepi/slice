@@ -1,7 +1,7 @@
 - @title = @domain.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,7 +10,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -19,18 +19,18 @@
                 = link_to edit_project_domain_path(@domain.project, @domain) do
                   %span.glyphicon.glyphicon-edit
                   Edit
-              %li.divider{ role: 'separator' }
+              %li.divider{ role: "separator" }
               %li
                 = link_to [@project, @domain], method: :delete, data: { confirm: "Delete \"#{@domain.name}\" domain?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     - if @domain.description.present?
       %tr
         %th Description
@@ -39,14 +39,14 @@
       %th Creator
       %td= link_to @domain.user.name, @domain.user if @domain.user
   %table.table.table-borderless
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %col
     %thead
       %tr
         %th{ colspan: 2 } Variables
-    - @domain.variables.order('name').each do |variable|
+    - @domain.variables.order("name").each do |variable|
       %tr
         %td= link_to variable.name, [variable.project, variable]
         %td.text-muted= variable.display_name
 
-  = render 'domain_options/domain_options', domain: @domain
+  = render "domain_options/domain_options", domain: @domain

@@ -1,5 +1,5 @@
 %span.dropdown
-  = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+  = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
     %strong.caret
 
   %ul.dropdown-menu.dropdown-menu-right
@@ -10,27 +10,27 @@
 
       - if project.favorited_by?(current_user)
         %li
-          = link_to favorite_project_path(project, favorited: '0'), method: :post do
+          = link_to favorite_project_path(project, favorited: "0"), method: :post do
             %span.glyphicon.glyphicon-star
             Unfavorite
       - else
         %li
-          = link_to favorite_project_path(project, favorited: '1'), method: :post do
+          = link_to favorite_project_path(project, favorited: "1"), method: :post do
             %span.glyphicon.glyphicon-star-empty
             Favorite
 
     - if project.emails_enabled?(current_user)
       %li
-        = link_to project_preferences_update_path(project_id: project, emails_enabled: '0'), remote: true, method: :patch do
+        = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch do
           %span.glyphicon.glyphicon-envelope
           Disable Emails
     - else
       %li
-        = link_to project_preferences_update_path(project_id: project, emails_enabled: '1'), remote: true, method: :patch do
+        = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch do
           %span.glyphicon.glyphicon-envelope
           Enable Emails
     - if project.editable_by?(current_user)
-      %li.divider{ role: 'separator' }
+      %li.divider{ role: "separator" }
       %li
         = link_to edit_editor_project_path(project) do
           %span.glyphicon.glyphicon-edit
@@ -39,5 +39,5 @@
       %li
         = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Delete #{project.name}?" } do
           .text-danger
-            %span.glyphicon.glyphicon-trash
+            %i.fa.fa-trash
             Delete Project

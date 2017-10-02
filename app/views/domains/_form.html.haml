@@ -1,20 +1,20 @@
-= form_for [@domain.project, @domain], html: { class: 'form-horizontal' } do |f|
+= form_for [@domain.project, @domain], html: { class: "form-horizontal" } do |f|
   .form-group
-    = f.label :display_name, nil, class: 'col-md-2 control-label'
+    = f.label :display_name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :display_name, class: 'form-control', autocomplete: 'off', data: { object: (@domain.new_record? ? 'create-domain-name' : ''), domain_target: '#domain_name' }
-      = render 'layouts/errors', object: @domain, key: :display_name
+      = f.text_field :display_name, class: "form-control", autocomplete: "off", data: { object: (@domain.new_record? ? "create-domain-name" : ""), domain_target: "#domain_name" }
+      = render "layouts/errors", object: @domain, key: :display_name
 
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
       .input-group
-        = f.text_field :name, maxlength: 30, class: 'form-control'
+        = f.text_field :name, maxlength: 30, class: "form-control"
         %span.input-group-btn
-          = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#name-info' }, tabindex: '-1' do
-            %span.glyphicon.glyphicon-info-sign
-      = render 'layouts/errors', object: @domain, key: :name
-      #name-info.callout.callout-info{ style: 'display: none;' }
+          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
+            %i.fa.fa-info-circle
+      = render "layouts/errors", object: @domain, key: :name
+      #name-info.callout.callout-info{ style: "display: none;" }
         %strong Naming convention
 
         %ul
@@ -22,51 +22,51 @@
             Must be a letter
             %code a-zA-Z
             followed by letters
-            = succeed ',' do
+            = succeed "," do
               %code a-zA-Z
             numbers
-            = succeed ',' do
+            = succeed "," do
               %code 0-9
             or underscores
-            = succeed '.' do
+            = succeed "." do
               %code _
           %li
             Max length
-            = succeed '.' do
+            = succeed "." do
               %strong 30 characters
         Ex:
         %code domain1_population
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
     %label.col-md-2.control-label Options
     .col-md-10
       %table.table.table-borderless
-        %col{ width: '1px' }
-        %col{ style: @domain && @domain.new_record? ? 'display:none' : nil }
+        %col{ width: "1px" }
+        %col{ style: @domain && @domain.new_record? ? "display:none" : nil }
         %col
-        %col.hidden-xs{ width: '1px' }
+        %col.hidden-xs{ width: "1px" }
         - if @project.sites.count > 1
-          %col.hidden-xs{ width: '1px' }
-        %col{ width: '1px' }
-        %tbody#options{ data: { object: 'sortable' } }
-          = render 'domains/options'
+          %col.hidden-xs{ width: "1px" }
+        %col{ width: "1px" }
+        %tbody#options{ data: { object: "sortable" } }
+          = render "domains/options"
 
   .form-group
     .col-md-10.col-md-offset-2
-      = render 'layouts/errors', object: @domain, key: :option
+      = render "layouts/errors", object: @domain, key: :option
       .btn-toolbar
-        = link_to 'Add Additional Options', '#', id: 'add_more_domain_options', class: 'btn btn-default btn-xs', data: { project_id: @project.to_param }
+        = link_to "Add Additional Options", "#", id: "add_more_domain_options", class: "btn btn-default btn-xs", data: { project_id: @project.to_param }
 
-  = hidden_field_tag :continue, '0'
+  = hidden_field_tag :continue, "0"
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      - form_name = @domain.new_record? ? 'new_domain' : "edit_domain_#{@domain.id}"
-      = f.submit @domain.new_record? ? 'Create Domain and Continue' : 'Update Domain and Continue', class: 'btn btn-primary', data: { target: "##{form_name}", object: "domain-form-submit", continue: '1' }
-      = link_to 'Cancel', @domain.new_record? ? project_domains_path(@project) : [@project, @domain], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      - form_name = @domain.new_record? ? "new_domain" : "edit_domain_#{@domain.id}"
+      = f.submit @domain.new_record? ? "Create Domain and Continue" : "Update Domain and Continue", class: "btn btn-primary", data: { target: "##{form_name}", object: "domain-form-submit", continue: "1" }
+      = link_to "Cancel", @domain.new_record? ? project_domains_path(@project) : [@project, @domain], class: "btn btn-default"

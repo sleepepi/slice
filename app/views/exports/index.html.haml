@@ -1,7 +1,7 @@
-- @title = 'Exports'
+- @title = "Exports"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,48 +9,48 @@
     .container
       %h1.page-heading
         .pull-right
-          = link_to plus_or('New Export'), new_project_export_path(@project), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 20, object_count: @exports.total_count
+          = link_to plus_or("New Export"), new_project_export_path(@project), class: "btn btn-accent btn-shadow"
+          .per-page= render "layouts/per_page", per_page: 20, object_count: @exports.total_count
         = @title
 
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %col
     %col.hidden-xs
-    %col.hidden-xs.hidden-sm{ width: '1px' }
-    %col.hidden-xs{ width: '1px' }
-    %col{ width: '1px' }
+    %col.hidden-xs.hidden-sm{ width: "1px" }
+    %col.hidden-xs{ width: "1px" }
+    %col{ width: "1px" }
     %thead
       %tr
-        = th_sort_field @order, 'exports.status', ''
-        = th_sort_field @order, 'exports.created_at', 'Exported'
+        = th_sort_field @order, "exports.status", ""
+        = th_sort_field @order, "exports.created_at", "Exported"
         %th.hidden-xs Type
-        = th_sort_field_rev @order, 'exports.file_size', 'Size', extra_class: "hidden-xs hidden-sm"
+        = th_sort_field_rev @order, "exports.file_size", "Size", extra_class: "hidden-xs hidden-sm"
         %th.hidden-xs File
         %th Actions
 
     - @exports.each do |export|
       %tr
         %td
-          %span.label{ class: "label-#{export.status == 'ready' ? 'success' : (export.status == 'pending' ? 'warning' : 'danger')}" }
+          %span.label{ class: "label-#{export.status == "ready" ? "success" : (export.status == "pending" ? "warning" : "danger")}" }
             = export.status
         %td.nowrap
-          = link_to [@project, export], rel: 'tooltip', data: { title: export.created_at.strftime('%-l:%M %p'), container: 'body', placement: 'left' } do
-            = export.created_at.strftime('%b %-d, %Y')
-        %td.hidden-xs{ style: 'line-height: 26px;' }
+          = link_to [@project, export], rel: "tooltip", data: { title: export.created_at.strftime("%-l:%M %p"), container: "body", placement: "left" } do
+            = export.created_at.strftime("%b %-d, %Y")
+        %td.hidden-xs{ style: "line-height: 26px;" }
           - if export.include_csv_labeled? && export.include_csv_raw?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'CSV Labeled & Raw', container: 'body', placement: 'top' } } CSVs
+            %span.label.label-default{ rel: "tooltip", data: { title: "CSV Labeled & Raw", container: "body", placement: "top" } } CSVs
           - elsif export.include_csv_labeled?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'CSV Labeled', container: 'body', placement: 'top' } }  CSV
+            %span.label.label-default{ rel: "tooltip", data: { title: "CSV Labeled", container: "body", placement: "top" } }  CSV
           - elsif export.include_csv_raw?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'CSV Raw', container: 'body', placement: 'top' } }  CSV
+            %span.label.label-default{ rel: "tooltip", data: { title: "CSV Raw", container: "body", placement: "top" } }  CSV
           - if export.include_pdf?
             %span.label.label-default PDF
           - if export.include_files?
             %span.label.label-default Files
           - if export.include_data_dictionary?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'Data Dictionary', container: 'body', placement: 'top' } } DD
+            %span.label.label-default{ rel: "tooltip", data: { title: "Data Dictionary", container: "body", placement: "top" } } DD
           - if export.include_sas?
             %span.label.label-default SAS
           - if export.include_r?
@@ -58,13 +58,13 @@
           - if export.include_xls?
             %span.label.label-default XLS
           - if export.include_adverse_events?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'Adverse Events', container: 'body', placement: 'top' } } AEs
+            %span.label.label-default{ rel: "tooltip", data: { title: "Adverse Events", container: "body", placement: "top" } } AEs
           - if export.include_randomizations?
-            %span.label.label-default{ rel: 'tooltip', data: { title: 'Randomizations', container: 'body', placement: 'top' } }
+            %span.label.label-default{ rel: "tooltip", data: { title: "Randomizations", container: "body", placement: "top" } }
               %span.glyphicon.glyphicon-random>
           - if export.filters.present?
 
-            - export.filters.split(' ').each do |filter|
+            - export.filters.split(" ").each do |filter|
               %code.hidden-xs.hidden-sm= filter
 
         %td.hidden-xs.hidden-sm
@@ -73,12 +73,12 @@
         %td.hidden-xs
           - if export.file_size.positive?
             - full_url = file_project_export_path(@project, export)
-            = link_to full_url, target: '_blank', class: 'btn btn-default btn-xs' do
+            = link_to full_url, target: "_blank", class: "btn btn-default btn-xs" do
               zip
               %span.glyphicon.glyphicon-download-alt
         %td
           .dropdown
-            = link_to '#', class: 'btn btn-default btn-xs dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -86,14 +86,14 @@
               - if export.file_size.positive?
                 - full_url = file_project_export_path(@project, export)
                 %li
-                  = link_to full_url, target: '_blank' do
+                  = link_to full_url, target: "_blank" do
                     %span.glyphicon.glyphicon-download-alt
                     Download
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
               %li
                 = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
 
-.center= paginate @exports, theme: 'bootstrap'
+.center= paginate @exports, theme: "bootstrap"

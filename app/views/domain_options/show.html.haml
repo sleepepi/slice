@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@domain.name, [@project, @domain]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -12,7 +12,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -21,18 +21,18 @@
                 = link_to edit_project_domain_domain_option_path(@project, @domain, @domain_option) do
                   %span.glyphicon.glyphicon-edit
                   Edit
-              %li.divider{ role: 'separator' }
+              %li.divider{ role: "separator" }
               %li
                 = link_to [@project, @domain, @domain_option], method: :delete, data: { confirm: "Delete #{@domain_option.name}?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     %tr
       %th Domain
       %td= @domain_option.domain_id

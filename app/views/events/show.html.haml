@@ -1,7 +1,7 @@
 - @title = @event.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,7 +10,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -19,19 +19,19 @@
                 = link_to edit_project_event_path(@event.project, @event) do
                   %span.glyphicon.glyphicon-edit
                   Edit
-              %li.divider{ role: 'separator' }
+              %li.divider{ role: "separator" }
               %li
                 = link_to [@project, @event], method: :delete, data: { confirm: "Delete \"#{@event.name}\" event?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
-        = render 'layouts/unblinded_only', project: @project, object: @event, placement: 'top'
+        = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
 
     %tr
       %th Slug
@@ -57,10 +57,10 @@
       %th Information
       %td
         - assigned_count = @event.subject_events.with_current_subjects.count
-        = pluralize assigned_count, 'event'
+        = pluralize assigned_count, "event"
         assigned for
         - assigned_subject_count = @event.subject_events.with_current_subjects.pluck(:subject_id).uniq.count
-        = pluralize assigned_subject_count, 'subject'
+        = pluralize assigned_subject_count, "subject"
 
         - subject_count = @project.subjects.count
 
@@ -89,13 +89,13 @@
           %td.center= simple_check_new event_design.handoff_enabled?
         %td.center
           - search = "#{@event.to_param}:#{design.to_param}"
-          = render 'events/compute_count', search: search
+          = render "events/compute_count", search: search
         %td.center
           - search = "#{@event.to_param}:#{design.to_param}:missing"
-          = render 'events/compute_count', search: search
+          = render "events/compute_count", search: search
         %td.center
           - search = "#{@event.to_param}:#{design.to_param}:unentered"
-          = render 'events/compute_count', search: search
+          = render "events/compute_count", search: search
         %td.center
           - search = "events:!#{@event.to_param}"
-          = render 'events/compute_count', search: search
+          = render "events/compute_count", search: search

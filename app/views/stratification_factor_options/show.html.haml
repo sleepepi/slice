@@ -4,7 +4,7 @@
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 - @breadcrumbs << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -14,7 +14,7 @@
         .pull-right
           - unless @randomization_scheme.published?
             .dropdown
-              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -23,18 +23,18 @@
                   = link_to edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option) do
                     %span.glyphicon.glyphicon-edit
                     Edit
-                %li.divider{ role: 'separator' }
+                %li.divider{ role: "separator" }
                 %li
                   = link_to [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{@stratification_factor_option.name}\"?" } do
                     .text-danger
-                      %span.glyphicon.glyphicon-trash
+                      %i.fa.fa-trash
                       Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     %tr
       %th Creator
       %td= link_to @stratification_factor_option.user.name, @stratification_factor_option.user if @stratification_factor_option.user

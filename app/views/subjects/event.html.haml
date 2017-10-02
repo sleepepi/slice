@@ -1,7 +1,7 @@
 - @title = @subject_event.name
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render 'subjects/side_nav'
+= render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,7 +9,7 @@
     .container
       - if @subject.editable_by?(current_user)
         .dropdown.pull-right
-          = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+          = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
             Actions
             %strong.caret
 
@@ -18,15 +18,15 @@
               = link_to edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param) do
                 %span.glyphicon.glyphicon-edit
                 Edit
-            %li.divider{ role: 'separator' }
+            %li.divider{ role: "separator" }
             %li
               = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." } do
                 .text-danger
-                  %span.glyphicon.glyphicon-trash
+                  %i.fa.fa-trash
                   Delete
       %h1.page-heading
         = link_to @subject.name, [@project, @subject]
         = @title
-        = render 'layouts/unblinded_only', project: @project, object: @event, placement: 'top'
+        = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
 
 %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event

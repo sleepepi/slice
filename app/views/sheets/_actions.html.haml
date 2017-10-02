@@ -1,34 +1,34 @@
 - if sheet.auto_locked?
   .btn-group
-    = link_to '#', data: { object: 'suppress-click' }, class: 'btn btn-default', disabled: 'disabled' do
+    = link_to "#", data: { object: "suppress-click" }, class: "btn btn-default", disabled: "disabled" do
       %span.glyphicon.glyphicon-lock
       %span.hidden-xs Sheet Locked
     .btn-group
-      = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+      = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
         %strong.caret
       %ul.dropdown-menu.dropdown-menu-right
         - if project.editable_by?(current_user)
-          = succeed ' ' do
+          = succeed " " do
             %li
               = link_to unlock_project_sheet_path(project, sheet), method: :post do
                 Unlock For
-                - case project.auto_lock_sheets when 'after24hours'
+                - case project.auto_lock_sheets when "after24hours"
                   24 Hours
-                - when 'after1week'
+                - when "after1week"
                   1 Week
-                - when 'after1month'
+                - when "after1month"
                   1 Month
           - if sheet.recent_unlock_requests.count > 0
-            %li= link_to 'View Requests', '#', data: { object: 'toggle-visibility', target: "#sheet_unlock_requests" }
+            %li= link_to "View Requests", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requests" }
         - elsif sheet.editable_by?(current_user)
           - if sheet.recent_unlock_requested?(current_user)
-            %li= link_to 'Unlock Requested', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }
+            %li= link_to "Unlock Requested", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requested" }
           - else
-            %li= link_to 'Request Unlock', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }
+            %li= link_to "Request Unlock", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_request" }
 - else
   - if sheet.editable_by?(current_user)
     %span.dropdown
-      = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+      = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
         Actions
         %strong.caret
 
@@ -41,13 +41,13 @@
           = link_to reassign_project_sheet_path(project, sheet) do
             %span.glyphicon.glyphicon-transfer
             Reassign
-        %li.divider{ role: 'separator' }
+        %li.divider{ role: "separator" }
         %li
           = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Delete #{sheet.name}?" } do
             .text-danger
-              %span.glyphicon.glyphicon-trash
+              %i.fa.fa-trash
               Delete
 
-= link_to project_sheet_path(@project, @sheet, format: 'pdf'), target: '_blank', class: 'btn btn-default' do
+= link_to project_sheet_path(@project, @sheet, format: "pdf"), target: "_blank", class: "btn btn-default" do
   %span.glyphicon.glyphicon-print
   %span.hidden-xs Print

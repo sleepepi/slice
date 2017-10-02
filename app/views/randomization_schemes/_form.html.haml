@@ -1,4 +1,4 @@
-= form_for [@project, @randomization_scheme], html: { class: 'form-horizontal' } do |f|
+= form_for [@project, @randomization_scheme], html: { class: "form-horizontal" } do |f|
   .form-group
     - if @randomization_scheme.published?
       .col-md-10.col-md-offset-2
@@ -10,33 +10,33 @@
             %code
               = @randomization_scheme.algorithm_name
     - else
-      = f.label :algorithm, nil, class: 'col-md-2 control-label'
+      = f.label :algorithm, nil, class: "col-md-2 control-label"
       .col-md-10
-        = f.select :algorithm, RandomizationScheme::ALGORITHMS, {}, class: 'form-control'
+        = f.select :algorithm, RandomizationScheme::ALGORITHMS, {}, class: "form-control"
 
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :name, class: 'form-control'
-      = render 'layouts/errors', object: @randomization_scheme, key: :name
+      = f.text_field :name, class: "form-control"
+      = render "layouts/errors", object: @randomization_scheme, key: :name
 
   - if false
     .form-group
-      = f.label :description, nil, class: 'col-md-2 control-label'
+      = f.label :description, nil, class: "col-md-2 control-label"
       .col-md-10
-        = f.text_area :description, rows: 7, class: 'form-control'
+        = f.text_area :description, rows: 7, class: "form-control"
 
   .form-group
-    = f.label :randomization_goal, nil, class: 'col-md-2 control-label'
+    = f.label :randomization_goal, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :randomization_goal, class: 'form-control'
-      = render 'layouts/errors', object: @randomization_scheme, key: :randomization_goal
+      = f.text_field :randomization_goal, class: "form-control"
+      = render "layouts/errors", object: @randomization_scheme, key: :randomization_goal
 
   .form-group
     %label.col-md-2.control-label
       Expected Randomizations By Month
-      = link_to '#', class: 'btn btn-xs btn-info', data: { object: 'toggle-visibility', target: '#estimates-info' }, tabindex: '-1' do
-        %span.glyphicon.glyphicon-info-sign
+      = link_to "#", class: "btn btn-xs btn-info", data: { object: "toggle-visibility", target: "#estimates-info" }, tabindex: "-1" do
+        %i.fa.fa-info-circle
     .col-md-10
       - @project.sites.each do |site|
         = site.name
@@ -46,12 +46,12 @@
         - else
           - if params[:randomization_scheme] && params[:randomization_scheme][:expected_randomizations_hashes]
             - hash = params[:randomization_scheme][:expected_randomizations_hashes].find { |h| h[:site_id].to_s == site.id.to_s }
-            - value = (hash ? hash[:expected] : '')
+            - value = (hash ? hash[:expected] : "")
           - else
-            - value = ''
+            - value = ""
         = hidden_field_tag "randomization_scheme[expected_randomizations_hashes][][site_id]", site.id
-        = text_field_tag "randomization_scheme[expected_randomizations_hashes][][expected]", value, autocomplete: 'off', class: 'form-control'
-      #estimates-info.alert.alert-info{ style: 'display: none;margin-top: 20px; ' }
+        = text_field_tag "randomization_scheme[expected_randomizations_hashes][][expected]", value, autocomplete: "off", class: "form-control"
+      #estimates-info.alert.alert-info{ style: "display: none;margin-top: 20px; " }
         %p
           %strong Expected Recruitment Examples:
         %p
@@ -104,15 +104,15 @@
     .form-group
       %label.col-md-2.control-label
         Eligibility
-        = link_to '#', class: 'btn btn-xs btn-info', data: { object: 'toggle-visibility', target: '#eligibility-info' }, tabindex: '-1' do
-          %span.glyphicon.glyphicon-info-sign
+        = link_to "#", class: "btn btn-xs btn-info", data: { object: "toggle-visibility", target: "#eligibility-info" }, tabindex: "-1" do
+          %i.fa.fa-info-circle
       .col-md-10
         .row
           .col-sm-6
-            = f.select :variable_id, [['---', nil]] + @project.variables.where(variable_type: ['dropdown', 'string', 'radio', 'integer', 'numeric']).order(:name).collect{|v| [v.name, v.id]}, {}, class: 'form-control'
+            = f.select :variable_id, [["---", nil]] + @project.variables.where(variable_type: ["dropdown", "string", "radio", "integer", "numeric"]).order(:name).collect{|v| [v.name, v.id]}, {}, class: "form-control"
           .col-sm-6
-            = f.text_field :variable_value, class: 'form-control'
-        #eligibility-info.alert.alert-info{ style: 'display: none;margin-top: 20px; ' }
+            = f.text_field :variable_value, class: "form-control"
+        #eligibility-info.alert.alert-info{ style: "display: none;margin-top: 20px; " }
           %p
             %strong Eligibility Criteria
             To limit randomizable subjects by an eligibility criteria, select
@@ -120,7 +120,7 @@
             for subjects eligibile for randomization.
 
 
-  .form-group{ style: "#{'display:none' unless @randomization_scheme.minimization?}", data: { object: 'show-for-minimization' } }
+  .form-group{ style: "#{"display:none" unless @randomization_scheme.minimization?}", data: { object: "show-for-minimization" } }
     - if @randomization_scheme.published?
       .col-md-10.col-md-offset-2
         %div.alert.alert-info
@@ -130,28 +130,28 @@
             = @randomization_scheme.chance_of_random_treatment_arm_selection
             Can be between 0 (Never Random) and 100 (Always Random)
     - else
-      = f.label :chance_of_random_treatment_arm_selection, nil, class: 'col-md-2 control-label'
+      = f.label :chance_of_random_treatment_arm_selection, nil, class: "col-md-2 control-label"
       .col-md-10
         .input-group
-          = f.text_field :chance_of_random_treatment_arm_selection, class: 'form-control', placeholder: 30
+          = f.text_field :chance_of_random_treatment_arm_selection, class: "form-control", placeholder: 30
           %span.input-group-btn
-            = link_to '#', class: 'btn btn-info', data: { object: 'toggle-visibility', target: '#random-chance-info' }, tabindex: '-1' do
-              %span.glyphicon.glyphicon-info-sign
-        = render 'layouts/errors', object: @randomization_scheme, key: :chance_of_random_treatment_arm_selection
-        #random-chance-info.alert.alert-info{ style: 'display: none;margin-top: 20px; ' }
+            = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#random-chance-info" }, tabindex: "-1" do
+              %i.fa.fa-info-circle
+        = render "layouts/errors", object: @randomization_scheme, key: :chance_of_random_treatment_arm_selection
+        #random-chance-info.alert.alert-info{ style: "display: none;margin-top: 20px;" }
           Can be between 0 (Never Random) and 100 (Always Random)
 
   .form-group
     %label.col-md-2.control-label Tasks
     .col-md-10
-      = link_to 'Add Item', add_task_project_randomization_schemes_path, method: :post, remote: true, class: 'btn btn-xs btn-default', style: 'margin-top: 6px'
-      #tasks{ data: { object: 'sortable' } }
-        = hidden_field_tag 'randomization_scheme[task_hashes][]', nil
+      = link_to "Add Item", add_task_project_randomization_schemes_path, method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top: 6px"
+      #tasks{ data: { object: "sortable" } }
+        = hidden_field_tag "randomization_scheme[task_hashes][]", nil
         - @randomization_scheme.randomization_scheme_tasks.each do |randomization_scheme_task|
-          = render 'randomization_schemes/task_form', randomization_scheme_task: randomization_scheme_task
+          = render "randomization_schemes/task_form", randomization_scheme_task: randomization_scheme_task
 
 
   .form-group
     .col-md-offset-2.col-md-10
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @randomization_scheme.new_record? ? project_randomization_schemes_path(@project) : [@project, @randomization_scheme], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      = link_to "Cancel", @randomization_scheme.new_record? ? project_randomization_schemes_path(@project) : [@project, @randomization_scheme], class: "btn btn-default"

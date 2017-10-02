@@ -1,7 +1,7 @@
 - @title = @export.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,7 +10,7 @@
       %h1.page-heading
         .pull-right
           .dropdown
-            = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -18,21 +18,21 @@
               %li
                 = link_to [@project, @export], method: :delete, data: { confirm: "Delete #{@export.name}?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
 
-#progress{ data: { object: "#{'ajax-timer' if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
-  = render 'exports/progress'
+#progress{ data: { object: "#{"ajax-timer" if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
+  = render "exports/progress"
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
     %tr
       %th Status
       %td#export_status
-        = render 'exports/status'
+        = render "exports/status"
     - if @export.filters.present?
       %tr
         %th Filters

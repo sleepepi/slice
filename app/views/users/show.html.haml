@@ -1,7 +1,7 @@
 - @title = @user.name
 - if current_user.system_admin?
   - @breadcrumbs = []
-  - @breadcrumbs << ['Users', users_path]
+  - @breadcrumbs << ["Users", users_path]
 
 - content_for :header do
   .background-gradient
@@ -11,7 +11,7 @@
         - if current_user.system_admin?
           .pull-right
             .dropdown
-              = link_to '#', class: 'btn btn-default dropdown-toggle', data: { toggle: 'dropdown' } do
+              = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -22,18 +22,18 @@
                     Edit
 
                 - unless current_user == @user
-                  %li.divider{ role: 'separator' }
+                  %li.divider{ role: "separator" }
                   %li
                     = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" } do
                       .text-danger
-                        %span.glyphicon.glyphicon-trash
+                        %i.fa.fa-trash
                         Delete
         = @title
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: '30%' }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    %col.hidden-xs{ width: "30%" }
+    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
 
     - if current_user.system_admin?
       %tr
@@ -76,9 +76,9 @@
                 = @user.name
                 was invited to
                 = link_to site_user.project.name, site_user.project
-                = succeed '.' do
+                = succeed "." do
                   = simple_time site_user.created_at
                   = " by #{site_user.creator.name}" if site_user.creator
     %tr
       %th User Avatar
-      %td= image_tag @user.avatar_url, class: 'img-rounded'
+      %td= image_tag @user.avatar_url, class: "img-rounded"

@@ -39,7 +39,7 @@
               %li
                 = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" } do
                   .text-danger
-                    %span.glyphicon.glyphicon-trash
+                    %i.fa.fa-trash
                     Delete
         = @title
         = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"

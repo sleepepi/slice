@@ -12,7 +12,7 @@
         = f.text_field :name, maxlength: 32, class: "form-control"
         %span.input-group-btn
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
-            %span.glyphicon.glyphicon-info-sign
+            %i.fa.fa-info-circle
       = render "layouts/errors", object: @variable, key: :name
       #name-info.callout.callout-info{ style: "display: none;" }
         %strong Naming convention
