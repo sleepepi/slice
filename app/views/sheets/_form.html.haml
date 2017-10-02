@@ -1,11 +1,11 @@
-= form_for [@sheet.project, @sheet], html: { class: 'form-horizontal', multipart: true } do |f|
+= form_for [@sheet.project, @sheet], html: { class: "form-horizontal", multipart: true } do |f|
   - if @sheet.errors.any?
     .callout.callout-danger
       %strong
-        = pluralize @sheet.errors.count, 'error'
+        = pluralize @sheet.errors.count, "error"
         prohibited this sheet from being saved
 
-      %ul{ style: 'display:none' }
+      %ul{ style: "display:none" }
         - @sheet.errors.full_messages.each do |msg|
           %li= msg
 
@@ -24,17 +24,17 @@
   - elsif @sheet.subject && @sheet.subject.subject_events.size > 0
     .dashboard-container
       .form-group
-        = label_tag 'sheet[subject_event_id]', 'Event', class: 'col-md-3 control-label'
+        = label_tag "sheet[subject_event_id]", "Event", class: "col-md-3 control-label"
         .col-md-9
-          = f.select :subject_event_id, [['---', nil]] + @sheet.subject.subject_events.joins(:event).pluck('events.name', :event_date, :id).collect { |name, event_date, id| ["#{name} - #{event_date ? event_date.strftime('%a, %B %-d, %Y') : 'No Date'}", id] }, {}, class: 'form-control'
+          = f.select :subject_event_id, [["---", nil]] + @sheet.subject.subject_events.joins(:event).pluck("events.name", :event_date, :id).collect { |name, event_date, id| ["#{name} - #{event_date ? event_date.strftime("%a, %B %-d, %Y") : "No Date"}", id] }, {}, class: "form-control"
 
   .dashboard-container
-    = render 'designs/show', design: @sheet.design if @sheet.design
+    = render "designs/show", design: @sheet.design if @sheet.design
 
     .form-group
       .col-md-9.col-md-offset-3
-        - form_name = @sheet.new_record? ? 'new_sheet' : "edit_sheet_#{@sheet.id}"
-        - submit_text = @sheet.new_record? ? 'Create Sheet' : 'Update Sheet'
-        = link_to submit_text, '#', class: 'btn btn-primary', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, id: 'sheet_submit_btn'
-        = link_to 'Cancel', @sheet.new_record? ? (@sheet.subject ? data_entry_project_subject_path(@project, @sheet.subject) : project_sheets_path(@project)) : [@project, @sheet], class: 'btn btn-default'
-        %span#validation-messages.text-danger.span-link{ data: { object: 'scroll-to-first-error' } }
+        - form_name = @sheet.new_record? ? "new_sheet" : "edit_sheet_#{@sheet.id}"
+        - submit_text = @sheet.new_record? ? "Create Sheet" : "Update Sheet"
+        = link_to submit_text, "#", class: "btn btn-primary", data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: "sheet_submit_btn"
+        = link_to "Cancel", @sheet.new_record? ? (@sheet.subject ? data_entry_project_subject_path(@project, @sheet.subject) : project_sheets_path(@project)) : [@project, @sheet], class: "btn btn-default"
+        %span#validation-messages.text-danger.span-link{ data: { object: "scroll-to-first-error" } }

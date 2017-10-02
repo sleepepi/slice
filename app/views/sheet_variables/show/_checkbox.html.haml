@@ -6,7 +6,7 @@
   %table.table.table-borderless
     %col{ width: "100px" }
     - (1..domain_options.count).each do
-      %col{ width: "#{100 / (domain_options.count + 2)}%" }
+      = content_tag :col, nil, width: "#{100 / (domain_options.count + 2)}%"
     %tbody
       %tr
         %th{ style: "min-width: 100px;" }

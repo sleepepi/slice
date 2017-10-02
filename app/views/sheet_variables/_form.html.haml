@@ -1,5 +1,5 @@
 -# This file shows a variable for use in a sheet
-- disabled = '' if defined?(disabled) == nil
+- disabled = "" if defined?(disabled) == nil
 - show_values = true unless defined?(show_values)
 - sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
 - response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.get_response(:raw) : nil) : params[:variables][variable.id.to_s])
@@ -7,52 +7,53 @@
 - validate_response = if @sheet && (@sheet.errors.count > 0 || !@sheet.new_record?)
   - variable.validate_value(value, design_option)
 - else
-  - 'blank'
+  - "blank"
 - case validate_response
-- when 'error'
-  - validation_class = 'variable-errors'
-- when 'warning'
-  - validation_class = 'variable-warnings'
+- when "error"
+  - validation_class = "variable-errors"
+- when "warning"
+  - validation_class = "variable-warnings"
 - else
-  - validation_class = ''
-- hidden_class = (variable.variable_type == 'calculated' && variable.hide_calculation? ? 'calculation-hidden' : '')
+  - validation_class = ""
+- hidden_class = (variable.variable_type == "calculated" && variable.hide_calculation? ? "calculation-hidden" : "")
 
 - if variable.uses_scale? && variable.first_scale_variable?(design)
-  = '<div>'.html_safe
-  .form-group.sticky-scale-header{ data: { object: 'design-option-scale-header', branching_logic: design.branching_logic(design_option) } }
+  = "<div>".html_safe
+  .form-group.sticky-scale-header{ data: { object: "design-option-scale-header", branching_logic: design.branching_logic(design_option) } }
     - domain_options = variable.domain_options_with_user(response, current_user)
     .col-xs-12
       %table.table.table-borderless
-        %col{ width: '100px' }
-        = ("<col width='#{100 / (domain_options.count + 2)}%'/>" * domain_options.count).html_safe
+        %col{ width: "100px" }
+        - (1..domain_options.count).each do
+          = content_tag :col, nil, width: "#{100 / (domain_options.count + 2)}%"
         %thead
           %tr
-            %th{ style: 'min-width: 100px;' }
+            %th{ style: "min-width: 100px;" }
               &nbsp;
             - domain_options.each do |domain_option|
-              %th.center{ style: 'min-width: 57px;' }
+              %th.center{ style: "min-width: 57px;" }
                 = domain_option.value_and_name(show_values: show_values)
 - if variable.uses_scale? && variable.last_scale_variable?(design)
-  = '</div>'.html_safe
-.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: 'design-option-container', requirement: design_option.requirement, required_field: "variables[#{variable.id}]#{'[]' if variable.variable_type == 'checkbox'}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+  = "</div>".html_safe
+.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: "design-option-container", requirement: design_option.requirement, required_field: "variables[#{variable.id}]#{"[]" if variable.variable_type == "checkbox"}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
-  - elsif variable.display_layout == 'gone'
+  - elsif variable.display_layout == "gone"
     .col-xs-12
       %label
         = variable.display_name
-        = render 'design_options/required', design_option: design_option
+        = render "design_options/required", design_option: design_option
   - else
     %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
       = variable.display_name
-      = render 'design_options/required', design_option: design_option
-  - col_class = "col-xs-12#{' scale-variable-reset' if variable.uses_scale?}"
-  - col_class = 'col-md-9' if variable.display_layout != 'gone' && !variable.uses_scale?
+      = render "design_options/required", design_option: design_option
+  - col_class = "col-xs-12#{" scale-variable-reset" if variable.uses_scale?}"
+  - col_class = "col-md-9" if variable.display_layout != "gone" && !variable.uses_scale?
   %div{ class: col_class }
     .shade-or-blind-background
       - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
         = render "sheet_variables/form/#{variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: variable, field_name: "variables[#{variable.id}]", show_values: show_values, object: sheet_variable, validate_response: validate_response
-        = render 'variables/field_note', variable: variable
+        = render "variables/field_note", variable: variable
       - else
         = hidden_field_tag "variables[#{variable.id}]", nil, disabled: disabled
         Unsupported Variable Type

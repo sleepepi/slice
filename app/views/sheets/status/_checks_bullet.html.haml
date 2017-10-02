@@ -1,6 +1,6 @@
 - if sheet.status_checks.where(failed: nil).count > 0
   - all_check_count = sheet.status_checks.count
   - pending_check_count = sheet.status_checks.where(failed: nil).count
-  %span.check-bullet-in-progress{ rel: 'tooltip', data: { title: "Running check #{(all_check_count - pending_check_count) + 1} of #{all_check_count}...", container: 'body', placement: 'right' } } &bull;
+  %span.check-bullet-in-progress{ rel: "tooltip", data: { title: "Running check #{(all_check_count - pending_check_count) + 1} of #{all_check_count}...", container: "body", placement: "right" } } &bull;
 - elsif sheet.failed_checks.present?
-  %span.check-bullet{ rel: 'tooltip', data: { title: "#{pluralize sheet.failed_checks.count, 'failed check'}", container: 'body', placement: 'right' } } &bull;
+  %span.check-bullet{ rel: "tooltip", data: { title: "#{pluralize sheet.failed_checks.count, "failed check"}", container: "body", placement: "right" } } &bull;

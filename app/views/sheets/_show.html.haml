@@ -6,36 +6,37 @@
     - section = design_option.section
     - variable = design_option.variable
     - if section
-      %div= render 'sections/show', design_option: design_option, section: section
+      %div= render "sections/show", design_option: design_option, section: section
     - elsif variable
       - if variable.uses_scale? && variable.first_scale_variable?(@sheet.design)
-        = '<div>'.html_safe
+        = "<div>".html_safe
         .form-group.sticky-scale-header
           - domain_options = variable.domain_options
           .col-xs-12
             %table.table.table-borderless
-              %col{ width: '100px' }
-              = ("<col width='#{100 / (domain_options.count + 2)}%'/>" * domain_options.count).html_safe
+              %col{ width: "100px" }
+              - (1..domain_options.count).each do
+                = content_tag :col, nil, width: "#{100 / (domain_options.count + 2)}%"
               %thead
                 %tr
-                  %th{ style: 'min-width: 100px;' }
+                  %th{ style: "min-width: 100px;" }
                     &nbsp;
                   - domain_options.each do |domain_option|
-                    %th.center{ style: 'min-width: 57px;' }
+                    %th.center{ style: "min-width: 57px;" }
                       = domain_option.value_and_name
       - if variable.uses_scale? && variable.last_scale_variable?(@sheet.design)
-        = '</div>'.html_safe
-      %div{ class: cycle('variable-shade', 'variable-blind') }
+        = "</div>".html_safe
+      %div{ class: cycle("variable-shade", "variable-blind") }
         - sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
-        - if !variable.uses_scale? && variable.display_layout == 'gone'
+        - if !variable.uses_scale? && variable.display_layout == "gone"
           %label= variable.display_name
         .form-group
-          - if !variable.uses_scale? && variable.display_layout == 'visible'
-            = label 'variables', "#{variable.id}", variable.display_name, class: 'col-md-3 control-label'
-          - col_class = "col-xs-12#{' scale-variable-reset' if variable.uses_scale?}"
-          - col_class = 'col-md-9' if variable.display_layout != 'gone' && !variable.uses_scale?
-          %div{ class: col_class, style: 'line-height: 30px;padding-top: 4px;' }
-            - if variable.variable_type == 'grid'
+          - if !variable.uses_scale? && variable.display_layout == "visible"
+            = label "variables", "#{variable.id}", variable.display_name, class: "col-md-3 control-label"
+          - col_class = "col-xs-12#{" scale-variable-reset" if variable.uses_scale?}"
+          - col_class = "col-md-9" if variable.display_layout != "gone" && !variable.uses_scale?
+          %div{ class: col_class, style: "line-height: 30px;padding-top: 4px;" }
+            - if variable.variable_type == "grid"
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, sheet_variable: sheet_variable
             - elsif Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "sheet_variables/show/#{variable.variable_type}", variable: variable, object: sheet_variable

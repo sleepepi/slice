@@ -2,10 +2,11 @@
 
 - unarchived_domain_options = variable.domain_options.where(archived: false)
 
-- if variable.alignment == 'scale'
+- if variable.alignment == "scale"
   %table.table.table-borderless
-    %col{ width: '300px' }
-    = ("<col width='#{100 / (unarchived_domain_options.count + 2)}%'/>" * unarchived_domain_options.count).html_safe
+    %col{ width: "300px" }
+    - (1..unarchived_domain_options.count).each do
+      = content_tag :col, nil, width: "#{100 / (unarchived_domain_options.count + 2)}%"
     - if variable.first_scale_variable?(@design)
       %thead
         %tr
@@ -17,21 +18,21 @@
       %tr
         %th
           = variable.display_name
-          = render 'design_options/required', design_option: design_option
+          = render "design_options/required", design_option: design_option
 
         - unarchived_domain_options.each do |domain_option|
           %td.center
-            = render 'design_options/show/checkbox_or_radio_input', domain_option: domain_option, variable: variable, is_grid: is_grid
+            = render "design_options/show/checkbox_or_radio_input", domain_option: domain_option, variable: variable, is_grid: is_grid
       - unless is_grid
         %tr.design-preview-hide
           %td.center{ colspan: "#{unarchived_domain_options.count + 1}" }
-            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow' do
-              = unarchived_domain_options.present? ? 'Edit' : 'Add'
+            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: "design-preview-hide btn btn-xs btn-cutout btn-shadow" do
+              = unarchived_domain_options.present? ? "Edit" : "Add"
               Choices
 - else
   - unarchived_domain_options.each do |domain_option|
-    = render 'design_options/show/checkbox_or_radio_input', domain_option: domain_option, variable: variable, is_grid: is_grid
+    = render "design_options/show/checkbox_or_radio_input", domain_option: domain_option, variable: variable, is_grid: is_grid
   - unless is_grid
-    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: 'design-preview-hide btn btn-xs btn-cutout btn-shadow' do
-      = unarchived_domain_options.present? ? 'Edit' : 'Add'
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option), remote: true, method: :get, class: "design-preview-hide btn btn-xs btn-cutout btn-shadow" do
+      = unarchived_domain_options.present? ? "Edit" : "Add"
       Choices

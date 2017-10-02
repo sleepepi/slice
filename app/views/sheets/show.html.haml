@@ -5,7 +5,7 @@
 - @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
 - @breadcrumbs << [@sheet.subject_event.name, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
-= @subject = @sheet.subject; render 'subjects/side_nav'
+= @subject = @sheet.subject; render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -13,15 +13,15 @@
     .container
       %h1.page-heading
         .pull-right
-          #sheet_actions= render 'sheets/actions', project: @project, sheet: @sheet
-        = render 'sheets/status/checks_bullet', sheet: @sheet
+          #sheet_actions= render "sheets/actions", project: @project, sheet: @sheet
+        = render "sheets/status/checks_bullet", sheet: @sheet
         = @title
-        = render 'layouts/unblinded_only', project: @project, object: @sheet.design, placement: 'top'
+        = render "layouts/unblinded_only", project: @project, object: @sheet.design, placement: "top"
 
-#sheet_unlocks_container= render 'sheet_unlock_requests/index', project: @project, sheet: @sheet
+#sheet_unlocks_container= render "sheet_unlock_requests/index", project: @project, sheet: @sheet
 
 .dashboard-container
-  = render 'sheets/header_info_limited'
+  = render "sheets/header_info_limited"
 
 - if @sheet.failed_checks.present?
   .dashboard-container
@@ -31,9 +31,9 @@
         %span.text-danger= check.message
 
 .dashboard-container
-  = render 'sheets/show'
+  = render "sheets/show"
 
 - unless @sheet.adverse_event
   %h3.text-white.text-shadow Comments
-  %div{ id: "sheet_#{@sheet.id}_comments", style: 'margin-top: 20px;' }
-    = render 'comments/comments'
+  %div{ id: "sheet_#{@sheet.id}_comments", style: "margin-top: 20px;" }
+    = render "comments/comments"
