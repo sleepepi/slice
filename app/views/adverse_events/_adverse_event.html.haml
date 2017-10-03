@@ -1,8 +1,8 @@
 .panel.panel-default.box-shadow
   .panel-heading
     .pull-right
-      %span.hidden-xs= adverse_event.event_date_to_s
-      %span.hidden-sm.hidden-md.hidden-lg= adverse_event.event_date_to_s_xs
+      .d-none.d-sm-inline= adverse_event.event_date_to_s
+      .d-inline.d-sm-none= adverse_event.event_date_to_s_xs
 
     %span{ id: "adverse-event-#{adverse_event.id}-title" }
       %span.text-danger
@@ -11,7 +11,7 @@
 
     - if adverse_event.closed?
       - percent = 100
-      %span.label.label-danger Closed
+      %span.label.label-quiet Closed
     - else
       - percent = 50
       %span.label.label-success Open

@@ -9,3 +9,13 @@
   color: $brand-white;
   padding: 15px;
 }
+
+.label-quiet {
+  background-color: $body-bg;
+  color: $text-color;
+}
+
+.label-loud {
+  background-color: $text-color;
+  color: $body-bg;
+}

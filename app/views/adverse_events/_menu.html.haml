@@ -18,6 +18,6 @@
   %li.disabled{ role: "presentation" }
     = link_to "#", data: { object: "suppress-click" } do
       - if @adverse_event.closed?
-        %span.label.label-danger Closed
+        %span.label.label-quiet Closed
       - else
         %span.label.label-success Open

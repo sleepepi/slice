@@ -13,7 +13,7 @@
             = link_to plus_or("Report Adverse Event"), new_project_adverse_event_path(@project), class: "btn btn-accent btn-shadow"
           - if @project.editable_by?(current_user)
             = succeed " " do
-              = link_to export_project_adverse_events_path, class: "btn btn-default hidden-xs" do
+              = link_to export_project_adverse_events_path, class: "btn btn-default d-none d-sm-inline-block" do
                 %i.fa.fa-download
                 Export
           .per-page= render "layouts/per_page", per_page: 40, object_count: @adverse_events.total_count
@@ -31,20 +31,20 @@
     %table.table.table-striped.table-borderless.table-hover
       %col{ width: "1px" }
       %col
-      %col.hidden-xs
-      %col.hidden-xs
-      %col.hidden-xs.hidden-sm
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-lg-table-column
+      %col.d-none.d-lg-table-column
       - if viewable_sites.count > 1
-        %col.hidden-xs.hidden-sm
+        %col.d-none.d-md-table-column
       %col
       %col{ width: "1px" }
       %thead
         %tr
           = th_sort_field @order, "created", "#", extra_class: "text-center", permit: [:site_id, :user_id, :status]
           = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id, :status]
-          %th.hidden-xs Description
-          = th_sort_field_rev @order, "ae_date", "Date of AE", extra_class: "hidden-xs", permit: [:site_id, :user_id, :status]
-          %th.nowrap.hidden-xs.hidden-sm{ class: ["reported_by", "reported_by desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.d-none.d-sm-table-cell Description
+          = th_sort_field_rev @order, "ae_date", "Date of AE", extra_class: "d-none d-lg-table-cell", permit: [:site_id, :user_id, :status]
+          %th.d-none.d-lg-table-cell.nowrap{ class: ["reported_by", "reported_by desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Reported By", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "reported_by" ? "reported_by desc" : "reported_by")))
             .dropdown{ style: "display: inline-block" }
               = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
@@ -57,7 +57,7 @@
                 - all_reporters.each do |user|
                   %li= link_to user.name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : ""
           - if viewable_sites.count > 1
-            %th.nowrap.hidden-xs.hidden-sm{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
+            %th.d-none.d-md-table-cell.nowrap{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "site" ? "site desc" : "site")))
               .dropdown{ style: "display: inline-block" }
                 = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
@@ -93,15 +93,15 @@
                 - else
                   %i.fa.fa-spinner.fa-pulse{ aria: { hidden: "true" } }
             %td= link_to adverse_event.subject.subject_code, [@project, adverse_event]
-            %td.hidden-xs{ style: "max-width: 200px;" }
+            %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
               .overflow-hidden.nowrap= adverse_event.description.truncate(40)
-            %td.hidden-xs= adverse_event.adverse_event_date.strftime("%b %-d, %Y")
-            %td.hidden-xs.hidden-sm= adverse_event.user.nickname
+            %td.d-none.d-lg-table-cell= adverse_event.adverse_event_date.strftime("%b %-d, %Y")
+            %td.d-none.d-lg-table-cell= adverse_event.user.nickname
             - if viewable_sites.count > 1
-              %td.hidden-xs.hidden-sm.nowrap= adverse_event.site.short_name
+              %td.d-none.d-md-table-cell.nowrap= adverse_event.site.short_name
             %td
               - if adverse_event.closed?
-                %span.label.label-danger Closed
+                %span.label.label-quiet Closed
               - else
                 %span.label.label-success Open
             - if site_or_project_editor
