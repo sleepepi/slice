@@ -47,8 +47,8 @@
 - if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated? || @design.notifications_enabled?
   .dashboard-container
     %table.table.table-borderless
-      %col.hidden-xs{ width: "30%" }
-      %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
+      %col.d-none.d-sm-table-column{ width: "30%" }
+      %col.d-table-column.d-sm-none{ width: "50%" }
       - if @design.category
         %tr
           %th Category

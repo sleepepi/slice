@@ -4,18 +4,18 @@
 - else
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
-      %col.hidden-xs.hidden-sm.hidden-md
-      %col.hidden-xs.hidden-sm
+      %col.d-none.d-lg-table-column
+      %col.d-none.d-lg-table-column
       %col
-      %col.hidden-xs
-      %col.hidden-xs
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-sm-table-column
       %col{ width: "1px" }
       %thead
         %tr
-          %th.hidden-xs.hidden-sm.hidden-md.nowrap # Designs
-          = th_sort_field @order, "variables.name", "Name", extra_class: "hidden-xs hidden-sm"
+          %th.d-none.d-lg-table-cell.nowrap # Designs
+          = th_sort_field @order, "variables.name", "Name", extra_class: "d-none d-lg-table-cell"
           = th_sort_field @order, "variables.display_name", "Display Name"
-          %th.nowrap.hidden-xs{ class: ["variables.variable_type", "variables.variable_type desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.d-none.d-sm-table-cell.nowrap{ class: ["variables.variable_type", "variables.variable_type desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Variable Type", project_variables_path(@project, order: (params[:order] == "variables.variable_type desc" ? "variables.variable_type" : "variables.variable_type desc"), variable_type: params[:variable_type])
             .dropdown{ style: "display: inline-block" }
               = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
@@ -24,17 +24,17 @@
                 %li= link_to "All Variables", project_variables_path(@project, order: params[:order]), style: params[:variable_type].blank? ? "font-weight:bold;" : ""
                 - Variable::TYPE.each do |variable_type_label, variable_type_value|
                   %li= link_to variable_type_label, project_variables_path(@project, order: params[:order], variable_type: variable_type_value), style: params[:variable_type].to_s == variable_type_value.to_s ? "font-weight:bold;" : ""
-          %th.hidden-xs Options
+          %th.d-none.d-sm-table-cell Options
           %th Actions
 
       - @variables.each do |variable|
         %tr{ id: "variable_#{variable.id}" }
-          %td.hidden-xs.hidden-sm.hidden-md= variable.inherited_designs.count
-          %td.hidden-xs.hidden-sm= link_to variable.name, [variable.project, variable]
+          %td.d-none.d-lg-table-cell.text-center= variable.inherited_designs.count
+          %td.d-none.d-lg-table-cell= link_to variable.name, [variable.project, variable]
           %td= link_to variable.display_name, [variable.project, variable]
-          %td.hidden-xs
+          %td.d-none.d-sm-table-cell
             %code= variable.variable_type
-          %td.hidden-xs
+          %td.d-none.d-sm-table-cell
             - if variable.domain_options.present?
               = select_tag "variable_#{variable.id}_options", options_for_select(variable.domain_options.collect(&:value_and_name)), style: "width:200px", class: "form-control"
           %td.nowrap

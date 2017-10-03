@@ -7,10 +7,10 @@ module HeaderHelper
   end
 
   def label_or(label, small_label)
-    span_xs_sm = content_tag :span, class: "hidden-md hidden-lg" do
+    span_xs_sm = content_tag :span, class: "d-inline-block d-md-none" do
       small_label
     end
-    span_md_lg = content_tag :span, label, class: %w(hidden-xs hidden-sm)
+    span_md_lg = content_tag :span, label, class: %w(d-none d-md-inline-block)
     span_xs_sm + span_md_lg
   end
 

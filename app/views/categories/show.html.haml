@@ -29,8 +29,8 @@
 
 .dashboard-container
   %table.table.table-borderless
-    %col.hidden-xs{ width: "30%" }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
+    %col.d-none.d-sm-table-column{ width: "30%" }
+    %col.d-table-column.d-sm-none{ width: "50%" }
     %tr
       %th Position
       %td= @category.position

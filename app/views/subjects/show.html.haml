@@ -61,8 +61,8 @@
 
 .dashboard-container{ style: "margin-top: 40px" }
   %table.table.table-borderless.table-striped
-    %col.hidden-xs{ width: "30%" }
-    %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
+    %col.d-none.d-sm-table-column{ width: "30%" }
+    %col.d-table-column.d-sm-none{ width: "50%" }
     - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id)
     - if viewable_sites.count > 1
       %tr

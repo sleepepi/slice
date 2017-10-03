@@ -8,14 +8,14 @@
     %col{ width: "1px" }
     %col
     %col
-    %col.hidden-xs
+    %col.d-none.d-md-table-column
     %col{ width: "1px" }
     %thead
       %tr
         %th
         %th Name
         %th Size
-        %th.hidden-xs.hidden-sm Uploaded
+        %th.d-none.d-md-table-cell Uploaded
         %th Actions
 
     %tbody
@@ -33,7 +33,7 @@
           %td= link_to file.name, url, data: { turbolinks: false }
           %td
             %code.nowrap= number_to_human_size file.attachment.size
-          %td.hidden-xs.hidden-sm.nowrap
+          %td.d-none.d-md-table-cell.nowrap
             = format_date file.created_at
           %td
             = link_to "Delete", [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: "btn btn-danger-inverse btn-xs"
