@@ -39,7 +39,7 @@ class DomainsController < ApplicationController
 
   # POST /projects/:project_id/domains
   def create
-    @domain = @project.domains.new(domain_params)
+    @domain = @project.domains.where(user: current_user).new(domain_params)
     if @domain.save
       @domain.update_option_tokens!
       redirect_to show_or_continue, notice: "Domain was successfully created."
@@ -77,8 +77,6 @@ class DomainsController < ApplicationController
 
   def domain_params
     params[:domain] ||= {}
-    # Always update user_id to correctly track sheet transactions
-    params[:domain][:user_id] = current_user.id # unless @domain
     params[:domain] = Domain.clean_option_tokens(params[:domain])
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,
