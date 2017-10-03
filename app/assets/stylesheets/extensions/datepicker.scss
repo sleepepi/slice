@@ -2,6 +2,12 @@
 // SelectorDepth is ignored since the tool is developed externally and the
 // DOM structure for the calendar is heavily dependent on the CSS selectors.
 
+input {
+  &.datepicker {
+    max-width: 120px;
+  }
+}
+
 .datepicker {
   direction: ltr;
 

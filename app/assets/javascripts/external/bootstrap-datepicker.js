@@ -71,7 +71,7 @@
     if (this.isRTL){
       this.picker.addClass('datepicker-rtl');
       this.picker.find('.prev i, .next i')
-            .toggleClass('glyphicon-triangle-left glyphicon-triangle-right');
+            .toggleClass('fa-caret-left fa-caret-right');
     }
     $(document).on('mousedown', function (e) {
       // Clicked outside the datepicker, hide it
@@ -946,9 +946,9 @@
     },
     headTemplate: '<thead>'+
               '<tr>'+
-                '<th class="prev"><i class="glyphicon glyphicon-triangle-left"/></th>'+
+                '<th class="prev"><i class="fa fa-caret-left"/></th>'+
                 '<th colspan="5" class="switch"></th>'+
-                '<th class="next"><i class="glyphicon glyphicon-triangle-right"/></th>'+
+                '<th class="next"><i class="fa fa-caret-right"/></th>'+
               '</tr>'+
             '</thead>',
     contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
@@ -956,7 +956,7 @@
   };
   DPGlobal.template = '<div class="datepicker">'+
               '<div class="datepicker-days">'+
-                '<table class=" table-condensed">'+
+                '<table class="table-condensed">'+
                   DPGlobal.headTemplate+
                   '<tbody></tbody>'+
                   DPGlobal.footTemplate+
