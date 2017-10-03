@@ -9,7 +9,7 @@
     .landing-cog3
       %i.fa.fa-cog
 
-%p.lead.center.text-white.text-shadow Welcome back!
+%p.lead.text-center.text-white.text-shadow Welcome back!
 
 .sign-up-form
   .sign-up-form-title
@@ -32,10 +32,10 @@
 
 
 - if devise_mapping.confirmable?
-  .center{ style: 'margin-bottom:20px' }
+  .text-center{ style: 'margin-bottom:20px' }
     = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
 
-.sign-up-form.center
+.sign-up-form.text-center
   New to
   = succeed '?' do
     = ENV['website_name']

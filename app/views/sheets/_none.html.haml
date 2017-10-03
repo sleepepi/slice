@@ -1,5 +1,5 @@
 .jumbotron
-  %p.center
+  %p.text-center
     No sheets found.
     - if params[:search].present? && (params[:design_id].present? || params[:site_id].present? || params[:user_id].present?)
       = succeed "." do

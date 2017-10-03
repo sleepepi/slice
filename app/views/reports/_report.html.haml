@@ -11,8 +11,8 @@
     = number_with_delimiter @total_rows
     %br
 
-%h3.center{ style: "margin: 0;" }= @report_title
-%h5.center{ style: "margin: 0;padding-bottom: 8px;" }= @report_subtitle.html_safe
+%h3.text-center{ style: "margin: 0;" }= @report_title
+%h5.text-center{ style: "margin: 0;padding-bottom: 8px;" }= @report_subtitle.html_safe
 
 .table-responsive-always
   %table.table.table-hover
@@ -77,7 +77,7 @@
                     %span.text-muted.text-smaller
                       = (hash[:count] * 100 / column_count).to_s + "%"
 
-.center.text-muted= @report_caption
+.text-center.text-muted= @report_caption
 
 - link_name = @design ? project_reports_design_advanced_path(@design.project, @design, percent: @percent, f: params.to_unsafe_hash[:f]) : report_reports_project_path(@project, f: params.to_unsafe_hash[:f])
 = link_to "#permalink", link_name, class: "pull-right", rel: "tooltip", title: "Right-click and Copy Link Address", data: { placement: "left" }

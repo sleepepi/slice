@@ -55,3 +55,28 @@
 .warning a {
   color: darken($brand-highlight-text, 10%);
 }
+
+.table-sticky {
+  position: relative;
+  z-index: 1;
+
+  th {
+    background-color: $table-bg;
+    position: sticky;
+    top: $header-height - 1px;
+    z-index: $zindex-navbar-fixed; // TODO: BS4: z-index: $zindex-sticky;
+  }
+
+  .thead-inverse {
+    th {
+      // background-color: $gray-900;
+    }
+  }
+}
+
+.tr-align-middle {
+  td,
+  th {
+    vertical-align: middle;
+  }
+}

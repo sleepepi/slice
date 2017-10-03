@@ -28,7 +28,7 @@
       .form-group
         = submit_tag 'Invite', class: 'btn btn-primary'
 
-  #invite-success.jumbotron.center{ style: 'display: none;' }
+  #invite-success.jumbotron.text-center{ style: 'display: none;' }
     %strong Invite sent!
     = link_to 'Send another?', '#', data: { object: 'invite-toggle' }
 

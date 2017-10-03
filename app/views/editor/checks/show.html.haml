@@ -105,7 +105,7 @@
         %th Subject
         %th Sheet
         - @check.check_filters.each do |check_filter|
-          %th.center
+          %th.text-center
             %code= check_filter.name
 
       - all_sheets.includes(:subject).order("subjects.subject_code").limit(40).group_by(&:subject).each do |subject, sheets|
@@ -115,7 +115,7 @@
               %td= link_to subject.subject_code, [@project, subject] if index == 0
               %td= link_to sheet.name, [sheet.project, sheet]
               - @check.check_filters.each do |check_filter|
-                %td.center
+                %td.text-center
                   - if check_filter.filter_type == "randomized"
                     = simple_check true
                   - elsif check_filter.variable
@@ -131,7 +131,7 @@
         %thead
           %th Subject
           - @check.check_filters.each do |check_filter|
-            %th.center
+            %th.text-center
               %code= check_filter.name
 
         - all_subjects.order(:subject_code).limit(40).each do |subject|
@@ -139,6 +139,6 @@
             %tr
               %td= link_to subject.subject_code, [subject.project, subject]
               - @check.check_filters.each do |check_filter|
-                %td.center
+                %td.text-center
                   - if check_filter.filter_type == "randomized"
                     = simple_check true

@@ -46,18 +46,18 @@
 %table.table.table-fixed.table-borderless
   %thead
     %tr
-      %th.center N
-      %th.center Mean
-      %th.center.hidden-xs StdDev
-      %th.center Med
-      %th.center Min
-      %th.center Max
-      %th.center.text-muted.hidden-xs Missing
-      %th.center Total
+      %th.text-center N
+      %th.text-center Mean
+      %th.text-center.hidden-xs StdDev
+      %th.text-center Med
+      %th.text-center Min
+      %th.text-center Max
+      %th.text-center.text-muted.hidden-xs Missing
+      %th.text-center Total
   %tbody
     %tr
-      %td.center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
-      %td.center
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.text-center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         - if mean
           - time_of_day_mean = parse_time_of_day(mean.to_i)
@@ -67,7 +67,7 @@
             = "#{format('%02d', time_of_day_mean[:hours_24])}#{format(':%02d', time_of_day_mean[:minutes])}#{format(':%02d', time_of_day_mean[:seconds]) if variable.show_seconds?}"
         - else
           \-
-      %td.center.nowrap.hidden-xs
+      %td.text-center.nowrap.hidden-xs
         - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
         - if stdev
           - time_duration = parse_time_duration(stdev.to_i)
@@ -75,14 +75,14 @@
           = "#{"#{time_duration[:hours]}h " unless time_duration[:hours].zero?}#{time_duration[:minutes]}m #{"#{time_duration[:seconds]}s" if variable.show_seconds?}"
         - else
           \-
-      %td.center
+      %td.text-center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_median')
         = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
-      %td.center
+      %td.text-center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_min')
         = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
-      %td.center
+      %td.text-center
         - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_max')
         = render 'reports/designs/overview/links/time_of_day_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
-      %td.center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
-      %td.center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id
+      %td.text-center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

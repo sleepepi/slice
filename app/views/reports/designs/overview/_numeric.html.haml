@@ -5,36 +5,36 @@
 - no_responses = valid_responses.count.zero?
 
 - unless no_responses
-  .center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
+  .text-center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
 
 %table.table.table-fixed.table-borderless
   %thead
     %tr
-      %th.center N
-      %th.center Mean
-      %th.center.hidden-xs StdDev
-      %th.center Med
-      %th.center Min
-      %th.center Max
-      %th.center.text-muted.hidden-xs Missing
-      %th.center Total
+      %th.text-center N
+      %th.text-center Mean
+      %th.text-center.hidden-xs StdDev
+      %th.text-center Med
+      %th.text-center Min
+      %th.text-center Max
+      %th.text-center.text-muted.hidden-xs Missing
+      %th.text-center Total
   %tbody
     %tr
-      %td.center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
-      %td.center
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.text-center
         - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
         = mean ? mean : '-'
-      %td.center.nowrap.hidden-xs
+      %td.text-center.nowrap.hidden-xs
         - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
         = stdev ? "&plusmn; #{stdev}".html_safe : '-'
-      %td.center
+      %td.text-center
         - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
         = median ? filter_link(median, @design, variable, format('%g', median), event_id: event_id) : '-'
-      %td.center
+      %td.text-center
         - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
         = min ? filter_link(min, @design, variable, format('%g', min), event_id: event_id) : '-'
-      %td.center
+      %td.text-center
         - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
         = max ? filter_link(max, @design, variable, format('%g', max), event_id: event_id) : '-'
-      %td.center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
-      %td.center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id
+      %td.text-center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

@@ -76,8 +76,8 @@
             %th Name
             %th Role
             - if @project.blinding_enabled?
-              %th.center Blinding
+              %th.text-center Blinding
             %th.hidden-xs Invited By
-            %th.center Actions
+            %th.text-center Actions
         - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
           = render "projects/member_row", member: member

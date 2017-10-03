@@ -1,5 +1,5 @@
 %td= link_to check.name, editor_project_check_path(@project, check)
-%td.hidden-xs.center= simple_check check.archived?
+%td.hidden-xs.text-center= simple_check check.archived?
 %td
   .dropdown
     = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do

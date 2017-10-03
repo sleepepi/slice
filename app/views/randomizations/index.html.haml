@@ -37,9 +37,9 @@
         %col.hidden-xs.hidden-sm
       %thead
         %tr
-          = th_sort_field @order, "randomized", "#", extra_class: "center", permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
+          = th_sort_field @order, "randomized", "#", extra_class: "text-center", permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
           = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
-          %th.center.nowrap{ class: ["arm", "arm desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.text-center.nowrap{ class: ["arm", "arm desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == "arm" ? "arm desc" : "arm"))) do
               Arm
             .dropdown{ style: "display: inline-block" }
@@ -52,7 +52,7 @@
                 %li= link_to "All Treatment Arms", project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: nil)), style: params[:treatment_arm_id].blank? ? "font-weight:bold;" : ""
                 - @project.treatment_arms.order(:name).each do |treatment_arm|
                   %li= link_to treatment_arm.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: treatment_arm.id)), style: params[:treatment_arm_id].to_s == treatment_arm.id.to_s ? "font-weight:bold;" : ""
-          = th_sort_field @order, "randomized", "Randomized", extra_class: "hidden-xs center", permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
+          = th_sort_field @order, "randomized", "Randomized", extra_class: "hidden-xs text-center", permit: [:site_id, :user_id, :treatment_arm_id, :randomized_by_id, :scheme_id]
           %th.nowrap.hidden-xs.hidden-sm{ class: ["randomized_by", "randomized_by desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Randomized By", project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == "randomized_by" ? "randomized_by desc" : "randomized_by")))
             .dropdown{ style: "display: inline-block" }
@@ -94,15 +94,15 @@
       %tbody
         - @randomizations.each do |randomization|
           %tr
-            %td.center
+            %td.text-center
               = link_to [@project, randomization] do
                 - if randomization.name
                   = randomization.name
                 - else
                   %i.fa.fa-spinner.fa-pulse{ aria: { hidden: "true" } }
             %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
-            %td.center= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
-            %td.hidden-xs.center
+            %td.text-center= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
+            %td.hidden-xs.text-center
               - if randomization.randomized_at
                 %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }
                   = randomization.randomized_at.strftime("%b %-d, %Y")
@@ -112,10 +112,10 @@
             - if schemes.count > 1
               %td.hidden-xs.hidden-sm= link_to_if is_project_editor, randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
 
-  .center= paginate @randomizations, theme: "bootstrap"
+  .text-center= paginate @randomizations, theme: "bootstrap"
 - else
   .jumbotron
-    %p.center
+    %p.text-center
       No randomizations found.
       - if params[:site_id].present? || params[:treatment_arm_id].present? || params[:randomized_by_id].present? || params[:scheme_id].present? || params[:user_id].present? || params[:search].present?
         = succeed "." do

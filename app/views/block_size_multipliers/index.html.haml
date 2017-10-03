@@ -23,15 +23,15 @@
     %col{ width: "1px" }
     %thead
       %tr
-        %th.center Value
-        %th.center Allocation
+        %th.text-center Value
+        %th.text-center Allocation
         %th Actions
 
     %tbody
       - @block_size_multipliers.each do |block_size_multiplier|
         %tr
-          %td.center= link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
-          %td.center= block_size_multiplier.allocation
+          %td.text-center= link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
+          %td.text-center= block_size_multiplier.allocation
           %td
             - if @randomization_scheme.published?
               = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-xs btn-primary", disabled: true

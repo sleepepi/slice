@@ -7,23 +7,23 @@
     %thead
       %tr
         %th
-        %th.center First Randomization
-        %th.center Most Recent Randomization
-        %th.center Days Since Last Randomization
+        %th.text-center First Randomization
+        %th.text-center Most Recent Randomization
+        %th.text-center Days Since Last Randomization
     %tbody
       %tr
         %th Overall
-        %td.center
+        %td.text-center
           - if first_randomization
             = first_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
-        %td.center
+        %td.text-center
           - if last_randomization
             = last_randomization.randomized_at.strftime '%b %-d, %Y'
           - else
             %span.text-muted -
-        %td.center
+        %td.text-center
           - if last_randomization
             = (Time.zone.today - last_randomization.randomized_at.to_date).floor
           - else
@@ -34,17 +34,17 @@
         - last = site_randomizations.last
         %tr
           %th= site.short_name
-          %td.center
+          %td.text-center
             - if first
               = first.randomized_at.strftime '%b %-d, %Y'
             - else
               %span.text-muted -
-          %td.center
+          %td.text-center
             - if last
               = last.randomized_at.strftime '%b %-d, %Y'
             - else
               %span.text-muted -
-          %td.center
+          %td.text-center
             - if last
               = (Time.zone.today - last.randomized_at.to_date).floor
             - else

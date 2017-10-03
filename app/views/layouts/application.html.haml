@@ -51,7 +51,7 @@
       = yield :footer
 
       - if current_user && current_user.system_admin? && @keywords.present?
-        .center
+        .text-center
           - @keywords.split(",").each do |keyword|
             %code= keyword.to_s.strip
 

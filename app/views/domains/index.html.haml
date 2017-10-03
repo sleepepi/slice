@@ -1,7 +1,7 @@
-- @title = 'Domains'
+- @title = "Domains"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,12 +9,12 @@
     .container
       %h1.page-heading
         .pull-right
-          = link_to plus_or('New Domain'), new_project_domain_path(@project), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @domains.total_count
+          = link_to plus_or("New Domain"), new_project_domain_path(@project), class: "btn btn-accent btn-shadow"
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @domains.total_count
         = @title
-        = render 'search/toggle'
+        = render "search/toggle"
 
-= render 'search/simple', url: project_domains_path(@project)
+= render "search/simple", url: project_domains_path(@project)
 
 - if @domains.present?
   .dashboard-container
@@ -22,12 +22,12 @@
       %col
       %col.hidden-xs
       %col.hidden-xs.hidden-sm
-      %col{ width: '1px' }
+      %col{ width: "1px" }
       %thead
         %tr
-          = th_sort_field @order, 'domains.name', 'Name'
+          = th_sort_field @order, "domains.name", "Name"
           %th.hidden-xs Options
-          = th_sort_field_rev @order, 'domains.variables_count', 'Variables', extra_class: 'hidden-xs hidden-sm center'
+          = th_sort_field_rev @order, "domains.variables_count", "Variables", extra_class: "hidden-xs hidden-sm text-center"
           %th Actions
 
       - @domains.each do |domain|
@@ -35,17 +35,17 @@
           %td= link_to domain.name, [@project, domain]
           %td.hidden-xs
             - if domain.domain_options.present?
-              = select_tag "#{domain.id}_options", options_for_select(domain.domain_options.collect(&:value_and_name)), style: 'width: 200px;', class: 'form-control'
-          %td.hidden-xs.hidden-sm.center= domain.variables_count
+              = select_tag "#{domain.id}_options", options_for_select(domain.domain_options.collect(&:value_and_name)), style: "width: 200px;", class: "form-control"
+          %td.hidden-xs.hidden-sm.text-center= domain.variables_count
           %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_path(@project, domain), delete_url: [@project, domain], delete_confirmation: "Delete \"#{domain.name}\" domain?"
+            = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_path(@project, domain), delete_url: [@project, domain], delete_confirmation: "Delete \"#{domain.name}\" domain?"
 
-  .center= paginate @domains, theme: 'bootstrap'
+  .text-center= paginate @domains, theme: "bootstrap"
 - else
   .jumbotron
-    %p.center No domains found.
+    %p.text-center No domains found.
 
 .docs-learn-more
   Learn about
-  = succeed '.' do
-    = link_to 'domains', docs_domains_path
+  = succeed "." do
+    = link_to "domains", docs_domains_path

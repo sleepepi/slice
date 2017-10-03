@@ -1,7 +1,7 @@
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
 - if designs.present?
-  %p.lead.text-white.text-shadow.center
+  %p.lead.text-white.text-shadow.text-center
     Which design would you like to add?
 
   - category_count = designs.pluck(:category_id).uniq.count
@@ -18,7 +18,7 @@
           %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
 
       - if designs.where(publicly_available: true).count > 0
-        %p.text-muted.center
+        %p.text-muted.text-center
           You can also generate a link to a
           = succeed "." do
             = link_to "fillable sheet", send_url_project_subject_path(@project, @subject)

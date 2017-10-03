@@ -19,7 +19,7 @@
         %thead
           %tr
             - lists.each do |list|
-              %th.center
+              %th.text-center
                 %strong= link_to list.name, [@project, @randomization_scheme, list]
                 %small.text-muted
                   = surround '(', ')' do

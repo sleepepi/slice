@@ -7,13 +7,13 @@
 
 .row
   .col-md-6
-    .center Row (Max 3)
+    .text-center Row (Max 3)
     .filter-sort-container{ data: { axis: 'row' } }
       - row_filters.each do |filter|
         = render 'filters/variable_filter_bubble', filter: filter
 
   .col-md-6
-    .center Column (Max 1)
+    .text-center Column (Max 1)
     .filter-sort-container{ data: { axis: 'col' } }
       - column_filters.each do |filter|
         = render 'filters/variable_filter_bubble', filter: filter

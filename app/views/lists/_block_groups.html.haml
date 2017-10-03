@@ -1,5 +1,5 @@
 - if list.randomizations.count == 0
-  .center.text-muted
+  .text-center.text-muted
     Randomizations expand list automatically.
 - elsif @randomization_scheme.permuted_block?
   - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|

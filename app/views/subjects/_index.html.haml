@@ -58,7 +58,7 @@
                     %li= link_to site.short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : ""
           %th.nowrap Recent Activity
           - if @project.randomizations_enabled? && unblinded_user
-            %th.hidden-xs.center
+            %th.hidden-xs.text-center
               Randomized
               .dropdown{ style: "display: inline-block" }
                 = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" }, id: "randomized-dropdown" do
@@ -101,7 +101,7 @@
             - else
               %span.text-muted Subject Created
           - if @project.randomizations_enabled? && unblinded_user
-            %td.hidden-xs.center
+            %td.hidden-xs.text-center
               - if subject.randomizations_count.positive?
                 = simple_check true
               - else
@@ -122,11 +122,10 @@
                     Closed
               - else
                 %span.text-muted -
-  .center
-    = paginate @subjects, theme: "bootstrap"
+  .text-center= paginate @subjects, theme: "bootstrap"
 - else
   .jumbotron
-    %p.center
+    %p.text-center
       No subjects found.
       - if params[:search].present?
         - if (params[:site_id].present? || @tokens.select { |t| t.key == "adverse-events" }.present? || @tokens.select { |t| t.key == "randomized" }.present?)

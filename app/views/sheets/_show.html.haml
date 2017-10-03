@@ -22,7 +22,7 @@
                   %th{ style: "min-width: 100px;" }
                     &nbsp;
                   - domain_options.each do |domain_option|
-                    %th.center{ style: "min-width: 57px;" }
+                    %th.text-center{ style: "min-width: 57px;" }
                       = domain_option.value_and_name
       - if variable.uses_scale? && variable.last_scale_variable?(@sheet.design)
         = "</div>".html_safe

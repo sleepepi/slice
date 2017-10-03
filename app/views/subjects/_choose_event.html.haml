@@ -1,4 +1,4 @@
-%p.lead.text-white.text-shadow.center
+%p.lead.text-white.text-shadow.text-center
   Which event would you like to add?
 
 .dashboard-container
@@ -40,7 +40,7 @@
           %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
 
       - if eventless_designs.where(publicly_available: true).count > 0
-        %p.text-muted.center
+        %p.text-muted.text-center
           You can also generate a link to a
           = succeed '.' do
             = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)

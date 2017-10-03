@@ -13,7 +13,7 @@
 = render "search/simple", url: users_path
 
 .dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
     %col
     %col
@@ -23,8 +23,8 @@
       %tr
         = th_sort_field @order, "users.last_name", "Name"
         = th_sort_field @order, "users.current_sign_in_at", "Recent Activity"
-        = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right hidden-xs"
-        = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "center hidden-xs"
+        = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right d-none d-sm-table-cell"
+        = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "center d-none d-sm-table-cell"
         %th
 
     - @users.each do |user|
@@ -32,11 +32,11 @@
         %td.nowrap
           = image_tag user.avatar_url(18), style: "vertical-align:text-bottom", alt: ""
           = link_to user do
-            %span.hidden-xs= user.name
-            %span.hidden-sm.hidden-md.hidden-lg= user.nickname
+            .d-none.d-sm-inline= user.name
+            .d-inline.d-sm-none= user.nickname
         %td= recent_activity user.current_sign_in_at
-        %td.text-right.hidden-xs= number_with_delimiter user.sign_in_count
-        %td.center.hidden-xs= simple_check user.system_admin?
+        %td.text-right.d-none.d-sm-table-cell= number_with_delimiter user.sign_in_count
+        %td.text-center.d-none.d-sm-table-cell= simple_check user.system_admin?
         %td.nowrap
 
           .dropdown
@@ -57,4 +57,4 @@
                       %i.fa.fa-trash
                       Delete
 
-.center= paginate @users, theme: "bootstrap"
+.text-center= paginate @users, theme: "bootstrap"

@@ -6,7 +6,7 @@
     %thead
       %tr
         %th Name
-        %th.center
+        %th.text-center
           Randomized
           %span.hidden-xs Subjects
         %th.hidden-xs Creator
@@ -15,5 +15,5 @@
       - @lists.each do |list|
         %tr
           %td= link_to list.name, [@project, @randomization_scheme, list]
-          %td.center= link_to list.subject_randomizations.count
+          %td.text-center= link_to list.subject_randomizations.count
           %td.hidden-xs= link_to list.user.name, list.user if list.user

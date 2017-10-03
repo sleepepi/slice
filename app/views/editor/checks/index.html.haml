@@ -21,7 +21,7 @@
     %thead
       %tr
         %th Name
-        %th.hidden-xs.center Archived
+        %th.hidden-xs.text-center Archived
         %th Actions
 
     %tbody
@@ -29,7 +29,7 @@
         %tr{ id: "check-#{check.id}-container" }
           = render 'editor/checks/check_row', check: check
 
-.center= paginate @checks, theme: 'bootstrap'
+.text-center= paginate @checks, theme: 'bootstrap'
 
 .docs-learn-more
   Learn about

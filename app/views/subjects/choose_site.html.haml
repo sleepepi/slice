@@ -10,7 +10,7 @@
 = render 'layouts/simple_header'
 
 - if editable_sites.count > 1
-  %p.lead.text-white.text-shadow.center
+  %p.lead.text-white.text-shadow.text-center
     Choose subject's site.
 
   .dashboard-container
@@ -29,7 +29,7 @@
         Cancel
 
 - elsif editable_sites.count == 1
-  %p.lead.text-white.text-shadow.center
+  %p.lead.text-white.text-shadow.text-center
     Would you like to add
     %strong= params[:subject_code]
     as a new subject?
@@ -44,7 +44,7 @@
       Cancel
 
 - else
-  %p.lead.text-white.text-shadow.center No Sites on Project
+  %p.lead.text-white.text-shadow.text-center No Sites on Project
 
   .dashboard-container
     You will need to

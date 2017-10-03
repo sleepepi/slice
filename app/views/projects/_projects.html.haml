@@ -1,6 +1,6 @@
 - if @projects.count == 0
   .jumbotron
-    %p.center No projects found.
+    %p.text-center No projects found.
 - else
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
@@ -11,20 +11,20 @@
       %thead
         %tr
           = th_sort_field_rev params[:order], 'projects.name', 'Name'
-          %th.center Status
-          %th.center Emails
+          %th.text-center Status
+          %th.text-center Emails
           %th
 
       - @projects.each do |project|
         %tr{ data: { project_id: project.id } }
           %td
             = link_to project.name, project
-          %td.center{ id: "project_#{project.id}_status" }
+          %td.text-center{ id: "project_#{project.id}_status" }
             = render 'project_preferences/status', project: project
-          %td.center{ id: "project_#{project.id}_emails" }
+          %td.text-center{ id: "project_#{project.id}_emails" }
             = render 'project_preferences/emails', project: project
           %td{ id: "project_#{project.id}_actions" }
             = render 'project_preferences/actions', project: project
 
-  .center= paginate @projects, theme: 'bootstrap'
+  .text-center= paginate @projects, theme: 'bootstrap'
 

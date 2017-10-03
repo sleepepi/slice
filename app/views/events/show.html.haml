@@ -70,15 +70,15 @@
         %th
         - if @project.handoffs_enabled?
           %th
-        %th.center{ colspan: 3 } Assigned  (# of Subjects)
-        %th.center Unassigned  (# of Subjects)
+        %th.text-center{ colspan: 3 } Assigned  (# of Subjects)
+        %th.text-center Unassigned  (# of Subjects)
       %tr
         %th Design
         - if @project.handoffs_enabled?
-          %th.center Handoff Enabled
-        %th.center Entered
-        %th.center Set as Missing
-        %th.center Unentered
+          %th.text-center Handoff Enabled
+        %th.text-center Entered
+        %th.text-center Set as Missing
+        %th.text-center Unentered
         %th
     - @event.event_designs.includes(:design).each do |event_design|
       - design = event_design.design
@@ -86,16 +86,16 @@
         %td
           = link_to design.name, [@project, design]
         - if @project.handoffs_enabled?
-          %td.center= simple_check event_design.handoff_enabled?
-        %td.center
+          %td.text-center= simple_check event_design.handoff_enabled?
+        %td.text-center
           - search = "#{@event.to_param}:#{design.to_param}"
           = render "events/compute_count", search: search
-        %td.center
+        %td.text-center
           - search = "#{@event.to_param}:#{design.to_param}:missing"
           = render "events/compute_count", search: search
-        %td.center
+        %td.text-center
           - search = "#{@event.to_param}:#{design.to_param}:unentered"
           = render "events/compute_count", search: search
-        %td.center
+        %td.text-center
           - search = "events:!#{@event.to_param}"
           = render "events/compute_count", search: search

@@ -110,7 +110,7 @@
       - @sheets.each do |sheet|
         %tr{ id: "sheet_#{sheet.id}" }
           = render "sheets/sheet_row", sheet: sheet, viewable_sites: viewable_sites, creation_ordered: creation_ordered
-  .center
+  .text-center
     = paginate @sheets, theme: "bootstrap"
 
   .docs-learn-more

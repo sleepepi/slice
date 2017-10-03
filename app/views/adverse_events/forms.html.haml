@@ -33,7 +33,7 @@
         - designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true })
 
         - if designs.count == 0
-          .center
+          .text-center
             %p.lead No adverse event designs currently exist on the project.
         - else
           .panel.panel-success

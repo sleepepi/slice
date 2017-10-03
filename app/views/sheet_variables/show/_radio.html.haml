@@ -13,7 +13,7 @@
           = variable.display_name
         - domain_options.each do |domain_option|
           - selected = (domain_option.value == response_raw.to_s)
-          %td.center
+          %td.text-center
             %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if selected} #{"negation" if domain_option.missing_code?}" }
               = radio_button_tag variable.name, domain_option.value, selected, disabled: true
 - else

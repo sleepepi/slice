@@ -1,7 +1,7 @@
 - files = @adverse_event.adverse_event_files.order(:attachment)
 
 - if files.count == 0
-  .center
+  .text-center
     %p.lead No files have been uploaded to this adverse event.
 - else
   %table.table.table-striped.table-borderless.table-hover

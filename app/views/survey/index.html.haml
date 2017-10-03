@@ -3,7 +3,7 @@
 - if params[:survey].present? && params[:a].present?
   - survey_url = "#{ENV['website_url']}/survey/#{params[:survey]}/#{params[:a]}"
   .jumbotron
-    %h2.center{ style: 'margin-top: 0;' } Survey Complete
+    %h2.text-center{ style: 'margin-top: 0;' } Survey Complete
     %p
       Thank you for completing the survey.
       Click the link below if you need to make any changes to your responses.
@@ -30,7 +30,7 @@
     analyzing data.
 
   .jumbotron{ style: 'background-color: transparent' }
-    .center
+    .text-center
       = link_to 'Create an account today', new_user_registration_path, class: 'btn btn-lg btn-accent btn-shadow'
 
   %div{ style: 'padding: 19px 29px 29px; margin: 40px auto 20px;' }

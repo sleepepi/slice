@@ -12,7 +12,7 @@
         %th Name
         %th Role
         - if @project.blinding_enabled?
-          %th.center Blinding
+          %th.text-center Blinding
         %th.hidden-xs Invited By
         %th Actions
     %tr
@@ -24,7 +24,7 @@
         %span.hidden-xs Project
         Owner
       - if @project.blinding_enabled?
-        %td.center
+        %td.text-center
           %i.fa.fa-eye.text-muted
       %td.hidden-xs
       %td
@@ -41,7 +41,7 @@
   .dashboard-container
     %h4
       %span.hidden-xs= site.name
-      .hidden-sm.hidden-md.hidden-lg.center
+      .hidden-sm.hidden-md.hidden-lg.text-center
         = site.short_name
     %table.table.table-borderless
       %col
@@ -55,12 +55,12 @@
           %th Name
           %th Role
           - if @project.blinding_enabled?
-            %th.center Blinding
+            %th.text-center Blinding
           %th.hidden-xs Invited By
           %th Actions
       - if site.site_users.size == 0
         %tr.active
-          %td.center{ colspan: (@project.blinding_enabled? ? 5 : 4) } No Members on Site
+          %td.text-center{ colspan: (@project.blinding_enabled? ? 5 : 4) } No Members on Site
       - site.site_users.order(editor: :desc, id: :asc).each do |member|
         %tbody{ id: "site-user-#{member.id}-container" }
           = render "projects/member_row", member: member

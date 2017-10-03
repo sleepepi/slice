@@ -30,7 +30,7 @@
           = th_sort_field @order, 'tasks.created_at', 'Task'
           = th_sort_field @order, 'tasks.due_date', 'Date'
           %th.hidden-xs User
-          %th.hidden-xs.center Completed
+          %th.hidden-xs.text-center Completed
           %th.hidden-xs.hidden-sm Window Start Date
           %th.hidden-xs.hidden-sm Window End Date
           - if @project.site_or_project_editor?(current_user)
@@ -43,7 +43,7 @@
               = render 'layouts/unblinded_only', project: @project, object: task, placement: 'right'
             %td.nowrap= task.due_date
             %td.hidden-xs.nowrap= task.user.nickname
-            %td.hidden-xs.center= simple_check task.completed
+            %td.hidden-xs.text-center= simple_check task.completed
             %td.hidden-xs.hidden-sm= task.window_start_date
             %td.hidden-xs.hidden-sm= task.window_end_date
             - if @project.site_or_project_editor?(current_user)
@@ -51,7 +51,7 @@
                 - if task.editable_by?(current_user)
                   = render 'layouts/edit_delete_dropdown', edit_url: edit_project_task_path(@project, task), delete_url: [@project, task], delete_confirmation: "Delete \"#{task.description}\" task?"
 
-  .center= paginate @tasks, theme: 'bootstrap'
+  .text-center= paginate @tasks, theme: 'bootstrap'
 - else
   .jumbotron
-    %p.center No tasks found.
+    %p.text-center No tasks found.

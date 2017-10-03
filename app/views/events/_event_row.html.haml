@@ -1,12 +1,12 @@
-%td.center= event.position
+%td.text-center= event.position
 %td
   = link_to event.name, [@project, event]
   = render "layouts/unblinded_only", project: @project, object: event, placement: "right"
 %td.hidden-xs
   - assigned_count = event.subject_events.with_current_subjects.count
   = pluralize assigned_count, "event"
-%td.hidden-xs.center= simple_check event.archived
-%td.hidden-xs.hidden-sm.center= event.designs.count
+%td.hidden-xs.text-center= simple_check event.archived
+%td.hidden-xs.hidden-sm.text-center= event.designs.count
 %td
   .dropdown
     = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do

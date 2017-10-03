@@ -40,7 +40,7 @@
       %col{ width: "1px" }
       %thead
         %tr
-          = th_sort_field @order, "created", "#", extra_class: "center", permit: [:site_id, :user_id, :status]
+          = th_sort_field @order, "created", "#", extra_class: "text-center", permit: [:site_id, :user_id, :status]
           = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id, :status]
           %th.hidden-xs Description
           = th_sort_field_rev @order, "ae_date", "Date of AE", extra_class: "hidden-xs", permit: [:site_id, :user_id, :status]
@@ -86,7 +86,7 @@
       %tbody
         - @adverse_events.each do |adverse_event|
           %tr
-            %td.center.nowrap
+            %td.text-center.nowrap
               = link_to [@project, adverse_event] do
                 - if adverse_event.number
                   = adverse_event.name
@@ -108,10 +108,10 @@
               %td
                 = render "layouts/edit_delete_dropdown", edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Delete #{adverse_event.name}?"
 
-  .center= paginate @adverse_events, theme: "bootstrap"
+  .text-center= paginate @adverse_events, theme: "bootstrap"
 - else
   .jumbotron
-    %p.center
+    %p.text-center
       No adverse events found.
       - if params[:status].present? || params[:user_id].present? || params[:site_id].present?
         = succeed "." do

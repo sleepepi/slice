@@ -19,11 +19,11 @@
 
 - if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
   .jumbotron
-    %h2.center{ style: "margin: 0;" }
+    %h2.text-center{ style: "margin: 0;" }
       %span.hidden-sm.hidden-md.hidden-lg= @randomization.treatment_arm.short_name
       %span.hidden-xs= @randomization.treatment_arm.name
     %br
-    %p.center
+    %p.text-center
       %strong
         = link_to @randomization.subject.name, [@project, @randomization.subject]
       randomized
@@ -46,7 +46,7 @@
     %table.table.table-striped.table-borderless.table-hover
       %thead
         %tr
-          %th.center
+          %th.text-center
           %th Task
           %th Due Date
       %tbody

@@ -18,7 +18,7 @@
 
 - if @objects.size == 0
   .jumbotron
-    %p.center No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
+    %p.text-center No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
 - else
   .row
     - [['Subjects', @subjects], ['Projects', @projects], ['Designs', @designs], ['Variables', @variables]].each do |name, scope|

@@ -29,5 +29,5 @@
     - params[:header] = '0'
     = render 'designs/show', design: @design
 
-  .center{ style: 'margin-top: 40px' }
+  .text-center{ style: 'margin-top: 40px' }
     = link_to 'Submit Survey', '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-primary btn-lg btn-shadow'
