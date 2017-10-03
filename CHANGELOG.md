@@ -1,6 +1,8 @@
 ## 0.57.0
 
 ### Enhancements
+- **Sheet Changes**
+  - Leading and trailing white space is now removed from responses
 - **Setting Changes**
   - Users can now enable sound alerts in their settings
     - Sound alerts trigger when a data entry field is flagged as an error

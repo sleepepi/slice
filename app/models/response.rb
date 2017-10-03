@@ -29,4 +29,8 @@ class Response < ApplicationRecord
       [value, nil]
     end
   end
+
+  def value=(value)
+    super(value.try(:strip))
+  end
 end

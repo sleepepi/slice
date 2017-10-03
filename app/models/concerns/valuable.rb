@@ -21,5 +21,9 @@ module Valuable
     has_many :responses
 
     mount_uploader :response_file, GenericUploader
+
+    def value=(value)
+      super(value.try(:strip))
+    end
   end
 end
