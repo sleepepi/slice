@@ -8,11 +8,11 @@
 // App Mixins
 @import 'mixins/all';
 
+// Migration classes to help move to Boostrap 4.
+@import 'migrations/all';
+
 // App specific styles
 @import 'components/all';
 @import 'extensions/all';
 @import 'fixes/all';
 @import 'objects/all';
-
-// Migration classes to help move to Boostrap 4.
-@import 'migrations/all';
