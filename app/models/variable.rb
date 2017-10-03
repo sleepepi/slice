@@ -74,7 +74,7 @@ class Variable < ApplicationRecord
   include Searchable
   include Squishable
 
-  squish :name, :display_name, :field_note, :prepend, :append, :units, :format, :calculated_format
+  squish :name, :display_name, :field_note, :prepend, :append, :units, :calculated_format
 
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }
@@ -693,10 +693,6 @@ class Variable < ApplicationRecord
 
   def display_layout_name
     DISPLAY_LAYOUTS.find { |_name, value| value == display_layout }.first
-  end
-
-  def calculated_format
-    self[:format]
   end
 
   private

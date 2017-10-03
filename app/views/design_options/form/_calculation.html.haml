@@ -1,10 +1,10 @@
 .form-group
   %label.col-md-2.control-label Calculation
   .col-md-10
-    = text_area_tag 'variable[calculation]', @design_option.variable.readable_calculation, rows: 4, autocomplete: 'off', class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
-    %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-      %col.hidden-xs{ width: '30%' }
-      %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    = text_area_tag "variable[calculation]", @design_option.variable.readable_calculation, rows: 4, autocomplete: "off", class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
+    %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
+      %col.hidden-xs{ width: "30%" }
+      %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
       %tr
         %th General
         %td
@@ -20,15 +20,14 @@
 .form-group
   %label.col-md-2.control-label Calculated Format
   .col-md-10
-    -# TODO: Change .format to .calculated_format
-    = text_field_tag 'variable[format]', @design_option.variable.calculated_format, autocomplete: 'off', class: 'form-control'
-    %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-      %col.hidden-xs{ width: '30%' }
-      %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+    = text_field_tag "variable[calculated_format]", @design_option.variable.calculated_format, autocomplete: "off", class: "form-control"
+    %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
+      %col.hidden-xs{ width: "30%" }
+      %col.hidden-sm.hidden-md.hidden-lg{ width: "50%" }
       %col
-      %col{ width: '1px' }
-      %col{ width: '1px' }
-      %col{ width: '1px' }
+      %col{ width: "1px" }
+      %col{ width: "1px" }
+      %col{ width: "1px" }
       %tr
         %th Precision
         %td

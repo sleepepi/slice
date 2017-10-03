@@ -184,8 +184,9 @@ class DesignOptionsController < ApplicationController
       :name, :display_name, :description, :variable_type, :prepend, :append, :field_note, :display_layout,
       :show_current_button, :show_seconds, :hard_minimum, :hard_maximum, :soft_minimum, :soft_maximum, :domain_id,
       :date_hard_maximum, :date_hard_minimum, :date_soft_maximum, :date_soft_minimum, :date_format, :time_of_day_format,
-      :time_duration_format, :calculation, :format, :calculated_format, :hide_calculation, :units, :multiple_rows, :default_row_number, # TODO: Change .format to .calculated_format
-      { grid_tokens: [:variable_id] }, { questions: [:question_name, :question_type] }, :alignment, :autocomplete_values
+      :time_duration_format, :calculation, :calculated_format, :hide_calculation, :units, :multiple_rows,
+      :default_row_number, :alignment,
+      { grid_tokens: [:variable_id] }, { questions: [:question_name, :question_type] }, :autocomplete_values
     )
   end
 

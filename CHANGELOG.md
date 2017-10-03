@@ -6,6 +6,8 @@
 - **Setting Changes**
   - Users can now enable sound alerts in their settings
     - Sound alerts trigger when a data entry field is flagged as an error
+- **Variable Changes**
+  - Internal calculated formats have been renamed for clarity
 - **Gem Changes**
   - Updated to ruby 2.4.2
   - Updated to rails 5.1.4
