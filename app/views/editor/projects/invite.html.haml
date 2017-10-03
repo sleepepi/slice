@@ -1,28 +1,28 @@
-- @title = 'Invite Team Members'
+- @title = "Invite Team Members"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
-= render 'layouts/simple_header'
+= render "projects/side_nav"
+= render "layouts/simple_header"
 
 %p.lead.center.text-white.text-shadow
   Invite by email.
 
 .dashboard-container
-  = form_tag send_invites_editor_project_path(@project), method: :post, class: 'form-horizontal', id: 'invites-form' do
-    #invites{ style: 'margin-bottom: 20px' }
-      = render 'editor/projects/invite_row', index: 0
+  = form_tag send_invites_editor_project_path(@project), method: :post, class: "form-horizontal", id: "invites-form" do
+    #invites{ style: "margin-bottom: 20px" }
+      = render "editor/projects/invite_row", index: 0
 
     .form-group
       .col-sm-offset-1.col-sm-11
-        = link_to '+ Add another email', add_invite_row_editor_project_path(@project), method: :post, remote: true, class: 'btn btn-xs btn-accent'
-        = link_to 'Learn more...', docs_roles_path, class: 'btn btn-xs btn-link'
+        = link_to "+ Add another email", add_invite_row_editor_project_path(@project), method: :post, remote: true, class: "btn btn-xs btn-accent"
+        = link_to "Learn more...", docs_roles_path, class: "btn btn-xs btn-link"
 
 .docs-navigation-container
   .row
     .col-sm-6.col-md-offset-4.col-md-4.col-buffer-visible-xs
-      = link_to 'Skip this step', settings_editor_project_path(@project), class: 'btn btn-block btn-lg btn-default'
+      = link_to "Skip this step", settings_editor_project_path(@project), class: "btn btn-block btn-lg btn-default"
 
     .col-sm-6.col-md-4
-      = link_to '#', data: { object: 'submit', target: '#invites-form' }, class: 'btn btn-lg btn-primary btn-shadow btn-block' do
+      = link_to "#", data: { object: "submit", target: "#invites-form" }, class: "btn btn-lg btn-primary btn-shadow btn-block" do
         Send Invites
-        %span.glyphicon.glyphicon-arrow-right
+        %i.fa.fa-caret-right

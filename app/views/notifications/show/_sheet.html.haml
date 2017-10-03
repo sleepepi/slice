@@ -1,13 +1,13 @@
 %td
-  %span.glyphicon.glyphicon-file{ class: "#{notification.read? ? 'text-muted' : 'text-primary'}" }
+  %i.fa.fa-file{ class: (notification.read? ? "text-muted" : "text-primary") }
 
-%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+%td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden
-    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+    = link_to notification, class: (notification.read? ? "link-muted" : "link-unstyled") do
       = notification.sheet.name
       created for
-      = succeed '.' do
+      = succeed "." do
         = notification.sheet.subject.name
 
 %td.hidden-xs
-  = image_tag notification.sheet.user.avatar_url(18, 'identicon'), size: '18x18', alt: '' if notification.sheet.user
+  = image_tag notification.sheet.user.avatar_url(18, "identicon"), size: "18x18", alt: "" if notification.sheet.user

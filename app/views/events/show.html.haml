@@ -17,7 +17,7 @@
             %ul.dropdown-menu.dropdown-menu-right
               %li
                 = link_to edit_project_event_path(@event.project, @event) do
-                  %span.glyphicon.glyphicon-edit
+                  %i.fa.fa-pencil
                   Edit
               %li.divider{ role: "separator" }
               %li
@@ -86,7 +86,7 @@
         %td
           = link_to design.name, [@project, design]
         - if @project.handoffs_enabled?
-          %td.center= simple_check_new event_design.handoff_enabled?
+          %td.center= simple_check event_design.handoff_enabled?
         %td.center
           - search = "#{@event.to_param}:#{design.to_param}"
           = render "events/compute_count", search: search

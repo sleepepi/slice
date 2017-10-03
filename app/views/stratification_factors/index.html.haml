@@ -1,10 +1,10 @@
-- @title = 'Stratification Factors'
+- @title = "Stratification Factors"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -13,15 +13,15 @@
       %h1.page-heading
         .pull-right
           - unless @randomization_scheme.published?
-            = link_to plus_or('New Stratification Factor'), new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @stratification_factors.total_count
+            = link_to plus_or("New Stratification Factor"), new_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme), class: "btn btn-accent btn-shadow"
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @stratification_factors.total_count
         %span= @title
 
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
     %col
     %col.hidden-xs
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th Name
@@ -35,11 +35,11 @@
           %td.hidden-xs= link_to stratification_factor.user.name, stratification_factor.user if stratification_factor.user
           %td
             - if @randomization_scheme.published?
-              = link_to label_or('Scheme Published', 'Published'), '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+              = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-xs btn-primary", disabled: true
             - else
-              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, stratification_factor), delete_url: [@project, @randomization_scheme, stratification_factor], delete_confirmation: "Delete \"#{stratification_factor.name}\" stratification factor?"
+              = render "layouts/edit_delete_dropdown", edit_url: edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, stratification_factor), delete_url: [@project, @randomization_scheme, stratification_factor], delete_confirmation: "Delete \"#{stratification_factor.name}\" stratification factor?"
 
 .docs-learn-more
   Learn about
-  = succeed '.' do
-    = link_to 'stratification factors', docs_stratification_factors_path
+  = succeed "." do
+    = link_to "stratification factors", docs_stratification_factors_path

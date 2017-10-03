@@ -93,19 +93,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    if checked
-      content_tag :span, nil, class: %w(glyphicon glyphicon-ok)
-    else
-      ""
-    end
-  end
-
-  def simple_check_new(checked)
-    if checked
-      content_tag :span, nil, class: %w(glyphicon glyphicon-ok text-success)
-    else
-      content_tag :span, nil, class: %w(glyphicon glyphicon-minus text-danger)
-    end
+    content_tag(:i, "", class: "fa #{checked ? "fa-check-square-o" : "fa-square-o"}")
   end
 
   def simple_markdown(text, table_class = "")

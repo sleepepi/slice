@@ -16,11 +16,11 @@
     %ul.dropdown-menu.dropdown-menu-right
       %li
         = link_to edit_project_event_path(@project, event) do
-          %span.glyphicon.glyphicon-edit
+          %i.fa.fa-pencil
           Edit
       %li
         = link_to project_event_path(@project, event, event: { archived: event.archived? ? "0" : "1" }), method: :patch, remote: true do
-          %span.glyphicon.glyphicon-briefcase
+          %i.fa.fa-archive
           - if event.archived?
             Restore
           - else

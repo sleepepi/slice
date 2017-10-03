@@ -5,11 +5,11 @@
     %p.lead No files have been uploaded to this adverse event.
 - else
   %table.table.table-striped.table-borderless.table-hover
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %col
     %col
     %col.hidden-xs
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th
@@ -27,13 +27,13 @@
         %tr
           %td
             - if file.image?
-              %span.glyphicon.glyphicon-picture
+              %i.fa.fa-picture-o
             - else
-              %span.glyphicon.glyphicon-paperclip
+              %i.fa.fa-paperclip
           %td= link_to file.name, url, data: { turbolinks: false }
           %td
             %code.nowrap= number_to_human_size file.attachment.size
           %td.hidden-xs.hidden-sm.nowrap
             = format_date file.created_at
           %td
-            = link_to 'Delete', [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: 'btn btn-danger-inverse btn-xs'
+            = link_to "Delete", [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: "btn btn-danger-inverse btn-xs"

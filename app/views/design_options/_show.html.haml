@@ -16,7 +16,7 @@
               %ul.dropdown-menu.dropdown-menu-right
                 %li
                   = link_to edit_project_design_design_option_path(@project, @design, design_option), remote: true do
-                    %span.glyphicon.glyphicon-edit
+                    %i.fa.fa-pencil
                     Edit
                 %li.divider{ role: "separator" }
                 %li
@@ -84,18 +84,18 @@
                   - if variable.valid?
                     %li
                       = link_to restore_project_variable_path(@project, variable), method: :post do
-                        %span.glyphicon.glyphicon-edit
+                        %i.fa.fa-pencil
                         Restore
                     %li.divider{ role: "separator" }
                   - variable.deleted = true
                 - else
                   %li
                     = link_to edit_project_design_design_option_path(@project, @design, design_option), remote: true do
-                      %span.glyphicon.glyphicon-edit
+                      %i.fa.fa-pencil
                       Edit
                   %li
                     = link_to [@project, variable] do
-                      %span.glyphicon.glyphicon-eye-open
+                      %i.fa.fa-eye
                       Show
                   %li.divider{ role: "separator" }
                 %li

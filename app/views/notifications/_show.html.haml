@@ -1,15 +1,15 @@
 - if notification.adverse_event
-  = render 'notifications/show/adverse_event', notification: notification
+  = render "notifications/show/adverse_event", notification: notification
 - elsif notification.comment
-  = render 'notifications/show/comment', notification: notification
+  = render "notifications/show/comment", notification: notification
 - elsif notification.export
-  = render 'notifications/show/export', notification: notification
+  = render "notifications/show/export", notification: notification
 - elsif notification.handoff
-  = render 'notifications/show/handoff', notification: notification
+  = render "notifications/show/handoff", notification: notification
 - elsif notification.sheet
-  = render 'notifications/show/sheet', notification: notification
+  = render "notifications/show/sheet", notification: notification
 - elsif notification.sheet_unlock_request
-  = render 'notifications/show/sheet_unlock_request', notification: notification
+  = render "notifications/show/sheet_unlock_request", notification: notification
 - else
   %td{ colspan: 3 }
 
@@ -21,5 +21,5 @@
 
 %td
   - unless notification.read?
-    = link_to notification_path(notification, notification: { read: true }), method: :patch, remote: true, class: 'text-muted' do
-      %span.glyphicon.glyphicon-ok
+    = link_to notification_path(notification, notification: { read: true }), method: :patch, remote: true, class: "text-muted" do
+      %i.fa.fa-check

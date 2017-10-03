@@ -32,9 +32,9 @@
                   = succeed " " do
                     = link_to project_sheet_path(@project, sheet), class: "btn btn-xs btn-accent" do
                       = sheet.comments_count
-                      %span.glyphicon.glyphicon-comment
+                      %i.fa.fa-comment
               - if sheets.count > 1 && event_design.highlight_duplicates?
-                %span.glyphicon.glyphicon-warning-sign.text-warning{ rel: "tooltip", title: "Duplicate Entry", data: { placement: "left", container: "body" } }
+                %i.fa.fa-exclamation-triangle.text-warning{ rel: "tooltip", title: "Duplicate Entry", data: { placement: "left", container: "body" } }
               - if sheets.count > 1
                 %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime("%b %-d, %Y")
                 %span.hidden-xs.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
@@ -62,7 +62,7 @@
                 %ul.dropdown-menu.dropdown-menu-right
                   %li
                     = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }) do
-                      / %span.glyphicon.glyphicon-plus
+                      / %i.fa.fa-plus
                       Create Sheet
                   %li.divider{ role: "separator" }
                   %li
@@ -90,7 +90,7 @@
             - if sheet.comments_count.positive?
               = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
                 = sheet.comments_count
-                %span.glyphicon.glyphicon-comment
+                %i.fa.fa-comment
 
           %span.label.label-warning.hidden-xs{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra
           %span.label.label-warning.hidden-sm.hidden-md.hidden-lg{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E

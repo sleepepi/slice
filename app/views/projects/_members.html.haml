@@ -6,7 +6,7 @@
     - if @project.blinding_enabled?
       %col
     %col.hidden-xs
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th Name
@@ -25,16 +25,16 @@
         Owner
       - if @project.blinding_enabled?
         %td.center
-          %span.glyphicon.glyphicon-eye-open.text-muted
+          %i.fa.fa-eye.text-muted
       %td.hidden-xs
       %td
     - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
       %tbody{ id: "project-user-#{project_user.id}-container" }
-        = render 'projects/member_row', member: project_user
+        = render "projects/member_row", member: project_user
 
 - if @project.editable_by?(current_user)
   .pull-right
-    = link_to 'Create Site', new_project_site_path(@project), class: 'btn btn-xs btn-primary btn-shadow'
+    = link_to "Create Site", new_project_site_path(@project), class: "btn btn-xs btn-primary btn-shadow"
 %h3.text-white.text-shadow
   Site Members
 - @project.sites.order(:name).each do |site|
@@ -49,7 +49,7 @@
       - if @project.blinding_enabled?
         %col
       %col.hidden-xs
-      %col{ width: '1px' }
+      %col{ width: "1px" }
       %thead
         %tr
           %th Name
@@ -63,4 +63,4 @@
           %td.center{ colspan: (@project.blinding_enabled? ? 5 : 4) } No Members on Site
       - site.site_users.order(editor: :desc, id: :asc).each do |member|
         %tbody{ id: "site-user-#{member.id}-container" }
-          = render 'projects/member_row', member: member
+          = render "projects/member_row", member: member

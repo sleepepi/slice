@@ -61,7 +61,7 @@
             %span.label.label-default{ rel: "tooltip", data: { title: "Adverse Events", container: "body", placement: "top" } } AEs
           - if export.include_randomizations?
             %span.label.label-default{ rel: "tooltip", data: { title: "Randomizations", container: "body", placement: "top" } }
-              %span.glyphicon.glyphicon-random>
+              %i.fa.fa-random>
           - if export.filters.present?
 
             - export.filters.split(" ").each do |filter|
@@ -75,7 +75,7 @@
             - full_url = file_project_export_path(@project, export)
             = link_to full_url, target: "_blank", class: "btn btn-default btn-xs" do
               zip
-              %span.glyphicon.glyphicon-download-alt
+              %i.fa.fa-download
         %td
           .dropdown
             = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
@@ -87,7 +87,7 @@
                 - full_url = file_project_export_path(@project, export)
                 %li
                   = link_to full_url, target: "_blank" do
-                    %span.glyphicon.glyphicon-download-alt
+                    %i.fa.fa-download
                     Download
                 %li.divider{ role: "separator" }
               %li

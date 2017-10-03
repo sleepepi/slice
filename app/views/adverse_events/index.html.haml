@@ -1,7 +1,7 @@
-- @title = 'Adverse Events'
+- @title = "Adverse Events"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -10,17 +10,17 @@
       %h1.page-heading
         .pull-right
           - if @project.site_or_project_editor?(current_user)
-            = link_to plus_or('Report Adverse Event'), new_project_adverse_event_path(@project), class: 'btn btn-accent btn-shadow'
+            = link_to plus_or("Report Adverse Event"), new_project_adverse_event_path(@project), class: "btn btn-accent btn-shadow"
           - if @project.editable_by?(current_user)
-            = succeed ' ' do
-              = link_to export_project_adverse_events_path, class: 'btn btn-default hidden-xs' do
-                %span.glyphicon.glyphicon-download-alt
+            = succeed " " do
+              = link_to export_project_adverse_events_path, class: "btn btn-default hidden-xs" do
+                %i.fa.fa-download
                 Export
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @adverse_events.total_count
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @adverse_events.total_count
         = @title
-        = render 'search/toggle'
+        = render "search/toggle"
 
-= render 'search/simple', url: project_adverse_events_path(@project)
+= render "search/simple", url: project_adverse_events_path(@project)
 
 - if @adverse_events.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
@@ -29,7 +29,7 @@
   - site_or_project_editor = @project.site_or_project_editor?(current_user)
   .dashboard-container
     %table.table.table-striped.table-borderless.table-hover
-      %col{ width: '1px' }
+      %col{ width: "1px" }
       %col
       %col.hidden-xs
       %col.hidden-xs
@@ -37,50 +37,50 @@
       - if viewable_sites.count > 1
         %col.hidden-xs.hidden-sm
       %col
-      %col{ width: '1px' }
+      %col{ width: "1px" }
       %thead
         %tr
-          = th_sort_field @order, 'created', '#', extra_class: 'center', permit: [:site_id, :user_id, :status]
-          = th_sort_field @order, 'subject', 'Subject', permit: [:site_id, :user_id, :status]
+          = th_sort_field @order, "created", "#", extra_class: "center", permit: [:site_id, :user_id, :status]
+          = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id, :status]
           %th.hidden-xs Description
-          = th_sort_field_rev @order, 'ae_date', 'Date of AE', extra_class: 'hidden-xs', permit: [:site_id, :user_id, :status]
-          %th.nowrap.hidden-xs.hidden-sm{ class: ['reported_by', 'reported_by desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Reported By', project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == 'reported_by' ? 'reported_by desc' : 'reported_by')))
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+          = th_sort_field_rev @order, "ae_date", "Date of AE", extra_class: "hidden-xs", permit: [:site_id, :user_id, :status]
+          %th.nowrap.hidden-xs.hidden-sm{ class: ["reported_by", "reported_by desc"].include?(params[:order]) ? "sort-selected" : nil }
+            = link_to "Reported By", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "reported_by" ? "reported_by desc" : "reported_by")))
+            .dropdown{ style: "display: inline-block" }
+              = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
                 - if params[:user_id].present?
-                  %span.glyphicon.glyphicon-filter.text-primary
+                  %i.fa.fa-filter.text-primary
                 - else
-                  %span.glyphicon.glyphicon-filter
+                  %i.fa.fa-filter
               %ul.dropdown-menu.dropdown-menu-right
-                %li= link_to 'All Users', project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? 'font-weight:bold;' : ''
+                %li= link_to "All Users", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : ""
                 - all_reporters.each do |user|
-                  %li= link_to user.name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
+                  %li= link_to user.name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : ""
           - if viewable_sites.count > 1
-            %th.nowrap.hidden-xs.hidden-sm{ class: ['site', 'site desc'].include?(params[:order]) ? 'sort-selected' : nil }
-              = link_to 'Site', project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == 'site' ? 'site desc' : 'site')))
-              .dropdown{ style: 'display: inline-block' }
-                = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+            %th.nowrap.hidden-xs.hidden-sm{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
+              = link_to "Site", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "site" ? "site desc" : "site")))
+              .dropdown{ style: "display: inline-block" }
+                = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
                   - if params[:site_id].present?
-                    %span.glyphicon.glyphicon-filter.text-primary
+                    %i.fa.fa-filter.text-primary
                   - else
-                    %span.glyphicon.glyphicon-filter
+                    %i.fa.fa-filter
                 %ul.dropdown-menu
-                  %li= link_to 'All Sites', project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? 'font-weight:bold;' : ''
+                  %li= link_to "All Sites", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : ""
                   - viewable_sites.each do |site|
-                    %li= link_to site.short_name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
-          %th.nowrap{ class: ['adverse_events.closed', 'adverse_events.closed desc'].include?(params[:order]) ? 'sort-selected' : nil }
-            = link_to 'Status', project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == 'adverse_events.closed desc' ? 'adverse_events.closed' : 'adverse_events.closed desc')))
-            .dropdown{ style: 'display: inline-block' }
-              = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' } do
+                    %li= link_to site.short_name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : ""
+          %th.nowrap{ class: ["adverse_events.closed", "adverse_events.closed desc"].include?(params[:order]) ? "sort-selected" : nil }
+            = link_to "Status", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "adverse_events.closed desc" ? "adverse_events.closed" : "adverse_events.closed desc")))
+            .dropdown{ style: "display: inline-block" }
+              = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
                 - if params[:status].present?
-                  %span.glyphicon.glyphicon-filter.text-primary
+                  %i.fa.fa-filter.text-primary
                 - else
-                  %span.glyphicon.glyphicon-filter
+                  %i.fa.fa-filter
               %ul.dropdown-menu
-                %li= link_to 'Any Status', project_adverse_events_path(@project, filtered_params.merge(order: params[:order], status: nil)), style: params[:status].blank? ? 'font-weight:bold;' : ''
-                - [['Open', 'open'], ['Closed', 'closed']].each do |status_label, status_value|
-                  %li= link_to status_label, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], status: status_value)), style: params[:status].to_s == status_value.to_s ? 'font-weight:bold;' : ''
+                %li= link_to "Any Status", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], status: nil)), style: params[:status].blank? ? "font-weight:bold;" : ""
+                - [["Open", "open"], ["Closed", "closed"]].each do |status_label, status_value|
+                  %li= link_to status_label, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], status: status_value)), style: params[:status].to_s == status_value.to_s ? "font-weight:bold;" : ""
           - if site_or_project_editor
             %th Actions
       %tbody
@@ -91,11 +91,11 @@
                 - if adverse_event.number
                   = adverse_event.name
                 - else
-                  %i.fa.fa-spinner.fa-pulse{ aria: { hidden: 'true' } }
+                  %i.fa.fa-spinner.fa-pulse{ aria: { hidden: "true" } }
             %td= link_to adverse_event.subject.subject_code, [@project, adverse_event]
-            %td.hidden-xs{ style: 'max-width: 200px;' }
+            %td.hidden-xs{ style: "max-width: 200px;" }
               .overflow-hidden.nowrap= adverse_event.description.truncate(40)
-            %td.hidden-xs= adverse_event.adverse_event_date.strftime('%b %-d, %Y')
+            %td.hidden-xs= adverse_event.adverse_event_date.strftime("%b %-d, %Y")
             %td.hidden-xs.hidden-sm= adverse_event.user.nickname
             - if viewable_sites.count > 1
               %td.hidden-xs.hidden-sm.nowrap= adverse_event.site.short_name
@@ -106,13 +106,13 @@
                 %span.label.label-success Open
             - if site_or_project_editor
               %td
-                = render 'layouts/edit_delete_dropdown', edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Delete #{adverse_event.name}?"
+                = render "layouts/edit_delete_dropdown", edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Delete #{adverse_event.name}?"
 
-  .center= paginate @adverse_events, theme: 'bootstrap'
+  .center= paginate @adverse_events, theme: "bootstrap"
 - else
   .jumbotron
     %p.center
       No adverse events found.
       - if params[:status].present? || params[:user_id].present? || params[:site_id].present?
-        = succeed '.' do
-          = link_to 'Clear filters', project_adverse_events_path(@project, search: params[:search])
+        = succeed "." do
+          = link_to "Clear filters", project_adverse_events_path(@project, search: params[:search])

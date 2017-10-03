@@ -78,7 +78,7 @@
   .col-md-6
     .panel.panel-primary
       .panel-heading
-        %span.glyphicon.glyphicon-lock
+        %i.fa.fa-lock
         Change Password
       .panel-body
         = form_for current_user, url: change_password_path, method: :patch, html: { id: "reset_password", class: "form-vertical" } do |form|

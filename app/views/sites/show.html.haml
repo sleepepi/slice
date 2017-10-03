@@ -17,12 +17,12 @@
             %ul.dropdown-menu.dropdown-menu-right
               %li
                 = link_to project_subjects_path(@project, site_id: @site.id) do
-                  %span.glyphicon.glyphicon-eye-open
+                  %i.fa.fa-eye
                   View Subjects
               - if current_user.all_sites.pluck(:id).include?(@site.id)
                 %li
                   = link_to edit_project_site_path(@site.project, @site) do
-                    %span.glyphicon.glyphicon-edit
+                    %i.fa.fa-pencil
                     Edit
                 %li.divider{ role: "separator" }
                 %li

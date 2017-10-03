@@ -1,9 +1,9 @@
-- @title = 'Block Size Multipliers'
+- @title = "Block Size Multipliers"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -12,15 +12,15 @@
       %h1.page-heading
         .pull-right
           - unless @randomization_scheme.published?
-            = link_to plus_or('New Block Size Multiplier'), new_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @block_size_multipliers.total_count
+            = link_to plus_or("New Block Size Multiplier"), new_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme), class: "btn btn-accent btn-shadow"
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @block_size_multipliers.total_count
         %span= @title
 
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
     %col
     %col
-    %col{ width: '1px' }
+    %col{ width: "1px" }
     %thead
       %tr
         %th.center Value
@@ -34,11 +34,11 @@
           %td.center= block_size_multiplier.allocation
           %td
             - if @randomization_scheme.published?
-              = link_to label_or('Scheme Published', 'Published'), '#', data: { object: 'suppress-click' }, class: 'btn btn-xs btn-primary', disabled: true
+              = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-xs btn-primary", disabled: true
             - else
-              = render 'layouts/edit_delete_dropdown', edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Delete \"#{block_size_multiplier.name}\" block size multiplier?"
+              = render "layouts/edit_delete_dropdown", edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Delete \"#{block_size_multiplier.name}\" block size multiplier?"
 
 .docs-learn-more
   Learn about the
-  = succeed '.' do
-    = link_to 'Permuted-Block algorithm', docs_permuted_block_path
+  = succeed "." do
+    = link_to "Permuted-Block algorithm", docs_permuted_block_path

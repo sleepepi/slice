@@ -1,8 +1,8 @@
-- @title = 'Timeline'
+- @title = "Timeline"
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render 'subjects/side_nav'
-= render 'subjects/simple_header'
+= render "subjects/side_nav"
+= render "subjects/simple_header"
 
 .dashboard-container
   - events = (@subject.blinded_sheets(current_user).order(created_at: :desc) + @subject.blinded_comments(current_user).to_a + @subject.blinded_subject_events(current_user).to_a + @subject.randomizations.to_a + @subject.adverse_events.to_a).sort_by(&:event_at).reverse
@@ -25,7 +25,7 @@
                 Public user
             added
             = link_to sheet.name, [@project, sheet]
-            %abbr{ rel: 'tooltip', data: { title: sheet.created_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+            %abbr{ rel: "tooltip", data: { title: sheet.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(sheet.created_at)
               ago
     - elsif event.class == SubjectEvent
@@ -35,7 +35,7 @@
         .comment-left-fixed
         .comment-right-fluid
           .comment-icon
-            %span.glyphicon.glyphicon-calendar
+            %i.fa.fa-calendar
           .comment-action
             %strong
               - if subject_event.user
@@ -44,7 +44,7 @@
                 Public user
             added
             = link_to subject_event.event.name, event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-            %abbr{ rel: 'tooltip', data: { title: subject_event.created_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+            %abbr{ rel: "tooltip", data: { title: subject_event.created_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(subject_event.created_at)
               ago
     - elsif event.class == Randomization && @project.unblinded?(current_user)
@@ -53,19 +53,19 @@
       .comment-outer
         .comment-left-fixed
         .comment-right-fluid
-          .jumbotron{ style: 'margin-bottom: 0;' }
+          .jumbotron{ style: "margin-bottom: 0;" }
             .timeline-large-icon
-              %span.glyphicon.glyphicon-random
+              %i.fa.fa-random
             %strong
               %span.hidden-sm.hidden-md.hidden-lg
-                %span.glyphicon.glyphicon-random
+                %i.fa.fa-random
               - if randomization.randomized_by
                 = randomization.randomized_by.name
               - else
                 Public user
             randomized subject to
             = link_to randomization.treatment_arm.name, [@project, randomization]
-            %abbr{ rel: 'tooltip', data: { title: randomization.randomized_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+            %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(randomization.randomized_at)
               ago
     - elsif event.class == AdverseEvent && @project.unblinded?(current_user)
@@ -74,19 +74,19 @@
       .comment-outer
         .comment-left-fixed
         .comment-right-fluid
-          .jumbotron.callout-danger{ style: 'margin-bottom: 0;' }
+          .jumbotron.callout-danger{ style: "margin-bottom: 0;" }
             .timeline-large-icon
-              %span.glyphicon.glyphicon-warning-sign.text-danger
+              %i.fa.fa-exclamation-triangle.text-danger
             %strong
               %span.hidden-sm.hidden-md.hidden-lg
-                %span.glyphicon.glyphicon-warning-sign
+                %i.fa.fa-exclamation-triangle
               = adverse_event.user.name
             reported an
-            = link_to 'adverse event', [@project, adverse_event], class: 'callout-link'
+            = link_to "adverse event", [@project, adverse_event], class: "callout-link"
             that occurred on
-            = adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
+            = adverse_event.adverse_event_date.strftime("%a, %-d %b %Y")
 
-            %abbr{ rel: 'tooltip', data: { title: adverse_event.event_at.strftime('%-d %B %Y, %-l:%M %p'), container: 'body', placement: 'right' } }
+            %abbr{ rel: "tooltip", data: { title: adverse_event.event_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(adverse_event.event_at)
               ago
             %br
@@ -96,16 +96,16 @@
       %a.anchor-top{ name: "c#{current_index}" }
       - unless comment.deleted?
         %div{ id: "comment_#{comment.id}" }
-          = render 'comments/show', comment: comment, number: current_index, include_name: '1'
+          = render "comments/show", comment: comment, number: current_index, include_name: "1"
   .comment-outer
     .comment-left-fixed
     .comment-right-fluid
-      .jumbotron{ style: 'margin-bottom: 0;' }
+      .jumbotron{ style: "margin-bottom: 0;" }
         .timeline-large-icon
-          %i.fa.fa-birthday-cake{ aria: { hidden: 'true' } }
+          %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
         %strong
           %span.hidden-sm.hidden-md.hidden-lg
-            %i.fa.fa-birthday-cake{ aria: { hidden: 'true' } }
+            %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
           - if @subject.user
             = @subject.user.name
           - else
@@ -114,4 +114,4 @@
         subject
         = link_to @subject.name, [@project, @subject]
         on
-        = @subject.created_at.strftime('%a, %B %-d, %Y at %-l:%M %p.')
+        = @subject.created_at.strftime("%a, %B %-d, %Y at %-l:%M %p.")

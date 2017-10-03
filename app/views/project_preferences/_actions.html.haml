@@ -7,40 +7,40 @@
     - if project.archived_by?(current_user)
       %li
         = link_to project_preferences_update_path(project_id: project, archived: "0"), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-blackboard
+          %i.fa.fa-key
           Unarchive
     - else
       %li
         = link_to project_preferences_update_path(project_id: project, archived: "1"), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-briefcase
+          %i.fa.fa-archive
           Archive
 
       - if project.favorited_by?(current_user)
         %li
           = link_to project_preferences_update_path(project_id: project, favorited: "0"), remote: true, method: :patch do
-            %span.glyphicon.glyphicon-star
+            %i.fa.fa-star-o
             Unfavorite
       - else
         %li
           = link_to project_preferences_update_path(project_id: project, favorited: "1"), remote: true, method: :patch do
-            %span.glyphicon.glyphicon-star-empty
+            %i.fa.fa-star
             Favorite
 
     - if project.emails_enabled?(current_user)
       %li
         = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-envelope
+          %i.fa.fa-envelope
           Disable Emails
     - else
       %li
         = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch do
-          %span.glyphicon.glyphicon-envelope
+          %i.fa.fa-envelope
           Enable Emails
     - if project.editable_by?(current_user)
       %li.divider{ role: "separator" }
       %li
         = link_to edit_editor_project_path(project) do
-          %span.glyphicon.glyphicon-edit
+          %i.fa.fa-pencil
           Edit Project
     - if project.owner?(current_user)
       %li

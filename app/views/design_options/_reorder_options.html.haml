@@ -1,26 +1,26 @@
-= form_tag update_option_order_project_design_design_options_path(@design.project, @design), method: :post, remote: true, id: 'reorder_design_form' do
-  %ul#reorder_options.design-list{ data: { object: 'sortable' } }
+= form_tag update_option_order_project_design_design_options_path(@design.project, @design), method: :post, remote: true, id: "reorder_design_form" do
+  %ul#reorder_options.design-list{ data: { object: "sortable" } }
     - @design.design_options.each_with_index do |design_option, position|
       - section = design_option.section
       - variable = design_option.variable
       - if section
-        %li.li-section{ id: "option_#{position}", style: 'margin-bottom:5px', data: { position: position } }
-          %span.glyphicon.glyphicon-move.option-handle
+        %li.li-section{ id: "option_#{position}", style: "margin-bottom:5px", data: { position: position } }
+          %i.fa.fa-arrows.option-handle
           - if section.level != 0
-            %div{ style: 'width: 6px;display: inline-block;' } &nbsp;
+            %div{ style: "width: 6px;display: inline-block;" } &nbsp;
           .sortable-section
             - if section.name.present?
               = section.name
             - else
               = strip_tags(simple_markdown section.description).truncate(50).html_safe
       - elsif variable
-        %li.li-variable.nowrap{ id: "option_#{position}", style: 'margin-bottom:5px', data: { position: position } }
-          .nowrap{ style: "display: inline-block;overflow: hidden;width: 70%;#{'text-decoration: line-through;' if variable.deleted?}" }
-            %span.glyphicon.glyphicon-move.option-handle{ style: "#{'color: #d14;' if variable.deleted?}" }
-            = render 'design_options/required', design_option: design_option
+        %li.li-variable.nowrap{ id: "option_#{position}", style: "margin-bottom:5px", data: { position: position } }
+          .nowrap{ style: "display: inline-block;overflow: hidden;width: 70%;#{"text-decoration: line-through;" if variable.deleted?}" }
+            %i.fa.fa-arrows.option-handle{ style: "#{"color: #d14;" if variable.deleted?}" }
+            = render "design_options/required", design_option: design_option
             = variable.display_name
-          .nowrap{ style: 'width: 20%;display: inline-block;' }
+          .nowrap{ style: "width: 20%;display: inline-block;" }
             - if variable.deleted?
-              .label.label-danger{ style: 'text-decoration: line-through;' }= variable.name
+              .label.label-danger{ style: "text-decoration: line-through;" }= variable.name
             - else
               .label.label-default= variable.name

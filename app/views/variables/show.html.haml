@@ -18,10 +18,10 @@
               %ul.dropdown-menu.dropdown-menu-right
                 %li
                   = link_to edit_project_variable_path(@project, @variable) do
-                    %span.glyphicon.glyphicon-edit
+                    %i.fa.fa-pencil
                     Edit
                   = link_to copy_project_variable_path(@project, @variable) do
-                    %span.glyphicon.glyphicon-duplicate
+                    %i.fa.fa-files-o
                     Copy
                 %li.divider{ role: "separator" }
                 %li

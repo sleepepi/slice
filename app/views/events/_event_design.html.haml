@@ -3,54 +3,54 @@
 
 .well{ id: "design_#{@position}" }
   .pull-right
-    = link_to 'Remove', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'remove', target: "#design_#{@position}" }, tabindex: '-1'
-  %span.glyphicon.glyphicon-move.design-handle
+    = link_to "Remove", "#", class: "btn btn-xs btn-danger-inverse", data: { object: "remove", target: "#design_#{@position}" }, tabindex: "-1"
+  %i.fa.fa-arrows.design-handle
 
 
-  %div{ style: 'padding: 20px 20px 0;' }
+  %div{ style: "padding: 20px 20px 0;" }
     .form-group
       %label.col-md-2.control-label Design
       .col-md-10
-        = select_tag "event[design_hashes][][design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.design_id), include_blank: true, class: 'form-control'
+        = select_tag "event[design_hashes][][design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.design_id), include_blank: true, class: "form-control"
 
     .form-group
       %label.col-md-2.control-label Requirement
       .col-md-10
-        = select_tag "event[design_hashes][][requirement]", options_for_select(EventDesign::REQUIREMENTS, event_design.requirement), class: 'form-control', data: { object: 'event-design-requirement', target: "#design_#{@position}_conditional_requirements" }
+        = select_tag "event[design_hashes][][requirement]", options_for_select(EventDesign::REQUIREMENTS, event_design.requirement), class: "form-control", data: { object: "event-design-requirement", target: "#design_#{@position}_conditional_requirements" }
 
-    %div{ style: event_design.conditionally_required? ? '' : 'display: none', id: "design_#{@position}_conditional_requirements" }
+    %div{ style: event_design.conditionally_required? ? "" : "display: none", id: "design_#{@position}_conditional_requirements" }
       .row.col-buffer
         .col-xs-6
           .center
-            %small.text-muted{ style: 'font-variant: small-caps;' } Event
-          = select_tag "event[design_hashes][][conditional_event_id]", options_for_select(@project.events.order(:position).pluck(:name, :id), event_design.conditional_event_id), include_blank: true, class: 'form-control chosen-select'
+            %small.text-muted{ style: "font-variant: small-caps;" } Event
+          = select_tag "event[design_hashes][][conditional_event_id]", options_for_select(@project.events.order(:position).pluck(:name, :id), event_design.conditional_event_id), include_blank: true, class: "form-control chosen-select"
         .col-xs-6
           .center
-            %small.text-muted{ style: 'font-variant: small-caps;' } Design
-          = select_tag "event[design_hashes][][conditional_design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.conditional_design_id), include_blank: true, class: 'form-control chosen-select'
+            %small.text-muted{ style: "font-variant: small-caps;" } Design
+          = select_tag "event[design_hashes][][conditional_design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.conditional_design_id), include_blank: true, class: "form-control chosen-select"
       .row.col-buffer
         .col-xs-5
           .center
-            %small.text-muted{ style: 'font-variant: small-caps;' } Variable
-          = select_tag "event[design_hashes][][conditional_variable_id]", options_for_select(@project.variables.order(:name).pluck(:name, :id), event_design.conditional_variable_id), include_blank: true, class: 'form-control chosen-select'
+            %small.text-muted{ style: "font-variant: small-caps;" } Variable
+          = select_tag "event[design_hashes][][conditional_variable_id]", options_for_select(@project.variables.order(:name).pluck(:name, :id), event_design.conditional_variable_id), include_blank: true, class: "form-control chosen-select"
         .col-xs-2
           .center
-            %small.text-muted{ style: 'font-variant: small-caps;' } &nbsp;
-          = select_tag "event[design_hashes][][conditional_operator]", options_for_select(EventDesign::OPERATORS, event_design.conditional_operator), class: 'form-control', style: 'min-width: 46px;'
+            %small.text-muted{ style: "font-variant: small-caps;" } &nbsp;
+          = select_tag "event[design_hashes][][conditional_operator]", options_for_select(EventDesign::OPERATORS, event_design.conditional_operator), class: "form-control", style: "min-width: 46px;"
         .col-xs-5
           .center
-            %small.text-muted{ style: 'font-variant: small-caps;' } Value
-          = text_field_tag "event[design_hashes][][conditional_value]", event_design.conditional_value, class: 'form-control'
+            %small.text-muted{ style: "font-variant: small-caps;" } Value
+          = text_field_tag "event[design_hashes][][conditional_value]", event_design.conditional_value, class: "form-control"
 
     .form-group
       %label.col-md-2.control-label Duplicates
       .col-md-10
-        = select_tag "event[design_hashes][][duplicates]", options_for_select(EventDesign::DUPLICATES, event_design.duplicates), class: 'form-control'
+        = select_tag "event[design_hashes][][duplicates]", options_for_select(EventDesign::DUPLICATES, event_design.duplicates), class: "form-control"
 
     - if @project.handoffs_enabled?
       .form-group
         %label.col-md-2.control-label Handoff
         .col-md-10
-          = select_tag "event[design_hashes][][handoff_enabled]", options_for_select([['No Handoff', false], ['Handoff Enabled', true]], event_design.handoff_enabled), class: 'form-control'
+          = select_tag "event[design_hashes][][handoff_enabled]", options_for_select([["No Handoff", false], ["Handoff Enabled", true]], event_design.handoff_enabled), class: "form-control"
     - else
       = hidden_field_tag "event[design_hashes][][handoff_enabled]", event_design.handoff_enabled

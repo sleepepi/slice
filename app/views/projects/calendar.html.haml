@@ -1,10 +1,10 @@
-- @title = 'Calendar'
+- @title = "Calendar"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 
--# if current_user.calendar_view == '4week'
+-# if current_user.calendar_view == "4week"
 - move_forward = @anchor_date + 4.weeks
 - move_backward = @anchor_date - 4.weeks
 -# else
@@ -17,17 +17,17 @@
   .header-container
     .container
       .pull-right
-        = succeed ' ' do
-          = link_to calendar_project_path(@project, date: move_backward.strftime('%Y%m%d')), tabindex: '-1', class: 'btn btn-xs btn-default' do
-            %span.glyphicon.glyphicon-chevron-left
+        = succeed " " do
+          = link_to calendar_project_path(@project, date: move_backward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-xs btn-default" do
+            %i.fa.fa-caret-left
 
-        = succeed ' ' do
-          = link_to calendar_project_path(@project), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? 'disabled' : nil) do
-            %span.glyphicon.glyphicon-calendar
+        = succeed " " do
+          = link_to calendar_project_path(@project), tabindex: "-1", class: "btn btn-xs btn-default", disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? "disabled" : nil) do
+            %i.fa.fa-calendar
 
-        = succeed ' ' do
-          = link_to calendar_project_path(@project, date: move_forward.strftime('%Y%m%d')), tabindex: '-1', class: 'btn btn-xs btn-default' do
-            %span.glyphicon.glyphicon-chevron-right
+        = succeed " " do
+          = link_to calendar_project_path(@project, date: move_forward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-xs btn-default" do
+            %i.fa.fa-caret-right
 
       %h1.page-heading
         = @title
@@ -57,15 +57,15 @@
         S
 
     - stacked_windows = []
-    - end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where('window_start_date < ? and window_end_date >= ?', @anchor_date + @weeks_before.week, @anchor_date + @weeks_before.week)
+    - end_windows = current_user.all_viewable_tasks.where(project_id: @project.id).where("window_start_date < ? and window_end_date >= ?", @anchor_date + @weeks_before.week, @anchor_date + @weeks_before.week)
     - end_windows.each_with_index do |end_window, index|
-      - stacked_windows << [end_window, 'start']
+      - stacked_windows << [end_window, "start"]
 
     -# all_objects
     -# tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
-    -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
+    -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where("DATE(randomized_at) = ?", current_date)
     -# adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
-    -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) = ?', current_date)
+    -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where("DATE(comments.created_at) = ?", current_date)
     -# objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a + comments.to_a).sort_by(&:created_at)
 
     - index = -1
@@ -75,47 +75,47 @@
           - index += 1
           - current_date = @anchor_date + week_offset.week + day_offset.day
           - dayname = Date::DAYNAMES[current_date.wday]
-          .calendar-day{ class: [dayname.downcase, Time.zone.today == current_date ? 'today' : nil] }
+          .calendar-day{ class: [dayname.downcase, Time.zone.today == current_date ? "today" : nil] }
             %div
               - if index == 0 || current_date.day == 1
-                - date_format = current_date.strftime '%b %e'
+                - date_format = current_date.strftime "%b %e"
               - else
-                - date_format = current_date.strftime '%e'
+                - date_format = current_date.strftime "%e"
               = date_format
             - stacked_windows.collect! do |stacked_window, state|
               - if stacked_window.window_end_date < current_date
-                - [stacked_window, 'cleared']
+                - [stacked_window, "cleared"]
               - elsif stacked_window.window_end_date == current_date
-                - [stacked_window, 'end']
+                - [stacked_window, "end"]
               - else
-                - [stacked_window, 'middle']
-            - stacked_windows.reject! { |stacked_window, state| state == 'cleared' } if day_offset == 0
+                - [stacked_window, "middle"]
+            - stacked_windows.reject! { |stacked_window, state| state == "cleared" } if day_offset == 0
 
             - start_windows = current_user.all_viewable_tasks.where(project_id: @project.id, window_start_date: current_date)
             - start_windows.each do |start_window|
               - added = false
               - stacked_windows.each_with_index do |(stacked_window, state), index|
-                - if state == 'cleared'
-                  - stacked_windows[index] = [start_window, 'start']
+                - if state == "cleared"
+                  - stacked_windows[index] = [start_window, "start"]
                   - added = true
                   - break
-              - stacked_windows << [start_window, 'start'] unless added
+              - stacked_windows << [start_window, "start"] unless added
 
             - stacked_windows.each_with_index do |(stacked_window, state), index|
-              .calendar-window{ class: "window-#{state}", data: { object: 'calendar-window', task_id: stacked_window.id } }
-                - if state == 'start'
+              .calendar-window{ class: "window-#{state}", data: { object: "calendar-window", task_id: stacked_window.id } }
+                - if state == "start"
                   %span.hidden-xs.hidden-sm Window
                   Start
-                - elsif state == 'end'
+                - elsif state == "end"
                   %span.hidden-xs.hidden-sm Window
                   End
                 - else
                   &nbsp;
 
             -# tasks = current_user.all_viewable_tasks.where(project_id: @project.id, due_date: current_date)
-            -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where('DATE(randomized_at) = ?', current_date)
+            -# randomizations = current_user.all_viewable_randomizations.where(project_id: @project.id).where("DATE(randomized_at) = ?", current_date)
             -# adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: current_date)
-            -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where('DATE(comments.created_at) = ?', current_date)
+            -# comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where("DATE(comments.created_at) = ?", current_date)
             -# objects = (tasks.to_a + randomizations.to_a + adverse_events.to_a + comments.to_a).sort_by(&:created_at)
 
             - tasks = @tasks.select { |t| t.due_date == current_date }
@@ -126,44 +126,44 @@
             - objects = (tasks + randomizations + adverse_events).sort_by(&:created_at)
 
             - if objects.count > 0
-              %ul.list-unstyled
+              %ul.list-unstyled{ style: "padding-left: 1px;" }
                 - objects.each do |object|
                   - if object.is_a?(Task)
                     - task = object
                     %li.nowrap
                       - if task.phonecall?
-                        %span.glyphicon.glyphicon-earphone
+                        %i.fa.fa-phone
                       - elsif task.visit?
-                        %span.glyphicon.glyphicon-user
+                        %i.fa.fa-user-md
                       - else
-                        %span.glyphicon.glyphicon-pushpin
-                      = link_to [@project, task], data: { object: 'calendar-window-hover', task_id: task.id } do
+                        %i.fa.fa-thumb-tack
+                      = link_to [@project, task], data: { object: "calendar-window-hover", task_id: task.id } do
                         = object.calendar_description
                   - elsif object.is_a?(Randomization)
                     - randomization = object
                     - display_text = "#{randomization.subject.name} #{randomization.treatment_arm.short_name}"
                     %li.nowrap
-                      %span.glyphicon.glyphicon-random
+                      %i.fa.fa-random
                       = link_to [@project, randomization] do
                         = display_text
                   - elsif object.is_a?(AdverseEvent)
                     - adverse_event = object
                     - display_text = "#{adverse_event.subject.name} #{adverse_event.name}"
                     %li.nowrap
-                      %span.glyphicon.glyphicon-warning-sign.text-danger
+                      %i.fa.fa-exclamation-triangle.text-danger
                       = link_to [@project, adverse_event] do
                         = display_text
                   - elsif object.is_a?(Comment)
                     - comment = object
                     - display_text = "#{comment.description}"
                     %li.nowrap
-                      %span.glyphicon.glyphicon-comment
+                      %i.fa.fa-comment
                       = link_to [@project, comment.sheet] do
                         = display_text
                   - elsif object.is_a?(SubjectEvent)
                     - subject_event = object
                     - display_text = "#{subject_event.subject.name} #{subject_event.name}"
                     %li.nowrap
-                      %span.glyphicon.glyphicon-comment
+                      %i.fa.fa-comment
                       = link_to event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
                         = display_text

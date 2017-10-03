@@ -9,11 +9,11 @@
     %ul.dropdown-menu.dropdown-menu-right
       %li
         = link_to edit_editor_project_check_path(@project, check) do
-          %span.glyphicon.glyphicon-edit
+          %i.fa.fa-pencil
           Edit
       %li
         = link_to editor_project_check_path(@project, check, check: { archived: check.archived? ? "0" : "1" }), method: :patch, remote: true do
-          %span.glyphicon.glyphicon-briefcase
+          %i.fa.fa-archive
           - if check.archived?
             Restore
           - else

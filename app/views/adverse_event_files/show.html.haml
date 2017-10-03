@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
-= @subject = @adverse_event.subject; render 'subjects/side_nav'
+= @subject = @adverse_event.subject; render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -11,19 +11,19 @@
     .container
       %h1.page-heading
         .pull-right
-          = render 'adverse_events/actions', adverse_event: @adverse_event
+          = render "adverse_events/actions", adverse_event: @adverse_event
         = link_to @adverse_event.name, [@project, @adverse_event]
         Files
-      = render 'adverse_events/shareable_link', adverse_event: @adverse_event
+      = render "adverse_events/shareable_link", adverse_event: @adverse_event
 
-= render 'adverse_events/menu'
+= render "adverse_events/menu"
 .dashboard-container
   .jumbotron.center
-    = succeed ' ' do
-      = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: 'btn btn-default' do
-        .glyphicon.glyphicon-download
+    = succeed " " do
+      = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: "btn btn-default" do
+        %i.fa.fa-download
         = @adverse_event_file.name
     %code= number_to_human_size @adverse_event_file.attachment.size
 
   - if @adverse_event_file.image?
-    .center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: 'img-responsive img-thumbnail shadow'
+    .center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: "img-responsive img-thumbnail shadow"

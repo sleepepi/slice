@@ -1,22 +1,22 @@
 %ul.nav.nav-tabs.nav-custom-tabs
-  %li{ class: (current_page?([@project, @adverse_event]) ? 'active' : nil), role: 'presentation' }
+  %li{ class: (current_page?([@project, @adverse_event]) ? "active" : nil), role: "presentation" }
     = link_to [@project, @adverse_event] do
       Discussion
   - if false
-    %li{ class: (current_page?(forms_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+    %li{ class: (current_page?(forms_project_adverse_event_path(@project, @adverse_event)) ? "active" : nil), role: "presentation" }
       = link_to forms_project_adverse_event_path(@project, @adverse_event) do
         Forms
         %span.label.label-default= @adverse_event.sheets.count if @adverse_event.sheets.present?
-  %li{ class: (params[:controller] == 'adverse_event_files' ? 'active' : nil), role: 'presentation' }
+  %li{ class: (params[:controller] == "adverse_event_files" ? "active" : nil), role: "presentation" }
     = link_to project_adverse_event_adverse_event_files_path(@project, @adverse_event) do
       Files
       %span.label.label-default= @adverse_event.adverse_event_files.count if @adverse_event.adverse_event_files.count > 0
   - if @adverse_event.editable_by?(current_user)
-    %li{ class: (current_page?(edit_project_adverse_event_path(@project, @adverse_event)) ? 'active' : nil), role: 'presentation' }
+    %li{ class: (current_page?(edit_project_adverse_event_path(@project, @adverse_event)) ? "active" : nil), role: "presentation" }
       = link_to edit_project_adverse_event_path(@project, @adverse_event) do
-        %span.glyphicon.glyphicon-pencil
-  %li.disabled{ role: 'presentation' }
-    = link_to '#', data: { object: 'suppress-click' } do
+        %i.fa.fa-pencil
+  %li.disabled{ role: "presentation" }
+    = link_to "#", data: { object: "suppress-click" } do
       - if @adverse_event.closed?
         %span.label.label-danger Closed
       - else

@@ -1,9 +1,9 @@
 .projects-box{ data: { project_id: project.id } }
   .pull-right.nowrap
     - if sortable
-      %span.glyphicon.glyphicon-move.handle
+      %i.fa.fa-arrows.handle
     = number_with_delimiter project.subjects.count
-    = render 'project_preferences/splash_actions', project: project
+    = render "project_preferences/splash_actions", project: project
 
   = link_to project do
     = project.name

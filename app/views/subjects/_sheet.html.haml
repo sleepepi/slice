@@ -1,17 +1,17 @@
-%tr{ class: "#{'highlight' if @sheet == sheet}", data: { object: 'sheet-draggable', sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: 'cursor: move;' }
-  %td{ id: "sheet_#{sheet.id}_coverage", style: 'cursor: default;' }= render 'sheets/coverage', sheet: sheet
+%tr{ class: "#{"highlight" if @sheet == sheet}", data: { object: "sheet-draggable", sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: "cursor: move;" }
+  %td{ id: "sheet_#{sheet.id}_coverage", style: "cursor: default;" }= render "sheets/coverage", sheet: sheet
   %td
     .pull-right
       - if sheet.comments_count.positive?
-        = succeed ' ' do
-          = link_to [@project, sheet], class: 'btn btn-xs btn-accent' do
+        = succeed " " do
+          = link_to [@project, sheet], class: "btn btn-xs btn-accent" do
             = sheet.comments_count
-            %span.glyphicon.glyphicon-comment
-      %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime('%b %-d, %Y')
-      %span.hidden-xs.nowrap= sheet.created_at.strftime('%a, %b %-d, %Y')
+            %i.fa.fa-comment
+      %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime("%b %-d, %Y")
+      %span.hidden-xs.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
 
     = link_to sheet.name, [@project, sheet]
-    = render 'layouts/unblinded_only', project: @project, object: sheet.design, placement: 'top'
+    = render "layouts/unblinded_only", project: @project, object: sheet.design, placement: "top"
     - if sheet.auto_locked? && @sheet == sheet
       %br
       %span The sheet must be unlocked before being moved to another event.

@@ -1,12 +1,12 @@
 %td
-  %span.glyphicon.glyphicon-lock{ class: "#{notification.read? ? 'text-muted' : 'text-primary'}" }
+  %i.fa.fa-lock{ class: "#{notification.read? ? "text-muted" : "text-primary"}" }
 
-%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+%td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden
-    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+    = link_to notification, class: "#{notification.read? ? "link-muted" : "link-unstyled" }" do
       %span.label.label-primary Unlock Request
       %small.text-muted
         = strip_tags(simple_markdown notification.sheet_unlock_request.reason).html_safe
 
 %td.hidden-xs
-  = image_tag notification.sheet_unlock_request.user.avatar_url(18, 'identicon'), size: '18x18', alt: ''
+  = image_tag notification.sheet_unlock_request.user.avatar_url(18, "identicon"), size: "18x18", alt: ""

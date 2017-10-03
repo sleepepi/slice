@@ -1,9 +1,9 @@
 %td
-  %span.glyphicon.glyphicon-export{ class: "#{notification.read? ? 'text-muted' : 'text-primary'}" }
+  %i.fa.fa-file-archive-o{ class: (notification.read? ? "text-muted" : "text-primary") }
 
-%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+%td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden
-    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+    = link_to notification, class: (notification.read? ? "link-muted" : "link-unstyled") do
       = notification.project.name
       export completed.
 

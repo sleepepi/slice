@@ -17,24 +17,24 @@
       you may ask for further clarification from our staff.
 
   - if @handoff.first_design == @handoff.resume_design
-    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: 'btn btn-lg btn-block btn-success' do
+    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-success" do
       Get Started
-      %span.glyphicon.glyphicon-arrow-right
+      %i.fa.fa-caret-right
   - elsif @handoff.resume_design
     .row
-      .col-sm-6{ style: 'margin-bottom: 20px' }
-        = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: 'btn btn-lg btn-block btn-default' do
+      .col-sm-6{ style: "margin-bottom: 20px" }
+        = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-default" do
           Review All Forms
-          %span.glyphicon.glyphicon-eye
+          %i.fa.fa-eye
       .col-sm-6
-        = link_to handoff_design_path(@project, @handoff, @handoff.resume_design), class: 'btn btn-lg btn-block btn-success' do
+        = link_to handoff_design_path(@project, @handoff, @handoff.resume_design), class: "btn btn-lg btn-block btn-success" do
           Resume Where I Left Off
-          %span.glyphicon.glyphicon-arrow-right
+          %i.fa.fa-caret-right
   - else
-    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: 'btn btn-lg btn-block btn-default' do
+    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-default" do
       Review All Forms
-      %span.glyphicon.glyphicon-eye
+      %i.fa.fa-eye
 - else
   %h2 Tablet Handoff
 
-  = render 'handoffs/no_handoff_enabled_designs_on_event'
+  = render "handoffs/no_handoff_enabled_designs_on_event"

@@ -1,4 +1,4 @@
-- @title = 'Prepare for Handoff'
+- @title = "Prepare for Handoff"
 
 - content_for :header do
   .background-gradient
@@ -18,17 +18,17 @@
       using the tablet for data entry.
 
     %p
-      = link_to 'Click here', 'http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html', target: '_blank'
+      = link_to "Click here", "http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html", target: "_blank"
       for more information.
 
-  .center{ style: 'margin-bottom: 20px' }
-    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: 'btn btn-lg btn-accent btn-shadow' do
+  .center{ style: "margin-bottom: 20px" }
+    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: "btn btn-lg btn-accent btn-shadow" do
       Launch Tablet Handoff
-      %span.glyphicon.glyphicon-send
+      %i.fa.fa-paper-plane
 
   %h3.text-white.text-shadow
     Handoff URL
   %code
-    = "#{ENV['website_url']}/handoff/#{@project.to_param}/#{@handoff.to_param}"
+    = "#{ENV["website_url"]}/handoff/#{@project.to_param}/#{@handoff.to_param}"
 - else
-  = render 'handoffs/no_handoff_enabled_designs_on_event'
+  = render "handoffs/no_handoff_enabled_designs_on_event"

@@ -1,20 +1,20 @@
-- @title = 'Randomize Subject'
+- @title = "Randomize Subject"
 - @menu_title = "#{@project.name} #{@title}"
 
 - if @subject
-  = render 'subjects/side_nav'
+  = render "subjects/side_nav"
 - else
-  = render 'projects/side_nav'
+  = render "projects/side_nav"
 
-= render 'layouts/simple_header'
+= render "layouts/simple_header"
 
 .dashboard-container
   - if @randomization_scheme.lists.count == 0
     %p.lead.center
       Lists not yet generated.
-    .comment-outer{ style: 'margin-top: 40px' }
+    .comment-outer{ style: "margin-top: 40px" }
       .comment-left-fixed
-        = image_tag 'try-slice-logo-no-text.png', size: '48x48', alt: ''
+        = image_tag "try-slice-logo-no-text.png", size: "48x48", alt: ""
       .comment-right-fluid
         .comment-comment
           .comment-comment-header
@@ -25,7 +25,7 @@
               Lists need to be generated before randomization can start for this randomization scheme.
             - if @project.editable_by?(current_user)
               Go
-              = link_to 'generate lists', [@project, @randomization_scheme]
+              = link_to "generate lists", [@project, @randomization_scheme]
               now.
             - else
               %p Please contact one of the following project editors to generate the lists:
@@ -33,19 +33,19 @@
                 - @project.editors.each do |editor|
                   %li= editor.name
   - else
-    = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: 'form-horizontal' do |f|
+    = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: "form-horizontal" do |f|
       .form-group
-        = label_tag :subject_code, 'Subject Code', class: 'col-md-2 control-label'
+        = label_tag :subject_code, "Subject Code", class: "col-md-2 control-label"
         .col-md-10
           - if @subject
-            %div{ style: 'padding: 6px 0;' }
+            %div{ style: "padding: 6px 0;" }
               = hidden_field_tag :subject_code, @subject.subject_code
               = link_to @subject.subject_code, [@project, @subject]
           - else
             - sfo = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
-            = text_field_tag :subject_code, params[:subject_code], autocomplete: 'off', class: 'form-control', data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
-          = render 'layouts/errors', object: @randomization, key: :subject_code
-          = render 'layouts/errors', object: @randomization, key: :subject_id
+            = text_field_tag :subject_code, params[:subject_code], autocomplete: "off", class: "form-control", data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
+          = render "layouts/errors", object: @randomization, key: :subject_code
+          = render "layouts/errors", object: @randomization, key: :subject_id
 
       - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
         .form-group
@@ -57,24 +57,24 @@
               - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
               - if site
                 - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
-                %label.radio-inline.checkbox-radio-outline{ class: "#{'selected' if selected}" }
+                %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if selected}" }
                   = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected
                   = site.name
               - elsif option
                 - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
-                %label.radio-inline.checkbox-radio-outline{ class: "#{'selected' if selected}" }
+                %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if selected}" }
                   = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, data: { stratification_factor_id: stratification_factor.id, value: option.value }
                   = option.label
-            = render 'layouts/errors', object: @randomization, key: stratification_factor.name.to_sym, key_name: stratification_factor.name
+            = render "layouts/errors", object: @randomization, key: stratification_factor.name.to_sym, key_name: stratification_factor.name
 
       .well
         .form-group
-          = label_tag :attested, "<span class='glyphicon glyphicon-leaf' style='color:#5cb85c'></span> Attestation".html_safe, class: 'col-md-2 control-label'
+          = label_tag :attested, "<i class=\"fa fa-leaf\" style=\"color: #5cb85c;\"></i> Attestation".html_safe, class: "col-md-2 control-label"
           .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
-            = check_box_tag :attested, '1', params[:attested] == '1', style: 'float: left;margin-left: -20px;'
+            = check_box_tag :attested, "1", params[:attested] == "1", style: "float: left;margin-left: -20px;"
             = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
-            %p= render 'layouts/errors', object: @randomization, key: :attested
+            %p= render "layouts/errors", object: @randomization, key: :attested
 
       .form-group
         .col-md-offset-2.col-md-10
-          = submit_tag 'Randomize!', class: 'btn btn-lg btn-primary btn-shadow'
+          = submit_tag "Randomize!", class: "btn btn-lg btn-primary btn-shadow"

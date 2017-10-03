@@ -1,8 +1,8 @@
 - show_values = true unless defined?(show_values)
 
 %tr{ id: "variable_#{variable.id}_grid_row_#{position}" }
-  %td{ style: 'vertical-align: middle;' }
-    %span.glyphicon.glyphicon-move.grid-handle
+  %td{ style: "vertical-align: middle;" }
+    %i.fa.fa-arrows.grid-handle
   - variable.child_variables.each do |child_variable|
     %td
       - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }
@@ -13,8 +13,8 @@
       -# something stored in the database (grid variable)
       - response = ((params[:variables].present? && params[:variables][variable.id.to_s].present? && params[:variables][variable.id.to_s][position.to_s].present?) ? params[:variables][variable.id.to_s][position.to_s][child_variable.id.to_s] : (grid ? grid.get_response(:raw) : nil))
 
-      - if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) && grid.variable.variable_type != 'grid'
+      - if Variable::TYPE.flatten.uniq.include?(grid.variable.variable_type) && grid.variable.variable_type != "grid"
         = render "sheet_variables/form/#{grid.variable.variable_type}", design: design, design_option: design_option, response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, object: grid, show_values: show_values
   - if variable.multiple_rows?
-    %td{ style: 'vertical-align: middle;' }
-      = link_to 'Remove', '#', data: { object: 'remove', target: "#variable_#{variable.id}_grid_row_#{position}" }, class: 'btn btn-xs btn-danger-inverse', tabindex: '-1'
+    %td{ style: "vertical-align: middle;" }
+      = link_to "Remove", "#", data: { object: "remove", target: "#variable_#{variable.id}_grid_row_#{position}" }, class: "btn btn-xs btn-danger-inverse", tabindex: "-1"

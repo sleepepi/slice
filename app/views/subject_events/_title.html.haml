@@ -9,23 +9,23 @@
 
 - if percent == 100
   %span.text-success
-    %span.glyphicon.glyphicon-ok
+    %i.fa.fa-check
 - elsif percent.nil?
-  - if current_user.theme == 'spring'
+  - if current_user.theme == "spring"
     %span.fa-stack.flower-stack
       %i.fa.fa-pagelines.fa-stack-1x
       %i.fa.fa-circle.fa-stack-1x
       %i.fa.fa-sun-o.fa-stack-1x.flower-spin
   - else
     %i.fa.fa-spinner.fa-pulse.text-muted
-  %div{ style: 'display:none;', aria: { hidden: 'true' }, data: { object: 'sheet-coverage-updater', url: event_coverage_project_subject_path(@project, subject_event.subject, subject_event_id: subject_event.id) } }
+  %div{ style: "display:none;", aria: { hidden: "true" }, data: { object: "sheet-coverage-updater", url: event_coverage_project_subject_path(@project, subject_event.subject, subject_event_id: subject_event.id) } }
 - else
   %span.text-muted
-    %span.glyphicon.glyphicon-unchecked
+    %i.fa.fa-square-o
 
 = link_to subject_event.name, event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
 
 - if percent
   %small.hidden-xs
-    %strong{ rel: 'tooltip', data: { title: "#{responses} of #{questions} #{questions == 1 ? 'question' : 'questions'}", container: 'body', placement: 'top' } }= "#{percent}%"
+    %strong{ rel: "tooltip", data: { title: "#{responses} of #{questions} #{questions == 1 ? "question" : "questions"}", container: "body", placement: "top" } }= "#{percent}%"
     complete

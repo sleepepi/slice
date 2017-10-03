@@ -1,7 +1,7 @@
 - if sheet.auto_locked?
   .btn-group
     = link_to "#", data: { object: "suppress-click" }, class: "btn btn-default", disabled: "disabled" do
-      %span.glyphicon.glyphicon-lock
+      %i.fa.fa-lock
       %span.hidden-xs Sheet Locked
     .btn-group
       = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
@@ -35,11 +35,11 @@
       %ul.dropdown-menu.dropdown-menu-right
         %li
           = link_to edit_project_sheet_path(sheet.project, sheet) do
-            %span.glyphicon.glyphicon-edit
+            %i.fa.fa-pencil
             Edit
         %li
           = link_to reassign_project_sheet_path(project, sheet) do
-            %span.glyphicon.glyphicon-transfer
+            %i.fa.fa-exchange
             Reassign
         %li.divider{ role: "separator" }
         %li
@@ -49,5 +49,5 @@
               Delete
 
 = link_to project_sheet_path(@project, @sheet, format: "pdf"), target: "_blank", class: "btn btn-default" do
-  %span.glyphicon.glyphicon-print
+  %i.fa.fa-print
   %span.hidden-xs Print

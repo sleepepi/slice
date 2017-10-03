@@ -1,6 +1,6 @@
 %tr.domain-option-container{ class: "#{"fieldset_with_errors" if @domain && @domain.errors.keys.include?(:options)}" }
   %td{ style: "vertical-align: middle;" }
-    %span.glyphicon.glyphicon-move
+    %i.fa.fa-arrows
     = hidden_field_tag "domain[option_tokens][][domain_option_id]", domain_option.id
   %td{ style: @domain && @domain.new_record? ? "display:none" : nil }
     = text_field_tag "domain[option_tokens][][value]", domain_option.value, autocomplete: "off", rel: "tooltip", title: "Value", class: "form-control"
@@ -21,7 +21,7 @@
     - total_count = domain_option.captured_values_count
     - if total_count > 0
       .btn.btn-xs.btn-default{ style: "cursor: default", rel: "tooltip", data: { title: pluralize(total_count, "response"), container: "body", placement: "top" } }
-        %span.glyphicon.glyphicon-stats.text-primary
+        %i.fa.fa-pie-chart.text-primary
     = link_to "#", class: "btn btn-xs btn-danger-inverse", data: { object: "remove-closest", target: ".domain-option-container", count: total_count }, tabindex: "-1" do
       %i.fa.fa-trash
 

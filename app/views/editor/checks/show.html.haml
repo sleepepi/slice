@@ -17,7 +17,7 @@
             %ul.dropdown-menu.dropdown-menu-right
               %li
                 = link_to edit_editor_project_check_path(@project, @check) do
-                  %span.glyphicon.glyphicon-edit
+                  %i.fa.fa-pencil
                   Edit
               %li.divider{ role: "separator" }
               %li
@@ -98,7 +98,7 @@
   .dashboard-container
     = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-default" do
       View All Sheets
-      %span.glyphicon.glyphicon-new-window
+      %i.fa.fa-external-link
     %table.table.table-borderless.table-hover
       %col{ width: "1px" }
       %thead

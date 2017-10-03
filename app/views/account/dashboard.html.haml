@@ -1,4 +1,4 @@
-- @title = 'Dashboard'
+- @title = "Dashboard"
 
 - content_for :header do
   .background-gradient
@@ -7,25 +7,25 @@
       %h1.page-heading
         = @title
         .pull-right
-          = link_to 'New Project', new_project_path, class: 'btn btn-accent'
-          = link_to label_or('Archives', '<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'.html_safe), projects_path, class: 'btn btn-default'
+          = link_to "New Project", new_project_path, class: "btn btn-accent"
+          = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-default"
 
 .body-attachment
   .container.attachment-container
-    = render 'theme/upper_right_icon'
+    = render "theme/upper_right_icon"
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites
-  %div{ data: { object: 'projects-sortable', page: [params[:page].to_i, 1].max, category: 'favored' } }
+  %div{ data: { object: "projects-sortable", page: [params[:page].to_i, 1].max, category: "favored" } }
     - @favorited_projects.each do |project|
-      = render 'projects/splash_project_box', project: project, favorited: true, archived: false, sortable: true
+      = render "projects/splash_project_box", project: project, favorited: true, archived: false, sortable: true
 
 - if @current_projects.count > 0
   %h2.text-white.text-shadow Current Projects
   - @current_projects.each do |project|
-    = render 'projects/splash_project_box', project: project, favorited: false, archived: false, sortable: false
+    = render "projects/splash_project_box", project: project, favorited: false, archived: false, sortable: false
 
 - if @projects.total_count > @projects.count
   .dashboard-container
     .center
-      = paginate @projects, theme: 'bootstrap'
+      = paginate @projects, theme: "bootstrap"

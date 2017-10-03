@@ -11,9 +11,9 @@
   - if @project.blinding_enabled?
     %td.center
       - if member.unblinded?
-        %span.glyphicon.glyphicon-eye-open.text-muted
+        %i.fa.fa-eye.text-muted
       - else
-        %span.glyphicon.glyphicon-eye-close.text-danger
+        %i.fa.fa-eye-slash.text-danger
   %td.hidden-xs
     = member.creator.nickname if member.creator
   %td.center
@@ -28,18 +28,18 @@
               - if member.user.nil?
                 %li
                   = link_to resend_project_user_path(member), method: :post, remote: true do
-                    %span.glyphicon.glyphicon-send
+                    %i.fa.fa-paper-plane
                     Resend Invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   %li
                     = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true do
-                      %span.glyphicon.glyphicon-eye-close
+                      %i.fa.fa-eye-slash
                       Set as Blinded
                 - else
                   %li
                     = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true do
-                      %span.glyphicon.glyphicon-eye-open
+                      %i.fa.fa-eye
                       Set as Unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
               - if @project.editable_by?(current_user)
@@ -61,18 +61,18 @@
               - if member.user.nil?
                 %li
                   = link_to resend_project_site_user_path(member.project, member), method: :post, remote: true do
-                    %span.glyphicon.glyphicon-send
+                    %i.fa.fa-paper-plane
                     Resend Invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   %li
                     = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true do
-                      %span.glyphicon.glyphicon-eye-close
+                      %i.fa.fa-eye-slash
                       Set as Blinded
                 - else
                   %li
                     = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true do
-                      %span.glyphicon.glyphicon-eye-open
+                      %i.fa.fa-eye
                       Set as Unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
               - if @project.editable_by?(current_user)
@@ -95,4 +95,4 @@
         = text_field_tag "member_invite", clipboard_text, class: "form-control"
         %span.input-group-btn
           = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, style: "text-decoration: none", class: "btn btn-accent" do
-            %span.glyphicon.glyphicon-copy
+            %i.fa.fa-clipboard

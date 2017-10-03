@@ -17,22 +17,22 @@
             %ul.dropdown-menu.dropdown-menu-right
               %li
                 = link_to edit_project_design_path(@design.project, @design) do
-                  %span.glyphicon.glyphicon-edit
+                  %i.fa.fa-pencil
                   Edit
 
               %li
                 = link_to imports_edit_project_design_path(@design.project, @design) do
-                  %span.glyphicon.glyphicon-import
+                  %i.fa.fa-upload
                   Reimport
 
               %li
                 = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank" do
-                  %span.glyphicon.glyphicon-print
+                  %i.fa.fa-print
                   Print
 
               %li
                 = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}") do
-                  %span.glyphicon.glyphicon-duplicate
+                  %i.fa.fa-files-o
                   View Sheets
 
               %li.divider{ role: "separator" }
@@ -70,7 +70,7 @@
       - if @design.total_rows > 0
         %tr
           %th Import Progress
-          %td#progress{ data: { object: "#{'ajax-timer' if @design.total_rows != @design.rows_imported}", path: imports_progress_project_design_path(@design.project, @design) } }
+          %td#progress{ data: { object: "#{"ajax-timer" if @design.total_rows != @design.rows_imported}", path: imports_progress_project_design_path(@design.project, @design) } }
             = render "imports/progress"
 
 %form.form-horizontal

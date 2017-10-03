@@ -6,7 +6,7 @@
 
     %span{ id: "adverse-event-#{adverse_event.id}-title" }
       %span.text-danger
-        %span.glyphicon.glyphicon-warning-sign
+        %i.fa.fa-exclamation-triangle
       = link_to adverse_event.description, [@project, adverse_event]
 
     - if adverse_event.closed?
@@ -18,14 +18,14 @@
 
     - if @project.blinding_enabled?
       %small
-        %span.glyphicon.glyphicon-eye-open.text-muted{ rel: 'tooltip', data: { title: 'Unblinded Only', placement: 'top', container: 'body' } }
+        %i.fa.fa-eye.text-muted{ rel: "tooltip", data: { title: "Unblinded Only", placement: "top", container: "body" } }
 
-  .panel-body{ style: 'padding: 0;' }
+  .panel-body{ style: "padding: 0;" }
     .progress.progress-simple
       .progress-bar.progress-bar-danger{ id: "adverse-event-#{adverse_event.id}-progress-bar-width", style: "width: #{percent}%;" }
 
-    %table.table.table-striped.table-borderless.table-fixed{ style: 'margin-bottom: 0;' }
-      %col{ width: '60px' }
+    %table.table.table-striped.table-borderless.table-fixed{ style: "margin-bottom: 0;" }
+      %col{ width: "60px" }
       %col
-      - adverse_event.sheets.includes(:design).order('sheets.created_at').each do |sheet|
-        = render 'subjects/sheet', sheet: sheet
+      - adverse_event.sheets.includes(:design).order("sheets.created_at").each do |sheet|
+        = render "subjects/sheet", sheet: sheet
