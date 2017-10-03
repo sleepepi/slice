@@ -1,13 +1,13 @@
-= form_for [@project, @adverse_event, @adverse_event_file], html: { class: 'form-horizontal' } do |f|
-  = hidden_field_tag 'adverse_event_file[blank]', '1'
+= form_for [@project, @adverse_event, @adverse_event_file], html: { class: "form-horizontal" } do |f|
+  = hidden_field_tag "adverse_event_file[blank]", "1"
 
   .form-group
-    = f.label :attachment, nil, class: 'col-md-2 control-label'
+    = f.label :attachment, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.file_field :attachment, class: 'form-control'
-      = render 'layouts/errors', object: @adverse_event_file, key: :attachment
+      = f.file_field :attachment, class: "form-control"
+      = render "layouts/errors", object: @adverse_event_file, key: :attachment
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit 'Upload File', class: 'btn btn-primary'
-      = link_to 'Cancel', project_adverse_event_adverse_event_files_path(@project, @adverse_event), class: 'btn btn-default'
+      = f.submit "Upload File", class: "btn btn-primary"
+      = link_to "Cancel", project_adverse_event_adverse_event_files_path(@project, @adverse_event), class: "btn btn-default"

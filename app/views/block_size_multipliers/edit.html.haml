@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -13,4 +13,4 @@
         = link_to @block_size_multiplier.name_was, [@project, @randomization_scheme, @block_size_multiplier]
         Edit
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

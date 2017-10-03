@@ -1,4 +1,4 @@
-- @title = "About #{ENV['website_name']}"
+- @title = "About #{ENV["website_name"]}"
 
 .background-gradient
 
@@ -7,22 +7,22 @@
 
 .docs-container
   %p
-    = ENV['website_name']
+    = ENV["website_name"]
     is a free clinical research data collection system for capturing and
     analyzing data.
   %p
     Learn how to:
   %p
     1.
-    = link_to 'Create a project.', docs_project_setup_path
+    = link_to "Create a project.", docs_project_setup_path
 
   %p
     2.
-    = link_to 'Enter data.', docs_sheets_path
+    = link_to "Enter data.", docs_sheets_path
 
   %p
     3.
-    = link_to 'Discover results.', docs_data_review_path
+    = link_to "Discover results.", docs_data_review_path
 
 
 %h3.text-white.text-shadow
@@ -30,11 +30,11 @@
 
 .docs-container
   %ul
-    %li= link_to 'Visit the Docs', docs_path
-    %li= link_to 'Contact us', contact_path
+    %li= link_to "Visit the Docs", docs_path
+    %li= link_to "Contact us", contact_path
 
-.text-center{ style: 'margin-top:40px' }
+.text-center{ style: "margin-top:40px" }
   %p.lead
     %span.transparent-stamp
       Version
-      %strong= link_to Slice::VERSION::STRING, 'https://github.com/remomueller/slice/releases', class: 'link-accent'
+      %strong= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/releases", class: "link-accent"

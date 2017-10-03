@@ -10,9 +10,9 @@
   %strong= @adverse_event.user.name
   %span.label.label-success reported
   an adverse event that occurred on
-  = @adverse_event.adverse_event_date.strftime('%a, %-d %b %Y')
+  = @adverse_event.adverse_event_date.strftime("%a, %-d %b %Y")
   for subject
-  = succeed '.' do
+  = succeed "." do
     = link_to @adverse_event.subject.name, [@project, @adverse_event.subject]
 
   .adverse-event-description= @adverse_event.description
@@ -24,23 +24,23 @@
       - if ae_sheets_count == index + 1
         = sheet.name
       - else
-        = succeed ',' do
+        = succeed "," do
           = sheet.name
 
-%div{ style: 'margin-top: 0px' }
+%div{ style: "margin-top: 0px" }
   - @adverse_event.sheets.each do |sheet|
-    = @sheet = sheet; render 'sheets/show'
+    = @sheet = sheet; render "sheets/show"
 
 .jumbotron
-  = form_for @adverse_event_review, url: adverse_event_review_path(authentication_token: @adverse_event.id_and_token), html: { class: 'form-horizontal', id: 'adverse_event_review_form' } do |f|
+  = form_for @adverse_event_review, url: adverse_event_review_path(authentication_token: @adverse_event.id_and_token), html: { class: "form-horizontal", id: "adverse_event_review_form" } do |f|
     .form-group
-      = f.label :name, 'Reviewer Full Name', class: 'col-md-2 control-label'
+      = f.label :name, "Reviewer Full Name", class: "col-md-2 control-label"
       .col-md-10
-        = f.text_field :name, autocomplete: 'off', class: 'form-control'
+        = f.text_field :name, autocomplete: "off", class: "form-control"
 
     .form-group
-      = f.label :comment, nil, class: 'col-md-2 control-label'
+      = f.label :comment, nil, class: "col-md-2 control-label"
       .col-md-10
-        = f.text_area :comment, rows: 7, class: 'form-control'
+        = f.text_area :comment, rows: 7, class: "form-control"
 
-    = link_to 'I have fully reviewed this adverse event', '#', class: 'btn btn-block btn-success', data: { object: 'submit', target: '#adverse_event_review_form' }
+    = link_to "I have fully reviewed this adverse event", "#", class: "btn btn-block btn-success", data: { object: "submit", target: "#adverse_event_review_form" }

@@ -1,25 +1,25 @@
 .comment-outer
   .comment-left-fixed
-    = image_tag @comment.user.avatar_url(48, 'identicon'), size: '48x48', alt: ''
+    = image_tag @comment.user.avatar_url(48, "identicon"), size: "48x48", alt: ""
 
   .comment-right-fluid
     .comment-comment
       .comment-comment-header
         %strong= @comment.user.name
       .comment-comment-body
-        = form_for @comment, remote: true, html: { class: 'form-vertical' } do |f|
+        = form_for @comment, remote: true, html: { class: "form-vertical" } do |f|
           = hidden_field_tag :number, params[:number]
           = hidden_field_tag :include_name, params[:include_name]
           - if @comment.errors.any?
-            .alert.alert-danger.alert-dismissible{ role: 'alert' }
-              %button.close{ type: 'button', data: { dismiss: 'alert' }, aria: { label: 'Close' } }
-                %span{ aria: { hidden: 'true' } } &times;
+            .alert.alert-danger.alert-dismissible{ role: "alert" }
+              %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
+                %span{ aria: { hidden: "true" } } &times;
               %strong Error
               Please make sure your comment is not blank.
 
           .form-group
-            = f.text_area :description, rows: 7, class: 'comment-control', placeholder: 'Type comment here'
-          - submit_text = @comment.new_record? ? 'Comment' : 'Update'
-          = f.submit submit_text, class: 'btn btn-primary', data: { disable_with: "#{submit_text}" }
+            = f.text_area :description, rows: 7, class: "comment-control", placeholder: "Type comment here"
+          - submit_text = @comment.new_record? ? "Comment" : "Update"
+          = f.submit submit_text, class: "btn btn-primary", data: { disable_with: "#{submit_text}" }
           - unless @comment.new_record?
-            = link_to 'Cancel', comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: 'btn btn-default'
+            = link_to "Cancel", comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: "btn btn-default"

@@ -1,10 +1,10 @@
-- @title = 'Report Adverse Event'
+- @title = "Report Adverse Event"
 - @menu_title = "#{@project.name} #{@title}"
 
 - if @adverse_event.subject
-  = @subject = @adverse_event.subject; render 'subjects/side_nav'
+  = @subject = @adverse_event.subject; render "subjects/side_nav"
 - else
-  = render 'projects/side_nav'
-= render 'layouts/simple_header'
+  = render "projects/side_nav"
+= render "layouts/simple_header"
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

@@ -3,7 +3,7 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
-= @subject = @adverse_event.subject; render 'subjects/side_nav'
+= @subject = @adverse_event.subject; render "subjects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -11,11 +11,11 @@
     .container
       %h1.page-heading
         .pull-right
-          = render 'adverse_events/actions', adverse_event: @adverse_event
+          = render "adverse_events/actions", adverse_event: @adverse_event
         = @title
-      = render 'adverse_events/shareable_link', adverse_event: @adverse_event
+      = render "adverse_events/shareable_link", adverse_event: @adverse_event
 
-= render 'adverse_events/menu'
+= render "adverse_events/menu"
 .dashboard-container
   #adverse_event_comments
-    = render 'adverse_event_comments/adverse_event_comments', adverse_event_comments: @adverse_event.adverse_event_comments
+    = render "adverse_event_comments/adverse_event_comments", adverse_event_comments: @adverse_event.adverse_event_comments

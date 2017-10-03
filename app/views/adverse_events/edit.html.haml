@@ -4,9 +4,9 @@
 - @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
 - if @adverse_event.subject
-  = @subject = @adverse_event.subject; render 'subjects/side_nav'
+  = @subject = @adverse_event.subject; render "subjects/side_nav"
 - else
-  = render 'projects/side_nav'
+  = render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -15,8 +15,8 @@
       %h1.page-heading
         = link_to @adverse_event.name, [@project, @adverse_event]
         Edit
-      = render 'adverse_events/shareable_link', adverse_event: @adverse_event
+      = render "adverse_events/shareable_link", adverse_event: @adverse_event
 
-= render 'adverse_events/menu'
+= render "adverse_events/menu"
 .dashboard-container
-  = render 'form'
+  = render "form"
