@@ -24,7 +24,7 @@
         = th_sort_field @order, "users.last_name", "Name"
         = th_sort_field @order, "users.current_sign_in_at", "Recent Activity"
         = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right d-none d-sm-table-cell"
-        = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "center d-none d-sm-table-cell"
+        = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "text-center d-none d-sm-table-cell"
         %th
 
     - @users.each do |user|
