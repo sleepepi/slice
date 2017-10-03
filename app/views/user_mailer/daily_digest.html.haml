@@ -1,44 +1,44 @@
-%p{ style: 'text-align:center;font-weight:bold' }
+%p{ style: "text-align:center;font-weight:bold" }
   %strong
     Here's your personalized recap for
-    %span{ style: 'white-space:nowrap' }
-      = succeed '.' do
-        %span{ style: "#{emphasis_style};white-space:nowrap" }= Time.zone.today.strftime('%A, %B %-d, %Y')
+    %span{ style: "white-space:nowrap" }
+      = succeed "." do
+        %span{ style: "#{emphasis_style};white-space:nowrap" }= Time.zone.today.strftime("%A, %B %-d, %Y")
 
 - if @digest_sheets.size > 0
   - content_for :extra_blocks do
     %div{ style: "background-color:#{background_color};height:16px;line-height:16px;font-size:1px;" } &nbsp;
-    %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;' }
+    %table{ align: "center", border: "0", cellpadding: "32", cellspacing: "0", style: "border-collapse:collapse;background:white;" }
       %tbody
         %tr
-          %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }
-            %div{ style: 'max-width:600px;margin:0 auto;' }
-              = render 'digest_sheets', digest_sheets: @digest_sheets
+          %td{ style: "border-collapse:collapse", valign: "top", width: "546" }
+            %div{ style: "max-width:600px;margin:0 auto;" }
+              = render "digest_sheets", digest_sheets: @digest_sheets
 
 - if @digest_comments.size > 0
   - content_for :extra_blocks do
     %div{ style: "background-color:#{background_color};height:16px;line-height:16px;font-size:1px;" } &nbsp;
-    %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;' }
+    %table{ align: "center", border: "0", cellpadding: "32", cellspacing: "0", style: "border-collapse:collapse;background:white;" }
       %tbody
         %tr
-          %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }
-            %div{ style: 'max-width:600px;margin:0 auto;' }
-              = render 'digest_comments', digest_comments: @digest_comments
+          %td{ style: "border-collapse:collapse", valign: "top", width: "546" }
+            %div{ style: "max-width:600px;margin:0 auto;" }
+              = render "digest_comments", digest_comments: @digest_comments
 
 - content_for :extra_blocks do
   %div{ style: "background-color:#{background_color};height:16px;line-height:16px;font-size:1px;" } &nbsp;
-  %table{ align: 'center', border: '0', cellpadding: '32', cellspacing: '0', style: 'border-collapse:collapse;background:white;' }
+  %table{ align: "center", border: "0", cellpadding: "32", cellspacing: "0", style: "border-collapse:collapse;background:white;" }
     %tbody
       %tr
-        %td{ style: 'border-collapse:collapse', valign: 'top', width: '546' }
-          %div{ style: 'max-width:600px;margin:0 auto;' }
+        %td{ style: "border-collapse:collapse", valign: "top", width: "546" }
+          %div{ style: "max-width:600px;margin:0 auto;" }
 
-            %p{ style: 'text-align:center;font-weight:bold' }
+            %p{ style: "text-align:center;font-weight:bold" }
               %strong Overall statistics.
 
             - if @digest_sheets.count > 0
               %p{ style: center_style }
-                %span{ style: emphasis_style }= pluralize @digest_sheets.size, 'sheet'
+                %span{ style: emphasis_style }= pluralize @digest_sheets.size, "sheet"
                 - if @digest_sheets.size == 1
                   was
                 - else
@@ -46,7 +46,7 @@
                 added.
             - if @digest_comments.count > 0
               %p{ style: center_style }
-                %span{ style: emphasis_style }= pluralize @digest_comments.size, 'comment'
+                %span{ style: emphasis_style }= pluralize @digest_comments.size, "comment"
                 - if @digest_comments.size == 1
                   was
                 - else
