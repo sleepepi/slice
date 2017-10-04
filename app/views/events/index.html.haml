@@ -21,18 +21,18 @@
     %table.table.table-striped.table-borderless.table-hover
       %col{ width: "1px" }
       %col
-      %col.hidden-xs
-      %col.hidden-xs
-      %col.hidden-xs.hidden-sm
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-md-table-column
       %col{ width: "1px" }
       %thead
         %tr
           = th_sort_field @order, "events.position", "Position", extra_class: "text-center"
           = th_sort_field @order, "events.name", "Name"
-          %th.hidden-xs Launched
-          = th_sort_field @order, "events.archived", "Archived", extra_class: "hidden-xs text-center"
-          %th.hidden-xs.hidden-sm.text-center Designs
-          %th Actions
+          %th.d-none.d-sm-table-cell Launched
+          = th_sort_field @order, "events.archived", "Archived", extra_class: "d-none d-sm-table-cell text-center"
+          %th.d-none.d-md-table-cell.text-center Designs
+          %th.text-center Actions
 
       - @events.each do |event|
         %tr{ id: "event-#{event.id}-container" }

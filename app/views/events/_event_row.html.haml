@@ -2,12 +2,12 @@
 %td
   = link_to event.name, [@project, event]
   = render "layouts/unblinded_only", project: @project, object: event, placement: "right"
-%td.hidden-xs
+%td.d-none.d-sm-table-cell
   - assigned_count = event.subject_events.with_current_subjects.count
   = pluralize assigned_count, "event"
-%td.hidden-xs.text-center= simple_check event.archived
-%td.hidden-xs.hidden-sm.text-center= event.designs.count
-%td
+%td.d-none.d-sm-table-cell.text-center= simple_check event.archived
+%td.d-none.d-md-table-cell.text-center= event.designs.count
+%td.text-center
   .dropdown
     = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
       Actions

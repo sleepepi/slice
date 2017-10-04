@@ -1,12 +1,12 @@
-- @title = 'Values'
+- @title = "Values"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
--# @breadcrumbs << ['Checks', editor_project_checks_path(@project)]
+-# @breadcrumbs << ["Checks", editor_project_checks_path(@project)]
 - @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
--# @breadcrumbs << ['Filters', editor_project_check_check_filters_path(@project, @check)]
+-# @breadcrumbs << ["Filters", editor_project_check_check_filters_path(@project, @check)]
 - @breadcrumbs << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -14,25 +14,25 @@
     .container
       %h1.page-heading
         .pull-right
-          = link_to plus_or('New Value'), new_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @check_filter_values.total_count
+          = link_to plus_or("New Value"), new_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter), class: "btn btn-accent btn-shadow"
+          .per-page= render "layouts/per_page", per_page: 40, object_count: @check_filter_values.total_count
         %span.nowrap= @title
 
 .dashboard-container
   %table.table.table-striped.table-borderless.table-hover
     %col
-    %col.hidden-xs
-    %col{ width: '1px' }
+    %col.d-none.d-sm-table-column
+    %col{ width: "1px" }
     %thead
       %tr
         %th Value
-        %th.hidden-xs Creator
-        %th Actions
+        %th.d-none.d-sm-table-cell Creator
+        %th.text-center Actions
 
     %tbody
       - @check_filter_values.each do |check_filter_value|
         %tr
           %td= link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
-          %td.hidden-xs= check_filter_value.user.name
-          %td
-            = render 'layouts/edit_delete_dropdown', edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Delete \"#{check_filter_value.value}\" filter value?"
+          %td.d-none.d-sm-table-cell= check_filter_value.user.name
+          %td.text-center
+            = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Delete \"#{check_filter_value.value}\" filter value?"

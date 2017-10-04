@@ -9,7 +9,7 @@
     .container
       %h1.page-heading
         .pull-right
-          .hidden-xs.btn-toolbar{ style: "margin-top: 15px;" }
+          .d-none.d-sm-block.btn-toolbar{ style: "margin-top: 15px;" }
             .btn-group
               = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: "btn btn-xs btn-default"
               = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: "preview"), class: "btn btn-xs btn-default"

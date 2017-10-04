@@ -7,9 +7,9 @@
     - if domain.missing_codes?
       %col
     - if domain.sites?
-      %col.hidden-xs
+      %col.d-none.d-md-table-column
     - if domain.archived_options?
-      %col.hidden-xs
+      %col.d-none.d-md-table-column
     %col{ width: "1px" }
 
     %thead
@@ -21,10 +21,10 @@
         - if domain.missing_codes?
           %th.nowrap.text-center Missing Code
         - if domain.sites?
-          %th.hidden-xs Site
+          %th.d-none.d-md-table-cell Site
         - if domain.archived_options?
-          %th.hidden-xs.text-center Archived
-        %th Actions
+          %th.d-none.d-md-table-cell.text-center Archived
+        %th.text-center Actions
     - domain.domain_options.each do |domain_option|
       %tr
         %td= domain_option.value
@@ -34,12 +34,12 @@
         - if domain.missing_codes?
           %td.text-center= simple_check domain_option.missing_code?
         - if domain.sites?
-          %td.hidden-xs
+          %td.d-none.d-md-table-cell
             - if domain_option.site
               = domain_option.site.short_name
             - else
               %span.text-muted All Sites
         - if domain.archived_options?
-          %td.hidden-xs.text-center= simple_check domain_option.archived?
-        %td
+          %td.d-none.d-md-table-cell.text-center= simple_check domain_option.archived?
+        %td.text-center
           = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"

@@ -27,21 +27,21 @@
     .collapse.navbar-collapse.navbar-full-menu
       - if current_user
         %ul.nav.navbar-nav
-          %li.visible-xs{ class: "#{ "active" if current_page?(dashboard_path) || current_page?(root_path) }" }
+          %li.d-block.d-sm-none{ class: "#{ "active" if current_page?(dashboard_path) || current_page?(root_path) }" }
             = link_to "Dashboard", dashboard_path
-          %li.visible-xs{ class: "#{ "active" if current_page?(notifications_path) }" }
+          %li.d-block.d-sm-none{ class: "#{ "active" if current_page?(notifications_path) }" }
             = link_to "Notifications", notifications_path
-          %li.visible-xs{ class: "#{ "active" if current_page?(settings_path) }" }
+          %li.d-block.d-sm-none{ class: "#{ "active" if current_page?(settings_path) }" }
             = link_to "My Settings", settings_path
           - if current_user.system_admin?
-            %li.visible-xs{ class: "#{ "active" if current_page?(users_path) }" }
+            %li.d-block.d-sm-none{ class: "#{ "active" if current_page?(users_path) }" }
               = link_to "Admin Dashboard", users_path
         %form.navbar-form.navbar-right
           = link_to "Logout", destroy_user_session_path, class: "btn btn-primary-dark"
 
         .search-bar-container
           .full-search-bar
-            = form_tag search_path, method: :get, id: "navigation-search-form", class: "navbar-form navbar-right hidden-xs hidden-sm", style: "margin-right: -25px" do
+            = form_tag search_path, method: :get, id: "navigation-search-form", class: "navbar-form navbar-right d-none d-md-block", style: "margin-right: -25px" do
               .form-group
                 .input-group
                   = text_field_tag :search, params[:search], class: "form-control", placeholder: "Search #{ENV["website_name"]}", autocomplete: "off", id: "navigation-search"
@@ -50,15 +50,15 @@
                       %i.fa.fa-search
 
         .tiny-search-icon
-          %form.navbar-form.navbar-right.hidden-xs.hidden-sm{ style: "margin-right: -25px" }
+          %form.navbar-form.navbar-right.d-none.d-md-block{ style: "margin-right: -25px" }
             = link_to "#", data: { object: "show-search-bar" }, class: "btn btn-primary-dark", name: nil do
               %i.fa.fa-search
           %ul.nav.navbar-nav.navbar-right{ style: "max-height: 50px" }
-            %ul.nav.navbar-nav.navbar-right.hidden-xs
-              %li.hidden-xs
+            %ul.nav.navbar-nav.navbar-right.d-none.d-sm-block
+              %li.d-none.d-sm-block
                 = link_to notifications_path, class: "#{"notifications-link" if current_user.unread_notifications?}" do
                   %i.fa.fa-bell
-              %li.dropdown.hidden-xs
+              %li.d-none.d-sm-block.dropdown
                 = link_to "#", class: "dropdown-toggle", data: { object: "dropdown", toggle: "dropdown" } do
                   = current_user.first_name
                   %span.caret
@@ -67,10 +67,10 @@
                   - if current_user.system_admin?
                     %li.divider
                     %li= link_to "Admin Dashboard", users_path
-              %li.visible-xs
+              %li.d-block.d-sm-none
                 = link_to "My Settings", settings_path
               - if current_user.system_admin?
-                %li.visible-xs= link_to "Admin Dashboard", users_path
+                %li.d-block.d-sm-none= link_to "Admin Dashboard", users_path
 
       - else
         %form.navbar-form.navbar-right

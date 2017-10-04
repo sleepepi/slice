@@ -9,7 +9,7 @@
     .container
       %h1.page-heading
         .pull-right
-          .hidden-xs.btn-toolbar{ style: "margin-top: 15px;" }
+          .d-none.d-sm-block.btn-toolbar{ style: "margin-top: 15px;" }
             .btn-group{ data: { toggle: "buttons" } }
               .btn.btn-xs.btn-default{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
                 %input#edit-mode{ type: "radio", name: "preview_modes" }

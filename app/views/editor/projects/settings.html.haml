@@ -62,7 +62,7 @@
           .col-sm-6
             = link_to project_randomization_schemes_path(@project), class: "btn btn-default btn-block btn-lg" do
               %i.fa.fa-wrench
-              %span.hidden-sm Configure
+              .d-inline.d-sm-none.d-md-inline Configure
       - else
         .row
           .col-sm-6.col-buffer-visible-xs
@@ -76,11 +76,11 @@
       .row
         .col-sm-6.col-buffer-visible-xs
           = link_to edit_editor_project_path(@project), class: "btn btn-default btn-block btn-lg" do
-            Edit Settings
+            Settings
         .col-sm-6
           = link_to @project, class: "btn btn-lg btn-block btn-link" do
-            %span.hidden-sm Go To Project
-            %span.hidden-xs.hidden-md.hidden-lg Continue
+            .d-inline.d-sm-none.d-md-inline Go To Project
+            .d-none.d-sm-inline.d-md-none Continue
             %i.fa.fa-caret-right
 
 .panel.panel-default

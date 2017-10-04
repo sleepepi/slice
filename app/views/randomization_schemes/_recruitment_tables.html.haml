@@ -2,7 +2,7 @@
 - first_randomization = all_randomizations.first
 - last_randomization = all_randomizations.last
 
-.dashboard-container.hidden-xs
+.dashboard-container.d-none.d-sm-block
   %table.table.table-striped.table-borderless.table-hover
     %thead
       %tr
@@ -50,7 +50,7 @@
             - else
               %span.text-muted -
 
-.visible-xs
+.d-block.d-sm-none
   %h3.text-white.text-shadow Randomizations
   .panel.panel-default
     .panel-heading

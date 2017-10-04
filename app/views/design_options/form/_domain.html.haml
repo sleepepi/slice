@@ -42,9 +42,9 @@
       %col{ width: "1px" }
       %col{ style: @domain && @domain.new_record? ? "display:none" : nil }
       %col
-      %col.hidden-xs
+      %col.d-none.d-sm-table-column
       - if @project.sites.count > 1
-        %col.hidden-xs
+        %col.d-none.d-lg-table-column
       %col{ width: "1px" }
       %tbody#options{ data: { object: "sortable" } }
         = render "domains/options"

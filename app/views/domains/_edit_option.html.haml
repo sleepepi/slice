@@ -6,16 +6,16 @@
     = text_field_tag "domain[option_tokens][][value]", domain_option.value, autocomplete: "off", rel: "tooltip", title: "Value", class: "form-control"
   %td
     = text_field_tag "domain[option_tokens][][name]", domain_option.name, data: { object: "option-name" }, autocomplete: "off", rel: "tooltip", title: "Name", class: "form-control"
-  %td.hidden-xs
+  %td.d-none.d-sm-table-cell
     %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{"selected" if domain_option.missing_code?}" }
       = check_box_tag "domain[option_tokens][][missing_code]", "1", domain_option.missing_code?, tabindex: "-1"
       Missing Code
-  %td.hidden-xs
+  %td.d-none.d-sm-table-cell
     %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{"selected" if domain_option.archived?}" }
       = check_box_tag "domain[option_tokens][][archived]", "1", domain_option.archived?, tabindex: "-1"
       Archived
   - if @project.sites.count > 1
-    %td.hidden-xs
+    %td.d-none.d-lg-table-cell
       = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: "form-control", tabindex: "-1"
   %td.nowrap.text-right{ style: "vertical-align: middle;" }
     - total_count = domain_option.captured_values_count

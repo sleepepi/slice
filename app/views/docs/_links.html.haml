@@ -9,8 +9,8 @@
           %br
           = previous_link[0]
     - if previous_link && next_link
-      .col-buffer.visible-xs
-    .col-md-4.hidden-xs.hidden-sm
+      .col-buffer.d-block.d-sm-none
+    .col-md-4.d-none.d-md-block
     .col-sm-6.col-md-4
       - if next_link
         = link_to next_link[1], class: "btn btn-block btn-lg btn-accent text-left btn-shadow" do
