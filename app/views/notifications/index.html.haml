@@ -25,14 +25,14 @@
           %table.table.table-fixed
             %col{ width: "32px" }
             %col{ }
-            %col.hidden-xs{ width: "32px" }
-            %col.hidden-xs{ width: "165px" }
+            %col.d-none.d-sm-table-column{ width: "32px" }
+            %col.d-none.d-sm-table-column{ width: "165px" }
             %col{ width: "32px" }
             %thead
               %tr
                 %th{ colspan: 2 }= link_to project.name, project, class: "link-unstyled"
-                %th.hidden-xs
-                %th.hidden-xs
+                %th.d-none.d-sm-table-cell
+                %th.d-none.d-sm-table-cell
                 %th
                   = link_to mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: "text-muted" do
                     %i.fa.fa-check

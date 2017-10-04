@@ -7,5 +7,5 @@
       %small.text-muted
         = strip_tags(simple_markdown notification.comment.description).html_safe
 
-%td.hidden-xs
+%td.d-none.d-sm-table-cell
   = image_tag notification.comment.user.avatar_url(18, "identicon"), size: "18x18", alt: ""

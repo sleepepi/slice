@@ -1,4 +1,4 @@
-- pagination_size_hash = { 'large' => 'lg', 'small' => 'sm' }
+- pagination_size_hash = { "large" => "lg", "small" => "sm" }
 - per_page = 20 unless defined?(per_page) && per_page
 - object_count = 0 unless defined?(object_count) && object_count
 - page = params[:page].blank? ? 1 : params[:page].to_i
@@ -7,9 +7,9 @@
 
 - filtered_params = params.permit!
 
-%ul.pagination.pull-right.hidden-xs{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
+%ul.pagination.pull-right.d-none.d-sm-block{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
   - if current_page_min > 1
-    %li= link_to '&laquo;'.html_safe, url_for(filtered_params.merge(page: page - 1))
+    %li= link_to "&laquo;".html_safe, url_for(filtered_params.merge(page: page - 1))
   - else
     %li.disabled
       %span &laquo;
@@ -25,7 +25,7 @@
         = number_with_delimiter object_count
 
   - if current_page_max < object_count
-    %li= link_to '&raquo;'.html_safe, url_for(filtered_params.merge(page: page + 1))
+    %li= link_to "&raquo;".html_safe, url_for(filtered_params.merge(page: page + 1))
   - else
     %li.disabled
       %span &raquo;

@@ -19,7 +19,7 @@
 
           - if randomization.subject
             .nowrap
-              = link_to [@project, randomization], rel: 'tooltip', title: randomization.subject.subject_code do
+              = link_to [@project, randomization], rel: "tooltip", title: randomization.subject.subject_code do
                 = randomization.position
                 = randomization.treatment_arm.name
           - else
@@ -31,7 +31,7 @@
     .multiplier
       - list.randomizations.order(:created_at).each_with_index do |randomization, index|
         - if randomization.subject
-          .overflow-hidden.nowrap{ rel: 'tooltip', data: { title: randomization.subject.subject_code, container: 'body' } }
+          .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
             = link_to [@project, randomization] do
               = index + 1
               = randomization.treatment_arm.name

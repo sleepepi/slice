@@ -6,6 +6,6 @@
 -#   per_page:      number of items to fetch per page
 -#   remote:        data-remote
 %li.next
-  = link_to url, rel: 'next', remote: remote do
-    %span.hidden-xs= raw(t 'views.pagination.next')
-    %span.hidden-sm.hidden-md.hidden-lg &rsaquo;
+  = link_to url, rel: "next", remote: remote do
+    .d-none.d-sm-inline= raw(t "views.pagination.next")
+    .d-inline.d-sm-none &rsaquo;

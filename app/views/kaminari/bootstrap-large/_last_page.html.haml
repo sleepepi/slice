@@ -7,5 +7,5 @@
 -#   remote:        data-remote
 %li.last
   = link_to url, { remote: remote } do
-    %span.hidden-xs= raw(t 'views.pagination.last')
-    %span.hidden-sm.hidden-md.hidden-lg &raquo;
+    .d-none.d-sm-inline= raw(t "views.pagination.last")
+    .d-inline.d-sm-none &raquo;

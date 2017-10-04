@@ -6,6 +6,6 @@
 -#   per_page:      number of items to fetch per page
 -#   remote:        data-remote
 %li.prev
-  = link_to url, rel: 'prev', remote: remote do
-    %span.hidden-xs= raw(t 'views.pagination.previous')
-    %span.hidden-sm.hidden-md.hidden-lg &lsaquo;
+  = link_to url, rel: "prev", remote: remote do
+    .d-none.d-sm-inline= raw(t "views.pagination.previous")
+    .d-inline.d-sm-none &lsaquo;

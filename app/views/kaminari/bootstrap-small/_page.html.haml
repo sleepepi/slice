@@ -6,5 +6,5 @@
 -#   num_pages:     total number of pages
 -#   per_page:      number of items to fetch per page
 -#   remote:        data-remote
-%li.page{ class: (page.current? ? 'active' : (current_page.number - page.number).abs > 2 ? 'hidden-xs' : nil) }
-  = link_to page, url, opts = { remote: remote, rel: page.next? ? 'next' : page.prev? ? 'prev' : nil }
+%li.page{ class: (page.current? ? "active" : (current_page.number - page.number).abs > 2 ? "d-none d-sm-inline" : nil) }
+  = link_to page, url, opts = { remote: remote, rel: page.next? ? "next" : page.prev? ? "prev" : nil }
