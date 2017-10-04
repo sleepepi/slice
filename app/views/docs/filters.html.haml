@@ -1,5 +1,5 @@
-- @title = 'Filters'
-= render 'docs/side_nav'
+- @title = "Filters"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -19,7 +19,7 @@
     %code variable:value
   %p
     %strong Example:
-  %code{ style: 'text-align: right;' } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
+  %code{ style: "text-align: right;" } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
 
   %h3 Operators
   %p
@@ -28,12 +28,12 @@
     For example
     %code bmi:23.0
     finds all sheets that have a BMI equal to
-    = succeed '.' do
+    = succeed "." do
       %strong 23.0
     To find a BMI greater than or equal to
     %strong 23.0
     the filter can be written as
-    = succeed '.' do
+    = succeed "." do
       %code bmi:>=23.0
     The following operators work as well.
     %code bmi:>23.0
@@ -49,14 +49,14 @@
     will return results where the
     %code grade
     equals
-    = succeed ',' do
+    = succeed "," do
       %strong 9
-    = succeed ',' do
+    = succeed "," do
       %strong 10
-    = succeed ',' do
+    = succeed "," do
       %strong 11
     or
-    = succeed '.' do
+    = succeed "." do
       %strong 12
 
   %h3 Not Equal
@@ -80,13 +80,13 @@
 
   %p
     Special Values:
-    = succeed ',' do
+    = succeed "," do
       %code :entered
-    = succeed ',' do
+    = succeed "," do
       %code :any
-    = succeed ',' do
+    = succeed "," do
       %code :missing
-    = succeed '.' do
+    = succeed "." do
       %code :unentered
 
   %h3 Entered / Present
@@ -97,12 +97,12 @@
     %code :present
     keywords find sheets that have data entered for a variable.
     These filters find sheets with actual values
-    = succeed ',' do
+    = succeed "," do
       %strong 23.0
-    = succeed ',' do
+    = succeed "," do
       %strong 0.0
     as well as entered missing codes
-    = succeed '.' do
+    = succeed "." do
       %strong -9
 
   %h3 Any
@@ -115,7 +115,7 @@
     returns sheets that have values
     %strong 23.0
     and
-    = succeed '.' do
+    = succeed "." do
       %strong 0.0
 
   %h3 Missing
@@ -143,7 +143,7 @@
   %h3 Checks
   %p
     For projects that have
-    = link_to 'checks', docs_checks_path
+    = link_to "checks", docs_checks_path
     setup, sheets can be filtered as follow:
   %p
     To filter on sheets that are failing a check, type:
@@ -156,7 +156,7 @@
   %h3 Events
   %p
     For projects that have
-    = link_to 'events', docs_events_path
+    = link_to "events", docs_events_path
     setup, sheets can be filtered as follow:
   %p
     To filter on sheets on an event, type:
@@ -273,6 +273,6 @@
     To find results where BMI is missing and grade is either 9 or 10, and a
     study visit during the week of October 10, 2016 use the following set of
     filters. Filters should be separated by a space.
-  %code{ style: 'text-align: right;' } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
+  %code{ style: "text-align: right;" } bmi:missing grade:9,10 study_visit:>=2016-10-10 study_visit:<=2016-10-14
 
-= render 'docs/links', previous_link: ['Lingo', docs_lingo_path], next_link: nil
+= render "docs/links", previous_link: ["Lingo", docs_lingo_path], next_link: nil

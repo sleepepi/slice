@@ -1,4 +1,4 @@
-- unless params[:header] == '0'
+- unless params[:header] == "0"
   .design-header= design.name
 
 - sheet_variables = @sheet ? @sheet.sheet_variables.includes(:domain_option, responses: :domain_option, variable: { domain: :domain_options }).to_a : []
@@ -7,6 +7,6 @@
   - section = design_option.section
   - variable = design_option.variable
   - if section
-    = render 'sections/form', design: design, design_option: design_option, section: section
+    = render "sections/form", design: design, design_option: design_option, section: section
   - elsif variable
-    = render 'sheet_variables/form', design: design, design_option: design_option, show_values: params[:header] != '0', variable: variable, sheet_variables: sheet_variables
+    = render "sheet_variables/form", design: design, design_option: design_option, show_values: params[:header] != "0", variable: variable, sheet_variables: sheet_variables

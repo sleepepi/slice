@@ -1,5 +1,5 @@
-- @title = 'Starting a New Project'
-= render 'docs/side_nav'
+- @title = "Starting a New Project"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -19,7 +19,7 @@
     Click
     %strong Create Project
     from the Dashboard or the
-    = link_to 'Projects', projects_path
+    = link_to "Projects", projects_path
     page.
 
   %p
@@ -43,7 +43,7 @@
     viewer, and grant them access to either the entire project, or assign them
     to a specific site. For more detailed information on project versus site
     members, read the
-    = link_to 'Roles', docs_roles_path
+    = link_to "Roles", docs_roles_path
     documentation section.
 
   %h2 Creating a design
@@ -56,7 +56,7 @@
   %p
     Start by clicking on "Designs" in the project menu, and click "Create
     Design". Design creation is outlined in the
-    = link_to 'Designs', docs_designs_path
+    = link_to "Designs", docs_designs_path
     documentation section.
 
   %h2 Enabling Modules
@@ -68,21 +68,21 @@
   %p
     A randomization module if you will be randomizing subjects.
     Read more about
-    = succeed '.' do
-      = link_to 'Enabling Randomization', docs_randomization_schemes_path
+    = succeed "." do
+      = link_to "Enabling Randomization", docs_randomization_schemes_path
 
   %p
     You may also enable Blinded and Unblinded staff on the project, and that is
     covered more in the
-    = link_to 'Blinding', docs_blinding_path
+    = link_to "Blinding", docs_blinding_path
     documentation section.
 
   %p
     You may also enable the Adverse Events module in the project settings. This
     modules allows project members to report and track adverse events that occur
     during the project life cycle. Read more about
-    = succeed '.' do
-      = link_to 'Adverse Events', docs_randomization_schemes_path
+    = succeed "." do
+      = link_to "Adverse Events", docs_randomization_schemes_path
 
   %p
     Daily Digest emails can be disabled for all members on the project by
@@ -92,7 +92,7 @@
     Finally, you may enable the Table Handoff module which allows subjects to
     fill out a series of designs that have been set to "Handoff Enabled" on an
     event. Tablet handoff and events are detailed in the
-    = link_to 'Events', docs_events_path
+    = link_to "Events", docs_events_path
     documentation section.
 
-= render 'docs/links', previous_link: nil, next_link: ['Sites', docs_sites_path]
+= render "docs/links", previous_link: nil, next_link: ["Sites", docs_sites_path]

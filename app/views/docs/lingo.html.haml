@@ -1,5 +1,5 @@
-- @title = 'Lingo'
-= render 'docs/side_nav'
+- @title = "Lingo"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -30,7 +30,7 @@
 
   %p
     Read more:
-    = link_to 'Designs', docs_designs_path
+    = link_to "Designs", docs_designs_path
 
   %h2 Sheets
 
@@ -43,7 +43,7 @@
 
   %p
     Sheets refer to
-    = succeed '.' do
+    = succeed "." do
       %strong data that has been captured
 
   %p
@@ -51,7 +51,7 @@
 
   %p
     Read more:
-    = link_to 'Data Entry', docs_sheets_path
+    = link_to "Data Entry", docs_sheets_path
 
   %h2 Variables
 
@@ -84,14 +84,14 @@
 
   %p
     Read more:
-    = link_to 'Domains', docs_domains_path
+    = link_to "Domains", docs_domains_path
 
 .docs-container
   %p
     Notice any other words that are confusing when using Slice?
 
   %p
-    = mail_to ENV['support_email'], 'Send us an email'
+    = mail_to ENV["support_email"], "Send us an email"
     to let us know!
 
-= render 'docs/links', previous_link: ['Notifications', docs_notifications_path], next_link: ['Filters', docs_filters_path]
+= render "docs/links", previous_link: ["Notifications", docs_notifications_path], next_link: ["Filters", docs_filters_path]

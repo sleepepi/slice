@@ -1,21 +1,21 @@
-= form_for [@project, @domain, domain_option], html: { class: 'form-horizontal' } do |f|
+= form_for [@project, @domain, domain_option], html: { class: "form-horizontal" } do |f|
 
   .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
+    = f.label :name, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :name, class: 'form-control'
-      = render 'layouts/errors', object: domain_option, key: :name
+      = f.text_field :name, class: "form-control"
+      = render "layouts/errors", object: domain_option, key: :name
 
   .form-group
-    = f.label :value, nil, class: 'col-md-2 control-label'
+    = f.label :value, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_field :value, class: 'form-control'
-      = render 'layouts/errors', object: domain_option, key: :value
+      = f.text_field :value, class: "form-control"
+      = render "layouts/errors", object: domain_option, key: :value
 
   .form-group
-    = f.label :description, nil, class: 'col-md-2 control-label'
+    = f.label :description, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.text_area :description, rows: 7, class: 'form-control'
+      = f.text_area :description, rows: 7, class: "form-control"
 
 
   .form-group
@@ -26,9 +26,9 @@
         %label= f.check_box :missing_code
 
   .form-group
-    = f.label :site_id, nil, class: 'col-md-2 control-label'
+    = f.label :site_id, nil, class: "col-md-2 control-label"
     .col-md-10
-      = f.select :site_id, @project.sites.pluck(:name, :id), { include_blank: 'All Sites' }, class: 'form-control'
+      = f.select :site_id, @project.sites.pluck(:name, :id), { include_blank: "All Sites" }, class: "form-control"
 
   .form-group
     .col-md-2
@@ -39,5 +39,5 @@
 
   .form-group
     .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', domain_option.new_record? ? [@project, @domain] : [@project, @domain, domain_option], class: 'btn btn-default'
+      = f.submit nil, class: "btn btn-primary"
+      = link_to "Cancel", domain_option.new_record? ? [@project, @domain] : [@project, @domain, domain_option], class: "btn btn-default"

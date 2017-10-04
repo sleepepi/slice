@@ -1,6 +1,6 @@
 %p{ style: p_style }
   Dear
-  = succeed ',' do
+  = succeed "," do
     = @resource.first_name
 
 %p{ style: p_style }
@@ -8,4 +8,4 @@
   in attempts. Click the link below to unlock your account:
 
 %p{ style: center_style }
-  = link_to 'Unlock my account', "#{ENV['website_url']}/unlock?unlock_token=#{@token}", style: link_style
+  = link_to "Unlock my account", "#{ENV["website_url"]}/unlock?unlock_token=#{@token}", style: link_style

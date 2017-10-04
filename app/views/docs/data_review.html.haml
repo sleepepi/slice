@@ -1,5 +1,5 @@
-- @title = 'Data Review'
-= render 'docs/side_nav'
+- @title = "Data Review"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -11,8 +11,8 @@
     Slice provides a number of ways to explore and visualize collected data.
 
   %ul
-    %li= link_to 'Exports', docs_exports_path
-    %li= link_to 'Reports', docs_reports_path
-    %li= link_to 'Data Quality Checks', docs_checks_path
+    %li= link_to "Exports", docs_exports_path
+    %li= link_to "Reports", docs_reports_path
+    %li= link_to "Data Quality Checks", docs_checks_path
 
-= render 'docs/links', previous_link: nil, next_link: ['Exports', docs_exports_path]
+= render "docs/links", previous_link: nil, next_link: ["Exports", docs_exports_path]

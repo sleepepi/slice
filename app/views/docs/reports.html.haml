@@ -1,5 +1,5 @@
-- @title = 'Reports'
-= render 'docs/side_nav'
+- @title = "Reports"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -32,7 +32,7 @@
     sheets that have been collected over time
     More detailed checks for missing data can be
     created using the
-    = link_to 'Data Quality Checks', docs_checks_path
+    = link_to "Data Quality Checks", docs_checks_path
     module.
 
-= render 'docs/links', previous_link: ['Exports', docs_exports_path], next_link: ['Data Quality Checks', docs_checks_path]
+= render "docs/links", previous_link: ["Exports", docs_exports_path], next_link: ["Data Quality Checks", docs_checks_path]

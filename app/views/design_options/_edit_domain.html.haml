@@ -1,21 +1,21 @@
 .modal-header
-  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
     Edit Variable Domain &middot;
     = @design_option.variable.name
 .modal-body
-  = form_tag update_domain_project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: 'form-horizontal', id: 'design_option_form' do
-    = render 'design_options/form/domain'
+  = form_tag update_domain_project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: "form-horizontal", id: "design_option_form" do
+    = render "design_options/form/domain"
 .modal-footer
   - if @domain.new_record?
-    = button_tag 'Add Domain', data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    = button_tag "Add Domain", data: { object: "submit", target: "#design_option_form" }, class: "btn btn-primary"
   - else
     - other_variables = @domain.variables.count - 1
-    = button_tag 'Update Existing Domain' + (other_variables > 0 ? " (linked to #{pluralize(other_variables, 'other variable')})" : ""), data: { object: 'submit', target: '#design_option_form' }, class: 'btn btn-primary'
+    = button_tag "Update Existing Domain" + (other_variables > 0 ? " (linked to #{pluralize(other_variables, "other variable")})" : ""), data: { object: "submit", target: "#design_option_form" }, class: "btn btn-primary"
   - domains = @project.domains
   - if domains.count > 0
     or
     %span.form-inline
-      = select_tag 'domain[id]', options_for_select( [['--Existing Domains--', nil]] + domains.order('name').collect{|d| [d.name, d.id]} ), style: 'width:200px', class: 'form-control'
-      = button_tag 'Use Selected Domain', data: { object: 'set-variable-domain', target: '#domain_id', design_option_id: @design_option.id }, class: 'btn btn-primary'
-  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
+      = select_tag "domain[id]", options_for_select( [["--Existing Domains--", nil]] + domains.order("name").collect{|d| [d.name, d.id]} ), style: "width:200px", class: "form-control"
+      = button_tag "Use Selected Domain", data: { object: "set-variable-domain", target: "#domain_id", design_option_id: @design_option.id }, class: "btn btn-primary"
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

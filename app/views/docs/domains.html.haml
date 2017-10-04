@@ -1,5 +1,5 @@
-- @title = 'Domains'
-= render 'docs/side_nav'
+- @title = "Domains"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -18,10 +18,10 @@
     For example the
     %code YesNo
     domain may have two options,
-    = succeed ',' do
+    = succeed "," do
       %code 0: Yes
     and
-    = succeed ',' do
+    = succeed "," do
       %code 1: No
     where 0 and 1 are the values, and Yes and No are the names of the options.
 
@@ -53,4 +53,4 @@
     are valid options for a specific site entering the data. Each staff member
     option can be assigned to the site to which it belongs.
 
-= render 'docs/links', previous_link: ['Variables', docs_variables_path], next_link: nil
+= render "docs/links", previous_link: ["Variables", docs_variables_path], next_link: nil

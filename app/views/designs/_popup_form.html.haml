@@ -1,18 +1,18 @@
 .modal-header
-  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title Edit Design
 .modal-body
-  = form_for [@project, @design], remote: true, html: { class: 'form-horizontal', id: 'design_form' } do |f|
+  = form_for [@project, @design], remote: true, html: { class: "form-horizontal", id: "design_form" } do |f|
     .form-group
       %label.col-md-2.control-label Name
       .col-md-10
-        = f.text_field :name, autocomplete: 'off', class: 'form-control'
-        = render 'layouts/errors', object: @design, key: :name
+        = f.text_field :name, autocomplete: "off", class: "form-control"
+        = render "layouts/errors", object: @design, key: :name
 
     .form-group
-      = f.label :short_name, 'Abbreviation', class: 'col-md-2 control-label'
+      = f.label :short_name, "Abbreviation", class: "col-md-2 control-label"
       .col-md-10
-        = f.text_field :short_name, class: 'form-control', placeholder: @design.computed_short_name
+        = f.text_field :short_name, class: "form-control", placeholder: @design.computed_short_name
 
     .form-group
       .col-md-10.col-md-offset-2
@@ -45,17 +45,17 @@
     .form-group
       %label.col-md-2.control-label Slug
       .col-md-10
-        = f.text_field :slug, autocomplete: 'off', class: 'form-control'
+        = f.text_field :slug, autocomplete: "off", class: "form-control"
 
     .form-group
       %label.col-md-2.control-label Redirect URL
       .col-md-10
-        = f.text_field :redirect_url, autocomplete: 'off', placeholder: "#{ENV['website_url']}/about", class: 'form-control'
+        = f.text_field :redirect_url, autocomplete: "off", placeholder: "#{ENV["website_url"]}/about", class: "form-control"
 
     .form-group
       %label.col-md-2.control-label Category
       .col-md-10
-        = f.select :category_id, @project.categories.pluck(:name, :id), { include_blank: true }, class: 'form-control'
+        = f.select :category_id, @project.categories.pluck(:name, :id), { include_blank: true }, class: "form-control"
     - if @project.blinding_enabled?
       .form-group
         %label.col-md-2.control-label
@@ -75,5 +75,5 @@
               = f.check_box :ignore_auto_lock
               Prevent sheets from auto-locking
 .modal-footer
-  = button_tag 'Update', data: { object: 'submit-and-disable', target: '#design_form' }, class: 'btn btn-primary'
-  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Cancel
+  = button_tag "Update", data: { object: "submit-and-disable", target: "#design_form" }, class: "btn btn-primary"
+  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel

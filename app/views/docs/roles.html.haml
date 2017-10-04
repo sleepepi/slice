@@ -1,5 +1,5 @@
-- @title = 'Roles'
-= render 'docs/side_nav'
+- @title = "Roles"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -25,19 +25,19 @@
 
   %p
     As mentioned in the section on project sites
-    = link_to '1', docs_sites_path, class: 'btn btn-default sup-link'
+    = link_to "1", docs_sites_path, class: "btn btn-default sup-link"
     a new member can be either assigned to a specific site on the project, or
     can be allowed to see the project as a whole. Slice calls these roles
     site members and project members. Project members can see all subjects and
     data across all sites on a project, while a site member will limited to the
-    subjects and data specific to the member's site.
+    subjects and data specific to the member"s site.
 
   %p
     Note: A user can be invited to multiple sites.
 
   %p
     When the blinding module
-    = link_to '2', docs_blinding_path, class: 'btn btn-default sup-link'
+    = link_to "2", docs_blinding_path, class: "btn btn-default sup-link"
     is enabled, a user can be assigned a role that is flagged as "Blinded".
     This will prevent the user from seeing any subject information that could
     potentially unblind the user.
@@ -126,4 +126,4 @@
     events have a high likelyhood of including information that could unblind
     the blinded member.
 
-= render 'docs/links', previous_link: ['Sites', docs_sites_path], next_link: ['Events', docs_events_path]
+= render "docs/links", previous_link: ["Sites", docs_sites_path], next_link: ["Events", docs_events_path]

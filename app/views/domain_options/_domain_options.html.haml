@@ -10,7 +10,7 @@
       %col.hidden-xs
     - if domain.archived_options?
       %col.hidden-xs
-    %col{ width: '1px' }
+    %col{ width: "1px" }
 
     %thead
       %tr
@@ -42,4 +42,4 @@
         - if domain.archived_options?
           %td.hidden-xs.text-center= simple_check domain_option.archived?
         %td
-          = render 'layouts/edit_delete_dropdown', edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"
+          = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"

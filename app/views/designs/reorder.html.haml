@@ -1,7 +1,7 @@
 - @title = "#{@design.name} Reorder"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,11 +9,11 @@
     .container
       %h1.page-heading
         .pull-right
-          .hidden-xs.btn-toolbar{ style: 'margin-top: 15px;' }
+          .hidden-xs.btn-toolbar{ style: "margin-top: 15px;" }
             .btn-group
-              = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
-              = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: 'preview'), class: 'btn btn-xs btn-default'
-            = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default active'
+              = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: "btn btn-xs btn-default"
+              = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: "preview"), class: "btn btn-xs btn-default"
+            = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-xs btn-default active"
         = link_to @design.short_name, edit_project_design_path(@project, @design)
         Reorder
 
@@ -34,8 +34,8 @@
     %li.active
       %a{ href: "#" }= @design.variables.count
 
-  = link_to 'Save Order', '#', id: 'reorder_design_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top'
-  = link_to 'Save Order', '#', id: 'reorder_design_sections_button', class: 'btn btn-primary btn-xs', disabled: 'disabled', style: 'display:inline-block; margin:22px 0px;vertical-align:top;display:none'
+  = link_to "Save Order", "#", id: "reorder_design_button", class: "btn btn-primary btn-xs", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top"
+  = link_to "Save Order", "#", id: "reorder_design_sections_button", class: "btn btn-primary btn-xs", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top;display:none"
 
   #saving_modal.modal
     .modal-dialog
@@ -43,10 +43,10 @@
         .modal-header
           %h4.modal-title Reordering Design
         .modal-body
-          %p Your changes to the design are being saved...this shouldn't take longer than a minute.
+          %p Your changes to the design are being saved...this shouldn"t take longer than a minute.
 
   #reorder_options_container
-    = render 'design_options/reorder_options'
+    = render "design_options/reorder_options"
 
   #reorder_sections_container{ style: "display:none" }
-    = render 'design_options/reorder_sections'
+    = render "design_options/reorder_sections"

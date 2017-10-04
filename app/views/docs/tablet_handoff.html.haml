@@ -1,5 +1,5 @@
-- @title = 'Tablet Handoff'
-= render 'docs/side_nav'
+- @title = "Tablet Handoff"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -33,7 +33,7 @@
     either
     %code No Handoff
     or
-    = succeed '.' do
+    = succeed "." do
       %code Handoff Enabled
     The designs will be presented in the order they are listed. Drag the designs
     to reorder them on the event.
@@ -60,4 +60,4 @@
     %strong Launch Tablet Handoff
     and hand the tablet to the participant.
 
-= render 'docs/links', previous_link: ['Blinding', docs_blinding_path], next_link: nil
+= render "docs/links", previous_link: ["Blinding", docs_blinding_path], next_link: nil

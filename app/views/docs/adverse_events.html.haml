@@ -1,5 +1,5 @@
-- @title = 'Adverse Events'
-= render 'docs/side_nav'
+- @title = "Adverse Events"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -15,7 +15,7 @@
   %p
     The adverse event module can be enabled in the project settings. When
     enabled, project and site editors
-    = link_to '1', docs_roles_path, class: 'btn btn-default sup-link'
+    = link_to "1", docs_roles_path, class: "btn btn-default sup-link"
     can initiate a new adverse event report for a subject. The adverse event is
     initiated with a brief description of the event, and notifications and
     emails are sent to unblinded project editors. Additional information can be
@@ -32,4 +32,4 @@
     filtered on the subjects index. Slice also provides an adverse event export
     that lists all adverse events along with any supporting information.
 
-= render 'docs/links', previous_link: nil, next_link: ['Auto-locking Sheets', docs_locking_path]
+= render "docs/links", previous_link: nil, next_link: ["Auto-locking Sheets", docs_locking_path]

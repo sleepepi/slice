@@ -1,5 +1,5 @@
-- @title = 'Docs'
-= render 'docs/side_nav'
+- @title = "Docs"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -16,11 +16,11 @@
 
   %p
     Email us at
-    = mail_to ENV['support_email']
+    = mail_to ENV["support_email"]
     if you don't find an answer to your questions.
 
   %p We're here to help,
 
   %p The Slice Team
 
-= render 'docs/links', previous_link: nil, next_link: ['Project Setup', docs_project_setup_path, 'Start']
+= render "docs/links", previous_link: nil, next_link: ["Project Setup", docs_project_setup_path, "Start"]

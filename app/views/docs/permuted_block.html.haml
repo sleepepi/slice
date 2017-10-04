@@ -1,5 +1,5 @@
-- @title = 'Permuted-Block Algorithm'
-= render 'docs/side_nav'
+- @title = "Permuted-Block Algorithm"
+= render "docs/side_nav"
 
 .background-gradient
 
@@ -177,7 +177,7 @@
 
   %p
     When a subject is randomized using the
-    = succeed ',' do
+    = succeed "," do
       %strong Block-Permuted algorithm
     the stratification factors are used to identify the list from which the
     algorithm should pull the next treatment arm assignment. Given gender
@@ -215,7 +215,7 @@
     Given this block group, the first
     participant would be randomized to A1, and the second participant to B2.
 
-  .text-center= image_tag 'permuted-block-treatment-assignments-block-group.png'
+  .text-center= image_tag "permuted-block-treatment-assignments-block-group.png"
 
   %p
     The 2 green blocks are block size multipliers that have a x1 occurence of
@@ -265,4 +265,4 @@
       When treatment arm assignments are no longer available, a new block group is
       generated automatically by Slice.
 
-= render 'docs/links', previous_link: ['Minimization Algorithm', docs_minimization_path], next_link: ['Treatment Arms', docs_treatment_arms_path]
+= render "docs/links", previous_link: ["Minimization Algorithm", docs_minimization_path], next_link: ["Treatment Arms", docs_treatment_arms_path]

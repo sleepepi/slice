@@ -1,7 +1,7 @@
 - @title = "#{@design.name_was} Edit"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 
 - content_for :header do
   .background-gradient
@@ -9,19 +9,19 @@
     .container
       %h1.page-heading
         .pull-right
-          .hidden-xs.btn-toolbar{ style: 'margin-top: 15px;' }
+          .hidden-xs.btn-toolbar{ style: "margin-top: 15px;" }
             .btn-group{ data: { toggle: "buttons" } }
-              .btn.btn-xs.btn-default{ class: "#{'active' if params[:mode] != 'preview'}", data: { object: "edit-mode" } }
+              .btn.btn-xs.btn-default{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
                 %input#edit-mode{ type: "radio", name: "preview_modes" }
                   Edit
-                  = succeed 'ode' do
+                  = succeed "ode" do
                     %u M
-              .btn.btn-xs.btn-default{ class: "#{'active' if params[:mode] == 'preview'}", data: { object: "preview-mode" } }
+              .btn.btn-xs.btn-default{ class: "#{"active" if params[:mode] == "preview"}", data: { object: "preview-mode" } }
                 %input#preview-mode{ type: "radio", name: "preview_modes" }
                   Preview
-                  = succeed 'ode' do
+                  = succeed "ode" do
                     %u M
-            = link_to 'Reorder Mode', reorder_project_design_path(@project, @design), class: 'btn btn-xs btn-default'
+            = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-xs btn-default"
         = link_to @design.short_name, [@project, @design]
         Edit
 
@@ -35,5 +35,5 @@
   = hidden_field_tag :project_id, @project.id
   = hidden_field_tag :design_id, @design.id
 
-  #design_name-container= render 'designs/design_name'
-  #design-options= render 'design_options/index'
+  #design_name-container= render "designs/design_name"
+  #design-options= render "design_options/index"
