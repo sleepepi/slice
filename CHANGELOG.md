@@ -15,6 +15,10 @@
   - Updated to haml 5.0.3
   - Updated to simplecov 0.15.1
 
+### Bug Fix
+- Fixed a timeout issue that occurred while updating domains with large number
+  of options
+
 ## 0.56.1 (September 6, 2017)
 
 ### Enhancements

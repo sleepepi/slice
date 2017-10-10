@@ -1,14 +1,19 @@
-- if domain.domain_options.present?
-  %table.table.table-striped.table-hover.table-borderless.table-condensed
+- if domain_options.present?
+  - show_descriptions = domain.descriptions?
+  - show_missing_codes = domain.missing_codes?
+  - show_sites = domain.sites?
+  - show_archived_options = domain.archived_options?
+
+  %table.table.table-striped.table-hover.table-borderless.table-condensed.table-sticky
     %col
     %col
-    - if domain.descriptions?
+    - if show_descriptions
       %col
-    - if domain.missing_codes?
+    - if show_missing_codes
       %col
-    - if domain.sites?
+    - if show_sites
       %col.d-none.d-md-table-column
-    - if domain.archived_options?
+    - if show_archived_options
       %col.d-none.d-md-table-column
     %col{ width: "1px" }
 
@@ -16,30 +21,30 @@
       %tr
         %th Value
         %th Name
-        - if domain.descriptions?
+        - if show_descriptions
           %th Description
-        - if domain.missing_codes?
+        - if show_missing_codes
           %th.nowrap.text-center Missing Code
-        - if domain.sites?
+        - if show_sites
           %th.d-none.d-md-table-cell Site
-        - if domain.archived_options?
+        - if show_archived_options
           %th.d-none.d-md-table-cell.text-center Archived
         %th.text-center Actions
-    - domain.domain_options.each do |domain_option|
+    - domain_options.each do |domain_option|
       %tr
         %td= domain_option.value
         %td= domain_option.name
-        - if domain.descriptions?
+        - if show_descriptions
           %td= domain_option.description
-        - if domain.missing_codes?
+        - if show_missing_codes
           %td.text-center= simple_check domain_option.missing_code?
-        - if domain.sites?
+        - if show_sites
           %td.d-none.d-md-table-cell
             - if domain_option.site
               = domain_option.site.short_name
             - else
               %span.text-muted All Sites
-        - if domain.archived_options?
+        - if show_archived_options
           %td.d-none.d-md-table-cell.text-center= simple_check domain_option.archived?
         %td.text-center
           = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"

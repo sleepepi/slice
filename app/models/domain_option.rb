@@ -47,6 +47,7 @@ class DomainOption < ApplicationRecord
   end
 
   def prevent_value_merging
+    return unless changes.key?(:value)
     return if captured_values_count.zero? || other_values_count.zero?
     errors.add(:value, "merging not permitted")
   end
@@ -59,5 +60,9 @@ class DomainOption < ApplicationRecord
     domain.sheet_variables.where(value: value).count +
       domain.grids.where(value: value).count +
       domain.responses.where(value: value).count
+  end
+
+  def unmerged_values?
+    other_values_count.positive?
   end
 end

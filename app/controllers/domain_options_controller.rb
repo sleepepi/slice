@@ -9,7 +9,7 @@ class DomainOptionsController < ApplicationController
 
   # GET /domains/1/options
   def index
-    @domain_options = @domain.domain_options.order(:value).page(params[:page]).per(20)
+    @domain_options = @domain.domain_options.order(:value).page(params[:page]).per(40)
   end
 
   # # GET /domains/1/options/1

@@ -103,7 +103,7 @@ class DesignOptionsController < ApplicationController
 
   # PATCH /designs/:design_id/design_options/1/update_domain
   def update_domain
-    @domain = @design_option.variable.domain || @project.domains.new(domain_params)
+    @domain = @design_option.variable.domain || @project.domains.where(user: current_user).new(domain_params)
     if @domain.new_record? && @domain.save && @design_option.variable.update(domain_id: @domain.id)
       @domain.update_option_tokens!
       render :show
@@ -199,8 +199,6 @@ class DesignOptionsController < ApplicationController
 
   def domain_params
     params[:domain] ||= {}
-    # Always update user_id to correctly track sheet transactions
-    params[:domain][:user_id] = current_user.id # unless @domain
     params[:domain] = Domain.clean_option_tokens(params[:domain])
     params.require(:domain).permit(
       :name, :display_name, :description, :user_id,

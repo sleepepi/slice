@@ -14,9 +14,9 @@
     %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{"selected" if domain_option.archived?}" }
       = check_box_tag "domain[option_tokens][][archived]", "1", domain_option.archived?, tabindex: "-1"
       Archived
-  - if @project.sites.count > 1
+  - if sites.size > 1
     %td.d-none.d-lg-table-cell
-      = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + @project.sites.order(:name).pluck(:name, :id), domain_option.site_id), class: "form-control", tabindex: "-1"
+      = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + sites.collect { |s| [s.name, s.id] }, domain_option.site_id), class: "form-control", tabindex: "-1"
   %td.nowrap.text-right{ style: "vertical-align: middle;" }
     - total_count = domain_option.captured_values_count
     - if total_count > 0

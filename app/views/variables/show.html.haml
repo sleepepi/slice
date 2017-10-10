@@ -180,7 +180,7 @@
         %td= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
 
   - if @variable.domain
-    = render "domain_options/domain_options", domain: @variable.domain
+    = render "domain_options/domain_options", domain: @variable.domain, domain_options: @variable.domain.domain_options
 
 - design_option = @variable.design_options.first
 - if design_option

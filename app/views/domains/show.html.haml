@@ -44,9 +44,9 @@
     %thead
       %tr
         %th{ colspan: 2 } Variables
-    - @domain.variables.order("name").each do |variable|
+    - @domain.variables.order(:name).each do |variable|
       %tr
         %td= link_to variable.name, [variable.project, variable]
         %td.text-muted= variable.display_name
 
-  = render "domain_options/domain_options", domain: @domain
+  = render "domain_options/domain_options", domain: @domain, domain_options: @domain.domain_options.includes(:domain)

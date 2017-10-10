@@ -73,12 +73,16 @@ class Domain < ApplicationRecord
     return if option_tokens.nil?
     domain_option_ids = option_tokens.collect { |hash| hash[:domain_option_id] }.select(&:present?)
     domain_options.where.not(id: domain_option_ids).destroy_all
+    all_domain_options = domain_options.includes(:domain).to_a
     option_tokens.each_with_index do |option_hash, index|
       next if option_hash[:name].blank?
-      domain_option = domain_options.find_by(id: option_hash.delete(:domain_option_id))
+      domain_option = all_domain_options.find { |o| o.id == option_hash[:domain_option_id].to_i }
       if domain_option
+        original_value = domain_option.value
         if domain_option.update(cleaned_hash(option_hash, index, domain_option))
-          domain_option.add_domain_option!
+          domain_option.add_domain_option! unless original_value == domain_option.value
+        else
+          # TODO: Domain option has errors. (can be caused by merging values)
         end
       else
         domain_option = domain_options.create(cleaned_hash(option_hash, index, nil))
