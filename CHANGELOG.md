@@ -1,6 +1,9 @@
 ## 0.57.0
 
 ### Enhancements
+- **API Changes**
+  - Subject event designs are now only included if they are required or if they
+    have associated sheets
 - **Sheet Changes**
   - Leading and trailing white space is now removed from responses
 - **Setting Changes**
