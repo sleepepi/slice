@@ -15,7 +15,8 @@
   margin-bottom: 15px;
   padding: 10px;
 
-  .form-group {
+  .form-group,
+  .table {
     margin-bottom: 0;
   }
 }
@@ -26,6 +27,12 @@
 
   .table {
     background-color: $table-bg-accent;
+  }
+
+  .table-sticky {
+    th {
+      background-color: $table-bg-accent;
+    }
   }
 }
 
@@ -40,10 +47,22 @@
 
 .variable-blind .shade-or-blind-background {
   background-color: $dashboard-bg;
+
+  .table-sticky {
+    th {
+      background-color: $dashboard-bg;
+    }
+  }
 }
 
 .variable-shade .shade-or-blind-background {
   background-color: $table-bg-accent;
+
+  .table-sticky {
+    th {
+      background-color: $table-bg-accent;
+    }
+  }
 }
 
 // TODO: Check if this removes margins correctly for inline boxes.

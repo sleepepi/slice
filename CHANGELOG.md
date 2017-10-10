@@ -8,6 +8,8 @@
   - Domain options can now be flagged as mutually exclusive
   - Selecting a mutually exclusive option on a group of checkboxes clears any
     other selected checkbox options
+- **Grid Changes**
+  - Grid table headers now stay on screen while scrolling through a long grid
 - **Sheet Changes**
   - Leading and trailing white space is now removed from responses
 - **Setting Changes**
