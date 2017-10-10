@@ -74,7 +74,8 @@ class DomainOptionsController < ApplicationController
 
   def domain_option_params
     params.require(:domain_option).permit(
-      :name, :value, :description, :missing_code, :site_id, :archived
+      :name, :value, :description, :site_id, :missing_code, :mutually_exclusive,
+      :archived
     )
   end
 end

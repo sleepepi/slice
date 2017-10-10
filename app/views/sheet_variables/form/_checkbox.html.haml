@@ -21,10 +21,10 @@
             - selected = (values.include?(domain_option.value))
             %td.text-center
               %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}", rel: (domain_option.description.blank? ? "tooltip" : "popover"), data: { content: domain_option.description, title: domain_option.value_and_name(show_values: show_values), placement: "bottom", html: "true" } }
-                = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type }, disabled: disabled
+                = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: "condition", mutually_exclusive: domain_option.mutually_exclusive, calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type }, disabled: disabled
   - else
     - domain_options.each do |domain_option|
       - selected = values.include?(domain_option.value)
       %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}" }
-        = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name }, disabled: disabled
+        = check_box_tag "#{field_name}[]", "#{domain_option.value}", selected, data: { object: "condition", mutually_exclusive: domain_option.mutually_exclusive, calculation_id: variable.id, name: variable.name }, disabled: disabled
         = domain_option.value_and_name(show_values: show_values)

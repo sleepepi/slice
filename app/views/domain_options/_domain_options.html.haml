@@ -1,6 +1,7 @@
 - if domain_options.present?
   - show_descriptions = domain.descriptions?
   - show_missing_codes = domain.missing_codes?
+  - show_mutually_exclusives = domain.mutually_exclusives?
   - show_sites = domain.sites?
   - show_archived_options = domain.archived_options?
 
@@ -10,6 +11,8 @@
     - if show_descriptions
       %col
     - if show_missing_codes
+      %col
+    - if show_mutually_exclusives
       %col
     - if show_sites
       %col.d-none.d-md-table-column
@@ -24,7 +27,9 @@
         - if show_descriptions
           %th Description
         - if show_missing_codes
-          %th.nowrap.text-center Missing Code
+          %th.text-center Missing Code
+        - if show_mutually_exclusives
+          %th.text-center Mutually Exclusive
         - if show_sites
           %th.d-none.d-md-table-cell Site
         - if show_archived_options
@@ -38,6 +43,8 @@
           %td= domain_option.description
         - if show_missing_codes
           %td.text-center= simple_check domain_option.missing_code?
+        - if show_mutually_exclusives
+          %td.text-center= simple_check domain_option.mutually_exclusive?
         - if show_sites
           %td.d-none.d-md-table-cell
             - if domain_option.site

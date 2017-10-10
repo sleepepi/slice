@@ -17,6 +17,10 @@
     .col-md-10
       = f.text_area :description, rows: 7, class: "form-control"
 
+  .form-group
+    = f.label :site_id, nil, class: "col-md-2 control-label"
+    .col-md-10
+      = f.select :site_id, @project.sites.pluck(:name, :id), { include_blank: "All Sites" }, class: "form-control"
 
   .form-group
     .col-md-2
@@ -26,9 +30,11 @@
         %label= f.check_box :missing_code
 
   .form-group
-    = f.label :site_id, nil, class: "col-md-2 control-label"
+    .col-md-2
+      %label Mutually Exclusive
     .col-md-10
-      = f.select :site_id, @project.sites.pluck(:name, :id), { include_blank: "All Sites" }, class: "form-control"
+      .checkbox
+        %label= f.check_box :mutually_exclusive
 
   .form-group
     .col-md-2

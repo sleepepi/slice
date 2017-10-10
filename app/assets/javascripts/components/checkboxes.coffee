@@ -1,4 +1,14 @@
+@toggleMutuallyExclusive = (element) ->
+  group_name = $(element).attr('name')
+  if $("input[name='#{group_name}'][data-mutually-exclusive=true]").length > 0
+    if $(element).data("mutually-exclusive") && $(element).prop('checked') == true
+      $("input[name='#{group_name}']").prop('checked', false)
+      $(element).prop('checked', true)
+    else
+      $("input[name='#{group_name}'][data-mutually-exclusive=true]").prop('checked', false)
+
 @updateSelectedClass = (element) ->
+  toggleMutuallyExclusive(element)
   $("input[name='#{$(element).attr('name')}']:not(:checked)")
     .closest('.checkbox-radio-outline').removeClass('selected')
   $("input[name='#{$(element).attr('name')}']:checked")

@@ -4,6 +4,10 @@
 - **API Changes**
   - Subject event designs are now only included if they are required or if they
     have associated sheets
+- **Domain Changes**
+  - Domain options can now be flagged as mutually exclusive
+  - Selecting a mutually exclusive option on a group of checkboxes clears any
+    other selected checkbox options
 - **Sheet Changes**
   - Leading and trailing white space is now removed from responses
 - **Setting Changes**

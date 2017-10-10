@@ -16,6 +16,10 @@
 
             %ul.dropdown-menu.dropdown-menu-right
               %li
+                = link_to project_domain_domain_options_path(@domain.project, @domain) do
+                  %i.fa.fa-cubes
+                  Options
+              %li
                 = link_to edit_project_domain_path(@domain.project, @domain) do
                   %i.fa.fa-pencil
                   Edit

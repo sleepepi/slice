@@ -49,14 +49,19 @@
       %th Description
       %td= @domain_option.description
 
-    %tr
-      %th Missing code
-      %td= @domain_option.missing_code
+    - if @domain_option.site
+      %tr
+        %th Site
+        %td= @domain_option.site.name
 
     %tr
-      %th Site
-      %td= @domain_option.site_id
+      %th Missing code
+      %td= simple_check @domain_option.missing_code
+
+    %tr
+      %th Mutually exclusive
+      %td= simple_check @domain_option.mutually_exclusive
 
     %tr
       %th Archived
-      %td= @domain_option.archived
+      %td= simple_check @domain_option.archived

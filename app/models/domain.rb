@@ -33,6 +33,10 @@ class Domain < ApplicationRecord
     domain_options.where(missing_code: true).count > 0
   end
 
+  def mutually_exclusives?
+    domain_options.where(mutually_exclusive: true).count > 0
+  end
+
   def descriptions?
     domain_options.where.not(description: [nil, ""]).count > 0
   end
