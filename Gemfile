@@ -23,7 +23,7 @@ gem "kaminari",             "~> 1.0.1"
 gem "naturalsort",          "~> 1.2.0"
 gem "redcarpet",            "~> 3.4.0"
 gem "rubyzip",              "~> 1.2.0"
-gem "sitemap_generator",    "~> 5.3.1"
+gem "sitemap_generator",    "~> 6.0.0"
 
 # Rails Defaults
 gem "coffee-rails",         "~> 4.2"
