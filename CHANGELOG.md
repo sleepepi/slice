@@ -9,6 +9,7 @@
   - Sheets on events now display the event name in the footer of the PDF
 - **Gem Changes**
   - Updated `Gemfile` to `gems.rb`
+  - Updated haml to 5.0.4
 
 ## 0.57.0 (October 11, 2017)
 
