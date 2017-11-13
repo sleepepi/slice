@@ -57,7 +57,6 @@ exclude_paths:
 - vendor/**/*
 - "CHANGELOG.md"
 - "config.ru"
-- Gemfile
 - LICENSE
 - Rakefile
 - "README.md"

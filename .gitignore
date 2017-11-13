@@ -33,7 +33,7 @@
 
 # Other Files
 
-/Gemfile.lock
+/gems.locked
 /db/schema.rb
 /doc/app/*
 
