@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Subject events now provide the event slug as well as the event name
+- **PATS Changes**
+  - Added task to recompute date windows for randomization tasks
 
 ## 0.57.0 (October 11, 2017)
 
