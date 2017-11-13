@@ -5,6 +5,8 @@
   - Subject events now provide the event slug as well as the event name
 - **PATS Changes**
   - Added task to recompute date windows for randomization tasks
+- **Sheet Changes**
+  - Sheets on events now display the event name in the footer of the PDF
 
 ## 0.57.0 (October 11, 2017)
 
