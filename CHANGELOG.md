@@ -9,7 +9,7 @@
   - Sheets on events now display the event name in the footer of the PDF
 - **Gem Changes**
   - Updated `Gemfile` to `gems.rb`
-  - Updated haml to 5.0.4
+  - Updated to haml 5.0.4
 
 ### Tests
 - Added tests to assure user passwords can be reset
