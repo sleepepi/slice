@@ -11,6 +11,9 @@
   - Updated `Gemfile` to `gems.rb`
   - Updated haml to 5.0.4
 
+### Tests
+- Added tests to assure user passwords can be reset
+
 ## 0.57.0 (October 11, 2017)
 
 ### Enhancements
