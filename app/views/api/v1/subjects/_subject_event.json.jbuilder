@@ -6,6 +6,8 @@ json.extract!(
   :unblinded_questions_count, :unblinded_percent
 )
 
+json.event subject_event.event.to_param
+
 json.event_designs do
   json.array!(subject_event.event.event_designs.includes(:design)) do |event_design|
     sheets = @subject.sheets.where(subject_event: subject_event, design: event_design.design)

@@ -1,5 +1,9 @@
 ## 0.57.1
 
+### Enhancements
+- **API Changes**
+  - Subject events now provide the event slug as well as the event name
+
 ## 0.57.0 (October 11, 2017)
 
 ### Enhancements
