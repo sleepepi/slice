@@ -1,4 +1,4 @@
-## 0.57.1
+## 0.57.1 (November 13, 2017)
 
 ### Enhancements
 - **API Changes**
