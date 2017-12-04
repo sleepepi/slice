@@ -2,7 +2,7 @@ sudo: false
 language: ruby
 rvm:
   - 2.4.2
-  - 2.5.0-preview1
+  - ruby-head
 gemfile: "gems.rb"
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
@@ -10,4 +10,4 @@ before_script:
   - "rails db:migrate"
 matrix:
   allow_failures:
-    - rvm: 2.5.0-preview1
+    - rvm: ruby-head
