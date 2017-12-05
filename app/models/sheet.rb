@@ -366,6 +366,10 @@ class Sheet < ApplicationRecord
     subject_event.update_coverage! if subject_event
   end
 
+  def reset_response_count!
+    update(response_count: nil, total_response_count: nil, percent: nil)
+  end
+
   def update_associated_subject_events!
     subject_event.reset_coverage! if subject_event
     subject.subject_events

@@ -48,10 +48,15 @@ class Api::V1::SurveysController < Api::V1::BaseController
         true
       end
     if save_result
+      # @sheet.audit_set_lasted_edited!
+      # @sheet.update_response_count!
+      # @sheet.update_associated_subject_events!
+      # @sheet.subject_event.update_coverage! if @sheet.subject_event
+
       @sheet.audit_set_lasted_edited!
-      @sheet.update_response_count!
+      @sheet.reset_response_count!
       @sheet.update_associated_subject_events!
-      @sheet.subject_event.update_coverage! if @sheet.subject_event
+
       render json: {}, status: :ok
     else
       render :survey_page, status: :unprocessable_entity
