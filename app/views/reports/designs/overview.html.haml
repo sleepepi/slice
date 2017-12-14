@@ -1,9 +1,9 @@
 - @title = "#{@design.name} Overview"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
-- @breadcrumbs << ['Reports', reports_reports_project_path(@project)]
+- @breadcrumbs << ["Reports", reports_reports_project_path(@project)]
 
-= render 'projects/side_nav'
+= render "projects/side_nav"
 - content_for :header do
   .background-gradient
   .header-container
@@ -12,13 +12,13 @@
         %span.hidden-xs= "#{@design.name} Overview"
         %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Overview"
 
-- @colors = ['#3366cc', '#dc3912', '#ff9900', '#109618', '#66aa00', '#dd4477', '#0099c6', '#990099']
+- @colors = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#66aa00", "#dd4477", "#0099c6", "#990099"]
 
 
 - if @design.events.count > 1
   .dashboard-container
     %span.dropdown
-      = link_to '#', class: "btn btn-xs dropdown-toggle #{@event ? 'btn-primary': 'btn-default'}", data: { toggle: 'dropdown' } do
+      = link_to "#", class: "btn btn-xs dropdown-toggle #{@event ? "btn-primary": "btn-default"}", data: { toggle: "dropdown" } do
         - if @event
           = @event.name
         - else
@@ -26,26 +26,26 @@
         %strong.caret
 
       %ul.dropdown-menu
-        %li= link_to 'All Events', project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? 'font-weight:bold;' : ''
-        %li.divider{ role: 'separator' }
+        %li= link_to "All Events", project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? "font-weight:bold;" : ""
+        %li.divider{ role: "separator" }
         - NaturalSort.sort(@design.events.pluck(:name, :id)).each do |event_name, event_id|
-          %li= link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? 'font-weight:bold;' : ''
+          %li= link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : ""
 
-    = link_to 'Reset Filters', project_reports_design_overview_path(@project, @design), class: 'btn btn-xs btn-link' if params[:event_id].present?
+    = link_to "Reset Filters", project_reports_design_overview_path(@project, @design), class: "btn btn-xs btn-link" if params[:event_id].present?
 
 - @design.design_options.includes(:variable, :section).each do |design_option|
   - section = design_option.section
   - variable = design_option.variable
   - if section && section.display_on_report?
     .section-lead
-      = render 'sections/show', design_option: design_option, section: section
+      = render "sections/show", design_option: design_option, section: section
   - elsif variable
     %a.anchor-top{ id: variable.name }
     .dashboard-lead
       - if variable.export_units.present?
         .pull-right
           %span.label.label-accent= variable.export_units
-      = link_to variable.display_name, "##{variable.name}", data: { object: 'scroll-anchor-keep-link' }, class: 'link-white'
+      = link_to variable.display_name, "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-white"
     .dashboard-container
       - responses = @sheets.sheet_responses(variable)
       = render "reports/designs/overview/#{variable.variable_type}", variable: variable, sheet_scope: @sheets, responses: responses, event_id: @event ? @event.to_param : nil
