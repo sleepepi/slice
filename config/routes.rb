@@ -34,6 +34,10 @@ Rails.application.routes.draw do
       get "projects/:authentication_token/subjects/:id/surveys/:event/:design/resume", to: "surveys#resume_survey", as: :resume_survey
       get "projects/:authentication_token/subjects/:id/surveys/:event/:design/:page", to: "surveys#show_survey_page", as: :show_survey_page
       patch "projects/:authentication_token/subjects/:id/surveys/:event/:design/:page", to: "surveys#update_survey_response", as: :update_survey_response
+
+      namespace :reports, path: "projects/:authentication_token/reports" do
+        get :show, path: ":event/:design"
+      end
     end
   end
 

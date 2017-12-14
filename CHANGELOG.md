@@ -1,6 +1,9 @@
 ## 58.0.0
 
 ### Enhancements
+- **API Changes**
+  - Added a new reports JSON API that displays aggregate data for a design on an
+    event
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
   - Updated to kaminari 1.1.1

@@ -89,6 +89,6 @@ class RandomizationsController < ApplicationController
 
   def scope_order(scope)
     @order = params[:order]
-    scope.order(Randomization::ORDERS[params[:order]] || Randomization::DEFAULT_ORDER)
+    scope.order(Arel.sql(Randomization::ORDERS[params[:order]] || Randomization::DEFAULT_ORDER))
   end
 end

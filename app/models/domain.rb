@@ -17,7 +17,7 @@ class Domain < ApplicationRecord
   # Relationships
   belongs_to :user
   belongs_to :project
-  has_many :domain_options, -> { order("position nulls last", :id) }
+  has_many :domain_options, -> { order(Arel.sql("position nulls last"), :id) }
   has_many :variables, -> { current }
   has_many :sheet_variables, through: :variables
   has_many :grids, through: :variables

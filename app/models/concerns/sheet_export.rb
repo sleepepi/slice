@@ -102,8 +102,8 @@ module SheetExport
   end
 
   def domain_option_value_or_value(table: "sheet_variables")
-    "(CASE WHEN (NULLIF(domain_options.value, '') IS NULL) "\
-    "THEN NULLIF(#{table}.value, '') ELSE NULLIF(domain_options.value, '') END)"
+    Arel.sql("(CASE WHEN (NULLIF(domain_options.value, '') IS NULL) "\
+    "THEN NULLIF(#{table}.value, '') ELSE NULLIF(domain_options.value, '') END)")
   end
 
   def transpose_tmp_csv(tmp_export_file, export_file)

@@ -319,7 +319,7 @@ class SheetsController < ApplicationController
 
   def scope_order(scope)
     @order = params[:order]
-    scope.order(Sheet::ORDERS[params[:order]] || Sheet::DEFAULT_ORDER)
+    scope.order(Arel.sql(Sheet::ORDERS[params[:order]] || Sheet::DEFAULT_ORDER))
   end
 
   def starts_with?(search, word)

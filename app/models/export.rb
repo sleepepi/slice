@@ -442,7 +442,7 @@ class Export < ApplicationRecord
       end
       csv << column_headers
       randomizations.includes(:subject, :treatment_arm, :list, :randomized_by, :randomization_scheme)
-                    .order("randomized_at desc nulls last").select("randomizations.*").each do |r|
+                    .order(Arel.sql("randomized_at desc nulls last")).select("randomizations.*").each do |r|
         row = [
           r.name,
           (r.subject ? r.subject.name : nil),

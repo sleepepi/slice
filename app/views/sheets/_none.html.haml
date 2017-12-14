@@ -5,7 +5,7 @@
       = succeed "." do
         = link_to "Clear filters", project_sheets_path(@project, search: params[:search])
 
-- (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
+- (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order(Arel.sql("count(sheet_variables.variable_id) desc"), Arel.sql("random()")).limit(1).count.first
 
 - if variable
   - case rand(9)
@@ -16,7 +16,7 @@
       = succeed "." do
         = link_to search, project_sheets_path(@project, search: search)
   - when 1
-    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(date))).group(:variable).order(Arel.sql("count(sheet_variables.variable_id) desc"), Arel.sql("random()")).limit(1).count.first
     - if variable
       - values = variable.sheet_variables.pluck_domain_option_value_or_value.uniq.reject(&:blank?).sort
       .docs-learn-more
@@ -25,7 +25,7 @@
         = succeed "." do
           = link_to search, project_sheets_path(@project, search: search)
   - when 2
-    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order("count(sheet_variables.variable_id) desc", "random()").limit(1).count.first
+    - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio))).group(:variable).order(Arel.sql("count(sheet_variables.variable_id) desc"), Arel.sql("random()")).limit(1).count.first
     - if variable
       - values = variable.sheet_variables.pluck_domain_option_value_or_value.uniq.reject(&:blank?).sort
       .docs-learn-more
