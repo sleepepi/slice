@@ -1,9 +1,12 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.4.2
+  - 2.4.3
+  - 2.5.0
   - ruby-head
 gemfile: "gems.rb"
+before_install:
+  - gem update --system # Due to: https://github.com/travis-ci/travis-ci/issues/8978
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "psql -c 'create database slice_test;' -U postgres"
