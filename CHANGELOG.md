@@ -6,6 +6,7 @@
     event
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
+  - Updated to devise 4.4.0
   - Updated to kaminari 1.1.1
 
 ## 0.57.1 (November 13, 2017)
