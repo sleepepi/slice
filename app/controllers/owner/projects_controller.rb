@@ -5,6 +5,11 @@ class Owner::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_owner_project_or_redirect
 
+  # GET /projects/1/api
+  def api
+    render layout: false
+  end
+
   # POST /projects/1/transfer
   def transfer
     new_owner = @project.users.find_by(id: params[:user_id])

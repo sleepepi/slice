@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   namespace :owner do
     resources :projects, only: :destroy do
       member do
+        get :api
         post :transfer
       end
     end

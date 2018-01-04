@@ -280,7 +280,7 @@ class Project < ApplicationRecord
   end
 
   def create_default_categories
-    return if categories.count > 0
+    return if categories.count.positive?
     categories.create(
       name: "Adverse Events",
       slug: "adverse-events",

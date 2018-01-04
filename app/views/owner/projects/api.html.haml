@@ -1,0 +1,51 @@
+%h1
+  = link_to @project.name, settings_editor_project_path(@project)
+  API V1
+
+%p
+  %code= @project.id_and_token
+
+%h2 Show Project
+%pre
+  - url = api_v1_project_path(@project.id_and_token, format: :json)
+  = precede "GET " do
+    = link_to url, url, target: "_blank"
+
+- subject = @project.subjects.first
+
+%h2
+  List Subjects
+%small
+  20 subjects per
+  %code page
+
+%pre= [{ id: subject&.id, subject_code: subject&.subject_code }, {id: "..."}].to_json
+
+%pre
+  - url = api_v1_subjects_path(@project.id_and_token, page: 1, format: :json)
+  = precede "GET " do
+    = link_to url, url, target: "_blank"
+
+%h2
+  Show Subject
+%pre= { id: subject&.id, subject_code: subject&.subject_code }
+%pre
+  - url = api_v1_subject_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
+  = precede "GET " do
+    = link_to_if subject.present?, url, url, target: "_blank"
+
+%h2
+  Show Subject Events
+%pre
+  - url = api_v1_subject_events_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
+  = precede "GET " do
+    = link_to_if subject.present?, url, url, target: "_blank"
+
+%h2
+  Show Survey
+%pre
+  - event = subject&.subject_events&.first&.event
+  - design = event&.designs&.first
+  - url = api_v1_show_survey_path(@project.id_and_token, subject&.id || ":subject_id", event&.id || ":event", design&.id || ":design", format: :json)
+  = precede "GET " do
+    = link_to_if subject.present?, url, url, target: "_blank"

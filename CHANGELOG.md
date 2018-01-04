@@ -4,6 +4,7 @@
 - **API Changes**
   - Added a new reports JSON API that displays aggregate data for a design on an
     event
+  - Subject event coverage is now computed when loading them from a subject
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
   - Updated to devise 4.4.0
