@@ -179,14 +179,14 @@
         Sheets do not automatically lock.
         = link_to "Learn more...", docs_locking_path
 
-- if @project.owner?(current_user)
+- if @project.owner?(current_user) && Rails.env.development?
   .panel.panel-default
     .panel-heading
       %h3.panel-title API
     .panel-body
       = link_to "API", api_owner_project_path(@project)
 
-- if @project.owner?(current_user) && @project.users.size > 0
+- if @project.owner?(current_user) && @project.users.size.positive?
   .panel.panel-danger
     .panel-heading
       %h3.panel-title Transfer Ownership
