@@ -8,6 +8,7 @@
 - **Export Changes**
   - Exporting project data dictionary without setting filters now exports all
     designs, even those without sheets
+  - Sheet coverage has been added as a column to sheet exports
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
   - Updated to devise 4.4.0

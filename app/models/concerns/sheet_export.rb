@@ -16,6 +16,7 @@ module SheetExport
       csv << ["Event"] + sheet_scope.includes(subject_event: :event).collect { |s| s.subject_event && s.subject_event.event ? s.subject_event.event.export_value(raw_data) : nil }
       csv << ["Design"] + sheet_scope.includes(:design).collect { |s| s.design ? s.design.export_value(raw_data) : nil }
       csv << ["Sheet ID"] + sheet_ids
+      csv << ["Sheet Coverage"] + sheet_scope.pluck(:percent)
       csv << ["Sheet Created"] + sheet_scope.pluck(:created_at).collect { |created| created.strftime("%F %T") }
       csv << ["Missing"] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }
       load_all(variables, sheet_ids, raw_data, csv)

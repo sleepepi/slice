@@ -6,8 +6,8 @@
 
 /* Replace carriage returns inside delimiters */
 data _null_;
-  infile "&path_file<%= '_grids' if use_grids %>..csv" recfm=n;
-  file "&path_file<%= '_grids' if use_grids %>._sas.csv" recfm=n;
+  infile "&path_file<%= "_grids" if use_grids %>..csv" recfm=n;
+  file "&path_file<%= "_grids" if use_grids %>._sas.csv" recfm=n;
   input a $char1.;
   retain open 0;
   if a='"' then open=not open;
@@ -17,8 +17,8 @@ run;
 
 /* Step 1: Import data into slice work library */
 
-data slice<%= '_grids' if use_grids %>;
-  infile "&path_file<%= '_grids' if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
+data slice<%= "_grids" if use_grids %>;
+  infile "&path_file<%= "_grids" if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
 
   /* Design and Subject Variables */
   informat _subject              $100.       ;   * Subject code ;
@@ -26,7 +26,8 @@ data slice<%= '_grids' if use_grids %>;
   informat _event                best32.     ;   * Event ;
   informat _design               best32.     ;   * Design ;
   informat _sheet_id             best32.     ;   * Sheet ID ;
-<% unless use_grids %>  informat _sheet_created        anydtdtm40. ;   * Sheet Created ;
+<% unless use_grids %>  informat _sheet_coverage       best32.     ;   * Sheet Coverage ;
+  informat _sheet_created        anydtdtm40. ;   * Sheet Created ;
   informat _missing              best32.     ;   * Missing ;<% end %>
 
   /* Sheet Variables */
@@ -38,7 +39,8 @@ data slice<%= '_grids' if use_grids %>;
   format _event                  best32.     ;
   format _design                 best32.     ;
   format _sheet_id               best32.     ;
-<% unless use_grids %>  format _sheet_created          datetime.   ;
+<% unless use_grids %>  format _sheet_coverage         best32.     ;
+  format _sheet_created          datetime.   ;
   format _missing                best32.     ;<% end %>
 
   /* Sheet Variables */
@@ -52,7 +54,8 @@ data slice<%= '_grids' if use_grids %>;
     _event
     _design
     _sheet_id
-<% unless use_grids %>    _sheet_created
+<% unless use_grids %>    _sheet_coverage
+    _sheet_created
     _missing<% end %>
 
 <%= column_headers.collect{ |c| "    #{c}" }.join("\n") %>

@@ -3,8 +3,8 @@
 
 /* Step 2: Apply labels to variables using slice display names */
 
-data slice<%= '_grids' if use_grids %>;
-  set slice<%= '_grids' if use_grids %>;
+data slice<%= "_grids" if use_grids %>;
+  set slice<%= "_grids" if use_grids %>;
 
   /* Design and Subject Variables */
   label _subject='Subject ID';
@@ -12,7 +12,8 @@ data slice<%= '_grids' if use_grids %>;
   label _event='Event';
   label _design='Design';
   label _sheet_id='Sheet ID';
-<% unless use_grids %>  label _sheet_created='Sheet Created';
+<% unless use_grids %>  label _sheet_coverage='Sheet Coverage';
+  label _sheet_created='Sheet Created';
   label _missing='Sheet Missing';<% end %>
 
   /* Sheet Variables */

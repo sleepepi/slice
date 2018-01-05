@@ -15,7 +15,7 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage,Sheet Created,Missing,"\
                  "var_gender,var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year,radio_no_domain,"\
@@ -26,7 +26,8 @@ class ExportTest < ActiveSupport::TestCase
     assert_equal "Code01,#{sites(:one).name},,"\
                  "#{designs(:all_variable_types).name},"\
                  "#{sheets(:all_variables).id},"\
-                 "#{sheets(:all_variables).created_at.strftime('%F %T')},"\
+                 "#{sheets(:all_variables).percent},"\
+                 "#{sheets(:all_variables).created_at.strftime("%F %T")},"\
                  "0,m: Male,acct101: ACCT 101,econ101: ECON 101,,,,,,Weight Li"\
                  "fting and Salsa,\"This Text is across", rows[1]
     assert_equal "Multiple Lines\",-9: Unknown,,04/17/2013,,22:30:00,24.36 kg "\
@@ -40,7 +41,7 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", true, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage,Sheet Created,Missing,"\
                  "var_gender,var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year,radio_no_domain,"\
@@ -51,7 +52,8 @@ class ExportTest < ActiveSupport::TestCase
     assert_equal "Code01,#{sites(:one).number_or_id},,"\
                  "#{designs(:all_variable_types).id},"\
                  "#{sheets(:all_variables).id},"\
-                 "#{sheets(:all_variables).created_at.strftime('%F %T')},"\
+                 "#{sheets(:all_variables).percent},"\
+                 "#{sheets(:all_variables).created_at.strftime("%F %T")},"\
                  "0,m,acct101,econ101,,,,,,Weight Lifting and Salsa,\"This Tex"\
                  "t is across", rows[1]
     assert_equal "Multiple Lines\",-9,,2013-04-17,,81000,24.36,,,205323,74,272"\
@@ -62,12 +64,14 @@ class ExportTest < ActiveSupport::TestCase
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, "test-export.csv", true, "")
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage,Sheet Created,Missing,"\
                  "var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year", rows[0]
     assert_equal "Code01,#{sites(:one).number_or_id},,#{designs(:checkbox_and_radio).id},"\
-                 "#{sheets(:checkbox_example_one).id},#{sheets(:checkbox_example_one).created_at.strftime('%F %T')},"\
+                 "#{sheets(:checkbox_example_one).id},"\
+                 "#{sheets(:checkbox_example_one).percent},"\
+                 "#{sheets(:checkbox_example_one).created_at.strftime("%F %T")},"\
                  "0,,econ101,math123,,,1", rows[1]
   end
 
@@ -77,12 +81,13 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_checkboxes, "test-export-labeled.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage,Sheet Created,Missing,"\
                  "var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year", rows[0]
     assert_equal "Code01,Site One,,Checkbox and Radio for Export Test,#{sheets(:checkbox_example_one).id},"\
-                 "#{sheets(:checkbox_example_one).created_at.strftime('%F %T')},"\
+                 "#{sheets(:checkbox_example_one).percent},"\
+                 "#{sheets(:checkbox_example_one).created_at.strftime("%F %T")},"\
                  "0,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
   end
 
