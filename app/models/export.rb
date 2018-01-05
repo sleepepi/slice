@@ -227,7 +227,12 @@ class Export < ApplicationRecord
   end
 
   def generate_data_dictionary(sheet_scope)
-    design_scope = project.designs.where(id: sheet_scope.select(:design_id)).order(:name)
+    design_scope = \
+      if filters.present?
+        project.designs.where(id: sheet_scope.select(:design_id)).order(:name)
+      else
+        project.designs.order(:name)
+      end
     designs_csv = \
       File.join(
         "tmp", "files", "exports",

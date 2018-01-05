@@ -5,6 +5,9 @@
   - Added a new reports JSON API that displays aggregate data for a design on an
     event
   - Subject event and sheet coverage is now computed when loading subject events
+- **Export Changes**
+  - Exporting project data dictionary without setting filters now exports all
+    designs, even those without sheets
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
   - Updated to devise 4.4.0
