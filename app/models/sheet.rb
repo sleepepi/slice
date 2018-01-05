@@ -363,15 +363,11 @@ class Sheet < ApplicationRecord
   def destroy
     super
     subject.update_uploaded_file_counts!
-    subject_event.update_coverage! if subject_event
-  end
-
-  def reset_response_count!
-    update(response_count: nil, total_response_count: nil, percent: nil)
+    subject_event&.update_coverage!
   end
 
   def update_associated_subject_events!
-    subject_event.reset_coverage! if subject_event
+    subject_event&.reset_coverage!
     subject.subject_events
            .where(event_id: EventDesign.where(conditional_design_id: design_id).select(:event_id))
            .find_each(&:reset_coverage!)

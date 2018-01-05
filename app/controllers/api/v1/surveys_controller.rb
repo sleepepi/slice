@@ -10,7 +10,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/surveys/:event/:design.json
   def show_survey
     if @event && @design && @subject_event && @sheet
-      # @sheet.check_response_count_change
+      # @sheet.check_coverage
       # @sheet.update_associated_subject_events!
       render :survey
     else
@@ -51,7 +51,7 @@ class Api::V1::SurveysController < Api::V1::BaseController
       end
     if save_result
       @sheet.audit_set_lasted_edited!
-      @sheet.reset_response_count!
+      @sheet.reset_coverage!
       render json: {}, status: :ok
     else
       render :survey_page, status: :unprocessable_entity

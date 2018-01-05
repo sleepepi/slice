@@ -80,7 +80,7 @@ class SheetsController < ApplicationController
 
   # POST /sheets/1/coverage.js
   def coverage
-    @sheet.check_response_count_change
+    @sheet.check_coverage
   end
 
   # # GET /sheets/1/transactions

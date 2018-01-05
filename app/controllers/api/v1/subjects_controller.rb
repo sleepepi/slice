@@ -16,6 +16,7 @@ class Api::V1::SubjectsController < Api::V1::BaseController
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/events.json
   def events
+    @subject.sheets.each(&:check_coverage)
     @subject.subject_events.each(&:check_coverage)
   end
 

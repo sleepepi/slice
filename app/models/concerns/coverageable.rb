@@ -5,8 +5,8 @@ module Coverageable
   extend ActiveSupport::Concern
 
   def out_of
-    check_response_count_change
-    "#{response_count} of #{total_response_count} #{total_response_count == 1 ? 'question' : 'questions'}"
+    check_coverage
+    "#{response_count} of #{total_response_count} #{total_response_count == 1 ? "question" : "questions"}"
   end
 
   # Sheets on empty designs should show as 100% complete.
@@ -20,9 +20,7 @@ module Coverageable
       variable_ids = []
       design.design_options.includes(:variable).each do |design_option|
         variable = design_option.variable
-        if variable && show_design_option?(design_option.branching_logic)
-          variable_ids << variable.id
-        end
+        variable_ids << variable.id if variable && show_design_option?(design_option.branching_logic)
       end
       variable_ids
     end
@@ -36,11 +34,15 @@ module Coverageable
     non_hidden_variable_ids.count
   end
 
-  def check_response_count_change
-    update_response_count! if total_response_count.nil?
+  def reset_coverage!
+    update(response_count: nil, total_response_count: nil, percent: nil)
   end
 
-  def update_response_count!
+  def check_coverage
+    update_coverage! if response_count.nil? || total_response_count.nil? || percent.nil?
+  end
+
+  def update_coverage!
     if missing?
       rcount = 0
       trcount = 0
@@ -54,7 +56,7 @@ module Coverageable
       total_response_count: trcount,
       percent: pcount
     )
-    subject_event.update_coverage! if subject_event
+    subject_event&.update_coverage!
   end
 
   def coverage

@@ -29,7 +29,7 @@ class SurveyController < ApplicationController
   def create
     @sheet = @project.sheets.where(design_id: @design.id).new(sheet_params)
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, "public_sheet_create")
-      @sheet.update_response_count!
+      @sheet.update_coverage!
       send_survey_completion_emails
       redirect_to survey_redirect_page
     else
@@ -40,7 +40,7 @@ class SurveyController < ApplicationController
   # PATCH /survey/:slug/:sheet_authentication_token
   def update
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, "public_sheet_update")
-      @sheet.update_response_count!
+      @sheet.update_coverage!
       redirect_to survey_redirect_page
     else
       render :edit
