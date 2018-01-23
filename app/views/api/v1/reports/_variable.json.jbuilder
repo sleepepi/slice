@@ -35,7 +35,7 @@ when "radio", "dropdown"
       json.count responses.select { |r| r == domain_option.value }.count
     end
   end
-when "imperial_height", "imperial_weight", "numeric", "integer"
+when "imperial_height", "imperial_weight", "numeric", "integer", "time_of_day"
   responses = @sheets.sheet_responses(variable).sort
   json.responses responses
 end
