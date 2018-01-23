@@ -1,5 +1,9 @@
 ## 58.1.0
 
+### Enhancements
+- **API Changes**
+  - The report JSON API now returns reports customized by subject
+
 ## 58.0.0 (January 5, 2018)
 
 ### Enhancements

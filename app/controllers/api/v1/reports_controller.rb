@@ -5,6 +5,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
   before_action :find_project_or_redirect
   before_action :find_event_or_redirect
   before_action :find_design_or_redirect
+  before_action :find_subject # Optional
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/reports/:event/:design.json
   def show
@@ -24,5 +25,9 @@ class Api::V1::ReportsController < Api::V1::BaseController
   def find_design_or_redirect
     @design = @project.designs.find_by_param(params[:design])
     head :no_content unless @design
+  end
+
+  def find_subject
+    @subject = @project.subjects.find_by(id: params[:subject_id])
   end
 end
