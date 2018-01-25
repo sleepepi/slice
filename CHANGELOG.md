@@ -4,6 +4,7 @@
 - **API Changes**
   - The report JSON API now returns reports customized by subject
 - **Gem Changes**
+  - Updated to carrierwave 1.2.2
   - Updated to devise 4.4.1
 
 ## 58.0.0 (January 5, 2018)
