@@ -61,6 +61,11 @@ class User < ApplicationRecord
 
   # Methods
 
+  # TODO: Replace "system_admin" with "admin"
+  def admin?
+    system_admin?
+  end
+
   def avatar_url(size = 80, default = "mm")
     gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)
     "//gravatar.com/avatar/#{gravatar_id}.png?&s=#{size}&r=pg&d=#{default}"

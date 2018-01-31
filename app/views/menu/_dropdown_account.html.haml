@@ -1,0 +1,50 @@
+%li.nav-item.dropdown.d-none.d-lg-block
+  .btn-group.nav-item
+    - if false
+      = link_to "#", class: "nav-link", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
+        %i.fa.fa-ellipsis-v
+    - else
+      = link_to "#", class: "nav-link dropdown-toggle", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
+        = profile_picture_tag(current_user, size: 20)
+
+    .dropdown-menu.dropdown-menu-right.dropdown-menu-slice
+      .dropdown-menu-slice-inner
+        = link_to dashboard_path, class: "dropdown-item" do
+          My dashboard
+
+        = link_to settings_path, class: "dropdown-item" do
+          Settings
+
+        .dropdown-divider
+        - if current_user.admin? || current_user.report_manager?
+          = link_to admin_path, class: "dropdown-item" do
+            Admin
+          .dropdown-divider
+        = link_to destroy_user_session_path, class: "dropdown-item" do
+          Sign out
+
+%li.nav-item
+  %hr
+
+%li.nav-item.d-lg-none{ class: current_page?(dashboard_path) ? "active" : nil }
+  = link_to dashboard_path, class: "nav-link" do
+    My Dashboard
+  - if current_page?(dashboard_path)
+    %span.sr-only (current)
+
+%li.nav-item.d-lg-none{ class: current_page?(settings_path) ? "active" : nil }
+  = link_to settings_path, class: "nav-link" do
+    Settings
+  - if current_page?(settings_path)
+    %span.sr-only (current)
+
+- if current_user.admin? || current_user.report_manager?
+  %li.nav-item.d-lg-none{ class: current_page?(admin_path) ? "active" : nil }
+    = link_to admin_path, class: "nav-link" do
+      Admin
+    - if current_page?(admin_path)
+      %span.sr-only (current)
+
+%li.nav-item.d-lg-none
+  = link_to destroy_user_session_path, class: "nav-link" do
+    Sign out

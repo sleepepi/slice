@@ -1,0 +1,6 @@
+= link_to ENV["website_name"], root_path, class: "navbar-brand navbar-hide-scrolled", style: "font-weight: 300;"
+
+- if @menu_title || @title
+  = link_to "#top", data: { object: "remove-collapse-in scroll-anchor", target: ".navbar-full-menu" }, class: "navbar-brand navbar-show-scrolled navbar-brand-small-caps" do
+    %i.fa.fa-level-up.fa-flip-horizontal{ aria: { hidden: "true" } }
+    = @menu_title || @title

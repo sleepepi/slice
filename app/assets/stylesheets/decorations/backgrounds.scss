@@ -1,0 +1,9 @@
+.theme-default-bg {
+  background-color: $p300-blue;
+
+  .header-container {
+    background-color: $p500-blue;
+    border-color: $p200-orange;
+    color: $brand-white;
+  }
+}

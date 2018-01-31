@@ -1,0 +1,7 @@
+- active = false unless defined?(active)
+%li.nav-item{ class: active || current_page?(path) ? "active" : nil }
+  = link_to path, class: "nav-link" do
+    = content_tag :i, nil, class: "fa fa-#{icon} d-inline d-lg-none" if defined?(icon)
+    = title
+  - if current_page?(path)
+    %span.sr-only (current)

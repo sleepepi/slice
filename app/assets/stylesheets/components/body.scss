@@ -4,18 +4,23 @@ html {
 }
 
 body {
-  margin-bottom: $footer-height;
-  padding-top: $header-height + 1px; // Includes 1px border bottom of menu
-}
+  &.full-page {
+    margin-bottom: $footer-height;
+  }
 
-.body-content {
-  padding-bottom: 20px;
-  padding-top: 20px;
+  &.full-page-no-header {
+    margin-bottom: $footer-height;
+  }
+
+  &.full-page-no-header-no-footer {
+    margin-bottom: 0;
+  }
 }
 
 ::selection {
   background-color: $brand-accent;
   color: $gray-dark;
+  text-shadow: none;
 }
 
 :focus {

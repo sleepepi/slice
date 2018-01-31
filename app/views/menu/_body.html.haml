@@ -1,0 +1,40 @@
+%ul.navbar-nav.mr-auto.display-small-scrolled
+  %li.nav-item.dropdown.d-none.d-lg-block
+    = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
+      About
+    .dropdown-menu.dropdown-menu-slice
+      .dropdown-menu-slice-inner
+        = link_to "About", about_path, class: "dropdown-item"
+        = link_to "Docs", docs_path, class: "dropdown-item"
+        .dropdown-divider
+        = link_to "Questions?", search_path, class: "dropdown-item"
+
+  %li.nav-item.d-lg-none{ class: current_page?(about_path) ? "active" : nil }
+    = link_to about_path, class: "nav-link" do
+      About
+    - if current_page?(about_path)
+      %span.sr-only (current)
+
+  = render "menu/item", title: "Dashboard", path: dashboard_path
+
+%ul.navbar-nav
+  %li.nav-item{ class: current_page?(search_path) ? "active" : nil }
+    = link_to search_path, class: "nav-link" do
+      %i.fa.fa-search.d-none.d-lg-inline
+      Help Center
+    - if current_page?(search_path)
+      %span.sr-only (current)
+  - if current_user
+    %li.nav-item.d-none.d-lg-block{ class: current_page?(notifications_path) ? "active" : nil }
+      = link_to notifications_path, class: "nav-link notifications-link#{" notifications-link-active" if current_user.unread_notifications?}" do
+        = content_tag :i, nil, class: "fa fa-#{icon} d-inline d-lg-none" if defined?(icon)
+        %i.fa.fa-bell
+      - if current_page?(notifications_path)
+        %span.sr-only (current)
+    = render "menu/dropdown_account"
+  - else
+    %li.nav-item{ class: current_page?(new_user_session_path) ? "active" : nil }
+      = link_to new_user_session_path, class: "nav-link" do
+        Sign in
+      - if current_page?(new_user_session_path)
+        %span.sr-only (current)

@@ -1,0 +1,32 @@
+.navbar-slice {
+  border-bottom: 1px solid transparent;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: background-color 10s ease-out;
+}
+
+.navbar-toggler {
+  border: 0;
+  outline: 0;
+}
+
+@include media-breakpoint-up(lg) {
+  .nav-item {
+    &:focus,
+    &:hover,
+    &.active {
+      color: rgba($brand-white, .9);
+      background-color: rgba($brand-black, .2);
+      border-bottom: 2px solid $brand-accent;
+      margin-bottom: -2px;
+    }
+  }
+}
+
+.navbar-brand {
+  &.navbar-brand-small-caps {
+    font-weight: 300;
+    letter-spacing: .125rem;
+    font-variant: small-caps;
+  }
+}

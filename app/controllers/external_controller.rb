@@ -40,6 +40,10 @@ class ExternalController < ApplicationController
     end
   end
 
+  def version
+    render layout: "layouts/full_page"
+  end
+
   private
 
   def set_design

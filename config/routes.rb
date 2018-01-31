@@ -370,6 +370,7 @@ Rails.application.routes.draw do
 
   devise_for :users, path_names: { sign_up: "join", sign_in: "login" }, path: ""
 
+  get "admin" => "users#index"
   resources :users do
     collection do
       get :invite
@@ -384,12 +385,12 @@ Rails.application.routes.draw do
     get :about
     get :contact
     get :use, path: "/about/use", as: :about_use
-    get :version
   end
 
   scope module: :external do
     get :landing
     get :sitemap_xml, path: "sitemap.xml.gz"
+    get :version
   end
 
   namespace :external do
