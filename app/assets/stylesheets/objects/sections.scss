@@ -5,8 +5,8 @@
 }
 
 .design-header {
-  border-bottom: 1px solid $text-color;
-  color: $text-color;
+  border-bottom: 1px solid $body-color;
+  color: $body-color;
   display: block;
   font-size: 24px;
   font-weight: 600;
@@ -16,8 +16,8 @@
 }
 
 .section-header {
-  border-bottom: 1px solid $text-color;
-  color: $text-color;
+  border-bottom: 1px solid $body-color;
+  color: $body-color;
   display: block;
   font-size: 20px;
   font-weight: 600;
@@ -32,8 +32,8 @@
 }
 
 .sub-section-header {
-  border-bottom: 1px solid $text-color;
-  color: $text-color;
+  border-bottom: 1px solid $body-color;
+  color: $body-color;
   display: block;
   font-size: 18px;
   font-weight: 600;
@@ -47,7 +47,7 @@
   }
 }
 
-@media screen and (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   .design-header {
     font-size: 41px;
   }

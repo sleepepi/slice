@@ -1,4 +1,4 @@
-// This defines custom styles for reports
+// This defines custom styles for reports.
 
 .count-rot315 {
   display: inline-block;
@@ -10,10 +10,8 @@
 .report-number {
   font-size: 41px;
   font-weight: 300;
-}
 
-@media screen and (min-width: $screen-lg-min) {
-  .report-number {
+  @include media-breakpoint-up(lg) {
     font-size: 72px;
   }
 }

@@ -16,7 +16,7 @@ $brand-primary:         $p400;
 //** Background color for `<body>`.
 // $body-bg:               #fff !default;
 //** Global text color on `<body>`.
-$text-color:            $gray;
+$body-color:            $gray;
 
 //** Global textual link color.
 $link-color:            $brand-primary;
@@ -45,7 +45,7 @@ $table-border-color:            #ddd;
 
 $btn-font-weight:                normal;
 
-$btn-default-color:              $text-color;
+$btn-default-color:              $body-color;
 $btn-default-bg:                 #fff;
 $btn-default-border:             rgba(0, 0, 0, .1);
 
@@ -82,7 +82,7 @@ $input-bg:                       #fff;
 $input-bg-disabled:              $gray-lighter;
 
 //** Text color for `<input>`s
-$input-color:                    $text-color;
+$input-color:                    $body-color;
 //** `<input>` border color
 $input-border:                   #ccc;
 //** Border color for inputs on focus
@@ -91,7 +91,7 @@ $input-border-focus:             #66afe9;
 //** Placeholder text color
 $input-color-placeholder:        $gray-light;
 
-$legend-color:                   $text-color;
+$legend-color:                   $body-color;
 $legend-border-color:            #e5e5e5;
 
 //** Background color for textual input addons
@@ -185,7 +185,7 @@ $alert-warning-text:          #333;
 $panel-inner-border:          #ddd;
 $panel-footer-bg:             #f5f5f5;
 
-$panel-default-text:          $text-color;
+$panel-default-text:          $body-color;
 // $panel-default-border:        #ddd;
 $panel-default-heading-bg:    #f5f5f5;
 

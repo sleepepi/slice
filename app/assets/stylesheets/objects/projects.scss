@@ -20,7 +20,7 @@
   }
 }
 
-@media screen and (min-width: $screen-sm-min) {
+@include media-breakpoint-up(sm) {
   .projects-box {
     padding: 15px;
   }

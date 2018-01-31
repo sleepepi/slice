@@ -70,7 +70,7 @@ $side-nav-width: 240px;
   transition: visibility 0 linear .4s, opacity .4s cubic-bezier(.4, 0, .2, 1);
   visibility: hidden;
   width: 100%;
-  z-index: $zindex-modal-background;
+  z-index: $zindex-modal-backdrop;
 
   &.mask-visible {
     opacity: 1;
@@ -175,7 +175,7 @@ $screen-drawer-min: 1480px;
   }
 }
 
-@media screen and (min-width: $screen-sm-min) {
+@include media-breakpoint-up(sm) {
   .side-nav-button-container {
     margin: 0;
     padding: 0 15px 0 0;
@@ -193,7 +193,7 @@ $screen-drawer-min: 1480px;
     font-weight: bold;
 
     a {
-      color: $text-color;
+      color: $body-color;
       display: block;
       padding: 14px 0 15px 22px;
       text-decoration: none;
@@ -213,7 +213,7 @@ $screen-drawer-min: 1480px;
     padding: 0;
 
     a {
-      color: $text-color;
+      color: $body-color;
       display: block;
       font-size: 14px;
       padding: 8px 6px 8px 32px;

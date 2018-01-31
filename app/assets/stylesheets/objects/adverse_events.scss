@@ -2,10 +2,8 @@
   font-size: 18px;
   font-style: italic;
   margin: 0 20px;
-}
 
-@media screen and (min-width: $screen-sm-min) {
-  .adverse-event-description {
+  @include media-breakpoint-up(sm) {
     font-size: 20px;
   }
 }

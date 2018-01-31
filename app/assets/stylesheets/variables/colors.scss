@@ -1,3 +1,96 @@
+// Branding
+$brand-white: #fff;
+$brand-black: $p900-grey;
+
+
+// TODO: Temporary, placeholder for theme colors.
+$p50: $p50-purple;
+$p100: $p100-purple;
+$p200: $p200-purple;
+$p300: $p300-purple;
+$p400: $p400-purple;
+$p500: $p500-purple;
+$p600: $p600-purple;
+$p700: $p700-purple;
+$p800: $p800-purple;
+$p900: $p900-purple;
+
+$a100: $p100-deep-purple;
+$a100: $p100-deep-purple;
+$a200: $p200-deep-purple;
+$a400: $p400-deep-purple;
+$a700: $p700-deep-purple;
+$a200-text: $brand-white;
+
+$debug-color: $p500-pink;
+$debug-size: 80px;
+
+$font-size-large: $debug-size;
+
+$brand-primary: $debug-color;
+$brand-accent: $debug-color;
+$brand-danger: $debug-color;
+$brand-warning: $debug-color;
+$brand-gray: $debug-color;
+$blockquote-border-color: $debug-color;
+$gray-lighter: $debug-color;
+$gray-light: $debug-color;
+$gray: $debug-color;
+$gray-dark: $debug-color;
+$panel-danger-heading-bg: $debug-color;
+$panel-danger-border: $debug-color;
+$panel-danger-text: $debug-color;
+$alert-danger-text: $debug-color;
+$panel-warning-heading-bg: $debug-color;
+$panel-warning-border: $debug-color;
+$panel-warning-text: $debug-color;
+$alert-warning-text: $debug-color;
+$panel-info-heading-bg: $debug-color;
+$panel-info-border: $debug-color;
+$panel-info-text: $debug-color;
+$alert-info-text: $debug-color;
+$brand-accent-text: $debug-color;
+$table-bg-accent: $debug-color;
+$table-bg-hover: $debug-color;
+$btn-primary-border: $debug-color;
+$btn-primary-color: $debug-color;
+$btn-primary-bg: $debug-color;
+$btn-danger-border: $debug-color;
+$btn-danger-color: $debug-color;
+$dropdown-fallback-border: $debug-color;
+$navbar-default-bg: $debug-color;
+$brand-muted: $debug-color;
+$btn-default-bg: $debug-color;
+$btn-default-border: $debug-color;
+$btn-default-color: $debug-color;
+$btn-danger-bg: $debug-color;
+$btn-info-bg: $debug-color;
+$btn-info-border: $debug-color;
+$btn-info-color: $debug-color;
+$btn-success-color: $debug-color;
+$brand-highlight: $debug-color;
+$alert-warning-bg: $debug-color;
+$alert-success-bg: $debug-color;
+$alert-success-text: $debug-color;
+$panel-bg: $debug-color;
+$state-warning-bg: $debug-color;
+$dropdown-border: $debug-color;
+$brand-highlight-text: $debug-color;
+$alert-info-bg: $debug-color;
+$input-border-focus: $debug-color;
+$input-border: $debug-color;
+$input-color-placeholder: $debug-color;
+$label-default-bg: $debug-color;
+$input-bg-disabled: $debug-color;
+$panel-default-border: $debug-color;
+// END TODO
+
+// TODO: Temporary definitions
+$link-color: $p500-blue !default;
+// END TODO
+
+
+// TODO: Refactor...
 $success-emphasis-color: $brand-white;
 $brand-black: $p900;
 
@@ -24,3 +117,4 @@ $blockquote-text-color: #999 !default;
 
 $sun-color: #fff59d !default; // Yellow $p200;
 $sun-inner-color: #fff176 !default; // Yellow $p300;
+// END TODO

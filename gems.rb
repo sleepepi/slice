@@ -5,11 +5,11 @@ source "https://rubygems.org"
 gem "rails",                "5.2.0.rc1"
 
 # Database Adapter
-gem "pg",                   "0.21.0"
+gem "pg",                   "1.0.0"
 
 # Gems used by project
 gem "autoprefixer-rails"
-gem "bootstrap-sass",       "~> 3.3.7"
+gem "bootstrap",            "~> 4.0.0"
 gem "carrierwave",          "~> 1.2.2"
 gem "chunky_png",           "~> 1.3.4"
 gem "colorize",             "~> 0.8.1"

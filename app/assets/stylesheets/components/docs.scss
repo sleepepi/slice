@@ -21,7 +21,7 @@
   background-color: $body-bg;
   border-radius: 3px;
   box-shadow: 0 30px 60px $standard-shadow-color;
-  color: $text-color;
+  color: $body-color;
   font-size: $font-size-base;
   margin-bottom: 20px;
   padding: 30px;
@@ -81,7 +81,7 @@
   }
 }
 
-@media screen and (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   .docs-container {
     font-size: $font-size-large;
     padding: 60px;
@@ -151,6 +151,11 @@ a:hover .docs-navigation {
   text-align: center;
   text-shadow: 0 2px 3px $standard-shadow-color;
 
+  @include media-breakpoint-up(md) {
+    font-size: 28px;
+  }
+
+
   a {
     color: $brand-accent;
 
@@ -159,11 +164,5 @@ a:hover .docs-navigation {
     &:active {
       color: darken($brand-accent, 10%);
     }
-  }
-}
-
-@media screen and (min-width: $screen-md-min) {
-  .docs-learn-more {
-    font-size: 28px;
   }
 }

@@ -7,10 +7,10 @@
 
 .col-buffer-visible-xs {
   margin-bottom: 20px;
-}
 
-@media screen and (min-width: $screen-sm-min) {
-  .col-buffer-visible-xs {
+  @include media-breakpoint-up(sm) {
     margin-bottom: 0;
   }
 }
+
+

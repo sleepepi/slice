@@ -17,6 +17,10 @@
     &.saturday,
     &.sunday {
       display: none;
+
+      @include media-breakpoint-up(sm) {
+        display: block;
+      }
     }
 
     .calendar-window {
@@ -55,15 +59,3 @@
 .calendar-week-header {
   display: flex;
 }
-
-@media screen and (min-width: $screen-sm-min) {
-  .calendar-week {
-    .calendar-day {
-      &.saturday,
-      &.sunday {
-        display: block;
-      }
-    }
-  }
-}
-

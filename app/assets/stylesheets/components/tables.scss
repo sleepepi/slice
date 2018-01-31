@@ -64,7 +64,7 @@
     background-color: $table-bg;
     position: sticky;
     top: $header-height - 1px;
-    z-index: $zindex-navbar-fixed; // TODO: BS4: z-index: $zindex-sticky;
+    z-index: $zindex-sticky;
   }
 
   .thead-inverse {

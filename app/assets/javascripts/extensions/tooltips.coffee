@@ -1,4 +1,4 @@
 @tooltipsReady = ->
-  $('.tooltip').remove()
+  $(".tooltip").remove()
   return unless document.documentElement.ontouchstart == undefined
-  $("[rel~=tooltip]").tooltip(trigger: 'hover')
+  $("[rel~=tooltip]").tooltip(trigger: "hover")

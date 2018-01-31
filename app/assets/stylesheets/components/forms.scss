@@ -15,7 +15,7 @@
   text-shadow: 0 2px 3px $standard-shadow-color;
 }
 
-@media screen and (min-width: $screen-sm-min) {
+@include media-breakpoint-up(sm) {
   .sign-up-form {
     border-radius: 5px;
     overflow: hidden;
@@ -28,5 +28,6 @@
 }
 
 .submit-btn-container {
-  margin: 20px 0 0;
+  // This mimics .mt-4.mb-0
+  margin: $spacer * 1.5 0 0;
 }

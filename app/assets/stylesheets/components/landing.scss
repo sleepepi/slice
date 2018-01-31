@@ -135,7 +135,7 @@ $landing-cog2-color: #dedede;
   animation: spin-cw 3s linear infinite;
 }
 
-@media screen and (min-width: $screen-sm-min) {
+@include media-breakpoint-up(sm) {
   .landing-upper-right {
     #sun {
       font-size: 512px;

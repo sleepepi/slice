@@ -36,7 +36,7 @@ $dashboard-bg: #111;
 //** Background color for `<body>`.
 $body-bg:               #060606;
 //** Global text color on `<body>`.
-$text-color:            $gray-light;
+$body-color:            $gray-light;
 
 //** Global textual link color.
 $link-color:            $brand-primary;
@@ -181,7 +181,7 @@ $input-bg:                       #444;
 $input-bg-disabled:              $gray;
 
 //** Text color for `<input>`s
-$input-color:                    $text-color;
+$input-color:                    $body-color;
 //** `<input>` border color
 $input-border:                   $gray-dark;
 //** Border color for inputs on focus
@@ -197,7 +197,7 @@ $input-color-placeholder:        $gray-light;
 //** Small `.form-control` height
 // $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
 
-$legend-color:                   $text-color;
+$legend-color:                   $body-color;
 $legend-border-color:            $gray-dark;
 
 //** Background color for textual input addons
@@ -247,13 +247,13 @@ $dropdown-caret-color:           #000;
 //##
 
 // Basics of a navbar
-$navbar-default-color:             $text-color;
+$navbar-default-color:             $body-color;
 // $navbar-default-bg:                $body-bg;
 $navbar-default-bg:                lighten($body-bg, 10%);
 $navbar-default-border:            darken($navbar-default-bg, 6.5%);
 
 // Navbar links
-$navbar-default-link-color:                $text-color;
+$navbar-default-link-color:                $body-color;
 $navbar-default-link-hover-color:          #dedede;
 $navbar-default-link-hover-bg:             hsla(0, 100%, 100%, 0);
 $navbar-default-link-active-color:         #dedede;
@@ -573,7 +573,7 @@ $list-group-disabled-bg:         $gray-lighter;
 //** Text color for content within disabled list items
 $list-group-disabled-text-color: $list-group-disabled-color;
 
-$list-group-link-color:         $text-color;
+$list-group-link-color:         $body-color;
 $list-group-link-hover-color:   $list-group-link-color;
 $list-group-link-heading-color: #dedede;
 
@@ -589,7 +589,7 @@ $panel-inner-border:          $gray-dark;
 $panel-default-heading-bg:    lighten($gray-darker, 10%);
 $panel-footer-bg:             $panel-default-heading-bg;
 
-$panel-default-text:          $text-color;
+$panel-default-text:          $body-color;
 $panel-default-border:        $panel-inner-border;
 
 $panel-primary-text:          #dedede;
@@ -625,7 +625,7 @@ $thumbnail-bg:                $gray-dark;
 $thumbnail-border:            $gray-dark;
 
 //** Custom text color for thumbnail captions
-$thumbnail-caption-color:     $text-color;
+$thumbnail-caption-color:     $body-color;
 //** Padding around the thumbnail caption
 $thumbnail-caption-padding:   9px;
 
@@ -668,7 +668,7 @@ $breadcrumb-bg:                 $gray-darker;
 //** Breadcrumb text color
 $breadcrumb-color:              #dedede;
 //** Text color of current page in the breadcrumb
-$breadcrumb-active-color:       $text-color;
+$breadcrumb-active-color:       $body-color;
 //** Textual separator for between breadcrumb elements
 $breadcrumb-separator:          '/';
 
@@ -711,6 +711,6 @@ $kbd-color:                   #dedede;
 $kbd-bg:                      #333;
 
 $pre-bg:                      $gray-dark;
-$pre-color:                   $text-color;
+$pre-color:                   $body-color;
 $pre-border-color:            $gray-light;
 $pre-scrollable-max-height:   340px;

@@ -28,7 +28,7 @@ body,
   }
 }
 
-@media screen and (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   .landing-upper-left {
     color: #e3f2fd; // Blue $p50;
     font-size: 128px;

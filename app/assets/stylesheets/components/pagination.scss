@@ -5,10 +5,8 @@
   position: absolute;
   right: 0;
   top: -20px;
-}
 
-@media screen and (min-width: $screen-sm-min) {
-  .per-page {
+  @include media-breakpoint-up(sm) {
     display: block;
   }
 }
@@ -32,7 +30,7 @@
   }
 }
 
-@media screen and (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   .page-heading {
     .per-page {
       height: 29px;

@@ -1,5 +1,9 @@
+// TODO: Move "tree.scss" to application.scss and merge themes together.
+// // Theme colors and variable definitions.
+// @import 'themes/default';
+// @import 'variables/all';
+
 // Core Bootstrap styles
-@import 'bootstrap-sprockets';
 @import 'bootstrap';
 
 // Font Awesome Icons
@@ -8,11 +12,8 @@
 // App Mixins
 @import 'mixins/all';
 
-// Migration classes to help move to Boostrap 4.
-@import 'migrations/all';
-
 // App specific styles
 @import 'components/all';
 @import 'extensions/all';
-@import 'fixes/all';
+// @import 'fixes/all'; // TODO: Review fixes or remove stylesheets/fixes
 @import 'objects/all';

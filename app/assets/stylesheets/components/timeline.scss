@@ -4,10 +4,8 @@
   left: -70px;
   position: absolute;
   top: 26px;
-}
 
-@media screen and (min-width: $screen-sm-min) {
-  .timeline-large-icon {
+  @include media-breakpoint-up(sm) {
     display: block;
   }
 }
