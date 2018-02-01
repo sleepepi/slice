@@ -26,7 +26,7 @@
     .col-md-8
       .download-container
         .download-container-after Filters
-        = link_to "Add Filter", "#", class: "btn btn-default btn-xs pull-right", data: { object: "open-new-filter-modal" }
+        = link_to "Add Filter", "#", class: "btn btn-light btn-sm pull-right", data: { object: "open-new-filter-modal" }
         = form_tag filters_reports_project_path(@design.project), method: :post, remote: true, id: "filters_form" do
           #filters
             = render "filters/filters"
@@ -43,7 +43,7 @@
             = render "layouts/radio_button_group", name: "percent", options: [["No Percents", "none"], ["% by Row", "row"], ["% by Column", "column"]], selected: params[:percent] || "none"
 
           .btn-group
-            = link_to "#", class: "dropdown-toggle btn btn-default", data: { toggle: "dropdown" } do
+            = link_to "#", class: "dropdown-toggle btn btn-light", data: { toggle: "dropdown" } do
               Export
               %strong.caret
 

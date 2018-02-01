@@ -8,12 +8,12 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           - if @project.site_or_project_editor?(current_user)
             = link_to plus_or("Report Adverse Event"), new_project_adverse_event_path(@project), class: "btn btn-accent btn-shadow"
           - if @project.editable_by?(current_user)
             = succeed " " do
-              = link_to export_project_adverse_events_path, class: "btn btn-default d-none d-sm-inline-block" do
+              = link_to export_project_adverse_events_path, class: "btn btn-light d-none d-sm-inline-block" do
                 %i.fa.fa-download
                 Export
           .per-page= render "layouts/per_page", per_page: 40, object_count: @adverse_events.total_count

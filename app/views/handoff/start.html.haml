@@ -23,7 +23,7 @@
   - elsif @handoff.resume_design
     .row
       .col-sm-6{ style: "margin-bottom: 20px" }
-        = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-default" do
+        = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-light" do
           Review All Forms
           %i.fa.fa-eye
       .col-sm-6
@@ -31,7 +31,7 @@
           Resume Where I Left Off
           %i.fa.fa-caret-right
   - else
-    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-default" do
+    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-light" do
       Review All Forms
       %i.fa.fa-eye
 - else

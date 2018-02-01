@@ -11,7 +11,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           - if @randomization.editable_by?(current_user)
             - if @randomization.randomized?
               = link_to "Undo", undo_project_randomization_path(@project, @randomization), method: :patch, class: "btn btn-danger-inverse", data: { confirm: "Undo randomization for subject #{@randomization.subject.name}?" }
@@ -34,8 +34,8 @@
       = @randomization.randomized_by.name
 
 - if @randomization.tasks.count > 0
-  .pull-right
-    = link_to schedule_project_randomization_path(@project, @randomization, format: "pdf"), class: "btn btn-xs btn-default" do
+  .float-right
+    = link_to schedule_project_randomization_path(@project, @randomization, format: "pdf"), class: "btn btn-sm btn-light" do
       %i.fa.fa-print
       Print Schedule
 

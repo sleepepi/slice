@@ -2,8 +2,8 @@
 - @position = position
 
 .well{ id: "design_#{@position}" }
-  .pull-right
-    = link_to "Remove", "#", class: "btn btn-xs btn-danger-inverse", data: { object: "remove", target: "#design_#{@position}" }, tabindex: "-1"
+  .float-right
+    = link_to "Remove", "#", class: "btn btn-sm btn-danger-inverse", data: { object: "remove", target: "#design_#{@position}" }, tabindex: "-1"
   %i.fa.fa-arrows.design-handle
 
 

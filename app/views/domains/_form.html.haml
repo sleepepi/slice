@@ -60,7 +60,7 @@
     .col-md-10.col-md-offset-2
       = render "layouts/errors", object: @domain, key: :option
       .btn-toolbar
-        = link_to "Add Additional Options", "#", id: "add_more_domain_options", class: "btn btn-default btn-xs", data: { project_id: @project.to_param }
+        = link_to "Add Additional Options", "#", id: "add_more_domain_options", class: "btn btn-light btn-sm", data: { project_id: @project.to_param }
 
   = hidden_field_tag :continue, "0"
 
@@ -69,4 +69,4 @@
       = f.submit nil, class: "btn btn-primary"
       - form_name = @domain.new_record? ? "new_domain" : "edit_domain_#{@domain.id}"
       = f.submit @domain.new_record? ? "Create Domain and Continue" : "Update Domain and Continue", class: "btn btn-primary", data: { target: "##{form_name}", object: "domain-form-submit", continue: "1" }
-      = link_to "Cancel", @domain.new_record? ? project_domains_path(@project) : [@project, @domain], class: "btn btn-default"
+      = link_to "Cancel", @domain.new_record? ? project_domains_path(@project) : [@project, @domain], class: "btn btn-light"

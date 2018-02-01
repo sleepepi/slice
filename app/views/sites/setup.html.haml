@@ -15,13 +15,13 @@
 
     .form-group
       .col-md-offset-2.col-md-10
-        = link_to "+ Add another site", add_site_row_project_sites_path(@project), method: :post, remote: true, class: "btn btn-xs btn-accent"
-        = link_to "Learn more...", docs_sites_path, class: "btn btn-xs btn-link"
+        = link_to "+ Add another site", add_site_row_project_sites_path(@project), method: :post, remote: true, class: "btn btn-sm btn-accent"
+        = link_to "Learn more...", docs_sites_path, class: "btn btn-sm btn-link"
 
 .docs-navigation-container
   .row
     .col-sm-6.col-md-offset-4.col-md-4.col-buffer-visible-xs
-      = link_to "Skip this step", invite_editor_project_path(@project), class: "btn btn-block btn-lg btn-default"
+      = link_to "Skip this step", invite_editor_project_path(@project), class: "btn btn-block btn-lg btn-light"
 
     .col-sm-6.col-md-4
       = link_to "#", data: { object: "submit", target: "#sites-form" }, class: "btn btn-lg btn-primary btn-shadow btn-block" do

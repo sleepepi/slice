@@ -7,5 +7,5 @@
     - if ['jpg', 'jpeg', 'gif', 'png'].include?(response_name.split('.').last.to_s.downcase)
       = link_to image_tag(full_url, style: "height:64px;border:0px solid white"), full_url, target: '_blank'
     - else
-      = link_to response_name, full_url, target: '_blank', class: 'btn btn-default btn-xs'
+      = link_to response_name, full_url, target: '_blank', class: 'btn btn-light btn-sm'
     = number_to_human_size(response_file.size)

@@ -8,9 +8,9 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           .dropdown
-            = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
+            = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 
@@ -96,7 +96,7 @@
   %h3.text-white.text-shadow Top 40 Results
 - if all_sheets.count > 0
   .dashboard-container
-    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-default" do
+    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-light" do
       View All Sheets
       %i.fa.fa-external-link
     %table.table.table-borderless.table-hover

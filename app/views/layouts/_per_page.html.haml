@@ -7,25 +7,26 @@
 
 - filtered_params = params.permit!
 
-%ul.pagination.pull-right.d-none.d-sm-block{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
-  - if current_page_min > 1
-    %li= link_to "&laquo;".html_safe, url_for(filtered_params.merge(page: page - 1))
-  - else
-    %li.disabled
-      %span &laquo;
+.per-page.d-none.d-sm-inline-block
+  %ul.pagination.float-right{ class: "#{"pagination-#{pagination_size_hash[pagination_size]}" if defined?(pagination_size) && %w(large small).include?(pagination_size)}" }
+    - if current_page_min > 1
+      %li.page-item= link_to "&laquo;".html_safe, url_for(filtered_params.merge(page: page - 1)), class: "page-link"
+    - else
+      %li.page-item.disabled
+        %span.page-link &laquo;
 
-  %li
-    %span
-      %b.link-unstyled
-        = number_with_delimiter current_page_min
-        to
-        = number_with_delimiter [current_page_max, object_count].min
-      %span.link-unstyled
-        of
-        = number_with_delimiter object_count
+    %li.page-item
+      %span.page-link.nowrap
+        %b.link-unstyled
+          = number_with_delimiter current_page_min
+          to
+          = number_with_delimiter [current_page_max, object_count].min
+        %span.link-unstyled
+          of
+          = number_with_delimiter object_count
 
-  - if current_page_max < object_count
-    %li= link_to "&raquo;".html_safe, url_for(filtered_params.merge(page: page + 1))
-  - else
-    %li.disabled
-      %span &raquo;
+    - if current_page_max < object_count
+      %li.page-item= link_to "&raquo;".html_safe, url_for(filtered_params.merge(page: page + 1)), class: "page-link"
+    - else
+      %li.page-item.disabled
+        %span.page-link &raquo;

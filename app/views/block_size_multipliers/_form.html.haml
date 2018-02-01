@@ -43,4 +43,4 @@
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @block_size_multiplier.new_record? ? project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme) : [@project, @randomization_scheme, @block_size_multiplier], class: "btn btn-default"
+      = link_to "Cancel", @block_size_multiplier.new_record? ? project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme) : [@project, @randomization_scheme, @block_size_multiplier], class: "btn btn-light"

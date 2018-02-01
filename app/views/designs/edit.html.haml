@@ -8,20 +8,20 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           .d-none.d-sm-block.btn-toolbar{ style: "margin-top: 15px;" }
             .btn-group{ data: { toggle: "buttons" } }
-              .btn.btn-xs.btn-default{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
+              .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
                 %input#edit-mode{ type: "radio", name: "preview_modes" }
                   Edit
                   = succeed "ode" do
                     %u M
-              .btn.btn-xs.btn-default{ class: "#{"active" if params[:mode] == "preview"}", data: { object: "preview-mode" } }
+              .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] == "preview"}", data: { object: "preview-mode" } }
                 %input#preview-mode{ type: "radio", name: "preview_modes" }
                   Preview
                   = succeed "ode" do
                     %u M
-            = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-xs btn-default"
+            = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
         = link_to @design.short_name, [@project, @design]
         Edit
 

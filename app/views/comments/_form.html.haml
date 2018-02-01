@@ -22,4 +22,4 @@
           - submit_text = @comment.new_record? ? "Comment" : "Update"
           = f.submit submit_text, class: "btn btn-primary", data: { disable_with: "#{submit_text}" }
           - unless @comment.new_record?
-            = link_to "Cancel", comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: "btn btn-default"
+            = link_to "Cancel", comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: "btn btn-light"

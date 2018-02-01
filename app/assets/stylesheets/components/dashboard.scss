@@ -1,5 +1,5 @@
+.dashboard-container-margins,
 .dashboard-container {
-  @include remove-last-child-bottom-margin;
   @include scale-images;
 
   background-color: $dashboard-bg;
@@ -16,24 +16,13 @@
     }
   }
 
-  + .text-center > .pagination {
-    margin-top: 0;
-  }
-}
-
-@include media-breakpoint-up(sm) {
-  .dashboard-container {
+  @include media-breakpoint-up(sm) {
     padding: 30px;
   }
 }
 
-.form-horizontal {
-  .dashboard-container {
-    .form-group {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
+.dashboard-container {
+  @include remove-last-child-bottom-margin;
 }
 
 .dashboard-lead {

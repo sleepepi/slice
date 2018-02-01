@@ -59,7 +59,7 @@
         %label
           = f.check_box :archived
           Archive and hide the event from subject page
-        = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#archived-info" }, tabindex: "-1" do
+        = link_to "#", class: "btn btn-info btn-sm", data: { object: "toggle-visibility", target: "#archived-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
       #archived-info.callout.callout-info{ style: "display: none;" }
         Archived events will still show up if the subject has sheets entered for the archived event.
@@ -71,7 +71,7 @@
           %label
             = f.check_box :only_unblinded
             Only Unblinded
-          = link_to "#", class: "btn btn-info btn-xs", data: { object: "toggle-visibility", target: "#only-unblinded-info" }, tabindex: "-1" do
+          = link_to "#", class: "btn btn-info btn-sm", data: { object: "toggle-visibility", target: "#only-unblinded-info" }, tabindex: "-1" do
             %i.fa.fa-info-circle
         #only-unblinded-info.callout.callout-info{ style: "display: none;" }
           Select to hide the event and associated sheets and comments from blinded staff
@@ -80,9 +80,9 @@
     = hidden_field_tag "event[design_ids][]", nil
     - @event.event_designs.each do |event_design|
       = render "events/event_design", event_design: event_design
-  = link_to "Add Design", add_design_project_events_path(@project), method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top:6px"
+  = link_to "Add Design", add_design_project_events_path(@project), method: :post, remote: true, class: "btn btn-sm btn-light", style: "margin-top:6px"
 
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @event.new_record? ? project_events_path(@project) : [@project, @event], class: "btn btn-default"
+      = link_to "Cancel", @event.new_record? ? project_events_path(@project) : [@project, @event], class: "btn btn-light"

@@ -20,7 +20,7 @@
     - if member.is_a?(ProjectUser)
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
         .dropdown
-          = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+          = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             Actions
             %strong.caret
           %ul.dropdown-menu.dropdown-menu-right
@@ -53,7 +53,7 @@
     - else
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
         .dropdown
-          = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+          = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             Actions
             %strong.caret
           %ul.dropdown-menu.dropdown-menu-right

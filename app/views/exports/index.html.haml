@@ -8,7 +8,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           = link_to plus_or("New Export"), new_project_export_path(@project), class: "btn btn-accent btn-shadow"
           .per-page= render "layouts/per_page", per_page: 20, object_count: @exports.total_count
         = @title
@@ -72,12 +72,12 @@
         %td.d-none.d-sm-table-cell
           - if export.file_size.positive?
             - full_url = file_project_export_path(@project, export)
-            = link_to full_url, target: "_blank", class: "btn btn-default btn-xs" do
+            = link_to full_url, target: "_blank", class: "btn btn-light btn-sm" do
               zip
               %i.fa.fa-download
         %td
           .dropdown
-            = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+            = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 

@@ -8,7 +8,7 @@
       = render "design_options/form_section", design_option: @design_option, section: section
   .modal-footer
     = button_tag "Update Section", data: { object: "submit-section-form-with-file", target: "#design_option_form", method: :patch }, class: "btn btn-primary"
-    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+    %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel
 - elsif variable = @design_option.variable
   .modal-header
     %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
@@ -22,4 +22,4 @@
 
   .modal-footer
     = button_tag "Update Variable", data: { object: "submit-and-disable", target: "#design_option_form" }, class: "btn btn-primary"
-    %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+    %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

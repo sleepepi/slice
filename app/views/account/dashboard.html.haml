@@ -6,9 +6,9 @@
     .container
       %h1.page-heading
         = @title
-        .pull-right
+        .float-right
           = link_to "New Project", new_project_path, class: "btn btn-accent"
-          = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-default"
+          = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-light"
 
 .body-attachment
   .container.attachment-container

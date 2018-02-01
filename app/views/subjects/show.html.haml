@@ -8,8 +8,8 @@
   .header-container
     .container
       - if @subject.editable_by?(current_user)
-        .dropdown.pull-right
-          = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
+        .dropdown.float-right
+          = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
             Actions
             %strong.caret
 

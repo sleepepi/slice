@@ -5,7 +5,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           .per-page= render "layouts/per_page", per_page: 40, object_count: @users.total_count
         = @title
         = render "search/toggle"
@@ -40,7 +40,7 @@
         %td.nowrap
 
           .dropdown
-            = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+            = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               Actions
               %strong.caret
 

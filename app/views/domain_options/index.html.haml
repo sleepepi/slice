@@ -10,7 +10,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           = link_to plus_or("New Domain Option"), new_project_domain_domain_option_path(@project, @domain), class: "btn btn-accent btn-shadow"
           .per-page= render "layouts/per_page", per_page: 40, object_count: @domain_options.total_count
         %span= @title

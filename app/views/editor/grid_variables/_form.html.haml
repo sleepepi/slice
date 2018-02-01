@@ -22,4 +22,4 @@
   .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @grid_variable.new_record? ? editor_project_grid_variables_path(@project) : editor_project_grid_variable_path(@project, @grid_variable), class: 'btn btn-default'
+      = link_to 'Cancel', @grid_variable.new_record? ? editor_project_grid_variables_path(@project) : editor_project_grid_variable_path(@project, @grid_variable), class: 'btn btn-light'

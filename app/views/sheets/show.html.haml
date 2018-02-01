@@ -12,7 +12,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           #sheet_actions= render "sheets/actions", project: @project, sheet: @sheet
         = render "sheets/status/checks_bullet", sheet: @sheet
         = @title

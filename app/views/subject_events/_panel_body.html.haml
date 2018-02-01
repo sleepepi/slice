@@ -16,10 +16,10 @@
             - else
               %span{ id: "sheet_#{sheet.id}_coverage" }= render "sheets/coverage", sheet: sheet
           %td
-            .pull-right
+            .float-right
               - if sheet.missing?
                 .dropdown
-                  = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+                  = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                     Actions
                     %strong.caret
 
@@ -30,7 +30,7 @@
               - else
                 - if sheet.comments_count.positive?
                   = succeed " " do
-                    = link_to project_sheet_path(@project, sheet), class: "btn btn-xs btn-accent" do
+                    = link_to project_sheet_path(@project, sheet), class: "btn btn-sm btn-accent" do
                       = sheet.comments_count
                       %i.fa.fa-comment
               - if sheets.count > 1 && event_design.highlight_duplicates?
@@ -49,13 +49,13 @@
       %tr
         %td
           - if @subject.editable_by?(current_user)
-            = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: "btn btn-xs btn-accent btn-shadow" do
+            = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: "btn btn-sm btn-accent btn-shadow" do
               %i.fa.fa-plus{ aria: { hidden: "true" } }
         %td
           - if @subject.editable_by?(current_user)
-            .pull-right
+            .float-right
               .dropdown
-                = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+                = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                   Actions
                   %strong.caret
 
@@ -86,9 +86,9 @@
       %tr{ class: "#{"highlight" if @sheet == sheet}", data: { object: "sheet-draggable", sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: "cursor: move;" }
         %td{ id: "sheet_#{sheet.id}_coverage" }= render "sheets/coverage", sheet: sheet
         %td
-          .pull-right
+          .float-right
             - if sheet.comments_count.positive?
-              = link_to project_sheet_path(@project, sheet), class: "btn btn-xs" do
+              = link_to project_sheet_path(@project, sheet), class: "btn btn-sm" do
                 = sheet.comments_count
                 %i.fa.fa-comment
 

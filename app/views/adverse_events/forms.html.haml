@@ -10,7 +10,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           = render "adverse_events/actions", adverse_event: @adverse_event
         = link_to @adverse_event.name, [@project, @adverse_event]
         Forms
@@ -47,4 +47,4 @@
                     .row
                       - designs.each do |design|
                         .col-sm-6{ style: "margin-bottom:10px" }
-                          = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: "btn btn-default btn-block", style: "white-space: normal"
+                          = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: "btn btn-light btn-block", style: "white-space: normal"

@@ -1,5 +1,11 @@
 .flash-bar{ class: (flash[:notice].present? || flash[:alert].present? ? "flash-bar-show" : nil) }
   - if flash[:notice].present?
-    = flash[:notice].html_safe
+    - if flash[:notice].is_a?(Array)
+      = flash[:notice].first.html_safe
+      = link_to flash[:notice][1]["url"], method: flash[:notice][1]['method'] do
+        %i.fa{ class: flash[:notice][1]["class"] || "fa-undo" }
+        = flash[:notice][1]["label"]
+    - else
+      = flash[:notice].html_safe
   - if flash[:alert].present?
     = flash[:alert].html_safe

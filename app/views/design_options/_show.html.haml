@@ -7,9 +7,9 @@
     .col-sm-6.design-preview-hide
       .design-edit-box
         %h4
-          .pull-right
+          .float-right
             .dropdown
-              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+              = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -44,13 +44,13 @@
             - variable.deleted = false
             - if variable.valid?
               You can
-              = link_to "restore", restore_project_variable_path(@project, variable), method: :post, class: "btn btn-xs btn-success"
+              = link_to "restore", restore_project_variable_path(@project, variable), method: :post, class: "btn btn-sm btn-success"
               or
             - else
               A new variable with the same name already exists.
               %br
               You can
-            = link_to "remove", project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: "btn btn-xs btn-danger-inverse"
+            = link_to "remove", project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Remove #{variable.name} from the design?" }, class: "btn btn-sm btn-danger-inverse"
             this variable from the design.
             - variable.deleted = true
       - else
@@ -72,9 +72,9 @@
     .col-sm-6.design-preview-hide
       .design-edit-box
         %h4
-          .pull-right
+          .float-right
             .dropdown
-              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+              = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 
@@ -160,7 +160,7 @@
             .design-option-lead
               Default Row Number
             .design-option-body
-              = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "grid_rows"), method: :get, remote: true, class: "btn btn-xs btn-default"
+              = link_to variable.default_row_number, edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "grid_rows"), method: :get, remote: true, class: "btn btn-sm btn-light"
 
           - if %w(dropdown checkbox radio string text integer numeric date time_of_day time_duration signature imperial_height imperial_weight).include?(variable.variable_type)
             .design-option-lead
@@ -168,5 +168,5 @@
             .design-option-body
               .btn-group{ data: { toggle: "buttons" } }
                 - DesignOption::REQUIREMENTS.each do |label, value|
-                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-xs btn-default #{"active" if design_option.requirement.to_s == value}" do
+                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-sm btn-light #{"active" if design_option.requirement.to_s == value}" do
                     = label

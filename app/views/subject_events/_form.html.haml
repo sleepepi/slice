@@ -17,7 +17,7 @@
     .form-group.submit-btn-container
       = f.submit subject_event.new_record? ? "Launch Event" : "Update Event", class: "btn btn-primary btn-block btn-shadow"
       - unless subject_event.new_record?
-        = link_to "Cancel", event_project_subject_path(@project, @subject, event_id: event.id, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "btn btn-default btn-block"
+        = link_to "Cancel", event_project_subject_path(@project, @subject, event_id: event.id, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "btn btn-light btn-block"
 
 .sign-up-form
   %strong Designs

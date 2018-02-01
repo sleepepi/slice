@@ -1,4 +1,4 @@
-%table.table.table-striped
+%table.table.table-striped.table-borderless
   %col{ width: "1px" }
   %col
   %col
@@ -49,7 +49,7 @@
         = text_field_tag "shareable_link", clipboard_text, class: "form-control"
 
         .input-group-btn
-          = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, class: "btn btn-default" do
+          = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, class: "btn btn-light" do
             %i.fa.fa-clipboard
           = link_to remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: "btn btn-danger-inverse", rel: "tooltip", data: { confirm: "Remove link?", title: "Remove Link", container: "body", placement: "bottom" } do
             %i.fa.fa-trash

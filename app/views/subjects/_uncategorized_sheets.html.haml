@@ -1,15 +1,15 @@
 - if uncategorized_sheets.count > 0
-  .panel.panel-default
-    .panel-heading{ data: { object: 'event-droppable', project_id: @project.to_param, subject_event_id: nil } }
+  .card
+    .card-header{ data: { object: "event-droppable", project_id: @project.to_param, subject_event_id: nil } }
       - if categorized_sheets.count == 0
         Sheets
       - else
         No Event
         - if @subject.editable_by?(current_user)
           %small.text-muted.hidden-xs Drag sheets to assign events.
-    .panel-body{ style: 'padding: 0;' }
-      %table.table.table-striped.table-borderless.table-fixed{ style: 'margin-bottom: 0;' }
-        %col{ width: '60px' }
+    .card-body.p-0
+      %table.table.table-striped.table-borderless.table-fixed.mb-0
+        %col{ width: "60px" }
         %col
         - uncategorized_sheets.each do |sheet|
-          = render 'subjects/sheet', sheet: sheet
+          = render "subjects/sheet", sheet: sheet

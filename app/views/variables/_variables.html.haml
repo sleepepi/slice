@@ -39,7 +39,7 @@
               = select_tag "variable_#{variable.id}_options", options_for_select(variable.domain_options.collect(&:value_and_name)), style: "width:200px", class: "form-control"
           %td.nowrap
             .dropdown
-              = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
+              = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                 Actions
                 %strong.caret
 

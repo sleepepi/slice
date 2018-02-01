@@ -24,8 +24,8 @@
           = f.submit "Comment", class: "btn btn-primary", data: { disable_with: "Comment" }
           - if @adverse_event_comment.new_record?
             - if @adverse_event.closed?
-              = link_to "Reopen AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "reopened" }, id: "reopen-ae-button", class: "btn btn-default"
+              = link_to "Reopen AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "reopened" }, id: "reopen-ae-button", class: "btn btn-light"
             - else
-              = link_to "Close AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "closed" }, id: "close-ae-button", class: "btn btn-default"
+              = link_to "Close AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "closed" }, id: "close-ae-button", class: "btn btn-light"
           - else
-            = link_to "Cancel", project_adverse_event_adverse_event_comment_path(@project, @adverse_event, @adverse_event_comment), remote: true, class: "btn btn-default"
+            = link_to "Cancel", project_adverse_event_adverse_event_comment_path(@project, @adverse_event, @adverse_event_comment), remote: true, class: "btn btn-light"

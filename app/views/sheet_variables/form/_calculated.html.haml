@@ -10,7 +10,7 @@
   = render "sheet_variables/form/addon", method: "units", variable: variable
   = render "sheet_variables/form/addon", method: "append", variable: variable
   %span.input-group-btn.input-group-addon{ style: "margin: -1px;padding: 0;border: 0" }
-    = link_to "#", class: "btn btn-default", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
+    = link_to "#", class: "btn btn-light", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
       %i.fa.fa-info-circle
 
 %pre{ id: "calculation_#{target_name}", style: "display: none;margin-top: 20px;" }

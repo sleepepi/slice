@@ -1,8 +1,8 @@
 - if @total_rows > @per_page
   .alert.alert-warning
     %button.close{ type: "button", data: { dismiss: "alert" }, aria: { hidden: true } } &times;
-    = link_to "previous", "#", class: "btn btn-default btn-xs", data: { object: "set-value", target: "#page", value: params[:page] - 1 } if params[:page] > 1
-    = link_to "next", "#", class: "btn btn-default btn-xs", data: { object: "set-value", target: "#page", value: params[:page] + 1 } if @per_page > 0 && params[:page] < @total_rows.to_f / @per_page
+    = link_to "previous", "#", class: "btn btn-light btn-sm", data: { object: "set-value", target: "#page", value: params[:page] - 1 } if params[:page] > 1
+    = link_to "next", "#", class: "btn btn-light btn-sm", data: { object: "set-value", target: "#page", value: params[:page] + 1 } if @per_page > 0 && params[:page] < @total_rows.to_f / @per_page
 
     = (params[:page] - 1) * @per_page + 1
     to

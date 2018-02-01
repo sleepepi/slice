@@ -2,7 +2,7 @@
   .row
     .col-sm-6.col-md-4
       - if previous_link
-        = link_to previous_link[1], class: "btn btn-block btn-lg btn-default text-left btn-shadow" do
+        = link_to previous_link[1], class: "btn btn-block btn-lg btn-light text-left btn-shadow" do
           %small.docs-navigation
             &larr;
             = previous_link[2] || "Previous"

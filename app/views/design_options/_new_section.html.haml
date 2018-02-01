@@ -9,4 +9,4 @@
     = render "design_options/form_section", design_option: @design_option, section: @section
 .modal-footer
   = button_tag "Add Section", data: { object: "submit-section-form-with-file", target: "#design_option_form", method: :post }, class: "btn btn-primary"
-  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+  %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

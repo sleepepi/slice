@@ -20,7 +20,7 @@
   .dashboard-container
     %div{ style: 'margin-bottom: 20px;' }
       %span.dropdown
-        = link_to '#', class: "btn btn-xs dropdown-toggle #{params[:site_id].blank? ? 'btn-default': 'btn-primary'}", data: { toggle: 'dropdown' } do
+        = link_to '#', class: "btn btn-sm dropdown-toggle #{params[:site_id].blank? ? 'btn-light': 'btn-primary'}", data: { toggle: 'dropdown' } do
           - site = @project.sites.find_by(id: params[:site_id])
           - if site
             = site.short_name
@@ -35,7 +35,7 @@
             %li= link_to site.name, activity_project_path(@project, filtered_params.merge(site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? 'font-weight:bold;' : ''
 
       %span.dropdown
-        = link_to '#', class: "btn btn-xs dropdown-toggle #{params[:user_id].blank? ? 'btn-default': 'btn-primary'}", data: { toggle: 'dropdown' } do
+        = link_to '#', class: "btn btn-sm dropdown-toggle #{params[:user_id].blank? ? 'btn-light': 'btn-primary'}", data: { toggle: 'dropdown' } do
           - user = @project.members.find_by(id: params[:user_id])
           - if user
             = user.nickname
@@ -49,7 +49,7 @@
           - @project.members.distinct.sort_by(&:nickname).each do |user|
             %li= link_to user.name, activity_project_path(@project, filtered_params.merge(user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? 'font-weight:bold;' : ''
 
-      = link_to 'Reset Filters', activity_project_path(@project), class: 'btn btn-xs btn-link' if params[:site_id].present? || params[:user_id].present?
+      = link_to 'Reset Filters', activity_project_path(@project), class: 'btn btn-sm btn-link' if params[:site_id].present? || params[:user_id].present?
 
     - all_objects.each_with_index do |object, index|
       - current_index = all_objects.count - index

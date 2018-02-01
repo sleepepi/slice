@@ -16,12 +16,12 @@
         = select_tag 'site_id', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect { |s| [s.short_name, s.id] }), class: 'form-control'
 
       .form-group
-        %label.btn.btn-default
+        %label.btn.btn-light
           = check_box_tag 'editor', '1', true
           Editor
 
         - if @project.unblinded?(current_user)
-          %label.btn.btn-default{ style: "#{'display:none' unless @project.blinding_enabled?}" }
+          %label.btn.btn-light{ style: "#{'display:none' unless @project.blinding_enabled?}" }
             = check_box_tag 'unblinded', '1', true
             Unblinded
 

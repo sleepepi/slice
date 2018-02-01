@@ -18,4 +18,4 @@
     %span.form-inline
       = select_tag "domain[id]", options_for_select( [["--Existing Domains--", nil]] + domains.order("name").collect{|d| [d.name, d.id]} ), style: "width:200px", class: "form-control"
       = button_tag "Use Selected Domain", data: { object: "set-variable-domain", target: "#domain_id", design_option_id: @design_option.id }, class: "btn btn-primary"
-  %button.btn.btn-default{ type: "button", data: { dismiss: "modal" } } Cancel
+  %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

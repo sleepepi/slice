@@ -13,7 +13,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           = link_to plus_or("New Value"), new_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter), class: "btn btn-accent btn-shadow"
           .per-page= render "layouts/per_page", per_page: 40, object_count: @check_filter_values.total_count
         %span.nowrap= @title

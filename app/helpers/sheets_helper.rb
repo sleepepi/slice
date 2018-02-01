@@ -4,7 +4,7 @@
 module SheetsHelper
   def coverage_helper(sheet, placement = "right")
     content_tag(:span, "#{sheet.percent}%",
-                class: "label label-coverage #{sheet.coverage}",
+                class: "badge badge-coverage #{sheet.coverage}",
                 rel: "tooltip",
                 data: { container: "body", placement: placement },
                 title: sheet.out_of)
@@ -13,7 +13,7 @@ module SheetsHelper
   def coverage_helper_static(sheet, placement = "right")
     return coverage_helper(sheet, placement) unless sheet.total_response_count.nil?
     content_tag(:span, "-",
-                class: "label label-coverage coverage-0",
+                class: "badge badge-coverage coverage-0",
                 rel: "tooltip", title: "Calculating...",
                 data: {
                   container: "body", placement: placement,

@@ -8,7 +8,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           = link_to plus_or("New Design"), new_project_design_path(@project), class: "btn btn-accent btn-shadow"
           .per-page= render "layouts/per_page", per_page: 40, object_count: @designs.total_count
         = @title

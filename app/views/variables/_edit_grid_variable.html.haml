@@ -7,4 +7,4 @@
   .col-xs-5
     = select_tag "variable[grid_tokens][][variable_id]", options_for_select([[nil, nil]] + @select_variables, child_grid_variable.child_variable_id), data: { object: "variable-load", position: position, placeholder: "Choose a Variable" }, class: "form-control chosen-select", id: "variable_grid_tokens_#{position}_variable_id"
   .col-xs-2
-    = link_to "Remove", "#", data: { object: "remove", target: "#form_grid_variable_#{position}" }, class: "btn btn-xs btn-danger-inverse"
+    = link_to "Remove", "#", data: { object: "remove", target: "#form_grid_variable_#{position}" }, class: "btn btn-sm btn-danger-inverse"

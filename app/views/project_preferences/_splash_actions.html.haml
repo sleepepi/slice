@@ -1,43 +1,32 @@
 %span.dropdown
-  = link_to "#", class: "btn btn-default btn-xs dropdown-toggle", data: { toggle: "dropdown" } do
-    %strong.caret
-
-  %ul.dropdown-menu.dropdown-menu-right
-    %li
-      = link_to archive_project_path(project), method: :post do
-        %i.fa.fa-archive
-        Archive
-
-      - if project.favorited_by?(current_user)
-        %li
-          = link_to favorite_project_path(project, favorited: "0"), method: :post do
-            %i.fa.fa-star-o
-            Unfavorite
-      - else
-        %li
-          = link_to favorite_project_path(project, favorited: "1"), method: :post do
-            %i.fa.fa-star
-            Favorite
-
-    - if project.emails_enabled?(current_user)
-      %li
-        = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch do
-          %i.fa.fa-envelope
-          Disable Emails
+  = link_to "", "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" }
+  .dropdown-menu.dropdown-menu-right
+    = link_to archive_project_path(project), method: :post, class: "dropdown-item" do
+      %i.fa.fa-archive
+      Archive
+    - if project.favorited_by?(current_user)
+      = link_to favorite_project_path(project, favorited: "0"), method: :post, class: "dropdown-item" do
+        %i.fa.fa-star-o
+        Unfavorite
     - else
-      %li
-        = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch do
-          %i.fa.fa-envelope
-          Enable Emails
+      = link_to favorite_project_path(project, favorited: "1"), method: :post, class: "dropdown-item" do
+        %i.fa.fa-star
+        Favorite
+    - if project.emails_enabled?(current_user)
+      = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch, class: "dropdown-item" do
+        %i.fa.fa-envelope
+        Disable Emails
+    - else
+      = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch, class: "dropdown-item" do
+        %i.fa.fa-envelope
+        Enable Emails
     - if project.editable_by?(current_user)
-      %li.divider{ role: "separator" }
-      %li
-        = link_to edit_editor_project_path(project) do
-          %i.fa.fa-pencil
-          Edit Project
+      .dropdown-divider
+      = link_to edit_editor_project_path(project), class: "dropdown-item" do
+        %i.fa.fa-pencil
+        Edit Project
     - if project.owner?(current_user)
-      %li
-        = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Delete #{project.name}?" } do
-          .text-danger
-            %i.fa.fa-trash
-            Delete Project
+      = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Delete #{project.name}?" }, class: "dropdown-item" do
+        .text-danger
+          %i.fa.fa-trash
+          Delete Project

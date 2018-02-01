@@ -84,6 +84,6 @@
       .col-md-10.col-md-offset-2
         = f.submit @variables.size > 0 ? 'Import Data' : 'Proceed to Import Specification', class: 'btn btn-primary'
         - if @file_uploaded
-          = link_to 'Previous Step', imports_new_project_designs_path(@project), class: 'btn btn-default'
+          = link_to 'Previous Step', imports_new_project_designs_path(@project), class: 'btn btn-light'
         - else
-          = link_to 'Cancel', project_designs_path(@project), class: 'btn btn-default'
+          = link_to 'Cancel', project_designs_path(@project), class: 'btn btn-light'

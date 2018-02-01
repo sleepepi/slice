@@ -14,7 +14,7 @@
       %tr
         %td Summary Report
         %td
-          = link_to 'View', report_reports_project_path(@project), class: 'btn btn-xs btn-default'
+          = link_to 'View', report_reports_project_path(@project), class: 'btn btn-sm btn-light'
 
   - @project.designs.blinding_scope(current_user).includes(:category).order('categories.position', :name).group_by(&:category).each do |category, designs|
     %table.table.table-striped.table-borderless.table-hover
@@ -34,7 +34,7 @@
             %td
               %span.hidden-xs= design.name
               %span.hidden-sm.hidden-md.hidden-lg= design.short_name
-            %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-xs btn-default'
-            %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-xs btn-default'
+            %td= link_to 'Overview', project_reports_design_overview_path(design.project, design), class: 'btn btn-sm btn-light'
+            %td= link_to 'Advanced', project_reports_design_advanced_path(design.project, design), class: 'btn btn-sm btn-light'
 
 

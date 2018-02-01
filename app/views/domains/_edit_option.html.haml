@@ -20,8 +20,8 @@
   %td.nowrap.text-right{ style: "vertical-align: middle;" }
     - total_count = domain_option.captured_values_count
     - if total_count > 0
-      .btn.btn-xs.btn-default{ style: "cursor: default", rel: "tooltip", data: { title: pluralize(total_count, "response"), container: "body", placement: "top" } }
+      .btn.btn-sm.btn-light{ style: "cursor: default", rel: "tooltip", data: { title: pluralize(total_count, "response"), container: "body", placement: "top" } }
         %i.fa.fa-pie-chart.text-primary
-    = link_to "#", class: "btn btn-xs btn-danger-inverse", data: { object: "remove-closest", target: ".domain-option-container", count: total_count }, tabindex: "-1" do
+    = link_to "#", class: "btn btn-sm btn-danger-inverse", data: { object: "remove-closest", target: ".domain-option-container", count: total_count }, tabindex: "-1" do
       %i.fa.fa-trash
 

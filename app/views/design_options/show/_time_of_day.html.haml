@@ -13,7 +13,7 @@
         = text_field_tag "sec_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "ss", class: "form-control", style: "display: inline-block;"
     %span.period-box
       = select_tag "period_#{variable.name}", options_for_select([["AM", "am"], ["PM", "pm"]], (variable.time_of_day_format == "12hour-pm" ? "pm" : "am")), disabled: true, class: "form-control", style: "display: inline-block;"
-    = link_to "Current Time", "#", data: { object: "suppress-click" }, class: "btn btn-default btn-xs", tabindex: "-1", disabled: true if variable.show_current_button?
+    = link_to "Current Time", "#", data: { object: "suppress-click" }, class: "btn btn-light btn-sm", tabindex: "-1", disabled: true if variable.show_current_button?
   - else # "24hour"
     %span.hour-box
       = text_field_tag "hour_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "hh", class: "form-control", style: "display: inline-block;"
@@ -24,4 +24,4 @@
       &#58;
       %span.sec-box
         = text_field_tag "sec_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "ss", class: "form-control", style: "display: inline-block;"
-    = link_to "Current Time", "#", data: { object: "suppress-click" }, class: "btn btn-default btn-xs", tabindex: "-1", disabled: true if variable.show_current_button?
+    = link_to "Current Time", "#", data: { object: "suppress-click" }, class: "btn btn-light btn-sm", tabindex: "-1", disabled: true if variable.show_current_button?

@@ -8,7 +8,7 @@
   .header-container
     .container
       %h1.page-heading
-        .pull-right
+        .float-right
           .per-page= render "layouts/per_page", per_page: 40, object_count: @sheets.total_count
         = @title
         = render "search/toggle"
@@ -25,13 +25,13 @@
           = text_field_tag :search, params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, class: "form-control", placeholder: "Search #{@title}"
           %span.input-group-btn{ style: "vertical-align: bottom;" }
             = submit_tag "Search", class: "btn btn-primary", name: nil
-            = link_to "#", class: "btn btn-default hidden-xs", data: { object: "sheet-export-link", project_id: @project.to_param } do
+            = link_to "#", class: "btn btn-light hidden-xs", data: { object: "sheet-export-link", project_id: @project.to_param } do
               Export
             - if params[:search].present?
-              = link_to url, class: "btn btn-default" do
+              = link_to url, class: "btn btn-light" do
                 &times;
             - else
-              = link_to "#", data: { object: "toggle-search-container", target: "#search" }, class: "btn btn-default" do
+              = link_to "#", data: { object: "toggle-search-container", target: "#search" }, class: "btn btn-light" do
                 &times;
 
 - creation_ordered = ["created", "created desc"].include?(params[:order])

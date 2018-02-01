@@ -16,17 +16,17 @@
   .background-gradient
   .header-container
     .container
-      .pull-right
+      .float-right
         = succeed " " do
-          = link_to calendar_project_path(@project, date: move_backward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-xs btn-default" do
+          = link_to calendar_project_path(@project, date: move_backward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-sm btn-light" do
             %i.fa.fa-caret-left
 
         = succeed " " do
-          = link_to calendar_project_path(@project), tabindex: "-1", class: "btn btn-xs btn-default", disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? "disabled" : nil) do
+          = link_to calendar_project_path(@project), tabindex: "-1", class: "btn btn-sm btn-light", disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? "disabled" : nil) do
             %i.fa.fa-calendar
 
         = succeed " " do
-          = link_to calendar_project_path(@project, date: move_forward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-xs btn-default" do
+          = link_to calendar_project_path(@project, date: move_forward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-sm btn-light" do
             %i.fa.fa-caret-right
 
       %h1.page-heading

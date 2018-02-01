@@ -18,7 +18,7 @@
 - if @design.events.count > 1
   .dashboard-container
     %span.dropdown
-      = link_to "#", class: "btn btn-xs dropdown-toggle #{@event ? "btn-primary": "btn-default"}", data: { toggle: "dropdown" } do
+      = link_to "#", class: "btn btn-sm dropdown-toggle #{@event ? "btn-primary": "btn-light"}", data: { toggle: "dropdown" } do
         - if @event
           = @event.name
         - else
@@ -31,7 +31,7 @@
         - NaturalSort.sort(@design.events.pluck(:name, :id)).each do |event_name, event_id|
           %li= link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : ""
 
-    = link_to "Reset Filters", project_reports_design_overview_path(@project, @design), class: "btn btn-xs btn-link" if params[:event_id].present?
+    = link_to "Reset Filters", project_reports_design_overview_path(@project, @design), class: "btn btn-sm btn-link" if params[:event_id].present?
 
 - @design.design_options.includes(:variable, :section).each do |design_option|
   - section = design_option.section
@@ -43,7 +43,7 @@
     %a.anchor-top{ id: variable.name }
     .dashboard-lead
       - if variable.export_units.present?
-        .pull-right
+        .float-right
           %span.label.label-accent= variable.export_units
       = link_to variable.display_name, "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-white"
     .dashboard-container

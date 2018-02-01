@@ -35,7 +35,7 @@
   .form-group
     %label.col-md-2.control-label
       Expected Randomizations By Month
-      = link_to "#", class: "btn btn-xs btn-info", data: { object: "toggle-visibility", target: "#estimates-info" }, tabindex: "-1" do
+      = link_to "#", class: "btn btn-sm btn-info", data: { object: "toggle-visibility", target: "#estimates-info" }, tabindex: "-1" do
         %i.fa.fa-info-circle
     .col-md-10
       - @project.sites.each do |site|
@@ -104,7 +104,7 @@
     .form-group
       %label.col-md-2.control-label
         Eligibility
-        = link_to "#", class: "btn btn-xs btn-info", data: { object: "toggle-visibility", target: "#eligibility-info" }, tabindex: "-1" do
+        = link_to "#", class: "btn btn-sm btn-info", data: { object: "toggle-visibility", target: "#eligibility-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
       .col-md-10
         .row
@@ -144,7 +144,7 @@
   .form-group
     %label.col-md-2.control-label Tasks
     .col-md-10
-      = link_to "Add Item", add_task_project_randomization_schemes_path, method: :post, remote: true, class: "btn btn-xs btn-default", style: "margin-top: 6px"
+      = link_to "Add Item", add_task_project_randomization_schemes_path, method: :post, remote: true, class: "btn btn-sm btn-light", style: "margin-top: 6px"
       #tasks{ data: { object: "sortable" } }
         = hidden_field_tag "randomization_scheme[task_hashes][]", nil
         - @randomization_scheme.randomization_scheme_tasks.each do |randomization_scheme_task|
@@ -154,4 +154,4 @@
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @randomization_scheme.new_record? ? project_randomization_schemes_path(@project) : [@project, @randomization_scheme], class: "btn btn-default"
+      = link_to "Cancel", @randomization_scheme.new_record? ? project_randomization_schemes_path(@project) : [@project, @randomization_scheme], class: "btn btn-light"

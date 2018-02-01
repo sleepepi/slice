@@ -18,7 +18,7 @@
     %span.period-box
       = select_tag "#{field_name}[period]", options_for_select([['AM', 'am'], ['PM', 'pm']], value[:period]), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, class: 'form-control', style: 'display: inline-block;'
     - if variable.show_current_button?
-      = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time-12hour', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+      = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time-12hour', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'
   - else
     %span.hour-box
       = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'hh', class: 'form-control', style: 'display: inline-block;'
@@ -30,8 +30,8 @@
       %span.sec-box
         = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: 'ss', class: 'form-control', style: 'display: inline-block;'
     - if variable.show_current_button?
-      = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+      = link_to 'Current Time', '#', data: { object: 'set-time-input-to-current-time', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'
   - unless is_grid
-    = link_to 'Clear', '#', data: { object: 'clear-time-of-day-input', target_name: target_name, time_of_day_format: variable.time_of_day_format }, class: 'btn btn-default btn-xs', tabindex: '-1'
+    = link_to 'Clear', '#', data: { object: 'clear-time-of-day-input', target_name: target_name, time_of_day_format: variable.time_of_day_format }, class: 'btn btn-light btn-sm', tabindex: '-1'
 
 = render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

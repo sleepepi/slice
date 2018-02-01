@@ -22,6 +22,6 @@
     s
     &nbsp;
   - unless is_grid
-    = link_to 'Clear', '#', data: { object: 'clear-time-duration-input', target_name: target_name }, class: 'btn btn-default btn-xs', tabindex: '-1'
+    = link_to 'Clear', '#', data: { object: 'clear-time-duration-input', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'
 
 = render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

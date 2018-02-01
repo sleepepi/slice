@@ -23,4 +23,4 @@
   .form-group
     .col-md-10.col-md-offset-2
       = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @check_filter.new_record? ? editor_project_check_check_filters_path(@project, @check) : editor_project_check_check_filter_path(@project, @check, @check_filter), class: 'btn btn-default'
+      = link_to 'Cancel', @check_filter.new_record? ? editor_project_check_check_filters_path(@project, @check) : editor_project_check_check_filter_path(@project, @check, @check_filter), class: 'btn btn-light'

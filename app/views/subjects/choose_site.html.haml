@@ -25,7 +25,7 @@
             %strong.btn-text-emphasis= site.name
 
     %div{ style: 'margin-bottom: 20px; margin-left: 20px;' }
-      = link_to @project, class: 'btn btn-default' do
+      = link_to @project, class: 'btn btn-light' do
         Cancel
 
 - elsif editable_sites.count == 1
@@ -40,7 +40,7 @@
       %strong.btn-text-emphasis= params[:subject_code]
 
     &nbsp;
-    = link_to @project, class: 'btn btn-default' do
+    = link_to @project, class: 'btn btn-light' do
       Cancel
 
 - else

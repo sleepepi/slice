@@ -1,6 +1,6 @@
 = hidden_field_tag "#{name}[]", ''
 .btn-group.nowrap{ data: { toggle: 'buttons' } }
   - options.each do |label, value|
-    %label.btn.btn-xs.btn-default{ class: "#{'active' if selected.include?(value)}", data: { object: "set-#{name}", target: (defined?(target) && !target.blank? ? target : nil) } }
+    %label.btn.btn-sm.btn-light{ class: "#{'active' if selected.include?(value)}", data: { object: "set-#{name}", target: (defined?(target) && !target.blank? ? target : nil) } }
       = check_box_tag "#{name}[]", value, selected.include?(value), id: "#{name}_#{value}"
       = label

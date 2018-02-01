@@ -9,9 +9,6 @@
 
     .dropdown-menu.dropdown-menu-right.dropdown-menu-slice
       .dropdown-menu-slice-inner
-        = link_to dashboard_path, class: "dropdown-item" do
-          My dashboard
-
         = link_to settings_path, class: "dropdown-item" do
           Settings
 
@@ -22,15 +19,6 @@
           .dropdown-divider
         = link_to destroy_user_session_path, class: "dropdown-item" do
           Sign out
-
-%li.nav-item
-  %hr
-
-%li.nav-item.d-lg-none{ class: current_page?(dashboard_path) ? "active" : nil }
-  = link_to dashboard_path, class: "nav-link" do
-    My Dashboard
-  - if current_page?(dashboard_path)
-    %span.sr-only (current)
 
 %li.nav-item.d-lg-none{ class: current_page?(settings_path) ? "active" : nil }
   = link_to settings_path, class: "nav-link" do
@@ -44,6 +32,9 @@
       Admin
     - if current_page?(admin_path)
       %span.sr-only (current)
+
+%li.nav-item
+  %hr
 
 %li.nav-item.d-lg-none
   = link_to destroy_user_session_path, class: "nav-link" do

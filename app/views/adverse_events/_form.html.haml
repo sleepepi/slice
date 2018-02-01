@@ -28,6 +28,6 @@
     .col-md-10.col-md-offset-2
       = f.submit @adverse_event.new_record? ? "Report Adverse Event" : nil, class: "btn btn-primary"
       - if from_subject_page
-        = link_to "Cancel", [@project, @adverse_event.subject], class: "btn btn-default"
+        = link_to "Cancel", [@project, @adverse_event.subject], class: "btn btn-light"
       - else
-        = link_to "Cancel", @adverse_event.new_record? ? project_adverse_events_path(@project) : [@project, @adverse_event], class: "btn btn-default"
+        = link_to "Cancel", @adverse_event.new_record? ? project_adverse_events_path(@project) : [@project, @adverse_event], class: "btn btn-light"

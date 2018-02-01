@@ -21,7 +21,7 @@
         = text_field_tag "#{field_name}[#{component}]", value[component.to_sym], maxlength: formatting.size, disabled: disabled, data: { target_name: target_name, object: "cursor-navigatable" }, autocomplete: "off", placeholder: formatting, class: "form-control", style: "display: inline-block;"
       = variable.date_separator unless index == variable.date_order.size - 1
   - if variable.show_current_button?
-    = link_to "Today", "#", data: { object: "set-date-input-to-current-date", target_name: target_name }, class: "btn btn-default btn-xs", tabindex: "-1"
+    = link_to "Today", "#", data: { object: "set-date-input-to-current-date", target_name: target_name }, class: "btn btn-light btn-sm", tabindex: "-1"
   - unless is_grid
-    = link_to "Clear", "#", data: { object: "clear-date-input", target_name: target_name }, class: "btn btn-default btn-xs", tabindex: "-1"
+    = link_to "Clear", "#", data: { object: "clear-date-input", target_name: target_name }, class: "btn btn-light btn-sm", tabindex: "-1"
 = render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

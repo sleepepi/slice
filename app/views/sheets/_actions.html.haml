@@ -1,10 +1,10 @@
 - if sheet.auto_locked?
   .btn-group
-    = link_to "#", data: { object: "suppress-click" }, class: "btn btn-default", disabled: "disabled" do
+    = link_to "#", data: { object: "suppress-click" }, class: "btn btn-light", disabled: "disabled" do
       %i.fa.fa-lock
       %span.hidden-xs Sheet Locked
     .btn-group
-      = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
+      = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
         %strong.caret
       %ul.dropdown-menu.dropdown-menu-right
         - if project.editable_by?(current_user)
@@ -28,7 +28,7 @@
 - else
   - if sheet.editable_by?(current_user)
     %span.dropdown
-      = link_to "#", class: "btn btn-default dropdown-toggle", data: { toggle: "dropdown" } do
+      = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
         Actions
         %strong.caret
 
@@ -48,6 +48,6 @@
               %i.fa.fa-trash
               Delete
 
-= link_to project_sheet_path(@project, @sheet, format: "pdf"), target: "_blank", class: "btn btn-default" do
+= link_to project_sheet_path(@project, @sheet, format: "pdf"), target: "_blank", class: "btn btn-light" do
   %i.fa.fa-print
   %span.hidden-xs Print
