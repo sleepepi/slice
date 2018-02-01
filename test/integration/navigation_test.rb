@@ -13,13 +13,10 @@ class NavigationTest < ActionDispatch::IntegrationTest
     @deleted = users(:deleted)
   end
 
-  test "deleted users should be not be allowed to login" do
-    get "/projects"
-    assert_redirected_to new_user_session_path
-
-    sign_in_as @deleted, "12345678"
+  test "should not login deleted user" do
+    get new_user_session_path
+    sign_in_as(@deleted, "password")
     assert_equal new_user_session_path, path
-    assert_equal I18n.t("devise.failure.inactive"), flash[:alert]
   end
 
   test "root navigation redirected to login page" do
