@@ -3,11 +3,11 @@
   padding-top: 0;
   padding-bottom: 0;
   transition: background-color 10s ease-out;
-}
 
-.navbar-toggler {
-  border: 0;
-  outline: 0;
+  .navbar-toggler {
+    border: 0;
+    outline: 0;
+  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -24,9 +24,6 @@
 }
 
 .navbar-brand {
-  &.navbar-brand-small-caps {
-    font-weight: 300;
-    letter-spacing: .125rem;
-    font-variant: small-caps;
-  }
+  border: 0;
+  outline: 0;
 }

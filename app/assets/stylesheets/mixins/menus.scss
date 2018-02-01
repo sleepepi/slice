@@ -1,4 +1,4 @@
-@mixin theme-menu($background-color, $muted-color, $navbar1, $navbar2) {
+@mixin theme-menu($background-color) {
   background-color: $background-color;
   border-color: darken($background-color, 6.5%);
 
@@ -17,46 +17,6 @@
       border-color: darken($background-color, 6.5%);
       color: $brand-white;
     }
-  }
-
-  &.navbar-default .navbar-nav > li > a:hover,
-  &.navbar-default .navbar-nav > li > a:focus {
-    color: $brand-white;
-    background-color: darken($background-color, 6.5%);
-  }
-
-  &.navbar-default .navbar-nav .notifications-link span {
-    color: $muted-color;
-  }
-
-  &.navbar-default .navbar-nav .notifications-link:hover span {
-    color: darken($muted-color, 15%);
-  }
-
-  &.navbar-default .navbar-toggle:hover,
-  &.navbar-default .navbar-toggle:focus {
-    background-color: $navbar1;
-  }
-
-
-  &.navbar-default .navbar-toggle {
-    border-color: $navbar2;
-  }
-
-  &.navbar-default .navbar-toggle .icon-bar {
-    background-color: $muted-color;
-  }
-
-  &.navbar-default .navbar-collapse,
-  &.navbar-default .navbar-form {
-    border-color: darken($background-color, 6.5%);
-  }
-
-  &.navbar-default .navbar-nav > .active > a,
-  &.navbar-default .navbar-nav > .active > a:hover,
-  &.navbar-default .navbar-nav > .active > a:focus {
-    background-color: darken($background-color, 6.5%);
-    color: $brand-white;
   }
 
   .dropdown-menu-slice {

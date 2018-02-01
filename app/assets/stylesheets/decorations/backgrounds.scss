@@ -1,45 +1,31 @@
 .theme-default-bg {
-  background-color: $p100-grey;
-
-
-  .text-inverse {
-    // color: $brand-white;
-  }
-
-  // .header-container {
-  //   background-color: $p500-blue;
-  //   border-color: $p200-orange;
-  //   color: $brand-white;
-  // }
+  @include theme-background($p100-grey, $body-color, $p200-yellow);
+  @include theme-forms($p500-blue, $p200-blue, $brand-white);
 }
 
 .theme-dark-blue-light-center-bg {
-  background-color: $p900-blue;
+  @include theme-background($p900-blue, $body-color, $p200-yellow);
   background-image: linear-gradient(180deg, $p900-blue, $p800-blue 50%, $p900-blue);
+
+  @include theme-forms($p500-blue, $p200-blue, $brand-white);
+}
+
+.theme-dark-pink-bg,
+.theme-dark-pink-light-center-bg {
+  @include theme-background($p900-pink, $body-color, $p200-pink);
+  @include theme-forms($p500-pink, $p200-pink, $brand-white);
 }
 
 .theme-dark-pink-light-center-bg {
-  background-color: $p900-pink;
   background-image: linear-gradient(180deg, $p900-pink, $p800-pink 50%, $p900-pink);
-
-  .text-inverse {
-    color: $brand-white;
-  }
 }
 
-.theme-night-bg {
-  background-color: $p900-grey;
-
-  .text-inverse {
-    color: $brand-white;
-  }
+.theme-night-bg,
+.theme-night-dark-center-bg {
+  @include theme-background($p900-grey, $p300-grey, $p200-blue);
+  @include theme-forms($p900-grey, $p700-blue, $p300-grey, $p900-grey, $p800-grey, $p500-grey);
 }
 
 .theme-night-dark-center-bg {
-  background-color: $p900-grey;
   background-image: linear-gradient(180deg, $p900-grey, $black 50%, $p900-grey);
-  z-index: -2;
-  .text-inverse {
-    color: $p300-grey; // $night mode $body-color?
-  }
 }

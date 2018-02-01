@@ -1,13 +1,11 @@
 .sign-up-form {
-  background-color: $panel-bg;
-  border: 1px solid $brand-primary;
   margin: 0 auto 20px;
   max-width: 400px;
   padding: 20px;
 }
 
 .sign-up-form-title {
-  background-color: $brand-primary;
+  border-bottom: 2px solid transparent;
   color: $brand-white;
   font-size: 18px;
   margin: -20px -20px 20px;

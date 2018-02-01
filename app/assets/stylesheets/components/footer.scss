@@ -1,9 +1,8 @@
 .footer-container {
-  background-color: $brand-black;
   bottom: 0;
-  color: $brand-white;
   height: $footer-height;
   position: absolute;
+  transition: background-color .5s ease-out;
   width: 100%;
 
   .footer {
@@ -11,24 +10,19 @@
     padding: 40px 0;
   }
 
-  a {
-    color: $brand-white;
-  }
-
   img {
     @include ignore-selection;
   }
 }
 
-.footer-container.footer-default {
-  background-color: $p100-grey;
-  color: $body-color;
+.footer-default {
+  @include theme-footer($p100-grey, $body-color);
 }
 
-.footer-container.footer-dark-pink {
-  background-color: $p900-pink;
+.footer-dark-pink {
+  @include theme-footer($p900-pink, $brand-white);
 }
 
-.footer-container.footer-night {
-  background-color: $p900-grey;
+.footer-night {
+  @include theme-footer($p900-grey, $p300-grey);
 }

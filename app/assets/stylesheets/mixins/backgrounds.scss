@@ -1,0 +1,32 @@
+@mixin theme-background($background-color, $text-color, $selection-color) {
+  background-color: $background-color;
+  color: $text-color;
+  transition: background-color .5s ease-out;
+
+  ::selection {
+    background-color: rgba($selection-color, .99);
+    color: $text-color;
+    text-shadow: none;
+  }
+
+  :focus {
+    outline-color: $selection-color !important;
+  }
+}
+
+@mixin theme-forms($title-bg, $border-color, $text-color, $form-bg: $p50-grey, $form-input-bg: $input-bg, $form-input-color: $input-color) {
+  .sign-up-form {
+    background-color: $form-bg;
+
+    .form-control {
+      background-color: $form-input-bg;
+      color: $form-input-color;
+    }
+  }
+
+  .sign-up-form-title {
+    background-color: $title-bg;
+    border-color: $border-color;
+    color: $text-color;
+  }
+}

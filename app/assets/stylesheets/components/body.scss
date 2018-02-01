@@ -17,12 +17,12 @@ body {
   }
 }
 
-::selection {
-  background-color: $brand-accent;
-  color: $gray-dark;
-  text-shadow: none;
-}
+// ::selection {
+//   background-color: $brand-accent;
+//   color: $body-color;
+//   text-shadow: none;
+// }
 
-:focus {
-  outline-color: $brand-accent !important;
-}
+// :focus {
+//   outline-color: $brand-accent !important;
+// }

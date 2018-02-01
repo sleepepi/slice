@@ -1,0 +1,8 @@
+@mixin theme-footer($background-color, $text-color) {
+  background-color: $background-color;
+  color: $text-color;
+
+  a {
+    color: $text-color;
+  }
+}
