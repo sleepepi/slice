@@ -15,7 +15,7 @@
     - if current_page?(about_path)
       %span.sr-only (current)
 
-  - if @project
+  - if current_user && @project&.persisted?
     %li.nav-item.dropdown.d-none.d-lg-block
       = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
         = @project.name
@@ -26,7 +26,6 @@
           - if @project.editable_by?(current_user)
             .dropdown-divider
             = link_to "Settings", settings_editor_project_path(@project), class: "dropdown-item"
-
 
   = render "menu/item", title: "Dashboard", path: dashboard_path
 
