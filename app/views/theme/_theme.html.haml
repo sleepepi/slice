@@ -1,0 +1,9 @@
+- @menu = current_user&.theme.presence || "default"
+- @body = current_user&.theme.presence || "default"
+- @footer = current_user&.theme.presence || "default"
+
+- case @body
+- when "night"
+  - content_for :footer, render("decorations/moon")
+- when "sunset"
+  - content_for :footer, render("decorations/sunset")

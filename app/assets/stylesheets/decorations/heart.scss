@@ -1,0 +1,64 @@
+$heart-color: $p300-pink;
+$heart-inner-color: $p300-amber;
+
+$heart-base-size: 128px;
+$heart-base-padding: 12px;
+
+$heart-size: $heart-base-size * 2; // 256px;
+$heart-padding: $heart-base-padding * 2; // 24px;
+$heart-container: $heart-size + $heart-padding;
+
+$heart-size-sm: $heart-base-size * 4; // 512px;
+$heart-padding-sm: $heart-base-padding * 4; // 48px;
+$heart-container-sm: $heart-size-sm + $heart-padding-sm;
+
+.heart-container {
+  height: $heart-container;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  bottom: $footer-height;
+  width: $heart-container;
+  z-index: -1;
+
+  @include media-breakpoint-up(sm) {
+    height: $heart-container-sm;
+    width: $heart-container-sm;
+  }
+}
+
+.heart-object {
+  font-size: $heart-size;
+  position: absolute;
+  right: -$heart-size / 2;
+  top: -$heart-size + ($heart-container / 2);
+
+  i {
+    &.fa-heart {
+      font-size: $heart-size;
+      color: $heart-color;
+    }
+
+    &.fa-circle {
+      font-size: $heart-size * 100 / 128; // 100px;
+      color: $heart-inner-color;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    font-size: $heart-size-sm;
+    right: -$heart-size-sm / 2;
+    top: -$heart-size-sm + ($heart-container-sm / 2);
+
+    i {
+      &.fa-heart {
+        font-size: $heart-size-sm;
+      }
+
+      &.fa-circle {
+        font-size: $heart-size-sm * 100 / 128; // 400px;
+      }
+    }
+  }
+}
+

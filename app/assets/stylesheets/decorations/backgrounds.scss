@@ -1,9 +1,45 @@
 .theme-default-bg {
-  background-color: $p300-blue;
+  background-color: $p100-grey;
 
-  .header-container {
-    background-color: $p500-blue;
-    border-color: $p200-orange;
+
+  .text-inverse {
+    // color: $brand-white;
+  }
+
+  // .header-container {
+  //   background-color: $p500-blue;
+  //   border-color: $p200-orange;
+  //   color: $brand-white;
+  // }
+}
+
+.theme-dark-blue-light-center-bg {
+  background-color: $p900-blue;
+  background-image: linear-gradient(180deg, $p900-blue, $p800-blue 50%, $p900-blue);
+}
+
+.theme-dark-pink-light-center-bg {
+  background-color: $p900-pink;
+  background-image: linear-gradient(180deg, $p900-pink, $p800-pink 50%, $p900-pink);
+
+  .text-inverse {
     color: $brand-white;
+  }
+}
+
+.theme-night-bg {
+  background-color: $p900-grey;
+
+  .text-inverse {
+    color: $brand-white;
+  }
+}
+
+.theme-night-dark-center-bg {
+  background-color: $p900-grey;
+  background-image: linear-gradient(180deg, $p900-grey, $black 50%, $p900-grey);
+  z-index: -2;
+  .text-inverse {
+    color: $p300-grey; // $night mode $body-color?
   }
 }

@@ -1,39 +1,21 @@
-- if false
-  - @title = "Version"
+- @title = "Version"
+- @themes = []
+- @themes << { icon: nil, header: "default", body: "default", footer: "default" }
+- @themes << { icon: "moon", header: "night", body: "night", footer: "night", body_alt: "theme-night-dark-center-bg" }
+- @themes << { icon: nil, header: "dark-pink", body: "dark-pink", footer: "dark-pink", body_alt: "theme-dark-pink-light-center-bg" }
+-# @themes << { icon: "heart", header: "dark-pink", body: "dark-pink", footer: "dark-pink", body_alt: "theme-dark-pink-light-center-bg" }
+-# @themes << { icon: "sun", header: "grass", body: "sky", footer: "grass" }
+-# @themes << { icon: "sun_horizon_half", header: "blue", body: "blue", footer: "grass" }
+-# @themes << { icon: "sunset", header: "sunset", body: "sunset", footer: "sunset" }
+- number = rand(@themes.size)
 
-  - content_for :header do
-    .background-gradient
-    .header-container
-      .container
-        %h1.page-heading= @title
+- @menu = @themes.dig(number, :header)
+- @body = @themes.dig(number, :body)
+- @footer = @themes.dig(number, :footer)
 
-  .body-attachment
-    .container.attachment-container
-      = render "theme/lower_left_icon"
+- content_for :footer, render("decorations/#{@themes.dig(number, :icon)}") if @themes.dig(number, :icon).present?
 
-  .text-center{ style: "margin-top:40px" }
-    %p.lead
-      %span.transparent-stamp
-        Version
-        %strong= Slice::VERSION::STRING
-
-- else
-  - @title = "Version"
-  - @themes = []
-  - @themes << { icon: nil, header: "default", body: "default", footer: "default" }
-  -# @themes << { icon: "moon", header: "night", body: "night", footer: "night" }
-  -# @themes << { icon: "sun", header: "grass", body: "sky", footer: "grass" }
-  -# @themes << { icon: "sun_horizon_half", header: "blue", body: "blue", footer: "grass" }
-  -# @themes << { icon: "sunset", header: "sunset", body: "sunset", footer: "sunset" }
-  - number = rand(@themes.size)
-
-  - @menu = @themes.dig(number, :header)
-  - @body = @themes.dig(number, :body)
-  - @footer = @themes.dig(number, :footer)
-
-  -# content_for :footer, render("decorations/#{@themes.dig(number, :icon)}") if @themes.dig(number, :icon).present?
-
-  .page-box.last-box.d-flex.align-items-center
-    .container
-      .text-center
-        .page-heading.text-white{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= "v#{Slice::VERSION::STRING}"
+.page-box.last-box.d-flex.align-items-center{ class: @themes.dig(number, :body_alt) }
+  .container
+    .text-center
+      .page-heading.text-inverse{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= "v#{Slice::VERSION::STRING}"

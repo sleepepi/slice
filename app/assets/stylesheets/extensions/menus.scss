@@ -1,3 +1,11 @@
 .menu-default {
   @include theme-menu($p600-blue, $p300-blue, $p700-blue, $p800-blue);
 }
+
+.menu-dark-pink {
+  @include theme-menu($p900-pink, $p900-pink, $p900-pink, $p900-pink);
+}
+
+.menu-night {
+  @include theme-menu($p900-grey, $p900-grey, $p900-grey, $p900-grey);
+}

@@ -368,7 +368,15 @@ Rails.application.routes.draw do
   get "invite/:invite_token" => "project_users#invite"
   get "site-invite/:site_invite_token" => "site_users#invite"
 
-  devise_for :users, path_names: { sign_up: "join", sign_in: "login" }, path: ""
+  devise_for :users,
+             controllers: {
+               # passwords: "passwords",
+               # registrations: "registrations",
+               sessions: "sessions",
+               # unlocks: "unlocks"
+             },
+             path_names: { sign_up: "join", sign_in: "login" },
+             path: ""
 
   get "admin" => "users#index"
   resources :users do

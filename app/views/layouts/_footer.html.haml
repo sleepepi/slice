@@ -1,14 +1,10 @@
-.footer
-  .row
-    .col-xs-6.nowrap
-      &copy;
-      = Date.today.year
-      = ENV["website_name"]
-      |
-      = link_to "Docs", docs_path
-    .col-xs-6.nowrap.text-right
-      = link_to "Contact Us", contact_path, class: "d-none d-sm-inline"
-      = link_to contact_path, class: "d-inline d-sm-none" do
-        %i.fa.fa-envelope
-      |
-      Boston Sleep
+.footer-container{ class: footer }
+  %div{ class: defined?(container) && container.present? ? container : "container" }
+    .footer
+      .nowrap
+        .float-right
+          = link_to "Questions?", search_path
+
+        &copy;
+        .d-none.d-sm-inline= Time.zone.today.year
+        = link_to ENV["website_name"], about_path

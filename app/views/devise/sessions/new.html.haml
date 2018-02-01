@@ -1,44 +1,38 @@
 - @title = "Sign in"
 
-- @no_footer = true
+- @menu = "dark-pink"
+- @body = "default"
+- @footer = "dark-pink"
 
-.background-gradient
+.page-box.last-box.d-flex.flex-column.justify-content-center.theme-dark-pink-light-center-bg
+  .container
+    %p.lead.text-center.text-white Welcome back!
 
-.body-attachment
-  .container.attachment-container
-    .landing-cog3
-      %i.fa.fa-cog
+    .sign-up-form
+      .sign-up-form-title
+        Sign in
 
-%p.lead.text-center.text-white.text-shadow Welcome back!
+      = form_with model: resource, url: user_session_path, local: true do |form|
+        .form-group
+          = form.label :email
+          = form.text_field :email, class: "form-control#{" is-invalid" if flash[:alert].present?}", autocomplete: "off"
 
-.sign-up-form
-  .sign-up-form-title
-    Sign in
+        .form-group
+          = form.label :password
+          = link_to "(Forgot password?)", new_password_path(resource_name), tabindex: "-1"
+          = form.password_field :password, class: "form-control#{" is-invalid" if flash[:alert].present?}", autocomplete: "off"
+          - if flash[:alert].present?
+            .invalid-feedback= flash[:alert].html_safe
 
-  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-vertical" }) do |f|
-    .form-group{ class: flash[:alert].present? ? "has-error" : "" }
-      = f.label :email, class: "control-label"
-      = f.text_field :email, class: "form-control"
+        .form-group.submit-btn-container
+          = form.submit "Sign in", class: "btn btn-primary btn-block btn-shadow"
 
-    .form-group{ class: flash[:alert].present? ? "has-error" : "" }
-      = f.label :password, class: "control-label"
-      = link_to "(Forgot password?)", new_password_path(resource_name), tabindex: "-1"
-      = f.password_field :password, class: "form-control", autocomplete: "off"
-      - if flash[:alert].present?
-        %small.text-danger= flash[:alert].html_safe
+        - flash[:alert] = nil
 
-    .form-group.submit-btn-container
-      = f.submit "Sign in", class: "btn btn-primary btn-block btn-shadow"
+    .sign-up-form.text-center
+      New to Slice?
+      = link_to "Create an account.", new_user_registration_path
 
-
-- if devise_mapping.confirmable?
-  .text-center{ style: "margin-bottom:20px" }
-    = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
-
-.sign-up-form.text-center
-  New to
-  = succeed "?" do
-    = ENV["website_name"]
-  = link_to "Create an account.", new_user_registration_path
-
-= render "layouts/simple_footer"
+    - if devise_mapping.confirmable?
+      .text-center{ style: "margin-bottom: 20px;" }
+        = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)

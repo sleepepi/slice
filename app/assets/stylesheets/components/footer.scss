@@ -5,9 +5,30 @@
   height: $footer-height;
   position: absolute;
   width: 100%;
+
+  .footer {
+    height: $footer-height;
+    padding: 40px 0;
+  }
+
+  a {
+    color: $brand-white;
+  }
+
+  img {
+    @include ignore-selection;
+  }
 }
 
-.footer {
-  height: $footer-height;
-  padding: 40px 0;
+.footer-container.footer-default {
+  background-color: $p100-grey;
+  color: $body-color;
+}
+
+.footer-container.footer-dark-pink {
+  background-color: $p900-pink;
+}
+
+.footer-container.footer-night {
+  background-color: $p900-grey;
 }
