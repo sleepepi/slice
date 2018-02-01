@@ -100,15 +100,11 @@ class SheetsController < ApplicationController
     @sheet_variable = @sheet.sheet_variables.find_by(id: params[:sheet_variable_id])
     @object = if params[:position].blank? || params[:variable_id].blank?
                 @sheet_variable
-              else
+              elsif @sheet_variable
                 # Grid
-                @sheet_variable.grids.find_by(variable_id: params[:variable_id], position: params[:position].to_i) if @sheet_variable
+                @sheet_variable.grids.find_by(variable_id: params[:variable_id], position: params[:position].to_i)
               end
-    if @object && @object.response_file.size > 0
-      send_file File.join(CarrierWave::Uploader::Base.root, @object.response_file.url)
-    else
-      head :ok
-    end
+    send_file_if_present @object&.response_file
   end
 
   # POST /sheets

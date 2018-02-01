@@ -86,4 +86,13 @@ class ApplicationController < ActionController::Base
     return unless params[object].key?(key)
     params[object][key] = parse_date(params[object][key]) if params[object].key?(key)
   end
+
+  # Expects an "Uploader" type class, ex: uploader = @project.logo
+  def send_file_if_present(uploader, *args)
+    if uploader.present?
+      send_file uploader.path, *args
+    else
+      head :ok
+    end
+  end
 end

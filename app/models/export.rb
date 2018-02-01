@@ -29,10 +29,6 @@ class Export < ApplicationRecord
     %w(name)
   end
 
-  def zip_file_path
-    File.join(CarrierWave::Uploader::Base.root, file.url)
-  end
-
   def extension
     file.file.present? ? file.file.extension.to_s.downcase : ""
   end

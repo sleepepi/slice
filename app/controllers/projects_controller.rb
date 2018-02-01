@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/logo
   def logo
-    send_file File.join(CarrierWave::Uploader::Base.root, @project.logo.url)
+    send_file_if_present @project.logo
   end
 
   # POST /projects/1/favorite
