@@ -15,14 +15,13 @@
   }
 }
 
-.footer-default {
-  @include theme-footer($p100-grey, $body-color);
-}
+@each $name, $theme in $themes {
+  .footer-#{$name} {
+    background-color: map-get($theme, footer-bg);
+    color: map-get($theme, footer-color);
 
-.footer-dark-pink {
-  @include theme-footer($p900-pink, $brand-white);
-}
-
-.footer-night {
-  @include theme-footer($p900-grey, $p300-grey);
+    a {
+      color: map-get($theme, footer-color) !important;
+    }
+  }
 }

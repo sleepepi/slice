@@ -28,7 +28,6 @@ $moon-container-sm: $moon-size-sm + $moon-padding-sm;
 }
 
 .moon-object {
-  // background: asset-url('themes/night/moon512.jpg');
   background-color: $p300-grey;
   background-size: 256px;
   border-radius: 256px;
@@ -37,7 +36,7 @@ $moon-container-sm: $moon-size-sm + $moon-padding-sm;
   left: -128px;
   top: 26px;
   position: absolute;
-  box-shadow: 7px -10px 30px rgba($brand-white, .15);
+  box-shadow: 7px -10px 30px rgba($white, .15);
 
   @include media-breakpoint-up(sm) {
     background-size: 384px;

@@ -1,0 +1,13 @@
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    @if map-get($theme, link-color) {
+      a {
+        color: map-get($theme, link-color);
+      }
+    } @else {
+      a {
+        color: map-get($theme, primary);
+      }
+    }
+  }
+}

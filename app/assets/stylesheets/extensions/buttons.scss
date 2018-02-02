@@ -1,0 +1,15 @@
+@each $color, $value in $theme-colors {
+  @each $name, $theme in $themes {
+    @if map-get($theme, $color) {
+      .theme-#{$name}-bg {
+        .btn-#{$color} {
+          @include button-variant(map-get($theme, $color), map-get($theme, $color));
+        }
+
+        .btn-outline-#{$color} {
+          @include button-outline-variant(map-get($theme, $color));
+        }
+      }
+    }
+  }
+}

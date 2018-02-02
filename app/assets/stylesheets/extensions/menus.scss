@@ -1,11 +1,42 @@
-.menu-default {
-  @include theme-menu($p600-blue);
-}
+@each $name, $theme in $themes {
+  $menu-bg: map-get($theme, p600);
+  @if map-get($theme, menu-bg) {
+    $menu-bg: map-get($theme, menu-bg);
+  }
+  $menu-color: map-get($theme, brand-white);
+  @if map-get($theme, menu-color) {
+    $menu-color: map-get($theme, menu-color);
+  }
 
-.menu-dark-pink {
-  @include theme-menu($p900-pink);
-}
+  .menu-#{$name} {
+    background-color: $menu-bg;
+    border-color: darken($menu-bg, 6.5%);
 
-.menu-night {
-  @include theme-menu($p900-grey);
+    .btn-menu {
+      background-color: $menu-bg;
+      border-color: darken($menu-bg, 6.5%);
+      color: $menu-color;
+
+      &:hover,
+      &:focus,
+      &:active,
+      &.active,
+      &.disabled,
+      &[disabled] {
+        background-color: darken($menu-bg, 6.5%);
+        border-color: darken($menu-bg, 6.5%);
+        color: $menu-color;
+      }
+    }
+
+    .dropdown-menu-custom {
+      .dropdown-menu-custom-inner {
+        background-color: darken($menu-bg, 6.5%);
+      }
+
+      &::after {
+        border-bottom-color: darken($menu-bg, 6.5%);
+      }
+    }
+  }
 }

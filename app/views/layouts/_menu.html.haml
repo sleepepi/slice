@@ -1,7 +1,7 @@
 - if true
   - menu = "menu-default" unless defined?(menu) && menu.present?
   .background-special
-    %nav.navbar.navbar-expand-lg.navbar-dark.navbar-slice{ class: menu }
+    %nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom{ class: menu }
       - if defined?(nocontainer)
         = render "layouts/features/logo"
 

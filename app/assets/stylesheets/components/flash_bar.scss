@@ -22,8 +22,6 @@
 
 .flash-bar {
   visibility: hidden;
-  background-color: $brand-black;
-  color: $brand-white;
   text-align: center;
   padding: 16px;
   position: fixed;
@@ -37,4 +35,13 @@
   animation: fadein 0.5s, fadeout 0.5s 4s;
   animation-fill-mode: forwards;
   visibility: visible;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .flash-bar {
+      background-color: map-get($theme, brand-black);
+      color: map-get($theme, brand-white);
+    }
+  }
 }

@@ -29,7 +29,7 @@
         %tr{ id: "check-#{check.id}-container" }
           = render "editor/checks/check_row", check: check
 
-.text-center= paginate @checks, theme: "bootstrap"
+.center-horizontally= paginate @checks, theme: "bootstrap"
 
 .docs-learn-more
   Learn about

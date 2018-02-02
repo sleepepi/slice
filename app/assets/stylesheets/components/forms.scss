@@ -6,11 +6,9 @@
 
 .sign-up-form-title {
   border-bottom: 2px solid transparent;
-  color: $brand-white;
   font-size: 18px;
   margin: -20px -20px 20px;
   padding: 10px 20px;
-  text-shadow: 0 2px 3px $standard-shadow-color;
 }
 
 @include media-breakpoint-up(sm) {
@@ -28,4 +26,31 @@
 .submit-btn-container {
   // This mimics .mt-4.mb-0
   margin: $spacer * 1.5 0 0;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .sign-up-form {
+      background-color: map-get($theme, form-bg); // Should be greyish
+      color: map-get($theme, body-color);
+
+      // .form-control {
+      //   background-color: $form-input-bg;
+      //   color: $form-input-color;
+      // }
+    }
+
+    .sign-up-form-title {
+      @if map-get($theme, form-title-bg) {
+        background-color: map-get($theme, form-title-bg);
+        color: map-get($theme, body-color);
+      } @else {
+        background-color: map-get($theme, p500);
+        color: map-get($theme, brand-white);
+        border-color: map-get($theme, p200);
+      }
+
+      text-shadow-color: 0 2px 3px map-get($theme, shadow-color);
+    }
+  }
 }

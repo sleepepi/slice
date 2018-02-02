@@ -1,4 +1,9 @@
-.navbar-slice {
+.navbar-brand {
+  border: 0;
+  outline: 0;
+}
+
+.navbar-custom {
   border-bottom: 1px solid transparent;
   padding-top: 0;
   padding-bottom: 0;
@@ -15,15 +20,24 @@
     &:focus,
     &:hover,
     &.active {
-      color: rgba($brand-white, .9);
-      background-color: rgba($brand-black, .2);
-      border-bottom: 2px solid $brand-accent;
+      border-bottom: 2px solid transparent;
       margin-bottom: -2px;
     }
   }
 }
 
-.navbar-brand {
-  border: 0;
-  outline: 0;
+@each $name, $theme in $themes {
+  .menu-#{$name} {
+    @include media-breakpoint-up(lg) {
+      .nav-item {
+        &:focus,
+        &:hover,
+        &.active {
+          color: rgba($white, .9);
+          background-color: rgba($black, .2);
+          border-color: map-get($theme, p200);
+        }
+      }
+    }
+  }
 }

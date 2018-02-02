@@ -1,5 +1,5 @@
-.panel.panel-default.box-shadow
-  .panel-heading
+.card.bg-light.box-shadow.mb-3
+  .card-header
     .float-right
       .d-none.d-sm-inline= adverse_event.event_date_to_s
       .d-inline.d-sm-none= adverse_event.event_date_to_s_xs
@@ -20,11 +20,11 @@
       %small
         %i.fa.fa-eye.text-muted{ rel: "tooltip", data: { title: "Unblinded Only", placement: "top", container: "body" } }
 
-  .panel-body{ style: "padding: 0;" }
+  .card-body.p-0
     .progress.progress-simple
       .progress-bar.progress-bar-danger{ id: "adverse-event-#{adverse_event.id}-progress-bar-width", style: "width: #{percent}%;" }
 
-    %table.table.table-striped.table-borderless.table-fixed{ style: "margin-bottom: 0;" }
+    %table.table.table-striped.table-borderless.table-fixed.table-sm.mb-0
       %col{ width: "60px" }
       %col
       - adverse_event.sheets.includes(:design).order("sheets.created_at").each do |sheet|

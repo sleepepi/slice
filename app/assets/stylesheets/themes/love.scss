@@ -1,0 +1,34 @@
+$love: (
+  brand-white: #fff,
+  brand-black: $p900-grey,
+
+  p50: $p50-pink,
+  p100: $p100-pink,
+  p200: $p200-pink,
+  p300: $p300-pink,
+  p400: $p400-pink,
+  p500: $p500-pink,
+  p600: $p600-pink,
+  p700: $p700-pink,
+  p800: $p800-pink,
+  p900: $p900-pink,
+
+  primary: $p500-pink,
+
+  menu-bg: $p900-pink,
+  menu-color: null, // brand-white
+
+  body-bg: $p50-grey,
+  body-color: $p900-grey,
+  body-focus: $p800-pink,
+
+  footer-bg: $p900-pink,
+  footer-color: #fff,
+
+  dashboard-bg: #fff,
+  form-title-bg: null, // $p500-COLOR
+  form-bg: $p50-grey,
+
+  box-shadow-color: rgba(0, 0, 0, .15),
+  shadow-color: rgba(0, 0, 0, .3),
+)

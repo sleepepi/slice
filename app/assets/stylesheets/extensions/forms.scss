@@ -2,3 +2,13 @@
 .form-control {
   min-width: 100px;
 }
+
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .form-control {
+      background-color: #fff;
+      border-color: #ced4da;
+    }
+  }
+}

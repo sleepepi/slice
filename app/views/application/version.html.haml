@@ -1,12 +1,16 @@
 - @title = "Version"
 - @themes = []
-- @themes << { icon: nil, header: "default", body: "default", footer: "default" }
-- @themes << { icon: "moon", header: "night", body: "night", footer: "night", body_alt: "theme-night-dark-center-bg" }
-- @themes << { icon: nil, header: "dark-pink", body: "dark-pink", footer: "dark-pink", body_alt: "theme-dark-pink-light-center-bg" }
 -# @themes << { icon: "heart", header: "dark-pink", body: "dark-pink", footer: "dark-pink", body_alt: "theme-dark-pink-light-center-bg" }
 -# @themes << { icon: "sun", header: "grass", body: "sky", footer: "grass" }
 -# @themes << { icon: "sun_horizon_half", header: "blue", body: "blue", footer: "grass" }
 -# @themes << { icon: "sunset", header: "sunset", body: "sunset", footer: "sunset" }
+- @themes << { icon: nil, header: "default", body: "default", footer: "default", body_alt: "theme-default-focus-bg" }
+- @themes << { icon: "moon", header: "night", body: "night", footer: "night", body_alt: "theme-night-focus-bg" }
+- @themes << { icon: nil, header: "love", body: "love", footer: "love", body_alt: "theme-love-focus-bg" }
+- @themes << { icon: nil, header: "royal", body: "royal", footer: "royal", body_alt: "theme-royal-focus-bg" }
+- @themes << { icon: nil, header: "underwater", body: "underwater", footer: "underwater", body_alt: "theme-underwater-focus-bg" }
+- @themes << { icon: nil, header: "winter", body: "winter", footer: "winter", body_alt: "theme-winter-focus-bg" }
+- @themes << { icon: nil, header: "spring", body: "spring", footer: "spring", body_alt: "theme-spring-focus-bg" }
 - number = rand(@themes.size)
 
 - @menu = @themes.dig(number, :header)
@@ -15,7 +19,7 @@
 
 - content_for :footer, render("decorations/#{@themes.dig(number, :icon)}") if @themes.dig(number, :icon).present?
 
-.page-box.last-box.d-flex.align-items-center{ class: @themes.dig(number, :body_alt) }
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: @themes.dig(number, :body_alt) }
   .container
     .text-center
-      .page-heading.text-inverse{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= "v#{Slice::VERSION::STRING}"
+      .page-heading{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= "v#{Slice::VERSION::STRING}.#{@themes.dig(number, :body)}"

@@ -1,0 +1,20 @@
+// Variables
+
+@import 'themes/colors';
+@import 'themes/default';
+@import 'themes/love';
+@import 'themes/night';
+@import 'themes/spring';
+@import 'themes/underwater';
+@import 'themes/winter';
+@import 'themes/royal';
+
+$themes: (
+  default: $default,
+  love: $love,
+  night: $night,
+  spring: $spring,
+  underwater: $underwater,
+  winter: $winter,
+  royal: $royal,
+)

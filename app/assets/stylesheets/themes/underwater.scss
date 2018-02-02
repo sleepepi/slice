@@ -1,21 +1,34 @@
-// https://material.google.com/style/color.html#color-color-palette
+$underwater: (
+  brand-white: #fff,
+  brand-black: $p900-grey,
 
-// Indigo
-$p50: #e8eaf6;
-$p100: #c5cae9;
-$p200: #9fa8da;
-$p300: #7986cb;
-$p400: #5c6bc0;
-$p500: #3f51b5;
-$p600: #3949ab;
-$p700: #303f9f;
-$p800: #283593;
-$p900: #1a237e;
+  p50: $p50-indigo,
+  p100: $p100-indigo,
+  p200: $p200-indigo,
+  p300: $p300-indigo,
+  p400: $p400-indigo,
+  p500: $p500-indigo,
+  p600: $p600-indigo,
+  p700: $p700-indigo,
+  p800: $p800-indigo,
+  p900: $p900-indigo,
 
-// Teal
-$a100: #a7ffeb;
-$a200: #64ffda;
-$a400: #1de9b6;
-$a700: #00bfa5;
+  primary: $p500-indigo,
 
-$a200-text: #333;
+  menu-bg: null, // $p600-COLOR
+  menu-color: null, // brand-white
+
+  body-bg: $p50-grey,
+  body-color: $p900-grey,
+  body-focus: $p800-indigo,
+
+  footer-bg: $p900-indigo,
+  footer-color: #fff,
+
+  dashboard-bg: #fff,
+  form-title-bg: null, // $p500-COLOR
+  form-bg: $p50-grey,
+
+  box-shadow-color: rgba(0, 0, 0, .15),
+  shadow-color: rgba(0, 0, 0, .3),
+)

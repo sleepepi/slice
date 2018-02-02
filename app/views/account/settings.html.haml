@@ -14,7 +14,7 @@
 .row
   .col-md-6
     .card
-      .card-header
+      .card-header.bg-primary.text-white
         - if current_user.theme == "spring"
           %span.fa-stack.flower-stack
             %i.fa.fa-pagelines.fa-stack-1x
@@ -73,7 +73,7 @@
                   Enable Beta Preview
 
           .form-group.submit-btn-container
-            = form.submit "Save Settings", class: "btn btn-accent btn-shadow"
+            = form.submit "Save Settings", class: "btn btn-primary btn-shadow"
 
   .col-md-6
     .card.mb-4
@@ -95,7 +95,7 @@
             = form.password_field :password_confirmation, class: "form-control", autocomplete: "off"
 
           .form-group.submit-btn-container
-            = link_to "Update Password", "#", class: "btn btn-accent btn-shadow", data: { object: "settings-save", target: "#reset_password" }
+            = link_to "Update Password", "#", class: "btn btn-primary btn-shadow", data: { object: "settings-save", target: "#reset_password" }
       .card-footer
         - if current_user.password_expires_in > 0
           Your password will expire in

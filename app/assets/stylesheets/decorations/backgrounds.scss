@@ -1,31 +1,27 @@
-.theme-default-bg {
-  @include theme-background($p100-grey, $body-color, $p200-yellow);
-  @include theme-forms($p500-blue, $p200-blue, $brand-white);
+.theme-bg {
+  transition: background-color .5s ease-out;
 }
 
-.theme-dark-blue-light-center-bg {
-  @include theme-background($p900-blue, $brand-white, $p200-yellow);
-  background-image: linear-gradient(180deg, $p900-blue, $p800-blue 50%, $p900-blue);
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    background-color: map-get($theme, body-bg);
+    color: map-get($theme, body-color);
 
-  @include theme-forms($p500-blue, $p200-blue, $brand-white);
-}
+    ::selection {
+      background-color: rgba(map-get($theme, p200), .99);
+      color: map-get($theme, body-color);
+      text-shadow: none;
+    }
 
-.theme-dark-pink-bg,
-.theme-dark-pink-light-center-bg {
-  @include theme-background($p900-pink, $brand-white, $p200-pink);
-  @include theme-forms($p500-pink, $p200-pink, $brand-white);
-}
+    :focus {
+      outline-color: map-get($theme, p200) !important;
+    }
+  }
 
-.theme-dark-pink-light-center-bg {
-  background-image: linear-gradient(180deg, $p900-pink, $p800-pink 50%, $p900-pink);
-}
-
-.theme-night-bg,
-.theme-night-dark-center-bg {
-  @include theme-background($p900-grey, $p300-grey, $p900-blue);
-  @include theme-forms($p900-grey, $p700-blue, $p300-grey, $p900-grey, $p800-grey, $p500-grey);
-}
-
-.theme-night-dark-center-bg {
-  background-image: linear-gradient(180deg, $p900-grey, $black 50%, $p900-grey);
+  @if map-get($theme, footer-bg) and map-get($theme, body-focus) {
+    .theme-#{$name}-focus-bg {
+      background-image: linear-gradient(180deg, map-get($theme, footer-bg), map-get($theme, body-focus) 50%, map-get($theme, footer-bg));
+      color: map-get($theme, footer-color);
+    }
+  }
 }

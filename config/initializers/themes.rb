@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 Slice::THEMES = [
-  ["Enterprise", "enterprise"],
   ["Night", "night"],
   ["Underwater", "underwater"],
-  ["Spring - Beta", "spring"],
-  ["Fall - Beta", "fall"],
+  ["Love", "love"],
+  ["Royal", "royal"],
+  ["Spring", "spring"],
+  ["Fall", "fall"],
   ["Winter", "winter"]
 ]

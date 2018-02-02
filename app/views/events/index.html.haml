@@ -38,7 +38,7 @@
         %tr{ id: "event-#{event.id}-container" }
           = render "events/event_row", event: event
 
-  .text-center= paginate @events, theme: "bootstrap"
+  .center-horizontally= paginate @events, theme: "bootstrap"
 - else
   .jumbotron
     %p.text-center No events found.

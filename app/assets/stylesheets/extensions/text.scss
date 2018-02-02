@@ -1,17 +1,23 @@
 // Extenion to text bootstrap classes
 
-.text-accent {
-  color: $brand-accent;
-}
+// TODO: See where these two are used
+// .text-accent {
+//   color: $brand-accent;
+// }
 
-.text-white {
-  color: $brand-white;
-}
-
-.text-shadow {
-  text-shadow: 0 2px 3px $standard-shadow-color;
-}
+// .text-shadow {
+//   text-shadow: 0 2px 3px $standard-shadow-color;
+// }
+// END TODO: See where these two are used
 
 .text-smaller {
   font-size: .7em;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .text-white {
+      color: map-get($theme, brand-white) !important;
+    }
+  }
 }

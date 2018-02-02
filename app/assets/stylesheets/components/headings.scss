@@ -1,89 +1,91 @@
-.page-heading {
-  position: relative;
-  text-shadow: 0 2px 3px $standard-shadow-color;
-  word-break: break-word;
+// TODO: Comment back in
 
-  .btn,
-  .dropdown-menu {
-    text-shadow: none;
-  }
+// .page-heading {
+//   position: relative;
+//   text-shadow: 0 2px 3px $standard-shadow-color;
+//   word-break: break-word;
 
-  > a {
-    color: $breadcrumb-link-color;
-  }
+//   .btn,
+//   .dropdown-menu {
+//     text-shadow: none;
+//   }
 
-  > a:hover {
-    color: darken($breadcrumb-link-color, 10%);
-  }
-}
+//   > a {
+//     color: $breadcrumb-link-color;
+//   }
 
-.header-container {
-  background-color: $header-bg;
-  color: $brand-white;
-  padding: 20px 0;
+//   > a:hover {
+//     color: darken($breadcrumb-link-color, 10%);
+//   }
+// }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-  }
+// .header-container {
+//   background-color: $header-bg;
+//   color: $brand-white;
+//   padding: 20px 0;
 
-  h1 {
-    font-size: 30px;
-  }
+//   h1,
+//   h2,
+//   h3,
+//   h4,
+//   h5,
+//   h6 {
+//     margin: 0;
+//   }
 
-  .dropdown,
-  .float-right {
-    line-height: 33px; // h1 font size * 1.1
-    position: relative;
-    z-index: 1;
-  }
-}
+//   h1 {
+//     font-size: 30px;
+//   }
 
-@include media-breakpoint-up(sm) {
-  .header-container {
-    h1 {
-      font-size: 38px;
-    }
+//   .dropdown,
+//   .float-right {
+//     line-height: 33px; // h1 font size * 1.1
+//     position: relative;
+//     z-index: 1;
+//   }
+// }
 
-    .dropdown,
-    .float-right {
-      line-height: 41.8px; // h1 font size * 1.1
-    }
-  }
-}
+// @include media-breakpoint-up(sm) {
+//   .header-container {
+//     h1 {
+//       font-size: 38px;
+//     }
 
-@include media-breakpoint-up(md) {
-  .header-container {
-    h1 {
-      font-size: 41px;
-    }
+//     .dropdown,
+//     .float-right {
+//       line-height: 41.8px; // h1 font size * 1.1
+//     }
+//   }
+// }
 
-    .dropdown,
-    .float-right {
-      line-height: 45.1px; // h1 font size * 1.1
-    }
-  }
-}
+// @include media-breakpoint-up(md) {
+//   .header-container {
+//     h1 {
+//       font-size: 41px;
+//     }
 
-.header-link {
-  display: inline-block;
-  font-size: 65%;
-  font-weight: normal;
-  line-height: 1;
-  white-space: nowrap;
+//     .dropdown,
+//     .float-right {
+//       line-height: 45.1px; // h1 font size * 1.1
+//     }
+//   }
+// }
 
-  a {
-    color: $p100-blue;
+// .header-link {
+//   display: inline-block;
+//   font-size: 65%;
+//   font-weight: normal;
+//   line-height: 1;
+//   white-space: nowrap;
 
-    &:hover {
-      color: $p50-blue;
-    }
-  }
-}
+//   a {
+//     color: $p100-blue;
+
+//     &:hover {
+//       color: $p50-blue;
+//     }
+//   }
+// }
 
 .header-container-hide {
   h1 {

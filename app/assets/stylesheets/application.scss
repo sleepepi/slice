@@ -1,5 +1,5 @@
 // Theme colors and variable definitions.
-@import 'themes/default';
+@import 'themes/all';
 @import 'variables/all';
 
 // Core Bootstrap styles
@@ -14,7 +14,7 @@
 // App specific styles
 @import 'animations/all';
 @import 'decorations/all';
-@import 'components/all';
-@import 'extensions/all';
+@import 'components/all'; // TODO: Check what's left
+@import 'extensions/all'; // TODO: Check what's left
 // @import 'fixes/all'; // TODO: Review fixes or remove stylesheets/fixes
-@import 'objects/all';
+@import 'objects/all'; // TODO: Check what's left

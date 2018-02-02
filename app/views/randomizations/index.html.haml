@@ -112,7 +112,7 @@
             - if schemes.count > 1
               %td.hidden-xs.hidden-sm= link_to_if is_project_editor, randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
 
-  .text-center= paginate @randomizations, theme: "bootstrap"
+  .center-horizontally= paginate @randomizations, theme: "bootstrap"
 - else
   .jumbotron
     %p.text-center

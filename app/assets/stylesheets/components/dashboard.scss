@@ -2,10 +2,7 @@
 .dashboard-container {
   @include scale-images;
 
-  background-color: $dashboard-bg;
   border-radius: 3px;
-  box-shadow: 0 1px 5px $box-shadow-color;
-  color: $body-color;
   margin-bottom: 40px;
   padding: 10px;
 
@@ -25,36 +22,55 @@
   @include remove-last-child-bottom-margin;
 }
 
-.dashboard-lead {
-  background-color: $dashboard-lead-bg;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  color: $brand-white;
-  padding: 15px;
+// TODO: Put back in
+// .dashboard-lead {
+//   background-color: $dashboard-lead-bg;
+//   border-top-left-radius: 4px;
+//   border-top-right-radius: 4px;
+//   color: $brand-white;
+//   padding: 15px;
 
-  + .dashboard-container {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
+//   + .dashboard-container {
+//     border-top-left-radius: 0;
+//     border-top-right-radius: 0;
+//   }
+// }
 
-.section-lead {
-  background-color: $section-lead-bg;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  padding: 15px;
+// .section-lead {
+//   background-color: $section-lead-bg;
+//   border-radius: 4px;
+//   margin-bottom: 20px;
+//   padding: 15px;
 
-  > div {
-    margin-bottom: 0 !important;
-  }
+//   > div {
+//     margin-bottom: 0 !important;
+//   }
 
-  .section-header,
-  .sub-section-header {
-    border: 0;
-    color: $brand-white;
-    font-weight: initial;
-    margin-bottom: 0;
-    margin-top: 0;
-    padding: 0;
+//   .section-header,
+//   .sub-section-header {
+//     border: 0;
+//     color: $brand-white;
+//     font-weight: initial;
+//     margin-bottom: 0;
+//     margin-top: 0;
+//     padding: 0;
+//   }
+// }
+
+
+@each $name, $theme in $themes {
+  // $menu-bg: map-get($theme, p600);
+  // @if map-get($theme, menu-bg) {
+  //   $menu-bg: map-get($theme, menu-bg);
+  // }
+
+  .theme-#{$name}-bg {
+    .dashboard-container-margins,
+    .dashboard-container {
+      background-color: map-get($theme, dashboard-bg);
+
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
+    }
   }
 }

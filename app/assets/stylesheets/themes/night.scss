@@ -1,21 +1,34 @@
-// https://material.google.com/style/color.html#color-color-palette
+$night: (
+  brand-white: #000,
+  brand-black: $p50-grey,
 
-// Grey (Half of Gray)
-$p50: #9e9e9e;
-$p100: #9e9e9e;
-$p200: #757575;
-$p300: #757575;
-$p400: #616161;
-$p500: #616161;
-$p600: #424242;
-$p700: #424242;
-$p800: #212121;
-$p900: #212121;
+  p50: $p900-grey,
+  p100: $p800-grey,
+  p200: $p700-grey,
+  p300: $p600-grey,
+  p400: $p500-grey,
+  p500: $p400-grey,
+  p600: $p300-grey,
+  p700: $p200-grey,
+  p800: $p100-grey,
+  p900: $p50-grey,
 
-// Blue Grey (From P)
-$a100: #cfd8dc;
-$a200: #b0bec5;
-$a400: #78909c;
-$a700: #455a64;
+  primary: $p500-indigo,
 
-$a200-text: #333;
+  menu-bg: $p900-grey,
+  menu-color: $p300-grey,
+
+  body-bg: $p900-grey,
+  body-color: $p300-grey,
+  body-focus: #000,
+
+  footer-bg: $p900-grey,
+  footer-color: $p300-grey,
+
+  dashboard-bg: #000,
+  form-title-bg: #000,
+  form-bg: $p900-grey,
+
+  box-shadow-color: rgba($p300-grey, .15),
+  shadow-color: rgba($p300-grey, .3),
+)

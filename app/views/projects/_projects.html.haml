@@ -26,5 +26,5 @@
           %td{ id: "project_#{project.id}_actions" }
             = render 'project_preferences/actions', project: project
 
-  .text-center= paginate @projects, theme: 'bootstrap'
+  .center-horizontally= paginate @projects, theme: 'bootstrap'
 

@@ -1,10 +1,7 @@
-// These are colors from:
-// https://material.google.com/style/color.html#color-color-palette
-$block-blue: #2196f3 !default;  // $p500 blue
-$block-red: #f44336 !default;   // $p500 red
-$block-green: #4caf50 !default; // $p500 green
-$block-amber: #ffb300 !default; // $p600 $amber
-
+$block-blue: $p500-blue !default;
+$block-red: $p500-red !default;
+$block-green: $p500-green !default;
+$block-amber: $p500-amber !default;
 $block-color: $brand-white !default;
 
 .block-group {
@@ -12,7 +9,7 @@ $block-color: $brand-white !default;
 }
 
 .multiplier {
-  border-left: 5px solid lighten($panel-default-border, 7.5%);
+  border-left: 5px solid $p300-grey;
   padding: 15px 30px 15px 15px;
 }
 

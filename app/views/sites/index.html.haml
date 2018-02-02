@@ -40,4 +40,4 @@
           - if current_user.all_sites.pluck(:id).include?(site.id)
             = render "layouts/edit_delete_dropdown", edit_url: edit_project_site_path(@project, site), delete_url: [@project, site], delete_confirmation: "Delete #{site.name}?"
 
-.text-center= paginate @sites, theme: "bootstrap"
+.center-horizontally= paginate @sites, theme: "bootstrap"

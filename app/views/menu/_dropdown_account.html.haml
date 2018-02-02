@@ -7,8 +7,8 @@
       = link_to "#", class: "nav-link dropdown-toggle", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
         = profile_picture_tag(current_user, size: 20)
 
-    .dropdown-menu.dropdown-menu-right.dropdown-menu-slice
-      .dropdown-menu-slice-inner
+    .dropdown-menu.dropdown-menu-right.dropdown-menu-custom
+      .dropdown-menu-custom-inner
         = link_to settings_path, class: "dropdown-item" do
           Settings
 

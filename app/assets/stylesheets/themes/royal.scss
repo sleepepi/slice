@@ -1,0 +1,34 @@
+$royal: (
+  brand-white: #fff,
+  brand-black: $p900-grey,
+
+  p50: $p50-purple,
+  p100: $p100-purple,
+  p200: $p200-purple,
+  p300: $p300-purple,
+  p400: $p400-purple,
+  p500: $p500-purple,
+  p600: $p600-purple,
+  p700: $p700-purple,
+  p800: $p800-purple,
+  p900: $p900-purple,
+
+  primary: $p500-purple,
+
+  menu-bg: $p900-purple,
+  menu-color: null, // brand-white
+
+  body-bg: $p50-grey,
+  body-color: $p900-grey,
+  body-focus: $p800-purple,
+
+  footer-bg: $p900-purple,
+  footer-color: #fff,
+
+  dashboard-bg: #fff,
+  form-title-bg: null, // $p500-COLOR
+  form-bg: $p50-grey,
+
+  box-shadow-color: rgba(0, 0, 0, .15),
+  shadow-color: rgba(0, 0, 0, .3),
+)

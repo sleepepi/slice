@@ -51,7 +51,7 @@
           %td.d-none.d-sm-table-cell= design.category.name if design.category
           %td
             = render "layouts/edit_delete_dropdown", edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Delete #{design.name}?"
-  .text-center= paginate @designs, theme: "bootstrap"
+  .center-horizontally= paginate @designs, theme: "bootstrap"
 - else
   .jumbotron
     %p.text-center

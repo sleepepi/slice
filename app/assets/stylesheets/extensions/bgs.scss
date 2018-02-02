@@ -1,0 +1,11 @@
+@each $color, $value in $theme-colors {
+  @each $name, $theme in $themes {
+    @if map-get($theme, $color) {
+      .theme-#{$name}-bg {
+        .bg-#{$color} {
+          background-color: map-get($theme, $color) !important;
+        }
+      }
+    }
+  }
+}

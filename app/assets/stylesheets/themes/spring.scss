@@ -1,21 +1,34 @@
-// https://material.google.com/style/color.html#color-color-palette
+$spring: (
+  brand-white: #fff,
+  brand-black: $p900-grey,
 
-// Light Green
-$p50: #f1f8e9;
-$p100: #dcedc8;
-$p200: #c5e1a5;
-$p300: #aed581;
-$p400: #9ccc65;
-$p500: #8bc34a;
-$p600: #7cb342;
-$p700: #689f38;
-$p800: #558b2f;
-$p900: #33691e;
+  p50: $p50-light-green,
+  p100: $p100-light-green,
+  p200: $p200-light-green,
+  p300: $p300-light-green,
+  p400: $p400-light-green,
+  p500: $p500-light-green,
+  p600: $p600-light-green,
+  p700: $p700-light-green,
+  p800: $p800-light-green,
+  p900: $p900-light-green,
 
-// Light Blue
-$a100: #80d8ff;
-$a200: #40c4ff;
-$a400: #00b0ff;
-$a700: #0091ea;
+  primary: $p500-light-green,
 
-$a200-text: #333;
+  menu-bg: null, // $p600-COLOR
+  menu-color: null, // brand-white
+
+  body-bg: $p50-grey,
+  body-color: $p900-grey,
+  body-focus: $p800-light-green,
+
+  footer-bg: $p900-light-green,
+  footer-color: #fff,
+
+  dashboard-bg: #fff,
+  form-title-bg: null, // $p500-COLOR
+  form-bg: $p50-grey,
+
+  box-shadow-color: rgba(0, 0, 0, .15),
+  shadow-color: rgba(0, 0, 0, .3),
+)

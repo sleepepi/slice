@@ -2,8 +2,8 @@
   %li.nav-item.dropdown.d-none.d-lg-block
     = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
       About
-    .dropdown-menu.dropdown-menu-slice
-      .dropdown-menu-slice-inner
+    .dropdown-menu.dropdown-menu-custom
+      .dropdown-menu-custom-inner
         = link_to "About", about_path, class: "dropdown-item"
         = link_to "Docs", docs_path, class: "dropdown-item"
         .dropdown-divider
@@ -19,8 +19,8 @@
     %li.nav-item.dropdown.d-none.d-lg-block
       = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
         = @project.name
-      .dropdown-menu.dropdown-menu-slice
-        .dropdown-menu-slice-inner
+      .dropdown-menu.dropdown-menu-custom
+        .dropdown-menu-custom-inner
           = link_to "Overview", @project, class: "dropdown-item"
           = link_to "Reports", reports_reports_project_path(@project), class: "dropdown-item"
           - if @project.editable_by?(current_user)
