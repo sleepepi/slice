@@ -1,5 +1,9 @@
 ## 58.2.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to rails 5.2.0.rc1
+
 ## 58.1.0 (January 25, 2018)
 
 ### Enhancements
