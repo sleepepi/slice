@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
       namespace :reports, path: "projects/:authentication_token/reports" do
         get :show, path: ":event/:design"
+        get :review, path: "review/:event/:design"
       end
     end
   end
