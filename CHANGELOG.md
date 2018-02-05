@@ -1,3 +1,5 @@
+## 58.2.0
+
 ## 58.1.0 (January 25, 2018)
 
 ### Enhancements
