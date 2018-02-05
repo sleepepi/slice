@@ -5,7 +5,8 @@ class Api::V1::ReportsController < Api::V1::BaseController
   before_action :find_project_or_redirect
   before_action :find_event_or_redirect
   before_action :find_design_or_redirect
-  before_action :find_subject # Optional
+  before_action :find_subject, only: :show # Optional
+  before_action :find_subject_or_redirect, only: :review # Not optional
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/reports/:event/:design.json
   def show
@@ -13,6 +14,19 @@ class Api::V1::ReportsController < Api::V1::BaseController
       @project.sheets.where(design: @design).where(missing: false)
               .includes(:subject_event).where(subject_events: { event: @event })
     @sheets = sheet_scope
+  end
+
+  # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/reports/review/:event/:design.json
+  def review
+    if @subject
+      sheet_scope = \
+        @project.sheets.where(design: @design).where(missing: false)
+                .includes(:subject_event).where(subject_events: { event: @event })
+
+      @sheet = sheet_scope.find_by(subject: @subject)
+    else
+      head :no_content
+    end
   end
 
   private
@@ -29,5 +43,10 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
   def find_subject
     @subject = @project.subjects.find_by(id: params[:subject_id])
+  end
+
+  def find_subject_or_redirect
+    @subject = @project.subjects.find_by(id: params[:subject_id])
+    head :no_content unless @subject
   end
 end

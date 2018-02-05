@@ -2,9 +2,16 @@
 
 ### Enhancements
 - **Gem Changes**
+  - Updated to bootstrap 4.0.0
+
+## 58.2.0 (February 5, 2018)
+
+### Enhancements
+- **API Changes**
+  - Added a survey review page customized for a single subject
+- **Gem Changes**
   - Updated to rails 5.2.0.rc1
   - Updated to pg 1.0.0
-  - Updated to bootstrap 4.0.0
 
 ## 58.1.0 (January 25, 2018)
 
