@@ -4,6 +4,8 @@
 class Editor::ChecksController < Editor::EditorController
   before_action :find_check_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /editor/projects/1/checks
   def index
     @checks = @project.checks.order(:archived, :name).page(params[:page]).per(40)

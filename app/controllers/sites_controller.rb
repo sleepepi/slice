@@ -13,6 +13,8 @@ class SitesController < ApplicationController
   before_action :find_editable_site_or_redirect,
                 only: [:edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # # GET /setup
   # def setup
   # end

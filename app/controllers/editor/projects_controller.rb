@@ -5,6 +5,8 @@ class Editor::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_editable_project_or_redirect
 
+  layout "layouts/full_page_sidebar"
+
   # GET /editor/projects/1/settings
   def settings
   end

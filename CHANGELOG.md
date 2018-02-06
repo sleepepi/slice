@@ -1,6 +1,8 @@
 ## 59.0.0
 
 ### Enhancements
+- **General Changes**
+  - Updated styling of project sidebar menu
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 

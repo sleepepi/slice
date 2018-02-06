@@ -1,8 +1,9 @@
-- @title = 'Reports'
+- @title = "Reports"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
-= render 'layouts/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
 - randomization_schemes = @project.randomization_schemes.where(published: true)
 
@@ -33,14 +34,14 @@
         - randomization_count = scheme.active_randomizations.count
         - if randomization_count > 0 && scheme.randomization_goal > 0
           - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
-          .progress.progress-striped{ style: 'margin-top: 20px;margin-bottom: 0' }
+          .progress.progress-striped{ style: "margin-top: 20px;margin-bottom: 0" }
             .progress-bar.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
 
-      = render 'randomization_schemes/recruitment_chart', scheme: scheme
-      = render 'randomization_schemes/recruitment_tables', scheme: scheme
+      = render "randomization_schemes/recruitment_chart", scheme: scheme
+      = render "randomization_schemes/recruitment_tables", scheme: scheme
   - else
     .jumbotron
-      %h3.text-center{ style: 'margin-top: 0' } Cumulative Randomized
+      %h3.text-center{ style: "margin-top: 0" } Cumulative Randomized
       %p.lead.text-center.text-muted Subject randomization has not started.
 
-= render 'reports/projects/reports'
+= render "reports/projects/reports"

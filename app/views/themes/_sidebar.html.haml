@@ -5,6 +5,7 @@
         %ul.sidebar-menu
           %li.sidebar-menu-header Admin
           %li= link_to "Dashboard Test", themes_dashboard_test_path, class: current_page?(themes_dashboard_test_path) ? "active" : nil
+          %li= link_to "Full Test", themes_full_test_path, class: current_page?(themes_full_test_path) ? "active" : nil
           %li= link_to "Menu Test", themes_menu_test_path, class: current_page?(themes_menu_test_path) ? "active" : nil
           %li= link_to "Transition Test", themes_transition_test_path, class: current_page?(themes_transition_test_path) ? "active" : nil
           %li.sidebar-menu-header Setup

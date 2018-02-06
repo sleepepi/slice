@@ -7,6 +7,8 @@ class ExportsController < ApplicationController
   before_action :find_viewable_export_or_redirect, only: [:show, :file, :mark_unread, :progress]
   before_action :find_editable_export_or_redirect, only: [:destroy]
 
+  layout "layouts/full_page_sidebar"
+
   def file
     send_file_if_present @export.file
   end

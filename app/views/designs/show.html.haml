@@ -1,48 +1,45 @@
 - @title = @design.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          .dropdown
-            = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
+  .float-right
+    .dropdown
+      = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+        Actions
+        %strong.caret
 
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_project_design_path(@design.project, @design) do
-                  %i.fa.fa-pencil
-                  Edit
+      %ul.dropdown-menu.dropdown-menu-right
+        %li
+          = link_to edit_project_design_path(@design.project, @design) do
+            %i.fa.fa-pencil
+            Edit
 
-              %li
-                = link_to imports_edit_project_design_path(@design.project, @design) do
-                  %i.fa.fa-upload
-                  Reimport
+        %li
+          = link_to imports_edit_project_design_path(@design.project, @design) do
+            %i.fa.fa-upload
+            Reimport
 
-              %li
-                = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank" do
-                  %i.fa.fa-print
-                  Print
+        %li
+          = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank" do
+            %i.fa.fa-print
+            Print
 
-              %li
-                = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}") do
-                  %i.fa.fa-files-o
-                  View Sheets
+        %li
+          = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}") do
+            %i.fa.fa-files-o
+            View Sheets
 
-              %li.divider{ role: "separator" }
-              %li
-                = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Delete
-        = @title
-        = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"
+        %li.divider{ role: "separator" }
+        %li
+          = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" } do
+            .text-danger
+              %i.fa.fa-trash
+              Delete
+  = @title
+  = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"
 
 - if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated? || @design.notifications_enabled?
   .dashboard-container

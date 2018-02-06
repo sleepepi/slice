@@ -1,35 +1,32 @@
 - @title = @variable.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        - if @variable.editable_by?(current_user)
-          .float-right
-            .dropdown
-              = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-                Actions
-                %strong.caret
+  - if @variable.editable_by?(current_user)
+    .float-right
+      .dropdown
+        = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+          Actions
+          %strong.caret
 
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_variable_path(@project, @variable) do
-                    %i.fa.fa-pencil
-                    Edit
-                  = link_to copy_project_variable_path(@project, @variable) do
-                    %i.fa.fa-files-o
-                    Copy
-                %li.divider{ role: "separator" }
-                %li
-                  = link_to [@project, @variable], method: :delete, data: { confirm: "Delete \"#{@variable.name}\" variable?" } do
-                    .text-danger
-                      %i.fa.fa-trash
-                      Delete
-        = @title
+        %ul.dropdown-menu.dropdown-menu-right
+          %li
+            = link_to edit_project_variable_path(@project, @variable) do
+              %i.fa.fa-pencil
+              Edit
+            = link_to copy_project_variable_path(@project, @variable) do
+              %i.fa.fa-files-o
+              Copy
+          %li.divider{ role: "separator" }
+          %li
+            = link_to [@project, @variable], method: :delete, data: { confirm: "Delete \"#{@variable.name}\" variable?" } do
+              .text-danger
+                %i.fa.fa-trash
+                Delete
+  = @title
 
 .dashboard-container
   %table.table.table-borderless

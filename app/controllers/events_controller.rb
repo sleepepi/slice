@@ -8,6 +8,8 @@ class EventsController < ApplicationController
   before_action :find_event_or_redirect, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_event, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # # POST /events/add_design.js
   # def add_design
   # end

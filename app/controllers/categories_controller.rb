@@ -6,6 +6,8 @@ class CategoriesController < ApplicationController
   before_action :find_editable_project_or_redirect
   before_action :find_category_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /categories
   def index
     scope = @project.categories.search(params[:search])

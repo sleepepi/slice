@@ -7,4 +7,11 @@
 .page-box.last-box.d-flex.align-items-center.theme-bg{ class: @body_alt }
   .container
     .text-center
-      .page-heading{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= @title
+      .page-heading{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= @menu.capitalize
+      %small
+        = link_to "Dashboard test", themes_dashboard_test_url
+        &middot;
+        = link_to "Menu test", themes_menu_test_url
+        &middot;
+        = link_to "Transition test", themes_transition_test_url
+

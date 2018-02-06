@@ -29,6 +29,8 @@ class SubjectsController < ApplicationController
   ]
   before_action :check_for_randomizations, only: [:destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # POST /projects/:project_id/subjects/1/event_coverage.js
   def event_coverage
     @subject_event = @subject.subject_events.find_by(id: params[:subject_event_id])

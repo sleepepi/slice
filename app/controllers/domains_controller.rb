@@ -7,6 +7,8 @@ class DomainsController < ApplicationController
   before_action :find_domain_or_redirect,
                 only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # POST /projects/:project_id/domains/values.js
   def values
     @domain = @project.domains.find_by(id: params[:domain_id])

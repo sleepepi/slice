@@ -51,6 +51,7 @@ class ProjectsController < ApplicationController
     @adverse_events = current_user.all_viewable_adverse_events.where(project_id: @project.id, adverse_event_date: @first_date..@last_date).to_a
     @comments = current_user.all_viewable_comments.joins(:sheet).where(sheets: { project_id: @project.id }).where("DATE(comments.created_at) IN (?)", @first_date..@last_date).to_a
     @subject_events = SubjectEvent.joins(:subject, :event).merge(current_user.all_viewable_subjects.where(project_id: @project.id)).merge(current_user.all_viewable_events.where(project_id: @project.id)).where(event_date: @first_date..@last_date).to_a
+    render layout: "layouts/full_page_sidebar"
   end
 
   # GET /projects
@@ -71,6 +72,7 @@ class ProjectsController < ApplicationController
                                 .search(params[:search]).order(@order)
     @subjects = subject_scope.page(params[:page]).per(20)
     @tokens = []
+    render layout: "layouts/full_page_sidebar"
     # redirect_to project_subjects_path(@project)
   end
 
@@ -87,6 +89,16 @@ class ProjectsController < ApplicationController
     else
       render :new
     end
+  end
+
+  # GET /projects/1/activity
+  def activity
+    render layout: "layouts/full_page_sidebar"
+  end
+
+  # GET /projects/1/team
+  def team
+    render layout: "layouts/full_page_sidebar"
   end
 
   private

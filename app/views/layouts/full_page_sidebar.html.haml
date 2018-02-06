@@ -17,6 +17,7 @@
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
+  - render "themes/theme"
   %body#top.full-page-no-header.theme-bg{ class: @body ? "theme-#{@body}-bg" : yield(:body_class) }
     .row.no-gutters.flex-xl-nowrap
       = yield :sidebar

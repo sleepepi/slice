@@ -1,0 +1,76 @@
+.col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
+  .sidebar
+    #sidebar-nav-wrapper.sidebar-nav-wrapper.collapse
+      .pt-3.mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+        = render "layouts/side_nav_root"
+
+        %ul.sidebar-menu
+          %li.sidebar-menu-header
+            = @project.name
+          %li
+            = link_to project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil) do
+              Subjects
+          %li
+            = link_to project_sheets_path(@project), class: (params[:controller] == "sheets" ? "active" : nil) do
+              Sheets
+          - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
+            %li
+              = link_to project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil) do
+                Randomizations
+          - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+            %li
+              = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? "active" : nil) do
+                Adverse Events
+          %li
+            = link_to project_exports_path(@project), class: (params[:controller] == "exports" ? "active" : nil) do
+              Exports
+          %li
+            = link_to project_tasks_path(@project), class: (params[:controller] == "tasks" ? "active" : nil) do
+              Tasks
+          %li
+            = link_to team_project_path(@project), class: (current_page?(team_project_path(@project)) ? "active" : nil) do
+              Team
+          %li
+            = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? "active" : nil) do
+              Activity
+          %li
+            = link_to calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? "active" : nil) do
+              Calendar
+
+        %ul.sidebar-menu
+          %li.sidebar-menu-header
+            Reports
+          %li= link_to "Overview", reports_reports_project_path(@project), class: (current_page?(reports_reports_project_path(@project)) ? "active" : nil)
+          %li= link_to "Summary Report", report_reports_project_path(@project), class: (current_page?(report_reports_project_path(@project)) ? "active" : nil)
+
+        - if @project.editable_by?(current_user)
+          %ul.sidebar-menu
+            %li.sidebar-menu-header
+              Setup
+            %li
+              = link_to "Settings", settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? "active" : nil)
+            %li
+              = link_to project_categories_path(@project), class: (params[:controller] == "categories" ? "active" : nil) do
+                Categories
+            %li
+              = link_to editor_project_checks_path(@project), class: (%w(editor/checks editor/check_filters editor/check_filter_values).include?(params[:controller]) ? "active" : nil) do
+                Checks
+            %li
+              = link_to project_designs_path(@project), class: (params[:controller] == "designs" ? "active" : nil) do
+                Designs
+            %li
+              = link_to project_domains_path(@project), class: (params[:controller] == "domains" ? "active" : nil) do
+                Domains
+            %li
+              = link_to project_events_path(@project), class: (params[:controller] == "events" ? "active" : nil) do
+                Events
+            - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+              %li
+                = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) && params[:action] != "randomize_subject" ? "active" : nil) do
+                  Schemes
+            %li
+              = link_to project_sites_path(@project), class: (params[:controller] == "sites" ? "active" : nil) do
+                Sites
+            %li
+              = link_to project_variables_path(@project), class: (params[:controller] == "variables" ? "active" : nil) do
+                Variables

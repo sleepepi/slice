@@ -6,6 +6,8 @@ class Reports::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect
 
+  layout "layouts/full_page_sidebar"
+
   # Concerns
   include Buildable
 
@@ -20,8 +22,9 @@ class Reports::ProjectsController < ApplicationController
   def filters
   end
 
-  def reports
-  end
+  # # GET /reports/projects/1/reports
+  # def reports
+  # end
 
   # GET /reports/projects/1/report
   # GET /reports/projects/1/report.csv

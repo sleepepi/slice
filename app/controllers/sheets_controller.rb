@@ -24,6 +24,8 @@ class SheetsController < ApplicationController
     :edit, :reassign, :update, :destroy
   ]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /sheets
   def index
     scope = current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false)

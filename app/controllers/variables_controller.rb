@@ -15,6 +15,8 @@ class VariablesController < ApplicationController
     :show, :edit, :update, :destroy
   ]
 
+  layout "layouts/full_page_sidebar"
+
   # POST /projects/:project_id/variables/report_lookup
   def report_lookup
     @variable = @project.variable_by_id(params[:variable_id])
