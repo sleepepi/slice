@@ -5,6 +5,7 @@
   border-radius: 3px;
   margin-bottom: 40px;
   padding: 10px;
+  transition: $transition-bg;
 
   > div,
   > table {
@@ -68,7 +69,6 @@
     .dashboard-container-margins,
     .dashboard-container {
       background-color: map-get($theme, dashboard-bg);
-
       box-shadow: 0 0 5px map-get($theme, box-shadow-color);
       color: map-get($theme, body-color);
     }

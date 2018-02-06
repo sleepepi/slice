@@ -6,7 +6,7 @@
       %i.fa.fa-cog
     .landing-cog2
       %i.fa.fa-cog
-    = render 'theme/lower_left_icon'
+    = render "themes/lower_left_icon"
 
 %h1.docs-heading
   %strong Slice:
@@ -14,57 +14,57 @@
 
 .docs-container
   %p
-    = ENV['website_name']
+    = ENV["website_name"]
     is a free clinical research data collection system for capturing and
     analyzing data.
   %p
     Learn how to:
   %p
     1.
-    = link_to 'Create a project.', docs_project_setup_path
+    = link_to "Create a project.", docs_project_setup_path
 
   %p
     2.
-    = link_to 'Enter data.', docs_sheets_path
+    = link_to "Enter data.", docs_sheets_path
 
   %p
     3.
-    = link_to 'Discover results.', docs_data_review_path
+    = link_to "Discover results.", docs_data_review_path
 
   %p
     Slice allows you to
-    = succeed ',' do
-      = link_to 'create forms', docs_designs_path
+    = succeed "," do
+      = link_to "create forms", docs_designs_path
 
-    = succeed ',' do
-      = link_to 'collect data', docs_sheets_path
+    = succeed "," do
+      = link_to "collect data", docs_sheets_path
 
-    = succeed ',' do
-      = link_to 'build your team', docs_roles_path
+    = succeed "," do
+      = link_to "build your team", docs_roles_path
 
-    = succeed ',' do
-      = link_to 'view reports', docs_reports_path
+    = succeed "," do
+      = link_to "view reports", docs_reports_path
 
-    = succeed ',' do
-      = link_to 'report adverse events', docs_adverse_events_path
+    = succeed "," do
+      = link_to "report adverse events", docs_adverse_events_path
 
-    = succeed ',' do
-      = link_to 'randomize participants', docs_randomization_schemes_path
+    = succeed "," do
+      = link_to "randomize participants", docs_randomization_schemes_path
 
-    = succeed ',' do
-      = link_to 'run data quality checks', docs_checks_path
+    = succeed "," do
+      = link_to "run data quality checks", docs_checks_path
 
-    = succeed ',' do
-      = link_to 'analyze data', docs_data_review_path
+    = succeed "," do
+      = link_to "analyze data", docs_data_review_path
 
-    = succeed '.' do
-      = link_to 'publish results', docs_exports_path
+    = succeed "." do
+      = link_to "publish results", docs_exports_path
 
 
 - content_for :footer do
-  %div{ style: 'background-color: transparent;color: #fff' }
+  %div{ style: "background-color: transparent;color: #fff" }
     .container
-      .jumbotron{ style: 'background-color: transparent' }
-        %h2.text-center{ style: 'margin-bottom: 40px' } Start working at the next level.
+      .jumbotron{ style: "background-color: transparent" }
+        %h2.text-center{ style: "margin-bottom: 40px" } Start working at the next level.
         .text-center
-          = link_to 'Create an account today', new_user_registration_path, class: 'btn btn-lg btn-accent btn-shadow'
+          = link_to "Create an account today", new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow"

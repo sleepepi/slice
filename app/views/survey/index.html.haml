@@ -1,14 +1,14 @@
-- @title = 'Slice'
+- @title = "Slice"
 
 - if params[:survey].present? && params[:a].present?
-  - survey_url = "#{ENV['website_url']}/survey/#{params[:survey]}/#{params[:a]}"
+  - survey_url = "#{ENV["website_url"]}/survey/#{params[:survey]}/#{params[:a]}"
   .jumbotron
-    %h2.text-center{ style: 'margin-top: 0;' } Survey Complete
+    %h2.text-center{ style: "margin-top: 0;" } Survey Complete
     %p
       Thank you for completing the survey.
       Click the link below if you need to make any changes to your responses.
-    %p= text_field_tag 'survey_url', survey_url, class: 'form-control'
-    %p= link_to 'Go Back to Survey', survey_url, class: 'btn btn-primary'
+    %p= text_field_tag "survey_url", survey_url, class: "form-control"
+    %p= link_to "Go Back to Survey", survey_url, class: "btn btn-primary"
 
 .background-gradient
 
@@ -18,26 +18,26 @@
       %i.fa.fa-cog
     .landing-cog2
       %i.fa.fa-cog
-    = render 'theme/lower_left_icon'
+    = render "themes/lower_left_icon"
 
 %h1.docs-heading
   %strong Interested in creating your own survey?
 
 .docs-container
   %p
-    = ENV['website_name']
+    = ENV["website_name"]
     is a free clinical research data collection system for capturing and
     analyzing data.
 
-  .jumbotron{ style: 'background-color: transparent' }
+  .jumbotron{ style: "background-color: transparent" }
     .text-center
-      = link_to 'Create an account today', new_user_registration_path, class: 'btn btn-lg btn-accent btn-shadow'
+      = link_to "Create an account today", new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow"
 
-  %div{ style: 'padding: 19px 29px 29px; margin: 40px auto 20px;' }
-    = image_tag 'slc_designer.png', style: 'width:100%;'
+  %div{ style: "padding: 19px 29px 29px; margin: 40px auto 20px;" }
+    = image_tag "slc_designer.png", style: "width:100%;"
 
 
 .docs-learn-more
   Learn more about
-  = succeed '.' do
-    = link_to ENV['website_name'], docs_path
+  = succeed "." do
+    = link_to ENV["website_name"], docs_path

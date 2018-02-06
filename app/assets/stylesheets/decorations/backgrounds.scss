@@ -1,5 +1,6 @@
 .theme-bg {
-  transition: background-color .5s ease-out;
+  // background-color: #000;
+  transition: $transition-bg;
 }
 
 @each $name, $theme in $themes {

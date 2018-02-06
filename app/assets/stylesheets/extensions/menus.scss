@@ -1,5 +1,5 @@
 @each $name, $theme in $themes {
-  $menu-bg: map-get($theme, p600);
+  $menu-bg: map-get($theme, p900);
   @if map-get($theme, menu-bg) {
     $menu-bg: map-get($theme, menu-bg);
   }

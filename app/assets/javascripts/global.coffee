@@ -6,6 +6,9 @@
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
+@componentsReady = ->
+  themesReady()
+
 @extensionsReady = ->
   clipboardReady()
   datepickerReady()
@@ -14,6 +17,7 @@
 
 @globalReady = ->
   window.$isDirty = false
+  componentsReady()
   extensionsReady()
   $('[data-object~="form-load"]').submit()
 

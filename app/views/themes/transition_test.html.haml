@@ -1,0 +1,23 @@
+- @title = "Transition Test"
+
+- render "themes/random"
+
+.d-none{ data: { object: "random-theme" } }
+
+- content_for :header do
+  .header-container
+    .container
+      %h1.page-heading
+        = @title
+
+.dashboard-container
+  %strong Small Heading
+
+  %p some stuff
+
+  %p some more stuff
+
+  %p
+    Please read this interesting
+    = link_to "link", themes_dashboard_test_url
+    about Slice.

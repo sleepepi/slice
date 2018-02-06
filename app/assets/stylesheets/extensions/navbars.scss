@@ -7,7 +7,7 @@
   border-bottom: 1px solid transparent;
   padding-top: 0;
   padding-bottom: 0;
-  transition: background-color 10s ease-out;
+  transition: $transition-bg;
 
   .navbar-toggler {
     border: 0;

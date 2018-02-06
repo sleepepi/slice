@@ -1,0 +1,24 @@
+- @title = "Dashboard Test"
+
+- render "themes/random"
+
+- content_for :container_class, "container-fluid"
+
+- content_for :header do
+  .header-container
+    .container-fluid
+      %h1.page-heading
+        = @title
+
+.p-3
+  .dashboard-container
+    %strong Small Heading
+
+    %p some stuff
+
+    %p some more stuff
+
+    %p
+      Please read this interesting
+      = link_to "link", themes_dashboard_test_url
+      about Slice.

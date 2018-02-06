@@ -1,75 +1,88 @@
+.header-container {
+  padding: 20px 0;
+  transition: $transition-bg;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .dropdown,
+  .float-right {
+    line-height: 33px; // h1 font size * 1.1
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .header-container {
+    h1 {
+      font-size: 38px;
+    }
+
+    .dropdown,
+    .float-right {
+      line-height: 41.8px; // h1 font size * 1.1
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .header-container {
+    h1 {
+      font-size: 41px;
+    }
+
+    .dropdown,
+    .float-right {
+      line-height: 45.1px; // h1 font size * 1.1
+    }
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .header-container {
+      background-color: black;
+      color: pink;
+      background-color: map-get($theme, p800);
+      color: map-get($theme, brand-white);
+    }
+  }
+}
+
+.page-heading {
+  // position: relative; // TODO: See if position: relative is needed.
+  word-break: break-word;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .page-heading {
+
+      // > a {
+      //   color: $breadcrumb-link-color;
+      // }
+
+      // > a:hover {
+      //   color: darken($breadcrumb-link-color, 10%);
+      // }
+    }
+  }
+}
+
+
+
 // TODO: Comment back in
-
-// .page-heading {
-//   position: relative;
-//   text-shadow: 0 2px 3px $standard-shadow-color;
-//   word-break: break-word;
-
-//   .btn,
-//   .dropdown-menu {
-//     text-shadow: none;
-//   }
-
-//   > a {
-//     color: $breadcrumb-link-color;
-//   }
-
-//   > a:hover {
-//     color: darken($breadcrumb-link-color, 10%);
-//   }
-// }
-
-// .header-container {
-//   background-color: $header-bg;
-//   color: $brand-white;
-//   padding: 20px 0;
-
-//   h1,
-//   h2,
-//   h3,
-//   h4,
-//   h5,
-//   h6 {
-//     margin: 0;
-//   }
-
-//   h1 {
-//     font-size: 30px;
-//   }
-
-//   .dropdown,
-//   .float-right {
-//     line-height: 33px; // h1 font size * 1.1
-//     position: relative;
-//     z-index: 1;
-//   }
-// }
-
-// @include media-breakpoint-up(sm) {
-//   .header-container {
-//     h1 {
-//       font-size: 38px;
-//     }
-
-//     .dropdown,
-//     .float-right {
-//       line-height: 41.8px; // h1 font size * 1.1
-//     }
-//   }
-// }
-
-// @include media-breakpoint-up(md) {
-//   .header-container {
-//     h1 {
-//       font-size: 41px;
-//     }
-
-//     .dropdown,
-//     .float-right {
-//       line-height: 45.1px; // h1 font size * 1.1
-//     }
-//   }
-// }
 
 // .header-link {
 //   display: inline-block;

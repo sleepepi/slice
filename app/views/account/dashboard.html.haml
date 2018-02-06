@@ -1,5 +1,7 @@
 - @title = "Dashboard"
 
+- render "themes/random"
+
 - content_for :header do
   .background-gradient
   .header-container
@@ -12,7 +14,7 @@
 
 .body-attachment
   .container.attachment-container
-    = render "theme/upper_right_icon"
+    = render "themes/upper_right_icon"
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites

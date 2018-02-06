@@ -10,20 +10,7 @@
 -# @body_alt = "theme-night-dark-center-bg"
 -# @footer = "night"
 
-- @themes = []
-- @themes << { header: "default", body: "default", footer: "default", body_alt: "theme-default-focus-bg" }
-- @themes << { header: "night", body: "night", footer: "night", body_alt: "theme-night-focus-bg" }
-- @themes << { header: "love", body: "love", footer: "love", body_alt: "theme-love-focus-bg" }
-- @themes << { header: "royal", body: "royal", footer: "royal", body_alt: "theme-royal-focus-bg" }
-- @themes << { header: "underwater", body: "underwater", footer: "underwater", body_alt: "theme-underwater-focus-bg" }
-- @themes << { header: "winter", body: "winter", footer: "winter", body_alt: "theme-winter-focus-bg" }
-- @themes << { header: "spring", body: "spring", footer: "spring", body_alt: "theme-spring-focus-bg" }
-- number = rand(@themes.size)
-
-- @menu = @themes.dig(number, :header)
-- @body = @themes.dig(number, :body)
-- @body_alt = @themes.dig(number, :body_alt)
-- @footer = @themes.dig(number, :footer)
+- render "themes/random"
 
 .page-box.last-box.d-flex.flex-column.justify-content-center{ class: @body_alt }
   .container

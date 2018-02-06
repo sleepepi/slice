@@ -1,32 +1,32 @@
 $night: (
-  brand-white: #000,
-  brand-black: $p50-grey,
+  brand-white: $p300-grey,
+  brand-black: #000,
 
-  p50: $p900-grey,
-  p100: $p800-grey,
-  p200: $p700-grey,
-  p300: $p600-grey,
-  p400: $p500-grey,
-  p500: $p400-grey,
-  p600: $p300-grey,
-  p700: $p200-grey,
-  p800: $p100-grey,
-  p900: $p50-grey,
+  p50: $p50-black,
+  p100: $p100-black,
+  p200: $p200-black,
+  p300: $p300-black,
+  p400: $p400-black,
+  p500: $p500-black,
+  p600: $p600-black,
+  p700: $p700-black,
+  p800: $p800-black,
+  p900: $p900-black,
 
-  primary: $p500-indigo,
+  primary: $p400-indigo,
 
-  menu-bg: $p900-grey,
-  menu-color: $p300-grey,
+  menu-bg: $p900-black,
+  menu-color: null, // brand-white
 
-  body-bg: $p900-grey,
+  body-bg: $p900-black,
   body-color: $p300-grey,
   body-focus: #000,
 
-  footer-bg: $p900-grey,
+  footer-bg: $p900-black,
   footer-color: $p300-grey,
 
   dashboard-bg: #000,
-  form-title-bg: #000,
+  form-title-bg: $p700-black,
   form-bg: $p900-grey,
 
   box-shadow-color: rgba($p300-grey, .15),

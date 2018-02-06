@@ -430,4 +430,10 @@ Rails.application.routes.draw do
 
   get "reports/projects", to: redirect("")
   get "reports", to: redirect("")
+
+  namespace :themes do
+    get :dashboard_test, path: "dashboard-test"
+    get :menu_test, path: "menu-test"
+    get :transition_test, path: "transition-test"
+  end
 end
