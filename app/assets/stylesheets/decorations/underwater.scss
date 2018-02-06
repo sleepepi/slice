@@ -1,0 +1,15 @@
+@keyframes bubbles {
+  0% {
+    background-position: 0 400px, 0 300px, 0 0;
+  }
+
+  100% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+}
+
+.theme-underwater-bg,
+.theme-underwater-focus-bg {
+  animation: bubbles 20s linear infinite;
+  background-image: asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png'), linear-gradient(180deg, $p100-teal, $p400-teal 30%, $p400-indigo 65%, $p500-indigo);
+}

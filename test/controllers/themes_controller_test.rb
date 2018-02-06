@@ -9,6 +9,11 @@ class ThemesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get full test" do
+    get themes_full_test_url
+    assert_response :success
+  end
+
   test "should get menu test" do
     get themes_menu_test_url
     assert_response :success

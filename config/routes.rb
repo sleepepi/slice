@@ -433,6 +433,7 @@ Rails.application.routes.draw do
 
   namespace :themes do
     get :dashboard_test, path: "dashboard-test"
+    get :full_test, path: "full-test"
     get :menu_test, path: "menu-test"
     get :transition_test, path: "transition-test"
   end
