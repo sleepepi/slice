@@ -1,0 +1,11 @@
+.col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
+  .sidebar
+    #sidebar-nav-wrapper.sidebar-nav-wrapper.collapse
+      .pt-3.mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+        %ul.sidebar-menu
+          %li.sidebar-menu-header Admin
+          %li= link_to "Dashboard Test", themes_dashboard_test_path, class: current_page?(themes_dashboard_test_path) ? "active" : nil
+          %li= link_to "Menu Test", themes_menu_test_path, class: current_page?(themes_menu_test_path) ? "active" : nil
+          %li= link_to "Transition Test", themes_transition_test_path, class: current_page?(themes_transition_test_path) ? "active" : nil
+          %li.sidebar-menu-header Setup
+          %li= link_to "Profile", settings_path, class: current_page?(settings_path) ? "active" : nil

@@ -1,0 +1,36 @@
+!!!
+%html{ lang: "en" }
+  %head
+    %meta{ charset: "utf-8" }
+    %meta{ content: "IE=Edge,chrome=1", http: { equiv: "X-UA-Compatible" } }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1, shrink-to-fit=no" }
+    = render "layouts/meta/general"
+    = render "layouts/meta/facebook"
+    = render "layouts/meta/google"
+    = render "layouts/meta/apple"
+    -# Don't cache any pages
+    %meta{ name: "turbolinks-cache-control", content: "no-cache" }
+    %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV["website_name"]].flatten.compact.uniq.join(" - ").html_safe
+    = favicon_link_tag
+
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
+    = javascript_include_tag "application", data: { turbolinks_track: "reload" }
+    = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
+  %body#top.full-page-no-header.theme-bg{ class: @body ? "theme-#{@body}-bg" : yield(:body_class) }
+    .row.no-gutters.flex-xl-nowrap
+      = yield :sidebar
+      .col
+        .page-box.last-box.p-0
+          = render "layouts/features/flash_bar"
+          = render "layouts/features/sound_enabled" # Slice extra
+          = render "layouts/features/timeout" # Slice extra
+          = render "layouts/features/notifications" # Slice extra
+          #top-menu.top-menu= render "layouts/menu", container: "#{yield(:container_class)} px-lg-0", menu: @menu ? "menu-#{@menu}" : nil
+          .header-container
+            .container-fluid
+              %h1.page-heading
+                = yield :header
+          %main.p-3{ role: "main" }= yield
+    = yield :footer
+    = render "layouts/footer", container: yield(:container_class), footer: @footer ? "footer-#{@footer}" : nil

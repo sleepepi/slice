@@ -1,13 +1,26 @@
+- @title = "Menu Test"
+
 - render "themes/random"
 
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("themes/sidebar")
 
+- content_for :header, @title
 
-
-%h1 Menu Test
-
-.dashboard-container
+.dashboard-container.mb-0{ style: "max-width: 1200px;" }
   %strong Small Heading
 
   %p some stuff
 
   %p some more stuff
+
+  %p
+    Please read this interesting
+    = link_to "link", themes_dashboard_test_url
+    about Slice.
+
+  %ul
+    %li= link_to "Dashboard test", themes_dashboard_test_url
+    %li= link_to "Menu test", themes_menu_test_url
+    %li= link_to "Transition test", themes_transition_test_url
+

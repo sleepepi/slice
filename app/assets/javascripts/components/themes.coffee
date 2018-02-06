@@ -24,6 +24,10 @@
 
 @themesReady = ->
   if $("[data-object~=random-theme]").length > 0
-    timeout = setInterval( ->
+    interval = setInterval( ->
       randomTheme()
     , 1000 * 1) # In one second
+    removeInterval = ->
+      clearInterval(interval)
+      $(document).off("turbolinks:load", removeInterval)
+    $(document).on("turbolinks:load", removeInterval)

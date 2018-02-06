@@ -7,9 +7,10 @@ class ThemesController < ApplicationController
     render layout: "layouts/full_page"
   end
 
-  # # GET /themes/menu-test
-  # def menu_test
-  # end
+  # GET /themes/menu-test
+  def menu_test
+    render layout: "layouts/full_page_sidebar"
+  end
 
   # # GET /themes/transition-test
   # def transition_test

@@ -1,0 +1,70 @@
+// This is for %ul elements
+.sidebar-menu {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 10px 0;
+
+  li {
+    display: block;
+    position: relative;
+
+    a {
+      border-right: 2px solid transparent;
+      // border-radius: $border-radius 0 0 $border-radius;
+      display: block;
+      overflow: hidden;
+      padding: 7px 15px;
+      position: relative;
+      text-overflow: ellipsis;
+    }
+
+    .active,
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    &.sidebar-menu-header {
+      font-size: 85%;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-variant: small-caps;
+    }
+
+    // Add a margin to the top of a menu header if it has other menu items
+    // preceding it.
+    + .sidebar-menu-header {
+      margin-top: map-get($spacers, 4) // $spacer * 1.5;
+    }
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .sidebar-menu {
+      background-color: map-get($theme, brand-black);
+      color: map-get($theme, brand-white);
+
+      .active,
+      a:hover,
+      a:focus {
+        $sidebar-link-active-bg: map-get($theme, p500);
+        @if map-get($theme, sidebar-link-active-bg) {
+          $sidebar-link-active-bg: map-get($theme, sidebar-link-active-bg);
+        }
+        $sidebar-link-active-border: map-get($theme, p200);
+        @if map-get($theme, sidebar-link-active-border) {
+          $sidebar-link-active-border: map-get($theme, sidebar-link-active-border);
+        }
+
+        background-color: $sidebar-link-active-bg;
+        border-color: $sidebar-link-active-border;
+        color: map-get($theme, brand-white);
+        text-decoration: none;
+      }
+    }
+  }
+}

@@ -17,8 +17,17 @@
 
 @each $name, $theme in $themes {
   .footer-#{$name} {
-    background-color: map-get($theme, footer-bg);
-    color: map-get($theme, footer-color);
+    $footer-bg: $p100-grey;
+    @if map-get($theme, footer-bg) {
+      $footer-bg: map-get($theme, footer-bg);
+    }
+    $footer-color: $p900-grey;
+    @if map-get($theme, footer-color) {
+      $footer-color: map-get($theme, footer-color);
+    }
+
+    background-color: $footer-bg;
+    color: $footer-color;
 
     a {
       color: map-get($theme, footer-color) !important;
