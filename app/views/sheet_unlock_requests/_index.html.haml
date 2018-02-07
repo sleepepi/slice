@@ -10,7 +10,7 @@
               = sheet_unlock_request.user.name
               at
               = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
-            = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-danger-inverse'
+            = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-outline-danger'
             = link_to 'Close', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requested' }, class: 'btn btn-sm btn-light'
   - else
     #sheet_unlock_request{ style: 'display:none' }
@@ -28,5 +28,5 @@
             = sheet_unlock_request.user.name
             at
             = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
-          = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-danger-inverse'
+          = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-outline-danger'
           = link_to 'Close', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_requests' }, class: 'btn btn-sm btn-light'

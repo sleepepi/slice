@@ -6,6 +6,6 @@ Slice::THEMES = [
   ["Love", "love"],
   ["Royal", "royal"],
   ["Spring", "spring"],
-  ["Fall", "fall"],
+  # ["Fall", "fall"],
   ["Winter", "winter"]
 ]

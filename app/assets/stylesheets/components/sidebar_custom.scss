@@ -40,6 +40,19 @@
       margin-top: map-get($spacers, 4) // $spacer * 1.5;
     }
   }
+
+  &.sidebar-menu-root {
+    padding-top: 0;
+
+    li {
+      a {
+        font-size: 1.25rem;
+        font-weight: 300;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    }
+  }
 }
 
 @each $name, $theme in $themes {

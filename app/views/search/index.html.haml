@@ -1,32 +1,26 @@
-- @title = [params[:search], 'Search'].reject(&:blank?).join(' - ')
-- @menu_title = ['Search', params[:search]].reject(&:blank?).join(' ')
+- @title = [params[:search], "Search"].reject(&:blank?).join(" - ")
+- @menu_title = ["Search", params[:search]].reject(&:blank?).join(" ")
 
 - content_for :header do
-  .background-gradient
   .header-container
     .container
       %h1.page-heading
         Search
         - if params[:search].present?
           %small
-            %code{ data: { object: 'show-search-bar' }, style: 'cursor: pointer;' }= params[:search]
-
-.body-attachment
-  .container.attachment-container
-    .background-search.hidden-xs.hidden-sm
-      %i.fa.fa-search
+            %code{ data: { object: "show-search-bar" }, style: "cursor: pointer;" }= params[:search]
 
 - if @objects.size == 0
   .jumbotron
     %p.text-center No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
 - else
   .row
-    - [['Subjects', @subjects], ['Projects', @projects], ['Designs', @designs], ['Variables', @variables]].each do |name, scope|
+    - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|
       - if scope.size > 0
         .col-md-3
           .download-container
             %h3= name
             - scope.each do |item|
-              - link = item.respond_to?('project') ? [item.project, item] : item
-              .overflow-hidden{ title: "#{item.project.name if item.respond_to?('project')}", style: 'width: 100%', rel: 'tooltip', data: { placement: 'right', container: 'body' } }
+              - link = item.respond_to?("project") ? [item.project, item] : item
+              .overflow-hidden{ title: "#{item.project.name if item.respond_to?("project")}", style: "width: 100%", rel: "tooltip", data: { placement: "right", container: "body" } }
                 = link_to item.name, link

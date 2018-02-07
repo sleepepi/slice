@@ -1,12 +1,19 @@
 .chart-container {
-  background-color: $dashboard-bg;
-  border-radius: 3px;
-  box-shadow: 0 30px 60px $standard-shadow-color;
-  color: $body-color;
-  margin-bottom: 40px;
+  border-radius: $border-radius;
+  margin-bottom: $spacer * 1.5;
   padding: 5px 0 0 0;
 
   @include media-breakpoint-up(sm) {
     padding: 10px 5px 0;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .chart-container {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
+    }
   }
 }

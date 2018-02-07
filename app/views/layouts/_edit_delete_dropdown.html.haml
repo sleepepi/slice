@@ -1,16 +1,15 @@
 .dropdown
   = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-    Actions
+    .d-inline-block.d-sm-none
+      %i.fa.fa-cog
+    .d-none.d-sm-inline-block Actions
     %strong.caret
 
-  %ul.dropdown-menu.dropdown-menu-right
-    %li
-      = link_to edit_url do
-        %i.fa.fa-pencil
-        Edit
-    %li.divider{ role: "separator" }
-    %li
-      = link_to delete_url, method: :delete, data: { confirm: delete_confirmation } do
-        .text-danger
-          %i.fa.fa-trash
-          Delete
+  .dropdown-menu.dropdown-menu-right
+    = link_to edit_url, class: "dropdown-item" do
+      %i.fa.fa-pencil
+      Edit
+    .dropdown-divider
+    = link_to delete_url, method: :delete, data: { confirm: delete_confirmation }, class: "dropdown-item text-danger" do
+      %i.fa.fa-trash
+      Delete

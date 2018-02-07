@@ -19,7 +19,7 @@
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
       position: sticky;
-      top: $header-height;
+      top: 0;
       z-index: $zindex-sticky;
     }
   }

@@ -11,3 +11,36 @@
     background-size: 60px;
   }
 }
+
+// TODO: Put back in.
+// .flower-stack {
+//   height: 1em;
+//   line-height: 1em;
+//   width: 1em;
+
+//   .fa-circle {
+//     color: #c2185b; // Pink $p700;
+//     font-size: .9em;
+//   }
+
+//   .fa-sun-o {
+//     color: #f48fb1; // Pink $p200;
+//   }
+
+//   .fa-pagelines {
+//     color: #4caf50; // Green $p500;
+//     font-size: 1.3em;
+//     left: -6px;
+//     top: 10px;
+//     transform: rotate(30deg);
+//   }
+// }
+
+// @keyframes flow-spin {
+//   from { transform: rotate(0deg); }
+//   to { transform: rotate(359deg); }
+// }
+
+// .flower-spin {
+//   animation: flow-spin 3s linear infinite;
+// }

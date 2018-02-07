@@ -19,7 +19,7 @@
   @include scale-images;
 
   background-color: $body-bg;
-  border-radius: 3px;
+  border-radius: $border-radius;
   box-shadow: 0 30px 60px $standard-shadow-color;
   color: $body-color;
   font-size: $font-size-base;

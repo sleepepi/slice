@@ -1,0 +1,4 @@
+@function theme-color($theme, $color, $default_color: null) {
+  $theme-color: map-get($theme, $color);
+  @return if($theme-color, $theme-color, $default_color);
+}

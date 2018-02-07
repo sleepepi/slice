@@ -45,7 +45,6 @@ ratings:
 # exclude_paths key.
 
 exclude_paths:
-- app/assets/fonts/**/*
 - app/assets/images/**/*
 - app/assets/javascripts/external/**/*
 - bin/**/*

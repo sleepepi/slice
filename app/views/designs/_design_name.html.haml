@@ -1,6 +1,6 @@
 .design-header
   .float-right.design-preview-hide
-    = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: "btn btn-sm btn-cutout btn-shadow" do
+    = link_to edit_project_design_path(@project, @design), method: :get, remote: true, class: "btn btn-sm btn-outline-dark btn-shadow" do
       %i.fa.fa-pencil
       .d-none.d-sm-inline Edit
   = @design.name

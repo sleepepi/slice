@@ -1,11 +1,11 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     @if map-get($theme, link-color) {
-      a {
+      a:not(.btn) {
         color: map-get($theme, link-color);
       }
     } @else {
-      a {
+      a:not(.btn) {
         color: map-get($theme, primary);
       }
     }

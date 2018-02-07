@@ -10,16 +10,6 @@
     %p= text_field_tag "survey_url", survey_url, class: "form-control"
     %p= link_to "Go Back to Survey", survey_url, class: "btn btn-primary"
 
-.background-gradient
-
-.body-attachment
-  .container.attachment-container
-    .landing-cog
-      %i.fa.fa-cog
-    .landing-cog2
-      %i.fa.fa-cog
-    = render "themes/lower_left_icon"
-
 %h1.docs-heading
   %strong Interested in creating your own survey?
 
@@ -32,10 +22,6 @@
   .jumbotron{ style: "background-color: transparent" }
     .text-center
       = link_to "Create an account today", new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow"
-
-  %div{ style: "padding: 19px 29px 29px; margin: 40px auto 20px;" }
-    = image_tag "slc_designer.png", style: "width:100%;"
-
 
 .docs-learn-more
   Learn more about

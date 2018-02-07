@@ -20,5 +20,5 @@
         = render 'filters/variable_options'
 .modal-footer
   = button_tag 'Update Filter', data: { object: 'update-filter', variable_id: params[:variable_id] }, class: 'btn btn-primary'
-  = button_tag 'Remove', data: { object: 'remove-filter', target: "#variable_#{params[:variable_id]}" }, class: 'btn btn-danger-inverse'
+  = button_tag 'Remove', data: { object: 'remove-filter', target: "#variable_#{params[:variable_id]}" }, class: 'btn btn-outline-danger'
   %button.btn.btn-light{ type: 'button', data: { dismiss: 'modal' } } Cancel

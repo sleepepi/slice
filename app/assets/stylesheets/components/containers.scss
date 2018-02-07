@@ -1,12 +1,14 @@
-// Defines containers that specify margin and padding for layout elements
+// Defines containers that specify margin and padding for layout elements.
 
 .wide-container {
   width: 100%;
+  max-width: none;
 }
 
+
+// TODO: Remove download-container.
 .download-container {
-  background-color: $body-bg;
-  border: 1px solid $gray-lighter;
+  border: 1px solid transparent;
   border-radius: 4px;
   margin: 0 0 20px;
   padding: 19px;
@@ -18,8 +20,7 @@
 }
 
 .download-container-after {
-  background-color: $body-bg;
-  border: 1px solid $dropdown-fallback-border;
+  border: 1px solid transparent;
   border-radius: 4px 0;
   font-size: 12px;
   font-weight: 300;
@@ -27,4 +28,18 @@
   padding: 3px 7px;
   position: absolute;
   top: -1px;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .download-container {
+      background-color: map-get($theme, body-bg);
+      border-color: theme-color($theme, download-container-border, $p200-grey);
+    }
+
+    .download-container-after {
+      background-color: map-get($theme, body-bg);
+      border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
+    }
+  }
 }

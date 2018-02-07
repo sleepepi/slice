@@ -13,7 +13,7 @@
 .search-container {
   @include remove-last-child-bottom-margin;
   background-color: $jumbotron-bg;
-  border-radius: 3px;
+  border-radius: $border-radius;
   box-shadow: 0 0 20px $standard-shadow-color;
   color: $body-color;
   left: 0;

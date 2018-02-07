@@ -2,95 +2,37 @@
   transition: all .25s ease-out;
 }
 
-.btn-shadow {
-  box-shadow: 0 5px 15px $standard-shadow-color;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .btn-shadow {
+      box-shadow: 0 0 15px map-get($theme, shadow-color);
 
-  &:hover,
-  &:focus,
-  &:active,
-  &.active,
-  &.disabled,
-  &[disabled] {
-    box-shadow: 0 5px 8px $standard-shadow-hover-color;
-  }
-}
-
-.btn-accent {
-  background-color: $a200;
-  border: 1px solid $a400;
-  color: $a200-text;
-
-  &:hover,
-  &:focus,
-  &:active,
-  &.active,
-  &.disabled,
-  &[disabled] {
-    background-color: $a400;
-    border: 1px solid $a700;
-    color: $a200-text;
-  }
-}
-
-.btn-success-inverse {
-  backface-visibility: hidden; // Fix for transition flickering
-  background-color: $btn-default-bg;
-  border-color: $btn-default-border;
-  color: $btn-default-color;
-  transition: all .4s ease; // Fade to color for Chrome and Safari
-
-  &:hover,
-  &:focus,
-  &.focus,
-  &:active,
-  &.active,
-  .open > &.dropdown-toggle {
-    background-color: darken($brand-accent, 10%);
-    border-color: darken($brand-accent, 12%);
-    color: $brand-accent-text;
-
-    .btn-text-emphasis {
-      color: $success-emphasis-color;
+      &:hover,
+      &:focus,
+      &:active,
+      &.active,
+      &.disabled,
+      &[disabled] {
+        box-shadow: 0 0 8px map-get($theme, shadow-color);
+      }
     }
   }
-
-  .btn-text-emphasis {
-    backface-visibility: hidden; // Fix for transition flickering
-    color: $a700;
-    transition: all .4s ease; // Fade to color for Chrome and Safari
-  }
 }
 
-.btn-danger-inverse {
-  background-color: $body-bg;
-  border: 1px solid $btn-danger-border;
-  color: $btn-danger-bg;
-}
+// TODO: Add or replace btn-accent
+// .btn-accent {
+//   background-color: $a200;
+//   border: 1px solid $a400;
+//   color: $a200-text;
 
-.btn-danger-inverse:hover,
-.btn-danger-inverse:focus,
-.btn-danger-inverse:active,
-.btn-danger-inverse.active,
-.btn-danger-inverse.disabled,
-.btn-danger-inverse[disabled] {
-  background-color: $btn-danger-bg;
-  border: 1px solid $btn-danger-border;
-  color: $body-bg;
-}
-
-.btn-cutout {
-  background-color: $gray-lighter;
-  border: 1px solid $gray-light;
-  color: $gray;
-}
-
-.btn-cutout:hover,
-.btn-cutout:focus,
-.btn-cutout:active,
-.btn-cutout.active,
-.btn-cutout.disabled,
-.btn-cutout[disabled] {
-  background-color: $a200;
-  border: 1px solid $a400;
-  color: $a200-text;
-}
+//   &:hover,
+//   &:focus,
+//   &:active,
+//   &.active,
+//   &.disabled,
+//   &[disabled] {
+//     background-color: $a400;
+//     border: 1px solid $a700;
+//     color: $a200-text;
+//   }
+// }

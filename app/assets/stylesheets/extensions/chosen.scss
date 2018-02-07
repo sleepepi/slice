@@ -268,7 +268,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
         background-repeat: repeat-x;
         background-size: 100% 19px;
         border: 1px solid $dropdown-link-active-color;
-        border-radius: 3px;
+        border-radius: $border-radius;
         // box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(#000,.05);
         color: $dropdown-link-color;
         cursor: default;

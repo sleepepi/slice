@@ -31,4 +31,11 @@ $default: (
 
   box-shadow-color: rgba(0, 0, 0, .15),
   shadow-color: rgba(0, 0, 0, .3),
+
+  blockquote-border: null, // $p200-grey
+  blockquote-color: null, // $p500-grey
+
+  calendar-border: null, // $p200-grey,
+  calendar-today-bg: null, // $p100-grey,
+  calendar-window-bg: null, // $p400-COLOR,
 )

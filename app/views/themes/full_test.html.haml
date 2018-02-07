@@ -4,7 +4,7 @@
 
 - content_for :container_class, "container-fluid"
 
-.page-box.last-box.d-flex.align-items-center.theme-bg{ class: @body_alt }
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
   .container
     .text-center
       .page-heading{ style: "font-size: 2rem; font-weight: normal; letter-spacing: normal; text-shadow: none; font-variant: normal;" }= @menu.capitalize

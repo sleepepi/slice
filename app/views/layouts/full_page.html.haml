@@ -17,12 +17,12 @@
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page.theme-bg{ class: @body ? "theme-#{@body}-bg" : yield(:body_class) }
+  %body#top.full-page.theme-bg{ class: @body ? "theme-#{@body}-bg" : nil }
     = render "layouts/features/flash_bar"
     = render "layouts/features/sound_enabled" # Slice extra
     = render "layouts/features/timeout" # Slice extra
     = render "layouts/features/notifications" # Slice extra
-    #top-menu.top-menu= render "layouts/menu", container: yield(:container_class), menu: @menu ? "menu-#{@menu}" : nil
+    #top-menu.top-menu= render "layouts/menu", container: yield(:container_class), menu: @menu ? "menu-#{@menu}" : nil, hide_logo: false
     = yield :header
     = yield
     = yield :footer

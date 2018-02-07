@@ -17,20 +17,11 @@
 
 @each $name, $theme in $themes {
   .footer-#{$name} {
-    $footer-bg: $p100-grey;
-    @if map-get($theme, footer-bg) {
-      $footer-bg: map-get($theme, footer-bg);
-    }
-    $footer-color: $p900-grey;
-    @if map-get($theme, footer-color) {
-      $footer-color: map-get($theme, footer-color);
-    }
-
-    background-color: $footer-bg;
-    color: $footer-color;
+    background-color: theme-color($theme, footer-bg, $p100-grey);
+    color: theme-color($theme, footer-color, $p900-grey);
 
     a {
-      color: map-get($theme, footer-color) !important;
+      color: theme-color($theme, footer-color, $p900-grey) !important;
     }
   }
 }

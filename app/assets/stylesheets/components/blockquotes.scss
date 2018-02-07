@@ -1,8 +1,25 @@
 blockquote {
   border: 0;
-  border-left: 2px solid $blockquote-border-color;
-  color: $blockquote-text-color;
+  border-left: 2px solid transparent;
   font-size: $font-size-base;
   margin: 0 0 11px;
   padding: 0 10px;
+}
+
+@each $name, $theme in $themes {
+  $blockquote-border: $p200-grey;
+  @if map-get($theme, blockquote-border) {
+    $blockquote-border: map-get($theme, blockquote-border);
+  }
+  $blockquote-color: $p500-grey;
+  @if map-get($theme, blockquote-color) {
+    $blockquote-color: map-get($theme, blockquote-color);
+  }
+
+  .theme-#{$name}-bg {
+    blockquote {
+      border-color: $blockquote-border;
+      color: $blockquote-color;
+    }
+  }
 }

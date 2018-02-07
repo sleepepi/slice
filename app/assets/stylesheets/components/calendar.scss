@@ -1,18 +1,18 @@
+.calendar {
+  border-radius: $border-radius $border-radius 0 0;
+}
+
 .calendar-week {
   display: flex;
   min-height: 100px;
 
   .calendar-day {
-    box-shadow: -1px -1px $calendar-border-color, inset -1px -1px 0 0 $calendar-border-color;
     flex: 1;
     flex-grow: 1;
     font-size: 14px;
     overflow-x: hidden;
     position: relative;
-
-    &.today {
-      background-color: $calendar-today-bg;
-    }
+    padding-left: $spacer * .25;
 
     &.saturday,
     &.sunday {
@@ -24,8 +24,6 @@
     }
 
     .calendar-window {
-      background-color: $calender-window-bg;
-      color: $brand-white;
       left: 0;
       opacity: 0;
       position: absolute;
@@ -52,10 +50,63 @@
       box-shadow: none;
       font-weight: bold;
       text-align: center;
+
+      &.sunday, &.monday {
+        border-radius: $border-radius 0 0 0;
+      }
+
+      &.saturday, &.friday {
+        border-radius: 0 $border-radius 0 0;
+      }
+
+      @include media-breakpoint-up(sm) {
+        &.monday {
+          border-radius: 0;
+        }
+
+        &.friday {
+          border-radius: 0;
+        }
+      }
     }
   }
 }
 
 .calendar-week-header {
   display: flex;
+}
+
+@each $name, $theme in $themes {
+  $calendar-border: $p200-grey;
+  @if map-get($theme, calendar-border) {
+    $calendar-border: map-get($theme, calendar-border);
+  }
+  $calendar-today-bg: $p200-grey;
+  @if map-get($theme, calendar-today-bg) {
+    $calendar-today-bg: map-get($theme, calendar-today-bg);
+  }
+  $calendar-window-bg: map-get($theme, p400);
+  @if map-get($theme, calendar-window-bg) {
+    $calendar-window-bg: map-get($theme, calendar-window-bg);
+  }
+  .theme-#{$name}-bg {
+    .calendar {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+    }
+    .calendar-week {
+      .calendar-day {
+        box-shadow: -1px -1px $calendar-border, inset -1px -1px 0 0 $calendar-border;
+
+        &.today {
+         background-color: $calendar-today-bg;
+        }
+
+        .calendar-window {
+          background-color: $calendar-window-bg;
+          color: map-get($theme, brand-white);
+        }
+      }
+    }
+  }
 }

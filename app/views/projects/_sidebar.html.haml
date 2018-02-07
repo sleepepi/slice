@@ -1,12 +1,14 @@
 .col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
   .sidebar
     #sidebar-nav-wrapper.sidebar-nav-wrapper.collapse
-      .pt-3.mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+      .mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
         = render "layouts/side_nav_root"
 
         %ul.sidebar-menu
           %li.sidebar-menu-header
             = @project.name
+          %li
+            = link_to "Dashboard", @project
           %li
             = link_to project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil) do
               Subjects

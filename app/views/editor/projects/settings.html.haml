@@ -189,7 +189,7 @@
         Click here to transfer the project ownership to another user. This will
         make you an editor on the project.
       %div
-        = link_to "Transfer Ownership", "#", data: { object: "modal-show", target: "#project_#{@project.id}_transfer_modal" }, class: "btn btn-danger-inverse"
+        = link_to "Transfer Ownership", "#", data: { object: "modal-show", target: "#project_#{@project.id}_transfer_modal" }, class: "btn btn-outline-danger"
 
   .modal{ id: "project_#{@project.id}_transfer_modal" }
     .modal-dialog.modal-lg
@@ -208,7 +208,7 @@
                 = select_tag :user_id, options_for_select([["---", nil]] + project_users.collect{|u| [u.reverse_name, u.id]}), class: "form-control"
         .modal-footer
           %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Close
-          = button_tag "Transfer Ownership", data: { object: "submit", target: "#transfer_project_form" }, class: "btn btn-danger-inverse"
+          = button_tag "Transfer Ownership", data: { object: "submit", target: "#transfer_project_form" }, class: "btn btn-outline-danger"
 
 - if @project.owner?(current_user)
   .panel.panel-danger

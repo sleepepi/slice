@@ -1,5 +1,2 @@
-%ul.sidebar-menu
-  %li
-    = link_to dashboard_path do
-      %i.fa.fa-caret-left{ aria: { hidden: "true" } }
-      = ENV["website_name"]
+%ul.sidebar-menu.sidebar-menu-root
+  %li= link_to ENV["website_name"], dashboard_path, class: "text-white"

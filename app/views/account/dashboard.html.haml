@@ -12,10 +12,6 @@
           = link_to "New Project", new_project_path, class: "btn btn-accent"
           = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-light"
 
-.body-attachment
-  .container.attachment-container
-    = render "themes/upper_right_icon"
-
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites
   %div{ data: { object: "projects-sortable", page: [params[:page].to_i, 1].max, category: "favored" } }

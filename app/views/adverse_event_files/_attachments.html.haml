@@ -36,4 +36,4 @@
           %td.d-none.d-md-table-cell.nowrap
             = format_date file.created_at
           %td
-            = link_to "Delete", [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: "btn btn-danger-inverse btn-sm"
+            = link_to "Delete", [@project, @adverse_event, file], method: :delete, data: { confirm: "Delete #{file.name}?" }, class: "btn btn-outline-danger btn-sm"

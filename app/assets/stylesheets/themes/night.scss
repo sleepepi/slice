@@ -13,7 +13,7 @@ $night: (
   p800: $p800-black,
   p900: $p900-black,
 
-  primary: $p400-indigo,
+  primary: $p400-blue,
 
   menu-bg: $p900-black,
   menu-color: null, // brand-white
@@ -34,4 +34,10 @@ $night: (
 
   box-shadow-color: rgba($p300-grey, .15),
   shadow-color: rgba($p300-grey, .3),
+
+  blockquote-border: $p500-grey,
+  calendar-border: $p900-grey,
+  calendar-today-bg: $p900-blue,
+  calendar-window-bg: $p900-blue,
+  dropdown-fallback-border: $p800-grey, // TODO: Remove dropdown-fallback-border
 )

@@ -1,4 +1,8 @@
-= link_to ENV["website_name"], root_path, class: "navbar-brand navbar-hide-scrolled", style: "font-weight: 300;"
+- if hide_logo
+  = link_to ENV["website_name"], root_path, class: "navbar-brand navbar-hide-scrolled d-inline-block d-md-none", style: "font-weight: 300;"
+  .d-none.d-md-inline-block.d-lg-none.navbar-brand.navbar-hide-scrolled &nbsp;
+- else
+  = link_to ENV["website_name"], root_path, class: "navbar-brand navbar-hide-scrolled", style: "font-weight: 300;"
 
 - if @menu_title || @title
   = link_to "#top", data: { object: "remove-collapse-in scroll-anchor", target: ".navbar-full-menu" }, class: "navbar-brand navbar-show-scrolled navbar-brand-small-caps" do
