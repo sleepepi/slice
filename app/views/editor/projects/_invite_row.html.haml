@@ -7,13 +7,13 @@
   .col-sm-2.col-buffer-visible-xs{ style: '' }
     = select_tag 'invites[][site_id]', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
 
-  .col-xs-6.col-sm-2.col-buffer-visible-xs{ style: '' }
+  .col-6.col-sm-2.col-buffer-visible-xs{ style: '' }
     %label.btn.btn-link{ style: 'text-decoration:none' }
       = check_box_tag 'invites[][editor]', '1', true
       Editor
 
   - if @project.unblinded?(current_user)
-    .col-xs-6.col-sm-2{ style: "#{'display:none' unless @project.blinding_enabled?}" }
+    .col-6.col-sm-2{ style: "#{'display:none' unless @project.blinding_enabled?}" }
       %label.btn.btn-link{ style: 'text-decoration:none' }
         = check_box_tag 'invites[][unblinded]', '1', true
         Unblinded

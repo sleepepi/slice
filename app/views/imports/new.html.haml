@@ -64,18 +64,18 @@
           .col-md-10
             .row
               - if variable
-                .col-xs-6
+                .col-6
                   = link_to variable.display_name, [variable.project, variable], target: '_blank'
                   of type
                   %strong= variable.variable_type
                   won't be recreated.
                   = hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name
               - else
-                .col-xs-3
+                .col-3
                   = text_field_tag "variables[#{hash[:name]}][display_name]", display_name, class: 'form-control'
-                .col-xs-3
+                .col-3
                   = select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type), class: 'form-control'
-              .col-xs-6
+              .col-6
                 %label.checkbox-inline.checkbox-radio-outline{ class: "#{'selected' if ignore}" }
                   = check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore
                   do not add to design

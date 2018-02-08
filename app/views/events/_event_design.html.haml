@@ -20,24 +20,24 @@
 
     %div{ style: event_design.conditionally_required? ? "" : "display: none", id: "design_#{@position}_conditional_requirements" }
       .row.col-buffer
-        .col-xs-6
+        .col-6
           .text-center
             %small.text-muted{ style: "font-variant: small-caps;" } Event
           = select_tag "event[design_hashes][][conditional_event_id]", options_for_select(@project.events.order(:position).pluck(:name, :id), event_design.conditional_event_id), include_blank: true, class: "form-control chosen-select"
-        .col-xs-6
+        .col-6
           .text-center
             %small.text-muted{ style: "font-variant: small-caps;" } Design
           = select_tag "event[design_hashes][][conditional_design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.conditional_design_id), include_blank: true, class: "form-control chosen-select"
       .row.col-buffer
-        .col-xs-5
+        .col-5
           .text-center
             %small.text-muted{ style: "font-variant: small-caps;" } Variable
           = select_tag "event[design_hashes][][conditional_variable_id]", options_for_select(@project.variables.order(:name).pluck(:name, :id), event_design.conditional_variable_id), include_blank: true, class: "form-control chosen-select"
-        .col-xs-2
+        .col-2
           .text-center
             %small.text-muted{ style: "font-variant: small-caps;" } &nbsp;
           = select_tag "event[design_hashes][][conditional_operator]", options_for_select(EventDesign::OPERATORS, event_design.conditional_operator), class: "form-control", style: "min-width: 46px;"
-        .col-xs-5
+        .col-5
           .text-center
             %small.text-muted{ style: "font-variant: small-caps;" } Value
           = text_field_tag "event[design_hashes][][conditional_value]", event_design.conditional_value, class: "form-control"

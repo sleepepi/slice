@@ -2,16 +2,16 @@
 
 %div{ id: "task_#{position}", style: "line-height: 30px; padding-top: 5px;" }
   .row
-    .col-xs-4
+    .col-4
       = text_area_tag "randomization_scheme[task_hashes][][description]", (randomization_scheme_task ? randomization_scheme_task.description : nil), class: "form-control", placeholder: "Task Description", rows: 5
-    .col-xs-2
+    .col-2
       Offset
       = text_field_tag "randomization_scheme[task_hashes][][offset]", (randomization_scheme_task ? randomization_scheme_task.offset : nil), class: "form-control", placeholder: "0"
       = select_tag "randomization_scheme[task_hashes][][offset_units]", options_for_select(["days", "weeks", "months", "years"], (randomization_scheme_task ? randomization_scheme_task.offset_units : nil)), class: "form-control"
-    .col-xs-2
+    .col-2
       Window
       = text_field_tag "randomization_scheme[task_hashes][][window]", (randomization_scheme_task ? randomization_scheme_task.window : nil), class: "form-control", placeholder: "0"
       = select_tag "randomization_scheme[task_hashes][][window_units]", options_for_select(["days", "weeks"], (randomization_scheme_task ? randomization_scheme_task.window_units : nil)), class: "form-control"
-    .col-xs-2
+    .col-2
       %i.fa.fa-arrows.item-handle
       = link_to "Remove", "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove", target: "#task_#{position}" }, tabindex: "-1"

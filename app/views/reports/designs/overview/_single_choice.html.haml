@@ -11,9 +11,9 @@
 - unless no_responses
   .text-center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'pie', values: counts } }
 .row.col-buffer
-  .col-xs-6.text-right
+  .col-6.text-right
     %strong N
-  .col-xs-6
+  .col-6
     %span &nbsp;
     = filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
     - unless no_responses
@@ -25,9 +25,9 @@
   - if !domain_option.missing_code? && (count > 0 || no_responses)
     - count_index += 1
     .row.col-buffer
-      .col-xs-6.text-right{ class: domain_option.missing_code? ? 'text-muted' : nil }
+      .col-6.text-right{ class: domain_option.missing_code? ? 'text-muted' : nil }
         %strong= domain_option.value_and_name
-      .col-xs-6
+      .col-6
         - unless domain_option.missing_code?
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
         = filter_link(count == 0 ? nil : count, @design, variable, domain_option.value, event_id: event_id)
@@ -36,13 +36,13 @@
           %small.text-muted= "(#{percent}%)"
 
 .row.col-buffer
-  .col-xs-6.text-right
+  .col-6.text-right
     %strong.text-muted Blank
-  .col-xs-6
+  .col-6
     = filter_link Statistics.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
 
 .row.col-buffer
-  .col-xs-6.text-right
+  .col-6.text-right
     %strong Total
-  .col-xs-6
+  .col-6
     = filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

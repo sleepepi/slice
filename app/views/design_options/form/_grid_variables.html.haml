@@ -3,6 +3,6 @@
   - @design_option.variable.child_grid_variables.each do |child_grid_variable|
     = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable
 .row{ style: "margin-top:20px" }
-  .col-xs-1
-  .col-xs-11
+  .col-1
+  .col-11
     = link_to "Add Question", "#", id: "add_grid_variable", class: "btn btn-light btn-sm", data: { project_id: @project.to_param }

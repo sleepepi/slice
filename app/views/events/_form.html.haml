@@ -26,15 +26,15 @@
 
   - if false
     .row
-      .col-xs-1
-      .col-xs-3.text-center
+      .col-1
+      .col-3.text-center
         %small.text-muted{ style: "font-variant: small-caps;" } Design
       - if @project.handoffs_enabled?
-        .col-xs-3.text-center
+        .col-3.text-center
           %small.text-muted{ style: "font-variant: small-caps;" } Handoff
-      .col-xs-3.text-center
+      .col-3.text-center
         %small.text-muted{ style: "font-variant: small-caps;" } Requirement
-      .col-xs-2
+      .col-2
 
   .form-group
     = f.label :description, nil, class: "col-md-2 control-label"

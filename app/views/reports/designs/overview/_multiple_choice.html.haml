@@ -15,9 +15,9 @@
     - count_index += 1
 
     .row.col-buffer
-      .col-xs-6.text-right
+      .col-6.text-right
         %strong= domain_option.value_and_name
-      .col-xs-6
+      .col-6
         - unless domain_option.missing_code?
           %span{ style: "background-color: #{@colors[count_index % @colors.size]}" } &nbsp;
         = filter_link(count == 0 ? nil : count, @design, variable, domain_option.value, event_id: event_id)
