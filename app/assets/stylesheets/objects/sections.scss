@@ -5,8 +5,7 @@
 }
 
 .design-header {
-  border-bottom: 1px solid $body-color;
-  color: $body-color;
+  border-bottom: 1px solid transparent;
   display: block;
   font-size: 24px;
   font-weight: 600;
@@ -16,8 +15,7 @@
 }
 
 .section-header {
-  border-bottom: 1px solid $body-color;
-  color: $body-color;
+  border-bottom: 1px solid transparent;
   display: block;
   font-size: 20px;
   font-weight: 600;
@@ -32,8 +30,7 @@
 }
 
 .sub-section-header {
-  border-bottom: 1px solid $body-color;
-  color: $body-color;
+  border-bottom: 1px solid transparent;
   display: block;
   font-size: 18px;
   font-weight: 600;
@@ -70,4 +67,15 @@
   margin-bottom: 22px;
   border: 1px solid transparent;
   border-radius: 4px;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .design-header,
+    .section-header,
+    .sub-section-header {
+      border-color: map-get($theme, body-color);
+      color: map-get($theme, body-color);
+    }
+  }
 }

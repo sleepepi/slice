@@ -1,15 +1,7 @@
-.shadow {
-  box-shadow: 0 7px 15px $standard-shadow-hover-color;
-}
-
-.shadow-sm {
-  box-shadow: 0 2px 20px $standard-shadow-hover-color;
-}
-
-.shadow-xs {
-  box-shadow: 0 0 5px $standard-shadow-hover-color;
-}
-
-.box-shadow {
-  box-shadow: 0 1px 5px $box-shadow-color;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .box-shadow {
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+    }
+  }
 }

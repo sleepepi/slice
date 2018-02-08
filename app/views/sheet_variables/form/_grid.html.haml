@@ -11,7 +11,7 @@
 
 - show_values = true unless defined?(show_values)
 
-%table.table.table-hover.table-grid.table-sticky
+%table.table.table-hover.table-grid.table-sticky.table-borderless.table-striped.table-sm
   %thead
     %tr
       %th
@@ -19,8 +19,8 @@
         %th= child_variable.display_name
       - if variable.multiple_rows?
         %th Actions
-  %tbody{ id: "variable_#{variable.id}_grid_container", data: { object: 'grid-sortable' } }
+  %tbody{ id: "variable_#{variable.id}_grid_container", data: { object: "grid-sortable" } }
     - range.each do |position|
-      = render 'sheet_variables/form/grid_variables', design: design, design_option: design_option, disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids
+      = render "sheet_variables/form/grid_variables", design: design, design_option: design_option, disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids
 
-= link_to 'Add Row', '#', class: 'btn btn-light btn-sm', data: { object: 'grid-row-add', design: design.to_param, design_option_id: (design_option ? design_option.id : nil), variable_id: variable.id, header: show_values ? '1' : '0', handoff: @handoff.to_param }, tabindex: '-1' if variable.multiple_rows?
+= link_to "Add Row", "#", class: "btn btn-light btn-sm", data: { object: "grid-row-add", design: design.to_param, design_option_id: (design_option ? design_option.id : nil), variable_id: variable.id, header: show_values ? "1" : "0", handoff: @handoff.to_param }, tabindex: "-1" if variable.multiple_rows?

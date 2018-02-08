@@ -8,7 +8,7 @@
 
 .jumbotron
   %strong= @adverse_event.user.name
-  %span.label.label-success reported
+  %span.badge.badge-success reported
   an adverse event that occurred on
   = @adverse_event.adverse_event_date.strftime("%a, %-d %b %Y")
   for subject

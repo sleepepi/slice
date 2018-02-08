@@ -21,33 +21,32 @@
   = "<div>".html_safe
   .form-group.sticky-scale-header{ data: { object: "design-option-scale-header", branching_logic: design.branching_logic(design_option) } }
     - domain_options = variable.domain_options_with_user(response, current_user)
-    .col-xs-12
-      %table.table.table-borderless
-        %col{ width: "100px" }
-        - (1..domain_options.count).each do
-          = content_tag :col, nil, width: "#{100 / (domain_options.count + 2)}%"
-        %thead
-          %tr
-            %th{ style: "min-width: 100px;" }
-              &nbsp;
-            - domain_options.each do |domain_option|
-              %th.text-center{ style: "min-width: 57px;" }
-                = domain_option.value_and_name(show_values: show_values)
+    %table.table.table-borderless
+      %col{ width: "100px" }
+      - (1..domain_options.count).each do
+        = content_tag :col, nil, width: "#{100 / (domain_options.count + 2)}%"
+      %thead
+        %tr
+          %th{ style: "min-width: 100px;" }
+            &nbsp;
+          - domain_options.each do |domain_option|
+            %th.text-center{ style: "min-width: 57px;" }
+              = domain_option.value_and_name(show_values: show_values)
 - if variable.uses_scale? && variable.last_scale_variable?(design)
   = "</div>".html_safe
-.form-group{ class: "#{validation_class} #{hidden_class}", data: { object: "design-option-container", requirement: design_option.requirement, required_field: "variables[#{variable.id}]#{"[]" if variable.variable_type == "checkbox"}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
+.form-group.row{ class: "#{validation_class} #{hidden_class}", data: { object: "design-option-container", requirement: design_option.requirement, required_field: "variables[#{variable.id}]#{"[]" if variable.variable_type == "checkbox"}", required_type: variable.variable_type, branching_logic: design.branching_logic(design_option) } }
   - if variable.uses_scale?
     -# Nothing
   - elsif variable.display_layout == "gone"
-    .col-xs-12
+    .col-12
       %label
         = variable.display_name
         = render "design_options/required", design_option: design_option
   - else
-    %label.col-md-3.control-label{ for: "variable_#{variable.id}" }
+    %label.col-md-3.col-form-label{ for: "variable_#{variable.id}" }
       = variable.display_name
       = render "design_options/required", design_option: design_option
-  - col_class = "col-xs-12#{" scale-variable-reset" if variable.uses_scale?}"
+  - col_class = "col-12#{" scale-variable-reset" if variable.uses_scale?}"
   - col_class = "col-md-9" if variable.display_layout != "gone" && !variable.uses_scale?
   %div{ class: col_class }
     .shade-or-blind-background

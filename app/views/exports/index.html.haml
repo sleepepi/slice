@@ -37,27 +37,27 @@
             = export.created_at.strftime("%b %-d, %Y")
         %td.d-none.d-sm-table-cell{ style: "line-height: 26px;" }
           - if export.include_csv_labeled? && export.include_csv_raw?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "CSV Labeled & Raw", container: "body", placement: "top" } } CSVs
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "CSV Labeled & Raw", container: "body", placement: "top" } } CSVs
           - elsif export.include_csv_labeled?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "CSV Labeled", container: "body", placement: "top" } }  CSV
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "CSV Labeled", container: "body", placement: "top" } }  CSV
           - elsif export.include_csv_raw?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "CSV Raw", container: "body", placement: "top" } }  CSV
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "CSV Raw", container: "body", placement: "top" } }  CSV
           - if export.include_pdf?
-            %span.label.label-quiet PDF
+            %span.badge.badge-light PDF
           - if export.include_files?
-            %span.label.label-quiet Files
+            %span.badge.badge-light Files
           - if export.include_data_dictionary?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "Data Dictionary", container: "body", placement: "top" } } DD
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "Data Dictionary", container: "body", placement: "top" } } DD
           - if export.include_sas?
-            %span.label.label-quiet SAS
+            %span.badge.badge-light SAS
           - if export.include_r?
-            %span.label.label-quiet R
+            %span.badge.badge-light R
           - if export.include_xls?
-            %span.label.label-quiet XLS
+            %span.badge.badge-light XLS
           - if export.include_adverse_events?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "Adverse Events", container: "body", placement: "top" } } AEs
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "Adverse Events", container: "body", placement: "top" } } AEs
           - if export.include_randomizations?
-            %span.label.label-quiet{ rel: "tooltip", data: { title: "Randomizations", container: "body", placement: "top" } }
+            %span.badge.badge-light{ rel: "tooltip", data: { title: "Randomizations", container: "body", placement: "top" } }
               %i.fa.fa-random>
           - if export.filters.present?
             - export.filters.split(" ").each do |filter|

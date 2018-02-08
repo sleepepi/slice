@@ -12,10 +12,7 @@
 
 .search-container {
   @include remove-last-child-bottom-margin;
-  background-color: $jumbotron-bg;
   border-radius: $border-radius;
-  box-shadow: 0 0 20px $standard-shadow-color;
-  color: $body-color;
   left: 0;
   margin: 0;
   opacity: 0;
@@ -42,6 +39,16 @@
 
     .btn {
       transition-property: background-color;
+    }
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .search-container {
+      background-color: $jumbotron-bg;
+      box-shadow: 0 0 20px map-get($theme, shadow-color);
+      color: map-get($theme, body-color);
     }
   }
 }

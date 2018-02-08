@@ -39,6 +39,14 @@
     + .sidebar-menu-header {
       margin-top: map-get($spacers, 4) // $spacer * 1.5;
     }
+
+    &.sidebar-menu-header-link {
+      font-size: 85%;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      font-variant: small-caps;
+    }
   }
 
   &.sidebar-menu-root {
@@ -77,6 +85,12 @@
         border-color: $sidebar-link-active-border;
         color: map-get($theme, brand-white);
         text-decoration: none;
+      }
+
+      li {
+        &.sidebar-menu-header-link a {
+          color: map-get($theme, brand-white);
+        }
       }
     }
   }

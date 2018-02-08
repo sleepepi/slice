@@ -1,33 +1,37 @@
 %ul.navbar-nav.mr-auto.display-small-scrolled
-  %li.nav-item.dropdown.d-none.d-lg-block
-    = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
-      About
-    .dropdown-menu.dropdown-menu-custom
-      .dropdown-menu-custom-inner
-        = link_to "About", about_path, class: "dropdown-item"
-        = link_to "Docs", docs_path, class: "dropdown-item"
-        .dropdown-divider
-        = link_to "Questions?", search_path, class: "dropdown-item"
-
-  %li.nav-item.d-lg-none{ class: current_page?(about_path) ? "active" : nil }
-    = link_to about_path, class: "nav-link" do
-      About
-    - if current_page?(about_path)
-      %span.sr-only (current)
-
-  - if current_user && @project&.persisted?
+  - if false
     %li.nav-item.dropdown.d-none.d-lg-block
       = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
-        = @project.name
+        About
       .dropdown-menu.dropdown-menu-custom
         .dropdown-menu-custom-inner
-          = link_to "Overview", @project, class: "dropdown-item"
-          = link_to "Reports", reports_reports_project_path(@project), class: "dropdown-item"
-          - if @project.editable_by?(current_user)
-            .dropdown-divider
-            = link_to "Settings", settings_editor_project_path(@project), class: "dropdown-item"
+          = link_to "About", about_path, class: "dropdown-item"
+          = link_to "Docs", docs_path, class: "dropdown-item"
+          .dropdown-divider
+          = link_to "Questions?", search_path, class: "dropdown-item"
 
-  = render "menu/item", title: "Dashboard", path: dashboard_path
+    %li.nav-item.d-lg-none{ class: current_page?(about_path) ? "active" : nil }
+      = link_to about_path, class: "nav-link" do
+        About
+      - if current_page?(about_path)
+        %span.sr-only (current)
+
+  - if current_user && @project&.persisted?
+    - if true
+      %li.nav-item= link_to @project.name, @project, class: "nav-link"
+    - else
+      %li.nav-item.dropdown.d-none.d-lg-block
+        = link_to "#", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }, class: "nav-link dropdown-toggle" do
+          = @project.name
+        .dropdown-menu.dropdown-menu-custom
+          .dropdown-menu-custom-inner
+            = link_to "Overview", @project, class: "dropdown-item"
+            = link_to "Reports", reports_reports_project_path(@project), class: "dropdown-item"
+            - if @project.editable_by?(current_user)
+              .dropdown-divider
+              = link_to "Settings", settings_editor_project_path(@project), class: "dropdown-item"
+
+  =# render "menu/item", title: "Dashboard", path: dashboard_path
 
 %ul.navbar-nav
   %li.nav-item{ class: current_page?(search_path) ? "active" : nil }

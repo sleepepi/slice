@@ -41,22 +41,22 @@
       %th Type
       %td
         - if @export.include_csv_labeled?
-          %span.label.label-default CSV Labeled
+          %span.badge.badge-default CSV Labeled
         - if @export.include_csv_raw?
-          %span.label.label-default CSV Raw
+          %span.badge.badge-default CSV Raw
         - if @export.include_pdf?
-          %span.label.label-default PDF
+          %span.badge.badge-default PDF
         - if @export.include_files?
-          %span.label.label-default Files
+          %span.badge.badge-default Files
         - if @export.include_data_dictionary?
-          %span.label.label-default Data Dictionary
+          %span.badge.badge-default Data Dictionary
         - if @export.include_sas?
-          %span.label.label-default SAS
+          %span.badge.badge-default SAS
         - if @export.include_r?
-          %span.label.label-default R
+          %span.badge.badge-default R
         - if @export.include_xls?
-          %span.label.label-default XLS
+          %span.badge.badge-default XLS
         - if @export.include_adverse_events?
-          %span.label.label-default Adverse Events
+          %span.badge.badge-default Adverse Events
         - if @export.include_randomizations?
-          %span.label.label-default Randomizations
+          %span.badge.badge-default Randomizations

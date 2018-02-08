@@ -3,31 +3,6 @@
 }
 
 .table {
-  .sort-selected {
-    border-bottom-color: $link-color;
-  }
-
-  .sort-up::after,
-  .sort-down::after {
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    content: '';
-    display: inline-block;
-    height: 0;
-    margin-bottom: 2px;
-    margin-left: 5px;
-    margin-right: -10px;
-    width: 0;
-  }
-
-  .sort-up::after {
-    border-bottom: 4px solid;
-  }
-
-  .sort-down::after {
-    border-top: 4px solid;
-  }
-
   &.table-borderless {
     td,
     th {
@@ -40,37 +15,14 @@
   }
 }
 
-.table-responsive-always {
-  margin-bottom: 15px;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  width: 100%;
-}
-
-.table-transparent {
-  background-color: transparent;
-}
-
-.warning,
-.warning a {
-  color: darken($brand-highlight-text, 10%);
-}
-
 .table-sticky {
   position: relative;
   z-index: 1;
 
   th {
-    background-color: $table-bg;
     position: sticky;
     top: $header-height - 1px;
     z-index: $zindex-sticky;
-  }
-
-  .thead-inverse {
-    th {
-      // background-color: $gray-900;
-    }
   }
 }
 
@@ -78,5 +30,15 @@
   td,
   th {
     vertical-align: middle;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .table-sticky {
+      th {
+        background-color: $table-bg;
+      }
+    }
   }
 }

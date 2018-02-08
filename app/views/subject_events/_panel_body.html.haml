@@ -12,7 +12,7 @@
         %tr{ class: "#{"warning" if sheets.count > 1 && event_design.highlight_duplicates?} #{"highlight" if @sheet == sheet}", data: { object: sheet.missing? ? nil : "sheet-draggable", sheet_id: sheet.id, sheet_name: sheet.name, subject_event_id: sheet.subject_event_id }, style: sheet.missing? ? nil : "cursor: move;" }
           %td
             - if sheet.missing?
-              %span.label.label-default{ rel: "tooltip", title: "Marked as Missing", data: { container: "body", placement: "right" } } M
+              %span.badge.badge-default{ rel: "tooltip", title: "Marked as Missing", data: { container: "body", placement: "right" } } M
             - else
               %span{ id: "sheet_#{sheet.id}_coverage" }= render "sheets/coverage", sheet: sheet
           %td
@@ -39,8 +39,8 @@
                 %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime("%b %-d, %Y")
                 %span.hidden-xs.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
             - if event_design.handoff_enabled?
-              %span.label.label-accent.hidden-xs Handoff
-              %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
+              %span.badge.badge-accent.hidden-xs Handoff
+              %span.badge.badge-accent.hidden-sm.hidden-md.hidden-lg H
             = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
             = render "layouts/unblinded_only", project: @project, object: design, placement: "top"
             - unless event_design.required?(@subject)
@@ -70,8 +70,8 @@
                       / %i.fa.fa-trash
                       Set as Missing
           - if event_design.handoff_enabled?
-            %span.label.label-accent.hidden-xs Handoff
-            %span.label.label-accent.hidden-sm.hidden-md.hidden-lg H
+            %span.badge.badge-accent.hidden-xs Handoff
+            %span.badge.badge-accent.hidden-sm.hidden-md.hidden-lg H
           - if @subject.editable_by?(current_user)
             = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id })
           - else
@@ -92,6 +92,6 @@
                 = sheet.comments_count
                 %i.fa.fa-comment
 
-          %span.label.label-warning.hidden-xs{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra
-          %span.label.label-warning.hidden-sm.hidden-md.hidden-lg{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E
+          %span.badge.badge-warning.hidden-xs{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra
+          %span.badge.badge-warning.hidden-sm.hidden-md.hidden-lg{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E
           = link_to sheet.name, project_sheet_path(@project, sheet)

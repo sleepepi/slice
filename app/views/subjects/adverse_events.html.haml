@@ -25,8 +25,8 @@
         %li{ style: "line-height:30px" }
           = link_to adverse_event.name, [@project, adverse_event]
           - if adverse_event.closed?
-            %span.label.label-quiet Closed
+            %span.badge.badge-light Closed
           - else
-            %span.label.label-success Open
+            %span.badge.badge-success Open
           %br
           = adverse_event.description

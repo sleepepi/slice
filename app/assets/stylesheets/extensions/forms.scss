@@ -3,12 +3,21 @@
   min-width: 100px;
 }
 
-
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .form-control {
-      background-color: #fff;
-      border-color: #ced4da;
+      color: theme-color($theme, input-color, $p800-grey);
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+
+      &::placeholder {
+        color: theme-color($theme, input-placeholder-color, $input-placeholder-color);
+      }
+
+      &:disabled,
+      &[readonly] {
+        background-color: theme-color($theme, input-disabled-bg, $input-disabled-bg);
+      }
     }
   }
 }

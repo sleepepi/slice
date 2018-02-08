@@ -153,9 +153,9 @@
     %h3.panel-title
       Sheet Locking
       - if @project.auto_locking_enabled?
-        %span.label.label-success= @project.auto_lock_name
+        %span.badge.badge-success= @project.auto_lock_name
       - else
-        %span.label.label-default Disabled
+        %span.badge.badge-default Disabled
       = link_to edit_editor_project_path(@project), class: "btn btn-light btn-sm btn-shadow" do
         %i.fa.fa-cog
   .panel-body

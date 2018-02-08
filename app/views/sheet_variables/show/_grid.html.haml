@@ -1,6 +1,6 @@
 - if sheet_variable
-  - non_grid_variable_types = Variable::TYPE.flatten.uniq - ['grid']
-  %table.table.table-hover.table-condensed.table-sticky{ style: "margin-top:-5px" }
+  - non_grid_variable_types = Variable::TYPE.flatten.uniq - ["grid"]
+  %table.table.table-hover.table-sm.table-sticky.table-borderless.table-striped{ style: "margin-top:-5px" }
     %thead
       %tr
         - variable.child_variables.each do |child_variable|

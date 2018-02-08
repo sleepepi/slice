@@ -1,3 +1,12 @@
-.turbolinks-progress-bar {
-  background-color: $brand-accent;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    $accent: map-get($theme, p400);
+    @if map-get($theme, accent) {
+      $accent: map-get($theme, accent);
+    }
+
+    .turbolinks-progress-bar {
+      background-color: $accent;
+    }
+  }
 }

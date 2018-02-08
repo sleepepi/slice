@@ -24,8 +24,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   }
 
   .chosen-drop {
-    background: $input-bg;
-    border: 1px solid $input-border-focus;
+    border: 1px solid transparent;
     border-top: 0;
     clip: rect(0, 0, 0, 0);
     position: absolute;
@@ -45,7 +44,6 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   .search-choice,
   .chosen-single {
     .group-name {
-      color: $dropdown-header-color;
       font-weight: normal;
       margin-right: 4px;
       overflow: hidden;
@@ -61,7 +59,6 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   }
 
   .chosen-results {
-    color: $input-color;
     margin: 0 4px 4px 0;
     max-height: 240px;
     -webkit-overflow-scrolling: touch;
@@ -85,19 +82,11 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
       }
 
       &.disabled-result {
-        color: $dropdown-link-disabled-color;
         cursor: default;
         display: list-item;
       }
 
-      &.highlighted {
-        background-color: $btn-primary-border;
-        color: $btn-primary-color;
-      }
-
       &.no-results {
-        background: $table-bg-accent;
-        color: $text-muted;
         display: list-item;
       }
 
@@ -123,11 +112,8 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
 .chosen-container-single {
   .chosen-single {
     background-clip: padding-box;
-    background-color: $input-bg;
-    border: 1px solid $input-border;
+    border: 1px solid transparent;
     border-radius: 5px;
-    box-shadow: $input-shadow;
-    color: $input-color;
     display: block;
     height: 36px;
     line-height: 35px;
@@ -177,10 +163,6 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
     }
   }
 
-  .chosen-default {
-    color: $input-color-placeholder;
-  }
-
   .chosen-single-with-deselect span {
     margin-right: 38px;
   }
@@ -198,7 +180,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
 
     input[type="text"] {
       background: $chosen-sprite no-repeat 100% -20px;
-      border: 1px solid $input-border;
+      border: 1px solid transparent;
       border-radius: 0;
       font-family: sans-serif;
       font-size: 1em;
@@ -223,120 +205,15 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   }
 }
 
-// @group Multi Chosen
-.chosen-container-multi {
-  .chosen-choices {
-    background-color: $input-bg;
-    border: 1px solid $component-active-bg;
-    cursor: text;
-    height: auto;
-    margin: 0;
-    overflow: hidden;
-    padding: 0 5px;
-    position: relative;
-    width: 100%;
-
-    li {
-      float: left;
-      list-style: none;
-
-      &.search-field {
-        margin: 0;
-        padding: 0;
-        white-space: nowrap;
-
-        input[type="text"] {
-          background: transparent !important;
-          border: 0 !important;
-          border-radius: 0;
-          box-shadow: none;
-          color: $dropdown-header-color;
-          font-family: sans-serif;
-          font-size: 100%;
-          height: 25px;
-          line-height: normal;
-          margin: 1px 0;
-          outline: 0;
-          padding: 0;
-          width: 25px;
-        }
-      }
-
-      &.search-choice {
-        background-clip: padding-box;
-        background-color: $dropdown-link-active-bg;
-        background-repeat: repeat-x;
-        background-size: 100% 19px;
-        border: 1px solid $dropdown-link-active-color;
-        border-radius: $border-radius;
-        // box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(#000,.05);
-        color: $dropdown-link-color;
-        cursor: default;
-        line-height: 13px;
-        margin: 3px 5px 3px 0;
-        max-width: 100%;
-        padding: 3px 20px 3px 5px;
-        position: relative;
-
-        span {
-          word-wrap: break-word;
-        }
-
-        .search-choice-close {
-          background: $chosen-sprite -42px 1px no-repeat;
-          display: block;
-          font-size: 1px;
-          height: 12px;
-          position: absolute;
-          right: 3px;
-          top: 4px;
-          width: 12px;
-
-          &:hover {
-            background-position: -42px -10px;
-          }
-        }
-      }
-
-      &.search-choice-disabled {
-        background-color: $gray-lighter;
-        border: 1px solid $dropdown-link-disabled-color;
-        color: $dropdown-link-disabled-color;
-        padding-right: 5px;
-      }
-
-      &.search-choice-focus {
-        background: $gray-lighter;
-
-        .search-choice-close {
-          background-position: -42px -10px;
-        }
-      }
-    }
-  }
-
-  .chosen-results {
-    margin: 0;
-    padding: 0;
-  }
-
-  .chosen-drop .result-selected {
-    color: $dropdown-link-active-color;
-    cursor: default;
-    display: list-item;
-  }
-}
-
 // @group Active
 .chosen-container-active {
   .chosen-single {
-    border: 1px solid $input-border-focus;
-    box-shadow: $input-shadow, 0 0 6px $input-border-focus;
+    border: 1px solid transparent;
   }
 
   &.chosen-with-drop {
     .chosen-single {
-      border: 1px solid $input-border-focus;
+      border: 1px solid transparent;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       box-shadow: none;
@@ -353,12 +230,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
   }
 
   .chosen-choices {
-    border: 1px solid $dropdown-fallback-border;
-    box-shadow: $input-shadow;
-
-    // li.search-field input[type="text"] {
-    //   color: #222 !important;
-    // }
+    border: 1px solid transparent;
   }
 }
 
@@ -468,5 +340,83 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
     background-image: $chosen-sprite-retina !important;
     background-repeat: no-repeat !important;
     background-size: 52px 37px !important;
+  }
+}
+
+
+@each $name, $theme in $themes {
+  $chosen-input-bg: theme-color($theme, input-bg, $white);
+  $chosen-input-color: theme-color($theme, input-color, $p800-grey);
+  $chosen-input-border: theme-color($theme, input-border-color, $input-border-color);
+  $chosen-input-border-focus: lighten(map-get($theme, primary), 25%);
+
+  .theme-#{$name}-bg {
+    .chosen-container {
+      .chosen-drop {
+        background: $chosen-input-bg;
+        border-color: $chosen-input-border-focus;
+      }
+
+      .search-choice,
+      .chosen-single {
+        .group-name {
+          color: $dropdown-header-color;
+        }
+      }
+
+      .chosen-results {
+        color: $chosen-input-color;
+
+        &.disabled-result {
+          color: $dropdown-link-disabled-color;
+        }
+
+        &.highlighted {
+          background-color: map-get($theme, primary);
+          color: map-get($theme, primary);
+        }
+
+        &.no-results {
+          background-color: theme-color($theme, table-bg-accent, $p50-grey);
+          color: $text-muted;
+        }
+      }
+    }
+
+    .chosen-container-single {
+      .chosen-single {
+        background-color: $chosen-input-bg;
+        border-color: $chosen-input-border;
+        box-shadow: $input-box-shadow;
+        color: $chosen-input-color;
+      }
+
+      .chosen-default {
+        color: theme-color($theme, input-placeholder-color, $input-placeholder-color);
+      }
+
+      .chosen-search {
+        input[type="text"] {
+          border-color: $chosen-input-border;
+        }
+      }
+    }
+
+    .chosen-container-active {
+      .chosen-single {
+        border-color: $chosen-input-border-focus;
+        box-shadow: $input-focus-box-shadow;
+      }
+
+      &.chosen-with-drop {
+        .chosen-single {
+          border-color: $chosen-input-border-focus;
+        }
+      }
+
+      .chosen-choices {
+        box-shadow: $input-box-shadow;
+      }
+    }
   }
 }

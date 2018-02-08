@@ -1,10 +1,8 @@
 // Styles sheets to resemble paper collection forms
 
 .sheet-drag-helper {
-  background-color: $table-bg-accent;
-  border: 1px solid $table-border-color;
+  border: 1px solid transparent;
   border-radius: 4px;
-  box-shadow: 0 7px 15px $standard-shadow-hover-color;
   padding: 2px 4px;
   z-index: $zindex-modal;
 }
@@ -19,20 +17,9 @@
   .table {
     margin-bottom: 0;
   }
-}
 
-.variable-shade {
-  background-color: $table-bg-accent;
-  border-left: 2px solid $table-border-color;
-
-  .table {
-    background-color: $table-bg-accent;
-  }
-
-  .table-sticky {
-    th {
-      background-color: $table-bg-accent;
-    }
+  label {
+    font-weight: bold;
   }
 }
 
@@ -42,26 +29,6 @@
 
   .table {
     background-color: transparent;
-  }
-}
-
-.variable-blind .shade-or-blind-background {
-  background-color: $dashboard-bg;
-
-  .table-sticky {
-    th {
-      background-color: $dashboard-bg;
-    }
-  }
-}
-
-.variable-shade .shade-or-blind-background {
-  background-color: $table-bg-accent;
-
-  .table-sticky {
-    th {
-      background-color: $table-bg-accent;
-    }
   }
 }
 
@@ -99,27 +66,6 @@ select {
     padding-left: 0;
     padding-top: 4px;
     text-indent: 4px;
-  }
-}
-
-
-.checkbox-radio-outline.focus {
-  border-color: $brand-primary;
-  box-shadow: inset 0 1px 1px $input-shadow-color, 0 0 12px $brand-primary;
-  outline: none;
-}
-
-.checkbox-radio-outline.focus.negation {
-  border-color: $brand-danger;
-  box-shadow: inset 0 1px 1px $input-shadow-color, 0 0 12px $brand-danger;
-}
-
-.checkbox-radio-outline {
-  input {
-    &[type="radio"],
-    &[type="checkbox"] {
-      outline: none;
-    }
   }
 }
 
@@ -173,28 +119,15 @@ select {
   position: sticky;
   top: $header-height;
 
-  .col-xs-12 {
-    background-color: $dashboard-bg;
-  }
-
   table {
-    background-color: $dashboard-bg;
     margin-bottom: 0;
     position: sticky;
     top: 0;
   }
 }
 
-.form-horizontal {
-  .dashboard-container {
-    .sticky-scale-header {
-      background-color: $dashboard-bg;
-    }
-  }
-}
-
 .scale-variable-reset {
-  &.col-xs-12 {
+  &.col-12 {
     position: inherit;
   }
 
@@ -217,3 +150,68 @@ select {
     }
   }
 }
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .sheet-drag-helper {
+      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      border-color: theme-color($theme, table-border, $p300-grey);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+    }
+
+    .variable-shade {
+      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      border-color: theme-color($theme, table-border, $p300-grey);
+
+      .table {
+        background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      }
+
+      .table-sticky {
+        th {
+          background-color: theme-color($theme, table-bg-accent, $p50-grey);
+        }
+      }
+    }
+
+    .variable-blind .shade-or-blind-background {
+      background-color: map-get($theme, dashboard-bg);
+
+      .table-sticky {
+        th {
+          background-color: map-get($theme, dashboard-bg);
+        }
+      }
+    }
+
+    .variable-shade .shade-or-blind-background {
+      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+
+      .table-sticky {
+        th {
+          background-color: theme-color($theme, table-bg-accent, $p50-grey);
+        }
+      }
+    }
+
+    .sticky-scale-header {
+      .col-12 {
+        background-color: map-get($theme, dashboard-bg);
+      }
+
+      table {
+        background-color: map-get($theme, dashboard-bg);
+      }
+    }
+
+    // TODO: Rework as form-horizontal is being removed.
+    .form-horizontal {
+      .dashboard-container {
+        .sticky-scale-header {
+          background-color: map-get($theme, dashboard-bg);
+        }
+      }
+    }
+  }
+}
+

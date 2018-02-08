@@ -11,10 +11,10 @@
 
     - if adverse_event.closed?
       - percent = 100
-      %span.label.label-quiet Closed
+      %span.badge.badge-light Closed
     - else
       - percent = 50
-      %span.label.label-success Open
+      %span.badge.badge-success Open
 
     - if @project.blinding_enabled?
       %small

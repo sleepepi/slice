@@ -1,0 +1,7 @@
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .badge-accent {
+      background-color: $p500-orange;
+    }
+  }
+}

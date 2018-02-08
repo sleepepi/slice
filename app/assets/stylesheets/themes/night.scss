@@ -32,6 +32,12 @@ $night: (
   form-title-bg: $p700-black,
   form-bg: $p900-grey,
 
+  input-bg: $p800-grey,
+  input-color: $p400-grey,
+  input-border-color: $p500-black,
+  input-placeholder-color: $p600-grey,
+  input-disabled-bg: $p700-grey,
+
   box-shadow-color: rgba($p300-grey, .15),
   shadow-color: rgba($p300-grey, .3),
 
@@ -40,4 +46,6 @@ $night: (
   calendar-today-bg: $p900-blue,
   calendar-window-bg: $p900-blue,
   dropdown-fallback-border: $p800-grey, // TODO: Remove dropdown-fallback-border
+
+  table-bg-accent: $p700-black,
 )

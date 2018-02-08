@@ -3,7 +3,7 @@
     .float-right
       - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
         %span.hidden-xs.hidden-sm.text-right
-          = link_to "Launch Tablet Handoff", new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: "btn btn-sm btn-accent shadow-sm"
+          = link_to "Launch Tablet Handoff", new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: "btn btn-sm btn-accent btn-shadow"
       %span.hidden-xs= subject_event.event_date_to_s
       %span.hidden-sm.hidden-md.hidden-lg= subject_event.event_date_to_s_xs
 
@@ -15,7 +15,7 @@
   - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
     .hidden-md.hidden-lg
       .card-body
-        = link_to "Launch Tablet Handoff", new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: "btn btn-accent shadow-sm btn-block"
+        = link_to "Launch Tablet Handoff", new_handoff_project_subject_path(@project, @subject, subject_event_id: subject_event.id), class: "btn btn-accent btn-shadow btn-block"
   .card-body.p-0
     %div{ id: "subject-event-#{subject_event.id}-percent-progress-bar" }
       = render "subject_events/progress_bar", subject_event: subject_event

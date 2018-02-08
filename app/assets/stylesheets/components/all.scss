@@ -3,6 +3,7 @@
 // TODO: Comment all in after updating theme colors.
 
 @import 'components/alignment';
+@import 'components/badges';
 @import 'components/blockquotes';
 @import 'components/body';
 @import 'components/calendar';
@@ -19,17 +20,14 @@
 @import 'components/headings';
 // @import 'components/highlights';
 @import 'components/images';
-// @import 'components/labels';
 // @import 'components/links';
 @import 'components/pages';
 @import 'components/pagination';
-// @import 'components/rows';
-// @import 'components/search';
+@import 'components/rows';
+@import 'components/search';
 @import 'components/sidebar';
 @import 'components/sidebar_custom';
-// @import 'components/shadows';
-// @import 'components/side_nav';
-// @import 'components/tables';
-// @import 'components/timeline';
-// @import 'components/tips';
-// @import 'components/turbolinks';
+@import 'components/shadows';
+@import 'components/tables';
+@import 'components/timeline';
+@import 'components/turbolinks';

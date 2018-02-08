@@ -14,68 +14,67 @@
 %h3.text-center{ style: "margin: 0;" }= @report_title
 %h5.text-center{ style: "margin: 0;padding-bottom: 8px;" }= @report_subtitle.html_safe
 
-.table-responsive-always
-  %table.table.table-hover
-    %col{ width: "1px" }
-    %thead
-      %tr
+%table.table.table-hover
+  %col{ width: "1px" }
+  %thead
+    %tr
+      %th
+      - @table_header.each do |header|
         %th
-        - @table_header.each do |header|
-          %th
-            - if header.is_a?(Hash)
-              %span.count-rot315{ class: "#{"text-muted" if header[:name].blank?}", rel: "tooltip", title: header[:tooltip] }
-                = header[:name].blank? ? "Missing" : header[:name].truncate(10)
-            - else
-              = header
-    %tfoot
-      %tr{ style: "font-weight: bold;" }
-        - @overall_min = @table_footer[:values].min
-        - @overall_max = @table_footer[:values].max
-        %td
-          %span{ style: "display: none;", data: { object: "sparkline", type: @table_footer[:chart_type], values: @table_footer[:values], min: @overall_min, max: @overall_max } }
-            = @table_footer[:values].join(",")
-        - @table_footer[:cells].each do |hash|
-          - if hash[:colspan].blank?
-            %td
-              %span{ class: "#{"text-muted" if hash[:count] == 0}", rel: "tooltip", title: hash[:tooltip], data: { placement: "right" } }
-                - filter_params = compute_filter_params(@design, hash[:filters] || [])
-                - link_name = project_sheets_path(@project, filter_params)
-                = "&plusmn;".html_safe if hash[:symbol] == "pm" && hash[:name] != "-"
-                = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: "_blank")
-
-                - if @table_footer[:chart_type] == "line" && hash[:count]
-                  - if @percent == "row" && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != "total"
-                    %span.text-muted.text-smaller
-                      = (hash[:count] * 100 / @table_footer[:values].sum).to_s + "%"
+          - if header.is_a?(Hash)
+            %span.count-rot315{ class: "#{"text-muted" if header[:name].blank?}", rel: "tooltip", title: header[:tooltip] }
+              = header[:name].blank? ? "Missing" : header[:name].truncate(10)
           - else
-            %td{ colspan: (hash[:colspan].blank? ? 1 : hash[:colspan]) }
-              = hash[:name]
-    %tbody
-      - @table_body.each do |row|
-        %tr
+            = header
+  %tfoot
+    %tr{ style: "font-weight: bold;" }
+      - @overall_min = @table_footer[:values].min
+      - @overall_max = @table_footer[:values].max
+      %td
+        %span{ style: "display: none;", data: { object: "sparkline", type: @table_footer[:chart_type], values: @table_footer[:values], min: @overall_min, max: @overall_max } }
+          = @table_footer[:values].join(",")
+      - @table_footer[:cells].each do |hash|
+        - if hash[:colspan].blank?
           %td
-            %span{ style: "display: none;", data: { object: "sparkline", type: row[:chart_type], values: row[:values], min: @overall_min, max: @overall_max } }
-              = row[:values].join(",")
-          - row[:cells].each_with_index do |hash, index|
-            %td
-              - reverse_index = index - row[:cells].size + 1
-              - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
-              %span{ class: "#{"text-muted" if hash[:count] == 0 || hash[:muted]}", rel: "tooltip", title: hash[:tooltip], data: { placement: "right" } }
-                - filter_params = compute_filter_params(@design, hash[:filters] || [])
-                - link_name = project_sheets_path(@project, filter_params)
-                = "&plusmn;".html_safe if hash[:symbol] == "pm" && hash[:name] != "-"
-                - if hash[:link].present?
-                  = link_to hash[:name], "#{ENV["website_url"]}#{hash[:link]}"
-                - else
-                  = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: "_blank"
+            %span{ class: "#{"text-muted" if hash[:count] == 0}", rel: "tooltip", title: hash[:tooltip], data: { placement: "right" } }
+              - filter_params = compute_filter_params(@design, hash[:filters] || [])
+              - link_name = project_sheets_path(@project, filter_params)
+              = "&plusmn;".html_safe if hash[:symbol] == "pm" && hash[:name] != "-"
+              = link_to_if(hash[:count].to_i > 0, hash[:name], link_name, target: "_blank")
 
-                - if row[:chart_type] == "line" && hash[:count]
-                  - if @percent == "row" && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != "total"
-                    %span.text-muted.text-smaller
-                      = (hash[:count] * 100 / row[:values].sum).to_s + "%"
-                  - if @percent == "column" && hash[:count] > 0 && column_count && column_count > 0 && hash[:row_type] != "total"
-                    %span.text-muted.text-smaller
-                      = (hash[:count] * 100 / column_count).to_s + "%"
+              - if @table_footer[:chart_type] == "line" && hash[:count]
+                - if @percent == "row" && hash[:count] > 0 && @table_footer[:values].sum > 0 && hash[:column_type] != "total"
+                  %span.text-muted.text-smaller
+                    = (hash[:count] * 100 / @table_footer[:values].sum).to_s + "%"
+        - else
+          %td{ colspan: (hash[:colspan].blank? ? 1 : hash[:colspan]) }
+            = hash[:name]
+  %tbody
+    - @table_body.each do |row|
+      %tr
+        %td
+          %span{ style: "display: none;", data: { object: "sparkline", type: row[:chart_type], values: row[:values], min: @overall_min, max: @overall_max } }
+            = row[:values].join(",")
+        - row[:cells].each_with_index do |hash, index|
+          %td
+            - reverse_index = index - row[:cells].size + 1
+            - column_count = reverse_index == 0 ? @table_footer[:values].sum : @table_footer[:values][reverse_index]
+            %span{ class: "#{"text-muted" if hash[:count] == 0 || hash[:muted]}", rel: "tooltip", title: hash[:tooltip], data: { placement: "right" } }
+              - filter_params = compute_filter_params(@design, hash[:filters] || [])
+              - link_name = project_sheets_path(@project, filter_params)
+              = "&plusmn;".html_safe if hash[:symbol] == "pm" && hash[:name] != "-"
+              - if hash[:link].present?
+                = link_to hash[:name], "#{ENV["website_url"]}#{hash[:link]}"
+              - else
+                = link_to_if hash[:count].to_i > 0, hash[:name], link_name, target: "_blank"
+
+              - if row[:chart_type] == "line" && hash[:count]
+                - if @percent == "row" && hash[:count] > 0 && row[:values].sum > 0 && hash[:column_type] != "total"
+                  %span.text-muted.text-smaller
+                    = (hash[:count] * 100 / row[:values].sum).to_s + "%"
+                - if @percent == "column" && hash[:count] > 0 && column_count && column_count > 0 && hash[:row_type] != "total"
+                  %span.text-muted.text-smaller
+                    = (hash[:count] * 100 / column_count).to_s + "%"
 
 .text-center.text-muted= @report_caption
 
