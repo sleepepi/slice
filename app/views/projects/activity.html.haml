@@ -14,9 +14,9 @@
 
 - filtered_params = params.permit(:site_id, :user_id)
 
-- if all_objects.size == 0
-  .jumbotron
-    %p.lead.text-center No recent activity in the past week.
+- if all_objects.size.zero?
+  .jumbotron.jumbotron-custom-text
+    No recent activity in the past week.
 - else
   .dashboard-container
     %div{ style: "margin-bottom: 20px;" }

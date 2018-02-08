@@ -14,6 +14,8 @@ class AdverseEventsController < ApplicationController
     :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link
   ]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /projects/:project_id/adverse-events/export
   def export
     @export = \

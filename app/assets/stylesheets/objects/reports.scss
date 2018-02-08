@@ -17,7 +17,14 @@
 }
 
 .report-quote {
-  background-color: $input-bg-disabled;
   margin-bottom: 5px;
   padding: 5px;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .report-quote {
+      background-color: theme-color($theme, input-disabled-bg, $input-disabled-bg);
+    }
+  }
 }

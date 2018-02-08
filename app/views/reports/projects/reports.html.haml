@@ -9,16 +9,16 @@
 
 .row
   .col-md-4
-    .jumbotron.text-center
-      %h4.text-muted Number of Subjects
+    .jumbotron.jumbotron-white.jumbotron-shadow
+      %p.lead.nowrap Total Subjects
       .report-number= number_to_human @project.subjects.count
   .col-md-4
-    .jumbotron.text-center
-      %h4.text-muted Number of Events
+    .jumbotron.jumbotron-white.jumbotron-shadow
+      %p.lead.nowrap Total Events
       .report-number= number_to_human SubjectEvent.where(subject_id: @project.subjects.select(:id)).count
   .col-md-4
-    .jumbotron.text-center
-      %h4.text-muted Number of Data Points
+    .jumbotron.jumbotron-white.jumbotron-shadow
+      %p.lead.nowrap Data Points
       .report-number= number_to_human SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
 
 - if @project.randomizations_enabled?

@@ -116,15 +116,14 @@
                 %span.text-muted -
   .center-horizontally= paginate @subjects, theme: "bootstrap"
 - else
-  .jumbotron
-    %p.text-center
-      No subjects found.
-      - if params[:search].present?
-        - if (params[:site_id].present? || @tokens.select { |t| t.key == "adverse-events" }.present? || @tokens.select { |t| t.key == "randomized" }.present?)
-          - search = @tokens.select { |t| t.key == "search" }.collect(&:to_s).join(" ")
-          = succeed "." do
-            = link_to "Clear filters", project_subjects_path(@project, search: search.present? ? search : nil)
-        - elsif params[:search].to_s.squish.tr(":", "").size == params[:search].to_s.size && @project.site_or_project_editor?(current_user)
-          = succeed "." do
-            = link_to "Create subject #{params[:search]}", choose_site_project_subjects_path(subject_code: params[:search])
+  .jumbotron.jumbotron-custom-text
+    No subjects found.
+    - if params[:search].present?
+      - if (params[:site_id].present? || @tokens.select { |t| t.key == "adverse-events" }.present? || @tokens.select { |t| t.key == "randomized" }.present?)
+        - search = @tokens.select { |t| t.key == "search" }.collect(&:to_s).join(" ")
+        = succeed "." do
+          = link_to "Clear filters", project_subjects_path(@project, search: search.present? ? search : nil)
+      - elsif params[:search].to_s.squish.tr(":", "").size == params[:search].to_s.size && @project.site_or_project_editor?(current_user)
+        = succeed "." do
+          = link_to "Create subject #{params[:search]}", choose_site_project_subjects_path(subject_code: params[:search])
 
