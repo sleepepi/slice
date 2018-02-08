@@ -1,5 +1,5 @@
 - if uncategorized_sheets.count > 0
-  .card
+  .card.box-shadow.mb-3
     .card-header{ data: { object: "event-droppable", project_id: @project.to_param, subject_event_id: nil } }
       - if categorized_sheets.count == 0
         Sheets

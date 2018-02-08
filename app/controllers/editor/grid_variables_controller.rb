@@ -4,6 +4,8 @@
 class Editor::GridVariablesController < Editor::EditorController
   before_action :set_grid_variable, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /grid-variables
   def index
     @grid_variables = @project.grid_variables
@@ -11,18 +13,18 @@ class Editor::GridVariablesController < Editor::EditorController
                               .page(params[:page]).per(40)
   end
 
-  # GET /grid-variables/1
-  def show
-  end
+  # # GET /grid-variables/1
+  # def show
+  # end
 
   # GET /grid-variables/new
   def new
     @grid_variable = @project.grid_variables.new
   end
 
-  # GET /grid-variables/1/edit
-  def edit
-  end
+  # # GET /grid-variables/1/edit
+  # def edit
+  # end
 
   # POST /grid-variables
   def create

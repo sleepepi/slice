@@ -75,21 +75,19 @@
         %td.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
+              .d-inline-block.d-sm-none
+                %i.fa.fa-cog
+              .d-none.d-sm-inline-block Actions
 
-            %ul.dropdown-menu.dropdown-menu-right
+            .dropdown-menu.dropdown-menu-right
               - if export.file_size.positive?
                 - full_url = file_project_export_path(@project, export)
-                %li
-                  = link_to full_url, target: "_blank" do
-                    %i.fa.fa-download
-                    Download
-                %li.divider{ role: "separator" }
-              %li
-                = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Delete
+                = link_to full_url, target: "_blank", class: "dropdown-item" do
+                  %i.fa.fa-download
+                  Download
+                .dropdown-divider
+              = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" }, class: "dropdown-item text-danger" do
+                %i.fa.fa-trash
+                Delete
 
 .center-horizontally= paginate @exports, theme: "bootstrap"

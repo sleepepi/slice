@@ -3,17 +3,12 @@
 - @breadcrumbs = []
 - @breadcrumbs << ["Reports", reports_reports_project_path(@project)]
 
-= render "projects/side_nav"
-- content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        %span.hidden-xs= "#{@design.name} Overview"
-        %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Overview"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header, @title
 
 - @colors = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#66aa00", "#dd4477", "#0099c6", "#990099"]
-
 
 - if @design.events.count > 1
   .dashboard-container
@@ -23,13 +18,12 @@
           = @event.name
         - else
           All Events
-        %strong.caret
 
-      %ul.dropdown-menu
-        %li= link_to "All Events", project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? "font-weight:bold;" : ""
-        %li.divider{ role: "separator" }
+      .dropdown-menu
+        = link_to "All Events", project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
+        .dropdown-divider
         - NaturalSort.sort(@design.events.pluck(:name, :id)).each do |event_name, event_id|
-          %li= link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : ""
+          = link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
 
     = link_to "Reset Filters", project_reports_design_overview_path(@project, @design), class: "btn btn-sm btn-link" if params[:event_id].present?
 

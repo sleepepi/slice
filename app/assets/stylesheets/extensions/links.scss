@@ -8,6 +8,10 @@
         &.dropdown-item {
           color: inherit;
         }
+
+        &.btn-link {
+          color: map-get($theme, link-color);
+        }
       }
     } @else {
       a {
@@ -17,6 +21,18 @@
         &.dropdown-item {
           color: inherit;
         }
+
+        &.btn-link {
+          color: map-get($theme, primary);
+        }
+      }
+    }
+
+    a {
+      &.btn-light,
+      &.btn-warning {
+        background-color: theme-color($theme, light, map-get($theme-colors, light));
+        color: map-get($theme, body-color);
       }
     }
   }

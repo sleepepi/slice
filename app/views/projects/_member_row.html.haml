@@ -21,68 +21,60 @@
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-            Actions
-            %strong.caret
-          %ul.dropdown-menu.dropdown-menu-right
+            .d-inline-block.d-sm-none
+              %i.fa.fa-cog
+            .d-none.d-sm-inline-block Actions
+          .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)
               - if member.user.nil?
-                %li
-                  = link_to resend_project_user_path(member), method: :post, remote: true do
-                    %i.fa.fa-paper-plane
-                    Resend Invitation
+                = link_to resend_project_user_path(member), method: :post, remote: true, class: "dropdown-item" do
+                  %i.fa.fa-paper-plane
+                  Resend Invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
-                  %li
-                    = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true do
-                      %i.fa.fa-eye-slash
-                      Set as Blinded
+                  = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
+                    %i.fa.fa-eye-slash
+                    Set as Blinded
                 - else
-                  %li
-                    = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true do
-                      %i.fa.fa-eye
-                      Set as Unblinded
+                  = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
+                    %i.fa.fa-eye
+                    Set as Unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
-                  %li.divider{ role: "separator" }
-              %li
-                = link_to member, method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Remove
+                  .dropdown-divider
+              = link_to member, method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" }, class: "dropdown-item text-danger" do
+                %i.fa.fa-trash
+                Remove
     - else
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-            Actions
-            %strong.caret
-          %ul.dropdown-menu.dropdown-menu-right
+            .d-inline-block.d-sm-none
+              %i.fa.fa-cog
+            .d-none.d-sm-inline-block Actions
+          .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)
               - if member.user.nil?
-                %li
-                  = link_to resend_project_site_user_path(member.project, member), method: :post, remote: true do
-                    %i.fa.fa-paper-plane
-                    Resend Invitation
+                = link_to resend_project_site_user_path(member.project, member), method: :post, remote: true, class: "dropdown-item" do
+                  %i.fa.fa-paper-plane
+                  Resend Invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
-                  %li
-                    = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true do
-                      %i.fa.fa-eye-slash
-                      Set as Blinded
+                  = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
+                    %i.fa.fa-eye-slash
+                    Set as Blinded
                 - else
-                  %li
-                    = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true do
-                      %i.fa.fa-eye
-                      Set as Unblinded
+                  = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
+                    %i.fa.fa-eye
+                    Set as Unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
-                  %li.divider{ role: "separator" }
-              %li
-                = link_to [member.project, member], method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Remove
+                  .dropdown-divider
+              = link_to [member.project, member], method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" }, class: "dropdown-item text-danger" do
+                %i.fa.fa-trash
+                Remove
 
 - if member.user.nil? && member.creator == current_user
   %tr{ class: "#{"success" if @member == member}" }

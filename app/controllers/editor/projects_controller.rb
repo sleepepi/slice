@@ -7,21 +7,21 @@ class Editor::ProjectsController < ApplicationController
 
   layout "layouts/full_page_sidebar"
 
-  # GET /editor/projects/1/settings
-  def settings
-  end
+  # # GET /editor/projects/1/settings
+  # def settings
+  # end
 
-  # GET /editor/projects/1/advanced
-  def advanced
-  end
+  # # GET /editor/projects/1/advanced
+  # def advanced
+  # end
 
-  # GET /editor/projects/1/invite
-  def invite
-  end
+  # # GET /editor/projects/1/invite
+  # def invite
+  # end
 
-  # POST /add-invite-row.js
-  def add_invite_row
-  end
+  # # POST /add-invite-row.js
+  # def add_invite_row
+  # end
 
   # POST /send-invites.js
   def send_invites

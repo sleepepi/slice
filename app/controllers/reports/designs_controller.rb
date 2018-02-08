@@ -14,6 +14,8 @@ class Reports::DesignsController < ApplicationController
   # Concerns
   include Buildable
 
+  layout "layouts/full_page_sidebar"
+
   # def basic
   # end
 

@@ -2,8 +2,8 @@
   .jumbotron
     %p.text-center No projects found.
 - else
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col{ width: '50%' }
       %col
       %col
@@ -13,7 +13,7 @@
           = th_sort_field_rev params[:order], 'projects.name', 'Name'
           %th.text-center Status
           %th.text-center Emails
-          %th
+          %th.text-center Actions
 
       - @projects.each do |project|
         %tr{ data: { project_id: project.id } }
@@ -23,7 +23,7 @@
             = render 'project_preferences/status', project: project
           %td.text-center{ id: "project_#{project.id}_emails" }
             = render 'project_preferences/emails', project: project
-          %td{ id: "project_#{project.id}_actions" }
+          %td.text-center{ id: "project_#{project.id}_actions" }
             = render 'project_preferences/actions', project: project
 
   .center-horizontally= paginate @projects, theme: 'bootstrap'

@@ -20,13 +20,13 @@
               - if sheet.missing?
                 .dropdown
                   = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-                    Actions
-                    %strong.caret
+                    .d-inline-block.d-sm-none
+                      %i.fa.fa-cog
+                    .d-none.d-sm-inline-block Actions
 
-                  %ul.dropdown-menu.dropdown-menu-right
-                    %li
-                      = link_to set_as_not_missing_project_sheet_path(@project, sheet), method: :post, remote: true do
-                        Set as Not Missing
+                  .dropdown-menu.dropdown-menu-right
+                    = link_to set_as_not_missing_project_sheet_path(@project, sheet), method: :post, remote: true, class: "dropdown-item" do
+                      Set as Not Missing
               - else
                 - if sheet.comments_count.positive?
                   = succeed " " do
@@ -56,19 +56,16 @@
             .float-right
               .dropdown
                 = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-                  Actions
-                  %strong.caret
+                  .d-inline-block.d-sm-none
+                    %i.fa.fa-cog
+                  .d-none.d-sm-inline-block Actions
 
-                %ul.dropdown-menu.dropdown-menu-right
-                  %li
-                    = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }) do
-                      / %i.fa.fa-plus
-                      Create Sheet
-                  %li.divider{ role: "separator" }
-                  %li
-                    = link_to set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true do
-                      / %i.fa.fa-trash
-                      Set as Missing
+                .dropdown-menu.dropdown-menu-right
+                  = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: "dropdown-item" do
+                    Create Sheet
+                  .dropdown-divider
+                  = link_to set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true, class: "dropdown-item" do
+                    Set as Missing
           - if event_design.handoff_enabled?
             %span.badge.badge-accent.hidden-xs Handoff
             %span.badge.badge-accent.hidden-sm.hidden-md.hidden-lg H

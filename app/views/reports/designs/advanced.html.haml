@@ -4,15 +4,12 @@
 - @breadcrumbs << ["Reports", reports_reports_project_path(@project)]
 - @breadcrumbs << ["Summary Report", report_reports_project_path(@project)]
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        %span.hidden-xs= "#{@design.name} Report"
-        %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Report"
+  %span.hidden-xs= "#{@design.name} Report"
+  %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Report"
 
 #new_filter_modal.modal
   .modal-dialog.modal-lg
@@ -43,14 +40,14 @@
             = render "layouts/radio_button_group", name: "percent", options: [["No Percents", "none"], ["% by Row", "row"], ["% by Column", "column"]], selected: params[:percent] || "none"
 
           .btn-group
-            = link_to "#", class: "dropdown-toggle btn btn-light", data: { toggle: "dropdown" } do
-              Export
-              %strong.caret
+            .dropdown
+              = link_to "#", class: "dropdown-toggle btn btn-light", data: { toggle: "dropdown" } do
+                Export
 
-            %ul.dropdown-menu
-              %li= link_to "CSV", "#", data: { object: "export-csv-with-filters", format: "csv", target: "#report_form" }
-              %li= link_to "PDF - Portrait", "#", data: { object: "export-report-pdf-with-filters", orientation: "portrait", target: "#report_form" }
-              %li= link_to "PDF - Landscape", "#", data: { object: "export-report-pdf-with-filters", orientation: "landscape", target: "#report_form" }
+              .dropdown-menu
+                = link_to "CSV", "#", data: { object: "export-csv-with-filters", format: "csv", target: "#report_form" }, class: "dropdown-item"
+                = link_to "PDF - Portrait", "#", data: { object: "export-report-pdf-with-filters", orientation: "portrait", target: "#report_form" }, class: "dropdown-item"
+                = link_to "PDF - Landscape", "#", data: { object: "export-report-pdf-with-filters", orientation: "landscape", target: "#report_form" }, class: "dropdown-item"
           = link_to "Refresh", "#", class: "btn btn-primary", data: { object: "refresh-report" }
 
 #report.dashboard-container

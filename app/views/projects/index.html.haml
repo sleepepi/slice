@@ -1,21 +1,17 @@
-- @title = 'Projects'
+- @title = "Projects"
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          = link_to plus_or('New Project'), new_project_path, class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @projects.total_count
-        = @title
-        = render 'search/toggle'
+  .float-right
+    = link_to plus_or("New Project"), new_project_path, class: "btn btn-accent btn-shadow"
+    .per-page= render "layouts/per_page", per_page: 40, object_count: @projects.total_count
+  = @title
+  = render "search/toggle"
 
-= render 'search/simple', url: projects_path
+= render "search/simple", url: projects_path
 
-= render 'projects/projects'
+= render "projects/projects"
 
 .docs-learn-more
   Learn about
-  = succeed '.' do
-    = link_to 'projects', docs_project_setup_path
+  = succeed "." do
+    = link_to "projects", docs_project_setup_path

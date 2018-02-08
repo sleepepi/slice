@@ -14,8 +14,8 @@
 = render "search/simple", url: project_events_path(@project)
 
 - if @events.present?
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col{ width: "1px" }
       %col
       %col.d-none.d-sm-table-column
@@ -37,8 +37,8 @@
 
   .center-horizontally= paginate @events, theme: "bootstrap"
 - else
-  .jumbotron
-    %p.text-center No events found.
+  .jumbotron.jumbotron-custom-text
+    No events found.
 
 .docs-learn-more
   Learn about
