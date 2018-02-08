@@ -9,23 +9,21 @@
     .float-right
       .dropdown
         = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-          Actions
-          %strong.caret
+          .d-inline-block.d-sm-none
+            %i.fa.fa-cog
+          .d-none.d-sm-inline-block Actions
 
-        %ul.dropdown-menu.dropdown-menu-right
-          %li
-            = link_to edit_project_variable_path(@project, @variable) do
-              %i.fa.fa-pencil
-              Edit
-            = link_to copy_project_variable_path(@project, @variable) do
-              %i.fa.fa-files-o
-              Copy
-          %li.divider{ role: "separator" }
-          %li
-            = link_to [@project, @variable], method: :delete, data: { confirm: "Delete \"#{@variable.name}\" variable?" } do
-              .text-danger
-                %i.fa.fa-trash
-                Delete
+        .dropdown-menu.dropdown-menu-right
+          = link_to edit_project_variable_path(@project, @variable), class: "dropdown-item" do
+            %i.fa.fa-pencil
+            Edit
+          = link_to copy_project_variable_path(@project, @variable), class: "dropdown-item" do
+            %i.fa.fa-files-o
+            Copy
+          .dropdown-divider
+          = link_to [@project, @variable], method: :delete, data: { confirm: "Delete \"#{@variable.name}\" variable?" }, class: "dropdown-item text-danger" do
+            %i.fa.fa-trash
+            Delete
   = @title
 
 .dashboard-container

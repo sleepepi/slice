@@ -12,39 +12,45 @@
   = @title
 
 - if @tasks.present?
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col
       %col
-      %col.hidden-xs
-      %col.hidden-xs
-      %col.hidden-xs.hidden-sm
-      %col.hidden-xs.hidden-sm
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-md-table-column
+      %col.d-none.d-md-table-column
       - if @project.site_or_project_editor?(current_user)
         %col{ width: "1px" }
       %thead
         %tr
           = th_sort_field @order, "tasks.created_at", "Task"
-          = th_sort_field @order, "tasks.due_date", "Date"
-          %th.hidden-xs User
-          %th.hidden-xs.text-center Completed
-          %th.hidden-xs.hidden-sm Window Start Date
-          %th.hidden-xs.hidden-sm Window End Date
+          = th_sort_field @order, "tasks.due_date", "Date", extra_class: "text-center"
+          %th.d-none.d-sm-table-cell User
+          %th.d-none.d-sm-table-cell.text-center Completed
+          %th.d-none.d-md-table-cell.text-center
+            Window
+            %br
+            Start Date
+          %th.d-none.d-md-table-cell.text-center
+            Window
+            %br
+            End Date
           - if @project.site_or_project_editor?(current_user)
-            %th Actions
+            %th.text-center Actions
       %tbody
         - @tasks.each do |task|
           %tr
             %td
               = link_to task.description, [@project, task]
               = render "layouts/unblinded_only", project: @project, object: task, placement: "right"
-            %td.nowrap= task.due_date
-            %td.hidden-xs.nowrap= task.user.nickname
-            %td.hidden-xs.text-center= simple_check task.completed
-            %td.hidden-xs.hidden-sm= task.window_start_date
-            %td.hidden-xs.hidden-sm= task.window_end_date
+            %td.text-center.nowrap= task.due_date
+            %td.d-none.d-sm-table-cell.nowrap= task.user.nickname
+            %td.d-none.d-sm-table-cell.text-center= simple_check task.completed
+            %td.d-none.d-md-table-cell.text-center.nowrap= task.window_start_date
+            %td.d-none.d-md-table-cell.text-center.nowrap= task.window_end_date
             - if @project.site_or_project_editor?(current_user)
-              %td.nowrap
+              %td.text-center
                 - if task.editable_by?(current_user)
                   = render "layouts/edit_delete_dropdown", edit_url: edit_project_task_path(@project, task), delete_url: [@project, task], delete_confirmation: "Delete \"#{task.description}\" task?"
 

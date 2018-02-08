@@ -46,8 +46,8 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .search-container {
-      background-color: $jumbotron-bg;
-      box-shadow: 0 0 20px map-get($theme, shadow-color);
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
       color: map-get($theme, body-color);
     }
   }

@@ -1,26 +1,21 @@
 - @title = @export.name
 - @menu_title = "#{@project.name} #{@title}"
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          .dropdown
-            = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
-
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to [@project, @export], method: :delete, data: { confirm: "Delete #{@export.name}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Delete
-        = @title
+  .float-right
+    .dropdown
+      = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+        .d-inline-block.d-sm-none
+          %i.fa.fa-cog
+        .d-none.d-sm-inline-block Actions
+      .dropdown-menu.dropdown-menu-right
+        = link_to [@project, @export], method: :delete, data: { confirm: "Delete #{@export.name}?" }, class: "dropdown-item text-danger" do
+          %i.fa.fa-trash
+          Delete
+  = @title
 
 #progress{ data: { object: "#{"ajax-timer" if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
   = render "exports/progress"
@@ -41,22 +36,22 @@
       %th Type
       %td
         - if @export.include_csv_labeled?
-          %span.badge.badge-default CSV Labeled
+          %span.badge.badge-light CSV Labeled
         - if @export.include_csv_raw?
-          %span.badge.badge-default CSV Raw
+          %span.badge.badge-light CSV Raw
         - if @export.include_pdf?
-          %span.badge.badge-default PDF
+          %span.badge.badge-light PDF
         - if @export.include_files?
-          %span.badge.badge-default Files
+          %span.badge.badge-light Files
         - if @export.include_data_dictionary?
-          %span.badge.badge-default Data Dictionary
+          %span.badge.badge-light Data Dictionary
         - if @export.include_sas?
-          %span.badge.badge-default SAS
+          %span.badge.badge-light SAS
         - if @export.include_r?
-          %span.badge.badge-default R
+          %span.badge.badge-light R
         - if @export.include_xls?
-          %span.badge.badge-default XLS
+          %span.badge.badge-light XLS
         - if @export.include_adverse_events?
-          %span.badge.badge-default Adverse Events
+          %span.badge.badge-light Adverse Events
         - if @export.include_randomizations?
-          %span.badge.badge-default Randomizations
+          %span.badge.badge-light Randomizations

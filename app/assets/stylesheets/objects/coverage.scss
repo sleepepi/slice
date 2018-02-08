@@ -1,53 +1,61 @@
 .badge-coverage {
-  background-color: $label-default-bg;
   font-weight: 200;
+}
 
-  &.coverage-100 {
-    background-color: $p900;
-    border-left: 2px solid $a200;
-    border-right: 2px solid $a200;
-  }
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .badge-coverage {
+      font-weight: 200;
+      color: map-get($theme, brand-white);
 
-  &.coverage-90 {
-    background-color: $p800;
-  }
+      &.coverage-100 {
+        background-color: map-get($theme, p900);
+        border-left: 2px solid map-get($theme, p200);
+        border-right: 2px solid map-get($theme, p200);
+      }
 
-  &.coverage-80 {
-    background-color: $p700;
-  }
+      &.coverage-90 {
+        background-color: map-get($theme, p800);
+      }
 
-  &.coverage-70 {
-    background-color: $p600;
-  }
+      &.coverage-80 {
+        background-color: map-get($theme, p700);
+      }
 
-  &.coverage-60 {
-    background-color: $p500;
-  }
+      &.coverage-70 {
+        background-color: map-get($theme, p600);
+      }
 
-  &.coverage-50 {
-    background-color: $p400;
-  }
+      &.coverage-60 {
+        background-color: map-get($theme, p500);
+      }
 
-  &.coverage-40 {
-    background-color: $p300;
-  }
+      &.coverage-50 {
+        background-color: map-get($theme, p400);
+      }
 
-  &.coverage-30 {
-    background-color: $p200;
-  }
+      &.coverage-40 {
+        background-color: map-get($theme, p300);
+      }
 
-  &.coverage-20 {
-    background-color: $p100;
-    color: $p900;
-  }
+      &.coverage-30 {
+        background-color: map-get($theme, p200);
+      }
 
-  &.coverage-10 {
-    background-color: $p50;
-    color: $p800;
-  }
+      &.coverage-20 {
+        background-color: map-get($theme, p100);
+        color: map-get($theme, p900);
+      }
 
-  &.coverage-0 {
-    background-color: $p50;
-    color: $p800;
+      &.coverage-10 {
+        background-color: map-get($theme, p50);
+        color: map-get($theme, p800);
+      }
+
+      &.coverage-0 {
+        background-color: map-get($theme, p50);
+        color: map-get($theme, p800);
+      }
+    }
   }
 }

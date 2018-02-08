@@ -8,36 +8,27 @@
   .float-right
     .dropdown
       = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-        Actions
-        %strong.caret
+        .d-inline-block.d-sm-none
+          %i.fa.fa-cog
+        .d-none.d-sm-inline-block Actions
 
-      %ul.dropdown-menu.dropdown-menu-right
-        %li
-          = link_to edit_project_design_path(@design.project, @design) do
-            %i.fa.fa-pencil
-            Edit
-
-        %li
-          = link_to imports_edit_project_design_path(@design.project, @design) do
-            %i.fa.fa-upload
-            Reimport
-
-        %li
-          = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank" do
-            %i.fa.fa-print
-            Print
-
-        %li
-          = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}") do
-            %i.fa.fa-files-o
-            View Sheets
-
-        %li.divider{ role: "separator" }
-        %li
-          = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" } do
-            .text-danger
-              %i.fa.fa-trash
-              Delete
+      .dropdown-menu.dropdown-menu-right
+        = link_to edit_project_design_path(@design.project, @design), class: "dropdown-item" do
+          %i.fa.fa-pencil
+          Edit
+        = link_to imports_edit_project_design_path(@design.project, @design), class: "dropdown-item" do
+          %i.fa.fa-upload
+          Reimport
+        = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank", class: "dropdown-item" do
+          %i.fa.fa-print
+          Print
+        = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}"), class: "dropdown-item" do
+          %i.fa.fa-files-o
+          View Sheets
+        .dropdown-divider
+        = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" }, class: "dropdown-item text-danger" do
+          %i.fa.fa-trash
+          Delete
   = @title
   = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"
 

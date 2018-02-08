@@ -14,8 +14,8 @@
 = render "search/simple", url: project_domains_path(@project)
 
 - if @domains.present?
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col
       %col.d-none.d-sm-table-column
       %col.d-none.d-md-table-column

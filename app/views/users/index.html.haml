@@ -21,7 +21,7 @@
         = th_sort_field @order, "users.current_sign_in_at", "Recent Activity"
         = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right d-none d-sm-table-cell"
         = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "text-center d-none d-sm-table-cell"
-        %th
+        %th.text-center Actions
 
     - @users.each do |user|
       %tr
@@ -33,24 +33,21 @@
         %td= recent_activity user.current_sign_in_at
         %td.text-right.d-none.d-sm-table-cell= number_with_delimiter user.sign_in_count
         %td.text-center.d-none.d-sm-table-cell= simple_check user.system_admin?
-        %td.nowrap
-
+        %td.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
+              .d-inline-block.d-sm-none
+                %i.fa.fa-cog
+              .d-none.d-sm-inline-block Actions
 
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_user_path(user) do
-                  %i.fa.fa-pencil
-                  Edit
+            .dropdown-menu.dropdown-menu-right
+              = link_to edit_user_path(user), class: "dropdown-item" do
+                %i.fa.fa-pencil
+                Edit
               - unless current_user == user
-                %li.divider{ role: "separator" }
-                %li
-                  = link_to user, method: :delete, data: { confirm: "Delete #{user.name}?" } do
-                    .text-danger
-                      %i.fa.fa-trash
-                      Delete
+                .dropdown-divider
+                = link_to user, method: :delete, data: { confirm: "Delete #{user.name}?" }, class: "dropdown-item text-danger" do
+                  %i.fa.fa-trash
+                  Delete
 
 .center-horizontally= paginate @users, theme: "bootstrap"

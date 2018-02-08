@@ -1,9 +1,8 @@
-.jumbotron
-  %p.text-center
-    No sheets found.
-    - if params[:search].present? && (params[:design_id].present? || params[:site_id].present? || params[:user_id].present?)
-      = succeed "." do
-        = link_to "Clear filters", project_sheets_path(@project, search: params[:search])
+.jumbotron.jumbotron-custom-text
+  No sheets found.
+  - if params[:search].present? && (params[:design_id].present? || params[:site_id].present? || params[:user_id].present?)
+    = succeed "." do
+      = link_to "Clear filters", project_sheets_path(@project, search: params[:search])
 
 - (variable, variable_count) = SheetVariable.joins(:sheet, :variable).merge(@project.sheets).merge(@project.variables.where(variable_type: %w(dropdown radio date))).group(:variable).order(Arel.sql("count(sheet_variables.variable_id) desc"), Arel.sql("random()")).limit(1).count.first
 

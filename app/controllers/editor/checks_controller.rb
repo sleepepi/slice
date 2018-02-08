@@ -11,18 +11,18 @@ class Editor::ChecksController < Editor::EditorController
     @checks = @project.checks.order(:archived, :name).page(params[:page]).per(40)
   end
 
-  # GET /editor/projects/1/checks/1
-  def show
-  end
+  # # GET /editor/projects/1/checks/1
+  # def show
+  # end
 
   # GET /editor/projects/1/checks/new
   def new
     @check = current_user.checks.where(project_id: @project.id).new
   end
 
-  # GET /editor/projects/1/checks/1/edit
-  def edit
-  end
+  # # GET /editor/projects/1/checks/1/edit
+  # def edit
+  # end
 
   # POST /editor/projects/1/checks
   def create

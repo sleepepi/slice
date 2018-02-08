@@ -5,23 +5,25 @@ class Editor::CheckFiltersController < Editor::EditorController
   before_action :find_check_or_redirect
   before_action :find_filter_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /editor/projects/1/checks/1/filters
   def index
     @check_filters = @check.check_filters.order(:position).page(params[:page]).per(40)
   end
 
-  # GET /editor/projects/1/checks/1/filters/1
-  def show
-  end
+  # # GET /editor/projects/1/checks/1/filters/1
+  # def show
+  # end
 
   # GET /editor/projects/1/checks/1/filters/new
   def new
     @check_filter = @check.check_filters.new
   end
 
-  # GET /editor/projects/1/checks/1/filters/1/edit
-  def edit
-  end
+  # # GET /editor/projects/1/checks/1/filters/1/edit
+  # def edit
+  # end
 
   # POST /editor/projects/1/checks/1/filters
   def create

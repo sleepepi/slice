@@ -10,6 +10,8 @@ class RandomizationsController < ApplicationController
   before_action :find_viewable_randomization_or_redirect, only: [:show, :schedule]
   before_action :find_editable_randomization_or_redirect, only: [:undo]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /randomizations/choose-scheme
   def choose_scheme
     return unless @project.randomization_schemes.published.count == 1

@@ -2,61 +2,58 @@
   .jumbotron
     %p.text-center No variables found.
 - else
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col.d-none.d-lg-table-column
       %col.d-none.d-lg-table-column
       %col
-      %col.d-none.d-sm-table-column
-      %col.d-none.d-sm-table-column
+      %col.d-none.d-md-table-column
+      %col.d-none.d-md-table-column
       %col{ width: "1px" }
       %thead
         %tr
           %th.d-none.d-lg-table-cell.nowrap # Designs
           = th_sort_field @order, "variables.name", "Name", extra_class: "d-none d-lg-table-cell"
           = th_sort_field @order, "variables.display_name", "Display Name"
-          %th.d-none.d-sm-table-cell.nowrap{ class: ["variables.variable_type", "variables.variable_type desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.d-none.d-md-table-cell.nowrap{ class: ["variables.variable_type", "variables.variable_type desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Variable Type", project_variables_path(@project, order: (params[:order] == "variables.variable_type desc" ? "variables.variable_type" : "variables.variable_type desc"), variable_type: params[:variable_type])
-            .dropdown{ style: "display: inline-block" }
-              = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" } do
+            %span.dropleft
+              = link_to "#", data: { toggle: "dropdown" } do
                 %i.fa.fa-filter
-              %ul.dropdown-menu
-                %li= link_to "All Variables", project_variables_path(@project, order: params[:order]), style: params[:variable_type].blank? ? "font-weight:bold;" : ""
+              .dropdown-menu
+                = link_to "All Variables", project_variables_path(@project, order: params[:order]), style: params[:variable_type].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - Variable::TYPE.each do |variable_type_label, variable_type_value|
-                  %li= link_to variable_type_label, project_variables_path(@project, order: params[:order], variable_type: variable_type_value), style: params[:variable_type].to_s == variable_type_value.to_s ? "font-weight:bold;" : ""
-          %th.d-none.d-sm-table-cell Options
-          %th Actions
+                  = link_to variable_type_label, project_variables_path(@project, order: params[:order], variable_type: variable_type_value), style: params[:variable_type].to_s == variable_type_value.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+          %th.d-none.d-md-table-cell Options
+          %th.text-center Actions
 
       - @variables.each do |variable|
         %tr{ id: "variable_#{variable.id}" }
           %td.d-none.d-lg-table-cell.text-center= variable.inherited_designs.count
           %td.d-none.d-lg-table-cell= link_to variable.name, [variable.project, variable]
           %td= link_to variable.display_name, [variable.project, variable]
-          %td.d-none.d-sm-table-cell
+          %td.d-none.d-md-table-cell
             %code= variable.variable_type
-          %td.d-none.d-sm-table-cell
+          %td.d-none.d-md-table-cell
             - if variable.domain_options.present?
               = select_tag "variable_#{variable.id}_options", options_for_select(variable.domain_options.collect(&:value_and_name)), style: "width:200px", class: "form-control"
-          %td.nowrap
+          %td.text-center
             .dropdown
               = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-                Actions
-                %strong.caret
+                .d-inline-block.d-sm-none
+                  %i.fa.fa-cog
+                .d-none.d-sm-inline-block Actions
 
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_variable_path(variable.project, variable) do
-                    %i.fa.fa-pencil
-                    Edit
-                %li
-                  = link_to copy_project_variable_path(variable.project, variable) do
-                    %i.fa.fa-clipboard
-                    Copy
-                %li.divider{ role: "separator" }
-                %li
-                  = link_to [variable.project, variable], method: :delete, data: { confirm: "Delete \"#{variable.name}\" variable?" } do
-                    .text-danger
-                      %i.fa.fa-trash
-                      Delete
+              .dropdown-menu.dropdown-menu-right
+                = link_to edit_project_variable_path(variable.project, variable), class: "dropdown-item" do
+                  %i.fa.fa-pencil
+                  Edit
+                = link_to copy_project_variable_path(variable.project, variable), class: "dropdown-item" do
+                  %i.fa.fa-clipboard
+                  Copy
+                .dropdown-divider
+                = link_to [variable.project, variable], method: :delete, data: { confirm: "Delete \"#{variable.name}\" variable?" }, class: "dropdown-item text-danger" do
+                  %i.fa.fa-trash
+                  Delete
 
   .center-horizontally= paginate @variables, theme: "bootstrap"

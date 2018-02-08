@@ -1,12 +1,22 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     @if map-get($theme, link-color) {
-      a:not(.btn) {
+      a {
         color: map-get($theme, link-color);
+
+        &.btn,
+        &.dropdown-item {
+          color: inherit;
+        }
       }
     } @else {
-      a:not(.btn) {
+      a {
         color: map-get($theme, primary);
+
+        &.btn,
+        &.dropdown-item {
+          color: inherit;
+        }
       }
     }
   }

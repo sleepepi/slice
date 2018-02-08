@@ -5,49 +5,41 @@
 - content_for :sidebar, render("subjects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      - if @subject.editable_by?(current_user)
-        .dropdown.float-right
-          = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-            Actions
-            %strong.caret
+  - if @subject.editable_by?(current_user)
+    .float-right
+      .dropdown
+        = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+          .d-inline-block.d-sm-none
+            %i.fa.fa-cog
+          .d-none.d-sm-inline-block Actions
 
-          %ul.dropdown-menu.dropdown-menu-right
-            - if @project.randomizations_enabled? && @project.unblinded?(current_user)
-              - scheme_count = @project.randomization_schemes.published.count
-              - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
-                %li
-                  = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code) do
-                    %i.fa.fa-random
-                    Randomize
-                    - if scheme_count > 1
-                      to
-                      = scheme.name
+        .dropdown-menu.dropdown-menu-right
+          - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+            - scheme_count = @project.randomization_schemes.published.count
+            - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
+              = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: "dropdown-item" do
+                %i.fa.fa-random
+                Randomize
+                - if scheme_count > 1
+                  to
+                  = scheme.name
 
-            - if @project.events.where(archived: false).count > 0
-              %li
-                = link_to choose_event_project_subject_path(@project, @subject) do
-                  %i.fa.fa-plus
-                  New Event
-            %li
-              = link_to data_entry_project_subject_path(@project, @subject) do
-                %i.fa.fa-plus
-                New Sheet
-            %li
-              = link_to edit_project_subject_path(@subject.project, @subject) do
-                %i.fa.fa-pencil
-                Edit Subject
-            %li.divider{ role: "separator" }
-            %li
-              = link_to [@subject.project, @subject], method: :delete, data: { confirm: "Delete subject?" } do
-                .text-danger
-                  %i.fa.fa-trash
-                  Delete Subject
+          - if @project.events.where(archived: false).count > 0
+            = link_to choose_event_project_subject_path(@project, @subject), class: "dropdown-item" do
+              %i.fa.fa-files-o
+              New Event
+          = link_to data_entry_project_subject_path(@project, @subject), class: "dropdown-item" do
+            %i.fa.fa-file-o
+            New Sheet
+          = link_to edit_project_subject_path(@subject.project, @subject), class: "dropdown-item" do
+            %i.fa.fa-pencil
+            Edit Subject
+          .dropdown-divider
+          = link_to [@subject.project, @subject], method: :delete, data: { confirm: "Delete subject?" }, class: "dropdown-item text-danger" do
+            %i.fa.fa-trash
+            Delete Subject
 
-      %h1.page-heading
-        = @title
+  = @title
 
 - if @project.events.where(archived: false).count > 0
   - if @subject.subject_events.count == 0 && @subject.editable_by?(current_user)

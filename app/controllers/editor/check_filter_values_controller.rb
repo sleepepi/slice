@@ -6,24 +6,26 @@ class Editor::CheckFilterValuesController < Editor::EditorController
   before_action :find_filter_or_redirect
   before_action :find_filter_value_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /editor/projects/1/checks/1/filters/1/values
   def index
     @check_filter_values = @check_filter.check_filter_values
                                         .page(params[:page]).per(40)
   end
 
-  # GET /editor/projects/1/checks/1/filters/1/values/1
-  def show
-  end
+  # # GET /editor/projects/1/checks/1/filters/1/values/1
+  # def show
+  # end
 
   # GET /editor/projects/1/checks/1/filters/1/values/new
   def new
     @check_filter_value = @check_filter.check_filter_values.new
   end
 
-  # GET /editor/projects/1/checks/1/filters/1/values/1/edit
-  def edit
-  end
+  # # GET /editor/projects/1/checks/1/filters/1/values/1/edit
+  # def edit
+  # end
 
   # POST /editor/projects/1/checks/1/filters/1/values
   def create

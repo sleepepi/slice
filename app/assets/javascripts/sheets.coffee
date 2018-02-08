@@ -146,8 +146,8 @@ $(document)
     else
       Turbolinks.visit($(this).data("link"))
   )
-  .on('click', '[data-object~="sheet-export-link"]', (e) ->
-    url = "#{root_url}projects/#{$(this).data('project-id')}/exports/new?filters=#{$("#search").val()}"
+  .on("click", "[data-object~=sheet-export-link]", (e) ->
+    url = "#{root_url}projects/#{$(this).data("project-id")}/exports/new?filters=#{$("#search").val()}"
     if nonStandardClick(e)
       window.open(url)
     else

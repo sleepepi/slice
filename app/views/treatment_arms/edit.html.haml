@@ -3,14 +3,11 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
-        Edit
+  = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
+  Edit
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

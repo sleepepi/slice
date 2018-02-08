@@ -1,24 +1,25 @@
-- @title = 'Files'
+- @title = "Files"
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render 'subjects/side_nav'
-= render 'subjects/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("subjects/sidebar")
+- content_for :header, @title
 
-.dashboard-container
-  %table.table.table-borderless.table-striped
-    %thead
-      %tr
-        %th Sheet
-        %th Variable
-        %th File
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
     %tfoot
       %tr
         %th Total Files
         %th
         %th= @uploaded_files.size
+    %thead
+      %tr
+        %th Sheet
+        %th Variable
+        %th File
     %tbody
       - @uploaded_files.each do |object|
         %tr
           %td= link_to object.sheet.name, [@project, object.sheet]
           %td= object.variable.display_name
-          %td= @sheet = object.sheet; render 'sheet_variables/show/file', variable: object.variable, object: object
+          %td= @sheet = object.sheet; render "sheet_variables/show/file", variable: object.variable, object: object

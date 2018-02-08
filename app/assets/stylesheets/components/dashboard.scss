@@ -3,7 +3,7 @@
   @include scale-images;
 
   border-radius: $border-radius;
-  margin-bottom: 40px;
+  margin-bottom: map-get($spacers, 4);
   padding: 10px;
   transition: $transition-bg;
 

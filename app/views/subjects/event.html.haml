@@ -1,32 +1,28 @@
 - @title = @subject_event.name
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render "subjects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("subjects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      - if @subject.editable_by?(current_user)
-        .dropdown.float-right
-          = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-            Actions
-            %strong.caret
+  - if @subject.editable_by?(current_user)
+    .float-right
+      .dropdown
+        = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+          .d-inline-block.d-sm-none
+            %i.fa.fa-cog
+          .d-none.d-sm-inline-block Actions
 
-          %ul.dropdown-menu.dropdown-menu-right
-            %li
-              = link_to edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param) do
-                %i.fa.fa-pencil
-                Edit
-            %li.divider{ role: "separator" }
-            %li
-              = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." } do
-                .text-danger
-                  %i.fa.fa-trash
-                  Delete
-      %h1.page-heading
-        = link_to @subject.name, [@project, @subject]
-        = @title
-        = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
+        .dropdown-menu.dropdown-menu-right
+          = link_to edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: "dropdown-item" do
+            %i.fa.fa-pencil
+            Edit
+          .dropdown-divider
+          = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." }, class: "dropdown-item text-danger" do
+            %i.fa.fa-trash
+            Delete
+  = link_to @subject.name, [@project, @subject]
+  = @title
+  = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
 
 %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event

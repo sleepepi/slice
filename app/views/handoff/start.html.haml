@@ -1,6 +1,6 @@
 - percent = [1 * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
-.progress.progress-striped
-  .progress-bar{ class: "progress-bar-primary", style: "width: #{percent}%;" }
+.progress
+  .progress-bar.progress-bar-striped{ class: "progress-bar-primary", style: "width: #{percent}%;" }
     Getting Started
 
 - if @handoff.first_design

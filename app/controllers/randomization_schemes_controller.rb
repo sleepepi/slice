@@ -14,6 +14,8 @@ class RandomizationSchemesController < ApplicationController
   before_action :find_published_scheme_or_redirect,
                 only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
 
+  layout "layouts/full_page_sidebar"
+
   # # POST /template/add_task.js
   # def add_task
   # end

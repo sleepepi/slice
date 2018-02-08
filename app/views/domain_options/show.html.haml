@@ -3,31 +3,13 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@domain.name, [@project, @domain]]
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          .dropdown
-            = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
-
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_project_domain_domain_option_path(@project, @domain, @domain_option) do
-                  %i.fa.fa-pencil
-                  Edit
-              %li.divider{ role: "separator" }
-              %li
-                = link_to [@project, @domain, @domain_option], method: :delete, data: { confirm: "Delete #{@domain_option.name}?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Delete
-        = @title
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_domain_domain_option_path(@project, @domain, @domain_option), delete_url: [@project, @domain, @domain_option], delete_confirmation: "Delete #{@domain_option.name}?"
+  = @title
 
 .dashboard-container
   %table.table.table-borderless

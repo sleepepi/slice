@@ -3,32 +3,14 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          - unless @randomization_scheme.published?
-            .dropdown
-              = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-                Actions
-                %strong.caret
-
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier) do
-                    %i.fa.fa-pencil
-                    Edit
-                %li.divider{ role: "separator" }
-                %li
-                  = link_to [@project, @randomization_scheme, @block_size_multiplier], method: :delete, data: { confirm: "Delete \"#{@block_size_multiplier.name}\" block size multiplier?" } do
-                    .text-danger
-                      %i.fa.fa-trash
-                      Delete
-        = @title
+  .float-right
+    - unless @randomization_scheme.published?
+      = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), delete_url: [@project, @randomization_scheme, @block_size_multiplier], delete_confirmation: "Delete \"#{@block_size_multiplier.name}\" block size multiplier?"
+  = @title
 
 .dashboard-container
   %table.table.table-borderless

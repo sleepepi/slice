@@ -81,9 +81,9 @@ $(document)
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="submit-and-disable"]', ->
-    $(this).prop('disabled', true)
-    $($(this).data('target')).submit()
+  .on("click", "[data-object~=submit-and-disable]", ->
+    disablerWithSpinner($(this))
+    $($(this).data("target")).submit()
     false
   )
   .on('mouseenter', '[data-object~="hover-show"]', ->

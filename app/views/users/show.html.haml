@@ -8,22 +8,20 @@
     .float-right
       .dropdown
         = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-          Actions
-          %strong.caret
+          .d-inline-block.d-sm-none
+            %i.fa.fa-cog
+          .d-none.d-sm-inline-block Actions
 
-        %ul.dropdown-menu.dropdown-menu-right
-          %li
-            = link_to edit_user_path(@user) do
-              %i.fa.fa-pencil
-              Edit
+        .dropdown-menu.dropdown-menu-right
+          = link_to edit_user_path(@user), class: "dropdown-item" do
+            %i.fa.fa-pencil
+            Edit
 
           - unless current_user == @user
-            %li.divider{ role: "separator" }
-            %li
-              = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" } do
-                .text-danger
-                  %i.fa.fa-trash
-                  Delete
+            .dropdown-divider
+            = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" }, class: "dropdown-item text-danger" do
+              %i.fa.fa-trash
+              Delete
   = @title
 
 .dashboard-container

@@ -14,24 +14,12 @@
   h1 {
     font-size: 30px;
   }
-
-  .dropdown,
-  .float-right {
-    line-height: 33px; // h1 font size * 1.1
-    position: relative;
-    z-index: 1;
-  }
 }
 
 @include media-breakpoint-up(sm) {
   .header-container {
     h1 {
       font-size: 38px;
-    }
-
-    .dropdown,
-    .float-right {
-      line-height: 41.8px; // h1 font size * 1.1
     }
   }
 }
@@ -41,19 +29,12 @@
     h1 {
       font-size: 41px;
     }
-
-    .dropdown,
-    .float-right {
-      line-height: 45.1px; // h1 font size * 1.1
-    }
   }
 }
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .header-container {
-      background-color: black;
-      color: pink;
       background-color: map-get($theme, p800);
       color: map-get($theme, brand-white);
     }

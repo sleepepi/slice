@@ -22,26 +22,26 @@
       .report-number= number_to_human SheetVariable.where(sheet_id: @project.sheets.select(:id)).count
 
 - if @project.randomizations_enabled?
-  - if randomization_schemes.count > 0
+  - if randomization_schemes.count.positive?
     - randomization_schemes.each do |scheme|
-      .jumbotron
+      .jumbotron.jumbotron-white.jumbotron-shadow.text-left
         .float-right.text-center
-          %h4.text-muted Subjects Randomized
+          .lead.nowrap Subjects Randomized
           %h2= number_with_delimiter scheme.active_randomizations.count
-        %h4.text-muted Scheme
+        .lead.nowrap Scheme
         %h2= scheme.name
 
         - randomization_count = scheme.active_randomizations.count
         - if randomization_count > 0 && scheme.randomization_goal > 0
           - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
-          .progress.progress-striped{ style: "margin-top: 20px;margin-bottom: 0" }
-            .progress-bar.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
+          .progress{ style: "margin-top: 20px;margin-bottom: 0" }
+            .progress-bar.progress-bar-striped.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
 
       = render "randomization_schemes/recruitment_chart", scheme: scheme
       = render "randomization_schemes/recruitment_tables", scheme: scheme
   - else
-    .jumbotron
-      %h3.text-center{ style: "margin-top: 0" } Cumulative Randomized
-      %p.lead.text-center.text-muted Subject randomization has not started.
+    .jumbotron.jumbotron-white.jumbotron-shadow
+      .lead.nowrap Cumulative Randomized
+      .lead.text-muted Subject randomization has not started.
 
 = render "reports/projects/reports"

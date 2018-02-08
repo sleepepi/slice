@@ -9,17 +9,20 @@
 .search-container-relative
   .search-container{ class: params[:search].present? ? "search-container-visible" : nil }
     - url = project_subjects_path(@project)
-    = form_tag url, method: :get, class: "form-vertical", enforce_utf8: false do
-      = hidden_field_tag :order, params[:order] if params[:order].present?
-      = hidden_field_tag :site_id, params[:site_id] if params[:site_id].present?
-      .form-group{ style: "margin: 0;" }
-        .input-group
-          = text_field_tag :search, params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "form-control", placeholder: "Search #{@title}", data: { object: "subjects-autocomplete", project_id: @project.to_param }
-          %span.input-group-btn{ style: "vertical-align: bottom;" }
-            = submit_tag "Search", class: "btn btn-primary", name: nil
-            - if params[:search].present?
-              = link_to url, class: "btn btn-light" do
-                &times;
+    = form_with url: url, method: :get, enforce_utf8: false, local: true, id: "search-form" do |form|
+      = form.hidden_field :order, value: params[:order] if params[:order].present?
+      = form.hidden_field :site_id, value: params[:site_id] if params[:site_id].present?
+      .input-group
+        = form.text_field :search, value: params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "subjects-autocomplete", project_id: @project.to_param }, class: "form-control", placeholder: "Search #{@title}", id: "search"
+        .input-group-append
+          = link_to "#", class: "btn btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
+            %i.fa.fa-search
+          - if params[:search].present?
+            = link_to url, class: "btn btn-light" do
+              &times;
+          - else
+            = link_to "#", data: { object: "toggle-search-container", target: "#search" }, class: "btn btn-light" do
+              &times;
 
 - if @subjects.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
@@ -41,35 +44,35 @@
           - if viewable_sites.count > 1
             %th.hidden-xs.hidden-sm.nowrap{ class: ["subjects.site_id", "subjects.site_id desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_subjects_path(@project, filtered_params.merge(order: (params[:order] == "subjects.site_id desc" ? "subjects.site_id" : "subjects.site_id desc")))
-              .dropdown{ style: "display: inline-block" }
-                = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" }, id: "status-dropdown" do
+              %span.dropleft
+                = link_to "#", data: { toggle: "dropdown" } do
                   %i.fa.fa-filter
-                %ul.dropdown-menu{ aria: { labelledby: "status-dropdown" } }
-                  %li= link_to "All Sites", project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : ""
+                .dropdown-menu
+                  = link_to "All Sites", project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
-                    %li= link_to site.short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : ""
+                    = link_to site.short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           %th.nowrap Recent Activity
           - if @project.randomizations_enabled? && unblinded_user
             %th.hidden-xs.text-center
               Randomized
-              .dropdown{ style: "display: inline-block" }
-                = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" }, id: "randomized-dropdown" do
+              %span.dropleft
+                = link_to "#", data: { toggle: "dropdown" } do
                   %i.fa.fa-filter
-                %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: "randomized-dropdown" } }
-                  %li= link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "randomized" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "randomized" }.blank? ? "font-weight:bold;" : ""
-                  %li= link_to "Randomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["is:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "=" }.present? ? "font-weight:bold;" : ""
-                  %li= link_to "Unrandomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["not:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "!=" }.present? ? "font-weight:bold;" : ""
+                .dropdown-menu
+                  = link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "randomized" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "randomized" }.blank? ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to "Randomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["is:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "=" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to "Unrandomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["not:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "!=" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
           - if @project.adverse_events_enabled? && unblinded_user
             %th.hidden-xs
               AEs
-              .dropdown{ style: "display: inline-block" }
-                = link_to "#", data: { target: "#", toggle: "dropdown" }, role: "button", aria: { haspopup: "true", expanded: "false" }, id: "ae-dropdown" do
+              %span.dropleft
+                = link_to "#", data: { toggle: "dropdown" } do
                   %i.fa.fa-filter
-                %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: "ae-dropdown" } }
-                  %li= link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" }.blank? ? "font-weight:bold;" : ""
-                  %li= link_to "Open", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["adverse-events:open"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && t.value == "open" }.present? ? "font-weight:bold;" : ""
-                  %li= link_to "Closed", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["adverse-events:closed"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && t.value == "closed" }.present? ? "font-weight:bold;" : ""
-                  %li= link_to "None", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["no:adverse-events"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && %w(missing !=).include?(t.operator) }.present? ? "font-weight:bold;" : ""
+                .dropdown-menu
+                  = link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" }.blank? ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to "Open", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["adverse-events:open"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && t.value == "open" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to "Closed", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["adverse-events:closed"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && t.value == "closed" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to "None", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["no:adverse-events"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && %w(missing !=).include?(t.operator) }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
 
       - @subjects.each do |subject|
         %tr{ id: "subject_#{subject.id}" }

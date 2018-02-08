@@ -10,8 +10,8 @@
     .per-page= render "layouts/per_page", per_page: 20, object_count: @exports.total_count
   = @title
 
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col{ width: "1px" }
     %col
     %col.d-none.d-sm-table-column
@@ -24,13 +24,13 @@
         = th_sort_field @order, "exports.created_at", "Exported"
         %th.d-none.d-sm-table-cell Type
         = th_sort_field_rev @order, "exports.file_size", "Size", extra_class: "d-none d-md-table-cell"
-        %th.d-none.d-sm-table-cell File
-        %th Actions
+        %th.d-none.d-sm-table-cell.text-center File
+        %th.text-center Actions
 
     - @exports.each do |export|
       %tr
         %td
-          %span.label{ class: "label-#{export.status == "ready" ? "success" : (export.status == "pending" ? "warning" : "danger")}" }
+          %span.badge{ class: "badge-#{export.status == "ready" ? "success" : (export.status == "pending" ? "warning" : "danger")}" }
             = export.status
         %td.nowrap
           = link_to [@project, export], rel: "tooltip", data: { title: export.created_at.strftime("%-l:%M %p"), container: "body", placement: "left" } do
@@ -66,13 +66,13 @@
         %td.d-none.d-md-table-cell
           - if export.file_size.positive?
             %code.nowrap= number_to_human_size(export.file_size)
-        %td.d-none.d-sm-table-cell
+        %td.d-none.d-sm-table-cell.text-center
           - if export.file_size.positive?
             - full_url = file_project_export_path(@project, export)
             = link_to full_url, target: "_blank", class: "btn btn-light btn-sm" do
               zip
               %i.fa.fa-download
-        %td
+        %td.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               Actions

@@ -1,12 +1,15 @@
 .search-container-relative
   .search-container{ class: params[:search].present? ? "search-container-visible" : nil }
-    = form_tag url, method: :get, class: "form-vertical", enforce_utf8: false do
-      = hidden_field_tag :order, params[:order] unless params[:order].blank?
-      .form-group{ style: "margin: 0;" }
-        .input-group
-          = text_field_tag :search, params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "form-control", placeholder: "Search #{@title}"
-          %span.input-group-btn{ style: "vertical-align: bottom;" }
-            = submit_tag "Search", class: "btn btn-primary", name: nil
-            - if params[:search].present?
-              = link_to url, class: "btn btn-light" do
-                &times;
+    = form_with url: url, method: :get, enforce_utf8: false, local: true do |form|
+      = form.hidden_field :order, value: params[:order] if params[:order].present?
+      .input-group
+        = form.text_field :search, value: params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "form-control", placeholder: "Search #{@title}", id: "search"
+        .input-group-append
+          = link_to "#", class: "btn btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
+            %i.fa.fa-search
+          - if params[:search].present?
+            = link_to url, class: "btn btn-light" do
+              &times;
+          - else
+            = link_to "#", data: { object: "toggle-search-container", target: "#search" }, class: "btn btn-light" do
+              &times;

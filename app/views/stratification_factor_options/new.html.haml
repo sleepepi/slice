@@ -1,10 +1,11 @@
-- @title = 'New Option'
+- @title = "New Option"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 - @breadcrumbs << [@stratification_factor.name, [@project, @randomization_scheme, @stratification_factor]]
 
-= render 'projects/side_nav'
-= render 'layouts/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

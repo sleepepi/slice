@@ -7,6 +7,8 @@ class DomainOptionsController < ApplicationController
   before_action :find_domain_or_redirect
   before_action :find_domain_option_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /domains/1/options
   def index
     @domain_options = @domain.domain_options.order(:value).page(params[:page]).per(40)

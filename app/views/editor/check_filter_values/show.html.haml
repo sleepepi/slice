@@ -4,31 +4,13 @@
 - @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 - @breadcrumbs << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          .dropdown
-            = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-              Actions
-              %strong.caret
-
-            %ul.dropdown-menu.dropdown-menu-right
-              %li
-                = link_to edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value) do
-                  %i.fa.fa-pencil
-                  Edit
-              %li.divider{ role: "separator" }
-              %li
-                = link_to editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), method: :delete, data: { confirm: "Delete \"#{@check_filter_value.value}\" filter value?" } do
-                  .text-danger
-                    %i.fa.fa-trash
-                    Delete
-        = @title
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value), delete_confirmation: "Delete \"#{@check_filter_value.value}\" filter value?"
+  = @title
 
 .dashboard-container
   %table.table.table-borderless

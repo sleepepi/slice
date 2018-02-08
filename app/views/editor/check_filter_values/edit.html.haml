@@ -4,14 +4,11 @@
 - @breadcrumbs << [@check.name, editor_project_check_path(@project, @check)]
 - @breadcrumbs << [@check_filter.name, editor_project_check_check_filter_path(@project, @check, @check_filter)]
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @check_filter_value.value_was, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)
-        Edit
+  = link_to @check_filter_value.value_was, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)
+  Edit
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

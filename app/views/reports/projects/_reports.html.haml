@@ -1,8 +1,8 @@
 %h3.text-white.text-shadow
   Dynamic Reports
 
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
     %col{ width: '1px' }
     %thead
@@ -17,7 +17,7 @@
           = link_to 'View', report_reports_project_path(@project), class: 'btn btn-sm btn-light'
 
   - @project.designs.blinding_scope(current_user).includes(:category).order('categories.position', :name).group_by(&:category).each do |category, designs|
-    %table.table.table-striped.table-borderless.table-hover
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col
       %col{ width: '1px' }
       %col{ width: '1px' }

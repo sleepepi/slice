@@ -4,6 +4,6 @@
   - status = "danger"
   - status = "warning" if percent >= 33
   - status = "success" if percent == 100
-  .progress.progress-striped
-    .progress-bar{ class: "progress-bar-#{status}", style: "width: #{percent}%;" }= "#{percent}%"
+  .progress
+    .progress-bar.progress-bar-striped{ class: "progress-bar-#{status}", style: "width: #{percent}%;" }= "#{percent}%"
 

@@ -3,7 +3,8 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@domain.name, [@project, @domain]]
 
-= render "projects/side_nav"
-= render "layouts/simple_header"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
 .dashboard-container= render "form", domain_option: @domain_option

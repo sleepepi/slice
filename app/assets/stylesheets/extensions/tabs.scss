@@ -1,29 +1,27 @@
 .nav-custom-tabs {
   border: 0;
 
-  li {
-    margin: 0;
-
-    &.active a {
-      border-color: transparent;
-
-      &:hover {
-        border-color: transparent;
-      }
-    }
-
-    a {
-      color: $brand-white;
-
-      &:hover {
-        border-color: transparent;
-        color: $body-color;
-      }
-    }
+  .nav-item,
+  .nav-link {
+    border: 0;
   }
 
   + .dashboard-container {
     border-top-left-radius: 0;
-    // border-top-right-radius: 0;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .nav-custom-tabs {
+      .nav-link {
+        background-color: map-get($theme, form-bg);
+        &.active,
+        &:hover {
+          background-color: map-get($theme, dashboard-bg);
+          box-shadow: 0 -3px 5px map-get($theme, box-shadow-color);
+        }
+      }
+    }
   }
 }

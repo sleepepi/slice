@@ -1,20 +1,17 @@
-- @title = 'Options'
+- @title = "Options"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
 
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 - @breadcrumbs << [@stratification_factor.name, project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor)]
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          = link_to plus_or('New Option'), new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: 'btn btn-accent btn-shadow'
-          .per-page= render 'layouts/per_page', per_page: 40, object_count: @stratification_factor_options.total_count
-        %span.nowrap= @title
+  .float-right
+    = link_to plus_or("New Option"), new_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor), class: "btn btn-accent btn-shadow"
+    .per-page= render "layouts/per_page", per_page: 40, object_count: @stratification_factor_options.total_count
+  = @title
 
-= render 'stratification_factor_options/stratification_factor_options'
+= render "stratification_factor_options/stratification_factor_options"

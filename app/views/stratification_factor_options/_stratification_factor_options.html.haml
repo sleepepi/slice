@@ -1,17 +1,17 @@
-.dashboard-container
-  %table.table.table-striped.table-borderless.table-hover
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
     %col
     %col
-    %col.hidden-xs
+    %col.d-none.d-sm-table-column
     %col{ width: "1px" }
     %thead
       %tr
         %th Name
         %th Label
         %th Value
-        %th.hidden-xs Creator
-        %th Actions
+        %th.d-none.d-sm-table-cell Creator
+        %th.text-center Actions
 
     %tbody
       - @stratification_factor_options.each do |stratification_factor_option|
@@ -19,22 +19,21 @@
           %td= link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
           %td= stratification_factor_option.label
           %td= stratification_factor_option.value
-          %td.hidden-xs= link_to stratification_factor_option.user.name, stratification_factor_option.user if stratification_factor_option.user
-          %td
+          %td.d-none.d-sm-table-cell= link_to stratification_factor_option.user.name, stratification_factor_option.user if stratification_factor_option.user
+          %td.text-center
+
             .dropdown
               = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-                Actions
-                %strong.caret
+                .d-inline-block.d-sm-none
+                  %i.fa.fa-cog
+                .d-none.d-sm-inline-block Actions
 
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, stratification_factor_option) do
-                    %i.fa.fa-pencil
-                    Edit
+              .dropdown-menu.dropdown-menu-right
+                = link_to edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, stratification_factor_option), class: "dropdown-item" do
+                  %i.fa.fa-pencil
+                  Edit
                 - unless @randomization_scheme.published?
-                  %li.divider{ role: "separator" }
-                  %li
-                    = link_to [@project, @randomization_scheme, @stratification_factor, stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{stratification_factor_option.name}\"?" } do
-                      .text-danger
-                        %i.fa.fa-trash
-                        Delete
+                  .dropdown-divider
+                  = link_to [@project, @randomization_scheme, @stratification_factor, stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{stratification_factor_option.name}\"?" }, class: "dropdown-item text-danger" do
+                    %i.fa.fa-trash
+                    Delete

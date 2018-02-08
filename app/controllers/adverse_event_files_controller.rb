@@ -8,6 +8,8 @@ class AdverseEventFilesController < ApplicationController
   before_action :set_adverse_event
   before_action :set_adverse_event_file, only: [:show, :download, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /adverse-events/:adverse_event_id/files
   def index
     @adverse_event_files = @adverse_event.adverse_event_files

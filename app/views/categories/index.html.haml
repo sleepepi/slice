@@ -14,8 +14,8 @@
 = render "search/simple", url: project_categories_path(@project)
 
 - if @categories.present?
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col{ width: "1px" }
       %col
       %col.d-none.d-md-table-column
@@ -36,6 +36,5 @@
             %td
               = render "layouts/edit_delete_dropdown", edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Delete \"#{category.name}\" category?"
 - else
-  .jumbotron
-    %p.text-center
-      No categories found.
+  .jumbotron.jumbotron-custom-text
+    No categories found.
