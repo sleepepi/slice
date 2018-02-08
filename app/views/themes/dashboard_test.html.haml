@@ -1,30 +1,25 @@
 - @title = "Dashboard Test"
 
-- render "themes/random"
+- @random_theme = true
 
 - content_for :container_class, "container-fluid"
 
-- content_for :header do
-  .header-container
-    .container-fluid
-      %h1.page-heading
-        = @title
+- content_for :header, @title
 
-.p-3
-  .dashboard-container
-    %strong Small Heading
+.dashboard-container
+  %strong Small Heading
 
-    %p some stuff
+  %p some stuff
 
-    %p some more stuff
+  %p some more stuff
 
-    %p
-      Please read this interesting
-      = link_to "link", themes_dashboard_test_url
-      about Slice.
+  %p
+    Please read this interesting
+    = link_to "link", themes_dashboard_test_url
+    about Slice.
 
-    %ul
-      %li= link_to "Dashboard test", themes_dashboard_test_url
-      %li= link_to "Full test", themes_full_test_url
-      %li= link_to "Menu test", themes_menu_test_url
-      %li= link_to "Transition test", themes_transition_test_url
+  %ul
+    %li= link_to "Dashboard test", themes_dashboard_test_url
+    %li= link_to "Full test", themes_full_test_url
+    %li= link_to "Menu test", themes_menu_test_url
+    %li= link_to "Transition test", themes_transition_test_url

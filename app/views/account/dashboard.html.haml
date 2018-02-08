@@ -1,16 +1,10 @@
 - @title = "Dashboard"
 
-- render "themes/theme"
-
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = @title
-        .float-right
-          = link_to "New Project", new_project_path, class: "btn btn-accent"
-          = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-light"
+  .float-right
+    = link_to "New Project", new_project_path, class: "btn btn-primary"
+    = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-light"
+  = @title
 
 - if @favorited_projects.count > 0
   %h2.text-white.text-shadow Favorites

@@ -22,7 +22,6 @@
   @if map-get($theme, footer-bg) and map-get($theme, body-focus) {
     .theme-#{$name}-focus-bg {
       background-image: linear-gradient(180deg, map-get($theme, footer-bg), map-get($theme, body-focus) 50%, map-get($theme, footer-bg));
-      color: map-get($theme, footer-color);
     }
   }
 }

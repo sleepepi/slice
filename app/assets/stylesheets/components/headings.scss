@@ -65,10 +65,10 @@
   word-break: break-word;
 }
 
+// TODO: Look at page-heading link styling.
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .page-heading {
-
       // > a {
       //   color: $breadcrumb-link-color;
       // }
@@ -80,25 +80,27 @@
   }
 }
 
+.header-link {
+  display: inline-block;
+  font-size: 65%;
+  font-weight: normal;
+  line-height: 1;
+  white-space: nowrap;
+}
 
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .header-link {
+      a {
+        color: map-get($theme, p100);
 
-// TODO: Comment back in
-
-// .header-link {
-//   display: inline-block;
-//   font-size: 65%;
-//   font-weight: normal;
-//   line-height: 1;
-//   white-space: nowrap;
-
-//   a {
-//     color: $p100-blue;
-
-//     &:hover {
-//       color: $p50-blue;
-//     }
-//   }
-// }
+        &:hover {
+          color: map-get($theme, p50);
+        }
+      }
+    }
+  }
+}
 
 .header-container-hide {
   h1 {

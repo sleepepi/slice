@@ -4,7 +4,7 @@
 class ThemesController < ApplicationController
   # GET /themes/dashboard-test
   def dashboard_test
-    render layout: "layouts/full_page"
+    # render layout: "layouts/full_page"
   end
 
   # GET /themes/full-test

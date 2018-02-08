@@ -28,6 +28,10 @@
 
 @each $name, $theme in $themes {
   .menu-#{$name} {
+    .navbar-brand {
+      color: map-get($theme, brand-white) !important;
+    }
+
     @include media-breakpoint-up(lg) {
       .nav-item {
         &:focus,

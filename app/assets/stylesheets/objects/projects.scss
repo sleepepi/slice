@@ -4,20 +4,9 @@
 }
 
 .projects-box {
-  background-color: $project-box-bg;
-  box-shadow: 0 0 5px $standard-shadow-hover-color;
   margin: 0 0 10px;
   padding: 10px;
-  transition: box-shadow .2s ease, background-color .2s ease;
-
-  &:hover {
-    background-color: lighten($project-box-bg, 5%);
-    box-shadow: 0 0 20px $standard-shadow-hover-color;
-  }
-
-  > a {
-    color: $project-box-link;
-  }
+  transition: background-color .2s ease;
 }
 
 @include media-breakpoint-up(sm) {
@@ -35,5 +24,14 @@
 @media (hover) {
   .projects-box:hover .handle {
     display: inline-block;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .projects-box {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+    }
   }
 }

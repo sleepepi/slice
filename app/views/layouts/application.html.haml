@@ -17,7 +17,7 @@
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  - render "themes/theme"
+  - @random_theme ? render("themes/random") : render("themes/theme")
   %body#top.full-page.theme-bg{ class: @body ? "theme-#{@body}-bg" : nil }
     = render "layouts/features/flash_bar"
     = render "layouts/features/sound_enabled" # Slice extra
@@ -25,8 +25,12 @@
     = render "layouts/features/notifications" # Slice extra
     = yield :side_nav # Slice extra
     #top-menu.top-menu= render "layouts/menu", menu: @menu ? "menu-#{@menu}" : nil, hide_logo: false
+    - if content_for?(:header)
+      .header-container
+        %div{ class: defined?(container) && container.present? ? container : "container" }
+          %h1.page-heading
+            = yield :header
     = render "layouts/breadcrumbs" # Slice extra
-    = yield :header
     .page-box-padding
       .container= yield
     = yield :footer

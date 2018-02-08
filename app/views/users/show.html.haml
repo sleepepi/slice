@@ -4,31 +4,27 @@
   - @breadcrumbs << ["Users", users_path]
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        - if current_user.system_admin?
-          .float-right
-            .dropdown
-              = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-                Actions
-                %strong.caret
+  - if current_user.system_admin?
+    .float-right
+      .dropdown
+        = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+          Actions
+          %strong.caret
 
-              %ul.dropdown-menu.dropdown-menu-right
-                %li
-                  = link_to edit_user_path(@user) do
-                    %i.fa.fa-pencil
-                    Edit
+        %ul.dropdown-menu.dropdown-menu-right
+          %li
+            = link_to edit_user_path(@user) do
+              %i.fa.fa-pencil
+              Edit
 
-                - unless current_user == @user
-                  %li.divider{ role: "separator" }
-                  %li
-                    = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" } do
-                      .text-danger
-                        %i.fa.fa-trash
-                        Delete
-        = @title
+          - unless current_user == @user
+            %li.divider{ role: "separator" }
+            %li
+              = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" } do
+                .text-danger
+                  %i.fa.fa-trash
+                  Delete
+  = @title
 
 .dashboard-container
   %table.table.table-borderless

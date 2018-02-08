@@ -1,14 +1,11 @@
 - @title = "My Settings"
 
-- content_for :header do
-  .header-container
-    .container
-      %h1.page-heading= @title
+- content_for :header, @title
 
 .row
   .col-md-6
     .card
-      .card-header.bg-primary.text-white
+      .card-header
         - if current_user.theme == "spring"
           %span.fa-stack.flower-stack
             %i.fa.fa-pagelines.fa-stack-1x

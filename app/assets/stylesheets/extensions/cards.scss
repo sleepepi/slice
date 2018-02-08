@@ -1,7 +1,7 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .card {
-      background-color: map-get($theme, brand-white);
+      background-color: map-get($theme, dashboard-bg);
     }
 
     .card-primary {

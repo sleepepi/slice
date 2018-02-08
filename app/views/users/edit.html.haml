@@ -1,14 +1,10 @@
 - @title = "#{@user.name_was} Edit"
 - @breadcrumbs = []
-- @breadcrumbs << ['Users', users_path]
+- @breadcrumbs << ["Users", users_path]
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @user.name_was, @user
-        Edit
+  = link_to @user.name_was, @user
+  Edit
 
 .dashboard-container
-  = render 'form'
+  = render "form"
