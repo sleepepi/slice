@@ -41,3 +41,45 @@
     }
   }
 }
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    @if map-get($theme, link-color) {
+      .page-item.active {
+        .page-link {
+          background-color: map-get($theme, link-color);
+          border-color: map-get($theme, link-color);
+          color: map-get($theme, brand-white);
+        }
+      }
+      .page-link {
+        color: map-get($theme, link-color);
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: map-get($theme, link-color);
+          text-decoration: none;
+        }
+      }
+    } @else {
+      .page-item.active {
+        .page-link {
+          background-color: map-get($theme, primary);
+          border-color: map-get($theme, primary);
+          color: map-get($theme, brand-white);
+        }
+      }
+      .page-link {
+        color: map-get($theme, primary);
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: map-get($theme, primary);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

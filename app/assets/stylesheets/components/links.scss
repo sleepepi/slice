@@ -21,26 +21,42 @@
   }
 }
 
-.link-unstyled {
-  color: $body-color;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .link-unstyled {
+      color: map-get($theme, body-color);
 
-  &:hover,
-  &:focus,
-  &:active {
-    color: $body-color;
-    text-decoration: none;
+      &:hover,
+      &:focus,
+      &:active {
+        color: map-get($theme, body-color);
+        text-decoration: none;
+      }
+    }
+
+    .link-white {
+      @include ignore-selection;
+
+      color: map-get($theme, brand-white);
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: map-get($theme, brand-white);
+      }
+    }
   }
 }
 
-.link-accent {
-  color: $brand-accent;
+// .link-accent {
+//   color: $brand-accent;
 
-  &:hover,
-  &:focus,
-  &:active {
-    color: darken($brand-accent, 10%);
-  }
-}
+//   &:hover,
+//   &:focus,
+//   &:active {
+//     color: darken($brand-accent, 10%);
+//   }
+// }
 
 .link-no-underline {
   &:hover,
@@ -52,16 +68,4 @@
 
 .span-link {
   cursor: pointer;
-}
-
-.link-white {
-  @include ignore-selection;
-
-  color: $brand-white;
-
-  &:hover,
-  &:focus,
-  &:active {
-    color: $brand-white;
-  }
 }
