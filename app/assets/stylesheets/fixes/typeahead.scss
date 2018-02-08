@@ -1,18 +1,13 @@
 // Twitter Typeahead Fixes
 .twitter-typeahead {
-  background-color: $input-bg;
-  border-radius: 4px;
-  color: $input-color;
+  border-radius: $border-radius;
   width: 100%;
 }
 
 .tt-menu {
   background-clip: padding-box;
-  background-color: $dropdown-bg;
-  border: 1px solid $dropdown-fallback-border;
-  border-color: $dropdown-border;
+  border: 1px solid transparent;
   border-radius: 6px;
-  box-shadow: 0 5px 10px $dropdown-border;
   margin-top: 2px;
   min-width: 160px;
   padding: 5px 0;
@@ -20,13 +15,30 @@
 
 .tt-suggestion {
   padding: 3px 20px;
+}
 
-  &.tt-cursor {
-    background-color: $brand-primary;
-    color: $brand-white;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .twitter-typeahead {
+      background-color: theme-color($theme, input-bg, $white);
+      color: theme-color($theme, input-color, $p800-grey);
+    }
 
-    a {
-      color: $brand-white;
+    .tt-menu {
+      // background-color: $dropdown-bg;
+      border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
+      // box-shadow: 0 5px 10px $dropdown-border;
+    }
+
+    .tt-suggestion {
+      &.tt-cursor {
+        background-color: map-get($theme, primary);
+        color: map-get($theme, brand-white);
+
+        a {
+          color: map-get($theme, brand-white);
+        }
+      }
     }
   }
 }
