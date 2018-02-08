@@ -2,17 +2,14 @@
 - @menu_title = ["Search", params[:search]].reject(&:blank?).join(" ")
 
 - content_for :header do
-  .header-container
-    .container
-      %h1.page-heading
-        Search
-        - if params[:search].present?
-          %small
-            %code{ data: { object: "show-search-bar" }, style: "cursor: pointer;" }= params[:search]
+  Search
+  - if params[:search].present?
+    %small
+      %code{ data: { object: "show-search-bar" }, style: "cursor: pointer;" }= params[:search]
 
 - if @objects.size == 0
-  .jumbotron
-    %p.text-center No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
+  .jumbotron.jumbotron-custom-text
+    No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
 - else
   .row
     - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|

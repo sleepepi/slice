@@ -5,15 +5,11 @@
 - content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          = link_to plus_or("New Variable"), new_project_variable_path(@project), class: "btn btn-accent btn-shadow"
-          .per-page= render "layouts/per_page", per_page: 20, object_count: @variables.total_count
-        = @title
-        = render "search/toggle"
+  .float-right
+    = link_to plus_or("New Variable"), new_project_variable_path(@project), class: "btn btn-accent btn-shadow"
+    .per-page= render "layouts/per_page", per_page: 20, object_count: @variables.total_count
+  = @title
+  = render "search/toggle"
 
 = render "search/simple", url: project_variables_path(@project)
 = render "variables/variables"
