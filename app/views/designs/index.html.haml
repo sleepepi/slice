@@ -15,8 +15,8 @@
 
 - if @designs.present?
   - filtered_params = params.permit(:category_id, :search)
-  .dashboard-container
-    %table.table.table-striped
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col{ width: "1px" }
       %col
       %col.d-none.d-sm-table-column

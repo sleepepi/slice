@@ -23,6 +23,10 @@
   @include remove-last-child-bottom-margin;
 }
 
+.dashboard-table {
+  padding: map-get($spacers, 1) 0;
+}
+
 // TODO: Put back in
 // .dashboard-lead {
 //   background-color: $dashboard-lead-bg;

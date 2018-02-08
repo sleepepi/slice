@@ -1,3 +1,11 @@
 abbr[title] {
   text-decoration: none;
 }
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    abbr[title] {
+      border-bottom: 1px dotted map-get($theme, body-color);
+    }
+  }
+}

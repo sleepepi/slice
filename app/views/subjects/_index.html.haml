@@ -24,8 +24,8 @@
 - if @subjects.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
   - unblinded_user = @project.unblinded?(current_user)
-  .dashboard-container
-    %table.table.table-striped.table-borderless.table-hover
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col
       - if viewable_sites.count > 1
         %col.hidden-xs.hidden-sm
