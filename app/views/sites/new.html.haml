@@ -1,7 +1,8 @@
-- @title = 'New Site'
+- @title = "New Site"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
-= render 'layouts/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

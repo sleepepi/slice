@@ -13,7 +13,7 @@
 
 @include media-breakpoint-up(sm) {
   .sign-up-form {
-    border-radius: 5px;
+    border-radius: $border-radius;
     overflow: hidden;
   }
 
@@ -33,11 +33,6 @@
     .sign-up-form {
       background-color: map-get($theme, form-bg); // Should be greyish
       color: map-get($theme, body-color);
-
-      // .form-control {
-      //   background-color: $form-input-bg;
-      //   color: $form-input-color;
-      // }
     }
 
     .sign-up-form-title {

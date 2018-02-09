@@ -1,11 +1,6 @@
 - @title = "Prepare for Handoff"
 
-- content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = @title
+- content_for :header, @title
 
 - if @handoff.handoff_enabled_event_designs.present?
   .jumbotron.callout-danger
@@ -26,9 +21,10 @@
       Launch Tablet Handoff
       %i.fa.fa-paper-plane
 
-  %h3.text-white.text-shadow
-    Handoff URL
-  %code
-    = "#{ENV["website_url"]}/handoff/#{@project.to_param}/#{@handoff.to_param}"
+  .dashboard-container
+    %h3
+      Handoff URL
+    %code.btn-link.link-no-underline
+      = "#{ENV["website_url"]}/handoff/#{@project.to_param}/#{@handoff.to_param}"
 - else
   = render "handoffs/no_handoff_enabled_designs_on_event"

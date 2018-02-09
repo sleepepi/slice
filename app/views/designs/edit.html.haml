@@ -1,29 +1,26 @@
 - @title = "#{@design.name_was} Edit"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render "projects/side_nav"
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        .float-right
-          .d-none.d-sm-block.btn-toolbar{ style: "margin-top: 15px;" }
-            .btn-group{ data: { toggle: "buttons" } }
-              .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
-                %input#edit-mode{ type: "radio", name: "preview_modes" }
-                  Edit
-                  = succeed "ode" do
-                    %u M
-              .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] == "preview"}", data: { object: "preview-mode" } }
-                %input#preview-mode{ type: "radio", name: "preview_modes" }
-                  Preview
-                  = succeed "ode" do
-                    %u M
-            = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
-        = link_to @design.short_name, [@project, @design]
-        Edit
+  .float-right
+    .d-none.d-sm-block.btn-toolbar{ style: "margin-top: 15px;" }
+      .btn-group{ data: { toggle: "buttons" } }
+        .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] != "preview"}", data: { object: "edit-mode" } }
+          %input#edit-mode{ type: "radio", name: "preview_modes" }
+            Edit
+            = succeed "ode" do
+              %u M
+        .btn.btn-sm.btn-light{ class: "#{"active" if params[:mode] == "preview"}", data: { object: "preview-mode" } }
+          %input#preview-mode{ type: "radio", name: "preview_modes" }
+            Preview
+            = succeed "ode" do
+              %u M
+      = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
+  = link_to @design.short_name, [@project, @design]
+  Edit
 
 
 #interactive_design_modal.modal

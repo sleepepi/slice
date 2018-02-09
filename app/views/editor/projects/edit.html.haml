@@ -1,13 +1,10 @@
 - @title = "#{@project.name_was} Edit"
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @project.name_was, settings_editor_project_path(@project)
-        Edit
+  = link_to @project.name_was, settings_editor_project_path(@project)
+  Edit
 
-.dashboard-container= render 'projects/form'
+.dashboard-container= render "projects/form"

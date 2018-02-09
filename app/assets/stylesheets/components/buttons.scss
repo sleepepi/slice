@@ -4,8 +4,16 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .btn-primary {
+      color: map-get($theme, brand-white) !important;
+    }
+
+    .btn-primary {
+      color: map-get($theme, brand-white) !important;
+    }
+
     .btn-shadow {
-      box-shadow: 0 0 15px map-get($theme, shadow-color);
+      box-shadow: 0 0 5px map-get($theme, shadow-color);
 
       &:hover,
       &:focus,
@@ -13,26 +21,22 @@
       &.active,
       &.disabled,
       &[disabled] {
-        box-shadow: 0 0 8px map-get($theme, shadow-color);
+        box-shadow: 0 0 10px map-get($theme, shadow-color);
+      }
+    }
+
+    .btn-accent {
+      @include button-variant(map-get($theme, accent), map-get($theme, accent));
+      color: map-get($theme, brand-white) !important;
+
+      &:hover,
+      &:focus,
+      &:active,
+      &.active,
+      &.disabled,
+      &[disabled] {
+        color: map-get($theme, brand-white);
       }
     }
   }
 }
-
-// TODO: Add or replace btn-accent
-// .btn-accent {
-//   background-color: $a200;
-//   border: 1px solid $a400;
-//   color: $a200-text;
-
-//   &:hover,
-//   &:focus,
-//   &:active,
-//   &.active,
-//   &.disabled,
-//   &[disabled] {
-//     background-color: $a400;
-//     border: 1px solid $a700;
-//     color: $a200-text;
-//   }
-// }

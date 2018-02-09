@@ -10,7 +10,7 @@
   %div{ style: "margin-bottom: 20px;" }
     = f.text_field :filters, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, id: "export_filters", placeholder: "All Sheets"
   .row
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Comma-Separated Values
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_csv_labeled ? "selected" : nil), rel: "tooltip", data: { html: "true", title: "<table style='background-color:transparent'><tr><th style='text-align:left;'>Subject&nbsp;</th><th style='text-align:left;'>Gender</th><th style='text-align:left;'>Age</th></tr><tr><td style='text-align:left'>T325</td><td style='text-align:left'>1: male</td><td style='text-align:left'>25 years</td></tr><tr><td style='text-align:left'>T349</td><td style='text-align:left'>2: female</td><td style='text-align:left'>30 years</td></tr></table>", container: 'body', placement: 'top' } }
@@ -20,7 +20,7 @@
           = f.check_box :include_csv_raw
           CSV Raw
 
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Statistical
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_sas ? "selected" : nil) }
@@ -30,7 +30,7 @@
           = f.check_box :include_r
           R
 
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Portable Document Format
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_pdf ? "selected" : nil) }
@@ -38,36 +38,36 @@
           PDF
 
   .row
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Uploaded Files
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_files ? "selected" : nil) }
           = f.check_box :include_files
           Files
 
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Data Dictionary
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_data_dictionary ? "selected" : nil) }
           = f.check_box :include_data_dictionary
           Data Dictionary
 
-    .col-md-4.d-none.d-md-block
+    .col-lg-4.d-none.d-lg-block
       = link_to "Export", "#", class: "btn btn-primary btn-block btn-shadow", style: "height: 122px;line-height: 110px;font-size: 24.5px;font-weight:300", data: { object: "submit", target: "#new_export" }
 
   .row
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Adverse Events
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_adverse_events ? "selected" : nil) }
           = f.check_box :include_adverse_events
           Adverse Events
 
-    .col-md-4
+    .col-lg-4
       .download-container
         %h3 Randomizations
         %label.checkbox.checkbox-radio-outline{ class: (@export.include_randomizations ? "selected" : nil) }
           = f.check_box :include_randomizations
           Randomizations
-    .col-md-4.visible-xs.visible-sm
+    .col-lg-4.d-block.d-lg-none
       = link_to "Export", "#", class: "btn btn-primary btn-block btn-shadow", style: "height: 122px;line-height: 110px;font-size: 24.5px;font-weight:300", data: { object: "submit", target: "#new_export" }

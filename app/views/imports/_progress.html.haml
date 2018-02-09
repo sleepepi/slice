@@ -1,20 +1,20 @@
 - if @design.total_rows > 0
   - percent = @design.rows_imported * 100 / @design.total_rows
-  - status = 'danger'
-  - status = 'warning' if percent >= 33
-  - status = 'success' if percent == 100
+  - status = "danger"
+  - status = "warning" if percent >= 33
+  - status = "primary" if percent == 100
   .progress
     .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%;" }
       = @design.rows_imported
       of
       = @design.total_rows
-      = surround '(', '%)' do
+      = surround "(", "%)" do
         = percent
   %span.text-muted
     - if @design.import_started_at
       - if @design.import_ended_at
         Import took
-        = succeed '.' do
+        = succeed "." do
           = distance_of_time_in_words @design.import_started_at, @design.import_ended_at, { include_seconds: true }
       - else
         Import started

@@ -4,11 +4,7 @@
 
 .d-none{ data: { object: "random-theme" } }
 
-- content_for :header do
-  .header-container
-    .container
-      %h1.page-heading
-        = @title
+- content_for :header, @title
 
 .dashboard-container
   %strong Small Heading
@@ -27,3 +23,36 @@
       %li= link_to "Full test", themes_full_test_url
       %li= link_to "Menu test", themes_menu_test_url
       %li= link_to "Transition test", themes_transition_test_url
+
+  .mb-3
+    = link_to "Primary", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-primary btn-shadow"
+    = link_to "Accent", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-accent btn-shadow"
+    = link_to "Secondary", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-secondary btn-shadow"
+    = link_to "Dark", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-dark btn-shadow"
+    = link_to "Danger", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-danger btn-shadow"
+  .mb-3
+    = link_to "Primary", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-outline-primary btn-shadow"
+    = link_to "Accent", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-outline-accent btn-shadow"
+    = link_to "Secondary", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-outline-secondary btn-shadow"
+    = link_to "Dark", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-outline-dark btn-shadow"
+    = link_to "Danger", "#", data: { object: "suppress-click" }, class: "btn btn-lg btn-outline-danger btn-shadow"
+
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
+    %thead
+      %th Column One
+      %th Column Two
+      %th Column Three
+    %tbody
+      %tr
+        %td Row 1
+        %td 100
+        %td Yellow
+      %tr
+        %td Row 1
+        %td 100
+        %td Yellow
+      %tr
+        %td Row 1
+        %td 100
+        %td Yellow

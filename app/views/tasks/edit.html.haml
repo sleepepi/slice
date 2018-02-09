@@ -1,14 +1,11 @@
 - @title = "#{@task.name} Edit"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @task.name, [@project, @task]
-        Edit
+  = link_to @task.name, [@project, @task]
+  Edit
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form"

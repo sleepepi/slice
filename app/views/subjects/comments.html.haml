@@ -1,12 +1,13 @@
-- @title = 'Comments'
+- @title = "Comments"
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render 'subjects/side_nav'
-= render 'subjects/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("subjects/sidebar")
+- content_for :header, @title
 
 - @comments.each_with_index do |comment, index|
   - current_page = (params[:page].to_i > 1 ? params[:page].to_i : 1)
   - current_index = @comments.count - index
   - unless comment.deleted?
     %div{ id: "comment_#{comment.id}" }
-      = render 'comments/show', comment: comment, include_name: '1', number: current_index
+      = render "comments/show", comment: comment, include_name: "1", number: current_index

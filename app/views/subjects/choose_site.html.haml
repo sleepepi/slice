@@ -1,13 +1,14 @@
 - editable_sites = current_user.all_editable_sites.where(project_id: @project.id)
 
 - if editable_sites.count == 1
-  - @title = 'Subject Not Found'
+  - @title = "Subject Not Found"
 - else
-  - @title = 'Choose Site'
+  - @title = "Choose Site"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
-= render 'layouts/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
 - if editable_sites.count > 1
   %p.lead.text-white.text-shadow.text-center
@@ -20,12 +21,12 @@
       to:
     - editable_sites.order(:name).in_groups_of(3, false).each do |sites_row|
       - sites_row.each do |site|
-        %div{ style: 'margin-bottom: 20px; margin-left: 20px;' }
-          = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: 'btn btn-accent' do
+        %div{ style: "margin-bottom: 20px; margin-left: 20px;" }
+          = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: "btn btn-accent" do
             %strong.btn-text-emphasis= site.name
 
-    %div{ style: 'margin-bottom: 20px; margin-left: 20px;' }
-      = link_to @project, class: 'btn btn-light' do
+    %div{ style: "margin-bottom: 20px; margin-left: 20px;" }
+      = link_to @project, class: "btn btn-light" do
         Cancel
 
 - elsif editable_sites.count == 1
@@ -35,12 +36,12 @@
     as a new subject?
 
   .dashboard-container
-    = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: editable_sites.first.id), method: :post, class: 'btn btn-accent' do
+    = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: editable_sites.first.id), method: :post, class: "btn btn-accent" do
       Create Subject
       %strong.btn-text-emphasis= params[:subject_code]
 
     &nbsp;
-    = link_to @project, class: 'btn btn-light' do
+    = link_to @project, class: "btn btn-light" do
       Cancel
 
 - else
@@ -48,5 +49,5 @@
 
   .dashboard-container
     You will need to
-    = link_to 'add a site', new_project_site_path(@project)
+    = link_to "add a site", new_project_site_path(@project)
     before creating subjects.

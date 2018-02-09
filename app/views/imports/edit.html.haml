@@ -1,47 +1,44 @@
 - @title = "#{@design.name} Reimport"
 - @menu_title = "#{@project.name} #{@title}"
 
-= render 'projects/side_nav'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = link_to @design.name, [@project, @design]
-        Reimport
+  = link_to @design.name, [@project, @design]
+  Reimport
 
 - @variables = @design.load_variables
 - @file_uploaded = (@variables.size > 0)
 .dashboard-container
-  = form_for @design, url: imports_project_design_path(@project, @design), method: :patch, html: { class: 'form-horizontal', multipart: true } do |f|
+  = form_for @design, url: imports_project_design_path(@project, @design), method: :patch, html: { class: "form-horizontal", multipart: true } do |f|
     - if @design.errors.any?
       .callout.callout-danger
         %strong
-          = pluralize @design.errors.count, 'error'
+          = pluralize @design.errors.count, "error"
           prohibited this design from being saved
 
         %ul
           - @design.errors.full_messages.each do |message|
             %li= message
 
-    = f.hidden_field :reimport, value: '1'
+    = f.hidden_field :reimport, value: "1"
 
     .form-group
-      = f.label :csv_file, 'Data Import (CSV)', class: 'col-md-2 control-label'
+      = f.label :csv_file, "Data Import (CSV)", class: "col-md-2 control-label"
       .col-md-10
         - if @file_uploaded
           .form-control= File.basename(@design.csv_file.to_s)
         - else
-          = f.file_field :csv_file, class: 'form-control'
+          = f.file_field :csv_file, class: "form-control"
 
     - if @file_uploaded
       .form-group
-        = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+        = label_tag "site_id", "Site", class: "col-md-2 control-label"
         #site.col-md-10
-          = select_tag :site_id, options_for_select(@project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+          = select_tag :site_id, options_for_select(@project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
 
-      %div{ style: 'display:none' }
+      %div{ style: "display:none" }
         %hr
 
         - @variables.each do |hash|
@@ -62,25 +59,25 @@
               .row
                 - if variable
                   .col-6
-                    = link_to variable.display_name, [variable.project, variable], target: '_blank'
+                    = link_to variable.display_name, [variable.project, variable], target: "_blank"
                     of type
                     %strong= variable.variable_type
                     won't be recreated.
                     = hidden_field_tag "variables[#{hash[:name]}][display_name]", display_name
                 - else
                   .col-3
-                    = text_field_tag "variables[#{hash[:name]}][display_name]", display_name, class: 'form-control'
+                    = text_field_tag "variables[#{hash[:name]}][display_name]", display_name, class: "form-control"
                   .col-3
-                    = select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type), class: 'form-control'
+                    = select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type), class: "form-control"
                 .col-6
-                  %label.checkbox-inline.checkbox-radio-outline{ class: "#{'selected' if ignore}" }
-                    = check_box_tag "variables[#{hash[:name]}][ignore]", '1', ignore
+                  %label.checkbox-inline.checkbox-radio-outline{ class: "#{"selected" if ignore}" }
+                    = check_box_tag "variables[#{hash[:name]}][ignore]", "1", ignore
                     do not add to design
 
     .form-group
       .col-md-10.col-md-offset-2
-        = f.submit @variables.size > 0 ? 'Reimport Data' : 'Proceed to Import Specification', class: 'btn btn-primary'
+        = f.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: "btn btn-primary"
         - if @file_uploaded
-          = link_to 'Previous Step', imports_edit_project_design_path(@project, @design), class: 'btn btn-light'
+          = link_to "Previous Step", imports_edit_project_design_path(@project, @design), class: "btn btn-light"
         - else
-          = link_to 'Cancel', [@project, @design], class: 'btn btn-light'
+          = link_to "Cancel", [@project, @design], class: "btn btn-light"

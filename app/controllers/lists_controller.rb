@@ -8,6 +8,8 @@ class ListsController < ApplicationController
   before_action :find_randomization_scheme_or_redirect
   before_action :find_list_or_redirect, only: [:show]
 
+  layout "layouts/full_page_sidebar"
+
   def generate
     if @randomization_scheme.generate_lists!(current_user)
       flash[:notice] = "Lists were successfully created."

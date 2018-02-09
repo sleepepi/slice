@@ -9,3 +9,13 @@
     }
   }
 }
+
+@each $name, $theme in $themes {
+  @if map-get($theme, accent) {
+    .theme-#{$name}-bg {
+      .bg-accent {
+        background-color: map-get($theme, accent) !important;
+      }
+    }
+  }
+}

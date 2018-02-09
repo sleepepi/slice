@@ -1,7 +1,8 @@
-- @title = 'Data Entry'
+- @title = "Data Entry"
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
-= render 'subjects/side_nav'
-= render 'subjects/simple_header'
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("subjects/sidebar")
+- content_for :header, @title
 
-= render 'subjects/data_entry'
+= render "subjects/data_entry"

@@ -3,14 +3,9 @@
 - @breadcrumbs = []
 - @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
-= render "projects/side_nav"
-
-- content_for :header do
-  .background-gradient
-  .header-container
-    .container
-      %h1.page-heading
-        = @title
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
 
 .dashboard-container
   %table.table.table-borderless

@@ -2,7 +2,7 @@
 - percent = 0 if @export.total_steps == 0 && %w(pending failed).include?(@export.status)
 - status = "danger"
 - status = "warning" if percent >= 33
-- status = "success" if percent == 100
+- status = "primary" if percent == 100
 
 .progress.shadow
   .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%" }

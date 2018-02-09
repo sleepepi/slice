@@ -1,7 +1,8 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .badge-accent {
-      background-color: $p500-orange;
+      background-color: map-get($theme, accent);
+      color: map-get($theme, brand-white);
     }
   }
 }

@@ -3,6 +3,6 @@
   - percent = [randomization_count * 100 / randomization_scheme.randomization_goal, 100].min
   - status = "danger"
   - status = "warning" if percent >= 33
-  - status = "success" if percent == 100
+  - status = "primary" if percent == 100
   .progress
     .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%;" }= "#{percent}%"

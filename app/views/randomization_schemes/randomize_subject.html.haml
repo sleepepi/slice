@@ -2,11 +2,13 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - if @subject
-  = render "subjects/side_nav"
+  - content_for :container_class, "container-fluid"
+  - content_for :sidebar, render("subjects/sidebar")
 - else
-  = render "projects/side_nav"
+  - content_for :container_class, "container-fluid"
+  - content_for :sidebar, render("projects/sidebar")
 
-= render "layouts/simple_header"
+- content_for :header, @title
 
 .dashboard-container
   - if @randomization_scheme.lists.count == 0

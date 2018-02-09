@@ -12,35 +12,40 @@
   }
 }
 
-// TODO: Put back in.
-// .flower-stack {
-//   height: 1em;
-//   line-height: 1em;
-//   width: 1em;
+// .theme-spring-focus-bg
+.theme-spring-bg {
+  background-color: $a700-light-blue;
+  background-image: linear-gradient(180deg, $a100-light-blue, $a200-light-blue 60%, $a400-light-blue 80%, $a700-light-blue 90%, $a700-light-blue);
+}
 
-//   .fa-circle {
-//     color: #c2185b; // Pink $p700;
-//     font-size: .9em;
-//   }
+@keyframes flow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(359deg); }
+}
 
-//   .fa-sun-o {
-//     color: #f48fb1; // Pink $p200;
-//   }
+.flower-spin {
+  animation: flow-spin 3s linear infinite;
+}
 
-//   .fa-pagelines {
-//     color: #4caf50; // Green $p500;
-//     font-size: 1.3em;
-//     left: -6px;
-//     top: 10px;
-//     transform: rotate(30deg);
-//   }
-// }
+.flower-stack {
+  height: 1em;
+  line-height: 1em;
+  width: 1em;
 
-// @keyframes flow-spin {
-//   from { transform: rotate(0deg); }
-//   to { transform: rotate(359deg); }
-// }
+  .fa-circle {
+    color: $p700-pink;
+    font-size: .9em;
+  }
 
-// .flower-spin {
-//   animation: flow-spin 3s linear infinite;
-// }
+  .fa-sun-o {
+    color: $p200-pink;
+  }
+
+  .fa-pagelines {
+    color: $p500-green;
+    font-size: 1.3em;
+    left: -6px;
+    top: 10px;
+    transform: rotate(30deg);
+  }
+}
