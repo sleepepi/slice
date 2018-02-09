@@ -1,4 +1,4 @@
-## 58.3.0
+## 58.3.0 (February 9, 2018)
 
 ### Enhancements
 - **Export Changes**
