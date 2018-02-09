@@ -35,7 +35,7 @@
         - if randomization_count > 0 && scheme.randomization_goal > 0
           - percent = [randomization_count * 100 / scheme.randomization_goal, 100].min
           .progress{ style: "margin-top: 20px;margin-bottom: 0" }
-            .progress-bar.progress-bar-striped.progress-bar-success{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
+            .progress-bar.progress-bar-striped.bg-primary{ style: "width: #{percent}%;min-width: 5em;" }= "#{randomization_count} of #{scheme.randomization_goal}"
 
       = render "randomization_schemes/recruitment_chart", scheme: scheme
       = render "randomization_schemes/recruitment_tables", scheme: scheme

@@ -5,7 +5,7 @@
 - status = "success" if percent == 100
 
 .progress.shadow
-  .progress-bar.progress-bar-striped{ class: "progress-bar-#{status}", style: "width: #{percent}%" }
+  .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%" }
     = @export.steps_completed
     of
     = @export.total_steps

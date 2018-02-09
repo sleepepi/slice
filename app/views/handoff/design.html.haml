@@ -1,11 +1,11 @@
 - @title = @design.name
 
 - if @handoff.next_design(@design)
-  - submit_description = 'You have reached the end of this form. Please review your answers to make sure they are accurate. Once you are ready, proceed to the next form by clicking "Save and Continue" below.'
-  - submit_button = 'Save and Continue'
+  - submit_description = "You have reached the end of this form. Please review your answers to make sure they are accurate. Once you are ready, proceed to the next form by clicking \"Save and Continue\" below."
+  - submit_button = "Save and Continue"
 - else
-  - submit_description = 'Almost done! Click "Save and Continue" to submit your answers.'
-  - submit_button = 'Save and Continue'
+  - submit_description = "Almost done! Click \"Save and Continue\" to submit your answers."
+  - submit_button = "Save and Continue"
 
 - submit_url = handoff_save_path(@project, @handoff, @design)
 - submit_method = :post
@@ -14,20 +14,20 @@
 - if number > 0 and @handoff.handoff_enabled_event_designs.count + 2 > 0
   - percent = [number * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
   .progress
-    .progress-bar.progress-bar-striped{ class: "progress-bar-primary", style: "width: #{percent}%;" }
+    .progress-bar.progress-bar-striped.bg-primary{ style: "width: #{percent}%;" }
       Filling Out Forms
 
 .design-header= @title
 
-= hidden_field_tag 'isdirty', '1'
+= hidden_field_tag "isdirty", "1"
 
 - form_name = "survey_#{@design.id}_form"
 
-= form_for @sheet, url: submit_url, method: submit_method, html: { class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false } do |f|
+= form_for @sheet, url: submit_url, method: submit_method, html: { class: "form-horizontal", multipart: true, id: form_name, authenticity_token: false } do |f|
   - if @sheet.errors.any?
     .callout.callout-danger
       %strong
-        = pluralize @sheet.errors.count, 'error'
+        = pluralize @sheet.errors.count, "error"
         prohibited this survey from being submitted
 
   - if @sheet.new_record?
@@ -35,14 +35,14 @@
 
   - if @design.show_site?
     .form-group
-      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+      = label_tag "site_id", "Site", class: "col-md-2 control-label"
       .col-md-10
-        = select_tag :site_id, options_for_select([['---', nil]] + @design.project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+        = select_tag :site_id, options_for_select([["---", nil]] + @design.project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
 
   #design
-    - params[:header] = '0'
-    = render 'designs/show', design: @design
+    - params[:header] = "0"
+    = render "designs/show", design: @design
 
   .jumbotron
     %p= submit_description
-  = link_to submit_button, '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-success btn-block btn-lg'
+  = link_to submit_button, "#", data: { target: "##{form_name}", object: "variable-check-before-submit" }, class: "btn btn-success btn-block btn-lg"
