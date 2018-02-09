@@ -23,14 +23,16 @@ graphics.off
 # Apply labels to variables using slice display names
 
   # Design and Subject Variables
-  label(slice$Subject)        <- "Subject ID"
-  label(slice$Site)           <- "Site"
-  label(slice$Event)          <- "Event"
-  label(slice$Design)         <- "Design"
-  label(slice$Sheet.ID)       <- "Sheet ID"
-  label(slice$Sheet.Coverage) <- "Sheet Coverage"
-  label(slice$Sheet.Created)  <- "Sheet Created"
-  label(slice$Missing)        <- "Missing"
+  label(slice$Subject)               <- "Subject ID"
+  label(slice$Site)                  <- "Site"
+  label(slice$Event)                 <- "Event"
+  label(slice$Design)                <- "Design"
+  label(slice$Sheet.ID)              <- "Sheet ID"
+  label(slice$Sheet.CoveragePercent) <- "Sheet Coverage Percent"
+  label(slice$Sheet.CoverageCount)   <- "Sheet Coverage Count"
+  label(slice$Sheet.CoverageTotal)   <- "Sheet Coverage Total"
+  label(slice$Sheet.Created)         <- "Sheet Created"
+  label(slice$Missing)               <- "Missing"
 
   # Sheet Variables
 <% @export_formatter.labels.each do |name, display_name| %>  label(slice$<%= name %>) <- "<%= display_name %>"

@@ -21,27 +21,31 @@ data slice<%= "_grids" if use_grids %>;
   infile "&path_file<%= "_grids" if use_grids %>._sas.csv" delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=<%= use_grids ? 3 : 2 %> ;
 
   /* Design and Subject Variables */
-  informat _subject              $100.       ;   * Subject code ;
-  informat _site                 best32.     ;   * Site ;
-  informat _event                best32.     ;   * Event ;
-  informat _design               best32.     ;   * Design ;
-  informat _sheet_id             best32.     ;   * Sheet ID ;
-<% unless use_grids %>  informat _sheet_coverage       best32.     ;   * Sheet Coverage ;
-  informat _sheet_created        anydtdtm40. ;   * Sheet Created ;
-  informat _missing              best32.     ;   * Missing ;<% end %>
+  informat _subject                    $100.       ;   * Subject code ;
+  informat _site                       best32.     ;   * Site ;
+  informat _event                      best32.     ;   * Event ;
+  informat _design                     best32.     ;   * Design ;
+  informat _sheet_id                   best32.     ;   * Sheet ID ;
+<% unless use_grids %>  informat _sheet_coverage_percent     best32.     ;   * Sheet Coverage Percent ;
+  informat _sheet_coverage_count       best32.     ;   * Sheet Coverage Count ;
+  informat _sheet_coverage_total       best32.     ;   * Sheet Coverage Total ;
+  informat _sheet_created              anydtdtm40. ;   * Sheet Created ;
+  informat _missing                    best32.     ;   * Missing ;<% end %>
 
   /* Sheet Variables */
 <%= column_informats.join("\n") %>
 
   /* Design and Subject Variables */
-  format _subject                $100.       ;
-  format _site                   best32.     ;
-  format _event                  best32.     ;
-  format _design                 best32.     ;
-  format _sheet_id               best32.     ;
-<% unless use_grids %>  format _sheet_coverage         best32.     ;
-  format _sheet_created          datetime.   ;
-  format _missing                best32.     ;<% end %>
+  format _subject                      $100.       ;
+  format _site                         best32.     ;
+  format _event                        best32.     ;
+  format _design                       best32.     ;
+  format _sheet_id                     best32.     ;
+<% unless use_grids %>  format _sheet_coverage_percent       best32.     ;
+  format _sheet_coverage_count         best32.     ;
+  format _sheet_coverage_total         best32.     ;
+  format _sheet_created                datetime.   ;
+  format _missing                      best32.     ;<% end %>
 
   /* Sheet Variables */
 <%= column_formats.join("\n") %>
@@ -54,7 +58,9 @@ data slice<%= "_grids" if use_grids %>;
     _event
     _design
     _sheet_id
-<% unless use_grids %>    _sheet_coverage
+<% unless use_grids %>    _sheet_coverage_percent
+    _sheet_coverage_count
+    _sheet_coverage_total
     _sheet_created
     _missing<% end %>
 
