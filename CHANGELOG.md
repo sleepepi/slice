@@ -6,6 +6,12 @@
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 
+## 58.3.0 (February 9, 2018)
+
+### Enhancements
+- **Export Changes**
+  - Added sheet coverage count and total to sheet CSV exports and import scripts
+
 ## 58.2.0 (February 5, 2018)
 
 ### Enhancements
@@ -34,7 +40,7 @@
 - **Export Changes**
   - Exporting project data dictionary without setting filters now exports all
     designs, even those without sheets
-  - Sheet coverage has been added as a column to sheet exports
+  - Sheet coverage percent has been added as a column to sheet exports
 - **Gem Changes**
   - Updated to rails 5.2.0.beta2
   - Updated to devise 4.4.0

@@ -12,7 +12,9 @@ data slice<%= "_grids" if use_grids %>;
   label _event='Event';
   label _design='Design';
   label _sheet_id='Sheet ID';
-<% unless use_grids %>  label _sheet_coverage='Sheet Coverage';
+<% unless use_grids %>  label _sheet_coverage_percent='Sheet Coverage Percent';
+  label _sheet_coverage_count='Sheet Coverage Count';
+  label _sheet_coverage_total='Sheet Coverage Total';
   label _sheet_created='Sheet Created';
   label _missing='Sheet Missing';<% end %>
 
