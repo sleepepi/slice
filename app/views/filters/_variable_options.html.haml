@@ -1,4 +1,4 @@
-%h3{ style: 'margin-top:0px' }
+%strong{ style: 'margin-top:0px' }
   = @variable.display_name
 
 - params[:by] = 'month' if params[:by].blank?
@@ -14,9 +14,9 @@
 - else
   = hidden_field_tag 'by', ''
 
-%form.form-horizontal
+= form_with do |form|
   %div{ style: 'max-height: 300px; overflow: scroll' }
     - if @variable.domain_options.present?
       - @variable.alignment = 'vertical'
       - @variable.variable_type = 'radio'
-      = render "sheet_variables/form/#{@variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", response: nil, disabled: true, variable: @variable, field_name: "variables[#{@variable.id}]"
+      = render "sheet_variables/form/#{@variable.variable_type == 'checkbox' ? 'checkbox' : 'radio'}", form: form, response: nil, disabled: true, variable: @variable, field_name: "variables[#{@variable.id}]"

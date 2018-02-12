@@ -1,0 +1,5 @@
+- id = "#{target_name}_#{domain_option.value}"
+.custom-control.custom-scale.custom-radio{ rel: (domain_option.description.blank? ? "tooltip" : "popover"), data: { content: domain_option.description, title: domain_option.value_and_name(show_values: show_values), placement: "bottom", html: "true" } }
+  = radio_button_tag field_name, domain_option.value, selected, class: "custom-control-input", data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type, previous: (selected ? "checked" : "unchecked") }, disabled: disabled, id: id
+  = form.label field_name, for: id, class: "custom-control-label custom-control-label-scale" do
+    &nbsp;

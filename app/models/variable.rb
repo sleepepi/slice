@@ -649,11 +649,15 @@ class Variable < ApplicationRecord
   end
 
   def display_class(is_grid)
-    if is_grid || %w(horizontal scale).include?(alignment)
+    if display_inline?(is_grid)
       "#{variable_type}-inline"
     else
       variable_type
     end
+  end
+
+  def display_inline?(is_grid)
+    is_grid || %w(horizontal scale).include?(alignment)
   end
 
   def single_choice?

@@ -20,11 +20,16 @@
           - domain_options.each do |domain_option|
             - selected = (domain_option.value == response)
             %td.text-center
-              %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}", rel: (domain_option.description.blank? ? "tooltip" : "popover"), data: { content: domain_option.description, title: domain_option.value_and_name(show_values: show_values), placement: "bottom", html: "true" } }
-                = radio_button_tag field_name, "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type }, disabled: disabled
+              = render "sheet_variables/form/parts/radio_scale", form: form, variable: variable, field_name: field_name, target_name: target_name, selected: selected, domain_option: domain_option, show_values: show_values, is_grid: is_grid, disabled: disabled
+              - if false
+                %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}", rel: (domain_option.description.blank? ? "tooltip" : "popover"), data: { content: domain_option.description, title: domain_option.value_and_name(show_values: show_values), placement: "bottom", html: "true" } }
+                  = radio_button_tag field_name, "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type }, disabled: disabled
   - else
     - domain_options.each do |domain_option|
       - selected = (domain_option.value == response)
-      %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}" }
-        = radio_button_tag field_name, "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type, previous: (selected ? "checked" : "unchecked") }, disabled: disabled
-        = domain_option.value_and_name(show_values: show_values)
+      = render "sheet_variables/form/parts/radio", form: form, variable: variable, field_name: field_name, target_name: target_name, selected: selected, domain_option: domain_option, show_values: show_values, is_grid: is_grid, disabled: disabled
+
+      - if false
+        %label.checkbox-radio-outline{ class: "#{variable.display_class(is_grid)} #{"selected" if selected} #{"negation" if domain_option.missing_code?}" }
+          = radio_button_tag field_name, "#{domain_option.value}", selected, data: { object: "condition", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type, previous: (selected ? "checked" : "unchecked") }, disabled: disabled
+          = domain_option.value_and_name(show_values: show_values)

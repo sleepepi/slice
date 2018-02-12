@@ -61,7 +61,7 @@
           %td#progress{ data: { object: "#{"ajax-timer" if @design.total_rows != @design.rows_imported}", path: imports_progress_project_design_path(@design.project, @design) } }
             = render "imports/progress"
 
-%form.form-horizontal
+= form_with do |form|
   .dashboard-container
     = hidden_field_tag "sheet[project_id]", @project.id
-    = @sheet = @design.sheets.new; render "designs/show", design: @design
+    = @sheet = @design.sheets.new; render "designs/show", design: @design, form: form

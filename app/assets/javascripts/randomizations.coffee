@@ -83,8 +83,7 @@
   loadRandomizationsByMonth()
 
 @checkRandomizationOption = (element) ->
-  $(element).prop('checked', true)
-  updateSelectedClass(element)
+  $(element).prop("checked", true)
 
 @randomizationTermSelected = (element, event, datum) ->
   checkRandomizationOption("#stratification_factors_#{$(element).data('sfo-id')}_#{datum['site_id']}")

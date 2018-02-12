@@ -9,7 +9,7 @@
   - submit_method = :patch
 
 - form_name = "survey_#{@design.id}_form"
-= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |f|
+= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |form|
   - if @sheet.errors.any?
     .callout.callout-danger
       %strong
@@ -27,7 +27,7 @@
 
   #design{ style: 'min-height:200px' }
     - params[:header] = '0'
-    = render 'designs/show', design: @design
+    = render 'designs/show', design: @design, form: form
 
   .text-center{ style: 'margin-top: 40px' }
     = link_to 'Submit Survey', '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-primary btn-lg btn-shadow'

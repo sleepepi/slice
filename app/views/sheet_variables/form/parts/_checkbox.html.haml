@@ -1,0 +1,6 @@
+- id = "#{target_name}_#{domain_option.value}"
+.custom-control.custom-checkbox{ class: variable.display_inline?(is_grid) ? "custom-control-inline" : nil }
+  = check_box_tag "#{field_name}[]", domain_option.value, selected, class: "custom-control-input", data: { object: "condition", mutually_exclusive: domain_option.mutually_exclusive, calculation_id: variable.id, name: variable.name }, disabled: disabled, id: id
+  = form.label field_name, for: id, class: "custom-control-label" do
+    = domain_option.value_and_name(show_values: show_values)
+  = render "forms/help_text", help_text: help_text if defined?(help_text)

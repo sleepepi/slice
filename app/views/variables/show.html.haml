@@ -179,6 +179,6 @@
 
 - design_option = @variable.design_options.first
 - if design_option
-  %form.form-horizontal
+  = form_with do |form|
     .dashboard-container
-      = render "sheet_variables/form", design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
+      = render "sheet_variables/form", form: form, design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

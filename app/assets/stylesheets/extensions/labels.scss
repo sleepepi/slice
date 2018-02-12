@@ -1,0 +1,14 @@
+.custom-scale {
+  padding-left: 0;
+}
+
+.custom-control-label-scale {
+  width: 0;
+
+  &::after,
+  &::before {
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+  }
+}

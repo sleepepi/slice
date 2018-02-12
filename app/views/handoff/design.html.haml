@@ -23,7 +23,7 @@
 
 - form_name = "survey_#{@design.id}_form"
 
-= form_for @sheet, url: submit_url, method: submit_method, html: { class: "form-horizontal", multipart: true, id: form_name, authenticity_token: false } do |f|
+= form_for @sheet, url: submit_url, method: submit_method, html: { class: "form-horizontal", multipart: true, id: form_name, authenticity_token: false } do |form|
   - if @sheet.errors.any?
     .callout.callout-danger
       %strong
@@ -41,7 +41,7 @@
 
   #design
     - params[:header] = "0"
-    = render "designs/show", design: @design
+    = render "designs/show", design: @design, form: form
 
   .jumbotron
     %p= submit_description
