@@ -14,20 +14,18 @@
     %label By
     = render "layouts/radio_button_group", name: "by", options: [["Week", "week"], ["Month", "month"], ["Year", "year"]], selected: (params[:by].present? ? params[:by] : "month")
 
-    &middot;
     %label Percent
     = render "layouts/radio_button_group", name: "percent", options: [["No Percents", "none"], ["% by Row", "row"], ["% by Column", "column"]], selected: @percent
 
-    &middot;
-    .btn-group
-      = link_to "#", class: "dropdown-toggle btn btn-light btn-sm", data: { toggle: "dropdown" } do
+    %span.dropdown
+      = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
         Export
-        %b.caret
-      %ul.dropdown-menu
-        %li= link_to "CSV", "#", data: { object: "export", format: "csv", target: "#report_form" }
-        %li= link_to "PDF - Portrait", "#", data: { object: "export-report-pdf", orientation: "portrait", target: "#report_form" }
-        %li= link_to "PDF - Landscape", "#", data: { object: "export-report-pdf", orientation: "landscape", target: "#report_form" }
-    %button.btn.btn-primary.btn-sm{ type: "submit" } Refresh
+      .dropdown-menu
+        = link_to "CSV", "#", data: { object: "export", format: "csv", target: "#report_form" }, class: "dropdown-item"
+        = link_to "PDF - Portrait", "#", data: { object: "export-report-pdf", orientation: "portrait", target: "#report_form" }, class: "dropdown-item"
+        = link_to "PDF - Landscape", "#", data: { object: "export-report-pdf", orientation: "landscape", target: "#report_form" }, class: "dropdown-item"
+
+    = submit_tag "Refresh", class: "btn btn-primary btn-sm"
 
 .dashboard-container
   #report=render "reports/report"
