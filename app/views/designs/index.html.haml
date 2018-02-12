@@ -56,8 +56,8 @@
       = succeed "." do
         = link_to "Clear filters", project_designs_path(@project, search: params[:search])
 
-.docs-learn-more
-  Learn about
-  = succeed "." do
-    = link_to "designs", docs_designs_path
-
+.center-horizontally
+  .docs-learn-more
+    Learn about
+    = succeed "." do
+      = link_to "designs", docs_designs_path

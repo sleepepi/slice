@@ -33,7 +33,8 @@
 
 .center-horizontally= paginate @grid_variables, theme: "bootstrap"
 
-.docs-learn-more
-  Learn about
-  = succeed "." do
-    = link_to "grids", docs_variables_path(anchor: "grids")
+.center-horizontally
+  .docs-learn-more
+    Learn about
+    = succeed "." do
+      = link_to "grids", docs_variables_path(anchor: "grids")

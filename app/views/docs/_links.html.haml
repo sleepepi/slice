@@ -1,22 +1,20 @@
-.docs-navigation-container
-  .row
-    .col-sm-6.col-md-4
-      - if previous_link
-        = link_to previous_link[1], class: "btn btn-block btn-lg btn-light text-left btn-shadow" do
-          %small.docs-navigation
-            &larr;
-            = previous_link[2] || "Previous"
-          %br
-          = previous_link[0]
-    - if previous_link && next_link
-      .col-buffer.d-block.d-sm-none
-    .col-md-4.d-none.d-md-block
-    .col-sm-6.col-md-4
-      - if next_link
-        = link_to next_link[1], class: "btn btn-block btn-lg btn-accent text-left btn-shadow" do
-          %small.docs-navigation
-            = next_link[2] || "Next"
-            &rarr;
-          %br
-          = next_link[0]
-
+.row
+  .col-sm-6.col-md-4.col-buffer-visible-xs
+    - if previous_link
+      = link_to previous_link[1], class: "btn btn-block btn-lg btn-light text-left btn-shadow" do
+        %small.docs-navigation
+          &larr;
+          = previous_link[2] || "Previous"
+        %br
+        = previous_link[0]
+  - if previous_link && next_link
+    .col-buffer.d-block.d-sm-none
+  .col-md-4.d-none.d-md-block
+  .col-sm-6.col-md-4
+    - if next_link
+      = link_to next_link[1], class: "btn btn-block btn-lg btn-accent text-left btn-shadow" do
+        %small.docs-navigation
+          = next_link[2] || "Next"
+          &rarr;
+        %br
+        = next_link[0]

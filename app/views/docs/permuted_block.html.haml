@@ -1,11 +1,8 @@
 - @title = "Permuted-Block Algorithm"
-= render "docs/side_nav"
 
-.background-gradient
-
-%h1.docs-heading
-  .docs-subheading Randomization
-  = @title
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("docs/sidebar")
+- content_for :header, @title
 
 .docs-container
   %p

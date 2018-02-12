@@ -38,7 +38,8 @@
             - else
               = render "layouts/edit_delete_dropdown", edit_url: edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, treatment_arm), delete_url: [@project, @randomization_scheme, treatment_arm], delete_confirmation: "Delete \"#{treatment_arm.name}\" arm?"
 
-.docs-learn-more
-  Learn about
-  = succeed "." do
-    = link_to "treatment arms", docs_treatment_arms_path
+.center-horizontally
+  .docs-learn-more
+    Learn about
+    = succeed "." do
+      = link_to "treatment arms", docs_treatment_arms_path

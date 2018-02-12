@@ -1,12 +1,9 @@
 - @title = "Designs"
 - @keywords = "capturing data, online data capture, build a questionnaire, free data capture"
-= render "docs/side_nav"
 
-.background-gradient
-
-%h1.docs-heading
-  .docs-subheading Project Setup
-  = @title
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("docs/sidebar")
+- content_for :header, @title
 
 .docs-container
   %p

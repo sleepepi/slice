@@ -10,8 +10,7 @@
     %p= text_field_tag "survey_url", survey_url, class: "form-control"
     %p= link_to "Go Back to Survey", survey_url, class: "btn btn-primary"
 
-%h1.docs-heading
-  %strong Interested in creating your own survey?
+%strong Interested in creating your own survey?
 
 .docs-container
   %p
@@ -23,7 +22,8 @@
     .text-center
       = link_to "Create an account today", new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow"
 
-.docs-learn-more
-  Learn more about
-  = succeed "." do
-    = link_to ENV["website_name"], docs_path
+.center-horizontally
+  .docs-learn-more
+    Learn more about
+    = succeed "." do
+      = link_to ENV["website_name"], docs_path

@@ -35,7 +35,8 @@
             - else
               = render "layouts/edit_delete_dropdown", edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, block_size_multiplier), delete_url: [@project, @randomization_scheme, block_size_multiplier], delete_confirmation: "Delete \"#{block_size_multiplier.name}\" block size multiplier?"
 
-.docs-learn-more
-  Learn about the
-  = succeed "." do
-    = link_to "Permuted-Block algorithm", docs_permuted_block_path
+.center-horizontally
+  .docs-learn-more
+    Learn about the
+    = succeed "." do
+      = link_to "Permuted-Block algorithm", docs_permuted_block_path

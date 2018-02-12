@@ -1,11 +1,8 @@
 - @title = "Theme"
-= render "docs/side_nav"
 
-.background-gradient
-
-%h1.docs-heading
-  .docs-subheading Docs Subheading
-  The power behind Slice.
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("docs/sidebar")
+- content_for :header, @title
 
 .docs-container
   %h2 H2 Heading

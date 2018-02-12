@@ -1,0 +1,50 @@
+.col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
+  .sidebar
+    #sidebar-nav-wrapper.sidebar-nav-wrapper.collapse
+      .mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+        = render "layouts/sidebar_logo"
+
+        %ul.sidebar-menu
+          %li.sidebar-menu-header Docs
+          %li= link_to "Overview", docs_path
+
+          %li.sidebar-menu-header Project Setup
+          %li= link_to "Get Started", docs_project_setup_path, class: current_page?(docs_project_setup_path) ? "active" : nil
+          %li= link_to "Sites", docs_sites_path, class: current_page?(docs_sites_path) ? "active" : nil
+          %li= link_to "Roles", docs_roles_path, class: current_page?(docs_roles_path) ? "active" : nil
+          %li= link_to "Events", docs_events_path, class: current_page?(docs_events_path) ? "active" : nil
+
+          %li.sidebar-menu-header Designs
+          %li= link_to "Overview", docs_designs_path, class: current_page?(docs_designs_path) ? "active" : nil
+          %li= link_to "Sections", docs_sections_path, class: current_page?(docs_sections_path) ? "active" : nil
+          %li= link_to "Variables", docs_variables_path, class: current_page?(docs_variables_path) ? "active" : nil
+          %li= link_to "Domains", docs_domains_path, class: current_page?(docs_domains_path) ? "active" : nil
+
+          %li.sidebar-menu-header Modules
+          %li= link_to "Overview", docs_modules_path, class: current_page?(docs_modules_path) ? "active" : nil
+          %li= link_to "Adverse Events", docs_adverse_events_path, class: current_page?(docs_adverse_events_path) ? "active" : nil
+          %li= link_to "Auto-locking Sheets", docs_locking_path, class: current_page?(docs_locking_path) ? "active" : nil
+          %li= link_to "Blinding", docs_blinding_path, class: current_page?(docs_blinding_path) ? "active" : nil
+          %li= link_to "Tablet Handoff", docs_tablet_handoff_path, class: current_page?(docs_tablet_handoff_path) ? "active" : nil
+
+          %li.sidebar-menu-header Randomization
+          %li= link_to "Overview", docs_randomization_schemes_path, class: current_page?(docs_randomization_schemes_path) ? "active" : nil
+          %li= link_to "Minimization", docs_minimization_path, class: current_page?(docs_minimization_path) ? "active" : nil
+          %li= link_to "Permuted-Block", docs_permuted_block_path, class: current_page?(docs_permuted_block_path) ? "active" : nil
+          %li= link_to "Treatment Arms", docs_treatment_arms_path, class: current_page?(docs_treatment_arms_path) ? "active" : nil
+          %li= link_to "Stratification Factors", docs_stratification_factors_path, class: current_page?(docs_stratification_factors_path) ? "active" : nil
+
+          %li.sidebar-menu-header Data Entry
+          %li= link_to "Overview", docs_sheets_path, class: current_page?(docs_sheets_path) ? "active" : nil
+
+          %li.sidebar-menu-header Data Review and Analysis
+          %li= link_to "Overview", docs_data_review_path, class: current_page?(docs_data_review_path) ? "active" : nil
+          %li= link_to "Exports", docs_exports_path, class: current_page?(docs_exports_path) ? "active" : nil
+          %li= link_to "Reports", docs_reports_path, class: current_page?(docs_reports_path) ? "active" : nil
+          %li= link_to "Data Quality Checks", docs_checks_path, class: current_page?(docs_checks_path) ? "active" : nil
+
+          %li.sidebar-menu-header Extras
+          %li= link_to "Overview", docs_notifications_path
+          %li= link_to "Notifications", docs_notifications_path, class: current_page?(docs_notifications_path) ? "active" : nil
+          %li= link_to "Lingo, Slang, Jargon", docs_lingo_path, class: current_page?(docs_lingo_path) ? "active" : nil
+          %li= link_to "Filters", docs_filters_path, class: current_page?(docs_filters_path) ? "active" : nil

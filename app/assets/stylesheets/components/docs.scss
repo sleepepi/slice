@@ -1,34 +1,11 @@
-.docs-heading {
-  color: $brand-white;
-  line-height: 1.2;
-  margin-bottom: 40px;
-  text-align: center;
-  text-shadow: 0 2px 3px $standard-shadow-color;
-}
-
-.docs-subheading {
-  color: $brand-primary;
-  font-size: .6em;
-  margin-bottom: 10px;
-  text-align: center;
-  text-shadow: 0 1px 2px $standard-shadow-color;
-}
-
 .docs-container {
   @include remove-last-child-bottom-margin;
   @include scale-images;
 
-  background-color: $body-bg;
   border-radius: $border-radius;
-  box-shadow: 0 30px 60px $standard-shadow-color;
-  color: $body-color;
   font-size: $font-size-base;
   margin-bottom: 20px;
   padding: 30px;
-
-  strong {
-    color: $headings-color;
-  }
 
   h1,
   h2,
@@ -83,7 +60,7 @@
 
 @include media-breakpoint-up(md) {
   .docs-container {
-    font-size: $font-size-large;
+    font-size: $font-size-lg;
     padding: 60px;
 
     h1 {
@@ -118,11 +95,6 @@
   }
 }
 
-.docs-navigation-container {
-  margin-top: 20px;
-  padding: 20px;
-}
-
 .docs-navigation {
   color: $text-muted;
   font-style: italic;
@@ -144,25 +116,30 @@ a:hover .docs-navigation {
 }
 
 .docs-learn-more {
-  color: $brand-white;
-  font-size: 18px;
+  border-radius: $border-radius;
+  display: inline-block;
+  padding: map-get($spacers, 1) map-get($spacers, 2);
+  font-size: $font-size-base;
   font-weight: 300;
-  margin: 40px 0;
-  text-align: center;
-  text-shadow: 0 2px 3px $standard-shadow-color;
+  margin: map-get($spacers, 3) auto;
 
   @include media-breakpoint-up(md) {
-    font-size: 28px;
+    font-size: $font-size-lg;
   }
+}
 
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .docs-container {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
+    }
 
-  a {
-    color: $brand-accent;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: darken($brand-accent, 10%);
+    .docs-learn-more {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
     }
   }
 }

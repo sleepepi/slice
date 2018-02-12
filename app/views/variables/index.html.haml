@@ -14,7 +14,8 @@
 = render "search/simple", url: project_variables_path(@project)
 = render "variables/variables"
 
-.docs-learn-more
-  Learn about
-  = succeed "." do
-    = link_to "variables", docs_variables_path
+.center-horizontally
+  .docs-learn-more
+    Learn about
+    = succeed "." do
+      = link_to "variables", docs_variables_path
