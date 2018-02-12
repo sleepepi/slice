@@ -77,17 +77,16 @@
             .d-none.d-sm-inline.d-md-none Continue
             %i.fa.fa-caret-right
 
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title
-      Project Emails
-      - if @project.disable_all_emails?
-        = link_to editor_project_path(@project, project: { disable_all_emails: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
-          Disabled
-      - else
-        = link_to editor_project_path(@project, project: { disable_all_emails: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
-          Enabled
-  .panel-body
+.card.mb-3
+  .card-header
+    Project Emails
+    - if @project.disable_all_emails?
+      = link_to editor_project_path(@project, project: { disable_all_emails: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
+        Disabled
+    - else
+      = link_to editor_project_path(@project, project: { disable_all_emails: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
+        Enabled
+  .card-body
     - if @project.disable_all_emails?
       %p
         Daily digest emails are
@@ -98,17 +97,16 @@
         Daily digest emails are enabled for this project.
         = link_to "Learn more...", docs_notifications_path, class: "alert-link"
 
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title
-      PDF Option Values
-      - if @project.hide_values_on_pdfs?
-        = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
-          Hidden
-      - else
-        = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
-          Visible
-  .panel-body
+.card.mb-3
+  .card-header
+    PDF Option Values
+    - if @project.hide_values_on_pdfs?
+      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
+        Hidden
+    - else
+      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
+        Visible
+  .card-body
     - if @project.hide_values_on_pdfs?
       %p
         Answer choice values are hidden on printed sheet PDFs.
@@ -124,17 +122,16 @@
         %code 1: Dog
         %code 2: Cat
 
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title
-      Tablet Handoff
-      - if @project.handoffs_enabled?
-        = link_to editor_project_path(@project, project: { handoffs_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
-          Enabled
-      - else
-        = link_to editor_project_path(@project, project: { handoffs_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
-          Disabled
-  .panel-body
+.card.mb-3
+  .card-header
+    Tablet Handoff
+    - if @project.handoffs_enabled?
+      = link_to editor_project_path(@project, project: { handoffs_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
+        Enabled
+    - else
+      = link_to editor_project_path(@project, project: { handoffs_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
+        Disabled
+  .card-body
     - if @project.handoffs_enabled?
       %p
         Make a design part of a tablet handoff by
@@ -148,17 +145,16 @@
         = link_to "Learn more...", docs_tablet_handoff_path
 
 
-.panel.panel-default
-  .panel-heading
-    %h3.panel-title
-      Sheet Locking
-      - if @project.auto_locking_enabled?
-        %span.badge.badge-success= @project.auto_lock_name
-      - else
-        %span.badge.badge-default Disabled
-      = link_to edit_editor_project_path(@project), class: "btn btn-light btn-sm btn-shadow" do
-        %i.fa.fa-cog
-  .panel-body
+.card{ class: @project.owner?(current_user) ? "mb-3" : nil }
+  .card-header
+    Sheet Locking
+    - if @project.auto_locking_enabled?
+      %span.badge.badge-success= @project.auto_lock_name
+    - else
+      %span.badge.badge-default Disabled
+    = link_to edit_editor_project_path(@project), class: "btn btn-light btn-sm btn-shadow" do
+      %i.fa.fa-cog
+  .card-body
     - if @project.auto_locking_enabled?
       %p
         Sheets automatically lock after
@@ -174,17 +170,17 @@
         = link_to "Learn more...", docs_locking_path
 
 - if @project.owner?(current_user) && Rails.env.development?
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title API
-    .panel-body
+  .card.mb-3
+    .card-header
+      API
+    .card-body
       = link_to "API", api_owner_project_path(@project)
 
 - if @project.owner?(current_user) && @project.users.size.positive?
-  .panel.panel-danger
-    .panel-heading
-      %h3.panel-title Transfer Ownership
-    .panel-body
+  .card.mb-3.border-danger
+    .card-header.bg-danger
+      Transfer Ownership
+    .card-body
       %p
         Click here to transfer the project ownership to another user. This will
         make you an editor on the project.
@@ -211,10 +207,10 @@
           = button_tag "Transfer Ownership", data: { object: "submit", target: "#transfer_project_form" }, class: "btn btn-outline-danger"
 
 - if @project.owner?(current_user)
-  .panel.panel-danger
-    .panel-heading
-      %h3.panel-title Delete Project
-    .panel-body
+  .card.border-danger
+    .card-header.bg-danger
+      Delete Project
+    .card-body
       %p
         By deleting the project, you will no longer have access to any of the
         data collected. Deleting the project removes it for all users on the
