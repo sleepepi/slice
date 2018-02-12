@@ -1,0 +1,1 @@
+%span.month-box= select_tag "#{field_name}[month]", options_for_select(Date::ABBR_MONTHNAMES[1..12].collect.with_index { |m, i| [m.to_s.upcase, i + 1] }, value[:month]), class: "form-control", disabled: disabled, data: { target_name: target_name, object: "cursor-navigatable" }, include_blank: "mmm", style: "display: inline-block;"

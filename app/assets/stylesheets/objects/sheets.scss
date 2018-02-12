@@ -73,7 +73,8 @@ select {
   white-space: nowrap;
 
   input {
-    &[type="text"] {
+    &[type="text"],
+    &[type="number"] {
       min-width: 55px;
       width: 55px;
     }
@@ -92,7 +93,8 @@ select {
 .month-box,
 .day-box {
   input {
-    &[type="text"] {
+    &[type="text"],
+    &[type="number"] {
       min-width: 55px;
       width: 55px;
     }
@@ -101,10 +103,21 @@ select {
 
 .year-box {
   input {
-    &[type="text"] {
+    &[type="text"],
+    &[type="number"] {
       min-width: 63px;
       width: 63px;
     }
+  }
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
