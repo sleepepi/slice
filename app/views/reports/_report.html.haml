@@ -79,4 +79,4 @@
 .text-center.text-muted= @report_caption
 
 - link_name = @design ? project_reports_design_advanced_path(@design.project, @design, percent: @percent, f: params.to_unsafe_hash[:f]) : report_reports_project_path(@project, f: params.to_unsafe_hash[:f])
-= link_to "#permalink", link_name, class: "pull-right", rel: "tooltip", title: "Right-click and Copy Link Address", data: { placement: "left" }
+= link_to "#permalink", link_name, class: "float-right", rel: "tooltip", title: "Right-click and Copy Link Address", data: { placement: "left" }
