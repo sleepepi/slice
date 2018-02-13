@@ -19,15 +19,15 @@
 - if @randomization.subject && @randomization.randomized_by && @randomization.treatment_arm
   .jumbotron
     %h2.text-center{ style: "margin: 0;" }
-      %span.hidden-sm.hidden-md.hidden-lg= @randomization.treatment_arm.short_name
-      %span.hidden-xs= @randomization.treatment_arm.name
+      %span.d-inline.d-sm-none= @randomization.treatment_arm.short_name
+      %span.d-none.d-sm-inline= @randomization.treatment_arm.name
     %br
     %p.text-center
       %strong
         = link_to @randomization.subject.name, [@project, @randomization.subject]
       randomized
-      %span.hidden-sm.hidden-md.hidden-lg= simple_date @randomization.randomized_at
-      %span.hidden-xs= simple_time @randomization.randomized_at
+      %span.d-inline.d-sm-none= simple_date @randomization.randomized_at
+      %span.d-none.d-sm-inline= simple_time @randomization.randomized_at
       %br
       by
       = @randomization.randomized_by.name
@@ -51,8 +51,8 @@
             %td= simple_check task.completed?
             %td= link_to task.description, [task.project, task]
             %td
-              %span.hidden-sm.hidden-md.hidden-lg= task.due_date.strftime("%b %-d, %Y")
-              %span.hidden-xs= task.due_date.strftime("%a, %B %-d, %Y")
+              %span.d-inline.d-sm-none= task.due_date.strftime("%b %-d, %Y")
+              %span.d-none.d-sm-inline= task.due_date.strftime("%a, %B %-d, %Y")
 
 .dashboard-container.dashboard-table
   %h3.px-2.py-1 Randomization Details
@@ -84,8 +84,9 @@
             - if sfo = randomization_characteristic.stratification_factor_option
               = sfo.label
             - elsif site = randomization_characteristic.site
-              %span.hidden-xs= site.name
-              %span.hidden-sm.hidden-md.hidden-lg= site.short_name
+              %span.d-inline.d-sm-none= site.short_name
+              %span.d-none.d-sm-inline= site.name
+
 
 - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
   .dashboard-container.dashboard-table
@@ -100,7 +101,7 @@
             %p
               No,
               %span{ rel: "tooltip", title: "Random Roll Between 0 and 99", data: { placement: "right", container: "body" } }
-                %mark= @randomization.dice_roll
+                %span.badge.badge-accent= @randomization.dice_roll
               is greater than or equal to
               = succeed "." do
                 %span{ rel: "tooltip", title: "Set by Scheme: Can be between 0 (Never Random) and 100 (Always Random)", data: { placement: "right", container: "body" } }= @randomization.dice_roll_cutoff
@@ -108,7 +109,7 @@
           - else
             %p
               Yes,
-              %mark= @randomization.dice_roll
+              %span.badge.badge-accent= @randomization.dice_roll
               is less than
               = succeed "." do
                 = @randomization.dice_roll_cutoff
@@ -126,8 +127,9 @@
                       - treatment_arm = @randomization.randomization_scheme.treatment_arms.find_by(id: arm_hash[:id])
                       - if treatment_arm
                         %th{ style: "text-align:right" }
-                          %span.hidden-xs.hidden-sm= treatment_arm.name
-                          %span.hidden-md.hidden-lg= treatment_arm.short_name
+                          %span.d-inline.d-md-none= treatment_arm.short_name
+                          %span.d-none.d-md-inline= treatment_arm.name
+
               - if @randomization.past_distributions[:stratification_factors].is_a?(Array)
                 %tbody
                   - @randomization.past_distributions[:stratification_factors].each do |sf_hash|
@@ -157,11 +159,11 @@
               - treatment_arm = @randomization.randomization_scheme.treatment_arms.find_by(id: arm_hash[:id])
               - if treatment_arm
                 %li
-                  %code.hidden-xs= treatment_arm.name
-                  %code.hidden-sm.hidden-md.hidden-lg= treatment_arm.short_name
+                  %span.badge.badge-light.d-inline.d-sm-none= treatment_arm.short_name
+                  %span.badge.badge-light.d-none.d-sm-inline= treatment_arm.name
+
       %tr
         %th Treatment Arm Chosen from Eligible Treatment Arms
         %td
-          %mark.hidden-xs= @randomization.treatment_arm.name
-          %mark.hidden-sm.hidden-md.hidden-lg= @randomization.treatment_arm.short_name
-          selected.
+          %span.badge.badge-accent.d-inline.d-sm-none= @randomization.treatment_arm.short_name
+          %span.badge.badge-accent.d-none.d-sm-inline= @randomization.treatment_arm.name

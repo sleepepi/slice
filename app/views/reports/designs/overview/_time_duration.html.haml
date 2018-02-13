@@ -1,34 +1,34 @@
 - missing_responses = responses.select(&:blank?)
 - valid_responses = responses.reject(&:blank?).map(&:to_i).sort
-- valid_sheets = sheet_scope.with_stratum(current_user, variable, nil, 'any')
+- valid_sheets = sheet_scope.with_stratum(current_user, variable, nil, "any")
 - no_responses = valid_responses.count.zero?
 
 - unless no_responses
-  .text-center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
+  .text-center{ style: "display: none;font-size: 48px;margin-bottom: 20px;", data: { object: "sparkline", type: "box", values: valid_responses } }
 
 %table.table.table-fixed.table-borderless
   %thead
     %tr
       %th.text-center N
       %th.text-center Mean
-      %th.text-center.hidden-xs StdDev
+      %th.text-center.d-none.d-sm-table-cell StdDev
       %th.text-center Med
       %th.text-center Min
       %th.text-center Max
-      %th.text-center.text-muted.hidden-xs Missing
+      %th.text-center.d-none.d-sm-table-cell.text-muted Missing
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
       %td.text-center
-        - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
+        - mean = Sheet.array_calculation(valid_sheets, variable, "array_mean")
         - if mean
           - time_duration = parse_time_duration(mean.to_i, no_hours: variable.no_hours?)
           = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
         - else
           \-
-      %td.text-center.nowrap.hidden-xs
-        - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
+      %td.text-center.d-none.d-sm-table-cell.nowrap
+        - stdev = Sheet.array_calculation(valid_sheets, variable, "array_standard_deviation")
         - if stdev
           - time_duration = parse_time_duration(stdev.to_i, no_hours: variable.no_hours?)
           &plusmn;
@@ -36,13 +36,13 @@
         - else
           \-
       %td.text-center
-        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = render 'reports/designs/overview/links/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+        - seconds = Sheet.array_calculation(valid_sheets, variable, "array_median")
+        = render "reports/designs/overview/links/time_duration_link", design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.text-center
-        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
+        - seconds = Sheet.array_calculation(valid_sheets, variable, "array_min")
+        = render "reports/designs/overview/links/time_duration_link", design: @design, variable: variable, seconds: seconds, event_id: event_id
       %td.text-center
-        - seconds = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = render 'reports/designs/overview/links/time_duration_link', design: @design, variable: variable, seconds: seconds, event_id: event_id
-      %td.text-center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+        - seconds = Sheet.array_calculation(valid_sheets, variable, "array_max")
+        = render "reports/designs/overview/links/time_duration_link", design: @design, variable: variable, seconds: seconds, event_id: event_id
+      %td.text-center.d-none.d-sm-table-cell= filter_link Statistics.array_count(missing_responses), @design, variable, ":missing", event_id: event_id
       %td.text-center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

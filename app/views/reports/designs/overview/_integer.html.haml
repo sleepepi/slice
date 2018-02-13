@@ -1,40 +1,40 @@
 - missing_codes = variable.missing_codes
 - missing_responses = responses.select { |r| r.blank? || missing_codes.include?(r) }
 - valid_responses = responses.reject { |r| r.blank? || missing_codes.include?(r) }.map(&:to_f)
-- valid_sheets = sheet_scope.with_stratum(current_user, variable, nil, 'any')
+- valid_sheets = sheet_scope.with_stratum(current_user, variable, nil, "any")
 - no_responses = valid_responses.count.zero?
 
 - unless no_responses
-  .text-center{ style: 'display: none;font-size: 48px;margin-bottom: 20px;', data: { object: 'sparkline', type: 'box', values: valid_responses } }
+  .text-center{ style: "display: none;font-size: 48px;margin-bottom: 20px;", data: { object: "sparkline", type: "box", values: valid_responses } }
 
 %table.table.table-fixed.table-borderless
   %thead
     %tr
       %th.text-center N
       %th.text-center Mean
-      %th.text-center.hidden-xs StdDev
+      %th.text-center.d-none.d-sm-table-cell StdDev
       %th.text-center Med
       %th.text-center Min
       %th.text-center Max
-      %th.text-center.text-muted.hidden-xs Missing
+      %th.text-center.d-none.d-sm-table-cell.text-muted Missing
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
       %td.text-center
-        - mean = Sheet.array_calculation(valid_sheets, variable, 'array_mean')
-        = mean ? mean : '-'
-      %td.text-center.nowrap.hidden-xs
-        - stdev = Sheet.array_calculation(valid_sheets, variable, 'array_standard_deviation')
-        = stdev ? "&plusmn; #{stdev}".html_safe : '-'
+        - mean = Sheet.array_calculation(valid_sheets, variable, "array_mean")
+        = mean ? mean : "-"
+      %td.text-center.d-none.d-sm-table-cell.nowrap
+        - stdev = Sheet.array_calculation(valid_sheets, variable, "array_standard_deviation")
+        = stdev ? "&plusmn; #{stdev}".html_safe : "-"
       %td.text-center
-        - median = Sheet.array_calculation(valid_sheets, variable, 'array_median')
-        = median ? filter_link(median.to_i, @design, variable, median.to_i, event_id: event_id) : '-'
+        - median = Sheet.array_calculation(valid_sheets, variable, "array_median")
+        = median ? filter_link(median.to_i, @design, variable, median.to_i, event_id: event_id) : "-"
       %td.text-center
-        - min = Sheet.array_calculation(valid_sheets, variable, 'array_min')
-        = min ? filter_link(min.to_i, @design, variable, min.to_i, event_id: event_id) : '-'
+        - min = Sheet.array_calculation(valid_sheets, variable, "array_min")
+        = min ? filter_link(min.to_i, @design, variable, min.to_i, event_id: event_id) : "-"
       %td.text-center
-        - max = Sheet.array_calculation(valid_sheets, variable, 'array_max')
-        = max ? filter_link(max.to_i, @design, variable, max.to_i, event_id: event_id) : '-'
-      %td.text-center.hidden-xs= filter_link Statistics.array_count(missing_responses), @design, variable, ':missing', event_id: event_id
+        - max = Sheet.array_calculation(valid_sheets, variable, "array_max")
+        = max ? filter_link(max.to_i, @design, variable, max.to_i, event_id: event_id) : "-"
+      %td.text-center.d-none.d-sm-table-cell= filter_link Statistics.array_count(missing_responses), @design, variable, ":missing", event_id: event_id
       %td.text-center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id

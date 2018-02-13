@@ -39,17 +39,17 @@
   - all_creators = User.where(id: @project.sheets.select(:user_id))
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
-      %col.hidden-xs{ width: "1px" }
+      %col.d-none.d-sm-table-column{ width: "1px" }
       %col
       %col
-      %col.hidden-xs.hidden-sm
+      %col.d-none.d-md-table-column
       - if viewable_sites.count > 1
-        %col.hidden-xs
-      %col.hidden-xs
+        %col.d-none.d-sm-table-column
+      %col.d-none.d-sm-table-column
       %thead
         %tr
           - filtered_params = params.permit(:site_id, :user_id, :search)
-          = th_sort_field_rev @order, "percent", "Coverage", extra_class: "hidden-xs", permit: [:site_id, :user_id]
+          = th_sort_field_rev @order, "percent", "Coverage", extra_class: "d-none d-sm-table-cell", permit: [:site_id, :user_id]
           %th.nowrap{ class: ["design", "design desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Sheet", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "design desc" ? "design" : "design desc")))
             - token = @tokens.find { |t| t.key == "designs" }
@@ -67,7 +67,7 @@
                   - design_search = (@tokens.reject { |t| t.key == "designs" }.collect(&:to_s) + ["designs:#{design.to_param}"]).join(" ")
                   = link_to design.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], search: design_search)), style: design_params.include?(design.to_param) ? "font-weight:bold;" : "", class: "dropdown-item"
           = th_sort_field @order, "subject", "Subject", permit: [:site_id, :user_id]
-          %th.nowrap.hidden-xs.hidden-sm
+          %th.d-none.d-md-table-cell.nowrap
             - if creation_ordered
               = link_to "Created", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "created desc" ? "created" : "created desc")))
             - else
@@ -79,7 +79,7 @@
                 = link_to "Last Edited", project_sheets_path(@project, filtered_params.merge(order: "edited desc")), style: !creation_ordered ? "font-weight:bold;" : "", class: "dropdown-item"
                 = link_to "Created", project_sheets_path(@project, filtered_params.merge(order: "created desc")), style: creation_ordered ? "font-weight:bold;" : "", class: "dropdown-item"
           - if viewable_sites.count > 1
-            %th.nowrap.hidden-xs{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
+            %th.d-none.d-sm-table-cell.nowrap{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "site desc" ? "site" : "site desc")))
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
@@ -91,7 +91,7 @@
                   = link_to "All Sites", project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
                     = link_to site.short_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
-          %th.nowrap.hidden-xs{ class: ["created_by", "created_by desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.d-none.d-sm-table-cell.nowrap{ class: ["created_by", "created_by desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Creator", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "created_by desc" ? "created_by" : "created_by desc")))
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do

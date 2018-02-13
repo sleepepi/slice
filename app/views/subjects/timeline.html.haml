@@ -58,7 +58,7 @@
             .timeline-large-icon
               %i.fa.fa-random
             %strong
-              %span.hidden-sm.hidden-md.hidden-lg
+              %span.d-inline.d-sm-none
                 %i.fa.fa-random
               - if randomization.randomized_by
                 = randomization.randomized_by.name
@@ -79,7 +79,7 @@
             .timeline-large-icon
               %i.fa.fa-exclamation-triangle.text-danger
             %strong
-              %span.hidden-sm.hidden-md.hidden-lg
+              %span.d-inline.d-sm-none
                 %i.fa.fa-exclamation-triangle
               = adverse_event.user.name
             reported an
@@ -105,7 +105,7 @@
         .timeline-large-icon
           %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
         %strong
-          %span.hidden-sm.hidden-md.hidden-lg
+          %span.d-inline.d-sm-none
             %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
           - if @subject.user
             = @subject.user.name

@@ -2,19 +2,19 @@
   %col{ width: "1px" }
   %col
   %col
-  %col.hidden-xs{ width: "1px" }
-  %col.hidden-xs{ width: "1px" }
+  %col.d-none.d-sm-table-column{ width: "1px" }
+  %col.d-none.d-sm-table-column{ width: "1px" }
   %thead
     %tr
       %th Coverage
       %th= @sheet.project.subject_code_name_full
       %th Site
-      %th.hidden-xs
+      %th.d-none.d-sm-table-cell
         - if @sheet.recently_created?
           Created
         - else
           Updated
-      %th.hidden-xs
+      %th.d-none.d-sm-table-cell
         By
   %tbody
     %tr
@@ -23,14 +23,14 @@
         = link_to @sheet.subject.name, [@sheet.subject.project, @sheet.subject] if @sheet.subject
       %td
         = link_to [@sheet.subject.site.project, @sheet.subject.site] do
-          %span.hidden-md.hidden-lg=@sheet.subject.site.short_name
-          %span.hidden-xs.hidden-sm=@sheet.subject.site.name
-      %td.hidden-xs.nowrap
+          %span.d-inline.d-md-none=@sheet.subject.site.short_name
+          %span.d-none.d-md-inline=@sheet.subject.site.name
+      %td.d-none.d-sm-table-cell.nowrap
         - if @sheet.recently_created?
           = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time_short(@sheet.created_at), transactions_project_sheet_path(@sheet.project, @sheet)
         - else
           = link_to_if (@sheet.sheet_transactions.size > 0 && current_user.all_viewable_sheets.pluck(:id).include?(@sheet.id)), simple_time_short(@sheet.last_edited_at), transactions_project_sheet_path(@sheet.project, @sheet)
-      %td.hidden-xs.nowrap
+      %td.d-none.d-sm-table-cell.nowrap
         - if @sheet.recently_created? && @sheet.user
           = @sheet.user.nickname
         - elsif @sheet.last_user

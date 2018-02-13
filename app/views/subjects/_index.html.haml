@@ -31,18 +31,18 @@
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col
       - if viewable_sites.count > 1
-        %col.hidden-xs.hidden-sm
+        %col.d-none.d-md-table-column
       %col
       - if @project.randomizations_enabled? && unblinded_user
-        %col.hidden-xs
+        %col.d-none.d-sm-table-column
       - if @project.adverse_events_enabled? && unblinded_user
-        %col.hidden-xs
+        %col.d-none.d-sm-table-column
       %thead
         %tr
           - filtered_params = params.permit(:site_id, :search)
           = th_sort_field @order, "subjects.subject_code", @project.subject_code_name_full, permit: [:site_id]
           - if viewable_sites.count > 1
-            %th.hidden-xs.hidden-sm.nowrap{ class: ["subjects.site_id", "subjects.site_id desc"].include?(params[:order]) ? "sort-selected" : nil }
+            %th.d-none.d-md-table-cell.nowrap{ class: ["subjects.site_id", "subjects.site_id desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_subjects_path(@project, filtered_params.merge(order: (params[:order] == "subjects.site_id desc" ? "subjects.site_id" : "subjects.site_id desc")))
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
@@ -53,7 +53,7 @@
                     = link_to site.short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           %th.nowrap Recent Activity
           - if @project.randomizations_enabled? && unblinded_user
-            %th.hidden-xs.text-center
+            %th.d-none.d-sm-table-cell.text-center
               Randomized
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
@@ -63,7 +63,7 @@
                   = link_to "Randomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["is:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "=" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
                   = link_to "Unrandomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["not:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "!=" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
           - if @project.adverse_events_enabled? && unblinded_user
-            %th.hidden-xs
+            %th.d-none.d-sm-table-cell
               AEs
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
@@ -78,7 +78,7 @@
         %tr{ id: "subject_#{subject.id}" }
           %td= link_to subject.subject_code, [@project, subject]
           - if viewable_sites.count > 1
-            %td.hidden-xs.hidden-sm= subject.site.short_name
+            %td.d-none.d-md-table-cell= subject.site.short_name
           %td
             - sheet = subject.last_created_or_edited_sheet(current_user)
             - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
@@ -96,13 +96,13 @@
             - else
               %span.text-muted Subject Created
           - if @project.randomizations_enabled? && unblinded_user
-            %td.hidden-xs.text-center
+            %td.d-none.d-sm-table-cell.text-center
               - if subject.randomizations_count.positive?
                 = simple_check true
               - else
                 %span.text-muted -
           - if @project.adverse_events_enabled? && unblinded_user
-            %td.hidden-xs.nowrap
+            %td.d-none.d-sm-table-cell.nowrap
               - open_ae_count = subject.adverse_events.where(closed: false).count
               - closed_ae_count = subject.adverse_events.where(closed: true).count
               - if open_ae_count + closed_ae_count > 0

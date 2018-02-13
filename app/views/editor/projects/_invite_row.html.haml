@@ -1,19 +1,19 @@
-.form-group.site-row{ class: (index.nil? ? 'hidden-site-row' : '') }
-  .col-sm-1{ style: '' }
-    = label 'invite', 'Invite', class: 'control-label'
-  .col-sm-4.col-buffer-visible-xs{ style: '' }
-    = text_field_tag 'invites[][email]', '', autocomplete: 'off', class: 'form-control', placeholder: 'johnsmith@example.com', data: { object: 'typeahead-users' }
+.form-group.site-row{ class: index.nil? ? "site-row-hidden" : nil }
+  .col-sm-1
+    = label "invite", "Invite", class: "control-label"
+  .col-sm-4.col-buffer-visible-xs
+    = text_field_tag "invites[][email]", "", autocomplete: "off", class: "form-control", placeholder: "johnsmith@example.com", data: { object: "typeahead-users" }
 
-  .col-sm-2.col-buffer-visible-xs{ style: '' }
-    = select_tag 'invites[][site_id]', options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: 'form-control'
+  .col-sm-2.col-buffer-visible-xs
+    = select_tag "invites[][site_id]", options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect{|s| ["-- #{s.name}", s.id]}), class: "form-control"
 
-  .col-6.col-sm-2.col-buffer-visible-xs{ style: '' }
-    %label.btn.btn-link{ style: 'text-decoration:none' }
-      = check_box_tag 'invites[][editor]', '1', true
+  .col-6.col-sm-2.col-buffer-visible-xs
+    %label.btn.btn-link{ style: "text-decoration: none;" }
+      = check_box_tag "invites[][editor]", "1", true
       Editor
 
   - if @project.unblinded?(current_user)
-    .col-6.col-sm-2{ style: "#{'display:none' unless @project.blinding_enabled?}" }
-      %label.btn.btn-link{ style: 'text-decoration:none' }
-        = check_box_tag 'invites[][unblinded]', '1', true
+    .col-6.col-sm-2{ style: "#{"display: none;" unless @project.blinding_enabled?}" }
+      %label.btn.btn-link{ style: "text-decoration: none;" }
+        = check_box_tag "invites[][unblinded]", "1", true
         Unblinded

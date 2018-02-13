@@ -41,5 +41,6 @@
         = link_to new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-lg btn-accent btn-shadow btn-block" do
           %i.fa.fa-exclamation-triangle
           Report
-          %span.hidden-xs.hidden-sm Adverse Event
-          %span.hidden-md.hidden-lg AE
+          %span.d-inline.d-md-none AE
+          %span.d-none.d-md-inline Adverse Event
+

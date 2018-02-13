@@ -24,17 +24,16 @@
         = link_to new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-lg btn-accent btn-shadow btn-block" do
           %i.fa.fa-exclamation-triangle
           Report
-          %span.hidden-xs.hidden-sm Adverse Event
-          %span.hidden-md.hidden-lg AE
+          %span.d-inline.d-lg-none AE
+          %span.d-none.d-lg-inline Adverse Event
 
 - if @project.events.where(archived: false).count > 0 && @subject.blinded_subject_events(current_user).count == 0
-  .jumbotron
-    .text-center
-      %p.lead No events have been added for this subject.
-      = image_tag "sad-slice.png"
+  .jumbotron.jumbotron-custom-text
+    .mb-5 No events have been added for this subject.
+    = image_tag "sad-slice.png"
 - elsif @subject.blinded_subject_events(current_user).count == 0 && @subject.blinded_sheets(current_user).count == 0
-  .jumbotron.text-center
-    %p.lead No data have been entered for this subject.
+  .jumbotron.jumbotron-custom-text
+    .mb-5 No data have been entered for this subject.
     = image_tag "sad-slice.png"
 - else
   - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil, adverse_event_id: nil).includes(:design).order("designs.name, sheets.created_at")

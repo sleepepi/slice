@@ -100,10 +100,10 @@
           - stacked_windows.each_with_index do |(stacked_window, state), index|
             .calendar-window{ class: "window-#{state}", data: { object: "calendar-window", task_id: stacked_window.id } }
               - if state == "start"
-                %span.hidden-xs.hidden-sm Window
+                %span.d-none.d-md-inline Window
                 Start
               - elsif state == "end"
-                %span.hidden-xs.hidden-sm Window
+                %span.d-none.d-md-inline Window
                 End
               - else
                 &nbsp;

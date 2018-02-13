@@ -330,7 +330,7 @@ class User < ApplicationRecord
   end
 
   def nickname
-    "#{first_name} #{last_name.first}"
+    "#{first_name}#{last_name.first.upcase}"
   end
 
   def last_business_day

@@ -36,11 +36,11 @@
               - if sheets.count > 1 && event_design.highlight_duplicates?
                 %i.fa.fa-exclamation-triangle.text-warning{ rel: "tooltip", title: "Duplicate Entry", data: { placement: "left", container: "body" } }
               - if sheets.count > 1
-                %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime("%b %-d, %Y")
-                %span.hidden-xs.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
+                %span.d-inline.d-sm-none.nowrap= sheet.created_at.strftime("%b %-d, %Y")
+                %span.d-none.d-sm-inline.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
             - if event_design.handoff_enabled?
-              %span.badge.badge-accent.hidden-xs Handoff
-              %span.badge.badge-accent.hidden-sm.hidden-md.hidden-lg H
+              %span.badge.badge-accent.d-inline.d-sm-none H
+              %span.badge.badge-accent.d-none.d-sm-inline Handoff
             = link_to_if !sheet.missing?, sheet.name, project_sheet_path(@project, sheet)
             = render "layouts/unblinded_only", project: @project, object: design, placement: "top"
             - unless event_design.required?(@subject)
@@ -50,7 +50,7 @@
         %td
           - if @subject.editable_by?(current_user)
             = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: "btn btn-sm btn-accent btn-shadow" do
-              %i.fa.fa-plus{ aria: { hidden: "true" } }
+              %i.fa.fa-plus
         %td
           - if @subject.editable_by?(current_user)
             .float-right
@@ -67,8 +67,8 @@
                   = link_to set_sheet_as_missing_project_subject_path(@project, @subject, design, subject_event), method: :post, remote: true, class: "dropdown-item" do
                     Set as Missing
           - if event_design.handoff_enabled?
-            %span.badge.badge-accent.hidden-xs Handoff
-            %span.badge.badge-accent.hidden-sm.hidden-md.hidden-lg H
+            %span.badge.badge-accent.d-inline.d-sm-none H
+            %span.badge.badge-accent.d-none.d-sm-inline Handoff
           - if @subject.editable_by?(current_user)
             = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id })
           - else
@@ -89,6 +89,6 @@
                 = sheet.comments_count
                 %i.fa.fa-comment
 
-          %span.badge.badge-warning.hidden-xs{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra
-          %span.badge.badge-warning.hidden-sm.hidden-md.hidden-lg{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E
+          %span.badge.badge-warning.d-inline.d-sm-none{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E
+          %span.badge.badge-warning.d-none.d-sm-inline{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra
           = link_to sheet.name, project_sheet_path(@project, sheet)

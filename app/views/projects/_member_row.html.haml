@@ -1,12 +1,12 @@
 %tr{ class: "#{"success" if @member == member}" }
   %td
     - if member.user
-      %span.hidden-xs= member.user.name
-      %span.hidden-sm.hidden-md.hidden-lg= member.user.nickname
+      .d-none.d-lg-inline= member.user.name
+      .d-inline.d-lg-none= member.user.nickname
     - else
       %span.text-muted{ style: "word-break: break-word;" }= member.invite_email
   %td
-    %span.hidden-xs= member.is_a?(ProjectUser) ? "Project" : "Site"
+    %span.d-none.d-lg-inline= member.is_a?(ProjectUser) ? "Project" : "Site"
     = member.editor? ? "Editor" : "Viewer"
   - if @project.blinding_enabled?
     %td.text-center
@@ -14,7 +14,7 @@
         %i.fa.fa-eye.text-muted
       - else
         %i.fa.fa-eye-slash.text-danger
-  %td.hidden-xs
+  %td.d-none.d-sm-table-cell
     = member.creator.nickname if member.creator
   %td.text-center
     - if member.is_a?(ProjectUser)

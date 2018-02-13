@@ -57,21 +57,21 @@
       - if @site.site_users.blank?
         %td
           %span.text-muted No Site Members
-    - if @site.site_users.present?
-      %table.table.table-striped.table-borderless.table-hover
+  - if @site.site_users.present?
+    %table.table.table-striped.table-borderless.table-hover
+      %col
+      %col
+      - if @project.blinding_enabled?
         %col
-        %col
-        - if @project.blinding_enabled?
-          %col
-        %col.hidden-xs
-        %col{ width: "1px" }
-        %thead
-          %tr
-            %th Name
-            %th Role
-            - if @project.blinding_enabled?
-              %th.text-center Blinding
-            %th.hidden-xs Invited By
-            %th.text-center Actions
-        - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
-          = render "projects/member_row", member: member
+      %col.d-none.d-sm-table-column
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th Name
+          %th Role
+          - if @project.blinding_enabled?
+            %th.text-center Blinding
+          %th.d-none.d-sm-table-cell Invited By
+          %th.text-center Actions
+      - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
+        = render "projects/member_row", member: member

@@ -1,16 +1,16 @@
-.dashboard-container
+.dashboard-container.dashboard-table
   - if @project.editable_by?(current_user)
-    .float-right
+    .float-right.px-2.py-1
       = link_to "Create Site", new_project_site_path(@project), class: "btn btn-sm btn-primary btn-shadow"
 
-  %h3 Project Members
+  %h3.px-2.py-1 Project Members
 
-  %table.table.table-borderless
+  %table.table.table-borderless.table-hover.table-sticky
     %col
     %col
     - if @project.blinding_enabled?
       %col
-    %col.hidden-xs
+    %col.d-none.d-sm-table-column
     %col{ width: "1px" }
     %thead
       %tr
@@ -18,37 +18,36 @@
         %th Role
         - if @project.blinding_enabled?
           %th.text-center Blinding
-        %th.hidden-xs Invited By
-        %th Actions
+        %th.d-none.d-sm-table-cell Invited By
+        %th.text-center Actions
     %tr
       %td
-        %span.hidden-xs= @project.user.name
-        %span.hidden-sm.hidden-md.hidden-lg= @project.user.nickname
+        .d-none.d-lg-inline= @project.user.name
+        .d-inline.d-lg-none= @project.user.nickname
 
       %td
-        %span.hidden-xs Project
+        %span.d-none.d-lg-inline Project
         Owner
       - if @project.blinding_enabled?
         %td.text-center
           %i.fa.fa-eye.text-muted
-      %td.hidden-xs
+      %td.d-none.d-sm-table-cell
       %td
     - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
       %tbody{ id: "project-user-#{project_user.id}-container" }
         = render "projects/member_row", member: project_user
 
 - @project.sites.order(:name).each do |site|
-  .dashboard-container
-    %h4
-      %span.hidden-xs= site.name
-      .hidden-sm.hidden-md.hidden-lg.text-center
-        = site.short_name
-    %table.table.table-borderless
+  .dashboard-container.dashboard-table
+    %h3.px-2.py-1
+      .d-none.d-sm-inline= site.name
+      .d-inline.d-sm-none= site.short_name
+    %table.table.table-borderless.table-hover.table-sticky
       %col
       %col
       - if @project.blinding_enabled?
         %col
-      %col.hidden-xs
+      %col.d-none.d-sm-table-column
       %col{ width: "1px" }
       %thead
         %tr
@@ -56,8 +55,8 @@
           %th Role
           - if @project.blinding_enabled?
             %th.text-center Blinding
-          %th.hidden-xs Invited By
-          %th Actions
+          %th.d-none.d-sm-table-cell Invited By
+          %th.text-center Actions
       - if site.site_users.size == 0
         %tr.active
           %td.text-center{ colspan: (@project.blinding_enabled? ? 5 : 4) } No Members on Site

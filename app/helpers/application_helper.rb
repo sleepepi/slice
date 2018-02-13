@@ -75,11 +75,11 @@ module ApplicationHelper
   def simple_time(past_time)
     return "" if past_time.blank?
     if past_time.to_date == Time.zone.today
-      past_time.strftime("Today at %I:%M %p")
+      past_time.strftime("Today at %-I:%M %p")
     elsif past_time.year == Time.zone.today.year
-      past_time.strftime("on %b %d at %I:%M %p")
+      past_time.strftime("on %b %-d at %-I:%M %p")
     else
-      past_time.strftime("on %b %d, %Y at %I:%M %p")
+      past_time.strftime("on %b %-d, %Y at %-I:%M %p")
     end
   end
 

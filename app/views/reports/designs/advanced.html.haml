@@ -8,8 +8,8 @@
 - content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do
-  %span.hidden-xs= "#{@design.name} Report"
-  %span.hidden-sm.hidden-md.hidden-lg= "#{@design.short_name} Report"
+  %span.d-inline.d-md-none= "#{@design.short_name} Report"
+  %span.d-none.d-md-inline= "#{@design.name} Report"
 
 #new_filter_modal.modal
   .modal-dialog.modal-lg

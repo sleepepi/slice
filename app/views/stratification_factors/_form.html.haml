@@ -10,8 +10,8 @@
     .col-md-10
       = f.text_area :calculation, value: @stratification_factor.readable_calculation, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
       %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-        %col.hidden-xs{ width: '30%' }
-        %col.hidden-sm.hidden-md.hidden-lg{ width: '50%' }
+        %col.d-none.d-sm-table-cell{ width: '30%' }
+        %col.d-table-cell.d-sm-none{ width: '50%' }
         %tr
           %th General
           %td

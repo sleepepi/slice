@@ -7,12 +7,11 @@
           = link_to [@project, sheet], class: "btn btn-sm btn-accent" do
             = sheet.comments_count
             %i.fa.fa-comment
-      %span.hidden-sm.hidden-md.hidden-lg.nowrap= sheet.created_at.strftime("%b %-d, %Y")
-      %span.hidden-xs.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
+      %span.d-inline.d-sm-none.nowrap= sheet.created_at.strftime("%b %-d, %Y")
+      %span.d-none.d-sm-inline.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
 
     = link_to sheet.name, [@project, sheet]
     = render "layouts/unblinded_only", project: @project, object: sheet.design, placement: "top"
     - if sheet.auto_locked? && @sheet == sheet
       %br
       %span The sheet must be unlocked before being moved to another event.
-

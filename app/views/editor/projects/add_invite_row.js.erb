@@ -1,3 +1,3 @@
-$("#invites").append("<%=j render 'editor/projects/invite_row', index: nil %>");
+$("#invites").append("<%=j render "editor/projects/invite_row", index: nil %>");
 usersReady();
-setTimeout(function() { $(".hidden-site-row").removeClass("hidden-site-row"); }, 10);
+setTimeout(function() { $(".site-row-hidden").removeClass("site-row-hidden"); }, 10);
