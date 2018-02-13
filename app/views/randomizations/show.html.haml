@@ -33,15 +33,12 @@
       = @randomization.randomized_by.name
 
 - if @randomization.tasks.count > 0
-  .float-right
-    = link_to schedule_project_randomization_path(@project, @randomization, format: "pdf"), class: "btn btn-sm btn-light" do
-      %i.fa.fa-print
-      Print Schedule
-
-  %h3.text-white.text-shadow
-    Schedule of Events
-
   .dashboard-container.dashboard-table
+    .float-right.px-2.py-1
+      = link_to schedule_project_randomization_path(@project, @randomization, format: "pdf"), class: "btn btn-sm btn-outline-dark" do
+        %i.fa.fa-print
+        Print Schedule
+    %h3.px-2.py-1 Schedule of Events
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %thead
         %tr
@@ -57,9 +54,8 @@
               %span.hidden-sm.hidden-md.hidden-lg= task.due_date.strftime("%b %-d, %Y")
               %span.hidden-xs= task.due_date.strftime("%a, %B %-d, %Y")
 
-%h3.text-white.text-shadow
-  Randomization Details
 .dashboard-container.dashboard-table
+  %h3.px-2.py-1 Randomization Details
   %table.table.table-striped.table-borderless.table-hover
     %col.d-none.d-sm-table-column{ width: "30%" }
     %col.d-table-column.d-sm-none{ width: "50%" }
@@ -92,9 +88,8 @@
               %span.hidden-sm.hidden-md.hidden-lg= site.short_name
 
 - if @randomization.randomization_scheme && @randomization.randomization_scheme.minimization? && @randomization.dice_roll && @randomization.dice_roll_cutoff && @project.editable_by?(current_user)
-  %h3.text-white.text-shadow
-    Notes
   .dashboard-container.dashboard-table
+    %h3.px-2.py-1 Notes
     %table.table.table-striped.table-borderless.table-hover
       %col.d-none.d-sm-table-column{ width: "30%" }
       %col.d-table-column.d-sm-none{ width: "50%" }

@@ -1,32 +1,32 @@
 - lists = @randomization_scheme.lists
 - if lists.present?
-  %h3.text-white.text-shadow Lists
   .dashboard-container
+    %h3.px-2.py-1 Lists
     - if @randomization_scheme.randomized_subjects?
       .callout.callout-info
         %strong Randomization Started
 
         The lists are now
-        = succeed '.' do
+        = succeed "." do
           %strong locked
         In order to recreate these lists, the existing randomizations need to be
         manually cleared. Click on the existing randomizations and then select
-        = succeed '.' do
+        = succeed "." do
           %strong Undo Randomization
 
     .table-responsive
-      %table.table.table-fixed
+      %table.table.table-fixed.table-borderless
         %thead
           %tr
             - lists.each do |list|
               %th.text-center
                 %strong= link_to list.name, [@project, @randomization_scheme, list]
                 %small.text-muted
-                  = surround '(', ')' do
+                  = surround "(", ")" do
                     = list.randomizations.where.not(subject_id: nil).count
 
         %tbody
           %tr
             - lists.each do |list|
               %td
-                = render 'lists/block_groups', list: list
+                = render "lists/block_groups", list: list
