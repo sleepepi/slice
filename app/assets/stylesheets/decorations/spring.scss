@@ -1,14 +1,22 @@
+$grass-height: 45px;
+
 .footer-spring {
   &::before {
     background-image: asset-url('themes/spring/grass-color.png');
     background-repeat: repeat-x;
     content: ' ';
     position: absolute;
-    top: -45px;
+    top: -$grass-height;
     left: 0;
     right: 0;
     height: 120px;
     background-size: 60px;
+  }
+}
+
+.theme-spring-bg {
+  .sidebar-wrapper {
+    padding-bottom: $grass-height;
   }
 }
 
