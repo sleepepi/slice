@@ -27,6 +27,10 @@
   }
 }
 
+.handle-visible {
+  cursor: move;
+}
+
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .projects-box {

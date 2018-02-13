@@ -79,6 +79,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = current_user.projects.new
+    render layout: "layouts/full_page"
   end
 
   # POST /projects
@@ -87,7 +88,7 @@ class ProjectsController < ApplicationController
     if @project.save
       redirect_to setup_project_sites_path(@project), notice: "Project was successfully created."
     else
-      render :new
+      render :new, layout: "layouts/full_page"
     end
   end
 

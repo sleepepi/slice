@@ -12,6 +12,11 @@
       color: map-get($theme, brand-white) !important;
     }
 
+    .btn-success {
+      @include button-variant(theme-color($theme, success, $p500-green), theme-color($theme, success, $p500-green));
+      color: map-get($theme, brand-white) !important;
+    }
+
     .btn-shadow {
       box-shadow: 0 0 5px map-get($theme, shadow-color);
 

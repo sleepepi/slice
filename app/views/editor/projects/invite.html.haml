@@ -5,10 +5,10 @@
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-%p.lead.text-center.text-white.text-shadow
-  Invite by email.
-
 .dashboard-container
+  %p.lead
+    Invite by email.
+
   = form_tag send_invites_editor_project_path(@project), method: :post, class: "form-horizontal", id: "invites-form" do
     #invites{ style: "margin-bottom: 20px" }
       = render "editor/projects/invite_row", index: 0

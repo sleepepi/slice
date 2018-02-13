@@ -1,7 +1,5 @@
-- @themes = Slice::THEMES.collect(&:second)
-- number = rand(@themes.size)
-
-- @menu = @themes[number]
-- @body = @themes[number]
-- @body_alt = @themes[number]
-- @footer = @themes[number]
+- if params[:theme].present?
+  - @menu = @body = @body_alt = @footer = params[:theme]
+- else
+  - @themes = Slice::THEMES.collect(&:second)
+  - @menu = @body = @body_alt = @footer = @themes[rand(@themes.size)]

@@ -1,8 +1,9 @@
 - @title = "About #{ENV["website_name"]}"
 
-%h1= @title
 
-.docs-container
+- content_for :header, @title
+
+.dashboard-container
   %p
     = ENV["website_name"]
     is a free clinical research data collection system for capturing and
@@ -22,16 +23,16 @@
     = link_to "Discover results.", docs_data_review_path
 
 
-%h3.text-white.text-shadow
-  Questions?
+.dashboard-container
+  %h3
+    Questions?
 
-.docs-container
   %ul
     %li= link_to "Visit the Docs", docs_path
     %li= link_to "Contact us", contact_path
 
-.text-center{ style: "margin-top:40px" }
-  %p.lead
-    %span
-      Version
-      %strong= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/releases", class: "link-accent"
+
+.center-horizontally
+  .docs-learn-more
+    Version
+    %strong= link_to Slice::VERSION::STRING, "https://github.com/remomueller/slice/releases"

@@ -74,10 +74,12 @@
             %td.text-right
               = number_with_delimiter current_user.all_viewable_sheets.where(id: check_filter.sheets.select(:id)).count
 
-- if all_sheets.count > 40
-  %h3.text-white.text-shadow Top 40 Results
+
 - if all_sheets.count > 0
   .dashboard-container
+    - if all_sheets.count > 40
+      %h3 Top 40 Results
+
     = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-light" do
       View All Sheets
       %i.fa.fa-external-link
@@ -104,10 +106,11 @@
                     - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
                       = sheet_variable.get_response(:raw)
 - else
-  - if all_subjects.count > 40
-    %h3.text-white.text-shadow Top 40 Results
   - if all_subjects.count > 0
     .dashboard-container
+      - if all_subjects.count > 40
+        %h3 Top 40 Results
+
       %table.table.table-borderless.table-hover
         %col{ width: "1px" }
         %thead

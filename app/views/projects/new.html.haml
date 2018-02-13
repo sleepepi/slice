@@ -1,29 +1,31 @@
 - @title = "New Project"
 
-.background-gradient
+- render "themes/theme"
 
-%p.lead.text-center.text-white.text-shadow
-  Give it a name!
+.page-box.last-box.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+  .container
+    .mb-3.text-center{ class: @body != "default" ? "text-white" : nil }
+      Give it a name!
 
-.sign-up-form
-  .sign-up-form-title
-    = @title
+    .sign-up-form
+      .sign-up-form-title
+        = @title
 
-  - if @project.new_record?
-    - url = projects_path
-    - method = :post
-  - else
-    - url = editor_project_path(@project)
-    - method = :patch
+      - if @project.new_record?
+        - url = projects_path
+        - method = :post
+      - else
+        - url = editor_project_path(@project)
+        - method = :patch
 
-  = form_for @project, url: url, method: method, html: { class: "form-vertical" } do |form|
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: @project, key: :name
-      = form.text_field :name, autocomplete: "off", class: "form-control"
+      = form_for @project, url: url, method: method, html: { class: "form-vertical" } do |form|
+        .form-group
+          = render "layouts/label_or_errors", form: form, object: @project, key: :name
+          = form.text_field :name, autocomplete: "off", class: "form-control"
 
-    .form-group.submit-btn-container
-      = form.submit nil, class: "btn btn-primary btn-block btn-shadow"
+        .form-group.submit-btn-container
+          = form.submit nil, class: "btn btn-primary btn-block btn-shadow"
 
-.sign-up-form.text-center
-  Need help?
-  = link_to "View our docs.", docs_project_setup_path
+    .sign-up-form.text-center
+      Need help?
+      = link_to "View our docs.", docs_project_setup_path

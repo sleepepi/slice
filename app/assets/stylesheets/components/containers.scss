@@ -33,13 +33,14 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .download-container {
-      background-color: map-get($theme, body-bg);
-      border-color: theme-color($theme, download-container-border, $p200-grey);
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
     }
 
+    // TODO: Remove "download-container-after"
     .download-container-after {
-      background-color: map-get($theme, body-bg);
-      border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
+      background-color: map-get($theme, dashboard-bg);
     }
   }
 }

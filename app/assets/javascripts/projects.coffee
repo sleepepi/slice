@@ -1,6 +1,6 @@
 @projectSortables = ->
   $('[data-object~="projects-sortable"]').sortable(
-    handle: ".handle"
+    handle: ".handle, .handle-visible"
     axis: "y"
     stop: ->
       favored_order = if $('[data-object~="projects-sortable"][data-category~="favored"]').length > 0
