@@ -1,9 +1,9 @@
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
     = link_to "Add Section or Question", new_project_design_design_option_path(@project, @design, position: @design_option.position), remote: true
     &middot;
     New Section
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   = form_tag create_section_project_design_design_options_path(@project, @design), method: :post, remote: true, enctype: "multipart/form-data", authenticity_token: true, class: "form-horizontal", id: "design_option_form" do
     = render "design_options/form_section", design_option: @design_option, section: @section

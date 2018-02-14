@@ -32,9 +32,9 @@
 
 
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title
     = title.html_safe if title
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: "form-horizontal", id: "design_option_form" do
     = render "design_options/form/#{partial}" if partial

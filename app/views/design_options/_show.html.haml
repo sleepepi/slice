@@ -57,13 +57,13 @@
             = variable.display_name
             = render "design_options/required", design_option: design_option
 
-        .form-group
+        .form-group.row
           - if !variable.uses_scale? && variable.display_layout == "visible"
-            %label.col-md-3.control-label
+            %label.col-md-3.col-form-label
               = variable.display_name
               = render "design_options/required", design_option: design_option
 
-          %div{ class: "#{(variable.uses_scale? || variable.display_layout == "gone" ? "col-md-12" : "col-md-9")}" }
+          %div{ class: "#{(variable.uses_scale? || variable.display_layout == "gone" ? "col-12" : "col-md-9")}" }
             - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "design_options/show/#{variable.variable_type}", design: @design, design_option: design_option, variable: variable
               = render "variables/field_note", variable: variable

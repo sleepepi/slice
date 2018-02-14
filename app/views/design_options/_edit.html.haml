@@ -1,8 +1,7 @@
 - if section = @design_option.section
   .modal-header
+    %h4.modal-title Edit Section
     %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
-    %h4.modal-title
-      Edit Section
   .modal-body
     = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: "form-horizontal", id: "design_option_form" do
       = render "design_options/form_section", design_option: @design_option, section: section

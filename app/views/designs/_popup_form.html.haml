@@ -1,6 +1,6 @@
 .modal-header
-  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   %h4.modal-title Edit Design
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   = form_for [@project, @design], remote: true, html: { class: "form-horizontal", id: "design_form" } do |f|
     .form-group

@@ -1,7 +1,6 @@
 .modal-header
+  %h4.modal-title Add Section or Question
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
-  %h4.modal-title
-    Add Section or Question
 .modal-body
   - %w(section string text dropdown radio checkbox integer numeric calculated date time_of_day time_duration file signature imperial_height imperial_weight grid existing_question).in_groups_of(3).each do |row_items|
     .row

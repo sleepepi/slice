@@ -192,10 +192,10 @@
     .modal-dialog.modal-lg
       .modal-content
         .modal-header
-          %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
           %h4.modal-title
             Transfer Ownership of
             = @project.name
+          %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
         .modal-body
           = form_tag transfer_owner_project_path(@project), method: :post, id: "transfer_project_form", class: "form-horizontal" do
             .form-group
