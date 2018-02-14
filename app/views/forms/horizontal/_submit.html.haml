@@ -1,0 +1,13 @@
+- text = if defined?(submit_text)
+  - submit_text
+- elsif defined?(object_name)
+  - object.new_record? ? "Create #{object_name.titleize}" : "Update #{object_name.titleize}"
+.form-group.row.mt-5.mb-0
+  .col-md-2
+  .col-md-10
+    = form.submit text, class: "btn btn-primary"
+    - if defined?(cancel) && cancel == false
+    - elsif defined?(cancel)
+      = link_to "Cancel", cancel, remote: defined?(remote) ? remote : nil, class: "btn btn-light"
+    - else
+      = link_to "Cancel", polymorphic_path(object), remote: defined?(remote) ? remote : nil, class: "btn btn-light"

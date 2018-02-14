@@ -1,0 +1,10 @@
+- help_text = "Must be a lowercase letter <span class=\"badge badge-light\">a-z</span> followed by lowercase letters <span class=\"badge badge-light\">a-z</span>, numbers <span class=\"badge badge-light\">0-9</span>, or dashes <span class=\"badge badge-light\">-</span>.".html_safe if help_text.blank?
+.form-group.row{ style: "#{"display: none;" if object.new_record? && !object.errors.key?(key)}" }
+  = form.label key, defined?(key_name) ? key_name : nil, class: "col-md-2 col-form-label"
+  .col-md-10
+    = form.text_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", id: "#{object.class.to_s.underscore}_#{key}"
+    - if defined?(key_name)
+      = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
+    - else
+      = render "forms/invalid_feedback", object: object, key: key
+    = render "forms/help_text", help_text: help_text

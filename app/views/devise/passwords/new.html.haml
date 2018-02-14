@@ -1,25 +1,17 @@
 - @title = "Forgot your password?"
 
-- @no_footer = true
+- render "themes/random"
 
-.background-gradient
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+  .container
+    %p.lead.text-center.text-white= @title
 
-%p.lead.text-center.text-white.text-shadow
-  Now where did I put that?
+    .sign-up-form
+      .sign-up-form-title
+        Reset password
 
-.sign-up-form
-  .sign-up-form-title
-    Reset Password
+      = form_with model: resource, as: resource_name, url: password_path(resource_name), method: :post, local: true do |form|
+        = render "forms/vertical/email_field", form: form, object: resource, key: :email
 
-  %p.lead.text-center
-    Enter your email address to receive a password reset email.
-
-  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-vertical" }) do |form|
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :email
-      = form.email_field :email, class: "form-control"
-
-    .form-group.submit-btn-container
-      = form.submit "Send me reset password instructions", class: "btn btn-primary btn-block btn-shadow"
-
-= render "layouts/simple_footer"
+        .form-group.submit-btn-container
+          = form.submit "Send me reset password instructions", class: "btn btn-primary btn-block btn-shadow"

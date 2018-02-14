@@ -1,0 +1,11 @@
+- error_key = key.to_s.gsub(/\_id$/, "")
+- id = (defined?(id) && id == true ? "#{object.class.to_s.underscore}_#{key}" : (defined?(id) ? id : nil))
+.form-group
+  = form.label key, defined?(key_name) ? key_name : nil
+  %div
+    = form.select key, options, defined?(include_blank) ? { include_blank: include_blank } : {}, class: "custom-select#{" is-invalid" if object.errors[error_key].present?}", id: id
+    - if defined?(key_name)
+      = render "forms/invalid_feedback", object: object, key: error_key, key_name: key_name
+    - else
+      = render "forms/invalid_feedback", object: object, key: error_key
+    = render "forms/help_text", help_text: help_text if defined?(help_text)

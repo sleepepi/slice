@@ -1,44 +1,15 @@
-- @title = "Join Slice"
+- @title = "Register New Account"
 
-- @no_footer = true
+- render "themes/random"
 
-.background-gradient
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+  .container
+    %p.lead.text-center.text-white Become a member.
 
-%p.lead.text-center.text-white.text-shadow
-  Become a member.
+    .sign-up-form
+      .sign-up-form-title
+        Create your account
+      = render "devise/registrations/form", resource: resource
 
-.sign-up-form
-  .sign-up-form-title
-    Create your account
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "form-vertical", autocomplete: "off" }) do |form|
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :first_name
-      = form.text_field :first_name, class: "form-control"
-
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :last_name
-      = form.text_field :last_name, class: "form-control"
-
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :email
-      = form.email_field :email, class: "form-control"
-
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :password
-      = form.password_field :password, class: "form-control", autocomplete: "off"
-
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :password_confirmation
-      = form.password_field :password_confirmation, class: "form-control", autocomplete: "off"
-
-    .form-group
-      %label.control-label Receive Emails Notifications
-      .checkbox
-        %label
-          = form.check_box :emails_enabled
-          Allow Slice to send you emails?
-
-    .form-group.submit-btn-container
-      = form.submit "Create an Account", class: "btn btn-primary btn-block btn-shadow"
-
-= render "layouts/simple_footer"
+    .sign-up-form.text-center
+      = link_to "I already have an account.", new_user_session_path

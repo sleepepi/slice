@@ -1,4 +1,4 @@
-// Make sure some text is always viewable in the form control
+// Make sure some text is always viewable in the form control.
 .form-control {
   min-width: 100px;
 }
@@ -9,6 +9,14 @@
       color: theme-color($theme, input-color, $p800-grey);
       background-color: theme-color($theme, input-bg, $white);
       border-color: theme-color($theme, input-border-color, $input-border-color);
+
+      &.is-invalid {
+        border-color: theme-color($theme, danger, map-get($theme-colors, danger));
+      }
+
+      &.is-valid {
+        border-color: theme-color($theme, success, map-get($theme-colors, success));
+      }
 
       &::placeholder {
         color: theme-color($theme, input-placeholder-color, $input-placeholder-color);

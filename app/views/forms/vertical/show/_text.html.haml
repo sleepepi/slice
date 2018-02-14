@@ -1,0 +1,4 @@
+.form-group
+  .form-label-elegant= defined?(key_name) ? key_name : key.to_s.humanize
+  .form-control-plaintext
+    = object.send(key)

@@ -1,0 +1,24 @@
+= hidden_field_tag :data_uri
+#signature-pad.signature-pad
+  .signature-pad-header
+    = link_to "#", data: { action: "clear" }, class: "small" do
+      %i.fa.fa-eraser
+      %span Clear
+      %span.d-none.d-sm-inline Signature
+  .signature-pad-body.background-p200-green{ id: "signature-pad-body", data: { object: "text-input-expandable", help_element: "signature-pad-body", help_text: "Signature" } }
+    .signature-pad-body-sign-here.small
+      Sign here
+    %canvas
+  .signature-pad-footer
+    .text-center.sign-with-mouse
+      %small.text-muted
+        Sign by holding the left mouse button down in the signature box.
+        Press
+        %strong Clear Signature
+        to try again.
+    .text-center.sign-with-finger
+      %small.text-muted
+        Sign using your finger in the signature box.
+        Press
+        %strong Clear Signature
+        to try again.

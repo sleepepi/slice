@@ -1,28 +1,21 @@
 - @title = "Change your password"
 
-- @no_footer = true
+- render "themes/random"
 
-.background-gradient
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+  .container
+    %p.lead.text-center{ class: @body != "default" ? "text-white" : nil }
+      = @title
 
-%p.lead.text-center.text-white.text-shadow
-  Change your password
+    .sign-up-form
+      .sign-up-form-title
+        Change password
 
-.sign-up-form
-  .sign-up-form-title
-    Change Password
+      = form_with model: resource, as: resource_name, url: password_path(resource_name), method: :put, local: true do |form|
+        = form.hidden_field :reset_password_token
 
-  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-vertical" }) do |form|
-    = form.hidden_field :reset_password_token
+        = render "forms/vertical/password_field", form: form, object: resource, key: :password, key_name: "New Password"
+        = render "forms/vertical/password_field", form: form, object: resource, key: :password_confirmation, key_name: "Password Confirmation"
 
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :password, key_name: "New Password"
-      = form.password_field :password, class: "form-control"
-
-    .form-group
-      = render "layouts/label_or_errors", form: form, object: resource, key: :password_confirmation, key_name: "Password Confirmation"
-      = form.password_field :password_confirmation, class: "form-control"
-
-    .form-group.submit-btn-container
-      = form.submit "Change my password", class: "btn btn-primary btn-block btn-shadow"
-
-= render "layouts/simple_footer"
+        .form-group.submit-btn-container
+          = form.submit "Change my password", class: "btn btn-primary btn-block btn-shadow"

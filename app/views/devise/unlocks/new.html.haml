@@ -1,0 +1,22 @@
+- @title = "Unlock account"
+
+- render "themes/random"
+
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+  .container
+    %p.lead.text-center.text-white Resend unlock instructions
+
+    .sign-up-form
+      .sign-up-form-title
+        Unlock account
+
+      = form_with model: resource, as: resource_name, url: unlock_path(resource_name), method: :post, local: true do |form|
+        = render "forms/vertical/email_field", form: form, object: resource, key: :email
+
+        - if resource.errors.any? && resource.errors.messages.keys.include?(:unlock_token)
+          %small.form-text.text-danger
+            Your unlock token has expired. Please enter an email to regenerate
+            a new unlock token and URL.
+
+        .form-group.submit-btn-container
+          = form.submit "Resend unlock instructions", class: "btn btn-primary btn-block btn-shadow"

@@ -371,10 +371,10 @@ Rails.application.routes.draw do
 
   devise_for :users,
              controllers: {
-               # passwords: "passwords",
-               # registrations: "registrations",
+               passwords: "passwords",
+               registrations: "registrations",
                sessions: "sessions",
-               # unlocks: "unlocks"
+               unlocks: "unlocks"
              },
              path_names: { sign_up: "join", sign_in: "login" },
              path: ""

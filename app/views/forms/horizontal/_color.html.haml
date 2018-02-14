@@ -1,0 +1,14 @@
+.form-group.row
+  = form.label key, defined?(key_name) ? key_name : nil, class: "col-md-2 col-form-label"
+  .col-md-10
+    - hex_color = object.send(key).blank? ? "#ffffff" : object.send(key)
+    = form.hidden_field key, id: "#{key}_hexcolor", value: hex_color
+    .custom_widget
+      .colorselector{ style: "background-image: none", data: { object: "color-selector", target: "##{key}_hexcolor", color: hex_color } }
+        %div{ id: "#{key}_hexcolor_display" , style: "background-color: #{hex_color};top: 0;left: 0;" }
+
+    - if defined?(key_name)
+      = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
+    - else
+      = render "forms/invalid_feedback", object: object, key: key
+    = render "forms/help_text", help_text: help_text if defined?(help_text)

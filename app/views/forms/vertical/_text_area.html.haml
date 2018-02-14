@@ -1,0 +1,9 @@
+- rows = 7 unless defined?(rows)
+.form-group
+  = form.label key, defined?(key_name) ? key_name : nil
+  = form.text_area key, rows: rows, class: "form-control#{" is-invalid" if object.errors[key].present?}", maxlength: defined?(maxlength) ? maxlength : nil
+  - if defined?(key_name)
+    = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
+  - else
+    = render "forms/invalid_feedback", object: object, key: key
+  = render "forms/help_text", help_text: help_text if defined?(help_text)

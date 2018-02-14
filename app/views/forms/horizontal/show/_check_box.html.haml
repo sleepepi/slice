@@ -1,0 +1,6 @@
+.form-group.row
+  .col-md-2.col-form-label
+    .form-label-elegant= defined?(key_name) ? key_name : key.to_s.humanize
+  .col-md-10
+    .form-control-plaintext
+      = simple_check object.send(key)

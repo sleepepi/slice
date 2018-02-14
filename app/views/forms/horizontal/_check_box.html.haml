@@ -1,0 +1,9 @@
+- id = "#{object.class.table_name.singularize}_#{key}"
+.form-group.row
+  .col-md-2
+  .col-md-10
+    .custom-control.custom-checkbox
+      = form.check_box key, class: "custom-control-input#{" is-invalid" if object.errors[key].present?}", id: id
+      = form.label key, for: id, class: "custom-control-label" do
+        = defined?(key_name) ? key_name : key.to_s.humanize
+      = render "forms/help_text", help_text: help_text if defined?(help_text)
