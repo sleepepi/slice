@@ -106,11 +106,6 @@ $(document)
         $('#edit-mode').click()
       e.preventDefault()
       return
-    # Key is 'w'
-    if not (e.metaKey or e.ctrlKey) and e.which == 87 and not $("input, textarea, select, a").is(":focus")
-      $('.container').toggleClass('wide-container')
-      e.preventDefault()
-      return
   )
   .on('click', '[data-object~="settings-save"]', ->
     window.$isDirty = false
@@ -129,4 +124,7 @@ $(document)
     $($(this).data('target-show')).show()
     $($(this).data('target-hide')).hide()
     false
+  )
+  .on("wheel", "input[type=number]", ->
+    $(this).blur()
   )
