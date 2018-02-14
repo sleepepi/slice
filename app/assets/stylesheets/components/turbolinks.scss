@@ -1,11 +1,14 @@
-@each $name, $theme in $themes {
-  .theme-#{$name}-bg {
-    $accent: map-get($theme, p400);
-    @if map-get($theme, accent) {
-      $accent: map-get($theme, accent);
-    }
+.turbolinks-progress-bar {
+  background-color: rgba($white, .75);
+}
 
-    .turbolinks-progress-bar {
+.turbolinks-progress-bar {
+  @each $name, $theme in $themes {
+    &.#{$name} {
+      $accent: map-get($theme, p400);
+      @if map-get($theme, accent) {
+        $accent: map-get($theme, accent);
+      }
       background-color: $accent;
     }
   }

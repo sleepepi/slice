@@ -6,14 +6,15 @@
     "love"
     "royal"
     "spring"
-    "fall"
+    # "fall"
     "winter"
   ]
 
 @changeTheme = (theme) ->
-  body_classes = themes().map (theme) -> "theme-#{theme}-bg"
-  menu_classes = themes().map (theme) -> "menu-#{theme}"
-  footer_classes = themes().map (theme) -> "footer-#{theme}"
+  $("body").data("theme", theme)
+  body_classes = themes().map (t) -> "theme-#{t}-bg"
+  menu_classes = themes().map (t) -> "menu-#{t}"
+  footer_classes = themes().map (t) -> "footer-#{t}"
   $(".theme-bg").removeClass(body_classes.join(" ")).addClass("theme-#{theme}-bg")
   $(".navbar-custom").removeClass(menu_classes.join(" ")).addClass("menu-#{theme}")
   $(".footer-container").removeClass(footer_classes.join(" ")).addClass("footer-#{theme}")

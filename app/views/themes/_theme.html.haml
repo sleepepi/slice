@@ -1,9 +1,9 @@
 - if params[:theme].present?
-  - @menu = @body = @body_alt = @footer = params[:theme]
+  - @theme = @menu = @body = @body_alt = @footer = params[:theme]
 - elsif current_user&.theme.in?(Slice::THEMES.collect(&:second))
-  - @menu = @body = @body_alt = @footer = current_user&.theme
+  - @theme = @menu = @body = @body_alt = @footer = current_user&.theme
 - else
-  - @menu = @body = @body_alt = @footer = "default"
+  - @theme = @menu = @body = @body_alt = @footer = "default"
 
 - case @body
 - when "night"

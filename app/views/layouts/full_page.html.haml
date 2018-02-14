@@ -17,7 +17,7 @@
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page.theme-bg{ class: @body ? "theme-#{@body}-bg" : nil }
+  %body#top.full-page.theme-bg{ class: @body ? "theme-#{@body}-bg" : nil, data: { theme: @theme } }
     = render "layouts/features/flash_bar"
     = render "layouts/features/sound_enabled" # Slice extra
     = render "layouts/features/timeout" # Slice extra
