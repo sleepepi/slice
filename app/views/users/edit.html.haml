@@ -1,10 +1,8 @@
-- @title = "#{@user.name_was} Edit"
-- @breadcrumbs = []
-- @breadcrumbs << ["Users", users_path]
+- @title = "Edit User"
 
 - content_for :header do
   = link_to @user.name_was, @user
   Edit
 
 .dashboard-container
-  = render "form"
+  = render "form", user: @user

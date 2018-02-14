@@ -1,37 +1,8 @@
-= form_for @user, html: { class: 'form-horizontal' } do |f|
-  .form-group
-    = f.label :first_name, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :first_name, class: 'form-control'
-      = render 'layouts/errors', object: @user, key: :first_name
-
-  .form-group
-    = f.label :last_name, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :last_name, class: 'form-control'
-      = render 'layouts/errors', object: @user, key: :last_name
-
-  .form-group
-    = f.label :email, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :email, class: 'form-control'
-      = render 'layouts/errors', object: @user, key: :email
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :emails_enabled
-          Emails Enabled
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :system_admin
-          System Admin
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @user.new_record? ? users_path : @user, class: 'btn btn-light'
+= form_with model: user, local: true do |form|
+  =# render "forms/horizontal/text_field", form: form, object: user, key: :full_name
+  = render "forms/horizontal/text_field", form: form, object: user, key: :first_name
+  = render "forms/horizontal/text_field", form: form, object: user, key: :last_name
+  = render "forms/horizontal/email_field", form: form, object: user, key: :email
+  = render "forms/horizontal/check_box", form: form, object: user, key: :emails_enabled
+  = render "forms/horizontal/check_box", form: form, object: user, key: :system_admin
+  = render "forms/horizontal/submit", form: form, object: user

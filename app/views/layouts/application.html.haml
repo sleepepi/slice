@@ -29,8 +29,8 @@
         %div{ class: defined?(container) && container.present? ? container : "container" }
           %h1.page-heading
             = yield :header
-    = render "layouts/breadcrumbs" # Slice extra
-    .page-box-padding
+    .container= render "layouts/breadcrumbs" # Slice extra
+    .py-3
       .container= yield
     = yield :footer
     = render "layouts/footer", footer: @footer ? "footer-#{@footer}" : nil
