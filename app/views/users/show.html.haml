@@ -25,54 +25,17 @@
   = @title
 
 .dashboard-container
-  %table.table.table-borderless
-    %col.d-none.d-sm-table-column{ width: "30%" }
-    %col.d-table-column.d-sm-none{ width: "50%" }
-
-    - if current_user.system_admin?
-      %tr
-        %th Email
-        %td= @user.email
-
-      %tr
-        %th
-          Emails Enabled
-        %td
-          = simple_check @user.emails_enabled?
-
-      %tr
-        %th System Admin
-        %td= simple_check @user.system_admin?
-
-    %tr
-      %th Projects
-      %td
-        %ul.list-unstyled
-          - @user.all_viewable_and_site_projects.order(:name).each do |project|
-            - if current_user.all_viewable_and_site_projects.pluck(:id).include?(project.id)
-              %li= link_to project.name, project
-    %tr
-      %th Sites
-      %td
-        %ul.list-unstyled
-          - @user.all_viewable_sites.each do |site|
-            - if current_user.all_viewable_sites.pluck(:id).include?(site.id)
-              %li= link_to "#{site.name} - #{site.project.name}", [site.project, site]
-
-    - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
-    - if current_user.system_admin? && site_invitations.count > 0
-      %tr
-        %th Invitations
-        %td
-          %ul.list-unstyled
-            - site_invitations.each do |site_user|
-              %li
-                = @user.name
-                was invited to
-                = link_to site_user.project.name, site_user.project
-                = succeed "." do
-                  = simple_time site_user.created_at
-                  = " by #{site_user.creator.name}" if site_user.creator
-    %tr
-      %th User Avatar
-      %td= image_tag @user.avatar_url, class: "img-rounded"
+  = render "forms/horizontal/show/text", object: @user, key: :name
+  = render "forms/horizontal/show/text", object: @user, key: :email
+  = render "forms/horizontal/show/check_box", object: @user, key: :emails_enabled
+  = render "forms/horizontal/show/check_box", object: @user, key: :system_admin
+  = render "forms/horizontal/show/text", object: @user, key: :sign_in_count
+  = render "forms/horizontal/show/generic", title: "Theme", content: render("users/theme", user: @user)
+  = render "forms/horizontal/show/generic", title: "Joined", content: @user.created_at.strftime("%-m/%-d/%Y") if @user.created_at.present?
+  = render "forms/horizontal/show/generic", title: "Most Recent Session", content: @user.current_sign_in_at.strftime("%-m/%-d/%Y") if @user.current_sign_in_at.present?
+  = render "forms/horizontal/show/generic", title: "Projects", content: render("users/projects", user: @user)
+  = render "forms/horizontal/show/generic", title: "Sites", content: render("users/sites", user: @user)
+  - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
+  - if current_user.system_admin? && site_invitations.count > 0
+    = render "forms/horizontal/show/generic", title: "Invitations", content: render("users/invitations", user: @user, site_invitations: site_invitations)
+  = render "forms/horizontal/show/generic", title: "User Avatar", content: image_tag(@user.avatar_url, class: "img-rounded")

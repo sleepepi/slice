@@ -1,0 +1,4 @@
+%ul.list-unstyled
+  - user.all_viewable_and_site_projects.order(:name).each do |project|
+    - if current_user.all_viewable_and_site_projects.pluck(:id).include?(project.id)
+      %li= link_to project.name, project

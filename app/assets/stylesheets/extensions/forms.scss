@@ -1,3 +1,33 @@
+.form-label-elegant {
+  font-weight: 300;
+  border-bottom: 2px solid transparent;
+
+  // a {
+  //   color: $p700-grey;
+
+  //   &:hover,
+  //   &:focus,
+  //   &:active {
+  //     color: $body-color;
+  //     text-decoration: none;
+  //   }
+  // }
+}
+
+@include media-breakpoint-up(md) {
+  .col-form-label {
+    .form-label-elegant {
+      @include float-right;
+
+      text-align: right;
+    }
+  }
+}
+
+.form-control-plaintext {
+  @include remove-last-child-bottom-margin;
+}
+
 // Make sure some text is always viewable in the form control.
 .form-control {
   min-width: 100px;
@@ -5,6 +35,11 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .form-label-elegant {
+      color: theme-color($theme, input-color, $p800-grey);
+      border-color: map-get($theme, p100);
+    }
+
     .form-control {
       color: theme-color($theme, input-color, $p800-grey);
       background-color: theme-color($theme, input-bg, $white);

@@ -1,0 +1,5 @@
+- theme = Slice::THEMES.find { |_name, value| value == user.theme }
+- if theme
+  = theme.first
+- else
+  = "Default"
