@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Updated styling of project sidebar menu
+- **Grid Changes**
+  - Radio button variables in grids are now always displayed as dropdowns
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 
