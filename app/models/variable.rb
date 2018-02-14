@@ -33,8 +33,8 @@ class Variable < ApplicationRecord
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)
 
   DISPLAY_LAYOUTS = [
-    ["Question Inline with Answer", "visible"],
-    ["Question Above Answer ", "gone"]
+    ["Question inline with answer", "visible"],
+    ["Question above answer ", "gone"]
   ]
 
   ALIGNMENT = [

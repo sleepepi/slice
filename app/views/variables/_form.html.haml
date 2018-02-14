@@ -1,275 +1,114 @@
-= form_for [@variable.project, @variable], html: { class: "form-horizontal" } do |f|
-  .form-group
-    = f.label :display_name, nil, class: "col-md-2 control-label"
+= form_with model: [variable.project, variable], local: true do |form|
+  .form-group.row
+    = form.label :display_name, nil, class: "col-md-2 col-form-label"
     .col-md-10
-      = f.text_field :display_name, class: "form-control", autocomplete: "off", data: { object: (@variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
-      = render "layouts/errors", object: @variable, key: :display_name
+      = form.text_field :display_name, class: "form-control#{" is-invalid" if variable.errors[:display_name].present?}", data: { object: (@variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
+      = render "forms/invalid_feedback", object: variable, key: :display_name
+      = render "forms/help_text", help_text: help_text if defined?(help_text)
 
-  .form-group
-    = f.label :name, nil, class: "col-md-2 control-label"
+  - help_text = "Must be a lowercase letter <span class=\"badge badge-light\">a-z</span> followed by lowercase letters <span class=\"badge badge-light\">a-z</span>, numbers <span class=\"badge badge-light\">0-9</span>, or underscores <span class=\"badge badge-light\">_</span>. Max length <strong>32</strong> characters."
+  .form-group.row
+    = form.label :name, nil, class: "col-md-2 col-form-label"
     .col-md-10
-      .input-group
-        = f.text_field :name, maxlength: 32, class: "form-control"
-        %span.input-group-btn
-          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
-      = render "layouts/errors", object: @variable, key: :name
-      #name-info.callout.callout-info{ style: "display: none;" }
-        %strong Naming convention
+      = form.text_field :name, class: "form-control#{" is-invalid" if variable.errors[:name].present?}", id: true
+      = render "forms/invalid_feedback", object: variable, key: :name
+      = render "forms/help_text", help_text: help_text
 
-        %ul
-          %li
-            Must be a letter
-            %code a-zA-Z
-            followed by letters
-            = succeed "," do
-              %code a-zA-Z
-            numbers
-            = succeed "," do
-              %code 0-9
-            or underscores
-            = succeed "." do
-              %code _
-          %li
-            Max length
-            = succeed "." do
-              %strong 32 characters
-        Ex:
-        %code var1_population
+  = render "forms/horizontal/select", form: form, object: variable, key: :display_layout, options: Variable::DISPLAY_LAYOUTS
+  = render "forms/horizontal/text_area", form: form, object: variable, key: :description, rows: 7
+  = render "forms/horizontal/text_field", form: form, object: variable, key: :field_note
+  = render "forms/horizontal/select", form: form, object: variable, key: :variable_type, options: Variable::TYPE, include_blank: "---", id: true
 
-  .form-group
-    = f.label :display_layout, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :display_layout, Variable::DISPLAY_LAYOUTS, {}, class: "form-control"
+  %div{ data: { object: "prepend-append" } }
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :prepend
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :append
 
-  .form-group
-    = f.label :description, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :description, rows: 7, class: "form-control"
+  %div{ data: { object: "number" } }
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_minimum
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_maximum
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :soft_minimum
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :soft_maximum
 
-  .form-group
-    = f.label :field_note, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :field_note, class: "form-control"
+  %div{ data: { object: "calculated-or-number" } }
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :units
 
-  .form-group
-    = f.label :variable_type, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :variable_type, [["---", nil]] + Variable::TYPE, {}, class: "form-control"
-      = render "layouts/errors", object: @variable, key: :variable_type
+  %div{ data: { object: "date-or-time-of-day" } }
+    = render "forms/horizontal/check_box", form: form, object: variable, key: :show_current_button, key_name: "Show current date/time button"
 
-  .form-group{ data: { object: "prepend-append" } }
-    = f.label :prepend, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :prepend, class: "form-control"
+  %div{ data: { object: "time-of-day" } }
+    = render "forms/horizontal/select", form: form, object: variable, key: :time_of_day_format, options: Variable::TIME_OF_DAY_FORMATS
+    = render "forms/horizontal/check_box", form: form, object: variable, key: :show_seconds
 
-  .form-group{ data: { object: "prepend-append" } }
-    = f.label :append, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :append, class: "form-control"
+  %div{ data: { object: "time-duration" } }
+    = render "forms/horizontal/select", form: form, object: variable, key: :time_duration_format, options: Variable::TIME_DURATION_FORMATS
 
-  .form-group{ data: { object: "number" } }
-    = f.label :hard_minimum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.number_field :hard_minimum, class: "form-control"
+  %div{ data: { object: "date" } }
+    = render "forms/horizontal/select", form: form, object: variable, key: :date_format, options: Variable::DATE_FORMATS
+    = render "forms/horizontal/date_field", form: form, object: variable, key: :date_hard_minimum
+    = render "forms/horizontal/date_field", form: form, object: variable, key: :date_hard_maximum
+    = render "forms/horizontal/date_field", form: form, object: variable, key: :date_soft_minimum
+    = render "forms/horizontal/date_field", form: form, object: variable, key: :date_soft_maximum
 
-  .form-group{ data: { object: "number" } }
-    = f.label :hard_maximum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.number_field :hard_maximum, class: "form-control"
+  %div{ data: { object: "calculated" } }
+    = render "forms/horizontal/text_area", form: form, object: variable, key: :calculation, rows: 7, help_text: "Examples: <ul class=\"list-unstyled\"><li><code>(var1 + var2) / var3</code></li><li><code>var1 == -9 ? -9 : var1 + var2</code></li></ul>", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :calculated_format, help_text: "<ul class=\"list-unstyled\"><li>Precision: <strong>%0.02f</strong></li><li>Leading Zeros: <strong>%04d</strong></li></ul>"
 
-  .form-group{ data: { object: "number" } }
-    = f.label :soft_minimum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.number_field :soft_minimum, class: "form-control"
-
-  .form-group{ data: { object: "number" } }
-    = f.label :soft_maximum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.number_field :soft_maximum, class: "form-control"
-
-  .form-group{ data: { object: "calculated-or-number" } }
-    = f.label :units, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :units, class: "form-control"
-
-  .form-group{ data: { object: "date-or-time-of-day" } }
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :show_current_button
-          Show Current Date/Time
-
-  .form-group{ data: { object: "time-of-day" } }
-    = f.label :time_of_day_format, "Time of Day Format", class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :time_of_day_format, Variable::TIME_OF_DAY_FORMATS, {}, class: "form-control"
-
-  .form-group{ data: { object: "time-of-day" } }
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :show_seconds
-          Show Seconds
-
-  .form-group{ data: { object: "time-duration" } }
-    = f.label :time_duration_format, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :time_duration_format, Variable::TIME_DURATION_FORMATS, {}, class: "form-control"
-
-  .form-group{ data: { object: "date" } }
-    = f.label :date_format, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :date_format, Variable::DATE_FORMATS, {}, class: "form-control"
-
-  .form-group{ data: { object: "date" } }
-    = f.label :date_hard_minimum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :date_hard_minimum, class: "datepicker form-control", value: @variable.date_hard_minimum ? @variable.date_hard_minimum.strftime("%m/%d/%Y") : "", autocomplete: "off"
-
-  .form-group{ data: { object: "date" } }
-    = f.label :date_hard_maximum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :date_hard_maximum, class: "datepicker form-control", value: @variable.date_hard_maximum ? @variable.date_hard_maximum.strftime("%m/%d/%Y") : "", autocomplete: "off"
-
-  .form-group{ data: { object: "date" } }
-    = f.label :date_soft_minimum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :date_soft_minimum, class: "datepicker form-control", value: @variable.date_soft_minimum ? @variable.date_soft_minimum.strftime("%m/%d/%Y") : "", autocomplete: "off"
-
-  .form-group{ data: { object: "date" } }
-    = f.label :date_soft_maximum, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :date_soft_maximum, class: "datepicker form-control", value: @variable.date_soft_maximum ? @variable.date_soft_maximum.strftime("%m/%d/%Y") : "", autocomplete: "off"
-
-  .form-group{ data: { object: "calculated" } }
-    = f.label :calculation, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :calculation, value: @variable.readable_calculation, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
-      %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
-        %col.d-none.d-sm-table-column{ width: "30%" }
-        %col.d-table-column.d-sm-none{ width: "50%" }
-        %tr
-          %th General
-          %td
-            %code var1 + var2
-        %tr
-          %th Missing Values
-          %td
-            %code var1 == -9 ? -9 : var1 + var2
-        %tr
-          %th Parentheses
-          %td
-            %code (var1 + var2) / var3
-
-  .form-group{ data: { object: "calculated" } }
-    = f.label :calculated_format, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :calculated_format, class: "form-control"
-      %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
-        %col.d-none.d-sm-table-column{ width: "30%" }
-        %col.d-table-column.d-sm-none{ width: "50%" }
-        %col
-        %col{ width: "1px" }
-        %col{ width: "1px" }
-        %col{ width: "1px" }
-        %tr
-          %th Precision
-          %td
-            %code %0.02f
-          %td.text-right
-            4.127
-          %td
-            %i.fa.fa-long-arrow-right
-          %td
-            4.13
-
-        %tr
-          %th Leading Zeros
-          %td
-            %code %04d
-          %td.text-right
-            45
-          %td
-            %i.fa.fa-long-arrow-right
-          %td
-            0045
-
-  .form-group{ data: { object: "options" } }
-    = f.label :domain_id, nil, class: "col-md-2 control-label"
-    .col-md-10
-      - if @variable.project.domains.size == 0
-        .alert.alert-info
-          %strong Heads up!
-          In order to have choices, variables need to be associated to a domain
-          of options. Variables can share domains.
-          = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-sm", target: "_blank"
-      - else
-        .row.col-buffer
-          .col-6.col-sm-9
-            = f.select :domain_id, [["---", nil]] + @variable.project.domains.order("name").collect{ |d| [d.name, d.id] }, {}, class: "form-control", data: { project_id: @variable.project.to_param }
-          .col-6.col-sm-3
-            = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-block", target: "_blank"
-        .row
-          .col-md-9
-            .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
-              .download-container-after Domain Values
-              #domain_values{ style: "padding-top:10px" }
-                = render "domains/values", domain: @variable.domain
-          - if @variable.captured_values.size > 0
-            .col-md-3
+  %div{ data: { object: "options" } }
+    .form-group.row
+      = form.label :domain_id, nil, class: "col-md-2 col-form-label"
+      .col-md-10
+        - if @variable.project.domains.size == 0
+          .alert.alert-info
+            %strong Heads up!
+            In order to have choices, variables need to be associated to a domain
+            of options. Variables can share domains.
+            = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-sm", target: "_blank"
+        - else
+          .row.col-buffer
+            .col-6.col-sm-9
+              = form.select :domain_id, [["---", nil]] + @variable.project.domains.order("name").collect{ |d| [d.name, d.id] }, {}, class: "custom-select", data: { project_id: @variable.project.to_param }
+            .col-6.col-sm-3
+              = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-block", target: "_blank"
+          .row
+            .col-md-9
               .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
-                .download-container-after Captured Values
-                %div{ style: "padding-top:10px" }
-                  %table
-                    - @variable.captured_values.sort.each do |value|
-                      %tr
-                        %td{ style: "text-align:right" }= value
+                .download-container-after Domain Values
+                #domain_values{ style: "padding-top:10px" }
+                  = render "domains/values", domain: @variable.domain
+            - if @variable.captured_values.size > 0
+              .col-md-3
+                .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
+                  .download-container-after Captured Values
+                  %div{ style: "padding-top:10px" }
+                    %table
+                      - @variable.captured_values.sort.each do |value|
+                        %tr
+                          %td{ style: "text-align:right" }= value
 
-  .form-group{ data: { object: "checkbox-or-radio" } }
-    = f.label :alignment, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :alignment, Variable::ALIGNMENT, {}, class: "form-control"
+  %div{ data: { object: "checkbox-or-radio" } }
+    = render "forms/horizontal/select", form: form, object: variable, key: :alignment, options: Variable::ALIGNMENT
 
-  .form-group{ data: { object: "grid" } }
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :multiple_rows
-          Multiple Rows
+  %div{ data: { object: "grid" } }
+    = render "forms/horizontal/check_box", form: form, object: variable, key: :multiple_rows
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :default_row_number
 
-  .form-group{ data: { object: "grid" } }
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :default_row_number
-          Default Row Number
+    .form-group.row
+      %label.col-md-2.col-form-label Variables
+      .col-md-10
+        .form-control-plaintext
+          #form_grid_variables{ data: { object: "sortable" } }
+            - @variable.child_grid_variables.each do |child_grid_variable|
+              = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable
+          .btn-toolbar
+            = link_to "Add Variable", "#", id: "add_grid_variable", class: "btn btn-light btn-sm", data: { project_id: @project.to_param }
 
-  .form-group{ data: { object: "grid" } }
-    %label.col-md-2.control-label Variables
-    .col-md-10
-      #form_grid_variables{ data: { object: "sortable" } }
-        - @variable.child_grid_variables.each do |child_grid_variable|
-          = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable
-      .btn-toolbar
-        = link_to "Add Variable", "#", id: "add_grid_variable", class: "btn btn-light btn-sm", data: { project_id: @project.to_param }
+  %div{ data: { object: "autocomplete" } }
+    = render "forms/horizontal/text_area", form: form, object: variable, key: :autocomplete_values, rows: 7, help_text: "Each value should be on its own line."
 
-  .form-group{ data: { object: "autocomplete" } }
-    = f.label :autocomplete_values, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :autocomplete_values, rows: 7, rel: "tooltip", title: "Line-separated Strings", class: "form-control"
+    .form-group.row
+      %label.col-md-2.col-form-label User submitted
+      .col-md-10
+        .form-control-plaintext
+          = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(", ").html_safe
 
-  .form-group{ data: { object: "autocomplete" } }
-    %label.col-md-2.control-label User submitted
-    .col-md-10
-      %div{ style: "line-height:30px" }
-        = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(", ").html_safe
-
-  = hidden_field_tag :continue, "0"
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      - form_name = @variable.new_record? ? "new_variable" : "edit_variable_#{@variable.id}"
-      = f.submit nil, class: "btn btn-primary", data: { target: "##{form_name}", object: "form-check-before-submit" }
-      = f.submit @variable.new_record? ? "Create Variable and Continue" : "Update Variable and Continue", class: "btn btn-primary", data: { target: "##{form_name}", object: "form-check-before-submit", continue: "1" }
-      = link_to "Cancel", @variable.new_record? ? project_variables_path(@project) : [@project, @variable], class: "btn btn-light"
+  = render "forms/horizontal/submit", form: form, object: [variable.project, variable]

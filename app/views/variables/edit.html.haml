@@ -3,9 +3,8 @@
 
 - content_for :container_class, "container-fluid"
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   = link_to @variable.name_was, [@project, @variable]
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", variable: @variable
