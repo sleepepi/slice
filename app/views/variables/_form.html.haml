@@ -71,19 +71,19 @@
               = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-block", target: "_blank"
           .row
             .col-md-9
-              .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
-                .download-container-after Domain Values
-                #domain_values{ style: "padding-top:10px" }
-                  = render "domains/values", domain: @variable.domain
+              .dashboard-container.p-3{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
+                .mb-2
+                  %strong Domain Values
+                #domain_values= render "domains/values", domain: @variable.domain
             - if @variable.captured_values.size > 0
               .col-md-3
-                .download-container{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
-                  .download-container-after Captured Values
-                  %div{ style: "padding-top:10px" }
-                    %table
-                      - @variable.captured_values.sort.each do |value|
-                        %tr
-                          %td{ style: "text-align:right" }= value
+                .dashboard-container.p-3{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
+                  .mb-2
+                    %strong Captured Values
+                  %table
+                    - @variable.captured_values.sort.each do |value|
+                      %tr
+                        %td{ style: "text-align:right" }= value
 
   %div{ data: { object: "checkbox-or-radio" } }
     = render "forms/horizontal/select", form: form, object: variable, key: :alignment, options: Variable::ALIGNMENT

@@ -1,23 +1,24 @@
 .modal-header
   %h4.modal-title Edit Filter
-  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: true } } &times;
+  %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   .row
     .col-md-6
-      .download-container
-        %h3= @variable.display_name
-        - if ['site', 'sheet_date'].include?(params[:variable_id])
-          = hidden_field_tag :missing, '0'
+      .dashboard-container.p-3
+        .mb-2
+          %strong= @variable.display_name
+        - if ["site", "sheet_date"].include?(params[:variable_id])
+          = hidden_field_tag :missing, "0"
         - else
           %form.form-horizontal
-            %label.checkbox.checkbox-radio-outline{ class: "#{'selected' if params[:missing] == '1'}" }
-              = check_box_tag :missing, '1', params[:missing] == '1'
+            %label.checkbox.checkbox-radio-outline{ class: "#{"selected" if params[:missing] == "1"}" }
+              = check_box_tag :missing, "1", params[:missing] == "1"
               Include Missing
 
     .col-md-6
-      #report-options.download-container
-        = render 'filters/variable_options'
+      #report-options.dashboard-container.p-3
+        = render "filters/variable_options"
 .modal-footer
-  = button_tag 'Update Filter', data: { object: 'update-filter', variable_id: params[:variable_id] }, class: 'btn btn-primary'
-  = button_tag 'Remove', data: { object: 'remove-filter', target: "#variable_#{params[:variable_id]}" }, class: 'btn btn-outline-danger'
-  %button.btn.btn-light{ type: 'button', data: { dismiss: 'modal' } } Cancel
+  = button_tag "Update Filter", data: { object: "update-filter", variable_id: params[:variable_id] }, class: "btn btn-primary"
+  = button_tag "Remove", data: { object: "remove-filter", target: "#variable_#{params[:variable_id]}" }, class: "btn btn-outline-danger"
+  %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

@@ -7,9 +7,10 @@
       - row_items.each do |variable_type|
         - if variable_type and not ["section", "existing_question"].include?(variable_type)
           %div{ class: (variable_type == "grid" ? "col-md-8" : "col-md-4") }
-            .download-container.editable-design-element{ data: { object: "new-variable-popup", position: params[:position], variable_type: variable_type } }
-              %div.download-container-after= variable_type.titleize
-              .text-center{ style: "margin-top: 12px;" }
+            .dashboard-container.p-3.editable-design-element{ data: { object: "new-variable-popup", position: params[:position], variable_type: variable_type } }
+              .mb-2
+                %strong= variable_type.titleize
+              .text-center
                 - case variable_type when "radio"
                   %form.form-horizontal
                     %label.radio-inline.checkbox-radio-outline.selected
@@ -119,21 +120,21 @@
                           = select_tag "exercise2", "<option value=\"\"></option>".html_safe + options_for_select([["1: Sprint", 1], ["2: Jog", 2], ["3: Walk", 3]], 3), disabled: false, class: "chosen-select"
         - if variable_type == "section"
           .col-md-4
-            .download-container.editable-design-element{ data: { object: "new-section-popup", position: params[:position] } }
-              .download-container-after= variable_type.titleize
-              .text-center{ style: "margin-top:12px" }
+            .dashboard-container.p-3.editable-design-element{ data: { object: "new-section-popup", position: params[:position] } }
+              .mb-2
+                %strong= variable_type.titleize
+              .text-center
                 %strong Section A: Demographics
                 %br
                 Please enter the following information...
         - if variable_type == "existing_question"
           - if @project.unassigned_variables.count.positive?
             .col-md-4
-              .download-container.editable-design-element{ data: { object: "new-existing-variable-popup", position: params[:position] } }
-                .download-container-after Existing Question
-                .text-center{ style: "margin-top:12px" }
+              .dashboard-container.p-3.editable-design-element{ data: { object: "new-existing-variable-popup", position: params[:position] } }
+                .mb-2
                   %strong Existing Question
-                  %br
-                  Add an unnassigned variable from this project.
+                .text-left
+                  Add an existing variable.
 
 .modal-footer
   %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

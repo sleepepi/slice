@@ -15,8 +15,9 @@
     - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|
       - if scope.size > 0
         .col-md-3
-          .download-container
-            %h3= name
+          .dashboard-container.p-3
+            .mb-2
+              %strong= name
             - scope.each do |item|
               - link = item.respond_to?("project") ? [item.project, item] : item
               .overflow-hidden{ title: "#{item.project.name if item.respond_to?("project")}", style: "width: 100%", rel: "tooltip", data: { placement: "right", container: "body" } }
