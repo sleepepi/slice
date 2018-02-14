@@ -1,19 +1,19 @@
-- filters = (params[:f] || [{ id: 'site', axis: 'row', missing: '0' }, { id: 'sheet_date', axis: 'col', missing: '0', by: 'month' }]).uniq {|f| f[:id] }
+- filters = (params[:f] || [{ id: "site", axis: "row", missing: "0" }, { id: "sheet_date", axis: "col", missing: "0", by: "month" }]).uniq {|f| f[:id] }
 
-- column_filters = filters.select{|f| f[:axis] == 'col' }
-- row_filters = filters.select{|f| f[:axis] != 'col' }
+- column_filters = filters.select{|f| f[:axis] == "col" }
+- row_filters = filters.select{|f| f[:axis] != "col" }
 
-%div{ style: 'clear:both' }
+.clearfix
 
 .row
   .col-md-6
     .text-center Row (Max 3)
-    .filter-sort-container{ data: { axis: 'row' } }
+    .filter-sort-container{ data: { axis: "row" } }
       - row_filters.each do |filter|
-        = render 'filters/variable_filter_bubble', filter: filter
+        = render "filters/variable_filter_bubble", filter: filter
 
   .col-md-6
     .text-center Column (Max 1)
-    .filter-sort-container{ data: { axis: 'col' } }
+    .filter-sort-container{ data: { axis: "col" } }
       - column_filters.each do |filter|
-        = render 'filters/variable_filter_bubble', filter: filter
+        = render "filters/variable_filter_bubble", filter: filter

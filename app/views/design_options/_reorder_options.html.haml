@@ -21,6 +21,6 @@
             = variable.display_name
           .nowrap{ style: "width: 20%;display: inline-block;" }
             - if variable.deleted?
-              .label.label-danger{ style: "text-decoration: line-through;" }= variable.name
+              %span.badge.badge-danger{ style: "text-decoration: line-through;" }= variable.name
             - else
-              .label.label-default= variable.name
+              %span.badge.badge-light= variable.name

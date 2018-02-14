@@ -1,6 +1,6 @@
 - @title = "Acceptable Use Policy"
 
-%h1= @title
+- content_for :header, @title
 
 .docs-container
   %p
@@ -43,7 +43,7 @@
 
   %h4
     You agree
-    %span.label{ style: "background-color:red" } NOT
+    %span.badge.badge-danger NOT
     to:
 
   %ul

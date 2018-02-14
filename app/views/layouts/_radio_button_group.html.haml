@@ -1,5 +1,4 @@
-.btn-group.nowrap{ data: { toggle: 'buttons' } }
-  - options.each do |label, value|
-    %label.btn.btn-sm.btn-light{ class: "#{'active' if selected.to_s == value.to_s}", data: { object: "set-#{name}", target: (defined?(target) && !target.blank? ? target : nil) } }
-      = radio_button_tag "#{name}", value.to_s, selected.to_s == value.to_s
-      = label
+- options.each do |label, value|
+  .custom-control.custom-radio
+    = radio_button_tag name, value.to_s, selected.to_s == value.to_s, class: "custom-control-input"
+    = label_tag name, label, for: "#{name}_#{value}", class: "custom-control-label"
