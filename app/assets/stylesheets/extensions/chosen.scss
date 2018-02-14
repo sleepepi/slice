@@ -355,6 +355,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
       .chosen-drop {
         background: $chosen-input-bg;
         border-color: $chosen-input-border-focus;
+        box-shadow: 0 7px 0 0.2rem rgba(map-get($theme, primary), 0.25);
       }
 
       .search-choice,
@@ -367,18 +368,20 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
       .chosen-results {
         color: $chosen-input-color;
 
-        &.disabled-result {
-          color: $dropdown-link-disabled-color;
-        }
+        li {
+          &.disabled-result {
+            color: $dropdown-link-disabled-color;
+          }
 
-        &.highlighted {
-          background-color: map-get($theme, primary);
-          color: map-get($theme, primary);
-        }
+          &.highlighted {
+            background-color: map-get($theme, primary);
+            color: map-get($theme, brand-white);
+          }
 
-        &.no-results {
-          background-color: theme-color($theme, table-bg-accent, $p50-grey);
-          color: $text-muted;
+          &.no-results {
+            background-color: theme-color($theme, table-bg-accent, $p50-grey);
+            color: $text-muted;
+          }
         }
       }
     }
@@ -405,7 +408,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
     .chosen-container-active {
       .chosen-single {
         border-color: $chosen-input-border-focus;
-        box-shadow: $input-focus-box-shadow;
+        box-shadow: 0 0 0 0.2rem rgba(map-get($theme, primary), 0.25);
       }
 
       &.chosen-with-drop {
