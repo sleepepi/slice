@@ -35,4 +35,4 @@
           .col-sm-6{ style: "margin-bottom:20px" }
             = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, randomization_scheme), class: "btn btn-primary btn-block btn-lg btn-shadow" do
               %span.d-none.d-md-inline Choose
-              %strong.text-emphasis= randomization_scheme.name
+              %strong= randomization_scheme.name

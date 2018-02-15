@@ -3,7 +3,7 @@
 - if count > 0
   = link_to count, project_subjects_path(@project, search: search)
   - if subject_count > 0
-    %span.text-muted.text-smaller
+    %span.text-muted.small
       - percent = (count * 100.0 / subject_count).round
       - if percent.zero? && count.positive?
         <1%

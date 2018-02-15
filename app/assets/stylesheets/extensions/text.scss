@@ -1,18 +1,4 @@
-// Extenion to text bootstrap classes
-
-// TODO: See where these two are used
-// .text-shadow {
-//   text-shadow: 0 2px 3px $standard-shadow-color;
-// }
-
-// .text-emphasis {
-//
-// }
-// END TODO: See where these two are used
-
-.text-smaller {
-  font-size: .7em;
-}
+// Extensions to bootstrap text classes.
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
