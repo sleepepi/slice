@@ -1,7 +1,4 @@
-// Styles for discussion and comments on adverse events and sheets
-
-$comment-header-bg: $p50 !default;
-$comment-border: $p100 !default;
+// Styles for discussion and comments on adverse events and sheets.
 
 .comment-outer {
   margin-bottom: 20px;
@@ -31,7 +28,7 @@ $comment-border: $p100 !default;
 }
 
 .comment-comment {
-  border: 1px solid $comment-border;
+  border: 1px solid transparent;
   border-radius: 2px;
 }
 
@@ -40,33 +37,20 @@ $comment-border: $p100 !default;
 }
 
 .comment-comment-header {
-  background-color: $comment-header-bg;
   padding: 10px;
   position: relative;
-
-  &.comment-unread::after {
-    border-right-color: $alert-warning-bg;
-  }
-
-  a:not(.btn) {
-    color: $p600;
-  }
 }
 
 .comment-comment-body {
   @include remove-last-child-bottom-margin;
-
-  background-color: $input-bg;
   padding: 10px;
 }
 
 .comment-control {
-  background-color: $input-bg;
   background-image: none;
   border: 0;
   border-radius: 0;
   box-shadow: none;
-  color: $input-color;
   display: block;
   font-size: $font-size-base;
   height: auto;
@@ -78,9 +62,6 @@ $comment-border: $p100 !default;
 }
 
 .comment-comment-header::before {
-  border-bottom: 7px solid transparent;
-  border-right: 7px solid $comment-border;
-  border-top: 7px solid transparent;
   content: '';
   height: 0;
   left: -7px;
@@ -90,9 +71,6 @@ $comment-border: $p100 !default;
 }
 
 .comment-comment-header::after {
-  border-bottom: 7px solid transparent;
-  border-right: 7px solid $comment-header-bg;
-  border-top: 7px solid transparent;
   content: '';
   height: 0;
   left: -6px;
@@ -114,11 +92,49 @@ $comment-border: $p100 !default;
   }
 }
 
-.comment-unread {
-  background-color: $brand-highlight;
-  color: $brand-highlight-text;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    $comment-header-bg: theme-color($theme, p50);
+    $comment-border: theme-color($theme, p100);
 
-  .btn-link {
-    color: darken($brand-highlight-text, 10%);
+    .comment-comment {
+      border-color: $comment-border;
+    }
+
+    .comment-comment-header {
+      background-color: $comment-header-bg;
+    }
+
+    .comment-comment-body {
+      background-color: theme-color($theme, input-bg, $white);
+    }
+
+    .comment-control {
+      background-color: theme-color($theme, input-bg, $white);
+      color: theme-color($theme, input-color, $p800-grey);
+    }
+
+    .comment-comment-header::before {
+      border-bottom: 7px solid transparent;
+      border-right: 7px solid $comment-border;
+      border-top: 7px solid transparent;
+    }
+
+    .comment-comment-header::after {
+      border-bottom: 7px solid transparent;
+      border-right: 7px solid $comment-header-bg;
+      border-top: 7px solid transparent;
+    }
+
+    .comment-comment-header {
+      &.comment-unread::after {
+        border-right-color: theme-color($theme, mark-bg, $mark-bg);
+      }
+    }
+
+    .comment-unread {
+      background-color: theme-color($theme, mark-bg, $mark-bg);
+      color: map-get($theme, body-color);
+    }
   }
 }
