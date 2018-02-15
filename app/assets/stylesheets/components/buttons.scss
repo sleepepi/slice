@@ -4,19 +4,120 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    // Primary
     .btn-primary {
       color: map-get($theme, brand-white) !important;
     }
 
-    .btn-primary {
+    .btn-outline-primary {
+      color: map-get($theme, primary) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Accent
+    .btn-accent {
+      @include button-variant(map-get($theme, accent), map-get($theme, accent));
       color: map-get($theme, brand-white) !important;
     }
 
+    .btn-outline-accent {
+      border-color: map-get($theme, accent) !important;
+      color: map-get($theme, accent) !important;
+
+      &:hover {
+        background-color: map-get($theme, accent) !important;
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Secondary
+    .btn-secondary {
+      @include button-variant(theme-color($theme, secondary, map-get($theme-colors, secondary)), theme-color($theme, secondary, map-get($theme-colors, secondary)));
+      color: map-get($theme, brand-white) !important;
+    }
+
+    .btn-outline-secondary {
+      color: theme-color($theme, secondary, map-get($theme-colors, secondary)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Success
     .btn-success {
-      @include button-variant(theme-color($theme, success, $p500-green), theme-color($theme, success, $p500-green));
+      @include button-variant(theme-color($theme, success, map-get($theme-colors, success)), theme-color($theme, success, map-get($theme-colors, success)));
       color: map-get($theme, brand-white) !important;
     }
 
+    .btn-outline-success {
+      color: theme-color($theme, success, map-get($theme-colors, success)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Warning
+    .btn-warning {
+      @include button-variant(theme-color($theme, warning, map-get($theme-colors, warning)), theme-color($theme, warning, map-get($theme-colors, warning)));
+      color: map-get($theme, body-color) !important;
+    }
+
+    .btn-outline-warning {
+      color: theme-color($theme, warning, map-get($theme-colors, warning)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Danger
+    .btn-danger {
+      @include button-variant(theme-color($theme, danger, map-get($theme-colors, danger)), theme-color($theme, danger, map-get($theme-colors, danger)));
+      color: map-get($theme, brand-white) !important;
+    }
+
+    .btn-outline-danger {
+      color: theme-color($theme, danger, map-get($theme-colors, danger)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Light
+    .btn-light {
+      @include button-variant(theme-color($theme, light, map-get($theme-colors, light)), theme-color($theme, light, map-get($theme-colors, light)));
+      color: map-get($theme, body-color) !important;
+    }
+
+    .btn-outline-light {
+      color: theme-color($theme, light, map-get($theme-colors, light)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Dark
+    .btn-dark {
+      @include button-variant(theme-color($theme, dark, map-get($theme-colors, dark)), theme-color($theme, dark, map-get($theme-colors, dark)));
+      color: map-get($theme, brand-white) !important;
+    }
+
+    .btn-outline-dark {
+      color: theme-color($theme, dark, map-get($theme-colors, dark)) !important;
+
+      &:hover {
+        color: map-get($theme, brand-white) !important;
+      }
+    }
+
+    // Shadow
     .btn-shadow {
       box-shadow: 0 0 5px map-get($theme, shadow-color);
 
@@ -27,20 +128,6 @@
       &.disabled,
       &[disabled] {
         box-shadow: 0 0 10px map-get($theme, shadow-color);
-      }
-    }
-
-    .btn-accent {
-      @include button-variant(map-get($theme, accent), map-get($theme, accent));
-      color: map-get($theme, brand-white) !important;
-
-      &:hover,
-      &:focus,
-      &:active,
-      &.active,
-      &.disabled,
-      &[disabled] {
-        color: map-get($theme, brand-white);
       }
     }
   }

@@ -1,7 +1,4 @@
-- if @variables.count == 0
-  .jumbotron
-    %p.text-center No variables found.
-- else
+- if @variables.present?
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col.d-none.d-lg-table-column
@@ -57,3 +54,6 @@
                   Delete
 
   .center-horizontally= paginate @variables, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No variables found.

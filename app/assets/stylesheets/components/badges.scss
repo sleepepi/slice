@@ -1,5 +1,10 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .badge-primary {
+      background-color: map-get($theme, primary);
+      color: map-get($theme, brand-white);
+    }
+
     .badge-accent {
       background-color: map-get($theme, accent);
       color: map-get($theme, brand-white);

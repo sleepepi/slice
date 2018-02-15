@@ -27,13 +27,5 @@
         }
       }
     }
-
-    a {
-      &.btn-light,
-      &.btn-warning {
-        background-color: theme-color($theme, light, map-get($theme-colors, light));
-        color: map-get($theme, body-color);
-      }
-    }
   }
 }
