@@ -162,5 +162,5 @@
             .design-option-body
               .btn-group{ data: { toggle: "buttons" } }
                 - DesignOption::REQUIREMENTS.each do |label, value|
-                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-sm btn-light #{"active" if design_option.requirement.to_s == value}" do
+                  = link_to project_design_design_option_path(@project, @design, design_option, design_option: { requirement: value }), remote: true, method: :patch, class: "btn btn-sm btn-outline-primary#{" active" if design_option.requirement.to_s == value}" do
                     = label

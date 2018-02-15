@@ -8,11 +8,14 @@
   %span.feet-box
     .input-group
       = text_field_tag "#{field_name}[feet]", (value[:feet] ? format('%d', value[:feet]) : nil), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-addon ft
+      .input-group-append
+        = render "sheet_variables/form/addon", addon: "ft"
+  &nbsp;
   %span.inches-box
     .input-group
       = text_field_tag "#{field_name}[inches]", (value[:inches] ? format('%d', value[:inches]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-addon in
+      .input-group-append
+        = render "sheet_variables/form/addon", addon: "in"
   &nbsp;
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-imperial-height-input', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'

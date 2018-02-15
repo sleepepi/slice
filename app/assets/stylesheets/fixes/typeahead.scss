@@ -4,6 +4,29 @@
   width: 100%;
 }
 
+.input-group {
+  .twitter-typeahead {
+    display: block;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+  }
+
+  > .twitter-typeahead:not(:first-child) {
+    .form-control {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  > .twitter-typeahead:not(:last-child) {
+    .form-control {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+
 .tt-menu {
   background-clip: padding-box;
   border: 1px solid transparent;
@@ -25,7 +48,7 @@
     }
 
     .tt-menu {
-      // background-color: $dropdown-bg;
+      background-color: theme-color($theme, dropdown-bg, $dropdown-bg);
       border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
       // box-shadow: 0 5px 10px $dropdown-border;
     }

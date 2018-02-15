@@ -39,6 +39,9 @@ $night: (
   input-border-color: $p500-black,
   input-placeholder-color: $p600-grey,
   input-disabled-bg: $p700-grey,
+  input-group-addon-bg: $p500-black,
+  input-group-addon-border-color: $p500-black,
+
 
   box-shadow-color: rgba($p300-grey, .15),
   shadow-color: rgba($p300-grey, .3),
@@ -47,6 +50,7 @@ $night: (
   calendar-border: $p900-grey,
   calendar-today-bg: $p900-blue,
   calendar-window-bg: $p900-blue,
+  dropdown-bg: $p900-grey,
   dropdown-fallback-border: $p800-grey, // TODO: Remove dropdown-fallback-border
 
   table-bg-accent: $p700-black, // TODO: Remove in favor of correctly named table-accent-bg

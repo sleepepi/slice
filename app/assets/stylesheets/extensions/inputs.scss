@@ -1,0 +1,8 @@
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .input-group-text {
+      background-color: theme-color($theme, input-group-addon-bg, $input-group-addon-bg);
+      border-color: theme-color($theme, input-group-addon-border-color, $input-group-addon-border-color);
+    }
+  }
+}

@@ -8,11 +8,14 @@
   %span.pounds-box
     .input-group
       = text_field_tag "#{field_name}[pounds]", (value[:pounds] ? format('%d', value[:pounds]) : nil), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-addon lb
+      .input-group-append
+        = render "sheet_variables/form/addon", addon: "lb"
+  &nbsp;
   %span.ounces-box
     .input-group
       = text_field_tag "#{field_name}[ounces]", (value[:ounces] ? format('%d', value[:ounces]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-addon oz
+      .input-group-append
+        = render "sheet_variables/form/addon", addon: "oz"
   &nbsp;
   - unless is_grid
     = link_to 'Clear', '#', data: { object: 'clear-imperial-weight-input', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'

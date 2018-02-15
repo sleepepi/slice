@@ -12,6 +12,8 @@
     .btn-outline-primary {
       color: map-get($theme, primary) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -27,6 +29,8 @@
       border-color: map-get($theme, accent) !important;
       color: map-get($theme, accent) !important;
 
+      &:active,
+      &.active,
       &:hover {
         background-color: map-get($theme, accent) !important;
         color: map-get($theme, brand-white) !important;
@@ -42,6 +46,8 @@
     .btn-outline-secondary {
       color: theme-color($theme, secondary, map-get($theme-colors, secondary)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -56,6 +62,8 @@
     .btn-outline-success {
       color: theme-color($theme, success, map-get($theme-colors, success)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -70,6 +78,8 @@
     .btn-outline-warning {
       color: theme-color($theme, warning, map-get($theme-colors, warning)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -84,6 +94,8 @@
     .btn-outline-danger {
       color: theme-color($theme, danger, map-get($theme-colors, danger)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -98,6 +110,8 @@
     .btn-outline-light {
       color: theme-color($theme, light, map-get($theme-colors, light)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }
@@ -112,6 +126,8 @@
     .btn-outline-dark {
       color: theme-color($theme, dark, map-get($theme-colors, dark)) !important;
 
+      &:active,
+      &.active,
       &:hover {
         color: map-get($theme, brand-white) !important;
       }

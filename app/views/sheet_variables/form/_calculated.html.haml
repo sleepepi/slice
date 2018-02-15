@@ -4,12 +4,14 @@
 - value = response
 
 .input-group{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "calculated", status: variable.validator.status(value) } }
-  = render "sheet_variables/form/addon", method: "prepend", variable: variable
+  - if variable.prepend.present?
+    .input-group-prepend
+      = render "sheet_variables/form/addon", addon: variable.prepend
   = text_field_tag "#{target_name}_calculation_result", response, class: "form-control", disabled: "disabled"
   = hidden_field_tag field_name, response, disabled: disabled, data: { object: "calculated", design: design.to_param, calculation: variable.calculation, variable_id: variable.id, target: "##{target_name}_calculation_result", calculation_id: variable.id, name: variable.name, grid_position: defined?(position) ? position : "", target_name: target_name, handoff: @handoff.to_param }
-  = render "sheet_variables/form/addon", method: "units", variable: variable
-  = render "sheet_variables/form/addon", method: "append", variable: variable
-  %span.input-group-btn.input-group-addon{ style: "margin: -1px;padding: 0;border: 0" }
+  .input-group-append
+    = render "sheet_variables/form/addon", addon: variable.units
+    = render "sheet_variables/form/addon", addon: variable.append
     = link_to "#", class: "btn btn-light", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
       %i.fa.fa-info-circle
 

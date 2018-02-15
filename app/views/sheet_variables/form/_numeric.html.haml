@@ -1,12 +1,16 @@
 - is_grid = defined?(grid)
 
-- target_name = field_name.gsub('[', '_').gsub(']', '')
+- target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = response
 
-%div{ class: "#{'input-group' if variable.prepend.present? || variable.units.present? || variable.append.present?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'numeric', status: variable.validator.status(value) } }
-  = render 'sheet_variables/form/addon', method: 'prepend', variable: variable
-  = text_field_tag field_name, response, class: 'form-control', data: { object: 'condition cursor-navigatable', calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: variable.description.present? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? '' : 'tooltip') : 'popover'}", autocomplete: 'off', placeholder: is_grid ? variable.display_name : nil
-  = render 'sheet_variables/form/addon', method: 'units', variable: variable
-  = render 'sheet_variables/form/addon', method: 'append', variable: variable
+%div{ class: "#{"input-group" if variable.prepend.present? || variable.units.present? || variable.append.present?}", data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "numeric", status: variable.validator.status(value) } }
+  - if variable.prepend.present?
+    .input-group-prepend
+      = render "sheet_variables/form/addon", addon: variable.prepend
+  = text_field_tag field_name, response, class: "form-control", data: { object: "condition cursor-navigatable", calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type, content: variable.description, grid_position: defined?(position) ? position : "", html: variable.description.present? }, title: variable.description.blank? ? variable.range_tooltip : variable.display_name + " " + variable.range_tooltip, disabled: disabled, rel: "#{variable.description.blank? ? (variable.range_tooltip.blank? ? "" : "tooltip") : "popover"}", autocomplete: "off", placeholder: is_grid ? variable.display_name : nil
+  - if variable.units.present? || variable.append.present?
+    .input-group-append
+      = render "sheet_variables/form/addon", addon: variable.units
+      = render "sheet_variables/form/addon", addon: variable.append
 
-= render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid
+= render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

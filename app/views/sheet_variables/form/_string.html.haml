@@ -1,19 +1,23 @@
 - is_grid = defined?(grid)
 
-- target_name = field_name.gsub('[', '_').gsub(']', '')
+- target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = response
 
-%div{ class: "#{'input-group' if variable.prepend.present? || variable.append.present?}", data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'string', status: variable.validator.status(value) } }
-  = render 'sheet_variables/form/addon', method: 'prepend', variable: variable
-  = text_field_tag field_name, response, class: 'form-control',
+%div{ class: "#{"input-group" if variable.prepend.present? || variable.append.present?}", data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "string", status: variable.validator.status(value) } }
+  - if variable.prepend.present?
+    .input-group-prepend
+      = render "sheet_variables/form/addon", addon: variable.prepend
+  = text_field_tag field_name, response, class: "form-control",
     data: { content: variable.description, object: "condition typeahead cursor-navigatable",
       design: design.to_param,
       handoff: @handoff.to_param,
       local: variable.autocomplete_array.to_json,
-      variable_id: variable.id, html: 'true' },
-      title: variable.description.blank? ? '' : variable.display_name,
-      rel: "#{variable.description.blank? ? '' : 'popover'}",
-      autocomplete: 'off',
+      variable_id: variable.id, html: "true" },
+      title: variable.description.blank? ? "" : variable.display_name,
+      rel: "#{variable.description.blank? ? "" : "popover"}",
+      autocomplete: "off",
       disabled: disabled,
       placeholder: is_grid ? variable.display_name : nil
-  = render 'sheet_variables/form/addon', method: 'append', variable: variable
+  - if variable.append.present?
+    .input-group-append
+      = render "sheet_variables/form/addon", addon: variable.append

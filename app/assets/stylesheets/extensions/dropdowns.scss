@@ -53,6 +53,14 @@
 }
 
 @each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .dropdown-menu {
+      background-color: theme-color($theme, dropdown-bg, $dropdown-bg);
+      border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
+      color: map-get($theme, body-color);
+    }
+  }
+
   .menu-#{$name} {
     .dropdown-menu-custom {
       box-shadow: 0 0 10px 0 map-get($theme, box-shadow-color);
