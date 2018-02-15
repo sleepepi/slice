@@ -49,7 +49,9 @@ $night: (
   calendar-window-bg: $p900-blue,
   dropdown-fallback-border: $p800-grey, // TODO: Remove dropdown-fallback-border
 
-  table-bg-accent: $p700-black,
+  table-bg-accent: $p700-black, // TODO: Remove in favor of correctly named table-accent-bg
+  table-accent-bg: $p600-black,
+  table-hover-bg: $p700-black,
 
   tooltip-bg: $p800-grey,
   tooltip-color: $p400-grey,

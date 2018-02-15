@@ -27,7 +27,7 @@ class Project < ApplicationRecord
 
   # Scopes
   scope :with_editor, ->(*args) { where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.editor IN (?))", args.first, args.first, args[1] ).references(:project_users) }
-  scope :by_favorite, ->(arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
+  scope :by_preferences, ->(arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}").references(:project_preferences) }
   scope :archived, -> { where(project_preferences: { archived: true }) }
   scope :unarchived, -> { where(project_preferences: { archived: [nil, false] }) }
   scope :viewable_by_user, ->(arg) { where("projects.id IN (SELECT projects.id FROM projects WHERE projects.user_id = ?)
@@ -147,11 +147,6 @@ class Project < ApplicationRecord
     site_id = sites.first.id unless site
     subject_code = SecureRandom.hex(8)
     subjects.create(subject_code: subject_code, site_id: site_id)
-  end
-
-  def favorited_by?(current_user)
-    project_preference = preference_for_user(current_user)
-    project_preference.present? && project_preference.favorited?
   end
 
   def archived_by?(current_user)

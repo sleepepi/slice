@@ -2,24 +2,61 @@
 
 - content_for :header do
   .float-right
-    = link_to "New Project", new_project_path, class: "btn btn-primary"
-    = link_to label_or("Archives", generic_tag("fa-archive")), projects_path, class: "btn btn-light"
+    = link_to "New Project", new_project_path, class: "btn btn-primary btn-shadow"
   = @title
 
-- if @favorited_projects.count > 0
-  .dashboard-container
-    %h2 Favorites
-    %div{ data: { object: "projects-sortable", page: [params[:page].to_i, 1].max, category: "favored" } }
-      - @favorited_projects.each do |project|
-        = render "projects/splash_project_box", project: project, favorited: true, archived: false, sortable: true
+- if @projects.present?
+  .dashboard-container.dashboard-table
+    %h3.px-2.py-1 Active Projects
+    %div.dashboard-projects{ data: { object: "projects-sortable", page: [params[:page].to_i, 1].max } }
+      - @projects.each do |project|
+        = render "projects/splash_project_box", project: project
 
-- if @current_projects.count > 0
-  .dashboard-container
-    %h2 Current Projects
-    - @current_projects.each do |project|
-      = render "projects/splash_project_box", project: project, favorited: false, archived: false, sortable: false
-
-- if @projects.total_count > @projects.count
-  .dashboard-container
-    .text-center
+    .center-horizontally
       = paginate @projects, theme: "bootstrap"
+
+    .text-center.py-3
+      = link_to projects_path do
+        All projects
+        %i.fa.fa-caret-right
+
+
+- @sheets = current_user.all_viewable_sheets.where.not(last_edited_at: nil).includes(:project, :subject, :design).order(last_edited_at: :desc).limit(15)
+- if @sheets.present?
+  .dashboard-container.dashboard-table.pb-0
+    %h3.px-2.py-1 Recent Sheets
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col.d-none.d-sm-table-column{ width: "1px" }
+      %col
+      %col
+      %col.d-none.d-lg-table-column
+      %col
+      %thead
+        %tr
+          %th.d-none.d-sm-table-cell Coverage
+          %th Sheet
+          %th Subject
+          %th.d-none.d-lg-table-cell.text-center Last Edited
+          %th Project
+      %tbody
+        - @sheets.includes(:project).each do |sheet|
+          %tr
+            %td.d-none.d-sm-table-cell{ id: "sheet_#{sheet.id}_coverage" }= render "sheets/coverage", sheet: sheet
+            %td= link_to sheet.design.name, [sheet.project, sheet]
+            %td= link_to sheet.subject.name, [sheet.project, sheet.subject] if sheet.subject
+            %td.d-none.d-lg-table-cell.text-center
+              - if sheet.last_edited_at
+                - if sheet.last_edited_at > Time.zone.today - 1.day
+                  %abbr{ rel: "tooltip", data: { title: sheet.last_edited_at.strftime("%b %-d, %Y"), container: "body", placement: "right" } }
+                    = sheet.last_edited_at.strftime("%-l:%M %p")
+                - elsif sheet.last_edited_at.year == Time.zone.today.year
+                  %abbr{ rel: "tooltip", data: { title: sheet.last_edited_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }
+                    = sheet.last_edited_at.strftime("%b %-d")
+                - else
+                  %abbr{ rel: "tooltip", data: { title: sheet.last_edited_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }
+                    = sheet.last_edited_at.strftime("%b %-d, '%y")
+            %td= link_to sheet.project.short_name, sheet.project
+    .text-center.pb-3
+      = link_to activity_path do
+        All activity
+        %i.fa.fa-caret-right

@@ -8,11 +8,9 @@ class AccountController < ApplicationController
   # GET /dashboard
   def dashboard
     @projects = current_user.all_viewable_and_site_projects
-                            .by_favorite(current_user.id).unarchived
-                            .order(Arel.sql("(favorited IS NULL or favorited = 'f') ASC, position, name"))
+                            .by_preferences(current_user.id).unarchived
+                            .order(Arel.sql("position, name"))
                             .page(params[:page]).per(Project::PER_PAGE)
-    @favorited_projects = @projects.where(project_preferences: { favorited: true })
-    @current_projects = @projects.where(project_preferences: { favorited: [false, nil] }).reorder(Arel.sql("lower(name) asc"))
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end
 

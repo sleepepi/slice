@@ -1,6 +1,4 @@
 - if project.archived_by?(current_user)
-  %i.fa.fa-archive.text-muted{ rel: "tooltip", data: { title: "Archived", container: "body", placement: "right" } }
-- elsif project.favorited_by?(current_user)
-  %i.fa.fa-star.text-primary{ rel: "tooltip", data: { title: "Favorited", container: "body", placement: "right" } }
+  %i.fa.fa-square-o
 - else
-  %i.fa.fa-folder-open.text-primary{ rel: "tooltip", data: { title: "Current", container: "body", placement: "right" } }
+  %i.fa.fa-check-square.text-primary

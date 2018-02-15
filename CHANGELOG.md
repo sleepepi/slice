@@ -3,6 +3,10 @@
 ### Enhancements
 - **General Changes**
   - Updated styling of project sidebar menu
+- **Dashboard Changes**
+  - Favorited and current projects have been combined into "active" projects
+    that are displayed on the dashboard
+  - Projects can now be "active" or "archived"
 - **Grid Changes**
   - Radio button variables in grids are now always displayed as dropdowns
 - **Gem Changes**

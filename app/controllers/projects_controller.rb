@@ -4,8 +4,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :team, :favorite, :activity, :logo,
-    :archive, :calendar
+    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar
   ]
 
   # POST /projects/save_project_order.js
@@ -21,13 +20,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1/logo
   def logo
     send_file_if_present @project.logo
-  end
-
-  # POST /projects/1/favorite
-  def favorite
-    project_preference = @project.project_preferences.where(user_id: current_user.id).first_or_create
-    project_preference.update favorited: (params[:favorited] == "1")
-    redirect_to root_path
   end
 
   # POST /projects/1/archive

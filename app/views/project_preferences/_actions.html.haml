@@ -7,36 +7,27 @@
   .dropdown-menu.dropdown-menu-right
     - if project.archived_by?(current_user)
       = link_to project_preferences_update_path(project_id: project, archived: "0"), remote: true, method: :patch, class: "dropdown-item" do
-        %i.fa.fa-key
-        Unarchive
+        %i.fa.fa-thumb-tack
+        Pin to dashboard
     - else
       = link_to project_preferences_update_path(project_id: project, archived: "1"), remote: true, method: :patch, class: "dropdown-item" do
         %i.fa.fa-archive
         Archive
 
-      - if project.favorited_by?(current_user)
-        = link_to project_preferences_update_path(project_id: project, favorited: "0"), remote: true, method: :patch, class: "dropdown-item" do
-          %i.fa.fa-star-o
-          Unfavorite
-      - else
-        = link_to project_preferences_update_path(project_id: project, favorited: "1"), remote: true, method: :patch, class: "dropdown-item" do
-          %i.fa.fa-star
-          Favorite
-
     - if project.emails_enabled?(current_user)
       = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch, class: "dropdown-item" do
         %i.fa.fa-envelope
-        Disable Emails
+        Disable emails
     - else
       = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch, class: "dropdown-item" do
         %i.fa.fa-envelope
-        Enable Emails
+        Enable emails
     - if project.editable_by?(current_user)
       .dropdown-divider
       = link_to edit_editor_project_path(project), class: "dropdown-item" do
         %i.fa.fa-pencil
-        Edit Project
+        Edit project
     - if project.owner?(current_user)
       = link_to owner_project_path(project), method: :delete, remote: true, data: { confirm: "Delete #{project.name}?" }, class: "dropdown-item text-danger" do
         %i.fa.fa-trash
-        Delete Project
+        Delete project

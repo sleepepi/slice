@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Captures a users preferences for a project, favorited, archived, emails.
+# Captures a users preferences for a project, pinned vs archived, emails enabled
+# vs disabled.
 class ProjectPreference < ApplicationRecord
   # Validations
-  validates :project_id, :user_id, presence: true
   validates :user_id, uniqueness: { scope: :project_id }
 
   # Relationships

@@ -3,7 +3,5 @@
     = number_with_delimiter project.subjects.count
     = render "project_preferences/splash_actions", project: project
 
-  - if sortable
-    %i.fa.fa-ellipsis-v.handle-visible.pr-1
-  = link_to project do
-    = project.name
+  %i.fa.fa-ellipsis-v.handle-visible.pr-1
+  = link_to project.name, project

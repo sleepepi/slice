@@ -139,7 +139,6 @@ Rails.application.routes.draw do
     end
 
     member do
-      post :favorite
       get :activity
       get :team
       get :logo
