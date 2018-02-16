@@ -46,7 +46,7 @@
             %td= link_to sheet.subject.name, [sheet.project, sheet.subject] if sheet.subject
             %td.d-none.d-lg-table-cell.text-center
               - if sheet.last_edited_at
-                - if sheet.last_edited_at > Time.zone.today - 1.day
+                - if sheet.last_edited_at > Time.zone.now - 1.day
                   %abbr{ rel: "tooltip", data: { title: sheet.last_edited_at.strftime("%b %-d, %Y"), container: "body", placement: "right" } }
                     = sheet.last_edited_at.strftime("%-l:%M %p")
                 - elsif sheet.last_edited_at.year == Time.zone.today.year
