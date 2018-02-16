@@ -24,6 +24,10 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .jumbotron {
+      background-color: theme-color($theme, jumbotron-bg, $jumbotron-bg);
+    }
+
     .jumbotron-white {
       background-color: map-get($theme, dashboard-bg);
       color: map-get($theme, body-color);

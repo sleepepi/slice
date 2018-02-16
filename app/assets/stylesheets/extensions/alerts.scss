@@ -1,0 +1,16 @@
+@each $color, $value in $theme-colors {
+  @each $name, $theme in $themes {
+    @if map-get($theme, "alert-#{$color}-bg") and map-get($theme, "alert-#{$color}-color") and map-get($theme, "alert-#{$color}-link-color") {
+      .theme-#{$name}-bg {
+        .alert-#{$color} {
+          background-color: map-get($theme, "alert-#{$color}-bg");
+          color: map-get($theme, "alert-#{$color}-color");
+
+          a {
+            color: map-get($theme, "alert-#{$color}-link-color");
+          }
+        }
+      }
+    }
+  }
+}

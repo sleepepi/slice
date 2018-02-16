@@ -64,4 +64,16 @@ $night: (
   progress-bg: $p800-grey,
   dropdown-divider-bg: $p800-grey,
   dropdown-link-hover-bg: $p800-grey,
+  breadcrumb-bg: $p700-black,
+  jumbotron-bg: $p700-black,
+
+  alert-info-bg: darken(#d1ecf1, 70%),
+  alert-info-color: lighten(#0c5460, 5%),
+  alert-info-link-color: lighten(#0c5460, 10%),
+  alert-warning-bg: darken(#fff3cd, 70%),
+  alert-warning-color: lighten(#856404, 5%),
+  alert-warning-link-color: lighten(#856404, 10%),
+  alert-danger-bg: darken(#f8d7da, 70%),
+  alert-danger-color: lighten(#721c24, 5%),
+  alert-danger-link-color: lighten(#721c24, 10%),
 )
