@@ -5,7 +5,8 @@
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     // Primary
-    .btn-primary {
+    .btn-primary,
+    .show > .btn-primary.dropdown-toggle {
       color: map-get($theme, brand-white) !important;
     }
 
@@ -20,7 +21,8 @@
     }
 
     // Accent
-    .btn-accent {
+    .btn-accent,
+    .show > .btn-accent.dropdown-toggle {
       @include button-variant(map-get($theme, accent), map-get($theme, accent));
       color: map-get($theme, brand-white) !important;
     }
@@ -38,7 +40,8 @@
     }
 
     // Secondary
-    .btn-secondary {
+    .btn-secondary,
+    .show > .btn-secondary.dropdown-toggle {
       @include button-variant(theme-color($theme, secondary, map-get($theme-colors, secondary)), theme-color($theme, secondary, map-get($theme-colors, secondary)));
       color: map-get($theme, brand-white) !important;
     }
@@ -54,7 +57,8 @@
     }
 
     // Success
-    .btn-success {
+    .btn-success,
+    .show > .btn-success.dropdown-toggle {
       @include button-variant(theme-color($theme, success, map-get($theme-colors, success)), theme-color($theme, success, map-get($theme-colors, success)));
       color: map-get($theme, brand-white) !important;
     }
@@ -70,7 +74,8 @@
     }
 
     // Warning
-    .btn-warning {
+    .btn-warning,
+    .show > .btn-warning.dropdown-toggle {
       @include button-variant(theme-color($theme, warning, map-get($theme-colors, warning)), theme-color($theme, warning, map-get($theme-colors, warning)));
       color: map-get($theme, body-color) !important;
     }
@@ -86,7 +91,8 @@
     }
 
     // Danger
-    .btn-danger {
+    .btn-danger,
+    .show > .btn-danger.dropdown-toggle {
       @include button-variant(theme-color($theme, danger, map-get($theme-colors, danger)), theme-color($theme, danger, map-get($theme-colors, danger)));
       color: map-get($theme, brand-white) !important;
     }
@@ -102,7 +108,8 @@
     }
 
     // Light
-    .btn-light {
+    .btn-light,
+    .show > .btn-light.dropdown-toggle {
       @include button-variant(theme-color($theme, light, map-get($theme-colors, light)), theme-color($theme, light, map-get($theme-colors, light)));
       color: map-get($theme, body-color) !important;
     }
@@ -118,7 +125,8 @@
     }
 
     // Dark
-    .btn-dark {
+    .btn-dark,
+    .show > .btn-dark.dropdown-toggle {
       @include button-variant(theme-color($theme, dark, map-get($theme-colors, dark)), theme-color($theme, dark, map-get($theme-colors, dark)));
       color: map-get($theme, brand-white) !important;
     }

@@ -59,6 +59,18 @@
       border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
       color: map-get($theme, body-color);
     }
+
+    .dropdown-item {
+      &:hover,
+      &:focus {
+        background-color: theme-color($theme, dropdown-link-hover-bg, $dropdown-link-hover-bg);
+        color: map-get($theme, body-color);
+      }
+    }
+
+    .dropdown-divider {
+      border-color: theme-color($theme, dropdown-divider-bg, $dropdown-divider-bg);
+    }
   }
 
   .menu-#{$name} {
