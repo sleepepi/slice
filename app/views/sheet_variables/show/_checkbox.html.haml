@@ -14,8 +14,7 @@
         - domain_options.each do |domain_option|
           - selected = (response_raws.include?(domain_option.value))
           %td.text-center
-            %label.checkbox-inline.checkbox-radio-outline{ class: "#{"selected" if selected} #{"negation" if domain_option.missing_code?}" }
-              = check_box_tag "#{variable.name}[]", domain_option.value, selected, disabled: true
+            = render "sheet_variables/show/parts/checkbox_scale", variable: variable, domain_option: domain_option, selected: selected
 - else
   - response_names.each do |response_name|
     - unless defined?(position)

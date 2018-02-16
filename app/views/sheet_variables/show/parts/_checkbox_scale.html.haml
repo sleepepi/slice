@@ -1,0 +1,5 @@
+- id = "#{variable.name}_#{domain_option.id}_#{domain_option.value}"
+.custom-control.custom-scale.custom-checkbox
+  = check_box_tag "#{id}[]", domain_option.value, selected, class: "custom-control-input", disabled: true, id: id
+  = label_tag id, for: id, class: "custom-control-label custom-control-label-scale" do
+    &nbsp;

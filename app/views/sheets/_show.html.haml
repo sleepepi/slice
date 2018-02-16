@@ -9,7 +9,7 @@
   - elsif variable
     - if variable.uses_scale? && variable.first_scale_variable?(@sheet.design)
       = "<div>".html_safe
-      .form-group.sticky-scale-header
+      .form-group.row.sticky-scale-header
         - domain_options = variable.domain_options
         .col-12
           %table.table.table-borderless

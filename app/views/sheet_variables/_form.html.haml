@@ -19,7 +19,7 @@
 
 - if variable.uses_scale? && variable.first_scale_variable?(design)
   = "<div>".html_safe
-  .form-group.sticky-scale-header{ data: { object: "design-option-scale-header", branching_logic: design.branching_logic(design_option) } }
+  .form-group.row.sticky-scale-header{ data: { object: "design-option-scale-header", branching_logic: design.branching_logic(design_option) } }
     - domain_options = variable.domain_options_with_user(response, current_user)
     %table.table.table-borderless
       %col{ width: "100px" }
