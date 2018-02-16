@@ -53,13 +53,13 @@
             - variable.deleted = true
       - else
         - if !variable.uses_scale? && variable.display_layout == "gone"
-          %label
+          %label{ style: "font-weight: bold;" }
             = variable.display_name
             = render "design_options/required", design_option: design_option
 
         .form-group.row
           - if !variable.uses_scale? && variable.display_layout == "visible"
-            %label.col-md-3.col-form-label
+            %label.col-md-3.col-form-label{ style: "font-weight: bold;" }
               = variable.display_name
               = render "design_options/required", design_option: design_option
 

@@ -1,8 +1,8 @@
 = hidden_field_tag "design_option[position]", design_option.position
 = hidden_field_tag "variable[variable_type]", variable.variable_type if variable.new_record?
 
-.form-group
-  %label.col-md-2.control-label Display Name
+.form-group.row
+  %label.col-md-2.col-form-label Display Name
   .col-md-10
     .input-group
       = text_field_tag "variable[display_name]", variable.display_name, autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
@@ -19,8 +19,8 @@
         Ex:
         %strong What is your age?
 
-.form-group
-  %label.col-md-2.control-label Name
+.form-group.row
+  %label.col-md-2.col-form-label Name
   .col-md-10
     .input-group
       = text_field_tag "variable[name]", variable.name, maxlength: 32, class: "form-control"
@@ -51,15 +51,15 @@
       Ex:
       %code var1_population
 
-.form-group
-  %label.col-md-2.control-label Field Note
+.form-group.row
+  %label.col-md-2.col-form-label Field Note
   .col-md-10
     = text_field_tag "variable[field_note]", variable.field_note, class: "form-control"
     = render "layouts/errors", object: variable, key: :field_note
 
 - unless variable.new_record?
-  .form-group
-    %label.col-md-2.control-label
+  .form-group.row
+    %label.col-md-2.col-form-label
       Branching Logic
       = link_to "#", class: "btn btn-info btn-sm", data: { object: "toggle-visibility", target: "#branching-logic-info" }, tabindex: "-1" do
         %i.fa.fa-info-circle
@@ -68,7 +68,7 @@
       = render "layouts/branching_logic_examples"
 
 - if variable.new_record? && variable.variable_type == "grid"
-  .form-group
+  .form-group.row
     = label :questions, "Questions", class: "col-md-2 control-label"
     .col-md-10
       .callout.callout-info{ style: "margin-top:0px" }
