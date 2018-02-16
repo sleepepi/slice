@@ -1,10 +1,14 @@
 - is_grid = defined?(grid)
 
 %div{ class: variable.prepend.present? || variable.units.present? || variable.append.present? ? "input-group" : nil }
-  = render "design_options/show/addon", method: "prepend", variable: variable
+  - if variable.prepend.present?
+    .input-group-prepend
+      = render "design_options/show/addon", addon: variable.prepend
   = text_field_tag variable.name, "", class: "form-control", disabled: true, placeholder: is_grid ? variable.display_name : nil
-  = render "design_options/show/addon", method: "units", variable: variable
-  = render "design_options/show/addon", method: "append", variable: variable
+  - if variable.units.present? || variable.append.present?
+    .input-group-append
+      = render "design_options/show/addon", addon: variable.units
+      = render "design_options/show/addon", addon: variable.append
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }

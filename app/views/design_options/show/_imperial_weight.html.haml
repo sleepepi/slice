@@ -4,11 +4,13 @@
   %span.pounds-box
     .input-group
       = text_field_tag "#pounds_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-addon lb
+      .input-group-append
+        = render "design_options/show/addon", addon: "lb"
   %span.ounces-box
     .input-group
       = text_field_tag "#ounces_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-addon oz
+      .input-group-append
+        = render "design_options/show/addon", addon: "oz"
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }

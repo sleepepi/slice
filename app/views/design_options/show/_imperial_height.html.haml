@@ -4,11 +4,13 @@
   %span.feet-box
     .input-group
       = text_field_tag "#feet_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-addon ft
+      .input-group-append
+        = render "design_options/show/addon", addon: "ft"
   %span.inches-box
     .input-group
       = text_field_tag "#inches_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-addon in
+      .input-group-append
+        = render "design_options/show/addon", addon: "in"
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }

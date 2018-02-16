@@ -10,52 +10,51 @@
             .dashboard-container.p-3.editable-design-element{ data: { object: "new-variable-popup", position: params[:position], variable_type: variable_type } }
               .mb-2
                 %strong= variable_type.titleize
-              .text-center
+              %div
                 - case variable_type when "radio"
-                  %form.form-horizontal
-                    %label.radio-inline.checkbox-radio-outline.selected
-                      = radio_button_tag "animal", "dog", true, disabled: true
-                      1: Dog
-                    %label.radio-inline.checkbox-radio-outline
-                      = radio_button_tag "animal", "cat", false, disabled: true
-                      2: Cat
-                    %label.radio-inline.checkbox-radio-outline
-                      = radio_button_tag "animal", "fish", false, disabled: true
-                      3: Fish
+                  .mb-1
+                    %i.fa.fa-check-circle.text-primary
+                    1: Dog
+                  .mb-1
+                    %i.fa.fa-circle.text-disabled
+                    2: Cat
+                  .mb-1
+                    %i.fa.fa-circle.text-disabled
+                    3: Fish
                 - when "dropdown"
-                  .text-left
-                    = select_tag "animal", options_for_select([["1: Dog", 1], ["2: Cat", 2], ["3: Fish", 3]], 3), include_blank: true, disabled: false, class: "form-control chosen-select"
+                  = select_tag "animal", options_for_select([["1: Dog", 1], ["2: Cat", 2], ["3: Fish", 3]], 3), include_blank: true, disabled: false, class: "form-control chosen-select"
                 - when "checkbox"
-                  %form.form-horizontal
-                    %label.checkbox-inline.checkbox-radio-outline.selected
-                      = check_box_tag "animal[]", "dog", true, disabled: true
-                      1: Dog
-                    %label.checkbox-inline.checkbox-radio-outline.selected
-                      = check_box_tag "animal[]", "cat", true, disabled: true
-                      2: Cat
-                    %label.checkbox-inline.checkbox-radio-outline
-                      = check_box_tag "animal[]", "fish", false, disabled: true
-                      3: Fish
+                  .mb-1
+                    %i.fa.fa-check-square.text-primary
+                    1: Dog
+                  .mb-1
+                    %i.fa.fa-check-square.text-primary
+                    2: Cat
+                  .mb-1
+                    %i.fa.fa-square.text-disabled
+                    3: Fish
                 - when "string"
                   = text_field_tag "animal", "Abc Street", disabled: true, class: "form-control"
                 - when "integer"
                   = text_field_tag "animal", "42", disabled: true, class: "form-control"
                 - when "numeric"
                   .input-group
-                    %span.input-group-addon weight
                     = text_field_tag "animal", "72.4", disabled: true, class: "form-control"
-                    %span.input-group-addon kg
+                    .input-group-append
+                      = render "sheet_variables/form/addon", addon: "kg"
                 - when "calculated"
                   .input-group
-                    = text_field_tag "animal", "weight / (height * height)", class: "form-control", disabled: true
-                    %span.input-group-addon kg / m&sup2;
+                    = text_field_tag "bmi", "bmi", class: "form-control", disabled: true
+                    .input-group-append
+                      = render "sheet_variables/form/addon", addon: sanitize("kg / m&sup2;")
                 - when "text"
                   = text_area_tag "animal", "My Long Essay", class: "form-control", disabled: true, style: "cursor:pointer"
                 - when "date"
                   .input-group
                     = text_field_tag "animal", "", class: "datepicker form-control", placeholder: "mm/dd/yyyy"
-                    %span.input-group-addon
-                      %i.fa.fa-calendar
+                    .input-group-append
+                      %span.input-group-text
+                        %i.fa.fa-calendar
                 - when "time_of_day"
                   .time-input.form-inline
                     %span.hour-box
@@ -68,41 +67,44 @@
                       = text_field_tag "sec_time", "", placeholder: "ss", class: "form-control", style: "display: inline-block;"
                 - when "time_duration"
                   .time-input.form-inline
-                    %span.hour-box
+                    %span.hour-box.input-group
                       = text_field_tag "hour_time_duration", "", placeholder: "hh", class: "form-control", style: "display: inline-block;"
-                    h
-                    %span.min-box
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "h"
+                    %span.min-box.input-group
                       = text_field_tag "min_time_duration", "", placeholder: "mm", class: "form-control", style: "display: inline-block;"
-                    m
-                    %span.sec-box
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "m"
+                    %span.sec-box.input-group
                       = text_field_tag "sec_time_duration", "", placeholder: "ss", class: "form-control", style: "display: inline-block;"
-                    s
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "s"
                 - when "imperial_height"
                   .imperial-height-input.form-inline
-                    %span.feet-box
-                      .input-group
-                        = text_field_tag "feet", "", class: "form-control", style: "display: inline-block;"
-                        .input-group-addon ft
-                    %span.inches-box
-                      .input-group
-                        = text_field_tag "inches", "", class: "form-control", style: "display: inline-block;"
-                        .input-group-addon in
+                    %span.feet-box.input-group
+                      = text_field_tag "feet", "", class: "form-control", style: "display: inline-block;"
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "ft"
+                    %span.inches-box.input-group
+                      = text_field_tag "inches", "", class: "form-control", style: "display: inline-block;"
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "in"
                 - when "imperial_weight"
                   .imperial-weight-input.form-inline
-                    %span.feet-box
-                      .input-group
-                        = text_field_tag "pounds", "", class: "form-control", style: "display: inline-block;"
-                        .input-group-addon lb
-                    %span.inches-box
-                      .input-group
-                        = text_field_tag "ounces", "", class: "form-control", style: "display: inline-block;"
-                        .input-group-addon oz
+                    %span.pounds-box.input-group
+                      = text_field_tag "pounds", "", class: "form-control", style: "display: inline-block;"
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "lb"
+                    %span.ounces-box.input-group
+                      = text_field_tag "ounces", "", class: "form-control", style: "display: inline-block;"
+                      .input-group-append
+                        = render "sheet_variables/form/addon", addon: "oz"
                 - when "file"
                   = button_tag "Choose File", disabled: true
                 - when "signature"
                   = image_tag "signature.png", style: "cursor:pointer", class: "signature-image"
                 - when "grid"
-                  %table.table.table-hover
+                  %table.table.table-hover.table-borderless.table-striped.table-condensed
                     %thead
                       %tr
                         %th Lap
@@ -123,10 +125,10 @@
             .dashboard-container.p-3.editable-design-element{ data: { object: "new-section-popup", position: params[:position] } }
               .mb-2
                 %strong= variable_type.titleize
-              .text-center
-                %strong Section A: Demographics
+              %div
+                %strong Demographics
                 %br
-                Please enter the following information...
+                Answer questions about yourself...
         - if variable_type == "existing_question"
           - if @project.unassigned_variables.count.positive?
             .col-md-4

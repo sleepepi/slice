@@ -10,11 +10,11 @@
     %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel
 - elsif variable = @design_option.variable
   .modal-header
-    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
     %h4.modal-title
       Edit Variable
       &middot;
       = variable.name_was
+    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   .modal-body
     = form_tag project_design_design_option_path(@project, @design, @design_option), method: :patch, remote: true, class: "form-horizontal", id: "design_option_form" do
       = render "design_options/form_variable", design_option: @design_option, variable: variable

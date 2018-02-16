@@ -1,0 +1,18 @@
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .modal-content {
+      background-color: theme-color($theme, modal-content-bg, $modal-content-bg);
+    }
+
+    .modal-header {
+      border-color: theme-color($theme, modal-header-border-color, $modal-header-border-color);
+    }
+    .modal-footer {
+      border-color: theme-color($theme, modal-footer-border-color, $modal-footer-border-color);
+    }
+
+    .close {
+      color: theme-color($theme, close-color, $close-color);
+    }
+  }
+}
