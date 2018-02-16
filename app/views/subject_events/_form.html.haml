@@ -1,26 +1,21 @@
-%p.lead.text-center.text-white.text-shadow
-  Please enter the date of the event.
-
 .sign-up-form
   .sign-up-form-title
     Choose Date
 
   - url = subject_event.new_record? ? launch_subject_event_project_subject_path(@project, @subject, event_id: event.to_param) : update_event_project_subject_path(@project, @subject, event_id: event.id, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
-  - method = :post
-  = form_for subject_event, url: url, method: method, html: { class: "form-vertical" } do |f|
+  = form_with model: subject_event, url: url, method: :post, local: true do |form|
     - error_message = subject_event.errors.full_messages.join(",") if subject_event.errors.any?
 
-    .form-group
-      = f.label :event_date, error_message, class: "control-label"
-      = f.text_field :event_date, value: (subject_event && subject_event.event_date ? subject_event.event_date.strftime("%m/%d/%Y") : ""), class: "datepicker form-control", placeholder: "mm/dd/yyyy", autocomplete: "off"
+    = render "forms/vertical/date_field", form: form, object: subject_event, key: :event_date, help_text: "Please enter the date of the event."
 
     .form-group.submit-btn-container
-      = f.submit subject_event.new_record? ? "Launch Event" : "Update Event", class: "btn btn-primary btn-block btn-shadow"
+      = form.submit subject_event.new_record? ? "Launch event" : "Update event", class: "btn btn-primary btn-block btn-shadow"
       - unless subject_event.new_record?
         = link_to "Cancel", event_project_subject_path(@project, @subject, event_id: event.id, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "btn btn-light btn-block"
 
 .sign-up-form
-  %strong Designs
-  %ul{ style: "margin-top: 10px;" }
-    - event.event_designs.each do |event_design|
+  .mb-2
+    %strong Designs
+  %ul
+    - event.event_designs.includes(:design).each do |event_design|
       %li= event_design.design.name

@@ -31,6 +31,7 @@
   .theme-#{$name}-bg {
     .sign-up-form {
       background-color: map-get($theme, form-bg); // Should be greyish
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
       color: map-get($theme, body-color);
     }
 
