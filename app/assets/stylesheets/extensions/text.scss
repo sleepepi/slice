@@ -9,5 +9,9 @@
     .text-white {
       color: map-get($theme, brand-white) !important;
     }
+
+    .text-disabled {
+      color: theme-color($theme, input-disabled-bg, $p200-grey);
+    }
   }
 }
