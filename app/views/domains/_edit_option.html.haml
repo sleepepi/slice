@@ -1,3 +1,4 @@
+- position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s
 %tr.domain-option-container{ class: "#{"fieldset_with_errors" if @domain && @domain.errors.keys.include?(:options)}" }
   %td{ style: "vertical-align: middle;" }
     %i.fa.fa-arrows
@@ -7,13 +8,13 @@
   %td
     = text_field_tag "domain[option_tokens][][name]", domain_option.name, data: { object: "option-name" }, autocomplete: "off", rel: "tooltip", title: "Name", class: "form-control"
   %td.d-none.d-sm-table-cell
-    %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{"selected" if domain_option.missing_code?}" }
-      = check_box_tag "domain[option_tokens][][missing_code]", "1", domain_option.missing_code?, tabindex: "-1"
-      Missing Code
+    .custom-control.custom-checkbox
+      = check_box_tag "domain[option_tokens][][missing_code]", "1", domain_option.missing_code?, tabindex: "-1", class: "custom-control-input", id: "opt_missing_code_#{domain_option.value}_#{position}"
+      = label_tag "opt_missing_code_#{domain_option.value}_#{position}", "Missing Code", class: "custom-control-label"
   %td.d-none.d-sm-table-cell
-    %label.checkbox-inline.checkbox-radio-outline.nowrap{ class: "#{"selected" if domain_option.archived?}" }
-      = check_box_tag "domain[option_tokens][][archived]", "1", domain_option.archived?, tabindex: "-1"
-      Archived
+    .custom-control.custom-checkbox
+      = check_box_tag "domain[option_tokens][][archived]", "1", domain_option.archived?, tabindex: "-1", class: "custom-control-input", id: "opt_archived_#{domain_option.value}_#{position}"
+      = label_tag "opt_archived_#{domain_option.value}_#{position}", "Archived", class: "custom-control-label"
   - if sites.size > 1
     %td.d-none.d-lg-table-cell
       = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + sites.collect { |s| [s.name, s.id] }, domain_option.site_id), class: "form-control", tabindex: "-1"

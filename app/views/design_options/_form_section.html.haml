@@ -14,16 +14,18 @@
 .form-group.row
   %label.col-md-2.col-form-label Section Image
   .col-md-10
-    .row
-      .col-md-6
-        = file_field_tag "section[image]", class: "form-control"
-      - if section.image && section.image.size > 0
-        .col-md-6
-          %label.checkbox-inline.checkbox-radio-outline.negation
-            = check_box_tag "section[remove_image]", "1", false
-            Remove Image
-            %code= section.image.path.split("/").last
-            %tt= number_to_human_size(section.image.size)
+    - if section.image && section.image.size > 0
+      .d-none= file_field_tag "section[image]"
+      .form-control-plaintext
+        .custom-control.custom-checkbox
+          = check_box_tag "section[remove_image]", "1", false, class: "custom-control-input"
+          = label "section", "remove_image", class: "custom-control-label" do
+            Remove image
+        %code=section.image.path.split("/").last
+        %span.badge.badge-secondary= number_to_human_size(section.image.size)
+    - else
+      = file_field_tag "section[image]", class: "form-control"
+
     = render "layouts/errors", object: section, key: :image
 
 .form-group.row
