@@ -106,10 +106,6 @@ module ApplicationHelper
     result.html_safe
   end
 
-  def beta_enabled?(current_user)
-    current_user && current_user.beta_enabled?
-  end
-
   private
 
   def target_link_as_blank(text)

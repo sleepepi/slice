@@ -51,14 +51,6 @@
                 = form.check_box :sound_enabled
                 Enable audio alerts when entering data.
 
-          - if false
-            .form-group
-              = form.label :beta_enabled, "Beta Preview"
-              .checkbox
-                %label
-                  = form.check_box :beta_enabled
-                  Enable Beta Preview
-
           .form-group.submit-btn-container
             = form.submit "Save Settings", class: "btn btn-primary btn-shadow"
 
