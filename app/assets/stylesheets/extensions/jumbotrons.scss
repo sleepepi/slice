@@ -1,20 +1,10 @@
-.jumbotron-action,
-.jumbotron-accent,
-.jumbotron-white {
+.jumbotron {
   @include remove-last-child-bottom-margin;
-  text-align: center;
 }
 
-// .jumbotron-action {
-//   background-color: $p500-blue;
-//   color: $brand-white;
-// }
-
-// .jumbotron-accent {
-//   background-color: $p300-orange;
-//   color: $brand-white;
-//   border: 5px solid rgba($brand-white, .5);
-// }
+.jumbotron-white {
+  text-align: center;
+}
 
 .jumbotron-custom-text {
   font-weight: 200;
