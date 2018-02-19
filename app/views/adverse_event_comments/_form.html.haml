@@ -7,25 +7,20 @@
       .comment-comment-header
         %strong= @adverse_event_comment.user.full_name
       .comment-comment-body
-        = form_for [@project, @adverse_event, @adverse_event_comment], remote: true, html: { class: "form-vertical" } do |f|
-          - if @adverse_event_comment.errors.any?
-            .alert.alert-danger.alert-dismissible{ role: "alert" }
-              %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
-                %span{ aria: { hidden: "true" } } &times;
-              %strong Error
-              Please make sure your comment is not blank.
-
+        = form_with model: [@project, @adverse_event, @adverse_event_comment], id: "adverse-event-comment-form" do |form|
           .form-group
-            = f.text_area :description, rows: 7, class: "comment-control", placeholder: "Type comment here", data: { object: @adverse_event_comment.new_record? ? "ae-comment-comment-field" : nil }
+            = form.text_area :description, rows: 7, class: "comment-control form-control#{" is-invalid" if @adverse_event_comment.errors[:description].present?}", placeholder: "Type comment here", data: { object: @adverse_event_comment.new_record? ? "ae-comment-comment-field" : nil }
+            - if @adverse_event_comment.errors[:description].present?
+              .invalid-feedback Comment can't be blank.
 
           - if @adverse_event_comment.new_record?
-            = f.hidden_field :comment_type, value: @adverse_event_comment.comment_type.blank? ? "commented" : @adverse_event_comment.comment_type
+            = form.hidden_field :comment_type, value: @adverse_event_comment.comment_type.blank? ? "commented" : @adverse_event_comment.comment_type, id: "adverse_event_comment_comment_type"
 
-          = f.submit "Comment", class: "btn btn-primary", data: { disable_with: "Comment" }
+          = form.submit "Comment", class: "btn btn-primary", data: { disable_with: "Comment" }
           - if @adverse_event_comment.new_record?
             - if @adverse_event.closed?
-              = link_to "Reopen AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "reopened" }, id: "reopen-ae-button", class: "btn btn-light"
+              = link_to "Reopen AE Report", "#", data: { object: "submit-ae-comment", target: "#adverse-event-comment-form", comment_type: "reopened" }, id: "reopen-ae-button", class: "btn btn-light"
             - else
-              = link_to "Close AE Report", "#", data: { object: "submit-ae-comment", target: "#new_adverse_event_comment", comment_type: "closed" }, id: "close-ae-button", class: "btn btn-light"
+              = link_to "Close AE Report", "#", data: { object: "submit-ae-comment", target: "#adverse-event-comment-form", comment_type: "closed" }, id: "close-ae-button", class: "btn btn-light"
           - else
             = link_to "Cancel", project_adverse_event_adverse_event_comment_path(@project, @adverse_event, @adverse_event_comment), remote: true, class: "btn btn-light"
