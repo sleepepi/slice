@@ -101,8 +101,8 @@
                   %i.fa.fa-filter
               .dropdown-menu
                 = link_to "All Users", project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
-                - all_creators.order(:first_name, :last_name).each do |user|
-                  = link_to user.name, project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                - all_creators.order(:full_name).each do |user|
+                  = link_to user.full_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
 
       - @sheets.each do |sheet|
         %tr{ id: "sheet_#{sheet.id}" }

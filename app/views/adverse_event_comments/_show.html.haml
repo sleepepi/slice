@@ -26,7 +26,7 @@
                     = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: "Delete this comment?" }, class: "btn btn-sm btn-outline-danger" do
                       %i.fa.fa-trash
                 = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: "btn btn-link btn-sm", data: { object: "scroll-anchor-keep-link" }
-              %strong= adverse_event_comment.user.name
+              %strong= adverse_event_comment.user.full_name
               commented
               %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
                 = time_ago_in_words(adverse_event_comment.created_at)
@@ -38,7 +38,7 @@
     .comment-left-fixed
     .comment-right-fluid
       .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? "comment-unread" : nil) }
-        %strong= adverse_event_comment.user.name
+        %strong= adverse_event_comment.user.full_name
         %span.badge.badge-success reopened
         adverse event report
         %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
@@ -49,7 +49,7 @@
     .comment-left-fixed
     .comment-right-fluid
       .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < adverse_event_comment.created_at ? "comment-unread" : nil) }
-        %strong= adverse_event_comment.user.name
+        %strong= adverse_event_comment.user.full_name
         %span.badge.badge-dark closed
         adverse event report
         %abbr{ rel: "tooltip", data: { title: adverse_event_comment.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }

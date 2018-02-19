@@ -25,4 +25,4 @@
       %td= @treatment_arm.allocation
     %tr
       %th Creator
-      %td= link_to @treatment_arm.user.name, @treatment_arm.user if @treatment_arm.user
+      %td= link_to @treatment_arm.user.full_name, @treatment_arm.user if @treatment_arm.user

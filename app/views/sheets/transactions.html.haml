@@ -34,7 +34,7 @@
             - if t.user
               %td
                 = image_tag t.user.avatar_url(16, "identicon"), size: "16x16", alt: "", style: "vertical-align: middle", class: "img-rounded"
-                = t.user.name
+                = t.user.full_name
                 &middot;
                 = t.remote_ip
             - else

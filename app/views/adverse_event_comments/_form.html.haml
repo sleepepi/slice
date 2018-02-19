@@ -5,7 +5,7 @@
   .comment-right-fluid
     .comment-comment
       .comment-comment-header
-        %strong= @adverse_event_comment.user.name
+        %strong= @adverse_event_comment.user.full_name
       .comment-comment-body
         = form_for [@project, @adverse_event, @adverse_event_comment], remote: true, html: { class: "form-vertical" } do |f|
           - if @adverse_event_comment.errors.any?

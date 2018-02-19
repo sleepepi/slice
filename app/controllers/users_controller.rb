@@ -20,8 +20,8 @@ class UsersController < ApplicationController
 
   # GET /users/invite
   def invite
-    @users = current_user.associated_users.search(params[:q]).order("last_name, first_name").limit(10)
-    render json: @users.collect { |u| { value: u.email, name: u.name } }
+    @users = current_user.associated_users.search(params[:q]).order(:full_name).limit(10)
+    render json: @users.collect { |u| { value: u.email, name: u.full_name } }
   end
 
   # # GET /users/1
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :email, :theme, :beta_enabled, :emails_enabled
+      :full_name, :email, :theme, :beta_enabled, :emails_enabled
     )
   end
 

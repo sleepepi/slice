@@ -1,10 +1,10 @@
 %p{ style: p_style }
   Dear
-  = succeed ',' do
-    = @site_user.user.first_name
+  = succeed "," do
+    = @site_user.user.full_name
 
 %p{ style: p_style }
-  = @site_user.creator.name
+  = @site_user.creator.full_name
   %span{ style: emphasis_style }
     added you as
     - if @site_user.editor?
@@ -14,8 +14,8 @@
   to
   = @site_user.site.name
   on
-  = succeed '.' do
-    = link_to @site_user.project.name, "#{ENV['website_url']}/projects/#{@site_user.project.to_param}", style: link_style
+  = succeed "." do
+    = link_to @site_user.project.name, "#{ENV["website_url"]}/projects/#{@site_user.project.to_param}", style: link_style
 
   - if @site_user.editor?
     You may add new subjects and sheets to the project.

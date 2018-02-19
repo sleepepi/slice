@@ -1,107 +1,92 @@
 # TODO: Replace valid user with "regular" user
 valid:
-  first_name: FirstName
-  last_name: LastName
+  full_name: FirstName LastName
   email: valid@example.com
   encrypted_password: <%= User.new(password: "password").encrypted_password %>
   emails_enabled: true
 
 project_one_editor:
-  first_name: Project One
-  last_name: Editor
+  full_name: Project One Editor
   email: project_one_editor@example.com
   encrypted_password: ""
   emails_enabled: true
 
 project_one_viewer:
-  first_name: Project One
-  last_name: Viewer
+  full_name: Project One Viewer
   email: project_one_viewer@example.com
   encrypted_password: ""
   emails_enabled: true
 
 project_one_editor_blinded:
-  first_name: Blinded
-  last_name: Project Editor
+  full_name: Blinded Project Editor
   email: project_one_editor_blinded@example.com
   encrypted_password: ""
   emails_enabled: true
 
 two:
-  first_name: Two
-  last_name: Deux
+  full_name: Two Deux
   email: two@example.com
   encrypted_password: ""
   emails_enabled: true
 
 admin:
-  first_name: System
-  last_name: Admin
+  full_name: System Admin
   email: admin@example.com
   encrypted_password: <%= User.new(password: "password").encrypted_password %>
   system_admin: true
   emails_enabled: true
 
 associated:
-  first_name: Associated
-  last_name: User
+  full_name: Associated User
   email: associated@example.com
   encrypted_password: ""
   emails_enabled: true
 
 deleted:
-  first_name: Deleted
-  last_name: Deleted
+  full_name: Deleted Deleted
   email: deleted@example.com
   encrypted_password: ""
   emails_enabled: true
   deleted: true
 
 site_one_viewer:
-  first_name: SiteOne
-  last_name: Viewer
+  full_name: SiteOne Viewer
   email: site_one_viewer@example.com
   encrypted_password: ""
   emails_enabled: true
 
 site_one_editor:
-  first_name: SiteOne
-  last_name: Editor
+  full_name: SiteOne Editor
   email: site_one_editor@example.com
   encrypted_password: ""
   emails_enabled: true
 
 site_one_editor_blinded:
-  first_name: SiteOne
-  last_name: EditorBlinded
+  full_name: SiteOne EditorBlinded
   email: site_one_editor_blinded@example.com
   encrypted_password: ""
   emails_enabled: true
 
 site_two_viewer:
-  first_name: SiteTwo
-  last_name: Viewer
+  full_name: SiteTwo Viewer
   email: site_two_viewer@example.com
   encrypted_password: ""
   emails_enabled: true
 
 site_two_editor:
-  first_name: SiteTwo
-  last_name: Editor
+  full_name: SiteTwo Editor
   email: site_two_editor@example.com
   encrypted_password: ""
   emails_enabled: true
 
 auto_lock_site_one_editor:
-  first_name: Auto-lock
-  last_name: Site Editor
+  full_name: Auto-lock Site Editor
   email: auto_lock_site_one_editor@example.com
   encrypted_password: ""
   emails_enabled: true
 
 send_no_email:
-  first_name: FirstName
-  last_name: LastName
+  full_name: FirstName LastName
   email: send_no_email@example.com
   encrypted_password: ""
   emails_enabled: false

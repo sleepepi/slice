@@ -18,7 +18,7 @@
 - if @randomizations.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
   - filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
-  - all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:first_name, :last_name)
+  - all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:full_name)
   - schemes = @project.randomization_schemes.order(:name).to_a
   - is_project_editor = @project.editable_by?(current_user)
   .dashboard-container.dashboard-table
@@ -61,7 +61,7 @@
               .dropdown-menu
                 = link_to "All Users", project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: nil)), style: params[:randomized_by_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_randomizers.each do |user|
-                  = link_to user.name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: user.id)), style: params[:randomized_by_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to user.full_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: user.id)), style: params[:randomized_by_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           - if viewable_sites.count > 1
             %th.d-none.d-md-table-cell.nowrap{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == "site" ? "site desc" : "site")))
@@ -103,7 +103,7 @@
               - if randomization.randomized_at
                 %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }
                   = randomization.randomized_at.strftime("%b %-d, %Y")
-            %td.d-none.d-md-table-cell= randomization.randomized_by.name if randomization.randomized_by
+            %td.d-none.d-md-table-cell= randomization.randomized_by.full_name if randomization.randomized_by
             - if viewable_sites.count > 1
               %td.d-none.d-md-table-cell= randomization.site.short_name if randomization.subject
             - if schemes.count > 1

@@ -15,7 +15,7 @@ class Owner::ProjectsController < ApplicationController
     new_owner = @project.users.find_by(id: params[:user_id])
     if new_owner
       @project.transfer_to_user(new_owner, current_user)
-      flash[:notice] = "Project was successfully transferred to #{new_owner.name}."
+      flash[:notice] = "Project was successfully transferred to #{new_owner.full_name}."
     end
     redirect_to settings_editor_project_path(@project)
   end

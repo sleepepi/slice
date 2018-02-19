@@ -1,4 +1,4 @@
-- @title = @user.name
+- @title = @user.full_name
 - if current_user.system_admin?
   - @breadcrumbs = []
   - @breadcrumbs << ["Users", users_path]
@@ -19,13 +19,13 @@
 
           - unless current_user == @user
             .dropdown-divider
-            = link_to @user, method: :delete, data: { confirm: "Delete #{@user.name}?" }, class: "dropdown-item text-danger" do
+            = link_to @user, method: :delete, data: { confirm: "Delete #{@user.full_name}?" }, class: "dropdown-item text-danger" do
               %i.fa.fa-trash
               Delete
   = @title
 
 .dashboard-container
-  = render "forms/horizontal/show/text", object: @user, key: :name
+  = render "forms/horizontal/show/text", object: @user, key: :full_name
   = render "forms/horizontal/show/text", object: @user, key: :email
   = render "forms/horizontal/show/check_box", object: @user, key: :emails_enabled
   = render "forms/horizontal/show/check_box", object: @user, key: :system_admin

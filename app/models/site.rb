@@ -40,7 +40,7 @@ class Site < ApplicationRecord
   has_many :expected_randomizations
   has_many :subjects, -> { current }
   has_many :site_users
-  has_many :users, -> { current.order(:last_name, :first_name) }, through: :site_users
+  has_many :users, -> { current.order(:full_name) }, through: :site_users
 
   def regex_string
     subject_code_format

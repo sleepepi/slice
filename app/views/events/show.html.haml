@@ -29,7 +29,7 @@
 
     %tr
       %th User
-      %td= link_to @event.user.name, @event.user if @event.user
+      %td= link_to @event.user.full_name, @event.user if @event.user
 
     %tr
       %th Archived

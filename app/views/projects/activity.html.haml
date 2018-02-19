@@ -46,7 +46,7 @@
           = link_to "All Users", activity_project_path(@project, filtered_params.merge(user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
           .dropdown-divider
           - @project.members.distinct.sort_by(&:nickname).each do |user|
-            = link_to user.name, activity_project_path(@project, filtered_params.merge(user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+            = link_to user.full_name, activity_project_path(@project, filtered_params.merge(user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
 
       = link_to "Reset Filters", activity_project_path(@project), class: "btn btn-sm btn-link" if params[:site_id].present? || params[:user_id].present?
 

@@ -450,7 +450,7 @@ class Export < ApplicationRecord
           (r.treatment_arm ? r.treatment_arm.name : nil),
           (r.list ? r.list.name : nil),
           r.randomized_at,
-          (r.randomized_by ? r.randomized_by.name : nil)
+          (r.randomized_by ? r.randomized_by.full_name : nil)
         ]
         row << r.randomization_scheme.name if schemes.count > 1
         stratification_factors.each do |stratification_factor|

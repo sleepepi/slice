@@ -16,4 +16,4 @@
         %tr
           %td= link_to list.name, [@project, @randomization_scheme, list]
           %td.text-center= link_to list.subject_randomizations.count
-          %td.d-none.d-sm-table-cell= link_to list.user.name, list.user if list.user
+          %td.d-none.d-sm-table-cell= link_to list.user.full_name, list.user if list.user

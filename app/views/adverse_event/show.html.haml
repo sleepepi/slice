@@ -7,7 +7,7 @@
         %li= msg
 
 .jumbotron
-  %strong= @adverse_event.user.name
+  %strong= @adverse_event.user.full_name
   %span.badge.badge-success reported
   an adverse event that occurred on
   = @adverse_event.adverse_event_date.strftime("%a, %-d %b %Y")

@@ -60,7 +60,7 @@ def copy_project_users(original, copy)
       creator_id: pu.creator_id,
       unblinded: pu.unblinded
     )
-    puts "Added #{pu.user.name.colorize(:white)} as project #{pu.editor ? 'editor' : 'viewer'}"
+    puts "Added #{pu.user.full_name.colorize(:white)} as project #{pu.editor ? 'editor' : 'viewer'}"
   end
 end
 

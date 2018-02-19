@@ -18,7 +18,7 @@
               = link_to "Cancel", "#", class: "btn btn-sm btn-light", data: { object: "toggle-delete-buttons", target_show: "#comment-#{comment.id}-request-delete", target_hide: "#comment-#{comment.id}-confirm-delete" }
               = link_to "Confirm Delete", comment, method: :delete, remote: true, class: "btn btn-sm btn-outline-danger"
           = link_to "##{number}", "#comment-#{number}", class: "btn btn-link btn-sm", data: { object: "scroll-anchor-keep-link" }
-        %strong= comment.user.name
+        %strong= comment.user.full_name
         commented
         - if include_name == "1"
           on

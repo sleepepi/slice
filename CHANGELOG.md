@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Updated styling of project sidebar menu
+  - First and last name fields have been merged into single full name fields
 - **Dashboard Changes**
   - Favorited and current projects have been combined into "active" projects
     that are displayed on the dashboard

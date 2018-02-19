@@ -35,7 +35,7 @@
         %td= simple_format @domain.description
     %tr
       %th Creator
-      %td= link_to @domain.user.name, @domain.user if @domain.user
+      %td= link_to @domain.user.full_name, @domain.user if @domain.user
   %table.table.table-borderless
     %col{ width: "1px" }
     %col

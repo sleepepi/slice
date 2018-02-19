@@ -42,7 +42,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   test "should register new account" do
     post user_registration_path(
       user: {
-        first_name: "register", last_name: "account",
+        full_name: "register account",
         email: "register@account.com", password: "registerpassword098765",
         password_confirmation: "registerpassword098765", emails_enabled: "1"
       }

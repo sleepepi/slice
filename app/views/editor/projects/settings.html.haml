@@ -200,9 +200,9 @@
           = form_tag transfer_owner_project_path(@project), method: :post, id: "transfer_project_form", class: "form-horizontal" do
             .form-group
               = label :user_id, "Transfer To", class: "col-md-2 control-label"
-              - project_users = @project.users.order("last_name, first_name") - [current_user]
+              - project_users = @project.users.order(:full_name) - [current_user]
               .col-md-10
-                = select_tag :user_id, options_for_select([["---", nil]] + project_users.collect{|u| [u.reverse_name, u.id]}), class: "form-control"
+                = select_tag :user_id, options_for_select([["---", nil]] + project_users.collect{|u| [u.full_name, u.id]}), class: "form-control"
         .modal-footer
           %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Close
           = button_tag "Transfer Ownership", data: { object: "submit", target: "#transfer_project_form" }, class: "btn btn-outline-danger"

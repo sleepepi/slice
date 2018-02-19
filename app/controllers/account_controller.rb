@@ -43,7 +43,7 @@ class AccountController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :first_name, :last_name, :email, :emails_enabled, :theme, :sound_enabled
+      :full_name, :email, :emails_enabled, :theme, :sound_enabled
     )
   end
 

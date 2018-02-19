@@ -38,6 +38,6 @@
               %br
               = check_filter.variable_id
           %td= check_filter.operator
-          %td.d-none.d-sm-table-cell= check_filter.user.name
+          %td.d-none.d-sm-table-cell= check_filter.user.full_name
           %td.text-center
             = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_check_check_filter_path(@project, @check, check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, check_filter), delete_confirmation: "Delete \"#{check_filter.name}\" filter?"

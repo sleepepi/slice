@@ -17,12 +17,8 @@
       .card-body
         = form_for current_user, url: settings_path, method: :post, html: { class: "form-vertical" } do |form|
           .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :first_name
-            = form.text_field :first_name, class: "form-control"
-
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :last_name
-            = form.text_field :last_name, class: "form-control"
+            = render "layouts/label_or_errors", form: form, object: current_user, key: :full_name
+            = form.text_field :full_name, class: "form-control"
 
           .form-group
             = render "layouts/label_or_errors", form: form, object: current_user, key: :email

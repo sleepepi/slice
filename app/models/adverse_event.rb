@@ -7,8 +7,8 @@ class AdverseEvent < ApplicationRecord
   ORDERS = {
     "site" => "sites.name",
     "site desc" => "sites.name desc",
-    "reported_by" => "users.last_name, users.first_name",
-    "reported_by desc" => "users.last_name desc, users.first_name desc",
+    "reported_by" => "users.full_name",
+    "reported_by desc" => "users.full_name desc",
     "subject" => "subjects.subject_code",
     "subject desc" => "subjects.subject_code desc",
     "ae_date" => "adverse_events.adverse_event_date",
@@ -131,7 +131,7 @@ class AdverseEvent < ApplicationRecord
   end
 
   def reported_by
-    user.name
+    user.full_name
   end
 
   def sort_event_date

@@ -1,15 +1,15 @@
 %p{ style: p_style }
   Dear
-  = succeed ',' do
-    = @sheet.project.user.first_name
+  = succeed "," do
+    = @sheet.project.user.full_name
 
 %p{ style: p_style }
   = @sheet.subject.subject_code
   %span{ style: emphasis_style } completed a survey
   that you requested for
-  = succeed '.' do
+  = succeed "." do
     %strong= @sheet.name
   You can view the completed sheet here:
 
 %p{ style: center_style }
-  = link_to 'View Survey', "#{ENV['website_url']}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}", style: link_style
+  = link_to "View Survey", "#{ENV["website_url"]}/projects/#{@sheet.project.to_param}/sheets/#{@sheet.id}", style: link_style

@@ -1,26 +1,26 @@
 %p{ style: p_style }
   Dear
-  = succeed ',' do
-    = @sheet_unlock_request.user.first_name
+  = succeed "," do
+    = @sheet_unlock_request.user.full_name
 
 %p{ style: p_style }
-  = @project_editor.name
+  = @project_editor.full_name
   has
   %span{ style: emphasis_style }
     unlocked a sheet
   for
   %span{ style: emphasis_style }
-    - case @sheet_unlock_request.sheet.project.auto_lock_sheets when 'after24hours'
+    - case @sheet_unlock_request.sheet.project.auto_lock_sheets when "after24hours"
       24 hours
-    - when 'after1week'
+    - when "after1week"
       1 week
-    - when 'after1month'
+    - when "after1month"
       1 month
   on
-  = succeed '.' do
-    = link_to @sheet_unlock_request.sheet.project.name, "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}", style: link_style
+  = succeed "." do
+    = link_to @sheet_unlock_request.sheet.project.name, "#{ENV["website_url"]}/projects/#{@sheet_unlock_request.sheet.project.to_param}", style: link_style
 
   You can now edit the sheet here:
 
 %p{ style: center_style }
-  = link_to 'View Sheet', "#{ENV['website_url']}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", style: link_style
+  = link_to "View Sheet", "#{ENV["website_url"]}/projects/#{@sheet_unlock_request.sheet.project.to_param}/sheets/#{@sheet_unlock_request.sheet.id}", style: link_style

@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
     @site_user = site_user
     @email_to = site_user.user.email
     mail(to: site_user.user.email,
-         subject: "#{site_user.creator.name} Allows You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
+         subject: "#{site_user.creator.full_name} Allows You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
          reply_to: site_user.creator.email)
   end
 
@@ -16,7 +16,7 @@ class UserMailer < ApplicationMailer
     @site_user = site_user
     @email_to = site_user.invite_email
     mail(to: site_user.invite_email,
-         subject: "#{site_user.creator.name} Invites You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
+         subject: "#{site_user.creator.full_name} Invites You to #{site_user.editor? ? 'Edit' : 'View'} #{site_user.site.name} on #{site_user.project.name}",
          reply_to: site_user.creator.email)
   end
 
@@ -25,7 +25,7 @@ class UserMailer < ApplicationMailer
     @project_user = project_user
     @email_to = project_user.user.email
     mail(to: project_user.user.email,
-         subject: "#{project_user.creator.name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
+         subject: "#{project_user.creator.full_name} Allows You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
     @project_user = project_user
     @email_to = project_user.invite_email
     mail(to: project_user.invite_email,
-         subject: "#{project_user.creator.name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
+         subject: "#{project_user.creator.full_name} Invites You to #{project_user.editor? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
   end
 
@@ -42,7 +42,7 @@ class UserMailer < ApplicationMailer
     setup_email
     @sheet = sheet
     @email_to = sheet.project.user.email
-    mail(to: "#{sheet.project.user.name} <#{sheet.project.user.email}>",
+    mail(to: "#{sheet.project.user.full_name} <#{sheet.project.user.email}>",
          subject: "#{sheet.subject.subject_code} Submitted #{sheet.design.name}")
   end
 
@@ -51,8 +51,8 @@ class UserMailer < ApplicationMailer
     @sheet_unlock_request = sheet_unlock_request
     @editor = editor
     @email_to = editor.email
-    mail(to: "#{editor.name} <#{editor.email}>",
-         subject: "#{sheet_unlock_request.user.name} Requests To Unlock a Sheet on #{sheet_unlock_request.sheet.project.name}")
+    mail(to: "#{editor.full_name} <#{editor.email}>",
+         subject: "#{sheet_unlock_request.user.full_name} Requests To Unlock a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
   def sheet_unlocked(sheet_unlock_request, project_editor)
@@ -60,8 +60,8 @@ class UserMailer < ApplicationMailer
     @sheet_unlock_request = sheet_unlock_request
     @project_editor = project_editor
     @email_to = sheet_unlock_request.user.email
-    mail(to: "#{sheet_unlock_request.user.name} <#{sheet_unlock_request.user.email}>",
-         subject: "#{project_editor.name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
+    mail(to: "#{sheet_unlock_request.user.full_name} <#{sheet_unlock_request.user.email}>",
+         subject: "#{project_editor.full_name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
   def import_complete(design, recipient)
@@ -69,7 +69,7 @@ class UserMailer < ApplicationMailer
     @design = design
     @recipient = recipient
     @email_to = recipient.email
-    mail(to: "#{recipient.name} <#{recipient.email}>",
+    mail(to: "#{recipient.full_name} <#{recipient.email}>",
          subject: "Your Design Data Import for #{design.project.name} is Complete")
   end
 
@@ -88,7 +88,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @email_to = user.email
     mail(to: user.email,
-         subject: "#{randomization.randomized_by.name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
+         subject: "#{randomization.randomized_by.full_name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
          reply_to: (randomization.randomized_by ? randomization.randomized_by.email : nil))
   end
 
@@ -98,7 +98,7 @@ class UserMailer < ApplicationMailer
     @recipient = recipient
     @email_to = recipient.email
     mail(to: recipient.email,
-         subject: "#{adverse_event.user.name} Reported an Adverse Event on #{adverse_event.project.name}",
+         subject: "#{adverse_event.user.full_name} Reported an Adverse Event on #{adverse_event.project.name}",
          reply_to: adverse_event.user.email)
   end
 
@@ -107,6 +107,6 @@ class UserMailer < ApplicationMailer
     @recipient = recipient
     @email_to = recipient.email
     mail(to: recipient.email,
-         subject: "Slice Reminder for #{recipient.name}")
+         subject: "Slice Reminder for #{recipient.full_name}")
   end
 end

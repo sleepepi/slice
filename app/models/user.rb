@@ -11,9 +11,12 @@ class User < ApplicationRecord
   # Concerns
   include Deletable
   include Expirable
+  include Searchable
+  include Squishable
+  squish :full_name
 
   # Validations
-  validates :first_name, :last_name, presence: true
+  validates :full_name, format: { with: /\A.+\s.+\Z/, message: "must include first and last name" }
 
   # Relationships
   has_many :adverse_events, -> { current }
@@ -44,22 +47,11 @@ class User < ApplicationRecord
   has_many :tasks, -> { current }
   has_many :variables, -> { current }
 
-  # Scopes
-
-  def self.search(arg)
-    term = arg.to_s.downcase.gsub(/^| |$/, "%")
-    conditions = [
-      "LOWER(first_name) LIKE ?",
-      "LOWER(last_name) LIKE ?",
-      "LOWER(email) LIKE ?",
-      "((LOWER(first_name) || LOWER(last_name)) LIKE ?)",
-      "((LOWER(last_name) || LOWER(first_name)) LIKE ?)"
-    ]
-    terms = [term] * conditions.count
-    where conditions.join(" or "), *terms
-  end
-
   # Methods
+
+  def self.searchable_attributes
+    %w(full_name email)
+  end
 
   # TODO: Replace "system_admin" with "admin"
   def admin?
@@ -317,20 +309,13 @@ class User < ApplicationRecord
       .order(:created_at)
   end
 
-  def name
-    "#{first_name} #{last_name}"
-  end
-
-  def name_was
-    "#{first_name_was} #{last_name_was}"
-  end
-
-  def reverse_name
-    "#{last_name}, #{first_name}"
-  end
+  # def name
+  #   full_name
+  # end
 
   def nickname
-    "#{first_name}#{last_name.first.upcase}"
+    (f, l) = full_name.split(" ", 2)
+    "#{f}#{l.split(/[\s']/).collect(&:first).join}"
   end
 
   def last_business_day

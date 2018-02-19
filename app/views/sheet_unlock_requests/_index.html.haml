@@ -7,7 +7,7 @@
           %div{ style: 'padding: 20px;' }
             = simple_markdown sheet_unlock_request.reason
             %div{ style: 'margin-bottom: 20px;' }
-              = sheet_unlock_request.user.name
+              = sheet_unlock_request.user.full_name
               at
               = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
             = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-outline-danger'
@@ -25,7 +25,7 @@
         %div{ style: 'padding: 20px;' }
           = simple_markdown sheet_unlock_request.reason
           %div{ style: 'margin-bottom: 20px;' }
-            = sheet_unlock_request.user.name
+            = sheet_unlock_request.user.full_name
             at
             = sheet_unlock_request.created_at.strftime('%-d %b %Y, %-l:%M %p')
           = link_to 'Delete Request', [project, sheet, sheet_unlock_request], method: :delete, class: 'btn btn-sm btn-outline-danger'

@@ -32,7 +32,7 @@
     %col.d-table-column.d-sm-none{ width: "50%" }
     %tr
       %th Creator
-      %td= link_to @variable.user.name, @variable.user if @variable.user
+      %td= link_to @variable.user.full_name, @variable.user if @variable.user
 
     %tr
       %th Name

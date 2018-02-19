@@ -19,7 +19,7 @@
           %td= link_to stratification_factor_option.name, [@project, @randomization_scheme, @stratification_factor, stratification_factor_option]
           %td= stratification_factor_option.label
           %td= stratification_factor_option.value
-          %td.d-none.d-sm-table-cell= link_to stratification_factor_option.user.name, stratification_factor_option.user if stratification_factor_option.user
+          %td.d-none.d-sm-table-cell= link_to stratification_factor_option.user.full_name, stratification_factor_option.user if stratification_factor_option.user
           %td.text-center
 
             .dropdown

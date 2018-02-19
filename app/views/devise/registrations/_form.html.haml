@@ -1,7 +1,5 @@
 = form_with model: resource, url: user_registration_path, local: true, id: "recaptcha-form" do |form|
-  = render "forms/vertical/text_field", form: form, object: resource, key: :first_name, placeholder: rand(2).zero? ? "John" : "Jane"
-  = render "forms/vertical/text_field", form: form, object: resource, key: :last_name, placeholder: "Smith"
-  =# render "forms/vertical/text_field", form: form, object: resource, key: :full_name, placeholder: rand(2).zero? ? "John Smith" : "Jane Smith"
+  = render "forms/vertical/text_field", form: form, object: resource, key: :full_name, placeholder: rand(2).zero? ? "John Smith" : "Jane Smith"
   = render "forms/vertical/email_field", form: form, object: resource, key: :email, placeholder: "you@example.com"
   = render "forms/vertical/password_field", form: form, object: resource, key: :password, placeholder: "Create a password"
   = render "forms/vertical/check_box", form: form, object: resource, key: :emails_enabled, key_name: "Email notifications", help_text: "Allow Slice to send you emails?"

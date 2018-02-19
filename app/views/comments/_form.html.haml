@@ -5,7 +5,7 @@
   .comment-right-fluid
     .comment-comment
       .comment-comment-header
-        %strong= @comment.user.name
+        %strong= @comment.user.full_name
       .comment-comment-body
         = form_for @comment, remote: true, html: { class: "form-vertical" } do |f|
           = hidden_field_tag :number, params[:number]

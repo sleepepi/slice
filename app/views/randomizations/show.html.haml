@@ -30,7 +30,7 @@
       %span.d-none.d-sm-inline= simple_time @randomization.randomized_at
       %br
       by
-      = @randomization.randomized_by.name
+      = @randomization.randomized_by.full_name
 
 - if @randomization.tasks.count > 0
   .dashboard-container.dashboard-table

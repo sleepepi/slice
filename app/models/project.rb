@@ -48,7 +48,7 @@ class Project < ApplicationRecord
   belongs_to :user
 
   has_many :project_users
-  has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
+  has_many :users, -> { current.order(:full_name) }, through: :project_users
   has_many :editors, -> { current.where(project_users: { editor: true }) }, through: :project_users, source: :user
   has_many :viewers, -> { current.where(project_users: { editor: false }) }, through: :project_users, source: :user
   has_many :site_users

@@ -22,7 +22,7 @@
 - if @adverse_events.present?
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
   - filtered_params = params.permit(:site_id, :user_id, :status, :search)
-  - all_reporters = User.where(id: @project.adverse_events.select(:user_id)).order(:first_name, :last_name)
+  - all_reporters = User.where(id: @project.adverse_events.select(:user_id)).order(:full_name)
   - site_or_project_editor = @project.site_or_project_editor?(current_user)
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
@@ -52,7 +52,7 @@
               .dropdown-menu
                 = link_to "All Users", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_reporters.each do |user|
-                  = link_to user.name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                  = link_to user.full_name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           - if viewable_sites.count > 1
             %th.d-none.d-md-table-cell.nowrap{ class: ["site", "site desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "site" ? "site desc" : "site")))

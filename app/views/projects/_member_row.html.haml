@@ -1,7 +1,7 @@
 %tr{ class: "#{"success" if @member == member}" }
   %td
     - if member.user
-      .d-none.d-lg-inline= member.user.name
+      .d-none.d-lg-inline= member.user.full_name
       .d-inline.d-lg-none= member.user.nickname
     - else
       %span.text-muted{ style: "word-break: break-word;" }= member.invite_email
@@ -43,7 +43,7 @@
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
                   .dropdown-divider
-              = link_to member, method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" }, class: "dropdown-item text-danger" do
+              = link_to member, method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.full_name : member.invite_email}?" }, class: "dropdown-item text-danger" do
                 %i.fa.fa-trash
                 Remove
     - else
@@ -72,7 +72,7 @@
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
                   .dropdown-divider
-              = link_to [member.project, member], method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.name : member.invite_email}?" }, class: "dropdown-item text-danger" do
+              = link_to [member.project, member], method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.full_name : member.invite_email}?" }, class: "dropdown-item text-danger" do
                 %i.fa.fa-trash
                 Remove
 

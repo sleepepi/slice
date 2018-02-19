@@ -32,7 +32,7 @@
     %col.d-table-column.d-sm-none{ width: "50%" }
     %tr
       %th Creator
-      %td= link_to @stratification_factor_option.user.name, @stratification_factor_option.user if @stratification_factor_option.user
+      %td= link_to @stratification_factor_option.user.full_name, @stratification_factor_option.user if @stratification_factor_option.user
     %tr
       %th Label
       %td= @stratification_factor_option.label

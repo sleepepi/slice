@@ -18,7 +18,7 @@
     %col.d-table-column.d-sm-none{ width: "50%" }
     %tr
       %th Creator
-      %td= link_to @stratification_factor.user.name, @stratification_factor.user if @stratification_factor.user
+      %td= link_to @stratification_factor.user.full_name, @stratification_factor.user if @stratification_factor.user
 
       - if @stratification_factor.stratifies_by_site?
         %tr

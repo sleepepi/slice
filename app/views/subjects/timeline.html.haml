@@ -21,7 +21,7 @@
           .comment-action
             %strong
               - if sheet.user
-                = sheet.user.name
+                = sheet.user.full_name
               - else
                 Public user
             added
@@ -40,7 +40,7 @@
           .comment-action
             %strong
               - if subject_event.user
-                = subject_event.user.name
+                = subject_event.user.full_name
               - else
                 Public user
             added
@@ -61,7 +61,7 @@
               %span.d-inline.d-sm-none
                 %i.fa.fa-random
               - if randomization.randomized_by
-                = randomization.randomized_by.name
+                = randomization.randomized_by.full_name
               - else
                 Public user
             randomized subject to
@@ -81,7 +81,7 @@
             %strong
               %span.d-inline.d-sm-none
                 %i.fa.fa-exclamation-triangle
-              = adverse_event.user.name
+              = adverse_event.user.full_name
             reported an
             = link_to "adverse event", [@project, adverse_event], class: "callout-link"
             that occurred on
@@ -108,7 +108,7 @@
           %span.d-inline.d-sm-none
             %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
           - if @subject.user
-            = @subject.user.name
+            = @subject.user.full_name
           - else
             Public user
         %span.badge.badge-success created

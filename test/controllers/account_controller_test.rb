@@ -11,8 +11,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
 
   def user_params
     {
-      first_name: "FirstUpdate",
-      last_name: "LastUpdate",
+      full_name: "FirstUpdate LastUpdate",
       email: "valid_update@example.com",
       emails_enabled: "0",
       theme: "spring"
@@ -78,8 +77,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     login(@regular_user)
     post settings_url, params: { user: user_params }
     @regular_user.reload # Needs reload to avoid stale object
-    assert_equal "FirstUpdate", @regular_user.first_name
-    assert_equal "LastUpdate", @regular_user.last_name
+    assert_equal "FirstUpdate LastUpdate", @regular_user.full_name
     assert_equal "valid_update@example.com", @regular_user.email
     assert_equal false, @regular_user.emails_enabled?
     assert_equal "spring", @regular_user.theme
@@ -105,11 +103,11 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to settings_url
   end
 
-  test "should not update for user with blank name" do
+  test "should not update for user with blank full name" do
     login(@regular_user)
-    post settings_url, params: { user: { first_name: "" } }
+    post settings_url, params: { user: { full_name: "" } }
     @regular_user.reload
-    assert_equal "FirstName", @regular_user.first_name
+    assert_equal "FirstName LastName", @regular_user.full_name
     assert_redirected_to settings_url
   end
 

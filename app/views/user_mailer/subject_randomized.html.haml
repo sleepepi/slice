@@ -1,7 +1,7 @@
 %p{ style: p_style }
   Dear
-  = succeed ',' do
-    = @user.first_name
+  = succeed "," do
+    = @user.full_name
 
 %p{ style: p_style }
   %strong= @randomization.subject.name
@@ -14,8 +14,8 @@
   = @randomization.project.name
   - if @randomization.randomized_by
     by
-    = succeed '.' do
-      = @randomization.randomized_by.name
+    = succeed "." do
+      = @randomization.randomized_by.full_name
 
 %p{ style: center_style }
-  = link_to "View Randomization ##{@randomization.randomization_number} of #{@randomization.randomization_scheme.randomization_goal}", "#{ENV['website_url']}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}", style: link_style
+  = link_to "View Randomization ##{@randomization.randomization_number} of #{@randomization.randomization_scheme.randomization_goal}", "#{ENV["website_url"]}/projects/#{@randomization.project.to_param}/randomizations/#{@randomization.id}", style: link_style
