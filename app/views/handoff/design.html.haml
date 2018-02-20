@@ -24,7 +24,7 @@
 
   = form_with model: @sheet, url: submit_url, method: submit_method, multipart: true, id: form_name, authenticity_token: false, local: true do |form|
     - if @sheet.errors.any?
-      .card.border-danger
+      .card.border-danger.mb-3
         .card-body
           %strong
             = pluralize @sheet.errors.count, "error"
