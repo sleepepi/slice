@@ -1,22 +1,5 @@
-= form_for [@project, @randomization_scheme, @treatment_arm], html: { class: 'form-horizontal' } do |f|
-  .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :name, class: 'form-control'
-      = render 'layouts/errors', object: @treatment_arm, key: :name
-
-  .form-group
-    = f.label :short_name, 'Abbreviation', class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :short_name, class: 'form-control', placeholder: @treatment_arm.computed_short_name
-
-  .form-group
-    = f.label :allocation, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :allocation, class: 'form-control'
-      = render 'layouts/errors', object: @treatment_arm, key: :allocation
-
-  .form-group
-    .col-md-offset-2.col-md-10
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @treatment_arm.new_record? ? project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme) : [@project, @randomization_scheme, @treatment_arm], class: 'btn btn-light'
+= form_with model: [treatment_arm.randomization_scheme.project, treatment_arm.randomization_scheme, treatment_arm], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: treatment_arm, key: :name
+  = render "forms/horizontal/text_field", form: form, object: treatment_arm, key: :short_name, key_name: "Abbreviation", placeholder: treatment_arm.computed_short_name
+  = render "forms/horizontal/number_field", form: form, object: treatment_arm, key: :allocation
+  = render "forms/horizontal/submit", form: form, object: [treatment_arm.randomization_scheme.project, treatment_arm.randomization_scheme, treatment_arm]

@@ -7,4 +7,4 @@
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", treatment_arm: @treatment_arm

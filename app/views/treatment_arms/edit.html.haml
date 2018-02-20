@@ -10,4 +10,4 @@
   = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", treatment_arm: @treatment_arm
