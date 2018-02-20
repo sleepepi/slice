@@ -1,11 +1,11 @@
 - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s unless position
 - @position = position
 
-%div{ id: "question_#{@position}", style: "line-height:30px;padding-top:5px" }
+%div{ id: "question_#{@position}", style: "line-height: 30px;padding-top: 5px;" }
   .row.no-gutters
     .col-6.col-lg-8
       = text_field_tag "design[questions][][question_name]", question_hash[:question_name], class: "form-control"
-    .col-6.col-sm-4
+    .col-6.col-lg-4
       .input-group
         = select_tag "design[questions][][question_type]", options_for_select(Design::QUESTION_TYPES, question_hash[:question_type]), class: "form-control"
         = link_to "#", class: "btn btn-link btn-sm text-danger", data: { object: "remove", target: "#question_#{@position}" }, tabindex: "-1" do

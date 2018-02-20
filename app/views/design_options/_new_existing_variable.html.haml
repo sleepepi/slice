@@ -5,10 +5,10 @@
     Existing Question
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
-  = form_tag create_existing_variable_project_design_design_options_path(@project, @design), method: :post, remote: true, class: "form-horizontal", id: "design_option_form" do
+  = form_with url: create_existing_variable_project_design_design_options_path(@project, @design), method: :post, id: "design_option_form" do |form|
     = hidden_field_tag "design_option[position]", @design_option.position
-    .form-group
-      %label.col-md-2.control-label Unnassigned Variables
+    .form-group.row
+      %label.col-md-2.col-form-label Unnassigned Variables
       .col-md-10
         = select_tag "design_option[variable_id]", grouped_options_for_select(@project.unassigned_variables.group_by(&:variable_type).collect { |group, group_variables| [group.titleize, group_variables.collect { |v| [v.name, v.id] }.sort { |a,b| a[0] <=> b[0]}] }.sort { |a,b| a[0] <=> b[0] }), style: "width: 200px;", class: "form-control"
 .modal-footer

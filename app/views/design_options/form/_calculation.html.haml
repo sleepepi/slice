@@ -1,5 +1,5 @@
-.form-group
-  %label.col-md-2.control-label Calculation
+.form-group.row
+  %label.col-md-2.col-form-label Calculation
   .col-md-10
     = text_area_tag "variable[calculation]", @design_option.variable.readable_calculation, rows: 4, autocomplete: "off", class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
     %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }
@@ -17,8 +17,8 @@
         %th Parentheses
         %td
           %code (var1 + var2) / var3
-.form-group
-  %label.col-md-2.control-label Calculated Format
+.form-group.row
+  %label.col-md-2.col-form-label Calculated Format
   .col-md-10
     = text_field_tag "variable[calculated_format]", @design_option.variable.calculated_format, autocomplete: "off", class: "form-control"
     %table.table.table-striped.table-borderless{ style: "margin-top: 20px;" }

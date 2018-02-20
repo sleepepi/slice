@@ -6,50 +6,52 @@
   .col-md-10
     .input-group
       = text_field_tag "variable[display_name]", variable.display_name, autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
-      %span.input-group-btn
+      .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#display-name-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
     = render "layouts/errors", object: variable, key: :display_name
 
-    #display-name-info.callout.callout-info{ style: "display:none" }
-      %p
-        The display name is the question as displayed to the user who is
-        filling out the form.
-      %p
-        Ex:
-        %strong What is your age?
+    #display-name-info.card.border-info.bg-light.mt-3{ style: "display:none" }
+      .card-body
+        %p
+          The display name is the question as displayed to the user who is
+          filling out the form.
+        %p
+          Ex:
+          %strong What is your age?
 
 .form-group.row
   %label.col-md-2.col-form-label Name
   .col-md-10
     .input-group
       = text_field_tag "variable[name]", variable.name, maxlength: 32, class: "form-control"
-      %span.input-group-btn
+      .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
     = render "layouts/errors", object: variable, key: :name
-    #name-info.callout.callout-info{ style: "display: none;" }
-      %strong Naming convention
+    #name-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
+      .card-body
+        %strong Naming convention
 
-      %ul
-        %li
-          Must be a letter
-          %code a-zA-Z
-          followed by letters
-          = succeed "," do
+        %ul
+          %li
+            Must be a letter
             %code a-zA-Z
-          numbers
-          = succeed "," do
-            %code 0-9
-          or underscores
-          = succeed "." do
-            %code _
-        %li
-          Max length
-          = succeed "." do
-            %strong 32 characters
-      Ex:
-      %code var1_population
+            followed by letters
+            = succeed "," do
+              %code a-zA-Z
+            numbers
+            = succeed "," do
+              %code 0-9
+            or underscores
+            = succeed "." do
+              %code _
+          %li
+            Max length
+            = succeed "." do
+              %strong 32 characters
+        Ex:
+        %code var1_population
 
 .form-group.row
   %label.col-md-2.col-form-label Field Note
@@ -69,19 +71,18 @@
 
 - if variable.new_record? && variable.variable_type == "grid"
   .form-group.row
-    = label :questions, "Questions", class: "col-md-2 control-label"
+    = label :questions, "Questions", class: "col-md-2 col-form-label"
     .col-md-10
-      .callout.callout-info{ style: "margin-top:0px" }
-        %strong Quick Start
-        %p
-          %strong Optional:
-          Enter the questions you wish to ask on this design, and specify
-          the format of the response. You can also skip adding questions
-          here and add them in the advanced editor in the next step. The
-          advanced editor will also provide finer control over responses to
-          questions.
-      #questions
-        - questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: "", question_type: "free text" } ])
-        - questions.each do |question_hash|
-          = render "variables/question", question_hash: question_hash
-      = link_to "Add Question", add_question_project_variables_path(@project), method: :post, remote: true, class: "btn btn-sm btn-light", style: "margin-top:6px"
+      .form-control-text
+        .card.border-info.bg-light
+          .card-body
+            %p
+              Enter questions, and specify the response format. You may skip
+              this step and add questions in the advanced editor in the next
+              step. The advanced editor provides fine control over question
+              responses.
+            #questions
+              - questions = (params[:variable] && params[:variable][:questions] ? params[:variable][:questions] : [ { question_name: "", question_type: "free text" } ])
+              - questions.each do |question_hash|
+                = render "variables/question", question_hash: question_hash
+            = link_to "Add Question", add_question_project_variables_path(@project), method: :post, remote: true, class: "btn btn-sm btn-light", style: "margin-top:6px"

@@ -1,4 +1,4 @@
-.form-group
-  %label.col-md-2.control-label Default Row Number
+.form-group.row
+  %label.col-md-2.col-form-label Default Row Number
   .col-md-10
     = text_field_tag "variable[default_row_number]", @design_option.variable.default_row_number, autocomplete: "off", class: "form-control"

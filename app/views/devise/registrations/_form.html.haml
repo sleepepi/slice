@@ -6,7 +6,7 @@
 
   - if RECAPTCHA_ENABLED && !INVISIBLE_RECAPTCHA
     .form-group
-      %label.control-label Human Verification
+      %label Human Verification
       .d-flex.justify-content-center
         .g-recaptcha{ data: { sitekey: ENV["recaptcha_site_key"] } }
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>

@@ -1,42 +1,44 @@
-.form-group
-  %label.col-md-2.control-label Domain Display Name
+.form-group.row
+  %label.col-md-2.col-form-label Domain Display Name
   .col-md-10
     = text_field_tag "domain[display_name]", @domain.display_name, class: "form-control", autocomplete: "off", data: { object: (@domain.new_record? ? "create-domain-name" : ""), domain_target: "#domain_name" }
     = render "layouts/errors", object: @domain, key: :display_name
 
-.form-group
-  %label.col-md-2.control-label Domain Name
+.form-group.row
+  %label.col-md-2.col-form-label Domain Name
   .col-md-10
     .input-group
       = text_field_tag "domain[name]", @domain.name, maxlength: 30, class: "form-control", autocomplete: "off"
-      %span.input-group-btn
+      .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
     = render "layouts/errors", object: @domain, key: :name
-    #name-info.callout.callout-info{ style: "display: none;" }
-      %strong Naming convention
-      %ul
-        %li
-          Must be a letter
-          %code a-zA-Z
-          followed by letters
-          = succeed "," do
+    #name-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
+      .card-header
+        %strong Naming convention
+      .card-body
+        %ul
+          %li
+            Must be a letter
             %code a-zA-Z
-          numbers
-          = succeed "," do
-            %code 0-9
-          or underscores
-          = succeed "." do
-            %code _
-        %li
-          Max length
-          = succeed "." do
-            %strong 30 characters
-      Ex:
-      %code domain1_population
+            followed by letters
+            = succeed "," do
+              %code a-zA-Z
+            numbers
+            = succeed "," do
+              %code 0-9
+            or underscores
+            = succeed "." do
+              %code _
+          %li
+            Max length
+            = succeed "." do
+              %strong 30 characters
+        Ex:
+        %code domain1_population
 
-.form-group
-  %label.col-md-2.control-label Options
+.form-group.row
+  %label.col-md-2.col-form-label Options
   #domain_option.col-md-10{ data: { placement: "left" } }
     %table.table.table-borderless
       %col{ width: "1px" }
