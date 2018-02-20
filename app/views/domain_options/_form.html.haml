@@ -1,49 +1,9 @@
-= form_for [@project, @domain, domain_option], html: { class: "form-horizontal" } do |f|
-
-  .form-group
-    = f.label :name, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :name, class: "form-control"
-      = render "layouts/errors", object: domain_option, key: :name
-
-  .form-group
-    = f.label :value, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :value, class: "form-control"
-      = render "layouts/errors", object: domain_option, key: :value
-
-  .form-group
-    = f.label :description, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :description, rows: 7, class: "form-control"
-
-  .form-group
-    = f.label :site_id, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :site_id, @project.sites.pluck(:name, :id), { include_blank: "All Sites" }, class: "form-control"
-
-  .form-group
-    .col-md-2
-      %label Missing Code
-    .col-md-10
-      .checkbox
-        %label= f.check_box :missing_code
-
-  .form-group
-    .col-md-2
-      %label Mutually Exclusive
-    .col-md-10
-      .checkbox
-        %label= f.check_box :mutually_exclusive
-
-  .form-group
-    .col-md-2
-      %label Archived
-    .col-md-10
-      .checkbox
-        %label= f.check_box :archived
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", domain_option.new_record? ? [@project, @domain] : [@project, @domain, domain_option], class: "btn btn-light"
+= form_with model: [@project, @domain, domain_option], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: domain_option, key: :name
+  = render "forms/horizontal/text_field", form: form, object: domain_option, key: :value
+  = render "forms/horizontal/text_area", form: form, object: domain_option, key: :description, rows: 7
+  = render "forms/horizontal/select", form: form, object: domain_option, key: :site_id, options: @project.sites.pluck(:name, :id), include_blank: "All Sites", id: true
+  = render "forms/horizontal/check_box", form: form, object: domain_option, key: :missing_code
+  = render "forms/horizontal/check_box", form: form, object: domain_option, key: :mutually_exclusive
+  = render "forms/horizontal/check_box", form: form, object: domain_option, key: :archived
+  = render "forms/horizontal/submit", form: form, object: [@project, @domain, domain_option]
