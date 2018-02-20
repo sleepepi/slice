@@ -1,50 +1,32 @@
-= form_for [@project, @site], html: { class: "form-horizontal" } do |f|
-  .form-group
-    = f.label :name, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :name, class: "form-control"
-      = render "layouts/errors", object: @site, key: :name
+= form_with model: [site.project, site], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: site, key: :name
+  = render "forms/horizontal/text_field", form: form, object: site, key: :short_name, placeholder: site.computed_short_name
+  = render "forms/horizontal/number_field", form: form, object: site, key: :number
 
-  .form-group
-    = f.label :short_name, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :short_name, class: "form-control", placeholder: @site.computed_short_name
-
-  .form-group
-    = f.label :number, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :number, class: "form-control"
-      = render "layouts/errors", object: @site, key: :number
-
-  .form-group
-    = f.label :subject_code_format, (@site.project ? @site.project.subject_code_name_full + " " : "") + "Format", class: "col-md-2 control-label"
+  .form-group.row
+    = form.label :subject_code_format, (site.project ? site.project.subject_code_name_full + " " : "") + "Format", class: "col-md-2 col-form-label"
     .col-md-10
       .input-group
-        = f.text_field :subject_code_format, class: "form-control"
-        %span.input-group-btn
+        = form.text_field :subject_code_format, class: "form-control"
+        .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#subject-code-format-info" }, tabindex: "-1" do
             %i.fa.fa-info-circle
-      = render "layouts/errors", object: @site, key: :subject_code_format
-      #subject-code-format-info.callout.callout-info{ style: "display: none;" }
-        %strong Format
-        You may format in the following manner, in addition to letters, a-z A-Z, or numbers, 0-9.
-        %ul
-          %li
-            %code \d
-            Represent a single digit, 0-9
-          %li
-            %code \l
-            Represent a single lowercase letter, a-z
-          %li
-            %code \L
-            Represent a single uppercase letter, A-Z
+      = render "layouts/errors", object: site, key: :subject_code_format
+      #subject-code-format-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
+        .card-header
+          %strong Format
+        .card-body
+          You may format in the following manner, in addition to letters, a-z A-Z, or numbers, 0-9.
+          %ul
+            %li
+              %code \d
+              Represent a single digit, 0-9
+            %li
+              %code \l
+              Represent a single lowercase letter, a-z
+            %li
+              %code \L
+              Represent a single uppercase letter, A-Z
 
-  .form-group
-    = f.label :description, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :description, rows: 7, class: "form-control"
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @site.new_record? ? project_sites_path(@project) : [@project, @site], class: "btn btn-light"
+  = render "forms/horizontal/text_area", form: form, object: site, key: :description, rows: 7
+  = render "forms/horizontal/submit", form: form, object: [site.project, site]

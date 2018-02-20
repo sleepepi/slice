@@ -53,7 +53,7 @@ class SitesController < ApplicationController
 
   # GET /sites/new
   def new
-    @site = current_user.sites.new
+    @site = @project.sites.new
   end
 
   # # GET /sites/1/edit
@@ -62,7 +62,7 @@ class SitesController < ApplicationController
 
   # POST /sites
   def create
-    @site = current_user.sites.where(project_id: @project.id).new(site_params)
+    @site = @project.sites.where(user: current_user).new(site_params)
     if @site.save
       redirect_to [@project, @site], notice: "Site was successfully created."
     else
