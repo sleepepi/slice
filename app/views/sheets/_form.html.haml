@@ -1,13 +1,15 @@
-= form_for [@sheet.project, @sheet], html: { class: "form-horizontal", multipart: true } do |form|
+- form_name = @sheet.new_record? ? "new_sheet" : "edit_sheet_#{@sheet.id}"
+= form_with model: [@sheet.project, @sheet], multipart: true, local: true, id: form_name do |form|
   - if @sheet.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @sheet.errors.count, "error"
-        prohibited this sheet from being saved
+    .card.border-danger.mb-3
+      .card-body
+        %strong
+          = pluralize @sheet.errors.count, "error"
+          prohibited this sheet from being saved
 
-      %ul{ style: "display:none" }
-        - @sheet.errors.full_messages.each do |msg|
-          %li= msg
+        %ul{ style: "display:none" }
+          - @sheet.errors.full_messages.each do |msg|
+            %li= msg
 
   - # TODO: DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
   = form.hidden_field :design_id
@@ -32,7 +34,6 @@
     = render "designs/show", design: @sheet.design, form: form if @sheet.design
 
     .form-group
-      - form_name = @sheet.new_record? ? "new_sheet" : "edit_sheet_#{@sheet.id}"
       - submit_text = @sheet.new_record? ? "Create Sheet" : "Update Sheet"
       = link_to submit_text, "#", class: "btn btn-primary", data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: "sheet_submit_btn"
       = link_to "Cancel", @sheet.new_record? ? (@sheet.subject ? data_entry_project_subject_path(@project, @sheet.subject) : project_sheets_path(@project)) : [@project, @sheet], class: "btn btn-light"

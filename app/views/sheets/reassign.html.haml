@@ -14,13 +14,14 @@
   Reassign
 
 .dashboard-container
-  = form_tag reassign_project_sheet_path(@project, @sheet), method: :patch, class: "form-horizontal" do
-    .form-group
-      = label_tag :subject_id, "Reassign To Subject", class: "col-md-2 control-label"
+  = form_with url: reassign_project_sheet_path(@project, @sheet), method: :patch, local: true do |form|
+    .form-group.row
+      = label_tag :subject_id, "Reassign To Subject", class: "col-md-2 col-form-label"
       .col-md-10
         = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: "form-control chosen-select"
 
-    .form-group
-      .col-md-offset-2.col-md-10
+    .form-group.row
+      .col-md-2
+      .col-md-10
         = submit_tag "Reassign to Subject", class: "btn btn-primary", name: nil
         = link_to "Cancel", [@project, @sheet], class: "btn btn-light"
