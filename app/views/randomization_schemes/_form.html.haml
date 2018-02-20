@@ -1,7 +1,8 @@
 = form_with model: [@project, @randomization_scheme], local: true do |form|
   .form-group.row
     - if @randomization_scheme.published?
-      .col-md-10.col-md-offset-2
+      .col-md-2
+      .col-md-10
         %div.alert.alert-info
           %p
             %strong Algorithm
