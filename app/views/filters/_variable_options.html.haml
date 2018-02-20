@@ -4,11 +4,11 @@
 - params[:by] = "month" if params[:by].blank?
 
 - if ["sheet_date", "date"].include?(@variable.variable_type)
-  %form.form-horizontal
+  %form
     - [["Week", "week"],["Month", "month"],["Year", "year"]].each do |name, value|
-      %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if params[:by] == value}" }
-        = radio_button_tag "by", value, params[:by] == value
-        = name
+      .custom-control.custom-radio
+        = radio_button_tag :by, value, params[:by] == value, class: "custom-control-input", id: "by_#{value}"
+        = label_tag "by_#{value}", name, class: "custom-control-label"
 - else
   = hidden_field_tag "by", ""
 
