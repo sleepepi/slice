@@ -1,9 +1,9 @@
 .jumbotron
-  = form_for [sheet_unlock_request.sheet.project, sheet_unlock_request.sheet, sheet_unlock_request], remote: true do |f|
+  = form_with model: [sheet_unlock_request.sheet.project, sheet_unlock_request.sheet, sheet_unlock_request] do |form|
     .form-group
-      = f.label :reason, nil, class: 'control-label'
-      = f.text_area :reason, rows: 7, class: 'form-control', placeholder: 'Type a reason here'
+      = form.label :reason, nil
+      = form.text_area :reason, rows: 7, class: "form-control", placeholder: "Type a reason here"
 
     .form-group
-      = f.submit 'Submit Unlock Request', class: 'btn btn-primary'
-      = link_to 'Cancel', '#', data: { object: 'toggle-visibility', target: '#sheet_unlock_request' }, class: 'btn btn-light'
+      = form.submit "Submit unlock request", class: "btn btn-primary"
+      = link_to "Cancel", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_request" }, class: "btn btn-light"
