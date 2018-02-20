@@ -1,7 +1,7 @@
-= form_with model: [@project, @category], local: true do |form|
-  = render "forms/horizontal/text_field", form: form, object: @category, key: :name, slug: "slug"
-  = render "forms/horizontal/slug_field", form: form, object: @category, key: :slug, key_name: "URL Slug"
-  = render "forms/horizontal/text_area", form: form, object: @category, key: :description, rows: 7
-  = render "forms/horizontal/check_box", form: form, object: @category, key: :use_for_adverse_events, help_text: "Check this if designs in this category should be used with adverse events."
-  = render "forms/horizontal/number_field", form: form, object: @category, key: :position
-  = render "forms/horizontal/submit", form: form, object: [@project, @category]
+= form_with model: [category.project, category], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: category, key: :name, slug: "slug"
+  = render "forms/horizontal/slug_field", form: form, object: category, key: :slug, key_name: "URL Slug"
+  = render "forms/horizontal/text_area", form: form, object: category, key: :description, rows: 7
+  = render "forms/horizontal/check_box", form: form, object: category, key: :use_for_adverse_events, help_text: "Check this if designs in this category should be used with adverse events."
+  = render "forms/horizontal/number_field", form: form, object: category, key: :position
+  = render "forms/horizontal/submit", form: form, object: [category.project, category]
