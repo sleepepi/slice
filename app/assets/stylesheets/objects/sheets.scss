@@ -208,21 +208,14 @@ input[type="number"] {
     }
 
     .sticky-scale-header {
+      background-color: map-get($theme, dashboard-bg);
+
       .col-12 {
         background-color: map-get($theme, dashboard-bg);
       }
 
       table {
         background-color: map-get($theme, dashboard-bg);
-      }
-    }
-
-    // TODO: Rework as form-horizontal is being removed.
-    .form-horizontal {
-      .dashboard-container {
-        .sticky-scale-header {
-          background-color: map-get($theme, dashboard-bg);
-        }
       }
     }
   }
