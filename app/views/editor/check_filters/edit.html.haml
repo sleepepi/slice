@@ -10,4 +10,4 @@
   = link_to @check_filter.name_was, editor_project_check_check_filter_path(@project, @check, @check_filter)
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", check_filter: @check_filter

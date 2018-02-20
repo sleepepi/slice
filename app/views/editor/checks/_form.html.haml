@@ -1,60 +1,10 @@
-- url = @check.new_record? ? editor_project_checks_path(@project) : editor_project_check_path(@project, @check)
-- method = @check.new_record? ? :post : :patch
-
-= form_for [@project, @check], url: url, method: method, html: { class: "form-horizontal" } do |f|
-  .form-group
-    = f.label :name, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :name, class: "form-control", autocomplete: "off", data: { object: (@check.new_record? ? "create-slug" : ""), target: "#check_slug" }
-      = render "layouts/errors", object: @check, key: :name
-
-  .form-group
-    = f.label :slug, "URL Slug", class: "col-md-2 control-label"
-    .col-md-10
-      .input-group
-        = f.text_field :slug, class: "form-control"
-        %span.input-group-btn
-          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#slug-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
-      = render "layouts/errors", object: @check, key: :slug
-      #slug-info.callout.callout-info{ style: "display: none;" }
-        %strong Naming convention
-        %ul
-          %li
-            Must be a lowercase letter
-            %code a-z
-            followed by lowercase letters
-            = succeed "," do
-              %code a-z
-            numbers
-            = succeed "," do
-              %code 0-9
-            or dashes
-            = succeed "." do
-              %code -
-        %p
-          Ex:
-          %code anthropometry-check
-
-  .form-group
-    = f.label :description, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :description, rows: 7, class: "form-control"
-
-  .form-group
-    = f.label :message, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :message, class: "form-control", autocomplete: "off"
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      .checkbox
-        %label
-          = f.check_box :archived
-          Check this to archive the check. Archived checks will not show
-          alongside other data checks for project members.
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @check.new_record? ? editor_project_checks_path(@project) : editor_project_check_path(@project, @check), class: "btn btn-light"
+- url = check.new_record? ? editor_project_checks_path(check.project) : editor_project_check_path(check.project, check)
+- method = check.new_record? ? :post : :patch
+= form_with model: [check.project, check], url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: check, key: :name, slug: "slug"
+  = render "forms/horizontal/slug_field", form: form, object: check, key: :slug, key_name: "URL Slug"
+  = render "forms/horizontal/text_area", form: form, object: check, key: :description, rows: 7
+  = render "forms/horizontal/text_field", form: form, object: check, key: :message
+  = render "forms/horizontal/check_box", form: form, object: check, key: :archived, help_text: "Archived checks will not show alongside other data checks for project members."
+  - cancel = check.new_record? ? editor_project_checks_path(check.project) : editor_project_check_path(check.project, check)
+  = render "forms/horizontal/submit", form: form, object: [check.project, check], cancel: cancel

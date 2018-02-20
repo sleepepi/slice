@@ -11,4 +11,4 @@
   = link_to @check_filter_value.value_was, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, @check_filter_value)
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", check_filter_value: @check_filter_value

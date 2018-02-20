@@ -8,4 +8,4 @@
   = link_to @check.name_was, editor_project_check_path(@project, @check)
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", check: @check
