@@ -1,5 +1,5 @@
-.form-group.site-row{ class: index.nil? ? "site-row-hidden" : nil }
-  = label "site", "Site", class: "col-md-2 control-label"
+.form-group.row.site-row{ class: index.nil? ? "site-row-hidden" : nil }
+  = label "site", "Site", class: "col-md-2 col-form-label"
   .col-md-10
     = hidden_field_tag "sites[][id]", site.id
     = text_field_tag "sites[][name]", site.name, autocomplete: "off", class: "form-control", placeholder: site.new_record? ? "Enter site name" : site.name

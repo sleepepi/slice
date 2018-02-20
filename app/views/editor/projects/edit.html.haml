@@ -7,4 +7,4 @@
   = link_to @project.name_was, settings_editor_project_path(@project)
   Edit
 
-.dashboard-container= render "projects/form"
+.dashboard-container= render "projects/form", project: @project

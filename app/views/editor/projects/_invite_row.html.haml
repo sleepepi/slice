@@ -1,6 +1,6 @@
-.form-group.site-row{ class: index.nil? ? "site-row-hidden" : nil }
+.form-group.row.site-row{ class: index.nil? ? "site-row-hidden" : nil }
   .col-sm-1
-    = label "invite", "Invite", class: "control-label"
+    = label "invite", "Invite", class: "col-form-label"
   .col-sm-4.col-buffer-visible-xs
     = text_field_tag "invites[][email]", "", autocomplete: "off", class: "form-control", placeholder: "johnsmith@example.com", data: { object: "typeahead-users" }
 

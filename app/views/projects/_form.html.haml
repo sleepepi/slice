@@ -1,147 +1,35 @@
-- if @project.new_record?
+- if project.new_record?
   - url = projects_path
   - method = :post
 - else
-  - url = editor_project_path(@project)
+  - url = editor_project_path(project)
   - method = :patch
+= form_with model: project, url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: project, key: :name, slug: "slug"
+  = render "forms/horizontal/slug_field", form: form, object: project, key: :slug, key_name: "URL Slug"
+  = render "forms/horizontal/text_area", form: form, object: project, key: :description, rows: 7
 
-= form_for @project, url: url, method: method, html: { class: "form-horizontal" } do |f|
-  .form-group
-    = f.label :name, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_field :name, autocomplete: "off", class: "form-control", data: { object: (@project.new_record? ? "create-slug" : ""), target: "#project_slug" }
-      = render "layouts/errors", object: @project, key: :name
-
-  .form-group
-    = f.label :slug, nil, class: "col-md-2 control-label"
-    .col-md-10
-      .input-group
-        = f.text_field :slug, class: "form-control"
-        %span.input-group-btn
-          = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#slug-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
-      = render "layouts/errors", object: @project, key: :slug
-      #slug-info.callout.callout-info{ style: "display: none;" }
-        %strong Naming convention
-        %ul
-          %li
-            Must be a lowercase letter
-            %code a-z
-            followed by lowercase letters
-            = succeed "," do
-              %code a-z
-            numbers
-            = succeed "," do
-              %code 0-9
-            or dashes
+  - if project.sites.size.zero?
+    .form-group.row
+      = form.label :site_name, nil, class: "col-md-2 col-form-label"
+      .col-md-10
+        = form.text_field :site_name, placeholder: "Default Site", class: "form-control"
+        .card.border-info.bg-light.mt-3
+          .card-header
+            %strong What is the Site name?
+          .card-body
+            = ENV["website_name"]
+            requires subjects be grouped by site. This requirement helps enforce
+            unique subject codes within a site and also allows reports to break
+            down subject counts by site. If your project does not have subjects
+            that span multiple sites, you can leave this blank, which will create
+            a single site for your project named
             = succeed "." do
-              %code -
-        %p
-          Ex:
-          %code abc123-trial
+              %code Default Site
+            Each project is required to have at least one site, however if you
+            need more than one, you can add additional sites after the project has
+            been created.
 
-  .form-group
-    = f.label :description, nil, class: "col-md-2 control-label"
-    .col-md-10
-      = f.text_area :description, rows: 7, class: "form-control"
-
-  - if @project.sites.size == 0
-    .form-group
-      = f.label :site_name, nil, class: "col-md-2 control-label"
-      .col-md-10
-        = f.text_field :site_name, placeholder: "Default Site", class: "form-control"
-        .callout.callout-info
-          %strong What is the Site name?
-          = ENV["website_name"]
-          requires subjects be grouped by site. This requirement helps enforce
-          unique subject codes within a site and also allows reports to break
-          down subject counts by site. If your project does not have subjects
-          that span multiple sites, you can leave this blank, which will create
-          a single site for your project named
-          = succeed "." do
-            %code Default Site
-          Each project is required to have at least one site, however if you
-          need more than one, you can add additional sites after the project has
-          been created.
-
-  - if false
-    .form-group
-      = f.label :logo, "Logo (JPG, GIF, PNG)", class: "col-md-2 control-label"
-      .col-md-10
-        .row
-          .col-md-6
-            = f.file_field :logo, class: "form-control"
-            = f.hidden_field :logo_cache
-
-          - if @project.logo and @project.logo.size > 0
-            .col-md-6
-              %label.checkbox-inline.checkbox-radio-outline.negation
-                = check_box_tag "project[remove_logo]", "1", false
-                Remove
-                %code= @project.logo.path.split("/").last
-                %tt= number_to_human_size(@project.logo.size)
-
-    .form-group
-      .col-md-2
-        %label Email Settings
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :disable_all_emails
-            Disable Daily Digest
-
-    .form-group
-      .col-md-2
-        %label Hide Values on PDFs
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :hide_values_on_pdfs
-            Checking This Will Hide Answer Choice Values on Printed Sheets
-
-
-    .form-group
-      .col-md-2
-        %label Randomizations
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :randomizations_enabled
-            Checking This Will Enable Subjects to Be Randomized
-
-    .form-group
-      .col-md-2
-        %label Adverse Events
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :adverse_events_enabled
-            Checking This Will Enable Adverse Event Reporting
-
-    .form-group
-      .col-md-2
-        %label Blinded and Unblinded
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :blinding_enabled
-            Checking This Will Enable Blinding of Project and Site Members
-
-    .form-group
-      .col-md-2
-        %label Tablet Handoffs
-      .col-md-10
-        .checkbox
-          %label
-            = f.check_box :handoffs_enabled
-            Checking this will enable staff members to launch a flow of surveys that participants can complete on a tablet
-
-  .form-group
-    = f.label :auto_lock_sheets, "Auto-lock Sheets", class: "col-md-2 control-label"
-    .col-md-10
-      = f.select :auto_lock_sheets, Project::AUTO_LOCK_SHEETS, {}, class: "form-control"
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @project.new_record? ? projects_path : settings_editor_project_path(@project), class: "btn btn-light"
+  = render "forms/horizontal/select", form: form, object: project, key: :auto_lock_sheets, options: Project::AUTO_LOCK_SHEETS
+  - cancel = project.new_record? ? projects_path : settings_editor_project_path(project)
+  = render "forms/horizontal/submit", form: form, object: project, cancel: cancel

@@ -18,11 +18,8 @@
         - url = editor_project_path(@project)
         - method = :patch
 
-      = form_for @project, url: url, method: method, html: { class: "form-vertical" } do |form|
-        .form-group
-          = render "layouts/label_or_errors", form: form, object: @project, key: :name
-          = form.text_field :name, autocomplete: "off", class: "form-control"
-
+      = form_with model: @project, url: url, method: method, local: true do |form|
+        = render "forms/vertical/text_field", form: form, object: @project, key: :name
         .form-group.submit-btn-container
           = form.submit nil, class: "btn btn-primary btn-block btn-shadow"
 
