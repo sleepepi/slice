@@ -11,7 +11,7 @@
       .comment-comment-header
         %strong= current_user.full_name
       .comment-comment-body
-        = form_tag comments_path(sheet_id: @sheet.id), method: :post, remote: true, id: "sheet_#{@sheet.id}_comment_form", class: "form-vertical" do
+        = form_with url: comments_path(sheet_id: @sheet.id), method: :post, id: "sheet_#{@sheet.id}_comment_form" do
           .form-group
             = text_area_tag "sheet[#{@sheet.id}][comment]", "", name: "comment[description]", rows: 7, class: "comment-control", placeholder: "Type comment here"
           = submit_tag "Comment", class: "btn btn-primary", data: { disable_with: "Comment" }
