@@ -16,7 +16,8 @@
           - if @adverse_event_comment.new_record?
             = form.hidden_field :comment_type, value: @adverse_event_comment.comment_type.blank? ? "commented" : @adverse_event_comment.comment_type, id: "adverse_event_comment_comment_type"
 
-          = form.submit "Comment", class: "btn btn-primary", data: { disable_with: "Comment" }
+          - submit_text = @adverse_event_comment.new_record? ? "Comment" : "Update"
+          = form.submit submit_text, class: "btn btn-primary", data: { disable_with: submit_text }
           - if @adverse_event_comment.new_record?
             - if @adverse_event.closed?
               = link_to "Reopen AE Report", "#", data: { object: "submit-ae-comment", target: "#adverse-event-comment-form", comment_type: "reopened" }, id: "reopen-ae-button", class: "btn btn-light"

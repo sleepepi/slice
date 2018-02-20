@@ -7,19 +7,16 @@
       .comment-comment-header
         %strong= @comment.user.full_name
       .comment-comment-body
-        = form_for @comment, remote: true, html: { class: "form-vertical" } do |f|
+        = form_with model: @comment do |form|
           = hidden_field_tag :number, params[:number]
           = hidden_field_tag :include_name, params[:include_name]
-          - if @comment.errors.any?
-            .alert.alert-danger.alert-dismissible{ role: "alert" }
-              %button.close{ type: "button", data: { dismiss: "alert" }, aria: { label: "Close" } }
-                %span{ aria: { hidden: "true" } } &times;
-              %strong Error
-              Please make sure your comment is not blank.
 
           .form-group
-            = f.text_area :description, rows: 7, class: "comment-control", placeholder: "Type comment here"
+            = form.text_area :description, rows: 7, class: "comment-control form-control#{" is-invalid" if @comment.errors[:description].present?}", placeholder: "Type comment here"
+            - if @comment.errors[:description].present?
+              .invalid-feedback Comment can't be blank.
+
           - submit_text = @comment.new_record? ? "Comment" : "Update"
-          = f.submit submit_text, class: "btn btn-primary", data: { disable_with: "#{submit_text}" }
+          = form.submit submit_text, class: "btn btn-primary", data: { disable_with: submit_text }
           - unless @comment.new_record?
             = link_to "Cancel", comment_path(@comment, number: params[:number], include_name: params[:include_name]), remote: true, class: "btn btn-light"
