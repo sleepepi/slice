@@ -61,10 +61,6 @@ class SlicerTest < ActiveSupport::TestCase
     )
   end
 
-  test "should prepare value for db for grid variable" do
-    skip
-  end
-
   test "should prepare value for db for imperial height variable" do
     slicer = Slicers.for(variables(:api_imperial_height))
     assert_equal(
