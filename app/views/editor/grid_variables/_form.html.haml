@@ -1,25 +1,8 @@
-- url = @grid_variable.new_record? ? editor_project_grid_variables_path(@project) : editor_project_grid_variable_path(@project, @grid_variable)
-- method = @grid_variable.new_record? ? :post : :patch
-
-= form_for [@project, @grid_variable], url: url, method: method, html: { class: 'form-horizontal' } do |f|
-  .form-group
-    = f.label :parent_variable_id, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :parent_variable_id, class: 'form-control'
-      = render 'layouts/errors', object: @grid_variable, key: :parent_variable_id
-
-  .form-group
-    = f.label :child_variable_id, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :child_variable_id, class: 'form-control'
-      = render 'layouts/errors', object: @grid_variable, key: :child_variable_id
-
-  .form-group
-    = f.label :position, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :position, class: 'form-control'
-
-  .form-group
-    .col-md-10.col-md-offset-2
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @grid_variable.new_record? ? editor_project_grid_variables_path(@project) : editor_project_grid_variable_path(@project, @grid_variable), class: 'btn btn-light'
+- url = grid_variable.new_record? ? editor_project_grid_variables_path(grid_variable.project) : editor_project_grid_variable_path(grid_variable.project, grid_variable)
+- method = grid_variable.new_record? ? :post : :patch
+= form_with model: [grid_variable.project, grid_variable], url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: grid_variable, key: :parent_variable_id
+  = render "forms/horizontal/text_field", form: form, object: grid_variable, key: :child_variable_id
+  = render "forms/horizontal/number_field", form: form, object: grid_variable, key: :position
+  - cancel = grid_variable.new_record? ? editor_project_grid_variables_path(grid_variable.project) : editor_project_grid_variable_path(grid_variable.project, grid_variable)
+  = render "forms/horizontal/submit", form: form, object: [grid_variable.project, grid_variable], cancel: cancel

@@ -8,4 +8,4 @@
   = link_to @grid_variable.id, editor_project_grid_variable_path(@project, @grid_variable)
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", grid_variable: @grid_variable
