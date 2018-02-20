@@ -11,30 +11,31 @@
 - @variables = @design.load_variables
 - @file_uploaded = (@variables.size > 0)
 .dashboard-container
-  = form_for @design, url: imports_project_design_path(@project, @design), method: :patch, html: { class: "form-horizontal", multipart: true } do |f|
+  = form_with model: @design, url: imports_project_design_path(@project, @design), method: :patch, multipart: true, local: true do |form|
     - if @design.errors.any?
-      .callout.callout-danger
-        %strong
-          = pluralize @design.errors.count, "error"
-          prohibited this design from being saved
+      .card.border-danger.mb-3
+        .card-body
+          %strong
+            = pluralize @design.errors.count, "error"
+            prohibited this design from being saved
 
-        %ul
-          - @design.errors.full_messages.each do |message|
-            %li= message
+          %ul
+            - @design.errors.full_messages.each do |msg|
+              %li= msg
 
-    = f.hidden_field :reimport, value: "1"
+    = form.hidden_field :reimport, value: "1"
 
-    .form-group
-      = f.label :csv_file, "Data Import (CSV)", class: "col-md-2 control-label"
+    .form-group.row
+      = form.label :csv_file, "Data Import (CSV)", class: "col-md-2 col-form-label"
       .col-md-10
         - if @file_uploaded
           .form-control= File.basename(@design.csv_file.to_s)
         - else
-          = f.file_field :csv_file, class: "form-control"
+          = form.file_field :csv_file, class: "form-control"
 
     - if @file_uploaded
-      .form-group
-        = label_tag "site_id", "Site", class: "col-md-2 control-label"
+      .form-group.row
+        = label_tag "site_id", "Site", class: "col-md-2 col-form-label"
         #site.col-md-10
           = select_tag :site_id, options_for_select(@project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
 
@@ -53,8 +54,8 @@
             - variable_type = hash[:variable_type]
             - ignore = (variable && !Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type))
 
-          .form-group
-            %label.col-md-2.control-label= hash[:name]
+          .form-group.row
+            %label.col-md-2.col-form-label= hash[:name]
             .col-md-10
               .row
                 - if variable
@@ -74,9 +75,10 @@
                     = check_box_tag "variables[#{hash[:name]}][ignore]", "1", ignore
                     do not add to design
 
-    .form-group
-      .col-md-10.col-md-offset-2
-        = f.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: "btn btn-primary"
+    .form-group.row
+      .col-md-2
+      .col-md-10
+        = form.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: "btn btn-primary"
         - if @file_uploaded
           = link_to "Previous Step", imports_edit_project_design_path(@project, @design), class: "btn btn-light"
         - else
