@@ -32,6 +32,7 @@
   = render "sheets/show"
 
 - unless @sheet.adverse_event
-  %h3.text-white.text-shadow Comments
+  .dashboard-container
+    %strong Comments
   %div{ id: "sheet_#{@sheet.id}_comments", style: "margin-top: 20px;" }
     = render "comments/comments"

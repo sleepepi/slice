@@ -1,4 +1,4 @@
-%p.lead.text-white.text-shadow.text-center
+.jumbotron.jumbotron-custom-text
   Which event would you like to add?
 
 .dashboard-container
@@ -28,7 +28,6 @@
 
   - eventless_designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] }).left_outer_joins(:event_designs).where(event_designs: { design_id: nil })
   - if eventless_designs.present?
-    %hr
     - eventless_designs.order('categories.position', :name).group_by(&:category).each do |category, category_designs|
       %strong
         - if category

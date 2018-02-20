@@ -1,18 +1,14 @@
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
 - if designs.present?
-  %p.lead.text-white.text-shadow.text-center
+  .jumbotron.jumbotron-custom-text
     Which design would you like to add?
 
   - category_count = designs.pluck(:category_id).uniq.count
   - designs.order("categories.position", :name).group_by(&:category).each do |category, category_designs|
-    - if category_count > 1
-      %h3.text-white.text-shadow
-        - if category
-          = category.name
-        - else
-          Uncategorized
     .dashboard-container
+      - if category_count > 1
+        %strong= category&.name.presence || "Uncategorized"
       %ul
         - category_designs.each do |design|
           %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
