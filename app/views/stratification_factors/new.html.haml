@@ -7,5 +7,5 @@
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", stratification_factor: @stratification_factor
 

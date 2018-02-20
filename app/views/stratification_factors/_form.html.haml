@@ -1,17 +1,13 @@
-= form_for [@project, @randomization_scheme, @stratification_factor], html: { class: 'form-horizontal' } do |f|
-  .form-group
-    = f.label :name, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :name, class: 'form-control'
-      = render 'layouts/errors', object: @stratification_factor, key: :name
+= form_with model: [stratification_factor.randomization_scheme.project, stratification_factor.randomization_scheme, stratification_factor], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: stratification_factor, key: :name
 
-  .form-group
-    = f.label :calculation, nil, class: 'col-md-2 control-label'
+  .form-group.row
+    = form.label :calculation, nil, class: "col-md-2 col-form-label"
     .col-md-10
-      = f.text_area :calculation, value: @stratification_factor.readable_calculation, rows: 7, class: 'form-control', data: { object: 'calculation-variable-name-textcomplete', project_id: @project.id }
-      %table.table.table-striped.table-borderless{ style: 'margin-top: 20px;' }
-        %col.d-none.d-sm-table-cell{ width: '30%' }
-        %col.d-table-cell.d-sm-none{ width: '50%' }
+      = form.text_area :calculation, value: stratification_factor.readable_calculation, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: stratification_factor.randomization_scheme.project.id }
+      %table.table.table-striped.table-borderless.mt-3
+        %col.d-none.d-sm-table-cell{ width: "30%" }
+        %col.d-table-cell.d-sm-none{ width: "50%" }
         %tr
           %th General
           %td
@@ -25,24 +21,23 @@
           %td
             %code (var1 + var2) / var3
 
-      .callout.callout-danger
-        %p
-          %strong NOTE:
-          Setting the calculation will automatically set the randomization
-          criteria for the selected subject and will prevent randomization if
-          other criteria are selected, or if the criteria is blank.
+      .card.border-danger
+        .card-body
+          %p
+            %strong NOTE:
+            Setting the calculation will automatically set the randomization
+            criteria for the selected subject and will prevent randomization if
+            other criteria are selected, or if the criteria is blank.
 
-  - if @randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 || @stratification_factor.stratifies_by_site?
-    .form-group
-      .col-md-10.col-md-offset-2
+  - if stratification_factor.randomization_scheme.stratification_factors.where(stratifies_by_site: true).count == 0 || stratification_factor.stratifies_by_site?
+    .form-group.row
+      .col-md-2
+      .col-md-10
         or
-        .checkbox
-          %label
-            = f.check_box :stratifies_by_site
-            Stratify by Site
-        = render 'layouts/errors', object: @stratification_factor, key: :stratifies_by_site
+        .custom-control.custom-checkbox
+          = form.check_box :stratifies_by_site, class: "custom-control-input", id: "stratifies_by_site"
+          = label_tag "stratifies_by_site", "Stratify by site", class: "custom-control-label"
+        = render "layouts/errors", object: stratification_factor, key: :stratifies_by_site
 
-  .form-group
-    .col-md-offset-2.col-md-10
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @stratification_factor.new_record? ? project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme) : [@project, @randomization_scheme, @stratification_factor], class: 'btn btn-light'
+  = render "forms/horizontal/submit", form: form, object: [stratification_factor.randomization_scheme.project, stratification_factor.randomization_scheme, stratification_factor]
+

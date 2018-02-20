@@ -10,4 +10,4 @@
   = link_to @stratification_factor.name_was, [@project, @randomization_scheme, @stratification_factor]
   Edit
 
-.dashboard-container= render 'form'
+.dashboard-container= render "form", stratification_factor: @stratification_factor

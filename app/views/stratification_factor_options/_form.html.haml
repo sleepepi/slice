@@ -1,17 +1,4 @@
-= form_for [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], html: { class: 'form-horizontal' } do |f|
-  .form-group
-    = f.label :label, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :label, class: 'form-control'
-      = render 'layouts/errors', object: @stratification_factor_option, key: :label
-
-  .form-group
-    = f.label :value, nil, class: 'col-md-2 control-label'
-    .col-md-10
-      = f.text_field :value, class: 'form-control'
-      = render 'layouts/errors', object: @stratification_factor_option, key: :value
-
-  .form-group
-    .col-md-offset-2.col-md-10
-      = f.submit nil, class: 'btn btn-primary'
-      = link_to 'Cancel', @stratification_factor_option.new_record? ? project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor) : [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], class: 'btn btn-light'
+= form_with model: [stratification_factor_option.stratification_factor.randomization_scheme.project, stratification_factor_option.stratification_factor.randomization_scheme, stratification_factor_option.stratification_factor, stratification_factor_option], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: stratification_factor_option, key: :label
+  = render "forms/horizontal/number_field", form: form, object: stratification_factor_option, key: :value
+  = render "forms/horizontal/submit", form: form, object: [stratification_factor_option.stratification_factor.randomization_scheme.project, stratification_factor_option.stratification_factor.randomization_scheme, stratification_factor_option.stratification_factor, stratification_factor_option]
