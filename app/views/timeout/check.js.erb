@@ -1,5 +1,5 @@
 <% if current_user %>
-  <% last_request_at = warden.session(:user)['last_request_at'] %>
+  <% last_request_at = warden.session(:user)["last_request_at"] %>
   <% if last_request_at.is_a?(Integer) %>
     <% last_request_at = Time.zone.at(last_request_at) %>
   <% elsif last_request_at.is_a?(String) %>
@@ -8,13 +8,13 @@
   <% if last_request_at %>
     <% seconds_until_timeout = Devise.timeout_in - (Time.zone.now - last_request_at) %>
     <% if seconds_until_timeout < 300 %>
-      $('#timeout_modal').modal({ 'backdrop': 'static', 'keyboard': false });
+      $("#timeout_modal").modal({ "backdrop": "static", "keyboard": false });
       timeoutDesktopNotification();
     <% else %>
-      $('#timeout_modal').modal('hide');
+      $("#timeout_modal").modal("hide");
     <% end %>
   <% else %>
-    $('#timeout_modal').modal('hide');
+    $("#timeout_modal").modal("hide");
   <% end %>
 <% else %>
   clearInterval(<%= params[:interval] %>);
