@@ -1,20 +1,20 @@
 - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s unless position
 - @position = position
 
-.well{ id: "design_#{@position}" }
+.bg-light.p-3.rounded.mb-3{ id: "design_#{@position}" }
   .float-right
     = link_to "Remove", "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove", target: "#design_#{@position}" }, tabindex: "-1"
   %i.fa.fa-arrows.design-handle
 
 
   %div{ style: "padding: 20px 20px 0;" }
-    .form-group
-      %label.col-md-2.control-label Design
+    .form-group.row
+      %label.col-md-2.col-form-label Design
       .col-md-10
         = select_tag "event[design_hashes][][design_id]", options_for_select(@project.designs.order(:name).pluck(:name, :id), event_design.design_id), include_blank: true, class: "form-control"
 
-    .form-group
-      %label.col-md-2.control-label Requirement
+    .form-group.row
+      %label.col-md-2.col-form-label Requirement
       .col-md-10
         = select_tag "event[design_hashes][][requirement]", options_for_select(EventDesign::REQUIREMENTS, event_design.requirement), class: "form-control", data: { object: "event-design-requirement", target: "#design_#{@position}_conditional_requirements" }
 
@@ -42,14 +42,14 @@
             %small.text-muted{ style: "font-variant: small-caps;" } Value
           = text_field_tag "event[design_hashes][][conditional_value]", event_design.conditional_value, class: "form-control"
 
-    .form-group
-      %label.col-md-2.control-label Duplicates
+    .form-group.row
+      %label.col-md-2.col-form-label Duplicates
       .col-md-10
         = select_tag "event[design_hashes][][duplicates]", options_for_select(EventDesign::DUPLICATES, event_design.duplicates), class: "form-control"
 
     - if @project.handoffs_enabled?
-      .form-group
-        %label.col-md-2.control-label Handoff
+      .form-group.row
+        %label.col-md-2.col-form-label Handoff
         .col-md-10
           = select_tag "event[design_hashes][][handoff_enabled]", options_for_select([["No Handoff", false], ["Handoff Enabled", true]], event_design.handoff_enabled), class: "form-control"
     - else
