@@ -1,21 +1,20 @@
 // Defines styles for validation errors on sheets.
 
-.variable-shade.variable-warnings {
-  border-left: 2px solid $brand-warning;
-  color: $brand-warning;
-}
-
-.variable-blind.variable-warnings {
-  border-left: 2px solid $brand-warning;
-  color: $brand-warning;
-}
-
-.variable-shade.variable-errors {
-  border-left: 2px solid $brand-danger;
-  color: $brand-danger;
-}
-
-.variable-blind.variable-errors {
-  border-left: 2px solid $brand-danger;
-  color: $brand-danger;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .variable-shade,
+    .variable-blind {
+      &.variable-warnings {
+        border-color: theme-color($theme, alert-warning-color, map-get($theme-colors, warning)) !important;
+        color: theme-color($theme, alert-warning-color, map-get($theme-colors, warning)) !important;
+      }
+    }
+    .variable-shade,
+    .variable-blind {
+      &.variable-errors {
+        border-color: theme-color($theme, alert-danger-color, map-get($theme-colors, danger)) !important;
+        color: theme-color($theme, alert-danger-color, map-get($theme-colors, danger)) !important;
+      }
+    }
+  }
 }
