@@ -2,10 +2,11 @@
 - @position = position
 
 %div{ id: "question_#{@position}", style: "line-height:30px;padding-top:5px" }
-  .row
+  .row.no-gutters
     .col-6.col-lg-8
       = text_field_tag "design[questions][][question_name]", question_hash[:question_name], class: "form-control"
-    .col-4.col-sm-2
-      = select_tag "design[questions][][question_type]", options_for_select(Design::QUESTION_TYPES, question_hash[:question_type]), class: "form-control"
-    .col-2
-      = link_to "Remove", "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove", target: "#question_#{@position}" }, tabindex: "-1"
+    .col-6.col-sm-4
+      .input-group
+        = select_tag "design[questions][][question_type]", options_for_select(Design::QUESTION_TYPES, question_hash[:question_type]), class: "form-control"
+        = link_to "#", class: "btn btn-link btn-sm text-danger", data: { object: "remove", target: "#question_#{@position}" }, tabindex: "-1" do
+          %i.fa.fa-trash
