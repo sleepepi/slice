@@ -1,5 +1,4 @@
-
-= hidden_field_tag 'isdirty', '1'
+= hidden_field_tag "isdirty", "1"
 
 - if @sheet.new_record?
   - submit_url = new_survey_path(@design.slug)
@@ -9,25 +8,26 @@
   - submit_method = :patch
 
 - form_name = "survey_#{@design.id}_form"
-= form_tag submit_url, method: submit_method, class: 'form-horizontal', multipart: true, id: form_name, authenticity_token: false do |form|
+= form_with url: submit_url, method: submit_method, local: true, multipart: true, id: form_name, authenticity_token: false do |form|
   - if @sheet.errors.any?
-    .callout.callout-danger
-      %strong
-        = pluralize @sheet.errors.count, 'error'
-        prohibited this survey from being submitted
+    .card.border-danger.mb-3
+      .card-body
+        %strong
+          = pluralize @sheet.errors.count, "error"
+          prohibited this survey from being submitted
 
   - if @sheet.new_record?
     = hidden_field_tag :subject_id, @sheet.subject_id
 
   - if @design.show_site?
-    .form-group
-      = label_tag 'site_id', 'Site', class: 'col-md-2 control-label'
+    .form-group.row
+      = label_tag "site_id", "Site", class: "col-md-2 col-form-label"
       .col-md-10
-        = select_tag :site_id, options_for_select([['---', nil]] + @design.project.sites.order('name').collect{|s| [s.name, s.id]}), class: 'form-control'
+        = select_tag :site_id, options_for_select([["---", nil]] + @design.project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
 
-  #design{ style: 'min-height:200px' }
-    - params[:header] = '0'
-    = render 'designs/show', design: @design, form: form
+  #design{ style: "min-height:200px" }
+    - params[:header] = "0"
+    = render "designs/show", design: @design, form: form
 
-  .text-center{ style: 'margin-top: 40px' }
-    = link_to 'Submit Survey', '#', data: { target: "##{form_name}", object: 'variable-check-before-submit' }, class: 'btn btn-primary btn-lg btn-shadow'
+  .text-center{ style: "margin-top: 40px" }
+    = link_to "Submit Survey", "#", data: { target: "##{form_name}", object: "variable-check-before-submit" }, class: "btn btn-primary btn-lg btn-shadow"
