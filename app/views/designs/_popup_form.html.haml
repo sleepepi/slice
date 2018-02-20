@@ -2,78 +2,20 @@
   %h4.modal-title Edit Design
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
-  = form_for [@project, @design], remote: true, html: { class: "form-horizontal", id: "design_form" } do |f|
-    .form-group
-      %label.col-md-2.control-label Name
-      .col-md-10
-        = f.text_field :name, autocomplete: "off", class: "form-control"
-        = render "layouts/errors", object: @design, key: :name
+  = form_with model: [@project, @design], id: "design_form" do |form|
+    = render "forms/horizontal/text_field", form: form, object: @design, key: :name, help_text: "Ex: Demographics, Intake Questionnaire"
+    = render "forms/horizontal/text_field", form: form, object: @design, key: :short_name, key_name: "Abbreviation", placeholder: @design.computed_short_name
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :publicly_available, key_name: "Survey mode", help_text: "Generates a link to fill out the design as a public survey."
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :show_site, key_name: "Survey mode site selection", help_text: "Allow survey respondents to select the site when filling out a public survey."
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :repeated, key_name: "Multiple sheet entry", help_text: "Enable a prompt to fill out another sheet for this design for the current subject."
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :notifications_enabled, key_name: "Sheet creation notifications", help_text: "Notify team members when sheets of this design are created."
 
-    .form-group
-      = f.label :short_name, "Abbreviation", class: "col-md-2 control-label"
-      .col-md-10
-        = f.text_field :short_name, class: "form-control", placeholder: @design.computed_short_name
+    = render "forms/horizontal/text_field", form: form, object: @design, key: :slug
+    = render "forms/horizontal/text_field", form: form, object: @design, key: :redirect_url, key_name: "Redirect URL", placeholder: "#{ENV["website_url"]}/about"
 
-    .form-group
-      .col-md-10.col-md-offset-2
-        .row
-          .col-6
-            .checkbox
-              %label
-                = f.check_box :publicly_available
-                Publicly Available
-          .col-6
-            .checkbox
-              %label
-                = f.check_box :show_site
-                Show Site Selection on Survey
-
-    .form-group
-      .col-md-10.col-md-offset-2
-        .row
-          .col-6
-            .checkbox
-              %label
-                = f.check_box :repeated
-                Repeated
-          .col-6
-            .checkbox
-              %label
-                = f.check_box :notifications_enabled
-                Notifications Enabled
-
-    .form-group
-      %label.col-md-2.control-label Slug
-      .col-md-10
-        = f.text_field :slug, autocomplete: "off", class: "form-control"
-
-    .form-group
-      %label.col-md-2.control-label Redirect URL
-      .col-md-10
-        = f.text_field :redirect_url, autocomplete: "off", placeholder: "#{ENV["website_url"]}/about", class: "form-control"
-
-    .form-group
-      %label.col-md-2.control-label Category
-      .col-md-10
-        = f.select :category_id, @project.categories.pluck(:name, :id), { include_blank: true }, class: "form-control"
-    - if @project.blinding_enabled?
-      .form-group
-        %label.col-md-2.control-label
-          Only Unblinded
-        .col-md-10
-          .checkbox
-            %label
-              = f.check_box :only_unblinded
-              Hide sheets and comments from blinded staff
-    - if @project.auto_locking_enabled?
-      .form-group
-        %label.col-md-2.control-label
-          Ignore Auto Lock
-        .col-md-10
-          .checkbox
-            %label
-              = f.check_box :ignore_auto_lock
-              Prevent sheets from auto-locking
+    = render "forms/horizontal/select", form: form, object: @design, key: :category_id, options: @project.categories.pluck(:name, :id), include_blank: true
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :only_unblinded, help_text: "Hide sheets and comments from blinded staff." if @project.blinding_enabled?
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :ignore_auto_lock, help_text: "Prevent sheets from auto-locking." if @project.auto_locking_enabled?
 .modal-footer
   = button_tag "Update", data: { object: "submit-and-disable", target: "#design_form" }, class: "btn btn-primary"
   %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

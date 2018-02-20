@@ -15,44 +15,14 @@
           %i.fa.fa-cog
         My Settings
       .card-body
-        = form_for current_user, url: settings_path, method: :post, html: { class: "form-vertical" } do |form|
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :full_name
-            = form.text_field :full_name, class: "form-control"
 
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :email
-            = form.text_field :email, class: "form-control"
-
-          .form-group
-            = form.label :emails_enabled, "Email Settings"
-            .checkbox
-              %label
-                = form.check_box :emails_enabled
-                Allow
-                = ENV["website_name"]
-                to send you emails.
-              = link_to "#", class: "btn btn-sm btn-light", tabindex: "-1", data: { object: "toggle-visibility", target: "#email_information"} do
-                %i.fa.fa-info-circle
-
-            #email_information.callout.callout-info{ style: "display: none" }
-              Unchecking this box will disable all emails. You will still receive emails for:
-              %ul
-                %li Password reset emails
-
-          .form-group
-            = form.label :theme, "Theme", class: "control-label"
-            = form.select :theme, Slice::THEMES, { include_blank: "Default" }, class: "form-control"
-
-          .form-group
-            = form.label :sound_enabled, "Sound Enabled"
-            .checkbox
-              %label
-                = form.check_box :sound_enabled
-                Enable audio alerts when entering data.
-
-          .form-group.submit-btn-container
-            = form.submit "Save Settings", class: "btn btn-primary btn-shadow"
+        = form_with model: current_user, url: settings_path, method: :post, local: true do |form|
+          = render "forms/vertical/text_field", form: form, object: current_user, key: :full_name
+          = render "forms/vertical/email_field", form: form, object: current_user, key: :email
+          = render "forms/vertical/check_box", form: form, object: current_user, key: :emails_enabled, help_text: "Allow #{ENV["website_name"]} to send you emails. Unchecking this box will disable all emails except for password reset and account unlock emails."
+          = render "forms/vertical/select", form: form, object: current_user, key: :theme, options: Slice::THEMES, include_blank: "Default"
+          = render "forms/vertical/check_box", form: form, object: current_user, key: :sound_enabled, help_text: "Enable audio alerts when entering data."
+          = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Save Settings", cancel: false
 
   .col-md-6
     .card.mb-4
@@ -60,21 +30,12 @@
         %i.fa.fa-lock
         Change Password
       .card-body
-        = form_for current_user, url: change_password_path, method: :patch, html: { id: "reset_password", class: "form-vertical" } do |form|
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :current_password, key_name: "Current Password"
-            = form.password_field :current_password, class: "form-control", autocomplete: "off"
+        = form_with model: current_user, url: change_password_path, method: :patch, local: true, id: "reset_password" do |form|
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :current_password, key_name: "Old password"
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :password, key_name: "New password"
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :password_confirmation, key_name: "Confirm new password"
+          = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update password", cancel: false
 
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :password, key_name: "New Password"
-            = form.password_field :password, class: "form-control", autocomplete: "off"
-
-          .form-group
-            = render "layouts/label_or_errors", form: form, object: current_user, key: :password_confirmation, key_name: "Password Confirmation"
-            = form.password_field :password_confirmation, class: "form-control", autocomplete: "off"
-
-          .form-group.submit-btn-container
-            = link_to "Update Password", "#", class: "btn btn-primary btn-shadow", data: { object: "settings-save", target: "#reset_password" }
       .card-footer
         - if current_user.password_expires_in > 0
           Your password will expire in
