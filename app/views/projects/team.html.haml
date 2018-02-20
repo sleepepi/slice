@@ -7,26 +7,23 @@
 
 - if @project.editable_by?(current_user)
   #invite-container.dashboard-container
-    = form_tag invite_user_editor_project_path(@project), method: :post, remote: true, class: "form-inline" do
-      %strong Invite User
-      .form-group
-        = text_field_tag :invite_email, "", autocomplete: "off", class: "form-control", placeholder: "Email Address", data: { object: "typeahead-users" }
+    = form_with url: invite_user_editor_project_path(@project), method: :post, class: "form-inline" do |form|
+      .input-group.mb-2.mr-sm-2
+        %strong Invite User
+      .input-group.mb-2.mr-sm-2= text_field_tag :invite_email, "", autocomplete: "off", class: "form-control", placeholder: "Email Address", data: { object: "typeahead-users" }
 
-      .form-group
-        = select_tag "site_id", options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect { |s| [s.short_name, s.id] }), class: "form-control"
+      .input-group.mb-2.mr-sm-2= select_tag "site_id", options_for_select([[@project.name, nil]] + @project.sites.order(:name).collect { |s| [s.short_name, s.id] }), class: "form-control"
 
-      .form-group
-        %label.btn.btn-light
-          = check_box_tag "editor", "1", true
-          Editor
+      .input-group.mb-2.mr-sm-2.custom-control.custom-checkbox
+        = check_box_tag "editor", "1", true, class: "custom-control-input", id: "editor"
+        = label_tag "editor", "Editor", class: "custom-control-label"
 
-        - if @project.unblinded?(current_user)
-          %label.btn.btn-light{ style: "#{"display:none" unless @project.blinding_enabled?}" }
-            = check_box_tag "unblinded", "1", true
-            Unblinded
+      - if @project.unblinded?(current_user)
+        .input-group.mb-2.mr-sm-2.custom-control.custom-checkbox{ style: "#{"display:none" unless @project.blinding_enabled?}" }
+          = check_box_tag "unblinded", "1", true, class: "custom-control-input", id: "unblinded"
+          = label_tag "unblinded", "Unblinded", class: "custom-control-label"
 
-      .form-group
-        = submit_tag "Invite", class: "btn btn-primary"
+      .mb-2.mr-sm-2= submit_tag "Invite", class: "btn btn-primary"
 
   #invite-success.jumbotron.text-center{ style: "display: none;" }
     %strong Invite sent!

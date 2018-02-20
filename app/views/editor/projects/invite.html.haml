@@ -9,7 +9,7 @@
   %p.lead
     Invite by email.
 
-  = form_tag send_invites_editor_project_path(@project), method: :post, class: "form-horizontal", id: "invites-form" do
+  = form_with url: send_invites_editor_project_path(@project), method: :post, local: true, id: "invites-form" do
     #invites{ style: "margin-bottom: 20px" }
       = render "editor/projects/invite_row", index: 0
 
