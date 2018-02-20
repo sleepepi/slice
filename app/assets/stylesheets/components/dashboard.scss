@@ -30,8 +30,8 @@
 // TODO: Put back in
 // .dashboard-lead {
 //   background-color: $dashboard-lead-bg;
-//   border-top-left-radius: 4px;
-//   border-top-right-radius: 4px;
+//   border-top-left-radius: $border-radius;
+//   border-top-right-radius: $border-radius;
 //   color: $brand-white;
 //   padding: 15px;
 
@@ -43,7 +43,7 @@
 
 // .section-lead {
 //   background-color: $section-lead-bg;
-//   border-radius: 4px;
+//   border-radius: $border-radius;
 //   margin-bottom: 20px;
 //   padding: 15px;
 

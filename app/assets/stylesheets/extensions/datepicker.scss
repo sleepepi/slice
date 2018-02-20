@@ -27,7 +27,7 @@ input {
     margin: 0;
 
     tr td span {
-      border-radius: 4px;
+      border-radius: $border-radius;
       cursor: pointer;
       display: block;
       float: left;
@@ -41,7 +41,7 @@ input {
   td,
   th {
     border: 0;
-    border-radius: 4px;
+    border-radius: $border-radius;
     height: 20px;
     text-align: center;
     width: 20px;
@@ -103,7 +103,7 @@ input {
 .datepicker td,
 .datepicker th {
   border: 0;
-  border-radius: 4px;
+  border-radius: $border-radius;
   height: 20px;
   text-align: center;
   width: 20px;
