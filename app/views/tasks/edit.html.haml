@@ -8,4 +8,4 @@
   = link_to @task.name, [@project, @task]
   Edit
 
-.dashboard-container= render "form"
+.dashboard-container= render "form", task: @task
