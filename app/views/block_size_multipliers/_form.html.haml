@@ -1,46 +1,45 @@
-= form_for [@project, @randomization_scheme, @block_size_multiplier], html: { class: "form-horizontal" } do |f|
-  .form-group
-    = f.label :value, nil, class: "col-md-2 control-label"
+= form_with model: [@project, @randomization_scheme, @block_size_multiplier], local: true do |form|
+  .form-group.row
+    = form.label :value, nil, class: "col-md-2 col-form-label"
     .col-md-10
       .input-group
-        .input-group-addon &times;
-        = f.text_field :value, class: "form-control"
-        %span.input-group-btn
+        .input-group-prepend
+          %span.input-group-text &times;
+        = form.number_field :value, class: "form-control"
+        .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#value-info" }, tabindex: "-1" do
             %i.fa.fa-info-circle
       = render "layouts/errors", object: @block_size_multiplier, key: :value
-      #value-info.callout.callout-info{ style: "display: none;" }
-        %p
-          Determines the amount of times treatment arms occur within this block.
-          Given two treatment arms, one with allocation of 1, one with allocation of 2,
-          and a block size multiplier value of x2, the first treatment arm would
-          occur twice in the block group, and the second treatment arms would
-          occur four times.
-        %p
-          Read more about block groups
-          = succeed "." do
-            = link_to "here", docs_permuted_block_path
+      #value-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
+        .card-body
+          %p
+            Determines the amount of times treatment arms occur within this block.
+            Given two treatment arms, one with allocation of 1, one with allocation of 2,
+            and a block size multiplier value of x2, the first treatment arm would
+            occur twice in the block group, and the second treatment arms would
+            occur four times.
+          %p
+            Read more about block groups
+            = succeed "." do
+              = link_to "here", docs_permuted_block_path
 
-  .form-group
-    = f.label :allocation, nil, class: "col-md-2 control-label"
+  .form-group.row
+    = form.label :allocation, nil, class: "col-md-2 col-form-label"
     .col-md-10
       .input-group
-        = f.text_field :allocation, class: "form-control"
-        %span.input-group-btn
+        = form.number_field :allocation, class: "form-control"
+        .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#allocation-info" }, tabindex: "-1" do
             %i.fa.fa-info-circle
       = render "layouts/errors", object: @block_size_multiplier, key: :allocation
-      #allocation-info.callout.callout-info{ style: "display: none;" }
-        %strong Allocation
-        %p
-          Determines how many times this block occurs within a single block
-          group.
-        %p
-          Read more about block groups
-          = succeed "." do
-            = link_to "here", docs_permuted_block_path
+      #allocation-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
+        .card-body
+          %p
+            Determines how many times this block occurs within a single block
+            group.
+          %p
+            Read more about block groups
+            = succeed "." do
+              = link_to "here", docs_permuted_block_path
 
-  .form-group
-    .col-md-offset-2.col-md-10
-      = f.submit nil, class: "btn btn-primary"
-      = link_to "Cancel", @block_size_multiplier.new_record? ? project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme) : [@project, @randomization_scheme, @block_size_multiplier], class: "btn btn-light"
+  = render "forms/horizontal/submit", form: form, object: [@project, @randomization_scheme, @block_size_multiplier]
