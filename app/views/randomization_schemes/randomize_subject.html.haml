@@ -10,7 +10,7 @@
 
 - content_for :header, @title
 
-.dashboard-container
+.dashboard-container.pb-1
   - if @randomization_scheme.lists.count == 0
     %p.lead.text-center
       Lists not yet generated.
@@ -35,12 +35,12 @@
                 - @project.editors.each do |editor|
                   %li= editor.name
   - else
-    = form_tag randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: "form-horizontal" do |f|
-      .form-group
-        = label_tag :subject_code, "Subject Code", class: "col-md-2 control-label"
+    = form_with url: randomize_subject_to_list_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, local: true do |form|
+      .form-group.row
+        = label_tag :subject_code, "Subject Code", class: "col-md-2 col-form-label"
         .col-md-10
           - if @subject
-            %div{ style: "padding: 6px 0;" }
+            .form-control-plaintext
               = hidden_field_tag :subject_code, @subject.subject_code
               = link_to @subject.subject_code, [@project, @subject]
           - else
@@ -50,8 +50,8 @@
           = render "layouts/errors", object: @randomization, key: :subject_id
 
       - @randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
-        .form-group
-          %label.col-md-2.control-label
+        .form-group.row
+          %label.col-md-2.col-form-label
             = stratification_factor.name
           .col-md-10
             - stratification_factor.option_hashes.each do |option_hash|
@@ -59,24 +59,26 @@
               - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
               - if site
                 - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
-                %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if selected}" }
-                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected
-                  = site.name
+                .custom-control.custom-radio
+                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{site.id}"
+                  = label_tag "stratification_factors_#{stratification_factor.id}_#{site.id}", site.name, class: "custom-control-label"
               - elsif option
                 - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
-                %label.radio-inline.checkbox-radio-outline{ class: "#{"selected" if selected}" }
-                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, data: { stratification_factor_id: stratification_factor.id, value: option.value }
-                  = option.label
+                .custom-control.custom-radio
+                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{option.id}", data: { stratification_factor_id: stratification_factor.id, value: option.value }
+                  = label_tag "stratification_factors_#{stratification_factor.id}_#{option.id}", option.label, class: "custom-control-label"
             = render "layouts/errors", object: @randomization, key: stratification_factor.name.to_sym, key_name: stratification_factor.name
 
-      .well
-        .form-group
-          = label_tag :attested, "<i class=\"fa fa-leaf\" style=\"color: #5cb85c;\"></i> Attestation".html_safe, class: "col-md-2 control-label"
-          .col-md-10{ style: "padding-left: 20px;display: block;min-height: 27px;padding-top: 7px;" }
-            = check_box_tag :attested, "1", params[:attested] == "1", style: "float: left;margin-left: -20px;"
-            = @randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements)
-            %p= render "layouts/errors", object: @randomization, key: :attested
+      .form-group.row.bg-light.py-3.rounded
+        = label_tag :attested, "<i class=\"fa fa-leaf\" style=\"color: #5cb85c;\"></i> Attestation".html_safe, class: "col-md-2 col-form-label"
+        .col-md-10
+          .custom-control.custom-checkbox
+            - text = (@randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements))
+            = check_box_tag :attested, "1", params[:attested] == "1", class: "custom-control-input", id: "attested"
+            = label_tag "attested", text, class: "custom-control-label"
+            = render "layouts/errors", object: @randomization, key: :attested
 
-      .form-group
-        .col-md-offset-2.col-md-10
+      .form-group.row
+        .col-md-2
+        .col-md-10
           = submit_tag "Randomize!", class: "btn btn-lg btn-primary btn-shadow"
