@@ -1,6 +1,6 @@
 - variable = @project.variable_by_id(filter[:id])
 - if variable
-  .filter-bubble.nowrap{ id: "variable_#{filter[:id]}", style: "overflow:hidden", data: { object: "edit-filter", variable_id: filter[:id], project_id: variable.project_id } }
+  .filter-bubble.nowrap.bg-light.rounded{ id: "variable_#{filter[:id]}", style: "overflow:hidden", data: { object: "edit-filter", variable_id: filter[:id], project_id: variable.project_id } }
     = hidden_field_tag "f[][id]", filter[:id]
     = hidden_field_tag "f[][missing]", filter[:missing], data: { name: "missing" }
     = hidden_field_tag "f[][axis]", filter[:axis], data: { name: "axis" }

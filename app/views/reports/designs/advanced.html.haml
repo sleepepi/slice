@@ -15,7 +15,7 @@
   .modal-dialog.modal-lg
     #filter-modal.modal-content
 
-= form_tag new_filter_reports_project_path(@design.project, design_id: @design.id), method: :post, remote: true, id: "new_filter_form", style: "display: none;" do
+= form_with url: new_filter_reports_project_path(@design.project, design_id: @design.id), method: :post, id: "new_filter_form", style: "display: none;" do |form|
   &nbsp;
 
 .row
@@ -24,16 +24,15 @@
       .mb-2
         %strong Filters
       = link_to "Add Filter", "#", class: "btn btn-light btn-sm float-right", data: { object: "open-new-filter-modal" }
-      = form_tag filters_reports_project_path(@design.project), method: :post, remote: true, id: "filters_form" do
-        #filters
-          = render "filters/filters"
+      = form_with url: filters_reports_project_path(@design.project), method: :post, id: "filters_form" do |form|
+        #filters= render "filters/filters"
 
   .col-md-4
     .dashboard-container.p-3
       .mb-2
         %strong Format
 
-      = form_tag project_reports_design_advanced_path(@design.project, @design), method: :post, remote: true, data: { object: "form-load-with-filters" }, class: "form-vertical", id: "report_form", style: "margin-top: 15px;" do
+      = form_with url: project_reports_design_advanced_path(@design.project, @design), method: :post, data: { object: "form-load-with-filters" }, id: "report_form" do |form|
         = hidden_field_tag :page, params[:page]
 
         .form-group
