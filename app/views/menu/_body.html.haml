@@ -25,7 +25,7 @@
   %li.nav-item{ class: current_page?(search_path) ? "active" : nil }
     = link_to search_path, class: "nav-link" do
       %i.fa.fa-search.d-none.d-lg-inline
-      Help Center
+      Search
     - if current_page?(search_path)
       %span.sr-only (current)
   - if current_user
