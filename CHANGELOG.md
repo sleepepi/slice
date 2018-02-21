@@ -13,6 +13,8 @@
 - **Sheet Changes**
   - Updated inputs for date, time, weight, and height variables to use less
     space
+  - Time of day variables now validate after navigating off of the AM/PM
+    selector
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 

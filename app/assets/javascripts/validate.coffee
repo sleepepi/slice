@@ -229,11 +229,11 @@
     $("#validation-messages").html("")
 
 $(document)
-  .on('blur', '[data-object~="validate"] input, [data-object~="validate"] textarea', (e) ->
+  .on("blur", '[data-object~="validate"] input, [data-object~="validate"] textarea, [data-object~="validate"] select', (e) ->
     relatedTarget = e.relatedTarget || e.toElement;
     validateElement($(this), $(relatedTarget))
   )
-  .on('change', '[data-object~="validate"] input:checkbox, [data-object~="validate"] input:radio, [data-object~="validate"] select', ->
+  .on("change", '[data-object~="validate"] input:checkbox, [data-object~="validate"] input:radio, [data-object~="validate"] select', ->
     validateElement($(this))
   )
   .on('click', '[data-object~="scroll-to-first-error"]', ->
