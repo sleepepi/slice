@@ -22,12 +22,13 @@
   =# render "menu/item", title: "Dashboard", path: dashboard_path
 
 %ul.navbar-nav
-  %li.nav-item{ class: current_page?(search_path) ? "active" : nil }
-    = link_to search_path, class: "nav-link" do
-      %i.fa.fa-search.d-none.d-lg-inline
-      Search
-    - if current_page?(search_path)
-      %span.sr-only (current)
+  - if current_user
+    %li.nav-item{ class: current_page?(search_path) ? "active" : nil }
+      = link_to search_path, class: "nav-link" do
+        %i.fa.fa-search.d-none.d-lg-inline
+        Search
+      - if current_page?(search_path)
+        %span.sr-only (current)
   - if current_user
     %li.nav-item.d-none.d-lg-block{ class: current_page?(notifications_path) ? "active" : nil }
       = link_to notifications_path, class: "nav-link notifications-link#{" notifications-link-active" if current_user.unread_notifications?}" do
