@@ -27,54 +27,59 @@
   padding: map-get($spacers, 1) 0;
 }
 
-// TODO: Put back in
-// .dashboard-lead {
-//   background-color: $dashboard-lead-bg;
-//   border-top-left-radius: $border-radius;
-//   border-top-right-radius: $border-radius;
-//   color: $brand-white;
-//   padding: 15px;
+.dashboard-lead {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  padding: 15px;
 
-//   + .dashboard-container {
-//     border-top-left-radius: 0;
-//     border-top-right-radius: 0;
-//   }
-// }
+  + .dashboard-container {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
 
-// .section-lead {
-//   background-color: $section-lead-bg;
-//   border-radius: $border-radius;
-//   margin-bottom: 20px;
-//   padding: 15px;
+.section-lead {
+  border-radius: $border-radius;
+  margin-bottom: 20px;
+  padding: 15px;
 
-//   > div {
-//     margin-bottom: 0 !important;
-//   }
+  > div {
+    margin-bottom: 0 !important;
+  }
 
-//   .section-header,
-//   .sub-section-header {
-//     border: 0;
-//     color: $brand-white;
-//     font-weight: initial;
-//     margin-bottom: 0;
-//     margin-top: 0;
-//     padding: 0;
-//   }
-// }
+  .section-header,
+  .sub-section-header {
+    border: 0;
+    font-weight: initial;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+  }
+}
 
 
 @each $name, $theme in $themes {
-  // $menu-bg: map-get($theme, p600);
-  // @if map-get($theme, menu-bg) {
-  //   $menu-bg: map-get($theme, menu-bg);
-  // }
-
   .theme-#{$name}-bg {
     .dashboard-container-margins,
     .dashboard-container {
       background-color: map-get($theme, dashboard-bg);
       box-shadow: 0 0 5px map-get($theme, box-shadow-color);
       color: map-get($theme, body-color);
+    }
+
+    .dashboard-lead {
+      background-color: map-get($theme, dashboard-bg);
+      color: map-get($theme, body-color);
+    }
+
+    .section-lead {
+      background-color: map-get($theme, dashboard-bg);
+      color: map-get($theme, body-color);
+
+      .section-header,
+      .sub-section-header {
+        color: map-get($theme, body-color);
+      }
     }
   }
 }
