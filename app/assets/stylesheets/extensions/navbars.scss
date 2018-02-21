@@ -1,3 +1,9 @@
+.navbar a,
+.navbar-header,
+.navbar-header img {
+  @include ignore-selection;
+}
+
 .navbar-brand {
   border: 0;
   outline: 0;
