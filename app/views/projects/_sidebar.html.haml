@@ -8,8 +8,6 @@
           %li.sidebar-menu-header
             = @project.name
           %li
-            = link_to "Dashboard", @project
-          %li
             = link_to project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil) do
               Subjects
           %li

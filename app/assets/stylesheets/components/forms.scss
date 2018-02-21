@@ -44,8 +44,6 @@
         color: map-get($theme, brand-white);
         border-color: map-get($theme, p200);
       }
-
-      text-shadow-color: 0 2px 3px map-get($theme, shadow-color);
     }
   }
 }

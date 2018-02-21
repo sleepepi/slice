@@ -11,43 +11,36 @@
 - content_for :header, @title
 
 - if editable_sites.count > 1
-  %p.lead.text-white.text-shadow.text-center
-    Choose subject's site.
-
   .dashboard-container
-    %p
-      Add
+    %h3
+      Select site for
       %strong= params[:subject_code]
-      to:
-    - editable_sites.order(:name).in_groups_of(3, false).each do |sites_row|
-      - sites_row.each do |site|
-        %div{ style: "margin-bottom: 20px; margin-left: 20px;" }
-          = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: "btn btn-accent" do
-            %strong= site.name
+    .my-3
+      - editable_sites.order(:name).in_groups_of(3, false).each do |sites_row|
+        - sites_row.each do |site|
+          = link_to site.name, project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: "btn btn-primary"
 
-    %div{ style: "margin-bottom: 20px; margin-left: 20px;" }
-      = link_to @project, class: "btn btn-light" do
-        Cancel
+    %div= link_to "Cancel", @project, class: "btn btn-light"
 
 - elsif editable_sites.count == 1
-  %p.lead.text-white.text-shadow.text-center
-    Would you like to add
-    %strong= params[:subject_code]
-    as a new subject?
-
   .dashboard-container
-    = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: editable_sites.first.id), method: :post, class: "btn btn-accent" do
-      Create Subject
+    %h3
+      Add
       %strong= params[:subject_code]
+      as a new subject?
 
-    &nbsp;
-    = link_to @project, class: "btn btn-light" do
-      Cancel
+    .my-3
+      = link_to project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: editable_sites.first.id), method: :post, class: "btn btn-primary" do
+        Create subject
+        %strong= params[:subject_code]
+
+    %div= link_to "Cancel", @project, class: "btn btn-light"
 
 - else
-  %p.lead.text-white.text-shadow.text-center No Sites on Project
-
   .dashboard-container
-    You will need to
-    = link_to "add a site", new_project_site_path(@project)
-    before creating subjects.
+    %h3
+      No sites on project
+    .mt-3
+      You will need to
+      = link_to "add a site", new_project_site_path(@project)
+      before creating subjects.

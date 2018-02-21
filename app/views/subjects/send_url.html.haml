@@ -7,23 +7,22 @@
 
 - designs = current_user.all_viewable_designs.where(project_id: @project.id).where(publicly_available: true).includes(:category).where(categories: { use_for_adverse_events: [false, nil] })
 
-- if designs.count == 0
-  .jumbotron.text-center
-    %p.lead No publicly available designs currently exist on the project.
-- else
-  %p.lead.text-white.text-shadow.text-center
-    Select design to generate a fillable link.
-
+- if designs.present?
   .dashboard-container
-    - category_count = designs.pluck(:category_id).uniq.count
-    - designs.order("categories.position", :name).group_by(&:category).each do |category, designs|
-      - if category_count > 1
-        %h3
-          - if category
-            = category.name
-          - else
-            Uncategorized
-      %ul
-        - designs.each do |design|
-          %li= link_to design.name, set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post
+    %h3 Select design to generate a fillable link.
 
+    .mt-3
+      - category_count = designs.pluck(:category_id).uniq.count
+      - designs.order("categories.position", :name).group_by(&:category).each do |category, designs|
+        - if category_count > 1
+          %h3
+            - if category
+              = category.name
+            - else
+              Uncategorized
+        %ul
+          - designs.each do |design|
+            %li= link_to design.name, set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post
+- else
+  .jumbotron.jumbotron-custom-text
+    No publicly available designs currently exist on the project.
