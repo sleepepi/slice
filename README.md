@@ -1,7 +1,6 @@
 # Slice
 
 [![Build Status](https://travis-ci.org/remomueller/slice.svg?branch=master)](https://travis-ci.org/remomueller/slice)
-[![Dependency Status](https://gemnasium.com/remomueller/slice.svg)](https://gemnasium.com/remomueller/slice)
 [![Code Climate](https://codeclimate.com/github/remomueller/slice/badges/gpa.svg)](https://codeclimate.com/github/remomueller/slice)
 
 A clinical research interface geared at collecting robust and consistent data by
