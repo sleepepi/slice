@@ -1,9 +1,11 @@
 .grid-handle {
-  cursor: move;
+  cursor: move; // Cursor fallback
+  cursor: grab;
 }
 
-.variable-grid {
-  box-shadow: 3px 3px 10px $gray-light;
-  display: table;
-  min-width: 100%;
+.ui-sortable-helper {
+  .grid-handle {
+    cursor: move; // Cursor fallback
+    cursor: grabbing;
+  }
 }
