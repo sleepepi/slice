@@ -9,5 +9,5 @@
       = succeed "." do
         = notification.sheet.subject.name
 
-%td.d-none.d-sm-table-cell
+%td.d-none.d-md-table-cell
   = image_tag notification.sheet.user.avatar_url(18, "identicon"), size: "18x18", alt: "" if notification.sheet.user

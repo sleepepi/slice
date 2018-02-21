@@ -3,27 +3,27 @@
 - content_for :header, @title
 
 .row
-  .col-sm-2
+  .col-md-2
     .row
-      .col-6.col-sm-12
+      .col-6.col-md-12
         = link_to "Unread", notifications_path, class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] != "1" ? "btn-primary" : "btn-light" }", style: "margin-bottom: 10px"
-      .col-6.col-sm-12
+      .col-6.col-md-12
         = link_to "All", notifications_path(all: "1"), class: "btn btn-block btn-shadow #{current_page?(notifications_path) && params[:all] == "1" ? "btn-primary" : "btn-light" }"
-  .col-sm-10
-    - if @notifications.count > 0
+  .col-md-10
+    - if @notifications.present?
       - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff, :sheet).group_by(&:project).each do |project, notifications|
         .dashboard-container
-          %table.table.table-fixed
+          %table.table.table-fixed.table-borderless.table-striped
             %col{ width: "32px" }
-            %col{ }
-            %col.d-none.d-sm-table-column{ width: "32px" }
-            %col.d-none.d-sm-table-column{ width: "165px" }
+            %col
+            %col.d-none.d-md-table-column{ width: "42px" }
+            %col.d-none.d-md-table-column{ width: "165px" }
             %col{ width: "32px" }
             %thead
               %tr
                 %th{ colspan: 2 }= link_to project.name, project, class: "link-unstyled"
-                %th.d-none.d-sm-table-cell
-                %th.d-none.d-sm-table-cell
+                %th.d-none.d-md-table-cell
+                %th.d-none.d-md-table-cell
                 %th
                   = link_to mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: "text-muted" do
                     %i.fa.fa-check
@@ -32,5 +32,5 @@
                 %tr{ id: "notification_#{notification.id}"}
                   = render "notifications/show", notification: notification
     - else
-      .dashboard-container
-        %p.lead.text-center You have no unread notifications!
+      .jumbotron.jumbotron-custom-text
+        You have no unread notifications!
