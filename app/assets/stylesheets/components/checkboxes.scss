@@ -1,73 +1,9 @@
-.checkbox-radio-outline {
-  background-color: $table-accent-bg;
-  border-radius: $border-radius;
-  cursor: pointer;
-  font-size: 13px;
-  min-height: 34px;
-
-  &:hover {
-    background-color: $table-hover-bg;
-  }
-}
-
-label {
-  &.checkbox-radio-outline {
-    font-weight: normal;
-    padding-bottom: 9px;
-    padding-left: 31px;
-    padding-right: 10px;
-  }
-}
-
-.checkbox,
-.radio,
-.checkbox-inline,
-.radio-inline {
-  &.checkbox-radio-outline {
-    margin-bottom: 4px;
-  }
-}
-
-.checkbox-radio-outline {
-  input {
-    &[type="radio"],
-    &[type="checkbox"] {
-      outline: none;
-    }
-  }
-}
+// Styles custom-checkbox and custom-radio backgrounds.
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
-    .checkbox-radio-outline {
-      // TODO: Check if these colors are needed.
-      // border-color: $blockquote-border;
-      // color: $blockquote-color;
-
-      &.selected {
-        background-color: map-get($theme, primary);
-        color: map-get($theme, brand-white);
-
-        &.negation {
-          background-color: theme-color($theme, danger, $p500-red);
-          color: map-get($theme, brand-white);
-        }
-      }
-    }
-
     $input-shadow-color: rgba(0, 0, 0, .075);
-    .checkbox-radio-outline.focus {
-      border-color: map-get($theme, primary);
-      box-shadow: inset 0 1px 1px $input-shadow-color, 0 0 12px map-get($theme, primary);
-      outline: none;
-    }
 
-    .checkbox-radio-outline.focus.negation {
-      border-color: theme-color($theme, danger, $p500-red);
-      box-shadow: inset 0 1px 1px $input-shadow-color, 0 0 12px theme-color($theme, danger, $p500-red);
-    }
-
-    // Styles custom-checkbox and custom-radio backgrounds.
     .custom-control-input:checked ~ .custom-control-label::before {
       background-color: map-get($theme, primary);
     }
