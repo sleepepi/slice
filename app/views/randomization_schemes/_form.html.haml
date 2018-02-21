@@ -125,7 +125,7 @@
       .col-md-10
         .input-group
           = form.text_field :chance_of_random_treatment_arm_selection, class: "form-control", placeholder: 30
-          %span.input-group-btn
+          .input-group-append
             = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#random-chance-info" }, tabindex: "-1" do
               %i.fa.fa-info-circle
         = render "layouts/errors", object: @randomization_scheme, key: :chance_of_random_treatment_arm_selection
