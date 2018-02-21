@@ -1,16 +1,18 @@
 - response_name = object.get_response(:name) if object
 - response_file = object.get_response(:raw) if object
 
-.row
-  %div{ class: "col-md-#{(response_file && response_file.size > 0) ? 6 : 12}" }
-    .file-input.btn.btn-sm.btn-light
-      %span.file-input-display Upload File
-      = file_field_tag "#{field_name}[response_file]", data: { content: variable.description, title: variable.display_name, object: 'condition', html: 'true' }, rel: "#{variable.description.blank? ? 'tooltip' : 'popover'}", disabled: disabled, title: variable.display_name, class: 'upload', style: 'line-height:1;padding:0px;margin:0px', tabindex: '-1'
-    = hidden_field_tag "#{field_name}[response_file_cache]"
-  - if response_file && response_file.size > 0
-    .col-md-6
-      %label.checkbox-inline.checkbox-radio-outline.negation
-        = check_box_tag "#{field_name}[remove_response_file]", '1', false
+- if response_file && response_file.size > 0
+  .d-none= file_field_tag "#{field_name}[response_file]"
+  .form-control-plaintext
+    .custom-control.custom-checkbox
+      = check_box_tag "#{field_name}[remove_response_file]", "1", false, class: "custom-control-input"
+      = label field_name, "remove_response_file", class: "custom-control-label" do
         Remove
+      %span
         %code= response_name
-        %tt= number_to_human_size(response_file.size)
+        %span.badge.badge-secondary= number_to_human_size(response_file.size)
+- else
+  .file-input.btn.btn-sm.btn-outline-dark{ rel: variable.description.blank? ? "tooltip" : "popover", title: variable.display_name, data: { content: variable.description, title: variable.display_name, html: "true" } }
+    %span.file-input-display Attach file
+    = file_field_tag "#{field_name}[response_file]", data: { object: "condition" }, disabled: disabled, class: "upload", tabindex: "-1"
+  = hidden_field_tag "#{field_name}[response_file_cache]"
