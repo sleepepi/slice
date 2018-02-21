@@ -2,7 +2,11 @@
   cursor: move;
 }
 
-.event-droppable-hover,
-.card-header.event-droppable-hover {
-  background-color: $brand-highlight;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .event-droppable-hover,
+    .card-header.event-droppable-hover {
+      background-color: theme-color($theme, mark-bg, $mark-bg);
+    }
+  }
 }
