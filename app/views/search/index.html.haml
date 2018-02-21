@@ -1,24 +1,26 @@
 - @title = [params[:search], "Search"].reject(&:blank?).join(" - ")
 - @menu_title = ["Search", params[:search]].reject(&:blank?).join(" ")
 
-- content_for :header do
-  Search
-  - if params[:search].present?
-    %small
-      %code{ data: { object: "show-search-bar" }, style: "cursor: pointer;" }= params[:search]
+- content_for :header, "Search"
 
-- if @objects.size == 0
+= form_tag search_path, method: :get, id: "search-form", class: "mb-5" do
+  .input-group
+    = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autofocus: params[:search].blank?
+    .input-group-append
+      = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
+        %i.fa.fa-search
+
+
+- if @objects.blank? == 0
   .jumbotron.jumbotron-custom-text
     No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
 - else
-  .row
-    - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|
-      - if scope.size > 0
-        .col-md-3
-          .dashboard-container.p-3
-            .mb-2
-              %strong= name
-            - scope.each do |item|
-              - link = item.respond_to?("project") ? [item.project, item] : item
-              .overflow-hidden{ title: "#{item.project.name if item.respond_to?("project")}", style: "width: 100%", rel: "tooltip", data: { placement: "right", container: "body" } }
-                = link_to item.name, link
+  - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|
+    - if scope.size > 0
+      .dashboard-container
+        .mb-2
+          %strong= name
+        - scope.each do |item|
+          - link = item.respond_to?("project") ? [item.project, item] : item
+          .overflow-hidden{ title: "#{item.project.name if item.respond_to?("project")}", style: "width: 100%", rel: "tooltip", data: { placement: "right", container: "body" } }
+            = link_to item.name, link
