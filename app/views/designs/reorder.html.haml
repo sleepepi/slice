@@ -8,8 +8,8 @@
   .float-right
     .d-none.d-sm-block.btn-toolbar
       .btn-group
-        = link_to "Edit <u>M</u>ode".html_safe, edit_project_design_path(@project, @design), class: "btn btn-sm btn-light"
-        = link_to "Preview <u>M</u>ode".html_safe, edit_project_design_path(@project, @design, mode: "preview"), class: "btn btn-sm btn-light"
+        = link_to "Edit Mode".html_safe, edit_project_design_path(@project, @design), class: "btn btn-sm btn-light"
+        = link_to "Preview Mode".html_safe, edit_project_design_path(@project, @design, mode: "preview"), class: "btn btn-sm btn-light"
       = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light active"
   = link_to @design.short_name, edit_project_design_path(@project, @design)
   Reorder
@@ -20,16 +20,16 @@
 
 .dashboard-container
   %ul.pagination
-    %li
-      %a#sections_link{ href: "#" } Sections
-    %li.active
-      %a{ href: "#" }= @design.main_sections.count
+    %li.page-item
+      %a.page-link#sections_link{ href: "#" } Sections
+    %li.page-item.active
+      %a.page-link{ href: "#" }= @design.main_sections.count
 
   %ul.pagination
-    %li.disabled
-      %a#variables_link{ href: "#" } Variables
-    %li.active
-      %a{ href: "#" }= @design.variables.count
+    %li.page-item.disabled
+      %a.page-link#variables_link{ href: "#" } Variables
+    %li.page-item.active
+      %a.page-link{ href: "#" }= @design.variables.count
 
   = link_to "Save Order", "#", id: "reorder_design_button", class: "btn btn-primary btn-sm", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top"
   = link_to "Save Order", "#", id: "reorder_design_sections_button", class: "btn btn-primary btn-sm", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top;display:none"
