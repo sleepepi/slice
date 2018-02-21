@@ -63,44 +63,85 @@ select {
   }
 }
 
-.time-input {
+.date-input,
+.time-of-day-input,
+.time-duration-input,
+.imperial-height-input,
+.imperial-weight-input {
   white-space: nowrap;
+  border-radius: $input-border-radius;
+  border: 1px solid transparent;
+  display: inline-block;
+  padding: .375rem;
+}
 
-  input {
-    &[type="text"],
-    &[type="number"] {
-      min-width: 55px;
-      width: 55px;
-    }
-  }
-
-  select {
-    min-width: 70px;
-    width: 70px;
+.month-select-box,
+.period-select-box {
+  select.form-control {
+    border: 0;
+    height: auto !important;
+    width: auto;
   }
 }
 
-.date-input {
-  white-space: nowrap;
+.month-select-box {
+  select.form-control {
+    width: 75px;
+    min-width: 75px;
+  }
+}
+
+.period-select-box {
+  select.form-control {
+    width: 60px;
+    min-width: 60px;
+  }
+}
+
+.month-select-box,
+.month-box,
+.day-box,
+.year-box,
+.hour-box,
+.min-box,
+.sec-box,
+.feet-box,
+.inches-box,
+.pounds-box,
+.ounces-box {
+  input {
+    box-shadow: none;
+    outline: 0;
+    border: 0;
+    padding: 0;
+    text-align: center;
+  }
 }
 
 .month-box,
-.day-box {
+.day-box,
+.hour-box,
+.min-box,
+.sec-box,
+.feet-box,
+.inches-box,
+.ounces-box {
   input {
     &[type="text"],
     &[type="number"] {
-      min-width: 55px;
-      width: 55px;
+      min-width: 30px;
+      width: 30px;
     }
   }
 }
 
-.year-box {
+.year-box,
+.pounds-box {
   input {
     &[type="text"],
     &[type="number"] {
-      min-width: 63px;
-      width: 63px;
+      min-width: 50px;
+      width: 50px;
     }
   }
 }
@@ -210,6 +251,20 @@ input[type="number"] {
 
       table {
         background-color: map-get($theme, dashboard-bg);
+      }
+    }
+
+    .date-input,
+    .time-of-day-input,
+    .time-duration-input,
+    .imperial-height-input,
+    .imperial-weight-input {
+      color: theme-color($theme, input-color, $p800-grey);
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(map-get($theme, primary), 0.25);
       }
     }
   }

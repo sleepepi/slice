@@ -2,34 +2,34 @@
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = variable.response_to_value(response)
 
-.date-input.form-inline{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "date", status: variable.validator.status(value) } }
+.date-input{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "date", status: variable.validator.status(value) } }
   - case variable.date_format
   - when "dd-mmm-yyyy"
     = render "sheet_variables/form/parts/day", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 -
+    %span -
     = render "sheet_variables/form/parts/month_select", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 -
+    %span -
     = render "sheet_variables/form/parts/year", disabled: disabled, field_name: field_name, target_name: target_name, value: value
   - when "yyyy-mm-dd"
     = render "sheet_variables/form/parts/year", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 -
+    %span -
     = render "sheet_variables/form/parts/month", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 -
+    %span -
     = render "sheet_variables/form/parts/day", disabled: disabled, field_name: field_name, target_name: target_name, value: value
   - when "dd/mm/yyyy"
     = render "sheet_variables/form/parts/day", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 /
+    %span /
     = render "sheet_variables/form/parts/month", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 /
+    %span /
     = render "sheet_variables/form/parts/year", disabled: disabled, field_name: field_name, target_name: target_name, value: value
   - else # "mm/dd/yyyy"
     = render "sheet_variables/form/parts/month", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 /
+    %span /
     = render "sheet_variables/form/parts/day", disabled: disabled, field_name: field_name, target_name: target_name, value: value
-    %span.px-1 /
+    %span /
     = render "sheet_variables/form/parts/year", disabled: disabled, field_name: field_name, target_name: target_name, value: value
 
-  = link_to "Today", "#", class: "btn btn-light btn-sm ml-1", data: { object: "set-date-input-to-current-date", target_name: target_name }, tabindex: "-1" if variable.show_current_button?
-  = link_to "Clear", "#", class: "btn btn-light btn-sm ml-1", data: { object: "clear-date-input", target_name: target_name }, tabindex: "-1" unless is_grid
+= link_to "Today", "#", class: "btn btn-light btn-sm ml-1", data: { object: "set-date-input-to-current-date", target_name: target_name }, tabindex: "-1" if variable.show_current_button?
+= link_to "Clear", "#", class: "btn btn-light btn-sm ml-1", data: { object: "clear-date-input", target_name: target_name }, tabindex: "-1" unless is_grid
 
 = render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

@@ -1,23 +1,12 @@
 - is_grid = defined?(grid)
-- target_name = field_name.gsub('[', '_').gsub(']', '')
+- target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = variable.response_to_value(response)
 - raw_value = variable.response_to_raw_value(response)
-
-.imperial-weight-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'imperial_weight', status: variable.validator.status(value) } }
-  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', calculation_id: variable.id, name: variable.name, raw_value_for: target_name }
-  %span.pounds-box
-    .input-group
-      = text_field_tag "#{field_name}[pounds]", (value[:pounds] ? format('%d', value[:pounds]) : nil), disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-append
-        = render "sheet_variables/form/addon", addon: "lb"
-  &nbsp;
-  %span.ounces-box
-    .input-group
-      = text_field_tag "#{field_name}[ounces]", (value[:ounces] ? format('%d', value[:ounces]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
-      .input-group-append
-        = render "sheet_variables/form/addon", addon: "oz"
-  &nbsp;
-  - unless is_grid
-    = link_to 'Clear', '#', data: { object: 'clear-imperial-weight-input', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'
-
-= render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid
+.imperial-weight-input{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "imperial_weight", status: variable.validator.status(value) } }
+  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: "condition", calculation_id: variable.id, name: variable.name, raw_value_for: target_name }
+  = render "sheet_variables/form/parts/weight_pounds", disabled: disabled, field_name: field_name, target_name: target_name, value: value
+  lb
+  = render "sheet_variables/form/parts/weight_ounces", disabled: disabled, field_name: field_name, target_name: target_name, value: value
+  oz
+= link_to "Clear", "#", data: { object: "clear-imperial-weight-input", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
+= render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

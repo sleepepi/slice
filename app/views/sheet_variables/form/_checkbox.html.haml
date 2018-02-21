@@ -1,10 +1,8 @@
 - is_grid = defined?(grid)
 - show_values = true unless defined?(show_values)
-
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - values = variable.response_to_value(response)
 - domain_options = variable.domain_options_with_user(response, current_user)
-
 %div{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "checkbox", status: variable.validator.status(values) } }
   = hidden_field_tag "#{field_name}[]", nil, disabled: disabled, data: { calculation_id: variable.id, name: variable.name, variable_type: variable.variable_type }
   - if variable.alignment == "scale"

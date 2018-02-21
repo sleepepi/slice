@@ -1,6 +1,5 @@
 - response_name = object.get_response(:name) if object
 - response_file = object.get_response(:raw) if object
-
 - if response_file && response_file.size > 0
   .d-none= file_field_tag "#{field_name}[response_file]"
   .form-control-plaintext

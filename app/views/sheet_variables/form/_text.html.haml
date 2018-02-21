@@ -1,11 +1,9 @@
 - is_grid = defined?(grid)
-
-- target_name = field_name.gsub('[', '_').gsub(']', '')
+- target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = response
-
-%div{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'text', status: variable.validator.status(value) } }
-  = text_area_tag field_name, response, rows: 7, class: 'form-control',
-    data: { content: variable.description, placement: 'bottom', html: 'true', object: 'cursor-navigatable' },
-      title: variable.description.blank? ? '' : variable.display_name,
-      rel: "#{variable.description.blank? ? '' : 'popover'}",
+%div{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "text", status: variable.validator.status(value) } }
+  = text_area_tag field_name, response, rows: 7, class: "form-control",
+    data: { content: variable.description, placement: "bottom", html: "true", object: "cursor-navigatable" },
+      title: variable.description.blank? ? "" : variable.display_name,
+      rel: "#{variable.description.blank? ? "" : "popover"}",
       disabled: disabled

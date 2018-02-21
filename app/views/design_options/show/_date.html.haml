@@ -1,6 +1,6 @@
 - is_grid = defined?(grid)
 
-.date-input.form-inline
+.date-input
   - if variable.date_format == "dd-mmm-yyyy"
     %span.day-box
       = text_field_tag "day_#{variable.name}", "", maxlength: 2, disabled: true, autocomplete: "off", placeholder: "dd", class: "form-control", style: "display: inline-block;"

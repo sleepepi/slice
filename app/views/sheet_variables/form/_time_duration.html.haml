@@ -1,27 +1,16 @@
 - is_grid = defined?(grid)
-
-- target_name = field_name.gsub('[', '_').gsub(']', '')
-
+- target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = variable.response_to_value(response)
 - raw_value = variable.response_to_raw_value(response)
-
-.time-input.form-inline{ data: { object: 'validate', project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: 'time_duration', status: variable.validator.status(value) } }
-  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: 'condition', calculation_id: variable.id, name: variable.name, raw_value_for: target_name }
-  - if ['hh:mm:ss', 'hh:mm', '', nil].include?(variable.time_duration_format)
-    %span.hour-box
-      = text_field_tag "#{field_name}[hours]", (value[:hours] ? format('%02d', value[:hours]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+.time-duration-input{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "time_duration", status: variable.validator.status(value) } }
+  = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: "condition", calculation_id: variable.id, name: variable.name, raw_value_for: target_name }
+  - if ["hh:mm:ss", "hh:mm", "", nil].include?(variable.time_duration_format)
+    = render "sheet_variables/form/parts/hour", disabled: disabled, field_name: field_name, target_name: target_name, value: value, placeholder: "_"
     h
-    &nbsp;
-  %span.min-box
-    = text_field_tag "#{field_name}[minutes]", (value[:minutes] ? format('%02d', value[:minutes]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+  = render "sheet_variables/form/parts/min", disabled: disabled, field_name: field_name, target_name: target_name, value: value, placeholder: "_"
   m
-  &nbsp;
-  - if ['hh:mm:ss', 'mm:ss', '', nil].include?(variable.time_duration_format)
-    %span.sec-box
-      = text_field_tag "#{field_name}[seconds]", (value[:seconds] ? format('%02d', value[:seconds]) : nil), maxlength: 2, disabled: disabled, data: { target_name: target_name, object: 'cursor-navigatable' }, autocomplete: 'off', placeholder: '', class: 'form-control', style: 'display: inline-block;'
+  - if ["hh:mm:ss", "mm:ss", "", nil].include?(variable.time_duration_format)
+    = render "sheet_variables/form/parts/sec", disabled: disabled, field_name: field_name, target_name: target_name, value: value, placeholder: "_"
     s
-    &nbsp;
-  - unless is_grid
-    = link_to 'Clear', '#', data: { object: 'clear-time-duration-input', target_name: target_name }, class: 'btn btn-light btn-sm', tabindex: '-1'
-
-= render 'validation/full_message', variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid
+= link_to "Clear", "#", data: { object: "clear-time-duration-input", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
+= render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

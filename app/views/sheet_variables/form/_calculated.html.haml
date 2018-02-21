@@ -1,19 +1,18 @@
 - is_grid = defined?(grid)
-
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = response
-
-.input-group{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "calculated", status: variable.validator.status(value) } }
+%div{ class: "#{"input-group" if variable.calculation.present? || variable.units.present? || variable.append.present? || variable.prepend.present?}", data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "calculated", status: variable.validator.status(value) } }
   - if variable.prepend.present?
     .input-group-prepend
       = render "sheet_variables/form/addon", addon: variable.prepend
   = text_field_tag "#{target_name}_calculation_result", response, class: "form-control", disabled: "disabled"
   = hidden_field_tag field_name, response, disabled: disabled, data: { object: "calculated", design: design.to_param, calculation: variable.calculation, variable_id: variable.id, target: "##{target_name}_calculation_result", calculation_id: variable.id, name: variable.name, grid_position: defined?(position) ? position : "", target_name: target_name, handoff: @handoff.to_param }
-  .input-group-append
-    = render "sheet_variables/form/addon", addon: variable.units
-    = render "sheet_variables/form/addon", addon: variable.append
-    = link_to "#", class: "btn btn-light", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
-      %i.fa.fa-info-circle
-
+  - if variable.calculation.present? || variable.units.present? || variable.append.present?
+    .input-group-append
+      = render "sheet_variables/form/addon", addon: variable.units
+      = render "sheet_variables/form/addon", addon: variable.append
+      - if variable.calculation.present?
+        = link_to "#", class: "btn btn-info", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
+          %i.fa.fa-info-circle
 %pre{ id: "calculation_#{target_name}", style: "display: none;margin-top: 20px;" }
   = variable.formatted_calculation

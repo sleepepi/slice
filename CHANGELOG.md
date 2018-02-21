@@ -10,6 +10,9 @@
   - Projects can now be "active" or "archived"
 - **Grid Changes**
   - Radio button variables in grids are now always displayed as dropdowns
+- **Sheet Changes**
+  - Updated inputs for date, time, weight, and height variables to use less
+    space
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 
