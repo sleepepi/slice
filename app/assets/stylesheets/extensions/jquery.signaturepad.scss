@@ -9,11 +9,6 @@
 
 .pad,
 .pad-display {
-  background-color: $input-bg;
-  border: 1px solid $dropdown-fallback-border;
-  border-radius: $input-border-radius;
-  color: $link-color;
-
   // For cross browser compatibility, this should be an absolute URL
   // In IE the cursor is relative to the HTML document
   // In all other browsers the cursor is relative to the CSS file
@@ -28,18 +23,45 @@
   user-select: none;
 }
 
+.pad {
+  border: 1px solid transparent;
+  border-radius: $input-border-radius;
+}
+
 .pad-display {
-  background-color: inherit;
-  border: 0 solid transparent;
   cursor: default;
 }
 
 .typeItDesc,
 .drawItDesc {
-  border-top: 3px solid $input-border;
-  color: $body-color;
+  border-top: 3px solid transparent;
   display: none;
   font: italic normal 1em/1.375 Georgia,Times,serif;
   margin: .75em 0 .515em;
   padding: .515em 0 0;
+}
+
+@each $name, $theme in $themes {
+  $theme-link-color: map-get($theme, primary);
+  @if map-get($theme, link-color) {
+    $theme-link-color: map-get($theme, link-color);
+  }
+
+  .theme-#{$name}-bg {
+    .pad {
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, dropdown-fallback-border, $p400-grey);
+      color: $theme-link-color;
+    }
+
+    .pad-display {
+      color: $theme-link-color;
+    }
+
+    .typeItDesc,
+    .drawItDesc {
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+      color: map-get($theme, body-color);
+    }
+  }
 }
