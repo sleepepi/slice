@@ -1,31 +1,38 @@
-@keyframes pulse-danger {
-  from {
-    color: $brand-danger;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    $theme-danger: theme-color($theme, alert-danger-color, map-get($theme-colors, danger));
+    $theme-gray: theme-color($theme, input-placeholder-color, $input-placeholder-color);
+
+    @keyframes pulse-danger-#{$name} {
+      from {
+        color: $theme-danger;
+      }
+
+      to {
+        color: lighten($theme-danger, 25%);
+      }
+    }
+
+    .check-bullet {
+      animation: pulse-danger-#{$name} 2s linear infinite alternate;
+      color: $theme-danger;
+      text-shadow: 0 0 4px $theme-danger;
+    }
+
+    @keyframes pulse-in-progress-#{$name} {
+      from {
+        color: $theme-gray;
+      }
+
+      to {
+        color: lighten($theme-gray, 25%);
+      }
+    }
+
+    .check-bullet-in-progress {
+      animation: pulse-in-progress-#{$name} 2s linear infinite alternate;
+      color: $theme-gray;
+      text-shadow: 0 0 4px $theme-gray;
+    }
   }
-
-  to {
-    color: lighten($brand-danger, 25%);
-  }
-}
-
-@keyframes pulse-in-progress {
-  from {
-    color: $brand-gray;
-  }
-
-  to {
-    color: lighten($brand-gray, 25%);
-  }
-}
-
-.check-bullet {
-  animation: pulse-danger 2s linear infinite alternate;
-  color: $brand-danger;
-  text-shadow: 0 0 4px $brand-danger;
-}
-
-.check-bullet-in-progress {
-  animation: pulse-in-progress 2s linear infinite alternate;
-  color: $brand-gray;
-  text-shadow: 0 0 4px $brand-gray;
 }
