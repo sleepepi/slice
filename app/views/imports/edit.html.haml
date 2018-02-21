@@ -71,9 +71,9 @@
                   .col-3
                     = select_tag "variables[#{hash[:name]}][variable_type]", options_for_select(Variable::TYPE_IMPORTABLE, variable_type), class: "form-control"
                 .col-6
-                  %label.checkbox-inline.checkbox-radio-outline{ class: "#{"selected" if ignore}" }
-                    = check_box_tag "variables[#{hash[:name]}][ignore]", "1", ignore
-                    do not add to design
+                  .custom-control.custom-checkbox
+                    = check_box_tag "variables[#{hash[:name]}][ignore]", "1", ignore, class: "custom-control-input", id: "variables_#{hash[:name]}_ignore"
+                    = label_tag "variables_#{hash[:name]}_ignore", "do not add to design", class: "custom-control-label"
 
     .form-group.row
       .col-md-2

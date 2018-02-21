@@ -4,7 +4,7 @@
   - status = "warning" if percent >= 33
   - status = "primary" if percent == 100
   .progress
-    .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%;" }
+    .progress-bar.progress-bar-striped.nowrap{ class: "bg-#{status}", style: "width: #{percent}%;" }
       = @design.rows_imported
       of
       = @design.total_rows
