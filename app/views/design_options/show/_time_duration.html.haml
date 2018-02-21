@@ -1,15 +1,3 @@
-.time-input.form-inline
-  - if ["hh:mm:ss", "hh:mm", "", nil].include?(variable.time_duration_format)
-    %span.hour-box
-      = text_field_tag "#hours_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-    h
-    &nbsp;
-  %span.min-box
-    = text_field_tag "#minutes_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-  m
-  &nbsp;
-  - if ["hh:mm:ss", "mm:ss", "", nil].include?(variable.time_duration_format)
-    %span.sec-box
-      = text_field_tag "#seconds_#{variable.name}", "", maxlength: 2, disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-    s
-    &nbsp;
+- form = nil
+- form_with { |f| form = f }
+= render "sheet_variables/form/time_duration", form: form, design: design, design_option: design_option, response: response, disabled: true, variable: variable, field_name: "variables[#{variable.id}]", show_values: true, object: nil, validate_response: nil

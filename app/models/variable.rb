@@ -553,37 +553,6 @@ class Variable < ApplicationRecord
     "#{name}__#{domain_option.value.gsub(/[^a-zA-Z0-9_]/, '_')}".last(28).gsub(/^_+/, "")
   end
 
-  def date_order
-    case date_format
-    when "yyyy-mm-dd"
-      %w(year month day)
-    when "dd/mm/yyyy"
-      %w(day month year)
-    else # "mm/dd/yyyy"
-      %w(month day year)
-    end
-  end
-
-  def date_formatting(component)
-    case component
-    when "month"
-      ["mm", "%m"]
-    when "day"
-      ["dd", "%d"]
-    when "year"
-      ["yyyy", "%Y"]
-    end
-  end
-
-  def date_separator
-    case date_format
-    when "yyyy-mm-dd"
-      "-"
-    else
-      "/"
-    end
-  end
-
   def export_units
     case variable_type
     when "imperial_height"

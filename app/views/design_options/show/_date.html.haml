@@ -1,23 +1,7 @@
 - is_grid = defined?(grid)
-
-.date-input
-  - if variable.date_format == "dd-mmm-yyyy"
-    %span.day-box
-      = text_field_tag "day_#{variable.name}", "", maxlength: 2, disabled: true, autocomplete: "off", placeholder: "dd", class: "form-control", style: "display: inline-block;"
-    \-
-    %span.month-box
-      = select_tag "month_#{variable.name}", options_for_select(Date::ABBR_MONTHNAMES[1..12].collect.with_index { |m, i| [m.to_s.upcase, i+1] }), include_blank: true, placeholder: "mmm", disabled: true, class: "form-control", style: "display: inline-block;"
-    \-
-    %span.year-box
-      = text_field_tag "year_#{variable.name}", "", maxlength: 4, disabled: true, autocomplete: "off", placeholder: "yyyy", class: "form-control", style: "display: inline-block;"
-  - else
-    - variable.date_order.each_with_index do |component, index|
-      - (formatting, string_format) = variable.date_formatting(component)
-      %span{ class: "#{component}-box" }
-        = text_field_tag "#{component}_#{variable.name}", "", maxlength: formatting.size, disabled: true, autocomplete: "off", placeholder: formatting, class: "form-control", style: "display: inline-block;"
-      = variable.date_separator unless index == variable.date_order.size - 1
-  - if variable.show_current_button?
-    = link_to "Today", "#", data: { object: "suppress-click" }, class: "btn btn-light btn-sm", tabindex: "-1", disabled: true if variable.show_current_button?
+- form = nil
+- form_with { |f| form = f }
+= render "sheet_variables/form/date", form: form, design: design, design_option: design_option, response: response, disabled: true, variable: variable, field_name: "variables[#{variable.id}]", show_values: true, object: nil, validate_response: nil
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }

@@ -1,16 +1,8 @@
 - is_grid = defined?(grid)
 
-.imperial-weight-input.form-inline
-  %span.pounds-box
-    .input-group
-      = text_field_tag "#pounds_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-append
-        = render "design_options/show/addon", addon: "lb"
-  %span.ounces-box
-    .input-group
-      = text_field_tag "#ounces_#{variable.name}", "", disabled: true, placeholder: "", class: "form-control", style: "display: inline-block;"
-      .input-group-append
-        = render "design_options/show/addon", addon: "oz"
+- form = nil
+- form_with { |f| form = f }
+= render "sheet_variables/form/imperial_weight", form: form, design: design, design_option: design_option, response: response, disabled: true, variable: variable, field_name: "variables[#{variable.id}]", show_values: true, object: nil, validate_response: nil
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }
