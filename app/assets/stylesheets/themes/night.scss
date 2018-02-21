@@ -80,4 +80,10 @@ $night: (
   alert-danger-bg: darken(#f8d7da, 70%),
   alert-danger-color: lighten(#721c24, 5%),
   alert-danger-link-color: lighten(#721c24, 10%),
+
+  randomization-default: darken($p500-grey, 35%),
+  randomization-blue: darken($p500-blue, 35%),
+  randomization-red: darken($p500-red, 35%),
+  randomization-green: darken($p500-green, 35%),
+  randomization-amber: darken($p500-amber, 35%),
 );

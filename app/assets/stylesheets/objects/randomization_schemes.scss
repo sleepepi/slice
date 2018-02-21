@@ -1,58 +1,67 @@
-$block-blue: $p500-blue !default;
-$block-red: $p500-red !default;
-$block-green: $p500-green !default;
-$block-amber: $p500-amber !default;
-$block-color: $brand-white !default;
-
 .block-group {
   margin-bottom: 10px;
 }
 
 .multiplier {
-  border-left: 5px solid $p300-grey;
-  padding: 15px 30px 15px 15px;
+  border-left: 5px solid transparent;
+  padding: $spacer;
 }
 
-// Green
-.multiplier-1 {
-  background-color: $block-green;
-  border-color: darken(adjust-hue($block-green, -10), 3%);
-  color: darken(adjust-hue($block-green, -10), 20%);
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    $block-default: theme-color($theme, randomization-default, $p300-grey);
+    $block-blue: theme-color($theme, randomization-blue, $p500-blue);
+    $block-red: theme-color($theme, randomization-red, $p500-red);
+    $block-green: theme-color($theme, randomization-green, $p500-green);
+    $block-amber: theme-color($theme, randomization-amber, $p500-amber);
+    $block-color: map-get($theme, brand-white);
 
-  a {
-    color: $block-color;
-  }
-}
+    .multiplier {
+      border-color: $block-default;
+    }
 
-// Red
-.multiplier-2 {
-  background-color: $block-red;
-  border-color: darken(adjust-hue($block-red, -10), 3%);
-  color: darken(adjust-hue($block-red, -10), 20%);
+    // Green
+    .multiplier-1 {
+      background-color: $block-green;
+      border-color: darken(adjust-hue($block-green, -10), 3%);
+      color: darken(adjust-hue($block-green, -10), 20%);
 
-  a {
-    color: $block-color;
-  }
-}
+      a {
+        color: $block-color;
+      }
+    }
 
-// Blue
-.multiplier-3 {
-  background-color: $block-blue;
-  border-color: darken(adjust-hue($block-blue, 10), 3%);
-  color: darken(adjust-hue($block-blue, 10), 20%);
+    // Red
+    .multiplier-2 {
+      background-color: $block-red;
+      border-color: darken(adjust-hue($block-red, -10), 3%);
+      color: darken(adjust-hue($block-red, -10), 20%);
 
-  a {
-    color: $block-color;
-  }
-}
+      a {
+        color: $block-color;
+      }
+    }
 
-// Amber
-.multiplier-4 {
-  background-color: $block-amber;
-  border-color: darken(adjust-hue($block-amber, 10), 3%);
-  color: darken(adjust-hue($block-amber, -10), 20%);
+    // Blue
+    .multiplier-3 {
+      background-color: $block-blue;
+      border-color: darken(adjust-hue($block-blue, 10), 3%);
+      color: darken(adjust-hue($block-blue, 10), 20%);
 
-  a {
-    color: $block-color;
+      a {
+        color: $block-color;
+      }
+    }
+
+    // Amber
+    .multiplier-4 {
+      background-color: $block-amber;
+      border-color: darken(adjust-hue($block-amber, 10), 3%);
+      color: darken(adjust-hue($block-amber, -10), 20%);
+
+      a {
+        color: $block-color;
+      }
+    }
   }
 }
