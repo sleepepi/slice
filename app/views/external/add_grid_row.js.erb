@@ -1,6 +1,5 @@
 <% position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s %>
-<% form_with do |form| %>
+<% form = nil %>
+<% form_with { |f| form = f } %>
 $("#variable_<%= @variable.id %>_grid_container").append("<%=j render "sheet_variables/form/grid_variables", form: form, design: @design_option.design, design_option: @design_option, disabled: false, sheet_variable: nil, position: position, variable: @variable, show_values: params[:header] != "0", all_grids: [] %>");
-<% end %>
-
 initializeSheet("#variable_<%= @variable.id %>_grid_container");
