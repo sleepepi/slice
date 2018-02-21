@@ -3,7 +3,7 @@
 - content_for :header, @title
 
 - if @handoff.handoff_enabled_event_designs.present?
-  .jumbotron.callout-danger
+  .jumbotron.bg-danger.text-white
     %h4 IMPORTANT
 
     %p
@@ -13,12 +13,12 @@
       using the tablet for data entry.
 
     %p
-      = link_to "Click here", "http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html", target: "_blank"
+      = link_to "Click here", "http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html", target: "_blank", class: "text-dark"
       for more information.
 
-  .text-center{ style: "margin-bottom: 20px" }
+  .text-center.mb-4
     = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: "btn btn-lg btn-accent btn-shadow" do
-      Launch Tablet Handoff
+      Launch tablet handoff
       %i.fa.fa-paper-plane
 
   .dashboard-container

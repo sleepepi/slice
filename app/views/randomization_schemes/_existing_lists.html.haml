@@ -3,16 +3,17 @@
   .dashboard-container
     %h3.px-2.py-1 Lists
     - if @randomization_scheme.randomized_subjects?
-      .callout.callout-info
-        %strong Randomization Started
-
-        The lists are now
-        = succeed "." do
-          %strong locked
-        In order to recreate these lists, the existing randomizations need to be
-        manually cleared. Click on the existing randomizations and then select
-        = succeed "." do
-          %strong Undo Randomization
+      .card.border-info.mb-3
+        .card-header
+          %strong Randomization Started
+        .card-body
+          The lists are now
+          = succeed "." do
+            %strong locked
+          In order to recreate these lists, the existing randomizations need to be
+          manually cleared. Click on the existing randomizations and then select
+          = succeed "." do
+            %strong Undo randomization
 
     .table-responsive
       %table.table.table-fixed.table-borderless

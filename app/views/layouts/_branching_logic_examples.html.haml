@@ -1,27 +1,28 @@
-#branching-logic-info.callout.callout-info{ style: 'display:none' }
-  %table.table.table-borderless
-    %thead
-      %tr
-        %th
-        %th Show If
-    %tbody
-      %tr
-        %td{ style: 'font-weight:bold' }
-          General
-        %td
-          %code previous_variable == 5
-      %tr
-        %td{ style: 'font-weight:bold' }
-          OR
-        %td
-          %code a &gt; 5 || b &lt; 2
-      %tr
-        %td{ style: 'font-weight:bold' }
-          AND
-        %td
-          %code a &gt; 5 &amp;&amp; a &lt; 10
-      %tr
-        %td{ style: 'font-weight:bold' }
-          Checkbox
-        %td
-          %code overlap(previous_variable, ['5'])
+#branching-logic-info.card.border-info.my-3{ style: "display:none" }
+  .card-body
+    %table.table.table-borderless.table-striped
+      %thead
+        %tr
+          %th
+          %th Show If
+      %tbody
+        %tr
+          %td{ style: "font-weight:bold" }
+            General
+          %td
+            %code previous_variable == 5
+        %tr
+          %td{ style: "font-weight:bold" }
+            OR
+          %td
+            %code a &gt; 5 || b &lt; 2
+        %tr
+          %td{ style: "font-weight:bold" }
+            AND
+          %td
+            %code a &gt; 5 &amp;&amp; a &lt; 10
+        %tr
+          %td{ style: "font-weight:bold" }
+            Checkbox
+          %td
+            %code overlap(previous_variable, ["5"])

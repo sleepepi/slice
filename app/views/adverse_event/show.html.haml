@@ -1,10 +1,11 @@
 - if @adverse_event_review.errors.any?
-  .callout.callout-danger
-    %strong
-      Please enter all required information.
-    %ul
-      - @adverse_event_review.errors.full_messages.each do |msg|
-        %li= msg
+  .card.border-danger.mb-3
+    .card-body
+      %strong
+        Please enter all required information.
+      %ul
+        - @adverse_event_review.errors.full_messages.each do |msg|
+          %li= msg
 
 .jumbotron
   %strong= @adverse_event.user.full_name

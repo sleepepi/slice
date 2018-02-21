@@ -50,7 +50,7 @@
         My Profile Picture
       .card-body
         .text-center= image_tag current_user.avatar_url(80, "identicon"), class: "img-rounded"
-        .callout.callout-accent{ style: "margin-bottom:0" }
-          You can change your picture at
-          = succeed "." do
-            = link_to "gravatar.com", "http://gravatar.com", class: "callout-link"
+      .card-footer
+        You can change your picture at
+        = succeed "." do
+          = link_to "gravatar.com", "http://gravatar.com"

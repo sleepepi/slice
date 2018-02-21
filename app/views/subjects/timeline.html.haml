@@ -75,7 +75,7 @@
       .comment-outer
         .comment-left-fixed
         .comment-right-fluid
-          .jumbotron.bg-danger.mb-0
+          .jumbotron.bg-danger.mb-0.text-white
             .timeline-large-icon
               %i.fa.fa-exclamation-triangle.text-danger
             %strong
@@ -83,15 +83,14 @@
                 %i.fa.fa-exclamation-triangle
               = adverse_event.user.full_name
             reported an
-            = link_to "adverse event", [@project, adverse_event], class: "callout-link"
+            = link_to "adverse event", [@project, adverse_event], class: "text-dark"
             that occurred on
             = adverse_event.adverse_event_date.strftime("%a, %-d %b %Y")
 
             %abbr{ rel: "tooltip", data: { title: adverse_event.event_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(adverse_event.event_at)
               ago
-            %br
-            %small= adverse_event.description
+            .mt-1{ style: "font-size: 2rem;" }= adverse_event.description
     - elsif event.class == Comment
       - comment = event
       %a.anchor-top{ name: "c#{current_index}" }
