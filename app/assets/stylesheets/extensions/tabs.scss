@@ -9,6 +9,10 @@
   + .dashboard-container {
     border-top-left-radius: 0;
   }
+
+  .nav-item + .nav-item {
+    margin-left: 2px;
+  }
 }
 
 @each $name, $theme in $themes {
