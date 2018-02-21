@@ -96,13 +96,7 @@
 }
 
 .docs-navigation {
-  color: $text-muted;
-  font-style: italic;
   font-weight: 300;
-}
-
-a:hover .docs-navigation {
-  color: lighten($text-muted, 12%);
 }
 
 .sup-link {
