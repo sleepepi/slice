@@ -1,8 +1,8 @@
-.highlight,
-.table-striped > tbody > tr.highlight:nth-of-type(odd) {
-  background-color: $state-warning-bg;
-}
-
-.text-highlight {
-  color: $brand-warning;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .highlight,
+    .table-striped > tbody > tr.highlight:nth-of-type(odd) {
+      background-color: theme-color($theme, mark-bg, $mark-bg);
+    }
+  }
 }
