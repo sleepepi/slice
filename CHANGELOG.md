@@ -10,6 +10,8 @@
   - Projects can now be "active" or "archived"
 - **Grid Changes**
   - Radio button variables in grids are now always displayed as dropdowns
+  - Made adjustments to navigating through a grid using arrow keys to reduce the
+    likelihood of inadvertently changing values
 - **Sheet Changes**
   - Updated inputs for date, time, weight, and height variables to use less
     space

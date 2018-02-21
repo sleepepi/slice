@@ -3,6 +3,9 @@
   parts[2] = parseInt(parts[2]) - 1
   if $("##{parts.join("_")}").length > 0
     setFocusToField("##{parts.join("_")}")
+    e.preventDefault()
+    e.stopPropagation()
+    false
   else
     gridBack(element, e)
 
@@ -11,6 +14,9 @@
   parts[2] = parseInt(parts[2]) + 1
   if $("##{parts.join("_")}").length > 0
     setFocusToField("##{parts.join("_")}")
+    e.preventDefault()
+    e.stopPropagation()
+    false
   else
     gridForward(element, e)
 
