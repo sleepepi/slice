@@ -1,18 +1,24 @@
-@keyframes pulse-notification {
-  from {
-    color: $notification-link-color;
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    $accent-color: map-get($theme, accent);
+
+    @keyframes pulse-notification-#{$name} {
+      from {
+        color: $accent-color;
+      }
+
+      to {
+        color: lighten($accent-color, 15%);
+      }
+    }
+
+    .notifications-link-active i {
+      animation: pulse-notification-#{$name} 2s ease-in infinite alternate;
+      color: $accent-color;
+    }
+
+    .notifications-link-active:hover i {
+      color: darken($accent-color, 15%);
+    }
   }
-
-  to {
-    color: $header-bg;
-  }
-}
-
-.navbar-default .navbar-nav .notifications-link i {
-  animation: pulse-notification 2s ease-in infinite alternate;
-  color: $notification-link-color;
-}
-
-.navbar-default .navbar-nav .notifications-link:hover i {
-  color: darken($notification-link-color, 15%);
 }
