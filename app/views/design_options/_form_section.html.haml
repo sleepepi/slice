@@ -21,7 +21,7 @@
           = check_box_tag "section[remove_image]", "1", false, class: "custom-control-input"
           = label "section", "remove_image", class: "custom-control-label" do
             Remove image
-        %code=section.image.path.split("/").last
+        %code= section.image.path.split("/").last
         %span.badge.badge-secondary= number_to_human_size(section.image.size)
     - else
       = file_field_tag "section[image]", class: "form-control"
