@@ -47,18 +47,4 @@ class ApplicationHelperTest < ActionView::TestCase
     time = Time.zone.now - 1.year
     assert_equal time.strftime("on %b %-d, %Y at %-I:%M %p"), simple_time(time)
   end
-
-  test "should show recent activity" do
-    assert recent_activity(nil).is_a?(String)
-    assert recent_activity("").is_a?(String)
-    assert recent_activity(Time.zone.now).is_a?(String)
-    assert recent_activity(Time.zone.now - 12.hours).is_a?(String)
-    assert recent_activity(Time.zone.now - 1.day).is_a?(String)
-    assert recent_activity(Time.zone.now - 2.days).is_a?(String)
-    assert recent_activity(Time.zone.now - 1.week).is_a?(String)
-    assert recent_activity(Time.zone.now - 1.month).is_a?(String)
-    assert recent_activity(Time.zone.now - 6.months).is_a?(String)
-    assert recent_activity(Time.zone.now - 1.year).is_a?(String)
-    assert recent_activity(Time.zone.now - 2.years).is_a?(String)
-  end
 end
