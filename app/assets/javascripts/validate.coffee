@@ -192,7 +192,11 @@
       value = $("##{$(parent).data('target-name')}").val()
   value
 
+@stayActiveDuringSheetEntry = ->
+  $.post("#{root_url}keep-me-active", null, null, "script")
+
 @validateElement = (element, relatedTarget = null) ->
+  stayActiveDuringSheetEntry()
   return if relatedTarget? and $(relatedTarget).data('target-name')? and $(element).data('target-name')? and $(element).data('target-name') == $(relatedTarget).data('target-name')
 
   parent = $(element).closest('[data-object~="validate"]')
