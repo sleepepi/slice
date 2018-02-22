@@ -30,7 +30,7 @@
               - else
                 - if sheet.comments_count.positive?
                   = succeed " " do
-                    = link_to project_sheet_path(@project, sheet), class: "btn btn-sm btn-accent" do
+                    = link_to project_sheet_path(@project, sheet, anchor: "comments"), class: "btn btn-sm btn-accent" do
                       = sheet.comments_count
                       %i.fa.fa-comment
               - if sheets.count > 1 && event_design.highlight_duplicates?
@@ -85,7 +85,7 @@
         %td
           .float-right
             - if sheet.comments_count.positive?
-              = link_to project_sheet_path(@project, sheet), class: "btn btn-sm" do
+              = link_to project_sheet_path(@project, sheet, anchor: "comments"), class: "btn btn-sm" do
                 = sheet.comments_count
                 %i.fa.fa-comment
 

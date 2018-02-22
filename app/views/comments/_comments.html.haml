@@ -2,7 +2,7 @@
   %div{ id: "comment_#{comment.id}" }
     = render "comments/show", comment: comment, number: comment.number, include_name: "0"
 
-.comment-outer
+.comment-outer.mb-0
   .comment-left-fixed
     = image_tag current_user.avatar_url(48, "identicon"), size: "48x48", alt: ""
 

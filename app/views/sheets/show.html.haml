@@ -28,11 +28,14 @@
         %span.check-bullet &bull;
         %span.text-danger= check.message
 
-.dashboard-container
+.dashboard-container.mb-0
   = render "sheets/show"
 
 - unless @sheet.adverse_event
-  .dashboard-container
-    %strong Comments
-  %div{ id: "sheet_#{@sheet.id}_comments", style: "margin-top: 20px;" }
-    = render "comments/comments"
+  - content_for :mini_footer do
+    %a.anchor-top{ id: "comments" }
+    .comments-footer-wrapper
+      .mb-3.text-white
+        %strong Comments
+      .comments-container{ id: "sheet_#{@sheet.id}_comments" }
+        = render "comments/comments"

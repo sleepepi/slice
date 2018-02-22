@@ -4,7 +4,7 @@
     .float-right
       - if sheet.comments_count.positive?
         = succeed " " do
-          = link_to [@project, sheet], class: "btn btn-sm btn-accent" do
+          = link_to project_sheet_path(@project, sheet, anchor: "comments"), class: "btn btn-sm btn-accent" do
             = sheet.comments_count
             %i.fa.fa-comment
       %span.d-inline.d-sm-none.nowrap= sheet.created_at.strftime("%b %-d, %Y")
