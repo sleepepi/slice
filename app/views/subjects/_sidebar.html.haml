@@ -7,8 +7,8 @@
         = render "layouts/sidebar_logo"
 
         %ul.sidebar-menu
-          %li.sidebar-menu-header
-            = @subject.name
+          %li.sidebar-menu-header-link-unstyled
+            = link_to @subject.name, [@project, @subject]
           %li= link_to "Overview", [@project, @subject], class: current_page?([@project, @subject]) ? "active" : ""
           - if @project.events.where(archived: false).count > 0
             %li.sidebar-menu-header-link

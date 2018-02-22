@@ -41,13 +41,29 @@
       margin-top: map-get($spacers, 4) // $spacer * 1.5;
     }
 
-    &.sidebar-menu-header-link {
+    &.sidebar-menu-header-link,
+    &.sidebar-menu-header-link-unstyled {
       font-size: 85%;
       font-weight: normal;
       letter-spacing: 1px;
       margin-bottom: 5px;
       font-variant: small-caps;
     }
+
+    &.sidebar-menu-header-link-unstyled {
+      a,
+      a.active,
+      a:hover,
+      a:focus {
+        border: 0;
+        border-radius: 0;
+        display: block;
+        overflow: hidden;
+        padding: 0 15px;
+        text-overflow: ellipsis;
+      }
+    }
+
   }
 
   &.sidebar-menu-root {
@@ -91,8 +107,17 @@
       }
 
       li {
-        &.sidebar-menu-header-link a {
+        &.sidebar-menu-header-link a,
+        &.sidebar-menu-header-link-unstyled a {
           color: map-get($theme, brand-white);
+        }
+
+        &.sidebar-menu-header-link-unstyled a {
+          .active,
+          &:hover,
+          &:focus {
+            background-color: inherit;
+          }
         }
       }
     }

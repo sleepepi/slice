@@ -5,8 +5,8 @@
         = render "layouts/sidebar_logo"
 
         %ul.sidebar-menu
-          %li.sidebar-menu-header
-            = @project.name
+          %li.sidebar-menu-header-link-unstyled
+            = link_to @project.name, project_subjects_path(@project)
           %li
             = link_to project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil) do
               Subjects
