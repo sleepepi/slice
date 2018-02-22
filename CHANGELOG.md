@@ -5,6 +5,8 @@
   - Updated styling of project sidebar menu
   - First and last name fields have been merged into single full name fields
   - Seasonal themes are now rotated on registration and login pages
+- **Adverse Event Changes**
+  - Adverse events now indicate if they are open or closed in the subject menu
 - **Dashboard Changes**
   - Favorited and current projects have been combined into "active" projects
     that are displayed on the dashboard
