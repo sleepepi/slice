@@ -9,3 +9,5 @@
         &copy;
         = Time.zone.today.year
         = link_to ENV["website_name"], about_path
+        - if @seasonal.present?
+          %span.small.text-primary{ rel: "tooltip", data: { title: "Set theme in settings", container: "body", placement: "right" } }= @seasonal.capitalize
