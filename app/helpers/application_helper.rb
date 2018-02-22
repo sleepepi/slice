@@ -41,15 +41,16 @@ module ApplicationHelper
     return "" unless past_time.is_a?(Time)
     time_ago_in_words(past_time)
     seconds_ago = (Time.zone.now - past_time)
-    color = if seconds_ago < 60.minutes then "#6DD1EC"
-            elsif seconds_ago < 1.day then "#ADDD1E"
-            elsif seconds_ago < 2.days then "#CEDC34"
-            elsif seconds_ago < 1.week then "#CEDC34"
-            elsif seconds_ago < 1.month then "#DCAA24"
-            elsif seconds_ago < 1.year then "#C2692A"
-            else "#AA2D2F"
-            end
-    "<span style='color:#{color};font-weight:bold;font-variant:small-caps;'>#{time_ago_in_words(past_time)} ago</span>".html_safe
+    badge_class = \
+      if seconds_ago < 60.minutes then "coverage-100"
+      elsif seconds_ago < 1.day then "coverage-80"
+      elsif seconds_ago < 2.days then "coverage-70"
+      elsif seconds_ago < 1.week then "coverage-50"
+      elsif seconds_ago < 1.month then "coverage-20"
+      elsif seconds_ago < 1.year then "coverage-10"
+      else "coverage-0"
+      end
+    content_tag(:span, abbreviated_time(past_time), class: "badge badge-coverage #{badge_class}")
   end
 
   def simple_date(past_date)

@@ -12,14 +12,14 @@
   %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
     %col
-    %col
-    %col
+    %col.d-none.d-md-table-column
+    %col.d-none.d-sm-table-column
     %col{ width: "1px" }
     %thead
       %tr
         = th_sort_field @order, "users.full_name", "Name"
-        = th_sort_field @order, "users.current_sign_in_at", "Recent Activity"
-        = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-right d-none d-sm-table-cell"
+        = th_sort_field @order, "users.current_sign_in_at", "Recent Activity", extra_class: "text-center"
+        = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-center d-none d-md-table-cell"
         = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "text-center d-none d-sm-table-cell"
         %th.text-center Actions
 
@@ -30,8 +30,8 @@
           = link_to user do
             .d-none.d-sm-inline= user.full_name
             .d-inline.d-sm-none= user.nickname
-        %td= recent_activity user.current_sign_in_at
-        %td.text-right.d-none.d-sm-table-cell= number_with_delimiter user.sign_in_count
+        %td.text-center= recent_activity user.current_sign_in_at
+        %td.text-center.d-none.d-md-table-cell= number_with_delimiter user.sign_in_count
         %td.text-center.d-none.d-sm-table-cell= simple_check user.system_admin?
         %td.text-center
           .dropdown
