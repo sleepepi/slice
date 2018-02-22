@@ -19,7 +19,7 @@
         %span.sr-only (current)
     = render "menu/dropdown_account"
   - else
-    %li.nav-item{ class: current_page?(new_user_session_path) ? "active" : nil }
+    %li.nav-item
       = link_to new_user_session_path, class: "nav-link" do
         Sign in
       - if current_page?(new_user_session_path)
