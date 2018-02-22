@@ -33,9 +33,14 @@
 }
 
 @each $name, $theme in $themes {
+  $header-bg: map-get($theme, p800);
+  @if map-get($theme, header-bg) {
+    $header-bg: map-get($theme, header-bg);
+  }
+
   .theme-#{$name}-bg {
     .header-container {
-      background-color: map-get($theme, p800);
+      background-color: $header-bg;
       color: map-get($theme, brand-white);
     }
   }

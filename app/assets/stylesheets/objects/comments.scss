@@ -105,8 +105,13 @@
     $comment-header-bg: theme-color($theme, p50);
     $comment-border: theme-color($theme, p100);
 
+    $header-bg: map-get($theme, p800);
+    @if map-get($theme, header-bg) {
+      $header-bg: map-get($theme, header-bg);
+    }
+
     .comments-footer-wrapper {
-      background-color: map-get($theme, p800);
+      background-color: $header-bg;
     }
 
     .comment-comment {

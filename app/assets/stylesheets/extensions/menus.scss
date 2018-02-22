@@ -29,13 +29,18 @@
       }
     }
 
+    $theme-dropdown-bg: darken($menu-bg, 6.5%);
+    @if map-get($theme, menu-dropdown-bg) {
+      $theme-dropdown-bg: map-get($theme, menu-dropdown-bg);
+    }
+
     .dropdown-menu-custom {
       .dropdown-menu-custom-inner {
-        background-color: darken($menu-bg, 6.5%);
+        background-color: $theme-dropdown-bg;
       }
 
       &::after {
-        border-bottom-color: darken($menu-bg, 6.5%);
+        border-bottom-color: $theme-dropdown-bg;
       }
     }
   }

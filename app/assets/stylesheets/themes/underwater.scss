@@ -1,3 +1,9 @@
+// From https://color.adobe.com/create/image/
+$underwater-blue: #013757;
+$underwater-blue-second: #02658d;
+$underwater-green: #02738a;
+$underwater-green-second: #009f9f;
+
 $underwater: (
   brand-white: #fff,
   brand-black: $p900-grey,
@@ -13,21 +19,27 @@ $underwater: (
   p800: $p800-indigo,
   p900: $p900-indigo,
 
-  primary: $p500-indigo,
+  primary: $underwater-green-second, // $p500-indigo,
   accent: $p500-teal,
 
-  menu-bg: null, // $p600-COLOR
+  menu-bg: rgba($underwater-blue, .75), // null, // $p600-COLOR
   menu-color: null, // brand-white
 
-  body-bg: $p50-grey,
+  header-bg: rgba($underwater-blue-second, .5), // rgba($p500-light-blue, .5),
+
+  body-bg: $underwater-blue, // $p900-light-blue, // $p50-grey,
   body-color: $p900-grey,
   body-focus: $p800-indigo,
 
-  footer-bg: $p900-indigo,
+  footer-bg: rgba($underwater-green, .5), // rgba($p500-teal, .5), // $p900-indigo,
   footer-color: #fff,
 
+  sidebar-link-active-bg: $underwater-green, // p500
+  sidebar-link-active-border: $underwater-green-second, // p200
+
   dashboard-bg: #fff,
-  form-title-bg: null, // $p500-COLOR
+  form-title-bg: $underwater-green, // $p500-COLOR
+  form-title-color: #fff,
   form-bg: $p50-grey,
 
   input-bg: null, // $white
@@ -35,4 +47,6 @@ $underwater: (
 
   box-shadow-color: rgba(0, 0, 0, .15),
   shadow-color: rgba(0, 0, 0, .3),
+
+  menu-dropdown-bg: $underwater-blue,
 );

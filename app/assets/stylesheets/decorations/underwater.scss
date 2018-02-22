@@ -11,5 +11,9 @@
 .theme-underwater-bg,
 .theme-underwater-focus-bg {
   animation: bubbles 20s linear infinite;
-  background-image: asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png'), linear-gradient(180deg, $p100-teal, $p400-teal 30%, $p400-indigo 65%, $p500-indigo);
+  background-image: asset-url('themes/winter/snow2.png'), asset-url('themes/winter/snow3.png'), asset-url('themes/underwater/underwater-802092_1920.jpg');
+  background-attachment: scroll;
+  background-position: 0% 0%, 0% 0%, center;
+  background-repeat: repeat, repeat, no-repeat;
+  background-size: auto, auto, cover;
 }
