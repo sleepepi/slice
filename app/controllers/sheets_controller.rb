@@ -212,7 +212,7 @@ class SheetsController < ApplicationController
   end
 
   def find_subject_or_redirect
-    @subject = current_user.all_subjects.where(project_id: @project.id).find_by(id: params[:subject_id])
+    @subject = current_user.all_subjects.where(project: @project).find_by(id: params[:subject_id])
     redirect_without_subject
   end
 

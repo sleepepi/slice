@@ -20,6 +20,9 @@
 - **Gem Changes**
   - Updated to bootstrap 4.0.0
 
+### Bug Fix
+- Fixed a bug that could display the wrong project for a subject
+
 ## 58.3.0 (February 9, 2018)
 
 ### Enhancements

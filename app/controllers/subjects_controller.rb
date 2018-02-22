@@ -304,12 +304,12 @@ class SubjectsController < ApplicationController
   private
 
   def find_viewable_subject_or_redirect
-    @subject = current_user.all_viewable_subjects.includes(:project).find_by(id: params[:id])
+    @subject = current_user.all_viewable_subjects.includes(:project).where(project: @project).find_by(id: params[:id])
     redirect_without_subject
   end
 
   def find_editable_subject_or_redirect
-    @subject = current_user.all_subjects.includes(:project).find_by(id: params[:id])
+    @subject = current_user.all_subjects.includes(:project).where(project: @project).find_by(id: params[:id])
     redirect_without_subject
   end
 

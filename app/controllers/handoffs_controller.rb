@@ -21,7 +21,7 @@ class HandoffsController < ApplicationController
   private
 
   def find_editable_subject_or_redirect
-    @subject = current_user.all_subjects.find_by(id: params[:id])
+    @subject = current_user.all_subjects.where(project: @project).find_by(id: params[:id])
     redirect_without_subject
   end
 
