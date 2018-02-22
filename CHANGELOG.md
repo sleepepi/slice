@@ -9,6 +9,9 @@
   - Favorited and current projects have been combined into "active" projects
     that are displayed on the dashboard
   - Projects can now be "active" or "archived"
+- **Event Changes**
+  - Event completion over 90% now gets a special indicator in the subject menu
+  - Event completion of 100% still has the indicator plus the check mark
 - **Grid Changes**
   - Radio button variables in grids are now always displayed as dropdowns
   - Made adjustments to navigating through a grid using arrow keys to reduce the

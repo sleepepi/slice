@@ -24,7 +24,9 @@
                     - percent = subject_event.blinded_percent
 
                   - if percent == 100
-                    %i.fa.fa-check.text-success
+                    %i.fa.fa-check-square.text-success
+                  - elsif percent && percent >= 90
+                    %i.fa.fa-square.text-success
                   - else
                     %i.fa.fa-square-o.text-muted
 
