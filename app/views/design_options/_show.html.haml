@@ -33,7 +33,7 @@
 
 - elsif variable
   .row
-    .col-sm-6{ style: "overflow-x: scroll;overflow-y: hidden;", data: { object: "design-preview-expand" } }
+    .col-sm-6{ style: "overflow: hidden;", data: { object: "design-preview-expand" } }
       - if variable.deleted?
         .form-group.row.error
           %label.col-md-3.col-form-label= variable.display_name
