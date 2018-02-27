@@ -1,12 +1,15 @@
 .card.box-shadow.mb-3
-  .card-header
+  .card-header.p-2
     .float-right
       .d-none.d-sm-inline= adverse_event.event_date_to_s
       .d-inline.d-sm-none= adverse_event.event_date_to_s_xs
 
     %span{ id: "adverse-event-#{adverse_event.id}-title" }
-      %span.text-danger
-        %i.fa.fa-exclamation-triangle
+      - if adverse_event.closed?
+        %i.fa.fa-check-circle.text-muted
+      - else
+        %i.fa.fa-exclamation-circle.text-danger
+
       = link_to adverse_event.description, [@project, adverse_event]
 
     - if adverse_event.closed?

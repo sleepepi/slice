@@ -1,5 +1,5 @@
 .card.box-shadow.mb-3
-  .card-header{ data: { object: "event-droppable", project_id: @project.to_param, subject_event_id: subject_event.id } }
+  .card-header.p-2{ data: { object: "event-droppable", project_id: @project.to_param, subject_event_id: subject_event.id } }
     .float-right
       - if @project.handoffs_enabled? && @subject.editable_by?(current_user) && subject_event.handoffs?
         %span.d-none.d-md-inline.text-right
