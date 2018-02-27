@@ -1,6 +1,6 @@
 - if @subject.editable_by?(current_user)
   .row
-    .col-sm-4.col-buffer
+    .col-md-4.col-buffer
       - if @project.events.where(archived: false).count > 0
         = link_to choose_event_project_subject_path(@project, @subject), class: "btn btn-lg btn-accent btn-shadow btn-block" do
           %i.fa.fa-plus
@@ -10,7 +10,7 @@
           %i.fa.fa-plus
           New Sheet
 
-    .col-sm-4.col-buffer
+    .col-md-4.col-buffer
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)
         - scheme_count = @project.randomization_schemes.published.count
         - if @subject.randomizations_count.zero? && scheme_count == 1
@@ -19,13 +19,13 @@
               %i.fa.fa-random
               Randomize
 
-    .col-sm-4.col-buffer
+    .col-md-4.col-buffer
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         = link_to new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-lg btn-accent btn-shadow btn-block" do
           %i.fa.fa-exclamation-triangle
           Report
-          %span.d-inline.d-lg-none AE
-          %span.d-none.d-lg-inline Adverse Event
+          %span.d-inline.d-xl-none AE
+          %span.d-none.d-xl-inline Adverse Event
 
 - if @project.events.where(archived: false).count > 0 && @subject.blinded_subject_events(current_user).count == 0
   .jumbotron.jumbotron-custom-text
