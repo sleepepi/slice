@@ -201,7 +201,7 @@ if (typeof jQuery === 'undefined') {
 
     initialize: function () {
       var element = this.$el.get(0);
-      
+
       // check if we are in an iframe
       // we need to alter positioning logic if using an iframe
       if (this.$el.prop('ownerDocument') !== document && window.frames.length) {
@@ -212,8 +212,8 @@ if (typeof jQuery === 'undefined') {
           }
         }
       }
-      
-      
+
+
       // Initialize view objects.
       this.dropdown = new $.fn.textcomplete.Dropdown(element, this, this.option);
       var Adapter, viewName;
@@ -422,7 +422,7 @@ if (typeof jQuery === 'undefined') {
     createElement: function (option) {
       var $parent = option.appendTo;
       if (!($parent instanceof $)) { $parent = $($parent); }
-      var $el = $('<ul></ul>')
+      var $el = $('<div></div>')
         .addClass(option.dropdownClassName)
         .attr('id', 'textcomplete-dropdown-' + option._oid)
         .css({
@@ -760,9 +760,9 @@ if (typeof jQuery === 'undefined') {
         if (include(this.data, datum)) { continue; }
         index = this.data.length;
         this.data.push(datum);
-        html += '<li class="textcomplete-item" data-index="' + index + '"><a>';
+        html += '<a class="dropdown-item textcomplete-item" data-index="' + index + '">';
         html +=   datum.strategy.template(datum.value, datum.term);
-        html += '</a></li>';
+        html += '</a>';
       }
       return html;
     },
@@ -770,7 +770,7 @@ if (typeof jQuery === 'undefined') {
     _renderHeader: function (unzippedData) {
       if (this.header) {
         if (!this._$header) {
-          this._$header = $('<li class="textcomplete-header"></li>').prependTo(this.$el);
+          this._$header = $('<h6 class="dropdown-header textcomplete-header"></h6>').prependTo(this.$el);
         }
         var html = $.isFunction(this.header) ? this.header(unzippedData) : this.header;
         this._$header.html(html);
@@ -780,7 +780,7 @@ if (typeof jQuery === 'undefined') {
     _renderFooter: function (unzippedData) {
       if (this.footer) {
         if (!this._$footer) {
-          this._$footer = $('<li class="textcomplete-footer"></li>').appendTo(this.$el);
+          this._$footer = $('<h6 class="dropdown-header textcomplete-footer"></h6>').appendTo(this.$el);
         }
         var html = $.isFunction(this.footer) ? this.footer(unzippedData) : this.footer;
         this._$footer.html(html);
@@ -790,7 +790,7 @@ if (typeof jQuery === 'undefined') {
     _renderNoResultsMessage: function (unzippedData) {
       if (this.noResultsMessage) {
         if (!this._$noResultsMessage) {
-          this._$noResultsMessage = $('<li class="textcomplete-no-results-message"></li>').appendTo(this.$el);
+          this._$noResultsMessage = $('<a class="dropdown-item disabled textcomplete-no-results-message"></a>').appendTo(this.$el);
         }
         var html = $.isFunction(this.noResultsMessage) ? this.noResultsMessage(unzippedData) : this.noResultsMessage;
         this._$noResultsMessage.html(html);
@@ -1197,7 +1197,7 @@ if (typeof jQuery === 'undefined') {
       var pre = this.getTextFromHeadToCaret();
       // use ownerDocument instead of window to support iframes
       var sel = this.el.ownerDocument.getSelection();
-      
+
       var range = sel.getRangeAt(0);
       var selection = range.cloneRange();
       selection.selectNodeContents(range.startContainer);
@@ -1215,13 +1215,13 @@ if (typeof jQuery === 'undefined') {
             .replace(/ $/, "&nbsp"); // &nbsp necessary at least for CKeditor to not eat spaces
         range.selectNodeContents(range.startContainer);
         range.deleteContents();
-        
+
         // create temporary elements
         var preWrapper = this.el.ownerDocument.createElement("div");
         preWrapper.innerHTML = pre;
         var postWrapper = this.el.ownerDocument.createElement("div");
         postWrapper.innerHTML = post;
-        
+
         // create the fragment thats inserted
         var fragment = this.el.ownerDocument.createDocumentFragment();
         var childNode;
@@ -1232,11 +1232,11 @@ if (typeof jQuery === 'undefined') {
         while (childNode = postWrapper.firstChild) {
         	fragment.appendChild(childNode);
         }
-        
+
         // insert the fragment & jump behind the last node in "pre"
         range.insertNode(fragment);
         range.setStartAfter(lastOfPre);
-        
+
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
@@ -1266,7 +1266,7 @@ if (typeof jQuery === 'undefined') {
       position.left -= this.$el.offset().left;
       position.top += $node.height() - this.$el.offset().top;
       position.lineHeight = $node.height();
-      
+
       // special positioning logic for iframes
       // this is typically used for contenteditables such as tinymce or ckeditor
       if (this.completer.$iframe) {
@@ -1274,9 +1274,9 @@ if (typeof jQuery === 'undefined') {
         position.top += iframePosition.top;
         position.left += iframePosition.left;
         //subtract scrollTop from element in iframe
-        position.top -= this.$el.scrollTop(); 
+        position.top -= this.$el.scrollTop();
       }
-      
+
       $node.remove();
       return position;
     },
@@ -1334,18 +1334,18 @@ if (typeof jQuery === 'undefined') {
 }(jQuery);
 
 // The MIT License (MIT)
-// 
+//
 // Copyright (c) 2015 Jonathan Ong me@jongleberry.com
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
