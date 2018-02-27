@@ -6,7 +6,7 @@
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }
-    = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "ranges"), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-outline-dark btn-shadow"
+    = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "ranges"), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
 
   - if variable.hard_minimum.present? || variable.soft_minimum.present? || variable.hard_maximum.present? || variable.soft_maximum.present?
     - if variable.hard_maximum.present?
