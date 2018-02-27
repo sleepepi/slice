@@ -128,11 +128,11 @@
 
           - if %w(date).include?(variable.variable_type)
             - values = Variable::DATE_FORMATS
-            = render "design_options/set_design_option", design_option: design_option, title: "Date Format", values: values, attribute: :date_format
+            = render "design_options/set_design_option", design_option: design_option, title: "Date Format", values: values, attribute: :date_format, wrap: true
 
           - if %w(time_of_day).include?(variable.variable_type)
             - values = Variable::TIME_OF_DAY_FORMATS
-            = render "design_options/set_design_option", design_option: design_option, title: "Time Format", values: values, attribute: :time_of_day_format
+            = render "design_options/set_design_option", design_option: design_option, title: "Time Format", values: values, attribute: :time_of_day_format, wrap: true
 
           - if %w(time_of_day).include?(variable.variable_type)
             - values = [["show", true], ["hide", false]]
@@ -140,7 +140,7 @@
 
           - if %w(time_duration).include?(variable.variable_type)
             - values = Variable::TIME_DURATION_FORMATS
-            = render "design_options/set_design_option", design_option: design_option, title: "Time Duration Format", values: values, attribute: :time_duration_format
+            = render "design_options/set_design_option", design_option: design_option, title: "Time Duration Format", values: values, attribute: :time_duration_format, wrap: true
 
           - if %w(calculated).include?(variable.variable_type)
             - title = "Visibility During Data Entry"
