@@ -1,3 +1,5 @@
+## 59.1.0
+
 ## 59.0.0 (February 27, 2018)
 
 ### Enhancements
