@@ -1,5 +1,9 @@
 ## 59.1.0
 
+### Enhancements
+- **API Changes**
+  - Added the ability to retrieve specific data for a single subject
+
 ## 59.0.0 (February 27, 2018)
 
 ### Enhancements

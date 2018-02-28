@@ -30,6 +30,13 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get data" do
+    get api_v1_subject_data_path(authentication_token: @project.id_and_token, id: @subject, variables: ["api_radio"], format: "json")
+    assert_not_nil assigns(:project)
+    assert_not_nil assigns(:subject)
+    assert_response :success
+  end
+
   test "should create subject" do
     assert_difference("Subject.count") do
       post api_v1_create_subject_path(

@@ -3,7 +3,9 @@
 # API to generate and retrieve a subject's events and sheets.
 class Api::V1::SubjectsController < Api::V1::BaseController
   before_action :find_project_or_redirect
-  before_action :find_subject_or_redirect, only: [:show, :events, :create_event, :create_sheet]
+  before_action :find_subject_or_redirect, only: [
+    :show, :events, :create_event, :create_sheet, :data
+  ]
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects.json
   def index
@@ -18,6 +20,17 @@ class Api::V1::SubjectsController < Api::V1::BaseController
   def events
     @subject.sheets.each(&:check_coverage)
     @subject.subject_events.each(&:check_coverage)
+  end
+
+  # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/data.json
+  def data
+    @data = {}
+    @variables = @project.variables.where(name: params[:variables]).to_a
+    params[:variables].each do |variable_name|
+      variable = @variables.find { |v| v.name == variable_name }
+      @data[variable_name.to_s] = (variable ? @subject.response_for_variable(variable) : nil)
+    end
+    @data
   end
 
   # POST /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects.json

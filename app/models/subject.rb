@@ -165,7 +165,7 @@ class Subject < ApplicationRecord
   def variable_javascript_value(variable_id)
     variable = project.variables.find_by(id: variable_id)
     if variable
-      response_for_variable(variable)
+      response_for_variable(variable).to_json
     else
       "\#{#{variable_id}}"
     end
@@ -177,8 +177,7 @@ class Subject < ApplicationRecord
                 .pluck_domain_option_value_or_value
     formatter = Formatters.for(variable)
     formatted_responses = formatter.format_array(responses, true).uniq.compact
-    result = (formatted_responses.size == 1 ? formatted_responses.first : nil)
-    result.to_json
+    formatted_responses.size == 1 ? formatted_responses.first : nil
   end
 
   def reset_checks_in_background!
