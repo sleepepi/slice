@@ -43,9 +43,9 @@ $(document)
     if $(".tt-menu:visible").length > 0
       return
     else
-      if e.which == 37 and $(this).getCursorPosition() == 0
+      if e.which == 37 and ($(this).prop("tagName").toLowerCase() == "select" || $(this).getCursorPosition() == 0)
         gridBack($(this), e)
-      if e.which == 39 and $(this).getCursorPosition() == $(this).val().length
+      if e.which == 39 and ($(this).prop("tagName").toLowerCase() == "select" || $(this).getCursorPosition() == $(this).val().length)
         gridForward($(this), e)
       if e.which == 38
         gridDown($(this), e)
