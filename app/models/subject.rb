@@ -171,9 +171,15 @@ class Subject < ApplicationRecord
     end
   end
 
-  def response_for_variable(variable)
+  def response_for_variable(variable, event: nil)
+    filtered_sheets = \
+      if event
+        sheets.joins(:subject_event).merge(SubjectEvent.where(event: event)) if event
+      else
+        sheets
+      end
     responses = variable
-                .sheet_variables.joins(:sheet).merge(sheets)
+                .sheet_variables.joins(:sheet).merge(filtered_sheets)
                 .pluck_domain_option_value_or_value
     formatter = Formatters.for(variable)
     formatted_responses = formatter.format_array(responses, true).uniq.compact

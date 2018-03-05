@@ -31,7 +31,7 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get data" do
-    get api_v1_subject_data_path(authentication_token: @project.id_and_token, id: @subject, variables: ["api_radio"], format: "json")
+    get api_v1_subject_data_path(authentication_token: @project.id_and_token, id: @subject, data_points: ["api_radio", { event: "baseline", variable: "api_integer"}], format: "json")
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
     assert_response :success

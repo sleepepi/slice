@@ -24,11 +24,29 @@ class Api::V1::SubjectsController < Api::V1::BaseController
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/data.json
   def data
+    data_points = []
+    params[:data_points].each do |hash_or_string|
+      if hash_or_string.is_a?(ActionController::Parameters)
+        event_slug = hash_or_string[:event]
+        variable_name = hash_or_string[:variable]
+      else
+        event_slug = nil
+        variable_name = hash_or_string
+      end
+      data_points << { variable_name: variable_name, event_slug: event_slug }
+    end
     @data = {}
-    @variables = @project.variables.where(name: params[:variables]).to_a
-    params[:variables].each do |variable_name|
-      variable = @variables.find { |v| v.name == variable_name }
-      @data[variable_name.to_s] = (variable ? @subject.response_for_variable(variable) : nil)
+    @variables = @project.variables.where(name: data_points.collect { |a| a.dig(:variable_name) }).to_a
+    @events = @project.events.where(slug: data_points.collect { |a| a.dig(:event_slug) }).to_a
+    data_points.each do |hash|
+      variable = @variables.find { |v| v.name == hash[:variable_name] }
+      event = @events.find { |e| e.slug == hash[:event_slug] }
+      if event
+        @data[hash[:event_slug].to_s] ||= {}
+        @data[hash[:event_slug].to_s][hash[:variable_name].to_s] = (variable ? @subject.response_for_variable(variable, event: event) : nil)
+      else
+        @data[hash[:variable_name].to_s] = (variable ? @subject.response_for_variable(variable, event: event) : nil)
+      end
     end
     @data
   end
