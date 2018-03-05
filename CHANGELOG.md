@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Added the ability to retrieve specific data for a single subject
+- **Sheet Changes**
+  - Scale column headers should now display over radio buttons and checkboxes
 - **Gem Changes**
   - Updated to clipboard.js 2.0.0
 
