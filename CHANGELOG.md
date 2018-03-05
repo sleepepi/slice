@@ -1,4 +1,4 @@
-## 59.1.0
+## 59.1.0 (March 5, 2018)
 
 ### Enhancements
 - **API Changes**
