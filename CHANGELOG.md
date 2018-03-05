@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Added the ability to retrieve specific data for a single subject
+- **Gem Changes**
+  - Updated to clipboard.js 2.0.0
 
 ## 59.0.0 (February 27, 2018)
 
