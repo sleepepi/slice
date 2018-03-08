@@ -1,4 +1,4 @@
-## 59.1.1
+## 59.1.1 (March 8, 2018)
 
 ### Bug Fix
 - Variable display names now display properly on overview reports
