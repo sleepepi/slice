@@ -33,18 +33,6 @@
         text-decoration: none;
       }
     }
-
-    .link-white {
-      @include ignore-selection;
-
-      color: map-get($theme, brand-white);
-
-      &:hover,
-      &:focus,
-      &:active {
-        color: map-get($theme, brand-white);
-      }
-    }
   }
 }
 

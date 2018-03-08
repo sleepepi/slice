@@ -39,7 +39,7 @@
       - if variable.export_units.present?
         .float-right
           %span.badge.badge-accent= variable.export_units
-      = link_to variable.display_name, "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-white"
+      = link_to variable.display_name, "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-unstyled"
     .dashboard-container
       - responses = @sheets.sheet_responses(variable)
       = render "reports/designs/overview/#{variable.variable_type}", variable: variable, sheet_scope: @sheets, responses: responses, event_id: @event ? @event.to_param : nil

@@ -1,5 +1,8 @@
 ## 59.1.1
 
+### Bug Fix
+- Variable display names now display properly on overview reports
+
 ## 59.1.0 (March 5, 2018)
 
 ### Enhancements
