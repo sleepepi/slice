@@ -81,8 +81,8 @@ module GridExport
     Response
       .joins(:variable, grid: :sheet_variable)
       .where(variables: { variable_type: "checkbox" })
-      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
-      .where(sheet_id: sheet_ids)
+      .where(sheet_variables: { sheet_id: sheet_ids.uniq, variable: grid_group_variables })
+      .where(sheet_id: sheet_ids.uniq)
       .order("sheet_id desc", "grids.position")
       .left_outer_joins(:domain_option)
       .distinct
@@ -94,7 +94,7 @@ module GridExport
     Grid
       .joins(:variable, :sheet_variable)
       .where(variables: { variable_type: %w(file signature) })
-      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
+      .where(sheet_variables: { sheet_id: sheet_ids.uniq, variable: grid_group_variables })
       .order("sheet_id desc", :position)
       .pluck("sheet_variables.variable_id", :variable_id, :response_file, :position, :sheet_id).uniq
       .group_by { |group_variable_id, variable_id, _, _, _| "#{group_variable_id}:#{variable_id}" }
@@ -104,7 +104,7 @@ module GridExport
     Grid
       .joins(:variable, :sheet_variable)
       .where.not(variables: { variable_type: %w(checkbox file signature) })
-      .where(sheet_variables: { sheet_id: sheet_ids, variable: grid_group_variables })
+      .where(sheet_variables: { sheet_id: sheet_ids.uniq, variable: grid_group_variables })
       .order("sheet_id desc", :position)
       .left_outer_joins(:domain_option)
       .pluck(

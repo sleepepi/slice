@@ -1,5 +1,10 @@
 ## 60.0.0
 
+## 59.1.2 (March 23, 2018)
+
+### Bug Fix
+- Fixed an issue generating exports for projects with excessively large grids
+
 ## 59.1.1 (March 8, 2018)
 
 ### Bug Fix
