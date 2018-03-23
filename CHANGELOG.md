@@ -1,5 +1,9 @@
 ## 60.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to devise 4.4.3
+
 ## 59.1.2 (March 23, 2018)
 
 ### Bug Fix
