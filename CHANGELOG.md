@@ -1,6 +1,8 @@
 ## 60.0.0
 
 ### Enhancements
+- **Design Changes**
+  - Designs can now be translated into different languages
 - **Gem Changes**
   - Updated to rails 5.2.0.rc2
   - Updated to devise 4.4.3

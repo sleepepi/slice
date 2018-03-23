@@ -6,6 +6,9 @@ class DomainOption < ApplicationRecord
   include Squishable
   squish :name, :value
 
+  include Translatable
+  translates :name
+
   # Validations
   validates :domain_id, :name, :value, presence: true
   validates :value, format: { with: /\A[\w\.-]*\Z/ },

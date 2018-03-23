@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  translatable: one
+  translatable_type: Variable
+  translatable_attribute: display_name
+  locale: arr
+  translation: vARRiable one
+
+two:
+  translatable: one
+  translatable_type: Variable
+  translatable_attribute: field_note
+  locale: arr
+  translation: board yer answer in th' field above

@@ -11,6 +11,10 @@ class Section < ApplicationRecord
     ["Alert", 4]
   ]
 
+  # Concerns
+  include Translatable
+  translates :name, :description
+
   # Uploaders
   mount_uploader :image, ImageUploader
 

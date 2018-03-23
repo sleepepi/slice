@@ -72,9 +72,12 @@ class Variable < ApplicationRecord
   include DateAndTimeParser
   include Deletable
   include Searchable
-  include Squishable
 
+  include Squishable
   squish :name, :display_name, :field_note, :prepend, :append, :units, :calculated_format
+
+  include Translatable
+  translates :display_name, :field_note
 
   # Scopes
   scope :with_user, ->(arg) { where(user_id: arg) }

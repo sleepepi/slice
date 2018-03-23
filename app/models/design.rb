@@ -39,9 +39,12 @@ class Design < ApplicationRecord
   include Searchable
   include ShortNameable
   include Sluggable
-  include Squishable
 
+  include Squishable
   squish :name, :slug, :short_name
+
+  include Translatable
+  translates :name
 
   attr_writer :questions
   attr_accessor :reimport
