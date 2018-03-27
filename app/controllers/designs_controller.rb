@@ -67,7 +67,7 @@ class DesignsController < ApplicationController
 
   # PATCH /projects/:project_id/designs/1.js
   def update
-    if @design.update(design_params)
+    if @design.save_translation!(design_params)
       render :show
     else
       render :edit

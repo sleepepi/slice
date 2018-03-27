@@ -7,6 +7,7 @@
 - content_for :header do
   .float-right
     .d-none.d-sm-block.btn-toolbar
+      = render "translations/locale_dropdown", button_class: "btn-sm"
       .btn-group
         = link_to "Edit Mode".html_safe, "#", class: "btn btn-sm btn-light active", data: { object: "edit-mode" }
         = link_to "Preview Mode".html_safe, "#", class: "btn btn-sm btn-light", data: { object: "preview-mode" }

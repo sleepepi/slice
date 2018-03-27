@@ -66,6 +66,12 @@
         background-color: theme-color($theme, dropdown-link-hover-bg, $dropdown-link-hover-bg);
         color: map-get($theme, body-color);
       }
+
+      &.active,
+      &:active {
+        color: map-get($theme, brand-white);
+        background-color: map-get($theme, primary);
+      }
     }
 
     .dropdown-divider {

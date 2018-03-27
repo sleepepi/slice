@@ -3,13 +3,21 @@
 .form-group.row
   %label.col-md-2.col-form-label Section Name
   .col-md-10
-    = text_field_tag "section[name]", section.name, class: "form-control"
+    .input-group
+      = text_field_tag "section[name]", section.name, class: "form-control"
+      - if params[:locale].present?
+        .input-group-append
+          %span.input-group-text= params[:locale]
     = render "layouts/errors", object: section, key: :name
 
 .form-group.row
   %label.col-md-2.col-form-label Section Description
   .col-md-10
-    = text_area_tag "section[description]", section.description, rows: 3, class: "form-control"
+    .input-group
+      = text_area_tag "section[description]", section.description, rows: 3, class: "form-control"
+      - if params[:locale].present?
+        .input-group-append
+          %span.input-group-text= params[:locale]
 
 .form-group.row
   %label.col-md-2.col-form-label Section Image

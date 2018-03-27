@@ -4,7 +4,7 @@
     = @design_option.variable.name
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
-  = form_with url: update_domain_project_design_design_option_path(@project, @design, @design_option), method: :patch, id: "design_option_form" do |form|
+  = form_with url: update_domain_project_design_design_option_path(@project, @design, @design_option, locale: params[:locale]), method: :patch, id: "design_option_form" do |form|
     = render "design_options/form/domain", form: form
 .modal-footer
   - if @domain.new_record?

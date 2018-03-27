@@ -2,8 +2,13 @@
 
 # Stores a single translation for an object attribute.
 class Translation < ApplicationRecord
+  # Concerns
+  include Strippable
+
+  strip :translation
+
   # Validations
-  validates :translatable_attribute, :locale, :translation, presence: true
+  validates :translatable_attribute, :locale, presence: true
 
   # Relationships
   belongs_to :translatable, polymorphic: true

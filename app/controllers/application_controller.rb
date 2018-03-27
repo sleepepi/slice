@@ -101,8 +101,8 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale].presence || I18n.default_locale
   end
 
-  def default_url_options
-    return {} if I18n.locale == I18n.default_locale
-    { locale: I18n.locale }
-  end
+  # def default_url_options
+  #   return {} if I18n.locale == I18n.default_locale
+  #   { locale: I18n.locale }
+  # end
 end

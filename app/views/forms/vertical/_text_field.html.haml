@@ -3,7 +3,14 @@
 - id = (defined?(id) && id == true ? "#{object.class.to_s.underscore}_#{key}" : (defined?(id) ? id : nil))
 .form-group
   = form.label key, defined?(key_name) ? key_name : nil
-  = form.text_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", data: data, placeholder: defined?(placeholder) ? placeholder : nil, id: id
+  - input_field = form.text_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", data: data, placeholder: defined?(placeholder) ? placeholder : nil, id: id
+  - unless defined?(append)
+    = input_field
+  - else
+    .input-group
+      = input_field
+      .input-group-append
+        %span.input-group-text= append
   - if defined?(key_name)
     = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
   - else

@@ -377,6 +377,22 @@ class Design < ApplicationRecord
     raw_data ? id : name
   end
 
+  def save_translation!(design_params)
+    if I18n.locale != I18n.default_locale
+      [:name].each do |attribute|
+        next unless design_params.key?(attribute)
+        translation = design_params.delete(attribute)
+        save_object_translation!(self, attribute, translation, I18n.locale)
+      end
+    end
+    update(design_params)
+  end
+
+  def save_object_translation!(object, attribute, translation, locale)
+    t = object.translations.where(locale: locale, translatable_attribute: attribute).first_or_create
+    t.update(translation: translation.presence)
+  end
+
   private
 
   # Reset all associated sheets total_response_count to nil to trigger refresh of sheet answer coverage

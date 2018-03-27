@@ -83,27 +83,35 @@ class Domain < ApplicationRecord
       domain_option = all_domain_options.find { |o| o.id == option_hash[:domain_option_id].to_i }
       if domain_option
         original_value = domain_option.value
-        if domain_option.update(cleaned_hash(option_hash, index, domain_option))
+        if domain_option.update(cleaned_hash(option_hash, index))
           domain_option.add_domain_option! unless original_value == domain_option.value
+          if I18n.locale != I18n.default_locale
+            [:name, :description].each do |attribute|
+              save_object_translation!(domain_option, attribute, option_hash[attribute], I18n.locale) if option_hash.key?(attribute)
+            end
+          end
         else
           # TODO: Domain option has errors. (can be caused by merging values)
         end
       else
-        domain_option = domain_options.create(cleaned_hash(option_hash, index, nil))
+        domain_option = domain_options.create(cleaned_hash(option_hash, index))
         domain_option.add_domain_option! unless domain_option.new_record?
       end
     end
   end
 
-  def cleaned_hash(option_hash, index, domain_option)
-    description = DesignOption.cleaned_description(option_hash, domain_option)
-    value = DesignOption.cleaned_value(option_hash, index)
-    {
-      name: option_hash[:name], value: value, description: description,
-      site_id: option_hash[:site_id], position: index,
-      missing_code: (option_hash[:missing_code] == "1"),
-      archived: (option_hash[:archived] == "1")
-    }
+  def cleaned_hash(option_hash, index)
+    hash = {}
+    if I18n.locale == I18n.default_locale
+      hash[:name] = option_hash[:name]
+      hash[:description] = option_hash[:description] if option_hash.key?(:description)
+    end
+    hash[:position] = index
+    hash[:value] = DesignOption.cleaned_value(option_hash, index)
+    hash[:site_id] = option_hash[:site_id]
+    hash[:missing_code] = (option_hash[:missing_code] == "1")
+    hash[:archived] = (option_hash[:archived] == "1")
+    hash
   end
 
   def add_domain_values!
@@ -112,5 +120,10 @@ class Domain < ApplicationRecord
 
   def remove_domain_values!
     domain_options.each(&:remove_domain_option!)
+  end
+
+  def save_object_translation!(object, attribute, translation, locale)
+    t = object.translations.where(locale: locale, translatable_attribute: attribute).first_or_create
+    t.update(translation: translation.presence)
   end
 end

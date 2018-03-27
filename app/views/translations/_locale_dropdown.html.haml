@@ -1,0 +1,14 @@
+- if @project.translations_enabled?(current_user)
+  .dropdown.d-inline-block
+    = link_to "#", class: "btn btn-light #{button_class} dropdown-toggle", data: { toggle: "dropdown" } do
+      .d-inline-block.d-sm-none
+        %i.fa.fa-cog
+      .d-none.d-sm-inline-block
+        Language
+      - unless I18n.default_locale == I18n.locale
+        .d-inline-block= "(#{I18n.locale})"
+
+    .dropdown-menu.dropdown-menu-right
+      - I18n.available_locales.each do |locale|
+        = link_to url_for(locale: I18n.default_locale == locale ? nil : locale), class: "dropdown-item#{" active" if locale == I18n.locale}" do
+          = locale

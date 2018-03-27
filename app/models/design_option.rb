@@ -66,19 +66,35 @@ class DesignOption < ApplicationRecord
     requirement == "optional" || requirement.blank?
   end
 
-  def self.cleaned_description(hash, domain_option)
-    if hash.key?(:description)
-      hash[:description]
-    elsif domain_option
-      domain_option.description
-    end
-  end
-
   def self.cleaned_value(hash, index)
     if hash[:value].blank?
       index + 1
     else
       hash[:value]
     end
+  end
+
+  def save_translation!(section_params, variable_params, locale)
+    if section
+      name_t = section_params.delete(:name)
+      desc_t = section_params.delete(:description)
+      save_object_translation!(section, "name", name_t, locale)
+      save_object_translation!(section, "description", desc_t, locale)
+      section.update(section_params)
+    else # variable
+      [:display_name, :field_note].each do |attribute|
+        next unless variable_params.key?(attribute)
+        translation = variable_params.delete(attribute)
+        save_object_translation!(variable, attribute, translation, I18n.locale)
+      end
+      result = variable.update(variable_params)
+      variable.update_grid_tokens! if result
+      result
+    end
+  end
+
+  def save_object_translation!(object, attribute, translation, locale)
+    t = object.translations.where(locale: locale, translatable_attribute: attribute).first_or_create
+    t.update(translation: translation.presence)
   end
 end

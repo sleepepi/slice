@@ -7,7 +7,7 @@ class DomainOption < ApplicationRecord
   squish :name, :value
 
   include Translatable
-  translates :name
+  translates :name, :description
 
   # Validations
   validates :domain_id, :name, :value, presence: true

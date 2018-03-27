@@ -91,7 +91,13 @@ class DesignOptionsController < ApplicationController
   # PATCH /designs/:design_id/design_options/1
   def update
     @design_option.update(design_option_params)
-    if @design_option.section && @design_option.section.update(section_params)
+    if I18n.locale != I18n.default_locale
+      if @design_option.save_translation!(section_params, variable_params, I18n.locale)
+        render :show
+      else
+        render :edit
+      end
+    elsif @design_option.section && @design_option.section.update(section_params)
       render :show
     elsif @design_option.variable && @design_option.variable.update(variable_params)
       @design_option.variable.update_grid_tokens!
@@ -172,6 +178,7 @@ class DesignOptionsController < ApplicationController
   end
 
   def section_params
+    params[:section] ||= { blank: "1" }
     params.require(:section).permit(
       :name, :description, :level, :image, :image_cache, :remove_image
     )
