@@ -7,6 +7,9 @@
   - Updated to rails 5.2.0.rc2
   - Updated to devise 4.4.3
 
+### Bug Fix
+- Design reorder button is no longer displayed as active while editing a design
+
 ## 59.1.2 (March 23, 2018)
 
 ### Bug Fix
