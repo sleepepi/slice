@@ -7,6 +7,7 @@
     // Primary
     .btn-primary,
     .show > .btn-primary.dropdown-toggle {
+      @include button-variant(map-get($theme, primary), map-get($theme, primary));
       color: map-get($theme, brand-white) !important;
     }
 
