@@ -13,6 +13,10 @@
   img {
     @include ignore-selection;
   }
+
+  > div {
+    position: relative;
+  }
 }
 
 @each $name, $theme in $themes {

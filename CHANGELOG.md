@@ -13,6 +13,7 @@
 
 ### Bug Fix
 - Design reorder button is no longer displayed as active while editing a design
+- Fixed an issue with URLs in the footer not being clickable
 
 ## 59.1.2 (March 23, 2018)
 
