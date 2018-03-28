@@ -3,7 +3,7 @@
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   = form_with model: [@project, @design], id: "design_form" do |form|
-    = form.hidden_field :locale, value: params[:locale], name: :locale
+    = form.hidden_field :language, value: World.language, name: :language
     = render "forms/horizontal/text_field", form: form, object: @design, key: :name, help_text: "Ex: Demographics, Intake Questionnaire", append: params[:locale]
     = render "forms/horizontal/text_field", form: form, object: @design, key: :short_name, key_name: "Abbreviation", placeholder: @design.computed_short_name
     = render "forms/horizontal/check_box", form: form, object: @design, key: :publicly_available, key_name: "Survey mode", help_text: "Generates a link to fill out the design as a public survey."

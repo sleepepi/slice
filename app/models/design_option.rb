@@ -74,18 +74,18 @@ class DesignOption < ApplicationRecord
     end
   end
 
-  def save_translation!(section_params, variable_params, locale)
+  def save_translation!(section_params, variable_params)
     if section
       name_t = section_params.delete(:name)
       desc_t = section_params.delete(:description)
-      save_object_translation!(section, "name", name_t, locale)
-      save_object_translation!(section, "description", desc_t, locale)
+      save_object_translation!(section, "name", name_t)
+      save_object_translation!(section, "description", desc_t)
       section.update(section_params)
     else # variable
       [:display_name, :field_note].each do |attribute|
         next unless variable_params.key?(attribute)
         translation = variable_params.delete(attribute)
-        save_object_translation!(variable, attribute, translation, I18n.locale)
+        save_object_translation!(variable, attribute, translation)
       end
       result = variable.update(variable_params)
       variable.update_grid_tokens! if result
@@ -93,8 +93,8 @@ class DesignOption < ApplicationRecord
     end
   end
 
-  def save_object_translation!(object, attribute, translation, locale)
-    t = object.translations.where(locale: locale, translatable_attribute: attribute).first_or_create
+  def save_object_translation!(object, attribute, translation)
+    t = object.translations.where(language_code: World.language, translatable_attribute: attribute).first_or_create
     t.update(translation: translation.presence)
   end
 end

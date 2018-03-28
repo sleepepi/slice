@@ -15,7 +15,7 @@
                 .d-none.d-sm-inline-block Actions
 
               .dropdown-menu.dropdown-menu-right
-                = link_to edit_project_design_design_option_path(@project, @design, design_option, locale: params[:locale]), remote: true, class: "dropdown-item" do
+                = link_to edit_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, class: "dropdown-item" do
                   %i.fa.fa-pencil
                   Edit
                 .dropdown-divider
@@ -87,7 +87,7 @@
                     .dropdown-divider
                   - variable.deleted = true
                 - else
-                  = link_to edit_project_design_design_option_path(@project, @design, design_option, locale: params[:locale]), remote: true, class: "dropdown-item" do
+                  = link_to edit_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, class: "dropdown-item" do
                     %i.fa.fa-pencil
                     Edit
                   = link_to [@project, variable], class: "dropdown-item" do

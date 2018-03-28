@@ -91,8 +91,8 @@ class DesignOptionsController < ApplicationController
   # PATCH /designs/:design_id/design_options/1
   def update
     @design_option.update(design_option_params)
-    if I18n.locale != I18n.default_locale
-      if @design_option.save_translation!(section_params, variable_params, I18n.locale)
+    if World.translate_language?
+      if @design_option.save_translation!(section_params, variable_params)
         render :show
       else
         render :edit

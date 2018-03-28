@@ -4,12 +4,12 @@ one:
   translatable: one
   translatable_type: Variable
   translatable_attribute: display_name
-  locale: es
+  language_code: es
   translation: Primera Pregunta
 
 two:
   translatable: one
   translatable_type: Variable
   translatable_attribute: field_note
-  locale: es
+  language_code: es
   translation: Descripción de Entrada

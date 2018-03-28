@@ -5,9 +5,9 @@
   .col-md-10
     .input-group
       = text_field_tag "section[name]", section.name, class: "form-control"
-      - if params[:locale].present?
+      - if World.translate_language?
         .input-group-append
-          %span.input-group-text= params[:locale]
+          %span.input-group-text= World.language
     = render "layouts/errors", object: section, key: :name
 
 .form-group.row
@@ -15,9 +15,9 @@
   .col-md-10
     .input-group
       = text_area_tag "section[description]", section.description, rows: 3, class: "form-control"
-      - if params[:locale].present?
+      - if World.translate_language?
         .input-group-append
-          %span.input-group-text= params[:locale]
+          %span.input-group-text= World.language
 
 .form-group.row
   %label.col-md-2.col-form-label Section Image

@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   before_action :set_cache_buster
+  before_action :set_language
   before_action :set_locale
 
   include DateAndTimeParser
@@ -95,6 +96,10 @@ class ApplicationController < ActionController::Base
     else
       head :ok
     end
+  end
+
+  def set_language
+    World.language = params[:language].presence&.to_sym || World.default_language
   end
 
   def set_locale

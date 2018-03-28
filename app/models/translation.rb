@@ -8,7 +8,7 @@ class Translation < ApplicationRecord
   strip :translation
 
   # Validations
-  validates :translatable_attribute, :locale, presence: true
+  validates :translatable_attribute, :language_code, presence: true
 
   # Relationships
   belongs_to :translatable, polymorphic: true

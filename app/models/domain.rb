@@ -85,9 +85,9 @@ class Domain < ApplicationRecord
         original_value = domain_option.value
         if domain_option.update(cleaned_hash(option_hash, index))
           domain_option.add_domain_option! unless original_value == domain_option.value
-          if I18n.locale != I18n.default_locale
+          if World.translate_language?
             [:name, :description].each do |attribute|
-              save_object_translation!(domain_option, attribute, option_hash[attribute], I18n.locale) if option_hash.key?(attribute)
+              save_object_translation!(domain_option, attribute, option_hash[attribute]) if option_hash.key?(attribute)
             end
           end
         else
@@ -102,7 +102,7 @@ class Domain < ApplicationRecord
 
   def cleaned_hash(option_hash, index)
     hash = {}
-    if I18n.locale == I18n.default_locale
+    if World.default_language?
       hash[:name] = option_hash[:name]
       hash[:description] = option_hash[:description] if option_hash.key?(:description)
     end
@@ -122,8 +122,8 @@ class Domain < ApplicationRecord
     domain_options.each(&:remove_domain_option!)
   end
 
-  def save_object_translation!(object, attribute, translation, locale)
-    t = object.translations.where(locale: locale, translatable_attribute: attribute).first_or_create
+  def save_object_translation!(object, attribute, translation)
+    t = object.translations.where(language_code: World.language, translatable_attribute: attribute).first_or_create
     t.update(translation: translation.presence)
   end
 end

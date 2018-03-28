@@ -3,7 +3,7 @@
     %h4.modal-title Edit Section
     %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   .modal-body
-    = form_with url: project_design_design_option_path(@project, @design, @design_option, locale: params[:locale]), method: :patch, id: "design_option_form" do |form|
+    = form_with url: project_design_design_option_path(@project, @design, @design_option, language: params[:language]), method: :patch, id: "design_option_form" do |form|
       = render "design_options/form_section", form: form, design_option: @design_option, section: section
   .modal-footer
     = button_tag "Update Section", data: { object: "submit-section-form-with-file", target: "#design_option_form", method: :patch }, class: "btn btn-primary"
@@ -16,7 +16,7 @@
       = variable.name_was
     %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
   .modal-body
-    = form_with url: project_design_design_option_path(@project, @design, @design_option, locale: params[:locale]), method: :patch, id: "design_option_form" do |form|
+    = form_with url: project_design_design_option_path(@project, @design, @design_option, language: params[:language]), method: :patch, id: "design_option_form" do |form|
       = render "design_options/form_variable", form: form, design_option: @design_option, variable: variable
 
   .modal-footer

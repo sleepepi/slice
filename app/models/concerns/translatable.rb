@@ -17,8 +17,8 @@ module Translatable
       attributes.each do |attribute|
         class_eval <<-RUBY
           def #{attribute}
-            return self[:#{attribute}] if I18n.locale == I18n.default_locale
-            t = translations.find_by(locale: I18n.locale, translatable_attribute: "#{attribute}")
+            return self[:#{attribute}] if World.default_language?
+            t = translations.find_by(language_code: World.language, translatable_attribute: "#{attribute}")
             t&.translation.presence || self[:#{attribute}]
           end
         RUBY

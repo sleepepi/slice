@@ -9,8 +9,8 @@
       .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#display-name-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
-        - if params[:locale].present?
-          %span.input-group-text= params[:locale]
+        - if World.translate_language?
+          %span.input-group-text= World.language
     = render "layouts/errors", object: variable, key: :display_name
 
     #display-name-info.card.border-info.bg-light.mt-3{ style: "display:none" }
@@ -60,9 +60,9 @@
   .col-md-10
     .input-group
       = text_field_tag "variable[field_note]", variable.field_note, class: "form-control"
-      - if params[:locale].present?
+      - if World.translate_language?
         .input-group-append
-          %span.input-group-text= params[:locale]
+          %span.input-group-text= World.language
 
     = render "layouts/errors", object: variable, key: :field_note
 

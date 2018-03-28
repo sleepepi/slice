@@ -1,4 +1,4 @@
-= render "translations/locale_dropdown", button_class: ""
+= render "translations/language_dropdown", button_class: ""
 - if sheet.auto_locked?
   %span.dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
@@ -31,7 +31,7 @@
         .d-none.d-sm-inline-block Actions
 
       .dropdown-menu.dropdown-menu-right
-        = link_to edit_project_sheet_path(sheet.project, sheet, locale: params[:locale]), class: "dropdown-item" do
+        = link_to edit_project_sheet_path(sheet.project, sheet, language: params[:language]), class: "dropdown-item" do
           %i.fa.fa-pencil
           Edit
         = link_to reassign_project_sheet_path(project, sheet), class: "dropdown-item" do

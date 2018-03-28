@@ -36,24 +36,27 @@ module Slice
     # Ignores custom error DOM elements created by Rails.
     config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
 
-    # Add RandomizationAlgorithm Module to autoload path
+    # Add randomization algorithms module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "randomization_algorithm")
     config.autoload_paths << Rails.root.join("app", "models", "randomization_algorithm", "algorithms")
 
-    # Add Validation Module to autoload path
+    # Add validation module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "validation")
     config.autoload_paths << Rails.root.join("app", "models", "validation", "validators")
 
-    # Add Formatters Module to autoload path
+    # Add formatters module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "formatters")
 
-    # Add Search Module to autoload path
+    # Add search module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "search")
 
-    # Add Slicers Module to autoload path
+    # Add slicers module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "slicers")
 
-    # Add Statistics Module to autoload path
+    # Add statistics module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "statistics")
+
+    # Add world languages module to autoload path.
+    config.autoload_paths << Rails.root.join("app", "models", "world")
   end
 end
