@@ -12,6 +12,9 @@ class Event < ApplicationRecord
 
   squish :name, :slug
 
+  include Translatable
+  translates :name
+
   attr_accessor :design_hashes
 
   # Callbacks
