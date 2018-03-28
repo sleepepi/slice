@@ -1,3 +1,4 @@
+<% I18n.locale = World.language %>
 <% @design = self %>
 
 \documentclass{article}
@@ -29,12 +30,12 @@
 
 \fancyhf{}
 
-\lhead{\textbf{Subject}\\\dotuline{~~~~~~~~~~~~~~~~~~~~~~~~}}
+\lhead{\textbf{<%= latex_safe I18n.t("latex.subject") %>}\\\dotuline{~~~~~~~~~~~~~~~~~~~~~~~~}}
 \chead{\textbf{<%= latex_safe @design.project.name %>}\\}
-\rhead{\textbf{Entered} \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~}\\}
+\rhead{\textbf{<%= latex_safe I18n.t("latex.entered") %>} \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~}\\}
 \lfoot{<%= latex_safe @design.name %>}
-\cfoot{Printed on <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
-\rfoot{Page \thepage\ of \pageref{LastPage}}
+\cfoot{<%= latex_safe I18n.t("latex.printed_on") %> <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
+\rfoot{<%= latex_safe I18n.t("latex.page") %> \thepage\ <%= latex_safe I18n.t("latex.page_of") %> \pageref{LastPage}}
 
 
   \renewcommand{\headrulewidth}{0pt}

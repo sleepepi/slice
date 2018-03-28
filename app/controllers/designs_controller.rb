@@ -27,7 +27,7 @@ class DesignsController < ApplicationController
   def print
     file_pdf_location = @design.latex_file_location(current_user)
     if File.exist?(file_pdf_location)
-      send_file file_pdf_location, filename: "design_#{@design.id}.pdf", type: "application/pdf", disposition: "inline"
+      send_file file_pdf_location, filename: "design_#{@design.id}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
     else
       # TODO: Redirect to a location that a viewer could see as well, perhaps
       # the basic design report project_reports_basic(@project, @design)

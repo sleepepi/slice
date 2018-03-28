@@ -43,6 +43,6 @@
             %i.fa.fa-trash
             Delete
 
-= link_to project_sheet_path(@project, @sheet, format: "pdf"), target: "_blank", class: "btn btn-light" do
+= link_to project_sheet_path(@project, @sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
   %i.fa.fa-print
   %span.d-none.d-md-inline Print

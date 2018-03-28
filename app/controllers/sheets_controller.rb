@@ -245,7 +245,7 @@ class SheetsController < ApplicationController
   def generate_pdf
     pdf_location = Sheet.latex_file_location([@sheet], current_user)
     if File.exist?(pdf_location)
-      send_file pdf_location, filename: "sheet_#{@sheet.id}.pdf", type: "application/pdf", disposition: "inline"
+      send_file pdf_location, filename: "sheet_#{@sheet.id}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
     else
       redirect_to [@project, @sheet], alert: "Unable to generate PDF."
     end

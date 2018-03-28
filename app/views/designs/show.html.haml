@@ -6,20 +6,21 @@
 
 - content_for :header do
   .float-right
-    .dropdown
+    = render "translations/language_dropdown", button_class: ""
+    .dropdown.d-inline-block
       = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
         .d-inline-block.d-sm-none
           %i.fa.fa-cog
         .d-none.d-sm-inline-block Actions
 
       .dropdown-menu.dropdown-menu-right
-        = link_to edit_project_design_path(@design.project, @design), class: "dropdown-item" do
+        = link_to edit_project_design_path(@design.project, @design, language: World.translate_language? ? World.language : nil), class: "dropdown-item" do
           %i.fa.fa-pencil
           Edit
         = link_to imports_edit_project_design_path(@design.project, @design), class: "dropdown-item" do
           %i.fa.fa-upload
           Reimport
-        = link_to print_project_design_path(@design.project, @design, format: "pdf"), target: "_blank", class: "dropdown-item" do
+        = link_to print_project_design_path(@design.project, @design, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
           %i.fa.fa-print
           Print
         = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}"), class: "dropdown-item" do
