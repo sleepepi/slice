@@ -40,17 +40,17 @@ class HandoffController < ApplicationController
 
   def set_project
     @project = Project.current.find_by_param(params[:project])
-    redirect_to handoff_completed_path unless @project
+    redirect_to handoff_completed_path(language: params[:language]) unless @project
   end
 
   def set_handoff
     @handoff = @project.handoffs.find_by_param(params[:handoff])
-    redirect_to handoff_completed_path unless @handoff
+    redirect_to handoff_completed_path(language: params[:language]) unless @handoff
   end
 
   def set_design
     @design = @project.designs.find_by_param(params[:design])
-    redirect_to handoff_completed_path unless @design
+    redirect_to handoff_completed_path(language: params[:language]) unless @design
   end
 
   def set_sheet
@@ -73,10 +73,10 @@ class HandoffController < ApplicationController
   def proceed_to_next_design
     design = @handoff.next_design(@design)
     if design
-      redirect_to handoff_design_path(@project, @handoff, design)
+      redirect_to handoff_design_path(@project, @handoff, design, language: params[:language])
     else
       @handoff.completed!
-      redirect_to handoff_completed_path
+      redirect_to handoff_completed_path(language: params[:language])
     end
   end
 end

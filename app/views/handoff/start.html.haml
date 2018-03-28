@@ -1,24 +1,17 @@
+- I18n.locale = World.language
 - percent = [1 * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
 .progress
   .progress-bar.progress-bar-striped.bg-primary{ style: "width: #{percent}%;" }
-    Start
+    = I18n.t("handoffs.start")
 
 - if @handoff.first_design
-  %h2 Survey Forms
+  %h2= I18n.t("handoffs.forms")
   .jumbotron
-    %p
-      Dear Participant,
-    %p
-      You will be presented with a series of forms across the next couple of pages.
-    %p
-      Please complete each form carefully and accurately.
-    %p
-      If you have any questions,
-      you may ask for further clarification from our staff.
+    = simple_format I18n.t("handoffs.instructions")
 
   - if @handoff.first_design == @handoff.resume_design
-    = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-success" do
-      Get Started
+    = link_to handoff_design_path(@project, @handoff, @handoff.first_design, language: params[:language]), class: "btn btn-lg btn-block btn-success" do
+      = I18n.t("handoffs.get_started")
       %i.fa.fa-caret-right
   - elsif @handoff.resume_design
     .row

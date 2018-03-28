@@ -15,7 +15,7 @@ class HandoffsController < ApplicationController
   # POST /handoffs
   def create
     sign_out current_user
-    redirect_to handoff_start_path(@project, @handoff)
+    redirect_to handoff_start_path(@project, @handoff, language: params[:language])
   end
 
   private

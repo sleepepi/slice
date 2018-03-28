@@ -8,6 +8,9 @@
   - Admins can now add Spanish translations to existing designs
   - PDFs should now correctly print Spanish characters
   - Transactions track which language was used during data entry
+- **Handoff Changes**
+  - Tablet handoffs can now completed in a different language as long as one of
+    the designs on the handoff has been translated
 - **Project Changes**
   - Added project-level settings to enable design translations
 - **Gem Changes**

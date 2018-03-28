@@ -1,0 +1,13 @@
+es:
+  handoffs:
+    start: "Empezar"
+    forms: "Cuestionarios"
+    instructions: "Querido Participante,\n\nSe le presentará una serie de formularios en las próximas páginas.\n\nPor favor complete cada formulario con cuidado y precisión.\n\nSi tiene alguna pregunta, puede solicitar más aclaraciones a nuestro personal."
+    get_started: "Empezar"
+    filling_out_forms: "Completando cuestionarios"
+    instructions_continue: "Usted ha llegado al final de este cuestionario. Por favor revise sus respuestas para asegurarse de que sean precisas. Una vez que esté listo, continúe con el siguiente formulario haciendo clic en \"Guardar y continuar\" a continuación."
+    save_and_continue: "Guardar y continuar"
+    outro: "¡Casi termino! Haga clic en \"Guardar y continuar\" para enviar sus respuestas."
+    progress_complete: "Progreso completo"
+    all_set: "¡Todo listo!"
+    return_tablet: "Gracias por completar todos los formularios.\n\nDevuelva la tableta a un miembro del personal."

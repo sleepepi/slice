@@ -3,7 +3,7 @@
 - content_for :header, @title
 
 - if @handoff.handoff_enabled_event_designs.present?
-  .jumbotron.bg-danger.text-white
+  .jumbotron.bg-primary.text-white
     %h4 IMPORTANT
 
     %p
@@ -16,15 +16,19 @@
       = link_to "Click here", "http://www.pcworld.com/article/2921718/2-easy-ways-to-child-proof-your-android-or-ios-device.html", target: "_blank", class: "text-dark"
       for more information.
 
-  .text-center.mb-4
-    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id]), method: :post, class: "btn btn-lg btn-accent btn-shadow" do
-      Launch tablet handoff
-      %i.fa.fa-paper-plane
-
   .dashboard-container
     %h3
       Handoff URL
     %code.btn-link.link-no-underline
-      = "#{ENV["website_url"]}/handoff/#{@project.to_param}/#{@handoff.to_param}"
+      = "#{ENV["website_url"]}/handoff/#{@project.to_param}/#{@handoff.to_param}#{"?language=#{World.language}" if World.translate_language?}"
+
+  .text-center.mb-4
+    - if @handoff.subject_event.event.designs.where(translated: true).count.positive?
+      = render "translations/language_dropdown", button_class: ""
+
+    = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id], language: params[:language]), method: :post, class: "btn btn-lg btn-accent btn-shadow" do
+      Launch tablet handoff
+      %i.fa.fa-paper-plane
+
 - else
   = render "handoffs/no_handoff_enabled_designs_on_event"

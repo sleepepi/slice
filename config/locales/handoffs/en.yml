@@ -1,0 +1,13 @@
+en:
+  handoffs:
+    start: "Start"
+    forms: "Forms"
+    instructions: "Dear Participant,\n\nYou will be presented with a series of forms across the next couple of pages.\n\nPlease complete each form carefully and accurately.\n\nIf you have any questions, you may ask for further clarification from our staff."
+    get_started: "Get started"
+    filling_out_forms: "Filling out forms"
+    instructions_continue: "You have reached the end of this form. Please review your answers to make sure they are accurate. Once you are ready, proceed to the next form by clicking \"Save and continue\" below."
+    save_and_continue: "Save and continue"
+    outro: "Almost done! Click \"Save and continue\" to submit your answers."
+    progress_complete: "Progress complete"
+    all_set: "All set!"
+    return_tablet: "Thank you for completing all of the forms.\n\nPlease hand the tablet back to a staff member."

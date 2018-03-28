@@ -1,8 +1,8 @@
+- I18n.locale = World.language
 .progress
   .progress-bar.progress-bar-striped.bg-primary{ style: "width: 100%;" }
-    Progress Complete
+    = I18n.t("handoffs.progress_complete")
 
 .jumbotron
-  %h2 All set!
-  %p Thank you for completing all of the forms.
-  %p Please hand the tablet back to a staff member.
+  %h2= I18n.t("handoffs.all_set")
+  = simple_format I18n.t("handoffs.return_tablet")

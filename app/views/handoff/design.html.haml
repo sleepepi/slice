@@ -1,19 +1,20 @@
+- I18n.locale = World.language
 - @title = @design.name
 
 - if @handoff.next_design(@design)
-  - submit_description = "You have reached the end of this form. Please review your answers to make sure they are accurate. Once you are ready, proceed to the next form by clicking \"Save and Continue\" below."
+  - submit_description = I18n.t("handoffs.instructions_continue")
 - else
-  - submit_description = "Almost done! Click \"Save and Continue\" to submit your answers."
+  - submit_description = I18n.t("handoffs.outro")
 
 - submit_url = handoff_save_path(@project, @handoff, @design)
 - submit_method = :post
 
 - number = @handoff.handoff_enabled_event_designs.pluck(:design_id).index(@design.id) + 2
-- if number > 0 and @handoff.handoff_enabled_event_designs.count + 2 > 0
+- if number > 0 && @handoff.handoff_enabled_event_designs.count + 2 > 0
   - percent = [number * 100 / (@handoff.handoff_enabled_event_designs.count + 2), 100].min
   .progress.mb-3
     .progress-bar.progress-bar-striped.bg-primary{ style: "width: #{percent}%;" }
-      Filling Out Forms
+      = I18n.t("handoffs.filling_out_forms")
 
 .dashboard-container.pb-1
   .design-header= @title
@@ -39,6 +40,8 @@
         .col-md-10
           = select_tag :site_id, options_for_select([["---", nil]] + @design.project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
 
+    = form.hidden_field :language, value: World.language, name: :language
+
     #design
       - params[:header] = "0"
       = render "designs/show", design: @design, form: form
@@ -46,5 +49,5 @@
 .jumbotron
   %p= submit_description
 = link_to "#", data: { target: "##{form_name}", object: "variable-check-before-submit" }, class: "btn btn-success btn-block btn-lg" do
-  Save and Continue
+  = I18n.t("handoffs.save_and_continue")
   %i.fa.fa-caret-right
