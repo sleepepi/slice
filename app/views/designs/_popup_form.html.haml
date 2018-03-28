@@ -17,6 +17,7 @@
     = render "forms/horizontal/select", form: form, object: @design, key: :category_id, options: @project.categories.pluck(:name, :id), include_blank: true
     = render "forms/horizontal/check_box", form: form, object: @design, key: :only_unblinded, help_text: "Hide sheets and comments from blinded staff." if @project.blinding_enabled?
     = render "forms/horizontal/check_box", form: form, object: @design, key: :ignore_auto_lock, help_text: "Prevent sheets from auto-locking." if @project.auto_locking_enabled?
+    = render "forms/horizontal/check_box", form: form, object: @design, key: :translated, help_text: "Check this if the design has been fully translated." if @project.translations_enabled?
 .modal-footer
   = button_tag "Update", data: { object: "submit-and-disable", target: "#design_form" }, class: "btn btn-primary"
   %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel

@@ -266,10 +266,6 @@ class Project < ApplicationRecord
     retry
   end
 
-  def translations_enabled?(current_user)
-    current_user.admin?
-  end
-
   private
 
   # Creates a default site if the project has no site associated with it

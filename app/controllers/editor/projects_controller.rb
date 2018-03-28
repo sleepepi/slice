@@ -66,7 +66,7 @@ class Editor::ProjectsController < ApplicationController
         :name, :slug, :description, :disable_all_emails,
         :hide_values_on_pdfs,
         :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
-        :handoffs_enabled, :auto_lock_sheets,
+        :handoffs_enabled, :auto_lock_sheets, :translations_enabled,
         # Uploaded Logo
         :logo, :logo_uploaded_at, :logo_cache, :remove_logo
       )
@@ -75,7 +75,7 @@ class Editor::ProjectsController < ApplicationController
         :name, :slug, :description, :disable_all_emails,
         :hide_values_on_pdfs,
         :randomizations_enabled, :adverse_events_enabled,
-        :handoffs_enabled, :auto_lock_sheets,
+        :handoffs_enabled, :auto_lock_sheets, :translations_enabled,
         # Uploaded Logo
         :logo, :logo_uploaded_at, :logo_cache, :remove_logo
       )

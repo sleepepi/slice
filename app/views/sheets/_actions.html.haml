@@ -1,4 +1,4 @@
-= render "translations/language_dropdown", button_class: ""
+= render "translations/language_dropdown", button_class: "" if sheet.design.translated?
 - if sheet.auto_locked?
   %span.dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
@@ -43,6 +43,6 @@
             %i.fa.fa-trash
             Delete
 
-= link_to project_sheet_path(@project, @sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
+= link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
   %i.fa.fa-print
   %span.d-none.d-md-inline Print

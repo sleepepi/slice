@@ -112,7 +112,7 @@ class DesignsController < ApplicationController
       :name, :slug, :short_name, :project_id, :updater_id, :publicly_available,
       :show_site, :ignore_auto_lock, :category_id, :only_unblinded, :repeated,
       { questions: [:question_name, :question_type] }, :redirect_url,
-      :notifications_enabled
+      :notifications_enabled, :translated
     )
   end
 
