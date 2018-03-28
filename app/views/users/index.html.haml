@@ -11,6 +11,7 @@
 .dashboard-container.dashboard-table
   %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
+    %col.d-none.d-md-table-column
     %col
     %col.d-none.d-md-table-column
     %col.d-none.d-sm-table-column
@@ -18,6 +19,7 @@
     %thead
       %tr
         = th_sort_field @order, "users.full_name", "Name"
+        %th.d-none.d-md-table-cell.text-center Theme
         = th_sort_field @order, "users.current_sign_in_at", "Recent Activity", extra_class: "text-center"
         = th_sort_field @order, "users.sign_in_count", "Sign in Count", extra_class: "text-center d-none d-md-table-cell"
         = th_sort_field @order, "users.system_admin", "System Admin", extra_class: "text-center d-none d-sm-table-cell"
@@ -30,6 +32,9 @@
           = link_to user do
             .d-none.d-sm-inline= user.full_name
             .d-inline.d-sm-none= user.nickname
+        %td.d-none.d-md-table-cell.text-center.px-0
+          %div{ class: "theme-#{user.theme}-focus-bg" }
+            %small.text-white= user.theme
         %td.text-center= recent_activity user.current_sign_in_at
         %td.text-center.d-none.d-md-table-cell= number_with_delimiter user.sign_in_count
         %td.text-center.d-none.d-sm-table-cell= simple_check user.system_admin?

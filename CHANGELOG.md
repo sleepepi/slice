@@ -1,6 +1,8 @@
 ## 60.0.0
 
 ### Enhancements
+- **Admin Changes**
+  - Added user themes to users index
 - **Design Changes**
   - Designs can now be translated into different languages
   - Admins can now add Spanish translations to existing designs
