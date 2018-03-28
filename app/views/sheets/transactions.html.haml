@@ -17,20 +17,23 @@
 - variable = @project.variables.find_by(name: params[:variable])
 - sheet_transaction_total = @sheet_transactions.count
 
-- @sheet_transactions.each_with_index do |t,index|
-  - if !variable || (variable && @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select{|sv| sv.variable_id == variable.id }.count > 0)
+- @sheet_transactions.each_with_index do |t, index|
+  - if !variable || (variable && @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select { |sv| sv.variable_id == variable.id }.count > 0)
     .dashboard-container
       %table.table.table-striped.table-fixed
         %thead
           %tr
-            %th Transaction Number
+            %th Transaction
             %th User
             %th Type
             %th Created At
 
         %tbody
           %tr
-            %td= "##{sheet_transaction_total - index}"
+            %td
+              = "##{sheet_transaction_total - index}"
+              - language = World.for(t.language_code)
+              %span.badge.badge-primary{ rel: "tooltip", data: { title: language.name(I18n.locale), container: "body", placement: "right" } }= language.code.upcase
             - if t.user
               %td
                 = image_tag t.user.avatar_url(16, "identicon"), size: "16x16", alt: "", style: "vertical-align: middle", class: "img-rounded"

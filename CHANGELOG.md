@@ -7,6 +7,7 @@
   - Designs can now be translated into different languages
   - Admins can now add Spanish translations to existing designs
   - PDFs should now correctly print Spanish characters
+  - Transactions track which language was used during data entry
 - **Project Changes**
   - Added project-level settings to enable design translations
 - **Gem Changes**

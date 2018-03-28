@@ -11,6 +11,8 @@
           - @sheet.errors.full_messages.each do |msg|
             %li= msg
 
+  = form.hidden_field :language, value: World.language, name: :language
+
   - # TODO: DESIGN SHOULD ONLY BE NEEDED ON NEW SHEETS
   = form.hidden_field :design_id
 

@@ -38,7 +38,8 @@ class SheetTransaction < ApplicationRecord
         project_id: sheet.project_id,
         sheet_id: sheet.id,
         user: current_user,
-        remote_ip: remote_ip
+        remote_ip: remote_ip,
+        language_code: World.language
       )
       sheet_transaction.generate_audits!(original_attributes)
       sheet_transaction.update_variables!(variables_params, current_user)

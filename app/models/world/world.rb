@@ -13,7 +13,7 @@ module World
   @@default_language = @@language = :en
 
   def self.for(code)
-    (LANGUAGES[code.to_sym] || DEFAULT_LANGUAGE).new
+    (LANGUAGES[code&.to_sym] || DEFAULT_LANGUAGE).new
   end
 
   def self.available_languages
