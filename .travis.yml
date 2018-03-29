@@ -5,6 +5,7 @@ rvm:
   - 2.5.1
   - ruby-head
 gemfile: "gems.rb"
+before_install: gem install bundler --no-document # Attempt to fix ruby 2.5.1 tests
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "psql -c 'create database slice_test;' -U postgres"
