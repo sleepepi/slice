@@ -1,8 +1,8 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.4.3
   - 2.5.0
+  - 2.5.1
   - ruby-head
 gemfile: "gems.rb"
 before_script:
@@ -11,4 +11,5 @@ before_script:
   - "rails db:migrate"
 matrix:
   allow_failures:
+    - rvm: 2.5.1
     - rvm: ruby-head
