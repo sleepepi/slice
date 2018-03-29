@@ -5,8 +5,6 @@ rvm:
   - 2.5.1
   - ruby-head
 gemfile: "gems.rb"
-before_install:
-  - gem update --system # Due to: https://github.com/travis-ci/travis-ci/issues/8978
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "psql -c 'create database slice_test;' -U postgres"
