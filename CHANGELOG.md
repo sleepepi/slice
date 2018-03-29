@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to ruby 2.5.1
+  - Updated to simplecov 0.16.1
 
 ## 60.0.0
 
