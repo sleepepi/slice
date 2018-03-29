@@ -1,5 +1,9 @@
 ## 61.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to ruby 2.5.1
+
 ## 60.0.0
 
 ### Enhancements
