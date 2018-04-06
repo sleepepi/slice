@@ -1,4 +1,4 @@
-## 60.0.0
+## 60.0.0 (April 6, 2018)
 
 ### Enhancements
 - **Admin Changes**
