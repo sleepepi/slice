@@ -112,6 +112,14 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :sforms, path: "forms" do
+        member do
+          get :builder
+          post :save_object, path: "builder/save-object"
+          post :remove_object, path: "builder/remove-object"
+        end
+      end
+
       resources :grid_variables, path: "grid-variables"
     end
   end

@@ -1,3 +1,4 @@
+<% if ENV["google_analytics"].present? %>
 ((i, s, o, g, r, a, m) ->
   i["GoogleAnalyticsObject"] = r
   i[r] = i[r] or ->
@@ -18,10 +19,11 @@ ga "create", "<%= ENV["google_analytics"] %>", "auto"
 ga "require", "displayfeatures"
 
 $(document).ready ->
-  if typeof Turbolinks is 'undefined' or !Turbolinks.supported
-    ga "send", 'pageview'
+  if typeof Turbolinks is "undefined" or !Turbolinks.supported
+    ga "send", "pageview"
     return
 
 $(document).on "turbolinks:load", ->
   ga "send", "pageview", window.location.pathname
   return
+<% end %>

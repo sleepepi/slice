@@ -1,0 +1,4 @@
+= form_with do |form|
+  .dashboard-container
+    = hidden_field_tag "sheet[project_id]", @project.id
+    = @sheet = @sform.sheets.new; render "designs/show", design: @sform, form: form
