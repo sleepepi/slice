@@ -193,7 +193,7 @@
   value
 
 @stayActiveDuringSheetEntry = ->
-  $.post("#{root_url}keep-me-active", null, null, "script")
+  $.post("#{root_url}keep-me-active", null, null, "script") if $("[data-object~=current-user]").length > 0
 
 @validateElement = (element, relatedTarget = null) ->
   stayActiveDuringSheetEntry()
