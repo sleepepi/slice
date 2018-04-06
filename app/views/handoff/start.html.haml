@@ -17,15 +17,15 @@
     .row
       .col-sm-6{ style: "margin-bottom: 20px" }
         = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-light" do
-          Review All Forms
+          = I18n.t("handoffs.review_forms")
           %i.fa.fa-eye
       .col-sm-6
         = link_to handoff_design_path(@project, @handoff, @handoff.resume_design), class: "btn btn-lg btn-block btn-success" do
-          Resume Where I Left Off
+          = I18n.t("handoffs.resume_forms")
           %i.fa.fa-caret-right
   - else
     = link_to handoff_design_path(@project, @handoff, @handoff.first_design), class: "btn btn-lg btn-block btn-light" do
-      Review All Forms
+      = I18n.t("handoffs.review_forms")
       %i.fa.fa-eye
 - else
   %h2 Tablet Handoff
