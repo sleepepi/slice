@@ -20,6 +20,7 @@
 ### Bug Fix
 - Design reorder button is no longer displayed as active while editing a design
 - Fixed an issue with URLs in the footer not being clickable
+- Fixed a bug that attempted to keep current session active during a handoff
 
 ## 59.1.2 (March 23, 2018)
 
