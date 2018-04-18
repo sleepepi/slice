@@ -7,6 +7,7 @@
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0
+  - Updated to bootstrap 4.1.0
   - Updated to simplecov 0.16.1
   - Updated to capybara 3.0
 
