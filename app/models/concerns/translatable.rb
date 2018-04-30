@@ -7,6 +7,10 @@ module Translatable
   included do
     # Relationships
     has_many :translations, as: :translatable
+
+    def self.translatable_attributes
+      class_variable_get(:@@translatable_attributes)
+    end
   end
 
   # Allows attributes to be translated.
@@ -14,6 +18,7 @@ module Translatable
   #   translates :name, :description
   module ClassMethods
     def translates(*attributes)
+      class_variable_set(:@@translatable_attributes, attributes.uniq)
       attributes.each do |attribute|
         class_eval <<-RUBY
           def #{attribute}

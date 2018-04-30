@@ -37,7 +37,7 @@
   %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
 .modal-body
   - if partial
-    = form_with url: project_design_design_option_path(@project, @design, @design_option), method: :patch, id: "design_option_form" do |form|
+    = form_with url: project_design_design_option_path(@project, @design, @design_option, language: params[:language]), method: :patch, id: "design_option_form" do |form|
       = render "design_options/form/#{partial}", form: form
 
 .modal-footer

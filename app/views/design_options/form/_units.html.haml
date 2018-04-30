@@ -1,4 +1,8 @@
 .form-group.row
-  %label.col-md-2.col-form-label Variable Units
+  %label.col-md-2.col-form-label Units
   .col-md-10
-    = text_field_tag "variable[units]", @design_option.variable.units, autocomplete: "off", class: "form-control"
+    .input-group
+      = text_field_tag "variable[units]", @design_option.variable.units, autocomplete: "off", class: "form-control"
+      - if World.translate_language?
+        .input-group-append
+          %span.input-group-text= World.language

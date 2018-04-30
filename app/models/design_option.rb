@@ -82,7 +82,8 @@ class DesignOption < ApplicationRecord
       save_object_translation!(section, "description", desc_t)
       section.update(section_params)
     else # variable
-      [:display_name, :field_note].each do |attribute|
+
+      Variable.translatable_attributes.each do |attribute|
         next unless variable_params.key?(attribute)
         translation = variable_params.delete(attribute)
         save_object_translation!(variable, attribute, translation)

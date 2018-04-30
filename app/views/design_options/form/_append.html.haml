@@ -1,4 +1,8 @@
 .form-group.row
-  %label.col-md-2.col-form-label Variable Suffix
+  %label.col-md-2.col-form-label Suffix
   .col-md-10
-    = text_field_tag "variable[append]", @design_option.variable.append, autocomplete: "off", class: "form-control"
+    .input-group
+      = text_field_tag "variable[append]", @design_option.variable.append, autocomplete: "off", class: "form-control"
+      - if World.translate_language?
+        .input-group-append
+          %span.input-group-text= World.language

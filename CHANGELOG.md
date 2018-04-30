@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Removed Google Analytics
+- **Design Changes**
+  - Variable prefixes, units, and suffixes can now be translated
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0
