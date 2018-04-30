@@ -5,16 +5,21 @@
 - autocorrect = defined?(autocorrect) ? autocorrect : nil
 - autocapitalize = defined?(autocapitalize) ? autocapitalize : nil
 - spellcheck = defined?(spellcheck) ? spellcheck : nil
+- value = defined?(value) ? value : object.key
 .form-group
   = form.label key, defined?(key_name) ? key_name : nil
-  - input_field = form.text_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", data: data, placeholder: defined?(placeholder) ? placeholder : nil, id: id, autocomplete: autocomplete, autocorrect: autocorrect, autocapitalize: autocapitalize, spellcheck: spellcheck
-  - unless defined?(append)
+  - input_field = form.text_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", value: value, data: data, placeholder: defined?(placeholder) ? placeholder : nil, id: id, autocomplete: autocomplete, autocorrect: autocorrect, autocapitalize: autocapitalize, spellcheck: spellcheck
+  - unless defined?(prepend) || defined?(append)
     = input_field
   - else
     .input-group
+      - if defined?(prepend)
+        .input-group-prepend
+          %span.input-group-text= prepend
       = input_field
-      .input-group-append
-        %span.input-group-text= append
+      - if defined?(append)
+        .input-group-append
+          %span.input-group-text= append
   - if defined?(key_name)
     = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
   - else

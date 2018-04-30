@@ -87,12 +87,11 @@ class VariablesController < ApplicationController
 
   # PATCH /projects/:project_id/variables/1
   def update
-    if @variable.update(variable_params)
-      @variable.update_grid_tokens!
+    if @variable.save_translation!(variable_params)
       url = if params[:continue].to_s == "1"
               new_project_variable_path(@variable.project)
             else
-              [@variable.project, @variable]
+              [@variable.project, @variable, language: params[:language]]
             end
       redirect_to url, notice: "Variable was successfully updated."
     else

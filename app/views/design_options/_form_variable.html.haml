@@ -5,12 +5,11 @@
   %label.col-md-2.col-form-label Display Name
   .col-md-10
     .input-group
-      = text_field_tag "variable[display_name]", variable.display_name, autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
+      = render "translations/language_prepend"
+      = text_field_tag "variable[display_name]", variable.display_name(World.language), autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }, placeholder: World.translate_language? ? variable[:display_name] : nil
       .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#display-name-info" }, tabindex: "-1" do
           %i.fa.fa-info-circle
-        - if World.translate_language?
-          %span.input-group-text= World.language
     = render "layouts/errors", object: variable, key: :display_name
 
     #display-name-info.card.border-info.bg-light.mt-3{ style: "display:none" }
@@ -59,10 +58,8 @@
   %label.col-md-2.col-form-label Field Note
   .col-md-10
     .input-group
-      = text_field_tag "variable[field_note]", variable.field_note, class: "form-control"
-      - if World.translate_language?
-        .input-group-append
-          %span.input-group-text= World.language
+      = render "translations/language_prepend"
+      = text_field_tag "variable[field_note]", variable.field_note(World.language), class: "form-control", placeholder: World.translate_language? ? variable[:field_note] : nil
 
     = render "layouts/errors", object: variable, key: :field_note
 

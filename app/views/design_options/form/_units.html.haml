@@ -2,7 +2,5 @@
   %label.col-md-2.col-form-label Units
   .col-md-10
     .input-group
-      = text_field_tag "variable[units]", @design_option.variable.units, autocomplete: "off", class: "form-control"
-      - if World.translate_language?
-        .input-group-append
-          %span.input-group-text= World.language
+      = render "translations/language_prepend"
+      = text_field_tag "variable[units]", @design_option.variable.units(World.language), autocomplete: "off", class: "form-control", placeholder: World.translate_language? ? @design_option.variable[:units] : nil

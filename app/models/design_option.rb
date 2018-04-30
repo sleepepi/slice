@@ -21,6 +21,9 @@ class DesignOption < ApplicationRecord
   belongs_to :variable, optional: true
   belongs_to :section, optional: true, dependent: :destroy
 
+  # Concerns
+  include Translatable
+
   # Methods
   def readable_branching_logic
     branching_logic.to_s.gsub(/\#{(\d+)}/) do
@@ -82,20 +85,7 @@ class DesignOption < ApplicationRecord
       save_object_translation!(section, "description", desc_t)
       section.update(section_params)
     else # variable
-
-      Variable.translatable_attributes.each do |attribute|
-        next unless variable_params.key?(attribute)
-        translation = variable_params.delete(attribute)
-        save_object_translation!(variable, attribute, translation)
-      end
-      result = variable.update(variable_params)
-      variable.update_grid_tokens! if result
-      result
+      variable.save_translation!(variable_params)
     end
-  end
-
-  def save_object_translation!(object, attribute, translation)
-    t = object.translations.where(language_code: World.language, translatable_attribute: attribute).first_or_create
-    t.update(translation: translation.presence)
   end
 end

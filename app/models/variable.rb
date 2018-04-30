@@ -671,6 +671,19 @@ class Variable < ApplicationRecord
     DISPLAY_LAYOUTS.find { |_name, value| value == display_layout }.first
   end
 
+  def save_translation!(variable_params)
+    if World.translate_language?
+      Variable.translatable_attributes.each do |attribute|
+        next unless variable_params.key?(attribute)
+        translation = variable_params.delete(attribute)
+        save_object_translation!(self, attribute, translation)
+      end
+    end
+    result = update(variable_params)
+    update_grid_tokens! if result
+    result
+  end
+
   private
 
   def clean_value(value)

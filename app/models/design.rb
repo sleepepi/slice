@@ -379,18 +379,13 @@ class Design < ApplicationRecord
 
   def save_translation!(design_params)
     if World.translate_language?
-      [:name].each do |attribute|
+      Design.translatable_attributes.each do |attribute|
         next unless design_params.key?(attribute)
         translation = design_params.delete(attribute)
         save_object_translation!(self, attribute, translation)
       end
     end
     update(design_params)
-  end
-
-  def save_object_translation!(object, attribute, translation)
-    t = object.translations.where(language_code: World.language, translatable_attribute: attribute).first_or_create
-    t.update(translation: translation.presence)
   end
 
   private

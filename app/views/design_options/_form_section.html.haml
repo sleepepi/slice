@@ -4,20 +4,16 @@
   %label.col-md-2.col-form-label Section Name
   .col-md-10
     .input-group
-      = text_field_tag "section[name]", section.name, class: "form-control"
-      - if World.translate_language?
-        .input-group-append
-          %span.input-group-text= World.language
+      = render "translations/language_prepend"
+      = text_field_tag "section[name]", section.name(World.language), class: "form-control", placeholder: World.translate_language? ? section[:name] : nil
     = render "layouts/errors", object: section, key: :name
 
 .form-group.row
   %label.col-md-2.col-form-label Section Description
   .col-md-10
     .input-group
-      = text_area_tag "section[description]", section.description, rows: 3, class: "form-control"
-      - if World.translate_language?
-        .input-group-append
-          %span.input-group-text= World.language
+      = render "translations/language_prepend"
+      = text_area_tag "section[description]", section.description(World.language), rows: 3, class: "form-control", placeholder: World.translate_language? ? section[:description] : nil
 
 .form-group.row
   %label.col-md-2.col-form-label Section Image

@@ -5,6 +5,7 @@ class Domain < ApplicationRecord
   # Concerns
   include Deletable
   include Searchable
+  include Translatable
 
   attr_accessor :option_tokens
 
@@ -120,10 +121,5 @@ class Domain < ApplicationRecord
 
   def remove_domain_values!
     domain_options.each(&:remove_domain_option!)
-  end
-
-  def save_object_translation!(object, attribute, translation)
-    t = object.translations.where(language_code: World.language, translatable_attribute: attribute).first_or_create
-    t.update(translation: translation.presence)
   end
 end

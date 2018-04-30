@@ -1,10 +1,14 @@
 = form_with model: [variable.project, variable], local: true do |form|
+  = form.hidden_field :language, value: World.language, name: :language
   .form-group.row
     = form.label :display_name, nil, class: "col-md-2 col-form-label"
     .col-md-10
-      = form.text_field :display_name, class: "form-control#{" is-invalid" if variable.errors[:display_name].present?}", data: { object: (@variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }
+      .input-group
+        = render "translations/language_prepend"
+        = form.text_field :display_name, class: "form-control#{" is-invalid" if variable.errors[:display_name].present?}", data: { object: (@variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }, placeholder: World.translate_language? ? variable[:display_name] : nil, value: variable.display_name(World.language)
       = render "forms/invalid_feedback", object: variable, key: :display_name
       = render "forms/help_text", help_text: help_text if defined?(help_text)
+
 
   - help_text = "Must be a lowercase letter <span class=\"badge badge-light\">a-z</span> followed by lowercase letters <span class=\"badge badge-light\">a-z</span>, numbers <span class=\"badge badge-light\">0-9</span>, or underscores <span class=\"badge badge-light\">_</span>. Max length <strong>32</strong> characters."
   .form-group.row
@@ -16,12 +20,12 @@
 
   = render "forms/horizontal/select", form: form, object: variable, key: :display_layout, options: Variable::DISPLAY_LAYOUTS
   = render "forms/horizontal/text_area", form: form, object: variable, key: :description, rows: 7
-  = render "forms/horizontal/text_field", form: form, object: variable, key: :field_note
+  = render "forms/horizontal/text_field", form: form, object: variable, key: :field_note, placeholder: World.translate_language? ? variable[:field_note] : nil, value: variable.field_note(World.language), prepend: World.translate_language? ? World.language : nil
   = render "forms/horizontal/select", form: form, object: variable, key: :variable_type, options: Variable::TYPE, include_blank: "---", id: true
 
   %div{ data: { object: "prepend-append" } }
-    = render "forms/horizontal/text_field", form: form, object: variable, key: :prepend
-    = render "forms/horizontal/text_field", form: form, object: variable, key: :append
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :prepend, placeholder: World.translate_language? ? variable[:prepend] : nil, value: variable.prepend(World.language), prepend: World.translate_language? ? World.language : nil
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :append, placeholder: World.translate_language? ? variable[:append] : nil, value: variable.append(World.language), prepend: World.translate_language? ? World.language : nil
 
   %div{ data: { object: "number" } }
     = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_minimum
@@ -30,7 +34,7 @@
     = render "forms/horizontal/number_field", form: form, object: variable, key: :soft_maximum
 
   %div{ data: { object: "calculated-or-number" } }
-    = render "forms/horizontal/text_field", form: form, object: variable, key: :units
+    = render "forms/horizontal/text_field", form: form, object: variable, key: :units, placeholder: World.translate_language? ? variable[:units] : nil, value: variable.units(World.language), prepend: World.translate_language? ? World.language : nil
 
   %div{ data: { object: "date-or-time-of-day" } }
     = render "forms/horizontal/check_box", form: form, object: variable, key: :show_current_button, key_name: "Show current date/time button"

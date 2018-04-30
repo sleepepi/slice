@@ -3,13 +3,15 @@
     - if section.name.present?
       - case section.level
       - when 0
-        .section-header= section.name
+        .section-header{ class: section.translation_missing?(:name) ? "text-muted" : nil }= section.name
       - when 1
-        .sub-section-header= section.name
+        .sub-section-header{ class: section.translation_missing?(:name) ? "text-muted" : nil }= section.name
       - else
         = section.name
     - if section.description.present?
-      .section-description= simple_markdown section.description
+      .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }
+        = simple_markdown section.description
+
     = render "sections/image", design_option: design_option, section: section
 - else
   - css_class = case section.level
@@ -20,7 +22,7 @@
   - when 4
     - "alert-danger"
   .section-alert{ class: css_class }
-    %strong= section.name
+    %strong{ class: section.translation_missing?(:name) ? "text-muted" : nil }= section.name
     - if section.description.present?
-      .section-description= simple_markdown section.description
+      .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }= simple_markdown section.description
     = render "sections/image", design_option: design_option, section: section

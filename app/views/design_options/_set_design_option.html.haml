@@ -4,4 +4,4 @@
 .design-option-body
   %div{ class: wrap ? "btn-group-vertical" : "btn-group", data: { toggle: "buttons" } }
     - values.each do |label, value|
-      = link_to label, project_design_design_option_path(@project, @design, design_option, variable: { attribute => value }), remote: true, method: :patch, class: "btn btn-sm btn-outline-primary#{" active" if design_option.variable.send(attribute) == value}"
+      = link_to label, project_design_design_option_path(@project, @design, design_option, variable: { attribute => value }, language: params[:language]), remote: true, method: :patch, class: "btn btn-sm btn-outline-primary#{" active" if design_option.variable.send(attribute) == value}"
