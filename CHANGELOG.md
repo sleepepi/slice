@@ -1,6 +1,8 @@
 ## 61.0.0
 
 ### Enhancements
+- **General Changes**
+  - Removed Google Analytics
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0
