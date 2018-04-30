@@ -39,7 +39,6 @@
 # Extensions
 #= require extensions/datepicker
 #= require extensions/tooltips
-#= require extensions/jquery-fieldselection.js
 
 # Objects
 

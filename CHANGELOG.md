@@ -1,9 +1,6 @@
 ## 61.0.0
 
 ### Enhancements
-- **Form Changes**
-  - Started work on new slice form designer and underlying framework to support
-    simpler form creation
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0
