@@ -35,8 +35,8 @@ module Validation
 
       def formatted_value(value)
         hash = parse_imperial_height_from_hash(value)
-        f = (hash[:feet] == 1 ? "foot" : "feet")
-        i = (hash[:inches] == 1 ? "inch" : "inches")
+        f = (hash[:feet] == 1 ? I18n.t("sheets.foot") : I18n.t("sheets.feet"))
+        i = (hash[:inches] == 1 ? I18n.t("sheets.inch") : I18n.t("sheets.inches"))
         "#{hash[:feet]} #{f} #{hash[:inches]} #{i}"
       rescue
         nil

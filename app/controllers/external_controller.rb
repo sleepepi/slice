@@ -15,6 +15,7 @@ class ExternalController < ApplicationController
   # POST /external/add_grid_row.js?design=REQUIRED&variable_id=REQUIRED
   #      &design_option_id=REQUIRED&header=OPTIONAL&handoff=OPTIONAL
   def add_grid_row
+    I18n.locale = World.language
     return unless @design
     @design_option = @design.design_options.find_by(id: params[:design_option_id])
     @project = @design.project

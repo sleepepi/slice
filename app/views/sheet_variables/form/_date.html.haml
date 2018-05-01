@@ -29,7 +29,7 @@
     %span /
     = render "sheet_variables/form/parts/year", disabled: disabled, field_name: field_name, target_name: target_name, value: value
 
-= link_to "Today", "#", class: "btn btn-light btn-sm ml-1", data: { object: "set-date-input-to-current-date", target_name: target_name }, tabindex: "-1" if variable.show_current_button?
-= link_to "Clear", "#", class: "btn btn-light btn-sm ml-1", data: { object: "clear-date-input", target_name: target_name }, tabindex: "-1" unless is_grid
+= link_to I18n.t("sheets.today"), "#", class: "btn btn-light btn-sm ml-1", data: { object: "set-date-input-to-current-date", target_name: target_name }, tabindex: "-1" if variable.show_current_button?
+= link_to I18n.t("sheets.clear"), "#", class: "btn btn-light btn-sm ml-1", data: { object: "clear-date-input", target_name: target_name }, tabindex: "-1" unless is_grid
 
 = render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

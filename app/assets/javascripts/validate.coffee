@@ -204,6 +204,7 @@
   params.project_id = $(parent).data('project-id')
   params.variable_id = $(parent).data('variable-id')
   params.value = valueToJSON(parent)
+  params.language = $("[name=language]").val()
 
   $.ajax(
     url: "#{root_url}validate/variable"

@@ -8,5 +8,5 @@
   ft
   = render "sheet_variables/form/parts/height_inches", disabled: disabled, field_name: field_name, target_name: target_name, value: value
   in
-= link_to "Clear", "#", data: { object: "clear-imperial-height-input", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
+= link_to I18n.t("sheets.clear"), "#", data: { object: "clear-imperial-height-input", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
 = render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

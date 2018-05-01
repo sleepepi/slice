@@ -17,4 +17,4 @@
         = render "sheet_variables/form/#{grid.variable.variable_type}", form: form, design: design, design_option: design_option, response: response, disabled: disabled, variable: grid.variable, field_name: "variables[#{variable.id}][#{position}][#{grid.variable.id}]", position: position, grid: variable, object: grid, show_values: show_values
   - if variable.multiple_rows?
     %td{ style: "vertical-align: middle;" }
-      = link_to "Remove", "#", data: { object: "remove", target: "#variable_#{variable.id}_grid_row_#{position}" }, class: "btn btn-sm btn-outline-danger", tabindex: "-1"
+      = link_to I18n.t("sheets.remove_row"), "#", data: { object: "remove", target: "#variable_#{variable.id}_grid_row_#{position}" }, class: "btn btn-sm btn-outline-danger", tabindex: "-1"

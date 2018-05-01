@@ -4,5 +4,5 @@
   = hidden_field_tag field_name, response, data: { object: "condition" }, disabled: disabled
   %canvas.pad{ width: "300", height: "55", data: { object: "signature", signature_target: "##{target_name}" } }
   %span.clearButton{ style: "position: absolute; margin-top: 12.5px; margin-left: 10px;" }
-    = link_to "clear", "#", class: "btn btn-sm btn-light", tabindex: "-1", data: { object: "clear-signature", target_name: target_name }
+    = link_to I18n.t("sheets.clear"), "#", class: "btn btn-sm btn-light", tabindex: "-1", data: { object: "clear-signature", target_name: target_name }
 =# render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response

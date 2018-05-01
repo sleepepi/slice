@@ -63,6 +63,7 @@
             = render "imports/progress"
 
 = form_with do |form|
+  = form.hidden_field :language, value: World.language, name: :language
   .dashboard-container
-    = hidden_field_tag "sheet[project_id]", @project.id
+    = hidden_field_tag "sheet[project_id]", @project.id # TODO: Is this needed.
     = @sheet = @design.sheets.new; render "designs/show", design: @design, form: form

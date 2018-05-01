@@ -27,9 +27,9 @@ module Validation
 
       def formatted_value(value)
         hash = parse_time_duration_from_hash(value, no_hours: @variable.no_hours?)
-        h = (hash[:hours] == 1 ? "hour" : "hours")
-        m = (hash[:minutes] == 1 ? "minute" : "minutes")
-        s = (hash[:seconds] == 1 ? "second" : "seconds")
+        h = (hash[:hours] == 1 ? I18n.t("sheets.hour") : I18n.t("sheets.hours"))
+        m = (hash[:minutes] == 1 ? I18n.t("sheets.minute") : I18n.t("sheets.minutes"))
+        s = (hash[:seconds] == 1 ? I18n.t("sheets.second") : I18n.t("sheets.seconds"))
         case @variable.time_duration_format
         when "mm:ss"
           "#{hash[:minutes]} #{m} #{hash[:seconds]} #{s}"

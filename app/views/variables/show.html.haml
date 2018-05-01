@@ -181,6 +181,8 @@
 
 - design_option = @variable.design_options.first
 - if design_option
+  - I18n.locale = World.language
   = form_with do |form|
+    = form.hidden_field :language, value: World.language, name: :language
     .dashboard-container
       = render "sheet_variables/form", form: form, design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

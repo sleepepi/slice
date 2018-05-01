@@ -20,15 +20,17 @@ module Validation
         time_of_day = parse_time_of_day_from_hash(value)
         if time_of_day
           prepend = if time_of_day[:hours_24] == 12 && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
-                      "at noon"
+                      I18n.t("sheets.at_noon")
                     elsif time_of_day[:hours_24].zero? && time_of_day[:minutes].zero? && time_of_day[:seconds].zero?
-                      "at midnight"
+                      I18n.t("sheets.at_midnight")
                     elsif time_of_day[:hours_24] < 12
-                      "in the morning"
+                      I18n.t("sheets.in_the_morning")
                     elsif time_of_day[:hours_24] < 17
-                      "in the afternoon"
+                      I18n.t("sheets.in_the_afternoon")
+                    elsif time_of_day[:hours_24] < 22
+                      I18n.t("sheets.in_the_evening")
                     else
-                      "in the evening"
+                      I18n.t("sheets.at_night")
                     end
           full_message = prepend + full_message
         end

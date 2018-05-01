@@ -7,6 +7,7 @@ class ValidateController < ApplicationController
 
   # POST /validate/variable.json
   def variable
+    I18n.locale = World.language
     render json: @variable.value_in_range?(params[:value])
   end
 

@@ -20,8 +20,9 @@
       &#58;
       = render "sheet_variables/form/parts/sec", disabled: disabled, field_name: field_name, target_name: target_name, value: value, placeholder: "ss"
 - if variable.twelve_hour_clock?
-  = link_to "Current Time", "#", data: { object: "set-time-input-to-current-time-12hour", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" if variable.show_current_button?
+  - data_object = "set-time-input-to-current-time-12hour"
 - else
-  = link_to "Current Time", "#", data: { object: "set-time-input-to-current-time", target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" if variable.show_current_button?
-= link_to "Clear", "#", data: { object: "clear-time-of-day-input", target_name: target_name, time_of_day_format: variable.time_of_day_format }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
+  - data_object = "set-time-input-to-current-time"
+= link_to I18n.t("sheets.current_time"), "#", data: { object: data_object, target_name: target_name }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" if variable.show_current_button?
+= link_to I18n.t("sheets.clear"), "#", data: { object: "clear-time-of-day-input", target_name: target_name, time_of_day_format: variable.time_of_day_format }, class: "btn btn-light btn-sm ml-1", tabindex: "-1" unless is_grid
 = render "validation/full_message", variable: variable, value: value, target_name: target_name, validate_response: validate_response unless is_grid

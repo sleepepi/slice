@@ -9,6 +9,8 @@
   - Untranslated parts of a design are now muted
   - Default language is now a placeholder instead of the default input when
     translating fields
+  - Added Spanish translations for time of day, time duration, imperial weight,
+    imperial height, and grids
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0

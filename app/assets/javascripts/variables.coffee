@@ -154,10 +154,11 @@ $(document)
     false
   )
   .on('click', '[data-object~="grid-row-add"]', ->
-    changes = getDesignVariableAuthenticationParams(this)
-    changes.design_option_id = $(this).data('design-option-id')
-    changes.header = $(this).data('header')
-    $.post("#{root_url}external/add_grid_row", changes, null, "script")
+    params = getDesignVariableAuthenticationParams(this)
+    params.design_option_id = $(this).data('design-option-id')
+    params.header = $(this).data('header')
+    params.language = $("[name=language]").val()
+    $.post("#{root_url}external/add_grid_row", params, null, "script")
     false
   )
   .on('click', '[data-object~="set-current-time"]', ->

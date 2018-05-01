@@ -35,8 +35,8 @@ module Validation
 
       def formatted_value(value)
         hash = parse_imperial_weight_from_hash(value)
-        p = (hash[:pounds] == 1 ? "pound" : "pounds")
-        o = (hash[:ounces] == 1 ? "ounce" : "ounces")
+        p = (hash[:pounds] == 1 ? I18n.t("sheets.pound") : I18n.t("sheets.pounds"))
+        o = (hash[:ounces] == 1 ? I18n.t("sheets.ounce") : I18n.t("sheets.ounces"))
         "#{hash[:pounds]} #{p} #{hash[:ounces]} #{o}"
       rescue
         nil
