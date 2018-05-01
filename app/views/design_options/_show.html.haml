@@ -36,7 +36,7 @@
     .col-sm-6{ style: "overflow: hidden;", data: { object: "design-preview-expand" } }
       - if variable.deleted?
         .form-group.row.error
-          %label.col-md-3.col-form-label= variable.display_name
+          %label.col-md-3.col-form-label= simple_style variable.display_name
           .col-md-9
             This variable has been deleted.
             - variable.deleted = false
@@ -54,13 +54,13 @@
       - else
         - if !variable.uses_scale? && variable.display_layout == "gone"
           %label{ style: "font-weight: bold;", class: variable.translation_missing?(:display_name) ? "text-muted" : nil }
-            = variable.display_name
+            = simple_style variable.display_name
             = render "design_options/required", design_option: design_option
 
         .form-group.row
           - if !variable.uses_scale? && variable.display_layout == "visible"
             %label.col-md-3.col-form-label{ style: "font-weight: bold;", class: variable.translation_missing?(:display_name) ? "text-muted" : nil }
-              = variable.display_name
+              = simple_style variable.display_name
               = render "design_options/required", design_option: design_option
 
           %div{ class: "#{(variable.uses_scale? || variable.display_layout == "gone" ? "col-12" : "col-md-9")}" }

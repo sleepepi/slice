@@ -13,7 +13,7 @@
       %tbody
         %tr
           %th{ style: "min-width: 100px;" }
-            = variable.display_name
+            = simple_style variable.display_name
             = render "design_options/required", design_option: design_option if design_option
           - domain_options.each do |domain_option|
             - selected = (values.include?(domain_option.value))

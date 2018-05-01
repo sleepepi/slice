@@ -28,10 +28,10 @@
     %div{ class: cycle("variable-shade", "variable-blind") }
       - sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
       - if !variable.uses_scale? && variable.display_layout == "gone"
-        %label= variable.display_name
+        %label= simple_style variable.display_name
       .form-group.row
         - if !variable.uses_scale? && variable.display_layout == "visible"
-          = label "variables", "#{variable.id}", variable.display_name, class: "col-md-3 col-form-label"
+          = label "variables", "#{variable.id}", simple_style(variable.display_name), class: "col-md-3 col-form-label"
         - col_class = "col-12#{" scale-variable-reset" if variable.uses_scale?}"
         - col_class = "col-md-9" if variable.display_layout != "gone" && !variable.uses_scale?
         %div{ class: col_class, style: "line-height: 30px;padding-top: 4px;" }

@@ -17,7 +17,7 @@
     %tbody
       %tr
         %th
-          = variable.display_name
+          = simple_style variable.display_name
           = render "design_options/required", design_option: design_option
 
         - unarchived_domain_options.each do |domain_option|

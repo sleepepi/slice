@@ -16,6 +16,7 @@
 \usepackage{indentfirst}
 \usepackage{tabularx}
 \usepackage{scrextend}
+\usepackage{soulutf8}
 
 % \usepackage{hyperref}
 \usepackage{pifont}
@@ -74,13 +75,13 @@
     <% if variable.variable_type == 'grid' %>
 
 \Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
 \begin{table*}[!htbp]\centering
 
 \begin{tabularx}{\textwidth}{<%= 'X' * variable.child_variables.size %>}
 <% variable.child_variables.each do |child_variable| %>
-  <%= latex_safe child_variable.display_name %> &
+  <%= latex_simple_style child_variable.display_name %> &
 <% end %>
 \midrule
 <% (0..([variable.default_row_number.to_i - 1, 0]).max).each do |position| %>
@@ -95,7 +96,7 @@
     <% else %>
 
 \Needspace{7\baselineskip}
-\begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
+\begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
 \vspace{1 mm}
 <% if variable.variable_type == 'date' %>

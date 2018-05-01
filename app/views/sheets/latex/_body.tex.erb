@@ -37,13 +37,13 @@
     <% end %>
   <% elsif variable && @sheet.show_design_option?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id } %>
-    <% if variable.variable_type == 'grid' and sheet_variable %>
+    <% if variable.variable_type == "grid" && sheet_variable %>
       \Needspace{7\baselineskip}
-      \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
+      \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
       \begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0 / [variable.child_variables.size, 1].max}cm}" * variable.child_variables.size %>@{\extracolsep{\fill}}}
       <% variable.child_variables.each do |child_variable| %>
-        <%= latex_safe child_variable.display_name %> &
+        <%= latex_simple_style child_variable.display_name %> &
       <% end %>
       \midrule
       <% all_grids = sheet_variable.grids.includes(variable: [:domain]).to_a %>
@@ -62,7 +62,7 @@
     <% else %>
 
       \Needspace{7\baselineskip}
-      \begin{addmargin}[0em]{0em}\textbf{<%= latex_safe variable.display_name %>}\end{addmargin}
+      \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
       <% if variable.variable_type == 'checkbox' %>
         <% if !sheet_variable or (sheet_variable and sheet_variable.get_response(@sheet.project.show_type).size == 0) %>

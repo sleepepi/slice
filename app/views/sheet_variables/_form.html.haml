@@ -40,11 +40,11 @@
   - elsif variable.display_layout == "gone"
     .col-12
       %label
-        = variable.display_name
+        = simple_style variable.display_name
         = render "design_options/required", design_option: design_option
   - else
     %label.col-md-3.col-form-label{ for: "variable_#{variable.id}" }
-      = variable.display_name
+      = simple_style variable.display_name
       = render "design_options/required", design_option: design_option
   - col_class = "col-12#{" scale-variable-reset" if variable.uses_scale?}"
   - col_class = "col-md-9" if variable.display_layout != "gone" && !variable.uses_scale?

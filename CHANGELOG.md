@@ -13,6 +13,12 @@
     imperial height, and grids
 - **Sheet Changes**
   - Sheet search autocomplete now truncates long domain option names
+- **Variable Changes**
+  - Variable display names can now be formatted in the following ways:
+    - Bold: \*\*text\*\*
+    - Underline: \_\_text\_\_
+    - Highlight: \=\=text\=\=
+    - Italics: \*text\*
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0
