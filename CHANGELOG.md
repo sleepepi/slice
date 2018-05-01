@@ -11,6 +11,8 @@
     translating fields
   - Added Spanish translations for time of day, time duration, imperial weight,
     imperial height, and grids
+- **Sheet Changes**
+  - Sheet search autocomplete now truncates long domain option names
 - **Gem Changes**
   - Updated to ruby 2.5.1
   - Updated to rails 5.2.0

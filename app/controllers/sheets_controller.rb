@@ -44,7 +44,7 @@ class SheetsController < ApplicationController
         array << { label: label, value: [key, word].join(":") } if starts_with?(val, word) || contains_word?(val, label)
       end
       options_start_with?(key, val).each do |option|
-        array << { label: option.value_and_name, value: [key, option.value].join(":") }
+        array << { label: option.value_and_name.truncate(40), value: [key, option.value].join(":") }
       end
       other_words(key, @project).each do |word, label|
         array << { label: label, value: [key, word].join(":") } if starts_with?(val, word)
@@ -61,7 +61,7 @@ class SheetsController < ApplicationController
       end
       options_start_with?(key, val).each do |option|
         value_string = (values + [option.value]).join(",")
-        array << { label: option.value_and_name, value: [key, value_string].join(":") }
+        array << { label: option.value_and_name.truncate(40), value: [key, value_string].join(":") }
       end
     elsif params[:scope] == ""
       %w(adverse-events checks coverage designs events has is no not).each do |word|
