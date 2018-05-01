@@ -28,12 +28,10 @@ module Latexable
   end
 
   def latex_simple_style(text)
-    Rails.logger.debug "REMO: in #{text}"
     text = latex_safe(text)
     tags.each do |markup, tag|
       text.gsub!(/#{markup}(.*?)#{markup}/, tag)
     end
-    Rails.logger.debug "REMO: out #{text}"
     text
   end
 
