@@ -12,9 +12,10 @@
     $("[name='domain[option_tokens][][value]']").each( (index, element) ->
       $(element).attr('placeholder', "#{index + 1}")
     )
-  $("[name='domain[option_tokens][][name]']").each( (index, element) ->
-    $(element).attr('placeholder', "Option #{index + 1}")
-  )
+  if $("[name=language]").val() == "en"
+    $("[name='domain[option_tokens][][name]']").each( (index, element) ->
+      $(element).attr('placeholder', "Option #{index + 1}")
+    )
 
 @domainsReady = ->
   activateDomainOptions()

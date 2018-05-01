@@ -1,4 +1,5 @@
 = form_with model: [domain.project, domain], local: true do |form|
+  = form.hidden_field :language, value: World.language, name: :language
   .form-group.row
     = form.label :display_name, nil, class: "col-md-2 col-form-label"
     .col-md-10

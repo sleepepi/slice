@@ -5,7 +5,7 @@
   - Removed Google Analytics
 - **Design Changes**
   - Variable prefixes, units, and suffixes can now be translated
-  - Variables can be individually translated outside of the design builder
+  - Variables and domains can be translated outside of the design builder
   - Untranslated parts of a design are now muted
   - Default language is now a placeholder instead of the default input when
     translating fields

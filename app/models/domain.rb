@@ -80,7 +80,7 @@ class Domain < ApplicationRecord
     domain_options.where.not(id: domain_option_ids).destroy_all
     all_domain_options = domain_options.includes(:domain).to_a
     option_tokens.each_with_index do |option_hash, index|
-      next if option_hash[:name].blank?
+      next if option_hash[:name].blank? && !World.translate_language?
       domain_option = all_domain_options.find { |o| o.id == option_hash[:domain_option_id].to_i }
       if domain_option
         original_value = domain_option.value

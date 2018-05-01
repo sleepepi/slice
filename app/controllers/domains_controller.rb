@@ -90,7 +90,7 @@ class DomainsController < ApplicationController
     if params[:continue].to_s == "1"
       new_project_domain_path(@project)
     else
-      [@project, @domain]
+      [@project, @domain, language: params[:language]]
     end
   end
 
