@@ -5,7 +5,6 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_notification_or_redirect, only: [:show, :update]
-  before_action :find_viewable_project_or_redirect, only: [:mark_all_as_read]
 
   # GET /notifications
   def index
@@ -30,7 +29,7 @@ class NotificationsController < ApplicationController
 
   # PATCH /notifications/mark_all_as_read
   def mark_all_as_read
-    notification_ids = current_user.notifications.where(project: @project, read: false).pluck(:id)
+    notification_ids = current_user.notifications.where(project: params[:project_id], read: false).pluck(:id)
     current_user.notifications.where(id: notification_ids).update_all(read: true)
     @notifications = current_user.notifications.where(id: notification_ids)
   end

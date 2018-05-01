@@ -20,6 +20,10 @@
   - Updated to simplecov 0.16.1
   - Updated to capybara 3.0
 
+### Bug Fix
+- Fixed a bug where a user could no longer clear project notifications after
+  being removed from a project
+
 ## 60.0.0 (April 6, 2018)
 
 ### Enhancements

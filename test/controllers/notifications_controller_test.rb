@@ -1,50 +1,52 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 # Test that notifications can be viewed and marked as read.
-class NotificationsControllerTest < ActionController::TestCase
-  test 'should get index' do
-    login(users(:valid))
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:notifications)
+class NotificationsControllerTest <  ActionDispatch::IntegrationTest
+  setup do
+    @regular_user = users(:valid)
   end
 
-  test 'should get all read index' do
-    login(users(:valid))
-    get :index, params: { all: '1' }
+  test "should get index" do
+    login(@regular_user)
+    get notifications_url
     assert_response :success
-    assert_not_nil assigns(:notifications)
   end
 
-  test 'should show comment notification' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:comment) }
+  test "should get all read index" do
+    login(@regular_user)
+    get notifications_url(all: "1")
+    assert_response :success
+  end
+
+  test "should show comment notification" do
+    login(@regular_user)
+    get notification_url(notifications(:comment))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to assigns(:notification).comment
   end
 
-  test 'should show adverse event notification' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:adverse_event) }
+  test "should show adverse event notification" do
+    login(@regular_user)
+    get notification_url(notifications(:adverse_event))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).adverse_event]
   end
 
-  test 'should show export notification' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:export) }
+  test "should show export notification" do
+    login(@regular_user)
+    get notification_url(notifications(:export))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).export]
   end
 
-  test 'should show handoff notification' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:handoff) }
+  test "should show handoff notification" do
+    login(@regular_user)
+    get notification_url(notifications(:handoff))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to event_project_subject_path(
@@ -56,56 +58,50 @@ class NotificationsControllerTest < ActionController::TestCase
     )
   end
 
-  test 'should show sheet created notification' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:sheet_created) }
+  test "should show sheet created notification" do
+    login(@regular_user)
+    get notification_url(notifications(:sheet_created))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).sheet]
   end
 
-  test 'should show blank notification and redirect' do
-    login(users(:valid))
-    get :show, params: { id: notifications(:blank) }
+  test "should show blank notification and redirect" do
+    login(@regular_user)
+    get notification_url(notifications(:blank))
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to notifications_path
   end
 
-  test 'should not show notification without valid id' do
-    login(users(:valid))
-    get :show, params: { id: -1 }
+  test "should not show notification without valid id" do
+    login(@regular_user)
+    get notification_url(-1)
     assert_nil assigns(:notification)
     assert_redirected_to notifications_path
   end
 
-  test 'should update notification' do
-    login(users(:valid))
-    patch :update, params: {
-      id: notifications(:comment), notification: { read: true }
-    }, format: 'js'
+  test "should update notification" do
+    login(@regular_user)
+    patch notification_url(notifications(:comment), format: "js"), params: { notification: { read: true } }
     assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should mark all as read' do
-    login(users(:valid))
-    patch :mark_all_as_read, params: {
-      project_id: projects(:one)
-    }, format: 'js'
-    assert_equal 0, users(:valid).notifications.where(project_id: projects(:one), read: false).count
-    assert_template 'mark_all_as_read'
+  test "should mark all as read" do
+    login(@regular_user)
+    patch mark_all_as_read_notifications_url(project_id: projects(:one).id, format: "js")
+    assert_equal 0, @regular_user.notifications.where(project_id: projects(:one), read: false).count
+    assert_template "mark_all_as_read"
     assert_response :success
   end
 
-  test 'should not mark all as read without project' do
-    login(users(:valid))
-    assert_difference('Notification.where(read: false).count', 0) do
-      patch :mark_all_as_read, format: 'js'
-    end
-    assert_template nil
+  test "should mark all as read without project" do
+    login(@regular_user)
+    patch mark_all_as_read_notifications_url(format: "js")
+    assert_template "mark_all_as_read"
     assert_response :success
   end
 end
