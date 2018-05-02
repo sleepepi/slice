@@ -18,7 +18,7 @@
         .form-group
           = form.label :password
           = link_to "(Forgot password?)", new_password_path(resource_name), tabindex: "-1"
-          = form.password_field :password, class: "form-control#{" is-invalid" if flash[:alert].present?}", autocomplete: "off"
+          = form.password_field :password, class: "form-control#{" is-invalid" if flash[:alert].present?}", autocomplete: "current-password"
           - if flash[:alert].present?
             .invalid-feedback= flash[:alert].html_safe
 

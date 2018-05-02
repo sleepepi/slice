@@ -14,8 +14,8 @@
       = form_with model: resource, as: resource_name, url: password_path(resource_name), method: :put, local: true do |form|
         = form.hidden_field :reset_password_token
 
-        = render "forms/vertical/password_field", form: form, object: resource, key: :password, key_name: "New Password"
-        = render "forms/vertical/password_field", form: form, object: resource, key: :password_confirmation, key_name: "Password Confirmation"
+        = render "forms/vertical/password_field", form: form, object: resource, key: :password, key_name: "New Password", autocomplete: "new-password"
+        = render "forms/vertical/password_field", form: form, object: resource, key: :password_confirmation, key_name: "Password Confirmation", autocomplete: "new-password"
 
         .form-group.submit-btn-container
           = form.submit "Change my password", class: "btn btn-primary btn-block btn-shadow"

@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Removed Google Analytics
+  - Improved password autocomplete
 - **Design Changes**
   - Variable prefixes, units, and suffixes can now be translated
   - Variables and domains can be translated outside of the design builder

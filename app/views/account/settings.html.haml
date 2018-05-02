@@ -31,9 +31,9 @@
         Change Password
       .card-body
         = form_with model: current_user, url: change_password_path, method: :patch, local: true, id: "reset_password" do |form|
-          = render "forms/vertical/password_field", form: form, object: current_user, key: :current_password, key_name: "Old password"
-          = render "forms/vertical/password_field", form: form, object: current_user, key: :password, key_name: "New password"
-          = render "forms/vertical/password_field", form: form, object: current_user, key: :password_confirmation, key_name: "Confirm new password"
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :current_password, key_name: "Old password", autocomplete: "current-password"
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :password, key_name: "New password", autocomplete: "new-password"
+          = render "forms/vertical/password_field", form: form, object: current_user, key: :password_confirmation, key_name: "Confirm new password", autocomplete: "new-password"
           = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update password", cancel: false
 
       .card-footer
