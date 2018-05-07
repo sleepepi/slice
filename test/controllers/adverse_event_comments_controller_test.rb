@@ -1,79 +1,74 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
-# Tests the creation and modification of comments added to adverse events
-class AdverseEventCommentsControllerTest < ActionController::TestCase
+# Tests the creation and modification of comments added to adverse events.
+class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    login(users(:valid))
+    @project_editor = users(:valid)
+    @site_editor = users(:site_one_editor)
+    @site_viewer = users(:site_one_viewer)
     @project = projects(:one)
     @adverse_event = adverse_events(:one)
     @adverse_event_comment = adverse_event_comments(:one)
   end
 
-  test 'should create adverse event comment as project editor' do
-    assert_difference('AdverseEventComment.count') do
-      post :create, params: {
-        project_id: @project, adverse_event_id: @adverse_event,
-        adverse_event_comment: {
-          comment_type: @adverse_event_comment.comment_type,
-          description: @adverse_event_comment.description
-        }
-      }, format: 'js'
+  def adverse_event_comment_params
+    {
+      comment_type: "reopened",
+      description: "Reopened AE"
+    }
+  end
+
+  test "should create adverse event comment as project editor" do
+    login(@project_editor)
+    assert_difference("AdverseEventComment.count") do
+      post project_adverse_event_adverse_event_comments_url(@project, @adverse_event, format: "js"), params: {
+        adverse_event_comment: adverse_event_comment_params
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'index'
+    assert_template "index"
     assert_response :success
   end
 
-  test 'should create adverse event comment as site editor' do
-    login(users(:site_one_editor))
-    assert_difference('AdverseEventComment.count') do
-      post :create, params: {
-        project_id: @project, adverse_event_id: @adverse_event,
-        adverse_event_comment: {
-          comment_type: @adverse_event_comment.comment_type,
-          description: @adverse_event_comment.description
-        }
-      }, format: 'js'
+  test "should create adverse event comment as site editor" do
+    login(@site_editor)
+    assert_difference("AdverseEventComment.count") do
+      post project_adverse_event_adverse_event_comments_url(@project, @adverse_event, format: "js"), params: {
+        adverse_event_comment: adverse_event_comment_params
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'index'
+    assert_template "index"
     assert_response :success
   end
 
-  test 'should not create adverse event comment with blank comment' do
-    assert_difference('AdverseEventComment.count', 0) do
-      post :create, params: {
-        project_id: @project, adverse_event_id: @adverse_event,
-        adverse_event_comment: {
-          comment_type: 'commented',
-          description: ''
-        }
-      }, format: 'js'
+  test "should not create adverse event comment with blank comment" do
+    login(@project_editor)
+    assert_difference("AdverseEventComment.count", 0) do
+      post project_adverse_event_adverse_event_comments_url(@project, @adverse_event, format: "js"), params: {
+        adverse_event_comment: adverse_event_comment_params.merge(comment_type: "commented", description: "")
+      }
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
-    assert_template 'edit'
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should not create adverse event comment as site viewer' do
-    login(users(:site_one_viewer))
-    assert_difference('AdverseEventComment.count', 0) do
-      post :create, params: {
-        project_id: @project, adverse_event_id: @adverse_event,
-        adverse_event_comment: {
-          comment_type: @adverse_event_comment.comment_type,
-          description: @adverse_event_comment.description
-        }
-      }, format: 'js'
+  test "should not create adverse event comment as site viewer" do
+    login(@site_viewer)
+    assert_difference("AdverseEventComment.count", 0) do
+      post project_adverse_event_adverse_event_comments_url(@project, @adverse_event, format: "js"), params: {
+        adverse_event_comment: adverse_event_comment_params
+      }
     end
     assert_nil assigns(:project)
     assert_nil assigns(:adverse_event)
@@ -81,180 +76,156 @@ class AdverseEventCommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should show adverse event comment as project editor' do
-    get :show, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should show adverse event comment as project editor" do
+    login(@project_editor)
+    get project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should show adverse event comment as site editor' do
-    login(users(:site_one_editor))
-    get :show, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should show adverse event comment as site editor" do
+    login(@site_editor)
+    get project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should not show adverse event comment as site viewer' do
-    login(users(:site_one_viewer))
-    get :show, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should not show adverse event comment as site viewer" do
+    login(@site_viewer)
+    get project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_nil assigns(:project)
     assert_nil assigns(:adverse_event)
     assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
-  test 'should get edit as project editor' do
-    get :edit, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should get edit as project editor" do
+    login(@project_editor)
+    get edit_project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
-  test 'should get edit as site editor' do
-    login(users(:site_one_editor))
-    get :edit, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should get edit as site editor" do
+    login(@site_editor)
+    get edit_project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
-  test 'should not get edit as site viewer' do
-    login(users(:site_one_viewer))
-    get :edit, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment
-    }, xhr: true, format: 'js'
+  test "should not get edit as site viewer" do
+    login(@site_viewer)
+    get edit_project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), xhr: true
     assert_nil assigns(:project)
     assert_nil assigns(:adverse_event)
     assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
-  test 'should update adverse event comment as project editor' do
-    patch :update, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment,
-      adverse_event_comment: {
-        comment_type: @adverse_event_comment.comment_type,
-        description: @adverse_event_comment.description
-      }
-    }, format: 'js'
+  test "should update adverse event comment as project editor" do
+    login(@project_editor)
+    patch project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), params: { adverse_event_comment: adverse_event_comment_params }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should update adverse event comment as site editor' do
-    login(users(:site_one_editor))
-    patch :update, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment,
-      adverse_event_comment: {
-        comment_type: @adverse_event_comment.comment_type,
-        description: @adverse_event_comment.description
-      }
-    }, format: 'js'
+  test "should update adverse event comment as site editor" do
+    login(@site_editor)
+    patch project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), params: { adverse_event_comment: adverse_event_comment_params }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should not update adverse event comment with blank description' do
-    patch :update, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: adverse_event_comments(:two),
-      adverse_event_comment: { description: '' }
-    }, format: 'js'
+  test "should not update adverse event comment with blank description" do
+    login(@project_editor)
+    patch project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, adverse_event_comments(:two), format: "js"
+    ), params: { adverse_event_comment: { comment_type: "commented", description: "" } }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
-    assert_template 'edit'
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should not update adverse event comment as site viewer' do
-    login(users(:site_one_viewer))
-    patch :update, params: {
-      project_id: @project, adverse_event_id: @adverse_event,
-      id: @adverse_event_comment,
-      adverse_event_comment: {
-        comment_type: @adverse_event_comment.comment_type,
-        description: @adverse_event_comment.description
-      }
-    }, format: 'js'
+  test "should not update adverse event comment as site viewer" do
+    login(@site_viewer)
+    patch project_adverse_event_adverse_event_comment_url(
+      @project, @adverse_event, @adverse_event_comment, format: "js"
+    ), params: { adverse_event_comment: adverse_event_comment_params }
     assert_nil assigns(:project)
     assert_nil assigns(:adverse_event)
     assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
-  test 'should destroy adverse event comment as project editor' do
-    assert_difference('AdverseEventComment.current.count', -1) do
-      delete :destroy, params: {
-        project_id: @project,
-        adverse_event_id: @adverse_event,
-        id: @adverse_event_comment
-      }, format: 'js'
+  test "should destroy adverse event comment as project editor" do
+    login(@project_editor)
+    assert_difference("AdverseEventComment.current.count", -1) do
+      delete project_adverse_event_adverse_event_comment_url(
+        @project, @adverse_event, @adverse_event_comment, format: "js"
+      )
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'index'
+    assert_template "index"
     assert_response :success
   end
 
-  test 'should destroy adverse event comment as site editor' do
-    login(users(:site_one_editor))
-    assert_difference('AdverseEventComment.current.count', -1) do
-      delete :destroy, params: {
-        project_id: @project,
-        adverse_event_id: @adverse_event,
-        id: @adverse_event_comment
-      }, format: 'js'
+  test "should destroy adverse event comment as site editor" do
+    login(@site_editor)
+    assert_difference("AdverseEventComment.current.count", -1) do
+      delete project_adverse_event_adverse_event_comment_url(
+        @project, @adverse_event, @adverse_event_comment, format: "js"
+      )
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_comment)
-    assert_template 'index'
+    assert_template "index"
     assert_response :success
   end
 
-  test 'should destroy adverse event comment as site viewer' do
-    login(users(:site_one_viewer))
-    assert_difference('AdverseEventComment.current.count', 0) do
-      delete :destroy, params: {
-        project_id: @project,
-        adverse_event_id: @adverse_event,
-        id: @adverse_event_comment
-      }, format: 'js'
+  test "should destroy adverse event comment as site viewer" do
+    login(@site_viewer)
+    assert_difference("AdverseEventComment.current.count", 0) do
+      delete project_adverse_event_adverse_event_comment_url(
+        @project, @adverse_event, @adverse_event_comment, format: "js"
+      )
     end
     assert_nil assigns(:project)
     assert_nil assigns(:adverse_event)
