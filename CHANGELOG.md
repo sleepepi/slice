@@ -1,5 +1,9 @@
 ## 62.0.0
 
+### Enhancements
+- **API Changes**
+  - Provided ID lookup for survey events and designs
+
 ## 61.0.0 (May 2, 2018)
 
 ### Enhancements

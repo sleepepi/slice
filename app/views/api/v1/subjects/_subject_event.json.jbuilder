@@ -15,10 +15,14 @@ json.event_designs do
       json.event do
         json.extract! event_design.event, :name
         json.id event_design.event.to_param
+        json.actual_id event_design.event.id
+        json.slug event_design.event.slug
       end
       json.design do
         json.extract! event_design.design, :name
         json.id event_design.design.to_param
+        json.actual_id event_design.design.id
+        json.slug event_design.design.slug
       end
       json.sheets do
         json.array!(sheets) do |sheet|
