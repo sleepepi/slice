@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: Remove in v63.0.0
 namespace :designs do
   desc "Migrate original design slugs."
   task migrate_slugs: :environment do
