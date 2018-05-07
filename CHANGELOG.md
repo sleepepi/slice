@@ -3,6 +3,10 @@
 ### Enhancements
 - **API Changes**
   - Provided ID lookup for survey events and designs
+- **Design Changes**
+  - Design slugs have been renamed to survey slugs
+    - Survey slugs are unique across Slice and have a unique public URL
+  - Designs can now have project specific slugs
 
 ## 61.0.0 (May 2, 2018)
 

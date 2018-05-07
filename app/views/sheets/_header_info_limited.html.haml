@@ -40,7 +40,7 @@
 
 
 - if @sheet.authentication_token.present? && !@sheet.auto_locked?
-  - clipboard_text = "#{ENV["website_url"]}/survey/#{@sheet.design.slug}/#{@sheet.authentication_token}"
+  - clipboard_text = "#{ENV["website_url"]}/survey/#{@sheet.design.survey_slug}/#{@sheet.authentication_token}"
   .row
     .col-md-2
       %label Share via this Link

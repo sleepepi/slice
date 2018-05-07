@@ -287,28 +287,28 @@ class DesignsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should update design and make publicly available' do
+  test "should update design and make publicly available" do
     patch :update, params: {
       id: @design, project_id: @project,
-      design: { publicly_available: '1' }
-    }, format: 'js'
+      design: { publicly_available: "1" }
+    }, format: "js"
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 'design-one', assigns(:design).slug
+    assert_equal "design-one", assigns(:design).survey_slug
     assert_equal true, assigns(:design).publicly_available
-    assert_template 'show'
+    assert_template "show"
   end
 
-  test 'should update design and make custom slug' do
+  test "should update design and make custom survey slug" do
     patch :update, params: {
       id: @design, project_id: @project,
-      design: { publicly_available: '1', slug: 'design-one-custom' }
-    }, format: 'js'
+      design: { publicly_available: "1", survey_slug: "design-one-custom" }
+    }, format: "js"
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
-    assert_equal 'design-one-custom', assigns(:design).slug
+    assert_equal "design-one-custom", assigns(:design).survey_slug
     assert_equal true, assigns(:design).publicly_available
-    assert_template 'show'
+    assert_template "show"
   end
 
   # test 'should not update design with blank name' do

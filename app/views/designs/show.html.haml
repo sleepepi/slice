@@ -42,7 +42,7 @@
         %tr
           %th Category
           %td= link_to @design.category.name, [@project, @design.category]
-      - if @design.publicly_available? && @design.slug.present?
+      - if @design.publicly_available? && @design.survey_slug.present?
         %tr
           %th Publicly Available
           %td

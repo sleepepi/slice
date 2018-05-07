@@ -14,4 +14,3 @@ json.extract!(
   :created_at,
   :updated_at
 )
-json.design_slug sheet.design.slug

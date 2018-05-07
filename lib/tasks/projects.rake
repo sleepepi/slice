@@ -222,6 +222,7 @@ def copy_designs(original, copy, variable_map)
   original.designs.each do |d|
     dc = copy.designs.create(
       name: d.name,
+      slug: d.slug,
       publicly_available: d.publicly_available,
       redirect_url: d.redirect_url,
       show_site: d.show_site,

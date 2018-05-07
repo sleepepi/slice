@@ -3,7 +3,7 @@ one:
   user: valid
   project: one
   notifications_enabled: true
-  slug: design-one
+  survey_slug: design-one
 
 two:
   name: Design Two
@@ -33,7 +33,7 @@ sections_and_variables:
   name: Sections and Variables
   user: valid
   project: one
-  slug: 'sections-and-variables'
+  survey_slug: sections-and-variables
 
 # Test file upload and removal.
 section_and_file:
@@ -55,27 +55,27 @@ no_sites:
 
 admin_design:
   name: On admin project
-  slug: private-design
+  survey_slug: private-design
   user: admin
   project: three
 
 admin_public_design:
   name: On Public Admin Project
-  slug: public-survey
+  survey_slug: public-survey
   user: admin
   project: three
   publicly_available: true
 
 admin_public_design_with_required_fields:
   name: On Public Admin Project
-  slug: public-survey-required-fields
+  survey_slug: public-survey-required-fields
   user: admin
   project: three
   publicly_available: true
 
 admin_public_design_with_redirect:
   name: On Public Admin with Redirect
-  slug: public-survey-redirect
+  survey_slug: public-survey-redirect
   user: admin
   project: three
   publicly_available: true
@@ -124,17 +124,17 @@ auto_lock:
   name: On project that auto-locks sheets
   user: valid
   project: auto_lock
-  slug: auto-lock
+  survey_slug: auto-lock
   publicly_available: true
 
 api_design:
   name: Design on API project
   user: valid
   project: api
-  slug: api-design
+  survey_slug: api-design
 
 api_design_two:
   name: Design two on API project
   user: valid
   project: api
-  slug: api-design-two
+  survey_slug: api-design-two

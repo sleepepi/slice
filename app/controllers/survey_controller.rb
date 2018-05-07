@@ -50,7 +50,7 @@ class SurveyController < ApplicationController
   private
 
   def find_public_design_or_redirect
-    @design = Design.current.where(publicly_available: true).find_by(slug: params[:slug])
+    @design = Design.current.where(publicly_available: true).find_by(survey_slug: params[:slug])
     @project = @design.project if @design
     redirect_without_design
   end
@@ -75,13 +75,13 @@ class SurveyController < ApplicationController
   def redirect_without_sheet
     return if @sheet
     flash[:alert] = "This survey no longer exists."
-    empty_response_or_root_path(about_survey_path(survey: @design.slug))
+    empty_response_or_root_path(about_survey_path(survey: @design.survey_slug))
   end
 
   def redirect_on_auto_locked_sheet
     return unless @sheet.auto_locked?
     flash[:alert] = "This survey has been locked."
-    empty_response_or_root_path(about_survey_path(survey: @design.slug))
+    empty_response_or_root_path(about_survey_path(survey: @design.survey_slug))
   end
 
   def sheet_params
@@ -98,7 +98,7 @@ class SurveyController < ApplicationController
 
   def survey_redirect_page
     if @design.redirect_url.blank?
-      about_survey_path(survey: @design.slug, a: @sheet.authentication_token)
+      about_survey_path(survey: @design.survey_slug, a: @sheet.authentication_token)
     else
       @design.redirect_url
     end

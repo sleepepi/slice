@@ -106,18 +106,18 @@ class DesignsController < ApplicationController
 
   def design_params
     params[:design] ||= {}
-    set_slug_and_updater
+    set_survey_slug_and_updater
     parse_redirect_url
     params.require(:design).permit(
-      :name, :slug, :short_name, :project_id, :updater_id, :publicly_available,
+      :name, :slug, :survey_slug, :short_name, :project_id, :updater_id, :publicly_available,
       :show_site, :ignore_auto_lock, :category_id, :only_unblinded, :repeated,
       { questions: [:question_name, :question_type] }, :redirect_url,
       :notifications_enabled, :translated
     )
   end
 
-  def set_slug_and_updater
-    params[:design][:slug] = params[:design][:slug].parameterize unless params[:design][:slug].blank?
+  def set_survey_slug_and_updater
+    params[:design][:survey_slug] = params[:design][:survey_slug].parameterize unless params[:design][:survey_slug].blank?
     params[:design][:updater_id] = current_user.id
   end
 

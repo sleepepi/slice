@@ -1,10 +1,10 @@
 = hidden_field_tag "isdirty", "1"
 
 - if @sheet.new_record?
-  - submit_url = new_survey_path(@design.slug)
+  - submit_url = new_survey_path(@design.survey_slug)
   - submit_method = :post
 - else
-  - submit_url = edit_survey_path(@design.slug, @sheet.authentication_token)
+  - submit_url = edit_survey_path(@design.survey_slug, @sheet.authentication_token)
   - submit_method = :patch
 
 - form_name = "survey_#{@design.id}_form"

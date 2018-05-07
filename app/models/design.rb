@@ -28,7 +28,7 @@ class Design < ApplicationRecord
   ]
 
   # Callbacks
-  after_save :reset_sheet_total_response_count, :set_slug
+  after_save :reset_sheet_total_response_count, :set_survey_slug
 
   # Concerns
   include Blindable
@@ -41,7 +41,7 @@ class Design < ApplicationRecord
   include Sluggable
 
   include Squishable
-  squish :name, :slug, :short_name
+  squish :name, :survey_slug, :short_name
 
   include Translatable
   translates :name
@@ -52,7 +52,13 @@ class Design < ApplicationRecord
   # Validations
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
-  validates :slug, uniqueness: { scope: :deleted }, allow_blank: true
+  validates :survey_slug, uniqueness: true, allow_blank: true
+  validates :slug, uniqueness: { scope: :project_id }, allow_nil: true
+  validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
+                   exclusion: { in: %w(new edit create update destroy) },
+                   uniqueness: true,
+                   allow_nil: true
+
   validates :csv_file, presence: true, if: :reimport?
 
   # Relationships
@@ -388,6 +394,11 @@ class Design < ApplicationRecord
     update(design_params)
   end
 
+  def destroy
+    update slug: nil, survey_slug: nil
+    super
+  end
+
   private
 
   # Reset all associated sheets total_response_count to nil to trigger refresh of sheet answer coverage
@@ -404,10 +415,10 @@ class Design < ApplicationRecord
     )
   end
 
-  def set_slug
-    return unless slug.blank? && publicly_available?
-    self.slug = name.parameterize
-    self.slug += "-#{SecureRandom.hex(8)}" unless valid?
+  def set_survey_slug
+    return unless survey_slug.blank? && publicly_available?
+    self.survey_slug = name.parameterize
+    self.survey_slug += "-#{SecureRandom.hex(8)}" unless valid?
     save
   end
 end
