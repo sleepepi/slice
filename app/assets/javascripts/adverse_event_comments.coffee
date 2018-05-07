@@ -7,7 +7,7 @@ $(document)
     false
   )
   .on("keyup", "[data-object~=ae-comment-comment-field]", ->
-    if $(this).val().trim() == ""
+    if this.value.trim() == ""
       $("#reopen-ae-button").html("Reopen AE Report")
       $("#close-ae-button").html("Close AE Report")
     else

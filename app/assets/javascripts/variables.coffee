@@ -26,7 +26,7 @@
 
 @checkForBlankOptions = ->
   blank_options = $('[data-object~="option-name"]').filter( ->
-    $.trim($(this).val()) == ''
+    $(this).val().trim() == ""
   )
   blank_options.parent().parent().addClass('has-error')
   unless $('#variable_variable_type').val() not in ['dropdown', 'checkbox', 'radio'] or blank_options.size() == 0 or confirm('Options with blank names will be removed. Proceed anyways?')
