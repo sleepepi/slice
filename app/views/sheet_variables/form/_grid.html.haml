@@ -7,6 +7,9 @@
   - max_position = object ? (all_grids.collect(&:position) + [variable.default_row_number - 1]).max.to_i : (variable.default_row_number - 1)
   - range = (0..max_position)
 - show_values = true unless defined?(show_values)
+
+-# This hidden field allows grids with no rows to be saved (and cleared).
+= form.hidden_field "variables[#{variable.id}][-1][-1]", value: "", name: "variables[#{variable.id}][-1][-1]"
 %table.table.table-hover.table-grid.table-sticky.table-borderless.table-striped.table-sm
   %thead
     %tr

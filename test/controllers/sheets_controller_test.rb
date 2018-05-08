@@ -453,20 +453,20 @@ d est laborum.',
   #   assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   # end
 
-  test 'should create sheet with grid' do
+  test "should create sheet with grid" do
     post :create, params: {
       project_id: @project,
       subject_id: sheets(:has_grid).subject,
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
-          '13463487147483201' => { variables(:change_options).id.to_s => '1' },
-          '1346351022118849'  => { variables(:change_options).id.to_s => '2' },
-          '1346351034600475'  => { variables(:change_options).id.to_s => '3' }
+          "-1" => { "-1" => "" },
+          "13463487147483201" => { variables(:change_options).id.to_s => "1" },
+          "1346351022118849"  => { variables(:change_options).id.to_s => "2" },
+          "1346351034600475"  => { variables(:change_options).id.to_s => "3" }
         }
       }
     }
-
     assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -726,76 +726,42 @@ d est laborum.',
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-  test 'should update sheet with grid' do
+  test "should update sheet with grid" do
     patch :update, params: {
       id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
-          '0' => {
-            variables(:change_options).id.to_s => '1',
-            variables(:file).id.to_s => { response_file: '' },
-            variables(:checkbox).id.to_s => ['acct101', 'econ101'],
-            variables(:height).id.to_s => '1.5',
-            variables(:weight).id.to_s => '70.0',
-            variables(:calculated).id.to_s => '31.11',
-            variables(:integer).id.to_s => '25',
-            variables(:time_of_day).id.to_s => { hours: '11', minutes: '30', seconds: '59' }
+          "-1" => { "-1" => "" },
+          "0" => {
+            variables(:change_options).id.to_s => "1",
+            variables(:file).id.to_s => { response_file: "" },
+            variables(:checkbox).id.to_s => ["acct101", "econ101"],
+            variables(:height).id.to_s => "1.5",
+            variables(:weight).id.to_s => "70.0",
+            variables(:calculated).id.to_s => "31.11",
+            variables(:integer).id.to_s => "25",
+            variables(:time_of_day).id.to_s => { hours: "11", minutes: "30", seconds: "59" }
           },
-          '1' => {
-            variables(:change_options).id.to_s => '2',
-            variables(:file).id.to_s => { response_file: '' },
-            variables(:checkbox).id.to_s => ['econ101'],
-            variables(:height).id.to_s => '1.5',
-            variables(:weight).id.to_s => '0.0',
-            variables(:calculated).id.to_s => '',
-            variables(:integer).id.to_s => '25',
-            variables(:time_of_day).id.to_s => { hours: '13', minutes: '20', seconds: '01' }
+          "1" => {
+            variables(:change_options).id.to_s => "2",
+            variables(:file).id.to_s => { response_file: "" },
+            variables(:checkbox).id.to_s => ["econ101"],
+            variables(:height).id.to_s => "1.5",
+            variables(:weight).id.to_s => "0.0",
+            variables(:calculated).id.to_s => "",
+            variables(:integer).id.to_s => "25",
+            variables(:time_of_day).id.to_s => { hours: "13", minutes: "20", seconds: "01" }
           },
-          '2' => {
-            variables(:change_options).id.to_s => '3',
-            variables(:file).id.to_s => { response_file: '' },
+          "2" => {
+            variables(:change_options).id.to_s => "3",
+            variables(:file).id.to_s => { response_file: "" },
             variables(:checkbox).id.to_s => [],
-            variables(:height).id.to_s => '1.5',
-            variables(:weight).id.to_s => '70.0',
-            variables(:calculated).id.to_s => '31.11',
-            variables(:integer).id.to_s => '25',
-            variables(:time_of_day).id.to_s => { hours: '14', minutes: '56', seconds: '33' }
-          }
-        }
-      }
-    }
-
-    assert_not_nil assigns(:sheet)
-    assert_equal 1, assigns(:sheet).variables.size
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
-  end
-
-  test 'should update sheet with grid and remove top grid row' do
-    patch :update, params: {
-      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
-      sheet: { design_id: designs(:has_grid).id },
-      variables: {
-        variables(:grid).id.to_s => {
-          '1' => {
-            variables(:change_options).id.to_s => '2',
-            variables(:file).id.to_s => { response_file: '' },
-            variables(:checkbox).id.to_s => ['econ101'],
-            variables(:height).id.to_s => '1.5',
-            variables(:weight).id.to_s => '0.0',
-            variables(:calculated).id.to_s => '',
-            variables(:integer).id.to_s => '25',
-            variables(:time_of_day).id.to_s => { hours: '13', minutes: '20', seconds: '01' }
-          },
-          '2' => {
-            variables(:change_options).id.to_s => '3',
-            variables(:file).id.to_s => { response_file: fixture_file_upload('../../test/support/projects/rails.png') },
-            variables(:checkbox).id.to_s => [],
-            variables(:height).id.to_s => '1.5',
-            variables(:weight).id.to_s => '70.0',
-            variables(:calculated).id.to_s => '31.11',
-            variables(:integer).id.to_s => '25',
-            variables(:time_of_day).id.to_s => { hours: '14', minutes: '56', seconds: '33' }
+            variables(:height).id.to_s => "1.5",
+            variables(:weight).id.to_s => "70.0",
+            variables(:calculated).id.to_s => "31.11",
+            variables(:integer).id.to_s => "25",
+            variables(:time_of_day).id.to_s => { hours: "14", minutes: "56", seconds: "33" }
           }
         }
       }
@@ -804,6 +770,58 @@ d est laborum.',
     assert_equal 1, assigns(:sheet).variables.size
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
+
+  test "should update sheet with grid and remove top grid row" do
+    patch :update, params: {
+      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
+      sheet: { design_id: designs(:has_grid).id },
+      variables: {
+        variables(:grid).id.to_s => {
+          "-1" => { "-1" => "" },
+          "1" => {
+            variables(:change_options).id.to_s => "2",
+            variables(:file).id.to_s => { response_file: "" },
+            variables(:checkbox).id.to_s => ["econ101"],
+            variables(:height).id.to_s => "1.5",
+            variables(:weight).id.to_s => "0.0",
+            variables(:calculated).id.to_s => "",
+            variables(:integer).id.to_s => "25",
+            variables(:time_of_day).id.to_s => { hours: "13", minutes: "20", seconds: "01" }
+          },
+          "2" => {
+            variables(:change_options).id.to_s => "3",
+            variables(:file).id.to_s => { response_file: fixture_file_upload("../../test/support/projects/rails.png") },
+            variables(:checkbox).id.to_s => [],
+            variables(:height).id.to_s => "1.5",
+            variables(:weight).id.to_s => "70.0",
+            variables(:calculated).id.to_s => "31.11",
+            variables(:integer).id.to_s => "25",
+            variables(:time_of_day).id.to_s => { hours: "14", minutes: "56", seconds: "33" }
+          }
+        }
+      }
+    }
+    assert_not_nil assigns(:sheet)
+    assert_equal 1, assigns(:sheet).variables.size
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
+  test "should update sheet with grid and remove all grid rows" do
+    patch :update, params: {
+      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
+      sheet: { design_id: designs(:has_grid).id },
+      variables: {
+        variables(:grid).id.to_s => {
+          "-1" => { "-1" => "" }
+        }
+      }
+    }
+    assert_not_nil assigns(:sheet)
+    assert_equal 1, assigns(:sheet).variables.size
+    assert_equal 0, Grid.where(sheet_variable: assigns(:sheet).sheet_variables).count
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
 
   test 'should not update sheet with blank design' do
     patch :update, params: { project_id: @project, id: @sheet, sheet: { design_id: '' }, variables: {} }

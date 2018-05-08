@@ -99,12 +99,13 @@ class SheetTransaction < ApplicationRecord
     end
   end
 
-  # {"13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
+  # {"-1"=>{"-1"=>""}, # This parameter clears the grid if all other rows are removed, similar to passing a "0" for a fallback value for empty checkboxes.
+  #  "13463487147483201"=>{"123"=>"6", "494"=>["", "1", "0"], "493"=>"This is my institution"},
   #  "1346351022118849"=>{"123"=>"1", "494"=>[""], "493"=>""},
   #  "1346351034600475"=>{"494"=>["", "0"], "493"=>""}}
   def update_grid_responses!(sheet_variable, response, current_user)
     response.select! do |_key, vhash|
-      vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
+      vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) }.positive?
     end
     response.each_pair { |k, v| }.each.with_index do |(key, variable_response_hash), position|
       variable_response_hash.each_pair do |variable_id, res|

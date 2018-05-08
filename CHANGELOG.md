@@ -8,6 +8,9 @@
     - Survey slugs are unique across Slice and have a unique public URL
   - Designs can now have project specific slugs
 
+### Bug Fix
+- Fixed a bug that prevented grids from being cleared by removing all rows
+
 ## 61.0.0 (May 2, 2018)
 
 ### Enhancements
