@@ -524,11 +524,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
       assert_difference("Section.count", -1) do
         delete project_design_design_option_url(
           @project, designs(:sections_and_variables), design_options(:sections_and_variables_sectiona), format: "js"
-        ) # , xhr: true
-        # delete :destroy, params: {
-        #   project_id: @project, design_id: designs(:sections_and_variables),
-        #   id: design_options(:sections_and_variables_sectiona)
-        # }, xhr: true, format: "js"
+        )
       end
     end
     assert_not_nil assigns(:project)
@@ -543,11 +539,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("DesignOption.count", -1) do
       delete project_design_design_option_url(
         @project, designs(:sections_and_variables), design_options(:sections_and_variables_dropdown), format: "js"
-      ) # , xhr: true
-      # delete :destroy, params: {
-      #   project_id: @project, design_id: designs(:sections_and_variables),
-      #   id: design_options(:sections_and_variables_dropdown)
-      # }, xhr: true, format: "js"
+      )
     end
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:design)
