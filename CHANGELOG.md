@@ -7,6 +7,7 @@
   - Design slugs have been renamed to survey slugs
     - Survey slugs are unique across Slice and have a unique public URL
   - Designs can now have project specific slugs
+  - Improved display of blank grids and grids with empty rows
 
 ### Bug Fix
 - Fixed a bug that prevented grids from being cleared by removing all rows

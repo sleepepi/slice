@@ -1,16 +1,17 @@
 - if sheet_variable
   - non_grid_variable_types = Variable::TYPE.flatten.uniq - ["grid"]
-  %table.table.table-hover.table-sm.table-sticky.table-borderless.table-striped{ style: "margin-top:-5px" }
+  %table.table.table-hover.table-sm.table-sticky.table-borderless.table-striped{ style: "margin-top: -5px;" }
     %thead
       %tr
         - variable.child_variables.each do |child_variable|
           %th= simple_style child_variable.display_name
-    %tbody
-      - all_grids = sheet_variable.grids.includes(variable: [:domain]).to_a
-      - (0..all_grids.collect(&:position).max.to_i).each do |position|
-        %tr
-          - variable.child_variables.each do |child_variable|
-            %td
-              - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }
-              - if grid && non_grid_variable_types.include?(grid.variable.variable_type)
-                = render "sheet_variables/show/#{grid.variable.variable_type}", variable: grid.variable, object: grid
+    - all_grids = sheet_variable.grids.includes(variable: [:domain]).to_a
+    - if all_grids.present?
+      %tbody
+        - (0..all_grids.collect(&:position).max.to_i).each do |position|
+          %tr
+            - variable.child_variables.each do |child_variable|
+              %td
+                - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }
+                - if grid && non_grid_variable_types.include?(grid.variable.variable_type)
+                  = render "sheet_variables/show/#{grid.variable.variable_type}", variable: grid.variable, object: grid
