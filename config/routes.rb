@@ -391,15 +391,12 @@ Rails.application.routes.draw do
     get :search, action: :index
   end
 
-  scope module: :application do
+  scope module: :external do
     get :about
     get :contact
-    get :use, path: "/about/use", as: :about_use
-  end
-
-  scope module: :external do
     get :landing
     get :sitemap_xml, path: "sitemap.xml.gz"
+    get :use, path: "/about/use", as: :about_use
     get :version
   end
 

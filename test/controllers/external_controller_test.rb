@@ -3,7 +3,7 @@
 require "test_helper"
 
 # Tests to assure users can view section images and add grid rows on public
-# surveys.
+# surveys, and public pages.
 class ExternalControllerTest < ActionDispatch::IntegrationTest
   setup do
     @public_design = designs(:admin_public_design)
@@ -11,6 +11,21 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     @private_design = designs(:sections_and_variables)
     @private_section = sections(:private)
     @regular = users(:valid)
+  end
+
+  test "should get about" do
+    get about_url
+    assert_response :success
+  end
+
+  test "should get about use" do
+    get about_use_url
+    assert_response :success
+  end
+
+  test "should get contact" do
+    get contact_url
+    assert_response :success
   end
 
   test "should get landing" do

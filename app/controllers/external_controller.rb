@@ -8,6 +8,18 @@ class ExternalController < ApplicationController
   before_action :set_section, only: [:section_image]
   before_action :set_variable, only: [:add_grid_row]
 
+  # # GET /about
+  # def about
+  # end
+
+  # # GET /about/use
+  # def about_use
+  # end
+
+  # # GET /contact
+  # def contact
+  # end
+
   # # GET /landing
   # def landing
   # end
@@ -37,6 +49,8 @@ class ExternalController < ApplicationController
     end
   end
 
+  # GET /version
+  # GET /version.json
   def version
     render layout: "layouts/full_page"
   end
