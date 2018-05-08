@@ -19,8 +19,8 @@
 
 - @sheet_transactions.each_with_index do |t, index|
   - if !variable || (variable && @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select { |sv| sv.variable_id == variable.id }.count > 0)
-    .dashboard-container
-      %table.table.table-striped.table-fixed
+    .dashboard-container.dashboard-table
+      %table.table.table-striped.table-borderless.table-hover.table-fixed
         %thead
           %tr
             %th Transaction
@@ -46,7 +46,7 @@
                 = t.remote_ip
             %td= t.transaction_type
             %td= t.created_at.strftime("%b %d, %Y at %l:%M %p")
-      %table.table.table-borderless.table-striped.table-fixed
+      %table.table.table-striped.table-borderless.table-hover.table-fixed
         %thead
           %tr
             %th Attribute
