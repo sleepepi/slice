@@ -1,60 +1,62 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 # Tests to make sure project owners, editors, and viewers can leave comments on
 # sheets.
-class CommentsControllerTest < ActionController::TestCase
+class CommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @comment = comments(:one)
     @project_editor = users(:project_one_editor)
   end
 
-  test 'should create comment' do
+  def comment_params
+    { description: "I made a comment." }
+  end
+
+  test "should create comment" do
     login(users(:valid))
-    assert_difference('Comment.count') do
-      post :create, params: {
+    assert_difference("Comment.count") do
+      post comments_url(format: "js"), params: {
         sheet_id: @comment.sheet_id,
-        comment: { description: @comment.description }
-      }, format: 'js'
+        comment: comment_params
+      }
     end
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:comment)
     assert_equal users(:valid).id, assigns(:comment).user_id
-    assert_template 'index'
+    assert_template "index"
     assert_response :success
   end
 
-  test 'should not create comment with blank description' do
+  test "should not create comment with blank description" do
     login(users(:valid))
-    assert_difference('Comment.count', 0) do
-      post :create, params: {
+    assert_difference("Comment.count", 0) do
+      post comments_url(format: "js"), params: {
         sheet_id: @comment.sheet_id,
-        comment: { description: '' }
-      }, format: 'js'
+        comment: comment_params.merge(description: "")
+      }
     end
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:comment)
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
-    assert_template 'edit'
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should show comment as ajax' do
+  test "should show comment as ajax" do
     login(users(:valid))
-    get :show, params: {
-      id: @comment,
-      include_name: '0',
+    get comment_url(@comment, format: "js"), params: {
+      include_name: "0",
       number: @comment.number
-    }, xhr: true, format: 'js'
+    }, xhr: true
     assert_response :success
   end
 
-  test 'should redirect to comment on sheet' do
+  test "should redirect to comment on sheet" do
     login(users(:valid))
-    get :show, params: {
-      id: @comment,
-      include_name: '0',
+    get comment_url(@comment), params: {
+      include_name: "0",
       number: @comment.number
     }
     assert_redirected_to project_sheet_path(
@@ -64,65 +66,63 @@ class CommentsControllerTest < ActionController::TestCase
     )
   end
 
-  test 'should get edit' do
+  test "should get edit" do
     login(users(:valid))
-    get :edit, params: {
-      id: @comment, include_name: '0', number: @comment.number
-    }, xhr: true, format: 'js'
-    assert_template 'edit'
+    get edit_comment_url(@comment, format: "js"), params: {
+      include_name: "0", number: @comment.number
+    }, xhr: true
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should get edit as project editor' do
+  test "should get edit as project editor" do
     login(@project_editor)
-    get :edit, params: {
-      id: @comment, include_name: '0', number: @comment.number
-    }, xhr: true, format: 'js'
-    assert_template 'edit'
+    get edit_comment_url(@comment, format: "js"), params: {
+      include_name: "0", number: @comment.number
+    }, xhr: true
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should update comment' do
+  test "should update comment" do
     login(users(:valid))
-    patch :update, params: {
-      id: @comment,
-      comment: { description: @comment.description }
-    }, format: 'js'
+    patch comment_url(@comment, format: "js"), params: {
+      comment: comment_params
+    }
     assert_not_nil assigns(:comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should update comment as project editor' do
+  test "should update comment as project editor" do
     login(@project_editor)
-    patch :update, params: {
-      id: @comment, comment: { description: @comment.description }
-    }, format: 'js'
+    patch comment_url(@comment, format: "js"), params: {
+      comment: comment_params
+    }
     assert_not_nil assigns(:comment)
-    assert_template 'show'
+    assert_template "show"
     assert_response :success
   end
 
-  test 'should not update comment with blank description' do
+  test "should not update comment with blank description" do
     login(users(:valid))
-    patch :update, params: {
-      id: @comment,
-      comment: { description: '' }
-    }, format: 'js'
+    patch comment_url(@comment, format: "js"), params: {
+      comment: comment_params.merge(description: "")
+    }
     assert_not_nil assigns(:comment)
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
-    assert_template 'edit'
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should destroy comment' do
+  test "should destroy comment" do
     login(users(:valid))
-    assert_difference('Notification.count', -1) do
-      assert_difference('Comment.current.count', -1) do
-        delete :destroy, params: { id: @comment }, format: 'js'
+    assert_difference("Notification.count", -1) do
+      assert_difference("Comment.current.count", -1) do
+        delete comment_url(@comment, format: "js")
       end
     end
-    assert_template 'destroy'
+    assert_template "destroy"
     assert_response :success
   end
 end
