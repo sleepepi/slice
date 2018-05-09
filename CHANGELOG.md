@@ -1,5 +1,8 @@
 ## 62.0.1
 
+### Bug Fix
+- Fixed a bug that prevented the design slugs from being reused across projects
+
 ## 62.0.0 (May 9, 2018)
 
 ### Enhancements

@@ -53,10 +53,9 @@ class Design < ApplicationRecord
   validates :name, :user_id, :project_id, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
   validates :survey_slug, uniqueness: true, allow_nil: true
-  validates :slug, uniqueness: { scope: :project_id }, allow_nil: true
   validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
                    exclusion: { in: %w(new edit create update destroy) },
-                   uniqueness: true,
+                   uniqueness: { scope: :project_id },
                    allow_nil: true
 
   validates :csv_file, presence: true, if: :reimport?
