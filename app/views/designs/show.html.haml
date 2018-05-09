@@ -46,7 +46,7 @@
         %tr
           %th Publicly Available
           %td
-            - url = new_survey_url(@design)
+            - url = new_survey_url(@design.survey_slug)
             = link_to url, url, target: "_blank"
       - if @design.repeated?
         %tr

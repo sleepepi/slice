@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - Fixed a bug that prevented the design slugs from being reused across projects
+- Fixed a bug that displayed the design public survey URL incorrectly
 
 ## 62.0.0 (May 9, 2018)
 
