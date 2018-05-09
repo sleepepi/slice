@@ -1,4 +1,4 @@
-## 62.0.0
+## 62.0.0 (May 9, 2018)
 
 ### Enhancements
 - **API Changes**
