@@ -20,7 +20,6 @@
   updateCalculatedVariables()
 
 @toggleGroupInput = (element, group_name, event) ->
-  console.log "toggleGroupInput"
   if element.closest(".custom-control").hasClass("selected") and (element.attr("type") == "checkbox" or event.type == "click")
     element.prop("checked", false)
   else
