@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Dropped checks for unsupported browser types
+  - Adjusted color of links in headings
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages

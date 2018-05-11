@@ -51,17 +51,16 @@
   word-break: break-word;
 }
 
-// TODO: Look at page-heading link styling.
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .page-heading {
-      // > a {
-      //   color: $breadcrumb-link-color;
-      // }
+      > a {
+        color: map-get($theme, p100);
 
-      // > a:hover {
-      //   color: darken($breadcrumb-link-color, 10%);
-      // }
+        &:hover {
+          color: map-get($theme, p50);
+        }
+      }
     }
   }
 }
