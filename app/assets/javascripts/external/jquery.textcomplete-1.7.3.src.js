@@ -53,7 +53,6 @@ if (typeof jQuery === 'undefined') {
         }
       } else {
         // For backward compatibility.
-        // TODO: Remove at v0.4
         $.each(strategies, function (obj) {
           $.each(['header', 'footer', 'placement', 'maxCount'], function (name) {
             if (obj[name]) {
