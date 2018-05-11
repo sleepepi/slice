@@ -7513,9 +7513,6 @@
                 },
                 footerFormat: '',
                 //formatter: defaultFormatter,
-                /* todo: em font-size when finished comparing against HC4
-                headerFormat: '<span style="font-size: 0.85em">{point.key}</span><br/>',
-                */
                 padding: 8,
 
                 //shape: 'callout',
