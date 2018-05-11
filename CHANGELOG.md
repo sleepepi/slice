@@ -1,5 +1,9 @@
 ## 63.0.0
 
+### Enhancements
+- **General Changes**
+  - Dropped checks for unsupported browser types
+
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
 

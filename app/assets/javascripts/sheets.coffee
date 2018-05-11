@@ -31,13 +31,6 @@
   )
   signaturesReady()
 
-# TODO: Might be able to remove this in the future with Turbolinks 5
-# https://github.com/turbolinks/turbolinks-classic/issues/455
-@fix_ie10_placeholder = ->
-  $('textarea').each ->
-    if $(@).val() == $(@).attr('placeholder')
-      $(@).val ''
-
 @nonStandardClick = (event) ->
   event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
 
@@ -124,7 +117,6 @@
   initializeSheet()
   activateSheetDraggables()
   activateEventDroppables()
-  fix_ie10_placeholder()
   updateCoverage()
   sheetFiltersTextcompleteReady()
 
