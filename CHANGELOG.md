@@ -1,5 +1,8 @@
 ## 63.0.0
 
+### Bug Fix
+- Fixed a bug that incorrectly displayed default devise messages
+
 ## 62.0.1 (May 9, 2018)
 
 ### Bug Fix
