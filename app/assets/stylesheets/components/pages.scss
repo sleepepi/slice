@@ -7,7 +7,7 @@
   @include remove-last-child-bottom-margin;
 
   min-height: 960px;
-  position: relative; // TODO: Revisit if this is needed.
+  // position: relative; // TODO: Revisit if this is needed.
 }
 
 @include media-breakpoint-up(md) {
