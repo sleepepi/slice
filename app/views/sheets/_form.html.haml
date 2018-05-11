@@ -1,3 +1,5 @@
+= hidden_field_tag "isdirty", "1"
+
 - form_name = @sheet.new_record? ? "new_sheet" : "edit_sheet_#{@sheet.id}"
 = form_with model: [@sheet.project, @sheet], multipart: true, local: true, id: form_name do |form|
   - if @sheet.errors.any?
@@ -37,6 +39,6 @@
 
     .form-group
       - submit_text = @sheet.new_record? ? "Create Sheet" : "Update Sheet"
-      = link_to submit_text, "#", class: "btn btn-primary", data: { target: "##{form_name}", object: "variable-check-before-submit" }, id: "sheet_submit_btn"
+      = link_to submit_text, "#", class: "btn btn-primary", data: { target: "##{form_name}", object: "variable-check-before-submit" }
       = link_to "Cancel", @sheet.new_record? ? (@sheet.subject ? data_entry_project_subject_path(@project, @sheet.subject) : project_sheets_path(@project)) : [@project, @sheet], class: "btn btn-light"
       %span#validation-messages.text-danger.span-link{ data: { object: "scroll-to-first-error" } }
