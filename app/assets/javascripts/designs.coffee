@@ -38,16 +38,7 @@
       true
   )
 
-@loadVariableSortable = ->
-  $('#variables[data-object~="sortable"]').sortable(
-    placeholder: "well alert alert-block"
-    handle: ".handle"
-    cursorAt:
-      top: 30
-  )
-
 @designsReady = ->
-  loadVariableSortable()
   $('#form_grid_variables[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
   initializeDesignReordering()
   $("#form_grid_variables div").last().click()

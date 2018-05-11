@@ -48,16 +48,3 @@
     }
   }
 }
-
-// TODO: Remove .handle
-.handle {
-  cursor: move;
-  display: none;
-}
-
-// https://www.w3.org/TR/mediaqueries-4/#mf-interaction
-@media (hover) {
-  .projects-box:hover .handle {
-    display: inline-block;
-  }
-}
