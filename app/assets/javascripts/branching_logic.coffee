@@ -6,10 +6,10 @@
   catch
     branching_logic = ''
 
-  if branching_logic != '' and branching_logic != undefined
+  if branching_logic
     try
       visible = eval(branching_logic)
     catch error
-      console.log "Error in branching logic syntax. #{error} #{$(element).data('branching-logic')}"
+      console.error "Error in branching logic syntax. #{error} #{$(element).data('branching-logic')}"
 
   return visible
