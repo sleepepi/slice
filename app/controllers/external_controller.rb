@@ -58,22 +58,22 @@ class ExternalController < ApplicationController
   private
 
   def set_design
-    @design = set_publicly_viewabled_design
+    @design = set_publicly_viewable_design
     @design = set_handoff_design unless @design
     @design = set_current_user_design unless @design
   end
 
-  def set_publicly_viewabled_design
-    Design.current.where(publicly_available: true).find_by_param(params[:design])
+  def set_publicly_viewable_design
+    Design.current.where(publicly_available: true).where(project_id: params[:project_id]).find_by_param(params[:design])
   end
 
   def set_handoff_design
     handoff = Handoff.find_by_param(params[:handoff])
-    handoff.subject_event.event.designs.find_by_param(params[:design]) if handoff
+    handoff.subject_event.event.designs.where(project_id: params[:project_id]).find_by_param(params[:design]) if handoff
   end
 
   def set_current_user_design
-    current_user.all_viewable_designs.find_by_param(params[:design]) if current_user
+    current_user.all_viewable_designs.where(project_id: params[:project_id]).find_by_param(params[:design]) if current_user
   end
 
   def set_section

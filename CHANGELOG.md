@@ -1,5 +1,8 @@
 ## 62.0.2
 
+### Bug Fix
+- Fixed several issues with similar designs slugs across projects
+
 ## 62.0.1 (May 9, 2018)
 
 ### Bug Fix
