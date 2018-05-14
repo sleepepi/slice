@@ -52,7 +52,7 @@ class Reports::DesignsController < ApplicationController
   protected
 
   def find_viewable_design
-    @design = current_user.all_viewable_designs.find_by_param(params[:id])
+    @design = current_user.all_viewable_designs.where(project_id: @project.id).find_by_param(params[:id])
     redirect_without_design
   end
 

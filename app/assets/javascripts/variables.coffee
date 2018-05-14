@@ -62,6 +62,7 @@
 
 @getDesignVariableAuthenticationParams = (element) ->
   changes = {}
+  changes.project_id = $(element).data("project-id")
   changes.design = $(element).data('design')
   changes.variable_id = $(element).data('variable-id')
   changes.handoff = $(element).data('handoff')

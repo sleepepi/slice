@@ -36,6 +36,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
   test "should add grid row as regular user" do
     login(@regular)
     post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:one).id,
       design: designs(:has_grid).to_param,
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
@@ -47,6 +48,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
 
   test "should add grid row on public survey" do
     post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:three).id,
       design: designs(:admin_public_design).to_param,
       variable_id: variables(:external_grid).id,
       design_option_id: design_options(:admin_public_design_external_grid).id,
@@ -60,6 +62,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
   test "should add grid row for site editor" do
     login(users(:site_one_editor))
     post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:one).id,
       design: designs(:has_grid).to_param,
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
@@ -72,6 +75,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
   test "should not add grid row for user not on project" do
     login(users(:two))
     post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:one).id,
       design: designs(:has_grid).to_param,
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
@@ -82,6 +86,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
 
   test "should add grid for handoff" do
     post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:one).id,
       design: designs(:has_grid).to_param,
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id,
@@ -93,7 +98,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get section image from public design as public viewer" do
-    get external_section_image_url(section_id: @public_section.id, design: @public_design)
+    get external_section_image_url(section_id: @public_section.id, project_id: projects(:three).id, design: @public_design)
     assert_not_nil response
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:section)
@@ -105,7 +110,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     @handoff = handoffs(:one)
     @design = designs(:sections_and_variables)
     @section = sections(:private)
-    get external_section_image_url(section_id: @section.id, design: @design, handoff: @handoff)
+    get external_section_image_url(section_id: @section.id, project_id: projects(:one).id, design: @design, handoff: @handoff)
     assert_not_nil response
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:section)
@@ -115,7 +120,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
 
   test "should get section image from design as valid user" do
     login(@regular)
-    get external_section_image_url(section_id: @private_section.id, design: @private_design)
+    get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
     assert_not_nil response
     assert_not_nil assigns(:design)
     assert_not_nil assigns(:section)
@@ -124,7 +129,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not get section image from private design without login" do
-    get external_section_image_url(section_id: @private_section.id, design: @private_design)
+    get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
     assert_nil assigns(:design)
     assert_nil assigns(:section)
     assert_response :success
