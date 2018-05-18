@@ -41,7 +41,7 @@ class Design < ApplicationRecord
   include Sluggable
 
   include Squishable
-  squish :name, :survey_slug, :short_name
+  squish :name, :slug, :survey_slug, :short_name
 
   include Translatable
   translates :name
@@ -75,7 +75,7 @@ class Design < ApplicationRecord
   # Methods
 
   def self.searchable_attributes
-    %w(name)
+    %w(name slug short_name)
   end
 
   def self.order_by_user_name

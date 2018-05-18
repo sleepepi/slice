@@ -4,6 +4,8 @@
 - **General Changes**
   - Dropped checks for unsupported browser types
   - Adjusted color of links in headings
+- **Design Changes**
+  - Designs are now searchable by short name and slug on the design index
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
