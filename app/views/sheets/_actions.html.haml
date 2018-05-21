@@ -1,4 +1,16 @@
 = render "translations/language_dropdown", button_class: "" if sheet.design.translated?
+
+- if sheet.design.repeated? && sheet.created_at >= Time.zone.now - 1.hour
+  - if @sheet.subject_event
+    - url = new_data_entry_project_subject_path(@project, @subject, @sheet.design, sheet: { subject_event_id: @sheet.subject_event_id })
+  - else
+    - url = new_data_entry_project_subject_path(@project, @subject, @sheet.design)
+
+  = link_to url, class: "btn btn-primary" do
+    %i.fa.fa-files-o
+    %span.d-none.d-md-inline Create another?
+
+
 - if sheet.auto_locked?
   %span.dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do

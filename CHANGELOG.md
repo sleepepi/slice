@@ -8,6 +8,10 @@
   - Changed APIs for subject events and event designs
 - **Design Changes**
   - Designs are now searchable by short name and slug on the design index
+- **Sheet Changes**
+  - "Create another?" link, after creating a sheet on a repeated design, is now
+    displayed outside of the flash notice area so that it no longer disappears
+    before users can click on it
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
