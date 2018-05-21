@@ -37,6 +37,7 @@
   - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
   - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id).order(:name).to_a
   - all_creators = User.where(id: @project.sheets.select(:user_id))
+  - site_or_project_editor = @project.site_or_project_editor?(current_user)
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col.d-none.d-sm-table-column{ width: "1px" }
@@ -45,7 +46,9 @@
       %col.d-none.d-md-table-column
       - if viewable_sites.count > 1
         %col.d-none.d-sm-table-column
-      %col.d-none.d-sm-table-column
+      %col.d-none.d-md-table-column
+      - if site_or_project_editor
+        %col{ width: "1px" }
       %thead
         %tr
           - filtered_params = params.permit(:site_id, :user_id, :search)
@@ -91,7 +94,7 @@
                   = link_to "All Sites", project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
                     = link_to site.short_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
-          %th.d-none.d-sm-table-cell.nowrap{ class: ["created_by", "created_by desc"].include?(params[:order]) ? "sort-selected" : nil }
+          %th.d-none.d-md-table-cell.nowrap{ class: ["created_by", "created_by desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Creator", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "created_by desc" ? "created_by" : "created_by desc")))
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
@@ -103,10 +106,11 @@
                 = link_to "All Users", project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_creators.order(:full_name).each do |user|
                   = link_to user.full_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: user.id)), style: params[:user_id].to_s == user.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
-
+          - if site_or_project_editor
+            %th.text-center Actions
       - @sheets.each do |sheet|
         %tr{ id: "sheet_#{sheet.id}" }
-          = render "sheets/sheet_row", sheet: sheet, viewable_sites: viewable_sites, creation_ordered: creation_ordered
+          = render "sheets/sheet_row", sheet: sheet, viewable_sites: viewable_sites, creation_ordered: creation_ordered, site_or_project_editor: site_or_project_editor
   .center-horizontally
     = paginate @sheets, theme: "bootstrap"
 

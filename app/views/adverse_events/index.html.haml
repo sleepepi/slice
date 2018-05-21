@@ -34,7 +34,8 @@
       - if viewable_sites.count > 1
         %col.d-none.d-md-table-column
       %col
-      %col{ width: "1px" }
+      - if site_or_project_editor
+        %col{ width: "1px" }
       %thead
         %tr
           = th_sort_field @order, "created", "#", extra_class: "text-center", permit: [:site_id, :user_id, :status]

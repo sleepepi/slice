@@ -12,6 +12,8 @@
   - "Create another?" link, after creating a sheet on a repeated design, is now
     displayed outside of the flash notice area so that it no longer disappears
     before users can click on it
+  - The sheets index now has an Actions column to quickly edit, unlock, or
+    delete a sheet
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
