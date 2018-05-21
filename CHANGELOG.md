@@ -4,6 +4,8 @@
 - **General Changes**
   - Dropped checks for unsupported browser types
   - Adjusted color of links in headings
+- **API Changes**
+  - Changed APIs for subject events and event designs
 - **Design Changes**
   - Designs are now searchable by short name and slug on the design index
 
