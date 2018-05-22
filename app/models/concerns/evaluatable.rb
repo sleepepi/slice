@@ -35,8 +35,8 @@ module Evaluatable
   def js_overlap
     "this.overlap = function(a, b, c) { "\
     "if (c == null) { c = 1; } "\
-    "a = a.map(String); "\
-    "b = b.map(String); "\
+    "a = (a || []).map(String); "\
+    "b = (b || []).map(String); "\
     "return intersection(a, b).length >= c; "\
     "};"
   end
