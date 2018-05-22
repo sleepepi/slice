@@ -14,6 +14,9 @@
     before users can click on it
   - The sheets index now has an Actions column to quickly edit, unlock, or
     delete a sheet
+- **Variable Changes**
+  - Simplified how the overlap function handles comparisons between strings and
+    integers
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages

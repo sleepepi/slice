@@ -12,6 +12,8 @@
   value for value in a when value in b
 
 @overlap = (a, b, c = 1) ->
+  a = a.map(String)
+  b = b.map(String)
   intersection(a, b).length >= c
 
 @toggleReorderSubmitButton = (sortable_container, reorder_button) ->
