@@ -3,16 +3,14 @@
 module Validation
   module Validators
     class TimeDuration < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Time Duration",
-        out_of_range: "Time Duration Outside of Range",
-        in_hard_range: "Time Duration Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.time_duration_invalid"),
+          out_of_range: I18n.t("validators.time_duration_out_of_range"),
+          in_hard_range: I18n.t("validators.time_duration_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def blank_value?(value)

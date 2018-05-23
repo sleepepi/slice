@@ -5,14 +5,6 @@ module Validation
     class Default
       include DateAndTimeParser
 
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Value",
-        out_of_range: "Value Out of Range",
-        in_hard_range: "Value Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       attr_reader :variable
 
       def initialize(variable)
@@ -83,7 +75,13 @@ module Validation
       end
 
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.default_invalid"),
+          out_of_range: I18n.t("validators.default_out_of_range"),
+          in_hard_range: I18n.t("validators.default_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def db_key_value_pairs(response)

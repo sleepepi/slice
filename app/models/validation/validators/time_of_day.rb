@@ -3,16 +3,14 @@
 module Validation
   module Validators
     class TimeOfDay < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Time of Day",
-        out_of_range: "Time of Day Outside of Range",
-        in_hard_range: "Time of Day Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.time_of_day_invalid"),
+          out_of_range: I18n.t("validators.time_of_day_out_of_range"),
+          in_hard_range: I18n.t("validators.time_of_day_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def message(value)
@@ -59,9 +57,9 @@ module Validation
           end
         else
           if @variable.show_seconds?
-            "#{format('%02d', hash[:hours_24])}:#{minutes}:#{seconds}"
+            "#{format("%02d", hash[:hours_24])}:#{minutes}:#{seconds}"
           else
-            "#{format('%02d', hash[:hours_24])}:#{minutes}"
+            "#{format("%02d", hash[:hours_24])}:#{minutes}"
           end
         end
       rescue

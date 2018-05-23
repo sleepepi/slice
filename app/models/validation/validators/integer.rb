@@ -4,16 +4,14 @@ module Validation
   module Validators
     # Used to help validate values for integer variables.
     class Integer < Validation::Validators::Numeric
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Integer",
-        out_of_range: "Integer Outside of Range",
-        in_hard_range: "Integer Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.integer_invalid"),
+          out_of_range: I18n.t("validators.integer_out_of_range"),
+          in_hard_range: I18n.t("validators.integer_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       private

@@ -3,14 +3,12 @@
 module Validation
   module Validators
     class File < Validation::Validators::Numeric
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid File",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.file_invalid"),
+          in_soft_range: ""
+        }
       end
 
       def blank_value?(value)

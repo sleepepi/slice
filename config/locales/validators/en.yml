@@ -1,0 +1,37 @@
+en:
+  validators:
+    default_invalid: "Not a valid value."
+    default_out_of_range: "Value outside of range."
+    default_in_hard_range: "Value outside of soft range."
+
+    date_invalid: "Not a valid date."
+    date_out_of_range: "Date outside of range."
+    date_in_hard_range: "Date outside of soft range."
+
+    file_invalid: "Not a valid file."
+
+    imperial_height_invalid: "Not a valid height."
+    imperial_height_out_of_range: "Height outside of range."
+    imperial_height_in_hard_range: "Height outside of soft range."
+
+    imperial_weight_invalid: "Not a valid weight."
+    imperial_weight_out_of_range: "Weight outside of range."
+    imperial_weight_in_hard_range: "Weight outside of soft range."
+
+    integer_invalid: "Not a valid integer."
+    integer_out_of_range: "Integer outside of range."
+    integer_in_hard_range: "Integer outside of soft range."
+
+    numeric_invalid: "Not a valid number."
+    numeric_out_of_range: "Number outside of range."
+    numeric_in_hard_range: "Number outside of soft range."
+
+    signature_invalid: "Not a valid signature."
+
+    time_of_day_invalid: "Not a valid time of day."
+    time_of_day_out_of_range: "Time of day outside of range."
+    time_of_day_in_hard_range: "Time of day outside of soft range."
+
+    time_duration_invalid: "Not a valid time duration."
+    time_duration_out_of_range: "Time duration outside of range."
+    time_duration_in_hard_range: "Time duration outside of soft range."

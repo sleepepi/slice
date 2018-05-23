@@ -3,16 +3,14 @@
 module Validation
   module Validators
     class ImperialWeight < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Weight",
-        out_of_range: "Weight Outside of Range",
-        in_hard_range: "Weight Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.imperial_weight_invalid"),
+          out_of_range: I18n.t("validators.imperial_weight_out_of_range"),
+          in_hard_range: I18n.t("validators.imperial_weight_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def blank_value?(value)

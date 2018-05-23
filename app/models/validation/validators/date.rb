@@ -3,16 +3,14 @@
 module Validation
   module Validators
     class Date < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Date",
-        out_of_range: "Date Outside of Range",
-        in_hard_range: "Date Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.date_invalid"),
+          out_of_range: I18n.t("validators.date_out_of_range"),
+          in_hard_range: I18n.t("validators.date_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def blank_value?(value)

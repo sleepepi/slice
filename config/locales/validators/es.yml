@@ -1,0 +1,37 @@
+es:
+  validators:
+    default_invalid: "Valor no válido."
+    default_out_of_range: "Valor fuera del rango."
+    default_in_hard_range: "Valor fuera del rango."
+
+    date_invalid: "Fecha no válida."
+    date_out_of_range: "Fecha fuera del rango."
+    date_in_hard_range: "Fecha fuera del rango."
+
+    file_invalid: "Archivo no válido."
+
+    imperial_height_invalid: "Altura no válida."
+    imperial_height_out_of_range: "Altura feura del rango."
+    imperial_height_in_hard_range: "Altura feura del rango."
+
+    imperial_weight_invalid: "Peso no válido."
+    imperial_weight_out_of_range: "Peso feura del rango."
+    imperial_weight_in_hard_range: "Peso feura del rango."
+
+    integer_invalid: "Entero no válido."
+    integer_out_of_range: "Entero fuera del rango."
+    integer_in_hard_range: "Entero fuera del rango."
+
+    numeric_invalid: "Número no válido."
+    numeric_out_of_range: "Número fuera del rango."
+    numeric_in_hard_range: "Número fuera del rango."
+
+    signature_invalid: "Firma no válida."
+
+    time_of_day_invalid: "Hora del día no válida."
+    time_of_day_out_of_range: "Hora del día fuera del rango."
+    time_of_day_in_hard_range: "Hora del día fuera del rango."
+
+    time_duration_invalid: "Duración del tiempo no válida."
+    time_duration_out_of_range: "Duración del tiempo fuera del rango."
+    time_duration_in_hard_range: "Duración del tiempo fuera del rango."

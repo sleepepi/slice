@@ -3,13 +3,11 @@
 module Validation
   module Validators
     class Signature < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Signature"
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.signature_invalid")
+        }
       end
 
       def blank_value?(value)

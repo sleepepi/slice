@@ -3,16 +3,14 @@
 module Validation
   module Validators
     class ImperialHeight < Validation::Validators::Default
-      MESSAGES = {
-        blank: "",
-        invalid: "Not a Valid Height",
-        out_of_range: "Height Outside of Range",
-        in_hard_range: "Height Outside of Soft Range",
-        in_soft_range: ""
-      }
-
       def messages
-        MESSAGES
+        {
+          blank: "",
+          invalid: I18n.t("validators.imperial_height_invalid"),
+          out_of_range: I18n.t("validators.imperial_height_out_of_range"),
+          in_hard_range: I18n.t("validators.imperial_height_in_hard_range"),
+          in_soft_range: ""
+        }
       end
 
       def blank_value?(value)
