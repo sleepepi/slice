@@ -8,6 +8,9 @@
   - Changed APIs for subject events and event designs
 - **Design Changes**
   - Designs are now searchable by short name and slug on the design index
+- **Project Changes**
+  - Added a task that checks calculated fields and provides a list of sheets
+    that have a mismatch between the recomputed and stored value
 - **Sheet Changes**
   - "Create another?" link, after creating a sheet on a repeated design, is now
     displayed outside of the flash notice area so that it no longer disappears

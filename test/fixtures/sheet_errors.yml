@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one: {}
+  # project_id: 1
+  # sheet_id: 1
+  # description: MyText
+
+two: {}
+  # project_id: 1
+  # sheet_id: 1
+  # description: MyText

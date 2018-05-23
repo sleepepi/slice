@@ -208,6 +208,26 @@ class Sheet < ApplicationRecord
     end
   end
 
+  def expanded_calculation(calculation)
+    calculation.to_s.gsub(/\#{(\d+)}/) { variable_javascript_value_formatted($1) }
+  end
+
+  # Used for computing calculated variable calculation results.
+  def variable_javascript_value_formatted(variable_id)
+    variable = design.variables.find { |v| v.id.to_s == variable_id.to_s }
+    if variable
+      sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
+      result = sheet_variable&.get_response(:raw)
+      if variable.variable_type == "checkbox"
+        result || []
+      else
+        result.presence || "null"
+      end
+    else
+      "\#{#{variable_id}}"
+    end
+  end
+
   def show_design_option?(branching_logic)
     return true if branching_logic.to_s.strip.blank?
     result = exec_js_context.eval(expanded_branching_logic(branching_logic))

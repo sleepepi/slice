@@ -5,7 +5,7 @@
 class SheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :index, :search, :show, :file, :coverage
+    :index, :search, :show, :file, :coverage, :calculations
   ]
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
@@ -33,6 +33,12 @@ class SheetsController < ApplicationController
     scope = scope_search_filter(scope, params[:search])
     scope = scope_filter(scope)
     @sheets = scope_order(scope).page(params[:page]).per(40)
+  end
+
+  # GET /sheets/calculations
+  def calculations
+    scope = SheetError.joins(:sheet).merge(current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false))
+    @sheet_errors = scope.order(:id).page(params[:page]).per(20)
   end
 
   # GET /sheets/search.json

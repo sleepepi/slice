@@ -188,6 +188,7 @@ Rails.application.routes.draw do
     resources :sheets do
       collection do
         get :search
+        get :calculations
       end
 
       member do
