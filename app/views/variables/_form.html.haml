@@ -54,7 +54,7 @@
     = render "forms/horizontal/date_field", form: form, object: variable, key: :date_soft_maximum
 
   %div{ data: { object: "calculated" } }
-    = render "forms/horizontal/text_area", form: form, object: variable, key: :calculation, rows: 7, help_text: "Examples: <ul class=\"list-unstyled\"><li><code>(var1 + var2) / var3</code></li><li><code>var1 == -9 ? -9 : var1 + var2</code></li></ul>", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
+    = render "forms/horizontal/text_area", form: form, object: variable, key: :calculation, value: variable.readable_calculation, rows: 7, help_text: "Examples: <ul class=\"list-unstyled\"><li><code>(var1 + var2) / var3</code></li><li><code>var1 == -9 ? -9 : var1 + var2</code></li></ul>", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
     = render "forms/horizontal/text_field", form: form, object: variable, key: :calculated_format, help_text: "<ul class=\"list-unstyled\"><li>Precision: <strong>%0.02f</strong></li><li>Leading Zeros: <strong>%04d</strong></li></ul>"
 
   %div{ data: { object: "options" } }
@@ -70,24 +70,25 @@
         - else
           .row.col-buffer
             .col-6.col-sm-9
-              = form.select :domain_id, [["---", nil]] + @variable.project.domains.order("name").collect{ |d| [d.name, d.id] }, {}, class: "custom-select", data: { project_id: @variable.project.to_param }
+              = form.select :domain_id, [["---", nil]] + @variable.project.domains.order(:name).pluck(:name, :id), {}, class: "custom-select", data: { project_id: @variable.project.to_param }
             .col-6.col-sm-3
               = link_to "Create Domain", new_project_domain_path(@variable.project), class: "btn btn-light btn-block", target: "_blank"
-          .row
-            .col-md-9
-              .dashboard-container.p-3{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
-                .mb-2
-                  %strong Domain Values
-                #domain_values= render "domains/values", domain: @variable.domain
-            - if @variable.captured_values.size > 0
-              .col-md-3
+          - if false
+            .row
+              .col-md-9
                 .dashboard-container.p-3{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
                   .mb-2
-                    %strong Captured Values
-                  %table
-                    - @variable.captured_values.sort.each do |value|
-                      %tr
-                        %td{ style: "text-align:right" }= value
+                    %strong Domain Values
+                  #domain_values= render "domains/values", domain: @variable.domain
+              - if @variable.captured_values.size > 0
+                .col-md-3
+                  .dashboard-container.p-3{ style: "overflow-x:hidden;overflow-y:scroll;max-height:200px" }
+                    .mb-2
+                      %strong Captured Values
+                    %table
+                      - @variable.captured_values.sort.each do |value|
+                        %tr
+                          %td{ style: "text-align:right" }= value
 
   %div{ data: { object: "checkbox-or-radio" } }
     = render "forms/horizontal/select", form: form, object: variable, key: :alignment, options: Variable::ALIGNMENT
@@ -109,10 +110,11 @@
   %div{ data: { object: "autocomplete" } }
     = render "forms/horizontal/text_area", form: form, object: variable, key: :autocomplete_values, rows: 7, help_text: "Each value should be on its own line."
 
-    .form-group.row
-      %label.col-md-2.col-form-label User submitted
-      .col-md-10
-        .form-control-plaintext
-          = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(", ").html_safe
+    - if false
+      .form-group.row
+        %label.col-md-2.col-form-label User submitted
+        .col-md-10
+          .form-control-plaintext
+            = @variable.user_submitted_sheet_variables.collect { |sv| link_to sv.value.to_s, [sv.sheet.project, sv.sheet] }.join(", ").html_safe
 
   = render "forms/horizontal/submit", form: form, object: [variable.project, variable]

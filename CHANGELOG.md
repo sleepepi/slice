@@ -23,6 +23,8 @@
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
+- Variable calculations are now displayed in readable format as opposed to
+  internal format when editing a variable
 
 ## 62.0.2 (May 14, 2018)
 
