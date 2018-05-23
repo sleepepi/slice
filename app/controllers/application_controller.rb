@@ -20,8 +20,8 @@ class ApplicationController < ActionController::Base
     params[:controller] == "devise/sessions" && params[:action] == "create"
   end
 
-  def check_system_admin
-    return if current_user.system_admin?
+  def check_admin
+    return if current_user.admin?
     redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
   end
 

@@ -75,7 +75,7 @@ class UsersControllerTest < ActionController::TestCase
       user: {
         full_name: "FirstName LastName",
         email: "valid_updated_email@example.com",
-        system_admin: false
+        admin: "0"
       }
     }
     assert_redirected_to @user
@@ -98,7 +98,7 @@ class UsersControllerTest < ActionController::TestCase
       user: {
         full_name: "FirstName LastName",
         email: "valid_updated_email@example.com",
-        system_admin: false
+        admin: "0"
       }
     }
     assert_redirected_to users_path

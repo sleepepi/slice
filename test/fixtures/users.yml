@@ -33,7 +33,7 @@ admin:
   full_name: System Admin
   email: admin@example.com
   encrypted_password: <%= User.new(password: "password").encrypted_password %>
-  system_admin: true
+  admin: true
   emails_enabled: true
 
 associated:

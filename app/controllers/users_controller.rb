@@ -4,12 +4,12 @@
 # Allows admins to review existing accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_admin, only: [:new, :create, :edit, :update, :destroy]
   before_action :find_user_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   def index
-    unless current_user.system_admin? || params[:format] == "json"
+    unless current_user.admin? || params[:format] == "json"
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
@@ -35,7 +35,6 @@ class UsersController < ApplicationController
   # PATCH /users/1
   def update
     if @user.update(user_params)
-      @user.update_column :system_admin, params[:user][:system_admin]
       redirect_to @user, notice: "User was successfully updated."
     else
       render :edit
@@ -62,7 +61,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :full_name, :email, :theme, :emails_enabled
+      :full_name, :email, :theme, :emails_enabled, :admin
     )
   end
 
