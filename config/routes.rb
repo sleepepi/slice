@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get :settings
     post :settings, action: :update_settings
     get :update_settings, to: redirect("settings")
+    get :profile_picture, path: "settings/profile/picture", to: redirect("settings")
+    patch :update_profile_picture, path: "settings/profile/picture"
     patch :change_password
     get :change_password, to: redirect("settings")
   end
@@ -415,6 +417,12 @@ Rails.application.routes.draw do
     get ":project/:handoff/:design", action: :design, as: :design
     post ":project/:handoff/:design", action: :save, as: :save
     get "completed", action: :completed, as: :completed
+  end
+
+  resources :members do
+    member do
+      get :profile_picture
+    end
   end
 
   namespace :timeout do

@@ -5,7 +5,7 @@ require "test_helper"
 # Test to assure users can update their account settings
 class AccountControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @regular_user = users(:valid)
+    @regular = users(:valid)
     @project = projects(:one)
   end
 
@@ -19,7 +19,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get dashboard" do
-    login(@regular_user)
+    login(@regular)
     get dashboard_url
     assert_response :success
   end
@@ -60,7 +60,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get site invite and remove invalid invite token" do
-    login(@regular_user)
+    login(@regular)
     get "/site-invite/imaninvalidtoken"
     assert_redirected_to root_url
     assert_nil session[:site_invite_token]
@@ -68,19 +68,19 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get settings" do
-    login(@regular_user)
+    login(@regular)
     get settings_url
     assert_response :success
   end
 
   test "should update settings" do
-    login(@regular_user)
+    login(@regular)
     post settings_url, params: { user: user_params }
-    @regular_user.reload # Needs reload to avoid stale object
-    assert_equal "FirstUpdate LastUpdate", @regular_user.full_name
-    assert_equal "valid_update@example.com", @regular_user.email
-    assert_equal false, @regular_user.emails_enabled?
-    assert_equal "spring", @regular_user.theme
+    @regular.reload # Needs reload to avoid stale object
+    assert_equal "FirstUpdate LastUpdate", @regular.full_name
+    assert_equal "valid_update@example.com", @regular.email
+    assert_equal false, @regular.emails_enabled?
+    assert_equal "spring", @regular.theme
     assert_equal "Settings saved.", flash[:notice]
     assert_redirected_to settings_url
   end
@@ -95,24 +95,24 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update settings and disable email" do
-    login(@regular_user)
+    login(@regular)
     post settings_url, params: { user: { emails_enabled: "0" }, email: {} }
-    @regular_user.reload # Needs reload to avoid stale object
-    assert_equal false, @regular_user.emails_enabled?
+    @regular.reload # Needs reload to avoid stale object
+    assert_equal false, @regular.emails_enabled?
     assert_equal "Settings saved.", flash[:notice]
     assert_redirected_to settings_url
   end
 
   test "should not update for user with blank full name" do
-    login(@regular_user)
+    login(@regular)
     post settings_url, params: { user: { full_name: "" } }
-    @regular_user.reload
-    assert_equal "FirstName LastName", @regular_user.full_name
+    @regular.reload
+    assert_equal "FirstName LastName", @regular.full_name
     assert_redirected_to settings_url
   end
 
   test "should change password" do
-    sign_in_as(@regular_user, "password")
+    sign_in_as(@regular, "password")
     patch change_password_url, params: {
       user: {
         current_password: "password",
@@ -125,7 +125,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not change password as user with invalid current password" do
-    sign_in_as(@regular_user, "password")
+    sign_in_as(@regular, "password")
     patch change_password_url, params: {
       user: {
         current_password: "invalid",
@@ -138,7 +138,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not change password with new password mismatch" do
-    sign_in_as(@regular_user, "password")
+    sign_in_as(@regular, "password")
     patch change_password_url, params: {
       user: {
         current_password: "password",
@@ -148,5 +148,18 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     }
     assert_template "settings"
     assert_response :success
+  end
+
+  test "should update profile picture" do
+    login(@regular)
+    patch update_profile_picture_url, params: {
+      user: {
+        profile_picture: fixture_file_upload("../../test/support/images/rails.png")
+      }
+    }
+    @regular.reload
+    assert_equal true, @regular.profile_picture.present?
+    assert_equal "Profile picture successfully updated.", flash[:notice]
+    assert_redirected_to settings_url
   end
 end

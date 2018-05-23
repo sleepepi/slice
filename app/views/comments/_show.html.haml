@@ -1,7 +1,8 @@
 %a.anchor-top{ name: comment.anchor, id: "comment-#{number}" }
 .comment-outer{ data: { comment_id: comment.id } }
   .comment-left-fixed
-    = image_tag comment.user.avatar_url(48, "identicon"), size: "48x48", alt: ""
+    = profile_picture_tag comment.user, size: 48
+
   .comment-right-fluid
     .comment-comment
       .comment-comment-header

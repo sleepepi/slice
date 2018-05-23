@@ -15,6 +15,9 @@ class User < ApplicationRecord
   include Squishable
   squish :full_name
 
+  # Uploaders
+  mount_uploader :profile_picture, ResizableImageUploader
+
   # Validations
   validates :full_name, format: { with: /\A.+\s.+\Z/, message: "must include first and last name" }
 
@@ -51,11 +54,6 @@ class User < ApplicationRecord
 
   def self.searchable_attributes
     %w(full_name email)
-  end
-
-  def avatar_url(size = 80, default = "mm")
-    gravatar_id = Digest::MD5.hexdigest(email.to_s.downcase)
-    "//gravatar.com/avatar/#{gravatar_id}.png?&s=#{size}&r=pg&d=#{default}"
   end
 
   def associated_users

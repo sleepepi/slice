@@ -38,4 +38,4 @@
   - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
   - if current_user.admin? && site_invitations.count > 0
     = render "forms/horizontal/show/generic", title: "Invitations", content: render("users/invitations", user: @user, site_invitations: site_invitations)
-  = render "forms/horizontal/show/generic", title: "User Avatar", content: image_tag(@user.avatar_url, class: "img-rounded")
+  = render "forms/horizontal/show/generic", title: "Profile picture", content: profile_picture_tag(@user)

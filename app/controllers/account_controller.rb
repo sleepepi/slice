@@ -14,6 +14,15 @@ class AccountController < ApplicationController
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end
 
+  # PATCH /settings/profile/picture
+  def update_profile_picture
+    if current_user.update(profile_picture_params)
+      redirect_to settings_path, notice: "Profile picture successfully updated."
+    else
+      render :settings
+    end
+  end
+
   # PATCH /change_password
   def change_password
     if current_user.valid_password?(params[:user][:current_password])
@@ -45,6 +54,10 @@ class AccountController < ApplicationController
     params.require(:user).permit(
       :full_name, :email, :emails_enabled, :theme, :sound_enabled
     )
+  end
+
+  def profile_picture_params
+    params.require(:user).permit(:profile_picture)
   end
 
   def check_invite_tokens

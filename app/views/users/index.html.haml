@@ -28,7 +28,7 @@
     - @users.each do |user|
       %tr
         %td.nowrap
-          = image_tag user.avatar_url(18), style: "vertical-align:text-bottom", alt: ""
+          = profile_picture_tag user, size: 18, style: "vertical-align:text-bottom;min-width: 18px;"
           = link_to user do
             .d-none.d-sm-inline= user.full_name
             .d-inline.d-sm-none= user.nickname

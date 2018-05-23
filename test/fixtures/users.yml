@@ -90,3 +90,10 @@ send_no_email:
   email: send_no_email@example.com
   encrypted_password: ""
   emails_enabled: false
+
+profile_picture:
+  full_name: Profile Picture
+  email: profile_picture@example.com
+  encrypted_password: ""
+  emails_enabled: false
+  profile_picture: image.png

@@ -47,10 +47,10 @@
 
     .card
       .card-header
-        My Profile Picture
+        %i.fa.fa-user-circle
+        Profile picture
       .card-body
-        .text-center= image_tag current_user.avatar_url(80, "identicon"), class: "img-rounded"
-      .card-footer
-        You can change your picture at
-        = succeed "." do
-          = link_to "gravatar.com", "http://gravatar.com"
+        = form_with model: current_user, url: update_profile_picture_path, method: :patch, local: true do |form|
+          = profile_picture_tag current_user
+          = render "forms/vertical/file_field", form: form, object: current_user, key: :profile_picture
+          = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Upload new picture", cancel: false

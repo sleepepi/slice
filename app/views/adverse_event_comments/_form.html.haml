@@ -1,6 +1,6 @@
 .comment-outer
   .comment-left-fixed
-    = image_tag @adverse_event_comment.user.avatar_url(48, "identicon"), size: "48x48", alt: ""
+    = profile_picture_tag @adverse_event_comment.user, size: 48
 
   .comment-right-fluid
     .comment-comment

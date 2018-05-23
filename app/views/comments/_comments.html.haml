@@ -4,7 +4,7 @@
 
 .comment-outer.mb-0
   .comment-left-fixed
-    = image_tag current_user.avatar_url(48, "identicon"), size: "48x48", alt: ""
+    = profile_picture_tag current_user, size: 48
 
   .comment-right-fluid
     .comment-comment

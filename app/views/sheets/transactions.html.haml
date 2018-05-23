@@ -36,7 +36,7 @@
               %span.badge.badge-primary{ rel: "tooltip", data: { title: language.name(I18n.locale), container: "body", placement: "right" } }= language.code.upcase
             - if t.user
               %td
-                = image_tag t.user.avatar_url(16, "identicon"), size: "16x16", alt: "", style: "vertical-align: middle", class: "img-rounded"
+                = profile_picture_tag t.user, size: 16, style: "vertical-align: middle;"
                 = t.user.full_name
                 &middot;
                 = t.remote_ip
