@@ -28,9 +28,9 @@ class SheetVariableTest < ActiveSupport::TestCase
     assert_equal 70.0, sheet_variables(:weight_subject_one).get_response(:raw)
   end
 
-  test 'get calculated' do
-    assert_equal Formatters::NumericFormatter, Formatters.for(sheet_variables(:calculated).variable).class
-    assert_equal '24.36 kg / (m * m)', sheet_variables(:calculated).get_response(:name)
+  test "get calculated" do
+    assert_equal Formatters::CalculatedFormatter, Formatters.for(sheet_variables(:calculated).variable).class
+    assert_equal "24.36 kg / (m * m)", sheet_variables(:calculated).get_response(:name)
     assert_equal 24.36, sheet_variables(:calculated).get_response(:raw)
   end
 

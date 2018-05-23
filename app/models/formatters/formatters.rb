@@ -10,7 +10,7 @@ module Formatters
     "radio" => Formatters::DomainFormatter,
     "file" => Formatters::FileFormatter,
     "integer" => Formatters::IntegerFormatter,
-    "calculated" => Formatters::NumericFormatter,
+    "calculated" => Formatters::CalculatedFormatter,
     "numeric" => Formatters::NumericFormatter,
     "imperial_height" => Formatters::ImperialHeightFormatter,
     "imperial_weight" => Formatters::ImperialWeightFormatter,

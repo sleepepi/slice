@@ -38,7 +38,11 @@ module Formatters
     end
 
     def components(response)
-      [@variable.prepend, raw_response(response), @variable.units, @variable.append]
+      [@variable.prepend, formatted(response), @variable.units, @variable.append]
+    end
+
+    def formatted(response)
+      raw_response(response)
     end
 
     def hash_value_and_name(response, shared_responses)

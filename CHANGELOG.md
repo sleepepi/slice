@@ -20,6 +20,7 @@
 - **Variable Changes**
   - Simplified how the overlap function handles comparisons between strings and
     integers
+  - Calculation formats are now applied to sheets, PDFs and exports
 
 ### Bug Fix
 - Fixed a bug that incorrectly displayed default devise messages
