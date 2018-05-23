@@ -18,7 +18,7 @@ $fall: (
 
   menu-bg: rgba($p700-amber, .75),
   menu-color: null, // brand-white
-  menu-bg-scrolled: $p600-amber,
+  menu-bg-scrolled: $p700-amber,
 
   header-bg: rgba($p600-amber, .75),
 
@@ -39,4 +39,6 @@ $fall: (
 
   box-shadow-color: rgba(0, 0, 0, .15),
   shadow-color: rgba(0, 0, 0, .3),
+
+  menu-dropdown-bg: $p700-amber,
 );
