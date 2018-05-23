@@ -35,5 +35,5 @@
 .jumbotron
   = form_with model: @adverse_event_review, url: adverse_event_review_path(authentication_token: @adverse_event.id_and_token), id: "adverse_event_review_form", local: true do |form|
     = render "forms/horizontal/text_field", form: form, object: @adverse_event_review, key: :name, key_name: "Reviewer Full Name"
-    = render "forms/horizontal/text_area", form: form, object: @adverse_event_review, key: :description, rows: 7
+    = render "forms/horizontal/text_area", form: form, object: @adverse_event_review, key: :comment, rows: 7
     = link_to "I have fully reviewed this adverse event", "#", class: "btn btn-block btn-success", data: { object: "submit", target: "#adverse_event_review_form" }
