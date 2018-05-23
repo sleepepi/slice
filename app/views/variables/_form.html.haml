@@ -27,11 +27,11 @@
     = render "forms/horizontal/text_field", form: form, object: variable, key: :prepend, placeholder: World.translate_language? ? variable[:prepend] : nil, value: variable.prepend(World.language), prepend: World.translate_language? ? World.language : nil
     = render "forms/horizontal/text_field", form: form, object: variable, key: :append, placeholder: World.translate_language? ? variable[:append] : nil, value: variable.append(World.language), prepend: World.translate_language? ? World.language : nil
 
-  %div{ data: { object: "number" } }
+  %div{ data: { object: "range" } }
     = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_minimum
-    = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_maximum
     = render "forms/horizontal/number_field", form: form, object: variable, key: :soft_minimum
     = render "forms/horizontal/number_field", form: form, object: variable, key: :soft_maximum
+    = render "forms/horizontal/number_field", form: form, object: variable, key: :hard_maximum
 
   %div{ data: { object: "calculated-or-number" } }
     = render "forms/horizontal/text_field", form: form, object: variable, key: :units, placeholder: World.translate_language? ? variable[:units] : nil, value: variable.units(World.language), prepend: World.translate_language? ? World.language : nil

@@ -8,20 +8,12 @@
     = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "date"), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
 
   - if variable.date_hard_minimum.present? || variable.date_soft_minimum.present? || variable.date_hard_maximum.present? || variable.date_soft_maximum.present?
-    - if variable.date_hard_maximum.present?
+    - if variable.date_hard_minimum.present?
       %div
         %code
-          Hard Max:
+          Hard Min:
         %code
-          = variable.date_hard_maximum
-
-    - if variable.date_soft_maximum.present?
-      %div
-        %code
-          Soft Max:
-        %code
-          = variable.date_soft_maximum
-
+          = variable.date_hard_minimum
 
     - if variable.date_soft_minimum.present?
       %div
@@ -30,9 +22,16 @@
         %code
           = variable.date_soft_minimum
 
-    - if variable.date_hard_minimum.present?
+    - if variable.date_soft_maximum.present?
       %div
         %code
-          Hard Min:
+          Soft Max:
         %code
-          = variable.date_hard_minimum
+          = variable.date_soft_maximum
+
+    - if variable.date_hard_maximum.present?
+      %div
+        %code
+          Hard Max:
+        %code
+          = variable.date_hard_maximum

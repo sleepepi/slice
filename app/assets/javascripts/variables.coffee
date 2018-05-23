@@ -1,6 +1,6 @@
 @toggleOptions = (element) ->
   $('[data-object~="options"]').hide()
-  $('[data-object~="number"]').hide()
+  $('[data-object~="range"]').hide()
   $('[data-object~="date"]').hide()
   $('[data-object~="calculated"]').hide()
   $('[data-object~="grid"]').hide()
@@ -15,7 +15,7 @@
   $('[data-object~="prepend-append"]').show() if $(element).val() in ['calculated', 'integer', 'numeric', 'string']
   $('[data-object~="calculated-or-number"]').show() if $(element).val() in ['calculated', 'integer', 'numeric']
   $('[data-object~="checkbox-or-radio"]').show() if $(element).val() in ['checkbox', 'radio']
-  $('[data-object~="number"]').show() if $(element).val() in ['integer', 'numeric']
+  $('[data-object~="range"]').show() if $(element).val() in ['integer', 'numeric', 'imperial_height', 'imperial_weight']
   $('[data-object~="date-or-time-of-day"]').show() if $(element).val() in ['date', 'time_of_day']
   $('[data-object~="calculated"]').show() if $(element).val() in ['calculated']
   $('[data-object~="date"]').show() if $(element).val() in ['date']

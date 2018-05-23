@@ -27,13 +27,26 @@
             Delete
   = @title
 
+- design_option = @variable.design_options.first
+- if design_option
+  - I18n.locale = World.language
+  = form_with do |form|
+    = form.hidden_field :language, value: World.language, name: :language
+    .dashboard-container
+      = render "sheet_variables/form", form: form, design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
+
+
 .dashboard-container
   %table.table.table-borderless
     %col.d-none.d-sm-table-column{ width: "30%" }
     %col.d-table-column.d-sm-none{ width: "50%" }
+
     %tr
-      %th Creator
-      %td= link_to @variable.user.full_name, @variable.user if @variable.user
+      %th Design
+      %td
+        %ul.list-unstyled
+          - @variable.inherited_designs.each do |design|
+            %li= link_to design.name, [design.project, design]
 
     %tr
       %th Name
@@ -44,47 +57,58 @@
       %th Variable Type
       %td
         %code= @variable.variable_type
-    %tr
-      %th Header
-      %td= simple_markdown @variable.header
-    %tr
-      %th Display Name
-      %td
-        = @variable.display_name
-    %tr
-      %th Display Layout
-      %td= @variable.display_layout_name
-    %tr
-      %th Description
-      %td= simple_format @variable.description
-    %tr
-      %th Field Note
-      %td= @variable.field_note
 
-    %tr
-      %th Prepend
-      %td= @variable.prepend
-
-    %tr
-      %th Append
-      %td= @variable.append
-
-    - if ["integer", "numeric"].include?(@variable.variable_type)
+    - if @variable.header.present?
       %tr
-        %th Hard Minimum
-        %td= @variable.hard_minimum
+        %th Header
+        %td= simple_markdown @variable.header
 
+    - if false
       %tr
-        %th Hard Maximum
-        %td= @variable.hard_maximum
+        %th Display Name
+        %td
+          = @variable.display_name
 
+    - if @variable.description.present?
       %tr
-        %th Soft Minimum
-        %td= @variable.soft_minimum
+        %th Description
+        %td= simple_format @variable.description
 
+    - if @variable.field_note.present?
       %tr
-        %th Soft Maximum
-        %td= @variable.soft_maximum
+        %th Field Note
+        %td= @variable.field_note
+
+    - if @variable.prepend.present?
+      %tr
+        %th Prepend
+        %td= @variable.prepend
+
+    - if @variable.append.present?
+      %tr
+        %th Append
+        %td= @variable.append
+
+    - if ["integer", "numeric", "imperial_height", "imperial_weight"].include?(@variable.variable_type)
+      - if @variable.hard_minimum.present?
+        %tr
+          %th Hard Minimum
+          %td= @variable.hard_minimum
+
+      - if @variable.soft_minimum.present?
+        %tr
+          %th Soft Minimum
+          %td= @variable.soft_minimum
+
+      - if @variable.soft_maximum.present?
+        %tr
+          %th Soft Maximum
+          %td= @variable.soft_maximum
+
+      - if @variable.hard_maximum.present?
+        %tr
+          %th Hard Maximum
+          %td= @variable.hard_maximum
 
     - if ["integer", "numeric", "calculated"].include?(@variable.variable_type)
       %tr
@@ -92,21 +116,25 @@
         %td= @variable.units
 
     - if ["date"].include?(@variable.variable_type)
-      %tr
-        %th Date Hard Minimum
-        %td= format_date @variable.date_hard_minimum
+      - if @variable.date_hard_minimum.present?
+        %tr
+          %th Date Hard Minimum
+          %td= format_date @variable.date_hard_minimum
 
-      %tr
-        %th Date Hard Maximum
-        %td= format_date @variable.date_hard_maximum
+      - if @variable.date_soft_minimum.present?
+        %tr
+          %th Date Soft Minimum
+          %td= format_date @variable.date_soft_minimum
 
-      %tr
-        %th Date Soft Minimum
-        %td= format_date @variable.date_soft_minimum
+      - if @variable.date_soft_maximum.present?
+        %tr
+          %th Date Soft Maximum
+          %td= format_date @variable.date_soft_maximum
 
-      %tr
-        %th Date Soft Maximum
-        %td= format_date @variable.date_soft_maximum
+      - if @variable.date_hard_maximum.present?
+        %tr
+          %th Date Hard Maximum
+          %td= format_date @variable.date_hard_maximum
 
       %tr
         %th Show current date
@@ -164,13 +192,6 @@
             - @variable.child_variables.each do |child_variable|
               %li= link_to child_variable.display_name, [child_variable.project, child_variable]
 
-    %tr
-      %th Designs
-      %td
-        %ul.list-unstyled
-          - @variable.inherited_designs.each do |design|
-            %li= link_to design.name, [design.project, design]
-
     - if @variable.domain
       %tr
         %th Domain
@@ -178,11 +199,3 @@
 
   - if @variable.domain
     = render "domain_options/domain_options", domain: @variable.domain, domain_options: @variable.domain.domain_options
-
-- design_option = @variable.design_options.first
-- if design_option
-  - I18n.locale = World.language
-  = form_with do |form|
-    = form.hidden_field :language, value: World.language, name: :language
-    .dashboard-container
-      = render "sheet_variables/form", form: form, design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []

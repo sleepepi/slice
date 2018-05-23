@@ -1,0 +1,28 @@
+- if variable.hard_minimum.present? || variable.soft_minimum.present? || variable.hard_maximum.present? || variable.soft_maximum.present?
+  - if variable.hard_minimum.present?
+    %div
+      %code
+        Hard Min:
+      %code
+        = "#{variable.hard_minimum} #{variable.export_units}"
+
+  - if variable.soft_minimum.present?
+    %div
+      %code
+        Soft Min:
+      %code
+        = "#{variable.soft_minimum} #{variable.export_units}"
+
+  - if variable.soft_maximum.present?
+    %div
+      %code
+        Soft Max:
+      %code
+        = "#{variable.soft_maximum} #{variable.export_units}"
+
+  - if variable.hard_maximum.present?
+    %div
+      %code
+        Hard Max:
+      %code
+        = "#{variable.hard_maximum} #{variable.export_units}"
