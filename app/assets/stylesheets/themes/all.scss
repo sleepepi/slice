@@ -6,6 +6,7 @@
 @import 'themes/night';
 @import 'themes/spring';
 @import 'themes/underwater';
+@import 'themes/fall';
 @import 'themes/winter';
 @import 'themes/royal';
 
@@ -15,6 +16,7 @@ $themes: (
   night: $night,
   spring: $spring,
   underwater: $underwater,
+  fall: $fall,
   winter: $winter,
   royal: $royal,
 );

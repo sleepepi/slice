@@ -1,0 +1,42 @@
+$fall: (
+  brand-white: #fff,
+  brand-black: $p900-grey,
+
+  p50: $p50-amber,
+  p100: $p100-amber,
+  p200: $p200-amber,
+  p300: $p300-amber,
+  p400: $p400-amber,
+  p500: $p500-amber,
+  p600: $p600-amber,
+  p700: $p700-amber,
+  p800: $p800-amber,
+  p900: $p900-amber,
+
+  primary: $p500-orange,
+  accent: $p700-light-green,
+
+  menu-bg: rgba($p700-amber, .75),
+  menu-color: null, // brand-white
+  menu-bg-scrolled: $p600-amber,
+
+  header-bg: rgba($p600-amber, .75),
+
+  body-bg: $p50-grey,
+  body-color: $p900-grey,
+  body-focus: $p800-amber,
+
+  footer-bg: rgba($p700-brown, .75),
+  footer-color: #fff,
+
+  dashboard-bg: #fff,
+  form-title-bg: $p700-amber, // $p500-COLOR
+  form-title-color: #fff,
+  form-bg: $p50-grey,
+
+  input-bg: null, // $white
+  input-color: null, // $p800-grey
+
+  box-shadow-color: rgba(0, 0, 0, .15),
+  shadow-color: rgba(0, 0, 0, .3),
+);

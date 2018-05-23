@@ -17,6 +17,8 @@
     before users can click on it
   - The sheets index now has an Actions column to quickly edit, unlock, or
     delete a sheet
+- **Theme Changes**
+  - Added a fall theme
 - **Translation Changes**
   - Added Spanish translations for variable validation messages
 - **Variable Changes**
