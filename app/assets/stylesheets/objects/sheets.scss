@@ -203,22 +203,22 @@ input[type="number"] {
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .sheet-drag-helper {
-      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
       border-color: theme-color($theme, table-border, $p300-grey);
       box-shadow: 0 0 5px map-get($theme, box-shadow-color);
     }
 
     .variable-shade {
-      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
       border-color: theme-color($theme, table-border, $p300-grey);
 
       .table {
-        background-color: theme-color($theme, table-bg-accent, $p50-grey);
+        background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
       }
 
       .table-sticky {
         th {
-          background-color: theme-color($theme, table-bg-accent, $p50-grey);
+          background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
         }
       }
     }
@@ -234,11 +234,11 @@ input[type="number"] {
     }
 
     .variable-shade .shade-or-blind-background {
-      background-color: theme-color($theme, table-bg-accent, $p50-grey);
+      background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
 
       .table-sticky {
         th {
-          background-color: theme-color($theme, table-bg-accent, $p50-grey);
+          background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
         }
       }
     }

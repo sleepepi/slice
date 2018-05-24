@@ -379,7 +379,7 @@ $chosen-sprite-retina: asset-url('chosen-sprite@2x.png') !default;
           }
 
           &.no-results {
-            background-color: theme-color($theme, table-bg-accent, $p50-grey);
+            background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
             color: $text-muted;
           }
         }
