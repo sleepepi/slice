@@ -87,7 +87,6 @@ class Subject < ApplicationRecord
     end
   end
 
-  # TODO: Should this look across grids or responses as well...?
   def has_value?(variable, value)
     domain_option = variable.domain_options.find_by(value: value)
     if domain_option
