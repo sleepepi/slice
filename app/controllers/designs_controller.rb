@@ -29,9 +29,7 @@ class DesignsController < ApplicationController
     if File.exist?(file_pdf_location)
       send_file file_pdf_location, filename: "design_#{@design.id}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
     else
-      # TODO: Redirect to a location that a viewer could see as well, perhaps
-      # the basic design report project_reports_basic(@project, @design)
-      redirect_to [@project, @design]
+      redirect_to [@project, @design], alert: "Failed to generate PDF."
     end
   end
 
