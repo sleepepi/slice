@@ -1,6 +1,6 @@
 - missing_responses = responses.select(&:blank?)
 - valid_responses = responses.reject(&:blank?).map(&:to_i).sort
-- valid_sheets = sheet_scope.with_stratum(current_user, variable, nil, "any")
+- valid_sheets = sheet_scope.filter_variable(variable, current_user, "any")
 - no_responses = valid_responses.count.zero?
 
 - unless no_responses

@@ -38,10 +38,6 @@ class Sheet < ApplicationRecord
   scope :sheet_before, ->(*args) { where("sheets.created_at < ?", (args.first + 1.day).at_midnight) }
   scope :sheet_after, ->(*args) { where("sheets.created_at >= ?", args.first.at_midnight) }
 
-  # These don't include blank codes
-  scope :with_variable_response_after, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value >= ? and sheet_variables.value != '')", args.first, args[1]) }
-  scope :with_variable_response_before, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value <= ? and sheet_variables.value != '')", args.first, args[1]) }
-
   # Validations
   validates :design_id, :project_id, :subject_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
@@ -111,34 +107,6 @@ class Sheet < ApplicationRecord
     Grid.where(sheet_variable_id: sheet_variables.select(:id)).pluck(:position).max || -1
   end
 
-  # stratum can be nil (grouping on site) or a variable (grouping on the variable responses)
-  # TODO: This can be cleaned up using the new Search module along with operators.
-  def self.with_stratum(current_user, variable, value, operator, stratum_start_date = nil, stratum_end_date = nil)
-    if variable.variable_type == "design"
-      where(design_id: value)
-    elsif variable.variable_type == "site"
-      with_site(value)
-    elsif operator == "any" && !%w(sheet_date).include?(variable.variable_type)
-      filter_variable(variable, current_user, "any")
-    elsif %w(sheet_date date).include?(variable.variable_type) && !%w(blank missing).include?(operator)
-      sheet_after_variable(variable, stratum_start_date).sheet_before_variable(variable, stratum_end_date)
-    elsif value.present? # Ex: variable: variables(:gender), value: "f"
-      if variable.variable_type == "file"
-        # TODO: This may be able to target a specific file.
-        filter_variable(variable, current_user, "any")
-      elsif variable.variable_type == "checkbox"
-        filter_variable(variable, current_user, "=", value: value)
-      else
-        filter_variable(variable, current_user, "=", value: value)
-      end
-    elsif operator == "blank"
-      filter_variable(variable, current_user, operator)
-    else # Ex: variable: variables(:gender), value: nil
-      filter_variable(variable, current_user, "missing")
-    end
-  end
-
-  # TODO: Temporary rewrite to use Search instead of sheet scopes
   def self.filter_variable(variable, current_user, operator, value: nil)
     token = Token.new(key: variable.name, operator: operator, variable: variable, value: value)
     Search.run_sheets(
@@ -147,22 +115,6 @@ class Sheet < ApplicationRecord
       current_user.all_viewable_sheets.where(project_id: variable.project.id).where(missing: false),
       token
     ).where(design_id: variable.designs.select(:id))
-  end
-
-  def self.sheet_after_variable(variable, date)
-    if variable.variable_type == "date"
-      with_variable_response_after(variable, date)
-    else
-      sheet_after(date)
-    end
-  end
-
-  def self.sheet_before_variable(variable, date)
-    if variable.variable_type == "date"
-      with_variable_response_before(variable, date)
-    else
-      sheet_before(date)
-    end
   end
 
   # Buffers with blank responses for sheets that don't have a sheet_variable for the specific variable

@@ -35,11 +35,13 @@
       = render "sections/show", design_option: design_option, section: section
   - elsif variable
     %a.anchor-top{ id: variable.name }
-    .dashboard-lead
-      - if variable.export_units.present?
-        .float-right
-          %span.badge.badge-accent= variable.export_units
-      = link_to variable.display_name, "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-unstyled"
     .dashboard-container
+      .mb-3
+        - if variable.export_units.present?
+          .float-right
+            %span.badge.badge-accent= variable.export_units
+        = link_to "##{variable.name}", data: { object: "scroll-anchor-keep-link" }, class: "link-unstyled" do
+          = simple_style variable.display_name
+
       - responses = @sheets.sheet_responses(variable)
       = render "reports/designs/overview/#{variable.variable_type}", variable: variable, sheet_scope: @sheets, responses: responses, event_id: @event ? @event.to_param : nil
