@@ -56,17 +56,6 @@ $(document)
     updateAllDesignOptionsVisibility()
     updateCalculatedVariables()
   )
-  .on('click', '[data-object~="design-stop-edit"]', (e) ->
-    design_id = parseInt($('#design_id').val())
-    url = $(this).data('path')
-    url += "/#{design_id}" if design_id > 0
-
-    if nonStandardClick(e)
-      window.open(url)
-    else
-      window.location = url
-    false
-  )
   .on('click', '#reorder_design_button', ->
     if $(this).attr('disabled') != 'disabled'
       $('#reorder_design_button, #reorder_design_sections_button').attr('disabled', 'disabled')
