@@ -1,7 +1,7 @@
 - @title = "#{@design.name} Overview"
 - @menu_title = "#{@project.name} #{@title}"
 - @breadcrumbs = []
-- @breadcrumbs << ["Reports", reports_reports_project_path(@project)]
+- @breadcrumbs << ["Reports", reports_project_path(@project)]
 
 - content_for :container_class, "container-fluid"
 - content_for :sidebar, render("projects/sidebar")

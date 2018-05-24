@@ -123,19 +123,6 @@ Rails.application.routes.draw do
     patch :update
   end
 
-  namespace :reports do
-    resources :projects, only: [] do
-      member do
-        get :report
-        post :report
-        get :reports
-        post :filters
-        post :new_filter
-        post :edit_filter
-      end
-    end
-  end
-
   resources :projects, only: [:index, :show, :new, :create], constraints: { format: /json|pdf|csv|js/ } do
     collection do
       get :search
@@ -144,19 +131,18 @@ Rails.application.routes.draw do
 
     member do
       get :activity
-      get :team
+      get :calendar
       get :logo
+      get :reports
+      get :team
       post :archive
       get :advanced, to: redirect("editor/projects/%{id}/advanced")
       get :settings, to: redirect("editor/projects/%{id}/settings")
-      get :calendar
     end
 
     namespace :reports do
       get "designs/:id/basic", controller: :designs, action: :basic, as: :design_basic
       get "designs/:id/overview", controller: :designs, action: :overview, as: :design_overview
-      get "designs/:id/advanced", controller: :designs, action: :advanced, as: :design_advanced
-      post "designs/:id/advanced", controller: :designs, action: :advanced_report
     end
 
     resources :adverse_events, path: "adverse-events" do
@@ -355,7 +341,6 @@ Rails.application.routes.draw do
       collection do
         post :add_grid_variable
         post :add_question
-        post :report_lookup
         get :search
       end
     end

@@ -10,12 +10,6 @@ class VariablesControllerTest < ActionController::TestCase
     @variable = variables(:one)
   end
 
-  test "should get report lookup" do
-    post :report_lookup, params: { variable_id: "sheet_date", project_id: @project }, format: "js"
-    assert_template "report_lookup"
-    assert_response :success
-  end
-
   test "should get copy" do
     get :copy, params: { id: @variable, project_id: @project }
     assert_not_nil assigns(:variable)

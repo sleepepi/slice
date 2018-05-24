@@ -4,7 +4,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar
+    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar, :reports
   ]
 
   # POST /projects/save_project_order.js
@@ -86,6 +86,11 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/activity
   def activity
+    render layout: "layouts/full_page_sidebar"
+  end
+
+  # GET /projects/1/reports
+  def reports
     render layout: "layouts/full_page_sidebar"
   end
 

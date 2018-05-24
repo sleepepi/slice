@@ -169,4 +169,16 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     get calendar_project_url(@project)
     assert_response :success
   end
+
+  test "should get reports as project editor" do
+    login(@project_editor)
+    get reports_project_url(@project)
+    assert_response :success
+  end
+
+  test "should get reports as project viewer" do
+    login(users(:project_one_viewer))
+    get reports_project_url(@project)
+    assert_response :success
+  end
 end

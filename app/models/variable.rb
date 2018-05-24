@@ -258,22 +258,6 @@ class Variable < ApplicationRecord
     end
   end
 
-  def options_or_autocomplete(include_missing)
-    if variable_type == "string"
-      NaturalSort.sort(autocomplete_array.reject(&:blank?).collect { |val| { name: val, value: val } }) + NaturalSort.sort(user_submitted_sheet_variables.collect { |sv| { name: sv.value, value: sv.value, info: "User Submitted" } }.uniq { |a| a[:value].downcase })
-    else
-      doscope = \
-        if include_missing
-          domain_options
-        else
-          domain_options.where(missing_code: false)
-        end
-      doscope.collect do |domain_option|
-        { name: domain_option.name, value: domain_option.value, missing_code: domain_option.missing_code? ? "1" : "0" }
-      end
-    end
-  end
-
   # Responses that are user submitted and not on autocomplete list
   def user_submitted_sheet_variables
     sheet_variables.reject { |sv| autocomplete_array.include?(sv.value.to_s.strip) || sv.value.to_s.strip.blank? }
@@ -281,195 +265,6 @@ class Variable < ApplicationRecord
 
   def formatted_calculation
     readable_calculation.to_s.gsub(/\?|\:/, "<br/>&nbsp;\0<br/>").html_safe
-  end
-
-  def statistics?
-    %w(integer numeric calculated imperial_height imperial_weight time_of_day time_duration).include?(variable_type)
-  end
-
-  def has_domain?
-    %w(dropdown checkbox radio integer numeric).include?(variable_type)
-  end
-
-  # Captured values are limited to a finite set of options.
-  def finite_set_options?
-    %w(dropdown checkbox radio).include?(variable_type)
-  end
-
-  def report_strata(include_missing, max_strata, hash, sheet_scope)
-    strata = base_strata(sheet_scope, include_missing, hash)
-    strata << missing_filter if include_missing && !%w(site sheet_date dropdown radio string checkbox).include?(variable_type)
-    strata.collect! { |s| s.merge(calculator: self, variable: self) }
-    strata.last(max_strata)
-  end
-
-  def base_strata(sheet_scope, include_missing, hash)
-    if statistics? && hash[:axis] == "col"
-      statistic_filters
-    elsif %w(dropdown radio string checkbox).include?(variable_type)
-      domain_filters(sheet_scope, include_missing)
-    elsif variable_type == "design"
-      design_filters
-    elsif variable_type == "site"
-      site_filters
-    elsif %w(sheet_date date).include?(variable_type)
-      date_filters(sheet_scope, hash)
-    else # Create a Filter that shows if the variable is present.
-      presence_filters(hash)
-    end
-  end
-
-  def statistic_filters
-    [
-      { filters: [], name: "N",      tooltip: "N",      calculation: "array_count"                            },
-      { filters: [], name: "Mean",   tooltip: "Mean",   calculation: "array_mean"                             },
-      { filters: [], name: "StdDev", tooltip: "StdDev", calculation: "array_standard_deviation", symbol: "pm" },
-      { filters: [], name: "Median", tooltip: "Median", calculation: "array_median"                           },
-      { filters: [], name: "Min",    tooltip: "Min",    calculation: "array_min"                              },
-      { filters: [], name: "Max",    tooltip: "Max",    calculation: "array_max"                              }
-    ]
-  end
-
-  def domain_filters(sheet_scope, include_missing)
-    filters = [{ filters: [{ variable: self, value: nil, operator: "any" }], name: "N", tooltip: "N", calculation: "array_count", column_type: "total" }]
-    unique_responses = unique_responses_for_sheets(sheet_scope)
-    filters += options_or_autocomplete(include_missing)
-               .select { |h| unique_responses.include?(h[:value]) }
-               .collect { |h| h.merge(filters: [{ variable: self, value: h[:value] }], tooltip: h[:value].present? ? "#{h[:value]}: #{h[:name]}" : h[:name]) }
-    filters << blank_filter if include_missing
-    filters
-  end
-
-  def design_filters
-    project.designs.order(:name).collect do |design|
-      {
-        filters: [{ variable: self, value: design.id.to_s }],
-        name: design.name,
-        tooltip: design.name,
-        link: "/projects/#{project.to_param}/reports/designs/#{design.id}/advanced",
-        value: design.id.to_s,
-        calculation: "array_count",
-        hide_value: "1"
-      }
-    end
-  end
-
-  def site_filters
-    project.sites.order(:name).collect do |site|
-      {
-        filters: [{ variable: self, value: site.id.to_s }],
-        name: site.name,
-        tooltip: site.name,
-        value: site.id.to_s,
-        calculation: "array_count",
-        hide_value: "1"
-      }
-    end
-  end
-
-  def date_filters(sheet_scope, hash)
-    date_buckets = generate_date_buckets(sheet_scope, hash[:by] || "month")
-    date_buckets.reverse! unless hash[:axis] == "col"
-    date_buckets.collect do |date_bucket|
-      {
-        filters: [{ variable: self,
-                    start_date: date_bucket[:start_date],
-                    end_date: date_bucket[:end_date] }],
-        name: date_bucket[:name], tooltip: date_bucket[:tooltip],
-        calculation: "array_count",
-        start_date: date_bucket[:start_date], end_date: date_bucket[:end_date]
-      }
-    end
-  end
-
-  def presence_filters(hash)
-    display_name = "#{"#{hash[:variable].display_name} " if hash[:axis] == 'col'}Any"
-    [{ filters: [{ variable: self, value: nil, operator: "any" }], name: display_name, tooltip: display_name, muted: false }]
-  end
-
-  def missing_filter
-    { filters: [{ variable: self, value: nil, operator: "missing" }], name: "Missing", tooltip: "Missing", muted: true }
-  end
-
-  def blank_filter
-    { filters: [{ variable: self, value: nil, operator: "blank" }], name: "Blank", tooltip: "Blank", muted: true }
-  end
-
-  def unique_responses_for_sheets(sheet_scope)
-    if variable_type == "checkbox"
-      sheet_scope.sheet_responses_for_checkboxes(self).uniq
-    else
-      sheet_scope.sheet_responses(self).uniq
-    end
-  end
-
-  def edge_date(sheet_scope, method)
-    if variable_type == "sheet_date"
-      sheet_scope.pluck(:created_at).send(method).to_date
-    else
-      Date.strptime(sheet_scope.sheet_responses(self).reject(&:blank?).send(method), "%Y-%m-%d")
-    end
-  rescue
-    Time.zone.today
-  end
-
-  def min_date(sheet_scope)
-    edge_date(sheet_scope, :min)
-  end
-
-  def max_date(sheet_scope)
-    edge_date(sheet_scope, :max)
-  end
-
-  def generate_date_buckets(sheet_scope, by)
-    max_length_of_time_in_years = 200
-    min = min_date(sheet_scope)
-    max = max_date(sheet_scope)
-    date_buckets = []
-    last_years = (min.year..max.year).last(max_length_of_time_in_years)
-    case by
-    when "week"
-      current_cweek = min.cweek
-      last_years.each do |year|
-        (current_cweek..Date.parse("#{year}-12-28").cweek).each do |cweek|
-          start_date = Date.commercial(year, cweek) - 1.day
-          end_date = Date.commercial(year, cweek) + 5.days
-          date_buckets << { name: "Week #{cweek}", tooltip: "#{year} #{start_date.strftime('%m/%d')}-#{end_date.strftime('%m/%d')} Week #{cweek}", start_date: start_date, end_date: end_date }
-          break if year == max.year && cweek == max.cweek
-        end
-        current_cweek = 1
-      end
-    when "month"
-      current_month = min.month
-      last_years.each do |year|
-        (current_month..12).each do |month|
-          start_date = Date.parse("#{year}-#{month}-01")
-          end_date = Date.parse("#{year}-#{month}-01").end_of_month
-          date_buckets << { name: "#{Date::ABBR_MONTHNAMES[month]} #{year}", tooltip: "#{Date::MONTHNAMES[month]} #{year}", start_date: start_date, end_date: end_date }
-          break if year == max.year && month == max.month
-        end
-        current_month = 1
-      end
-    when "year"
-      last_years.each do |year|
-        start_date = Date.parse("#{year}-01-01")
-        end_date = Date.parse("#{year}-12-31")
-        date_buckets << { name: year.to_s, tooltip: year.to_s, start_date: start_date, end_date: end_date }
-      end
-    end
-    date_buckets
-  end
-
-  def self.site(project_id)
-    new project_id: project_id, name: "site", display_name: "Site", variable_type: "site"
-  end
-
-  def self.sheet_date(project_id)
-    new project_id: project_id, name: "sheet_date", display_name: "Sheet Date", variable_type: "sheet_date"
-  end
-
-  def self.design(project_id)
-    new project_id: project_id, name: "design", display_name: "Design", variable_type: "design"
   end
 
   def sas_informat
@@ -620,14 +415,6 @@ class Variable < ApplicationRecord
     end
   end
 
-  def display_class(is_grid)
-    if display_inline?(is_grid)
-      "#{variable_type}-inline"
-    else
-      variable_type
-    end
-  end
-
   def display_inline?(is_grid)
     is_grid || %w(horizontal scale).include?(alignment)
   end
@@ -665,10 +452,6 @@ class Variable < ApplicationRecord
     new_domain = project.domains.find_by(id: new_domain_id)
     old_domain.remove_domain_values! if old_domain
     new_domain.add_domain_values! if new_domain
-  end
-
-  def display_layout_name
-    DISPLAY_LAYOUTS.find { |_name, value| value == display_layout }.first
   end
 
   def save_translation!(variable_params)

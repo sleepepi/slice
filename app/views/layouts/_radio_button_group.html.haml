@@ -1,4 +1,0 @@
-- options.each do |label, value|
-  .custom-control.custom-radio.mr-3
-    = radio_button_tag name, value.to_s, selected.to_s == value.to_s, class: "custom-control-input"
-    = label_tag name, label, for: "#{name}_#{value}", class: "custom-control-label"

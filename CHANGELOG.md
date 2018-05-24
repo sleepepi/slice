@@ -1,5 +1,8 @@
 ## 64.0.0
 
+### Refactoring
+- Removed underutilized project summary report and advanced design reports
+
 ## 63.0.0 (May 24, 2018)
 
 ### Enhancements

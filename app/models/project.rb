@@ -88,10 +88,6 @@ class Project < ApplicationRecord
     name.gsub(/[^a-zA-Z0-9_]/, "_")
   end
 
-  def recent_sheets
-    sheets.where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.days : Time.zone.now - 1.day))
-  end
-
   def owner?(current_user)
     user == current_user
   end
@@ -105,40 +101,8 @@ class Project < ApplicationRecord
     current_user.all_sheet_editable_projects.where(id: id).count == 1
   end
 
-  def designs_with_event
-    designs.joins(:event_designs)
-  end
-
-  def designs_without_event
-    designs.where.not(id: designs_with_event.select(:id))
-  end
-
-  def can_edit_sheets_and_subjects?(current_user)
-    current_user.all_sheet_editable_projects.where(id: id).count == 1
-  end
-
   def subject_code_name_full
     subject_code_name.to_s.strip.blank? ? "Subject Code" : subject_code_name.to_s.strip
-  end
-
-  # TODO: Refactor
-  def users_to_email
-    (users + [user] + sites.collect(&:users).flatten).uniq
-                                                     .select(&:emails_enabled?) # User setting
-                                                     .select { |u| emails_enabled?(u) } # Project setting
-  end
-
-  # Returns "fake" constructed variables like "site" and "sheet_date"
-  def variable_by_id(variable_id)
-    if variable_id == "design"
-      Variable.design(id)
-    elsif variable_id == "site"
-      Variable.site(id)
-    elsif variable_id == "sheet_date"
-      Variable.sheet_date(id)
-    else
-      variables.find_by(id: variable_id)
-    end
   end
 
   def create_valid_subject(site_id)
@@ -165,10 +129,6 @@ class Project < ApplicationRecord
 
   def unblinded?(current_user)
     !blinding_enabled? || user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
-  end
-
-  def blinded_comments(current_user)
-    Comment.current.where(sheet_id: current_user.all_viewable_sheets.where(missing: false, project_id: id).select(:id))
   end
 
   def show_type

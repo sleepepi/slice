@@ -147,21 +147,6 @@ class Design < ApplicationRecord
     design_options.joins(:section).where(sections: { level: 0 })
   end
 
-  def design_options_grouped_by_section
-    result = []
-    current_section = ["", []]
-    design_options.each do |design_option|
-      if design_option.section
-        result << current_section unless current_section == ["", []]
-        current_section = [design_option.section.name, []]
-      elsif design_option.variable
-        current_section[1] << [design_option.variable.display_name, design_option.variable_id]
-      end
-    end
-    result << current_section unless current_section == ["", []]
-    result
-  end
-
   def reorder_sections(section_order, current_user)
     return if section_order.size == 0 || section_order.sort != (0..main_sections.count - 1).to_a
     original_sections = {}
@@ -210,28 +195,6 @@ class Design < ApplicationRecord
 
     File.open(file_tex, "w") do |file|
       file.syswrite(ERB.new(latex_partial("print")).result(binding))
-    end
-
-    Design.generate_pdf(jobname, output_folder, file_tex)
-  end
-
-  def latex_report_new_file_location(current_user, orientation, report_title, report_subtitle, report_caption, percent, table_header, table_body, table_footer)
-    @design = self
-    @project = @design.project
-    @report_title = report_title
-    @report_subtitle = report_subtitle
-    @report_caption = report_caption
-    @percent = percent
-    @table_header = table_header
-    @table_body = table_body
-    @table_footer = table_footer
-
-    jobname = "project_#{@project.id}_design_#{id}_report"
-    output_folder = File.join("tmp", "files", "tex")
-    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
-
-    File.open(file_tex, "w") do |file|
-      file.syswrite(ERB.new(latex_partial("report_new")).result(binding))
     end
 
     Design.generate_pdf(jobname, output_folder, file_tex)

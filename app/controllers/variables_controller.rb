@@ -3,24 +3,17 @@
 # Allows project editors to view and modify project variables.
 class VariablesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_viewable_project_or_redirect, only: [
-    :report_lookup, :search
-  ]
+  before_action :find_viewable_project_or_redirect, only: :search
   before_action :find_editable_project_or_redirect, only: [
     :index, :show, :new, :edit, :create, :update, :destroy, :copy,
     :add_grid_variable, :restore
   ]
-  before_action :find_restorable_variable_or_redirect, only: [:restore]
+  before_action :find_restorable_variable_or_redirect, only: :restore
   before_action :find_editable_variable_or_redirect, only: [
     :show, :edit, :update, :destroy
   ]
 
   layout "layouts/full_page_sidebar"
-
-  # POST /projects/:project_id/variables/report_lookup
-  def report_lookup
-    @variable = @project.variable_by_id(params[:variable_id])
-  end
 
   # GET /projects/:project_id/variables/1/copy
   def copy

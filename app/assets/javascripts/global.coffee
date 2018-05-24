@@ -25,7 +25,6 @@
   globalReady()
   designsReady()
   domainsReady()
-  filtersReady()
   reportsReady()
   sheetsReady()
   variablesReady()

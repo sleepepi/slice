@@ -1,0 +1,16 @@
+.dashboard-container.dashboard-table
+  %h3.px-2.py-1 Reports
+
+  - @project.designs.blinding_scope(current_user).includes(:category).order("categories.position", :name).group_by(&:category).each do |category, designs|
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %thead
+        %tr
+          %th{ colspan: "3" }
+            - if category
+              = category.name
+            - else
+              Uncategorized
+      %tbody
+        - designs.each do |design|
+          %tr
+            %td= link_to design.name, project_reports_design_overview_path(design.project, design)

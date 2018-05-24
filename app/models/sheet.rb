@@ -42,14 +42,6 @@ class Sheet < ApplicationRecord
   scope :with_variable_response_after, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value >= ? and sheet_variables.value != '')", args.first, args[1]) }
   scope :with_variable_response_before, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value <= ? and sheet_variables.value != '')", args.first, args[1]) }
 
-  # # Includes entered values, or entered missing values
-  # scope :with_any_variable_response, lambda { |*args| where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '')", args.first) }
-  # Includes only entered values (that are not marked as missing)
-  scope :with_any_variable_response_not_missing_code, ->(*args) { where("sheets.id IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [""] : args.first.missing_codes)) }
-  scope :with_checkbox_any_variable_response_not_missing_code, ->(*args) { where("sheets.id IN (select responses.sheet_id from responses where responses.variable_id = ? and responses.value IS NOT NULL and responses.value != '' and responses.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [""] : args.first.missing_codes)) }
-  # Include blank, unknown, or values entered as missing
-  scope :with_response_unknown_or_missing, ->(*args) { where("sheets.id NOT IN (select sheet_variables.sheet_id from sheet_variables where sheet_variables.variable_id = ? and sheet_variables.value IS NOT NULL and sheet_variables.value != '' and sheet_variables.value NOT IN (?))", args.first, (args.first.missing_codes.blank? ? [""] : args.first.missing_codes)) }
-
   # Validations
   validates :design_id, :project_id, :subject_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
@@ -288,43 +280,6 @@ class Sheet < ApplicationRecord
         end
     end
     number
-  end
-
-  def self.filter_sheet_scope(sheet_scope, filters, current_user)
-    (filters || []).each do |filter|
-      unless filter[:start_date].is_a?(Date)
-        filter[:start_date] = Date.parse(filter[:start_date]) rescue filter[:start_date] = nil
-      end
-      unless filter[:end_date].is_a?(Date)
-        filter[:end_date] = Date.parse(filter[:end_date]) rescue filter[:start_date] = nil
-      end
-      sheet_scope = sheet_scope.with_stratum(current_user, filter[:variable], filter[:value], filter[:operator], filter[:start_date], filter[:end_date])
-    end
-    sheet_scope
-  end
-
-  def self.array_responses_with_filters(sheet_scope, variable, filters, current_user)
-    sheet_scope = filter_sheet_scope(sheet_scope, filters, current_user)
-    array_responses(sheet_scope, variable)
-  end
-
-  def self.array_calculation_with_filters(sheet_scope, calculator, calculation, filters, current_user)
-    if calculator && calculator.statistics? && calculation.blank?
-      # Filtering against "Unknown BMI for example, include only missing codes and unknown"
-      sheet_scope = sheet_scope.with_response_unknown_or_missing(calculator)
-    elsif calculator && calculator.statistics?
-      # Filtering against "BMI for example, only include known responses"
-      sheet_scope = sheet_scope.with_any_variable_response_not_missing_code(calculator)
-    end
-    sheet_scope = filter_sheet_scope(sheet_scope, filters, current_user)
-    number = if calculator
-               array_calculation(sheet_scope, calculator, calculation)
-             else
-               Statistics.array_count(sheet_scope.pluck(:id))
-             end
-    name = (number.nil? ? "-" : number)
-    number = 0 unless number
-    [name, number]
   end
 
   # Who can view/access the design
