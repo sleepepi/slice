@@ -2,42 +2,42 @@
 
 one:
   project: one
-  user: valid
+  user: regular
   randomization_scheme: one
   value: 1
   allocation: 2
 
 two:
   project: one
-  user: valid
+  user: regular
   randomization_scheme: one
   value: 2
   allocation: 2
 
 three:
   project: one
-  user: valid
+  user: regular
   randomization_scheme: one
   value: 3
   allocation: 1
 
 four:
   project: one
-  user: valid
+  user: regular
   randomization_scheme: one
   value: 4
   allocation: 1
 
 five:
   project: two
-  user: valid
+  user: regular
   randomization_scheme: three
   value: 1
   allocation: 1
 
 six:
   project: one
-  user: valid
+  user: regular
   randomization_scheme: two
   value: 1
   allocation: 1

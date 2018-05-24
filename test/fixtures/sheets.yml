@@ -4,73 +4,73 @@ one:
   design: one
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   subject_event: one
 
 two_a:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 two_b:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 two_c:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 two_d:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 two_e:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 two_f:
   design: two
   project: two
   subject: sample
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 three:
   design: one
   project: one
   subject: three
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 file_attached:
   design: section_and_file
   project: one
   subject: three
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   uploaded_files_count: 1
 
 all_variables:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 external:
   design: admin_public_design
@@ -92,43 +92,43 @@ domain_data_captured:
   design: one_sheet_entered
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 has_grid:
   design: has_grid
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 has_grid_with_file:
   design: has_grid
   project: one
   subject: two
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 weight_and_gender_subject_one:
   design: weight_and_gender
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 weight_and_gender_subject_two:
   design: weight_and_gender
   project: one
   subject: two
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
 
 coverage_complete:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 11
   percent: 100
@@ -137,8 +137,8 @@ coverage_90:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 10
   percent: 90
@@ -147,8 +147,8 @@ coverage_70:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 8
   percent: 72
@@ -157,8 +157,8 @@ coverage_50:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 6
   percent: 55
@@ -167,8 +167,8 @@ coverage_30:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 4
   percent: 36
@@ -177,8 +177,8 @@ coverage_0:
   design: all_variable_types
   project: one
   subject: one
-  user: valid
-  last_user: valid
+  user: regular
+  last_user: regular
   total_response_count: 11
   response_count: 0
   percent: 0
@@ -187,55 +187,55 @@ coverage_empty:
   design: two_copy
   project: two
   subject: sample
-  user: valid
+  user: regular
 
 filled_out_half_visible:
   design: one
   project: one
   subject: one
-  user: valid
+  user: regular
 
 filled_out_all_visible:
   design: one
   project: one
   subject: one
-  user: valid
+  user: regular
 
 filled_out_entire_sheet:
   design: one
   project: one
   subject: one
-  user: valid
+  user: regular
 
 all_visible_not_all_answered:
   design: one
   project: one
   subject: one
-  user: valid
+  user: regular
 
 hidden_response_answered:
   design: one
   project: one
   subject: one
-  user: valid
+  user: regular
 
 checkbox_example_one:
   design: checkbox_and_radio
   project: one
   subject: one
-  user: valid
+  user: regular
 
 required_for_randomization:
   design: randomize
   project: two
   subject: eligible_for_randomization
-  user: valid
+  user: regular
 
 auto_lock:
   design: auto_lock
   project: auto_lock
   subject: auto_lock_site_one_subject_one
-  user: valid
+  user: regular
   created_at: 2016-03-01 12:30:45
   authentication_token: auto_lock
 
@@ -243,7 +243,7 @@ missing:
   design: auto_lock
   project: auto_lock
   subject: auto_lock_site_one_subject_one
-  user: valid
+  user: regular
   created_at: 2016-04-01 12:34:56
   missing: true
 
@@ -251,5 +251,5 @@ api_design:
   design: api_design
   project: api
   subject: api_one
-  user: valid
+  user: regular
   subject_event: api_one_api_event

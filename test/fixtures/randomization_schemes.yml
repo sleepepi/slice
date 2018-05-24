@@ -4,7 +4,7 @@ one:
   name: Randomization Scheme 1 - Published
   description: MyText
   project: one
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: permuted-block
@@ -13,7 +13,7 @@ two:
   name: Randomization Scheme 2
   description: MyText
   project: one
-  user: valid
+  user: regular
   published: false
   randomization_goal: 0
   algorithm: permuted-block
@@ -22,7 +22,7 @@ three:
   name: IQ and Education Randomization
   description: MyText
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 5
   algorithm: permuted-block
@@ -31,7 +31,7 @@ four:
   name: Randomization Scheme 2 - Published
   description: MyText
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 200
   algorithm: permuted-block
@@ -40,7 +40,7 @@ minimization:
   name: Minimization
   description: Randomization Scheme using Minimization Algorithm
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: minimization
@@ -50,7 +50,7 @@ minimization_not_by_site:
   name: Minimization Not By Site
   description: Randomization Scheme using Minimization Algorithm with One List
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: minimization
@@ -60,7 +60,7 @@ minimization_with_lists:
   name: Minimization
   description: Randomization Scheme using Minimization Algorithm with Lists
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: minimization
@@ -70,7 +70,7 @@ fully_random_minimization:
   name: Fully Random Minimization
   description: Fully Random
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: minimization
@@ -80,7 +80,7 @@ minimization_for_testing_edge_case:
   name: Male and Female
   description: This tests for an edge case where the randomization algorithm could choose the wrong treatment arm based on previous randomizations if including site while stratifying
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 10
   algorithm: minimization
@@ -90,7 +90,7 @@ minimization_with_required_variable:
   name: Minimization with Required Variable
   description: Scheme that ensures subject eligibility for randomizaton based on selected variable
   project: two
-  user: valid
+  user: regular
   published: true
   randomization_goal: 100
   algorithm: minimization

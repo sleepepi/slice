@@ -3,7 +3,7 @@ one:
   display_name: Variable One
   description: MyText
   variable_type: dropdown
-  user: valid
+  user: regular
   project: one
   domain: var_one_options
   field_note: Field Note
@@ -14,7 +14,7 @@ two:
   display_name: Variable Two
   description: MyText
   variable_type: string
-  user: valid
+  user: regular
   project: one
   domain: var_two_options
 
@@ -23,7 +23,7 @@ dropdown:
   display_name: Gender
   description: MyText
   variable_type: dropdown
-  user: valid
+  user: regular
   project: one
   domain: var_dropdown_options
 
@@ -32,7 +32,7 @@ checkbox:
   display_name: Course Work
   description: All the courses I've taken
   variable_type: checkbox
-  user: valid
+  user: regular
   project: one
   domain: var_checkbox_options
 
@@ -41,7 +41,7 @@ dropdown_two:
   display_name: Yes or No
   # description: MyText
   variable_type: dropdown
-  user: valid
+  user: regular
   project: two
   domain: checkbox_two_domain
 
@@ -50,7 +50,7 @@ checkbox_two:
   display_name: Checkbox on Two
   # description:
   variable_type: checkbox
-  user: valid
+  user: regular
   project: two
   domain: checkbox_two_domain
 
@@ -60,7 +60,7 @@ numeric_two:
   description: Weight on Two
   units: 'lbs'
   variable_type: numeric
-  user: valid
+  user: regular
   project: two
 
 time_two:
@@ -68,7 +68,7 @@ time_two:
   display_name: Time Two
   # description:
   variable_type: time_of_day
-  user: valid
+  user: regular
   project: two
 
 radio:
@@ -76,7 +76,7 @@ radio:
   display_name: Year
   description: Year in School
   variable_type: radio
-  user: valid
+  user: regular
   project: one
   domain: var_radio_options
 
@@ -85,7 +85,7 @@ radio_no_domain:
   display_name: Radio No Domain
   # description:
   variable_type: radio
-  user: valid
+  user: regular
   project: one
   # domain:
 
@@ -94,7 +94,7 @@ string:
   display_name: Hobbies
   description: List your Hobbies
   variable_type: string
-  user: valid
+  user: regular
   project: one
 
 text:
@@ -102,7 +102,7 @@ text:
   display_name: Life Goals
   description: What is the meaning of your life?
   variable_type: text
-  user: valid
+  user: regular
   project: one
 
 integer:
@@ -114,7 +114,7 @@ integer:
   soft_minimum: 18
   soft_maximum: 65
   hard_maximum: 120
-  user: valid
+  user: regular
   project: one
   domain: integer_unknown
 
@@ -127,7 +127,7 @@ integer_no_range:
   # soft_minimum:
   # soft_maximum:
   # hard_maximum:
-  user: valid
+  user: regular
   project: one
 
 numeric:
@@ -135,7 +135,7 @@ numeric:
   display_name: Weight
   description: Weight (lbs)
   variable_type: numeric
-  user: valid
+  user: regular
   project: one
 
 date:
@@ -143,7 +143,7 @@ date:
   display_name: Today's Date
   description: Enter Today's Date!
   variable_type: date
-  user: valid
+  user: regular
   project: one
   # date_hard_maximum:
   date_hard_minimum: 1990-01-01
@@ -156,7 +156,7 @@ date_no_range:
   display_name: Date with No Range
   description: This date has no range
   variable_type: date
-  user: valid
+  user: regular
   project: one
   # date_hard_maximum:
   # date_hard_minimum:
@@ -169,7 +169,7 @@ time_of_day:
   display_name: 24 Hour Clock
   description: Enter your favorite time of day.
   variable_type: time_of_day
-  user: valid
+  user: regular
   project: one
 
 time_of_day_no_range:
@@ -177,7 +177,7 @@ time_of_day_no_range:
   display_name: Time with No Range
   description: This time has no range
   variable_type: time_of_day
-  user: valid
+  user: regular
   project: one
 
 time_duration:
@@ -185,7 +185,7 @@ time_duration:
   display_name: Best 1 Mile Run Time
   description: How long did your run take?
   variable_type: time_duration
-  user: valid
+  user: regular
   project: one
 
 imperial_height:
@@ -193,7 +193,7 @@ imperial_height:
   display_name: Enter your height in feet and inches.
   # description:
   variable_type: imperial_height
-  user: valid
+  user: regular
   project: one
 
 imperial_weight:
@@ -201,7 +201,7 @@ imperial_weight:
   display_name: Enter your weight in pounds and ounces.
   # description:
   variable_type: imperial_weight
-  user: valid
+  user: regular
   project: one
 
 signature:
@@ -209,7 +209,7 @@ signature:
   display_name: Sign Here
   # description:
   variable_type: signature
-  user: valid
+  user: regular
   project: one
 
 file:
@@ -217,7 +217,7 @@ file:
   display_name: Upload a Picture
   description: Please do not use a picture from a social site.
   variable_type: file
-  user: valid
+  user: regular
   project: one
 
 height:
@@ -226,7 +226,7 @@ height:
   # description:
   units: m
   variable_type: numeric
-  user: valid
+  user: regular
   project: one
 
 weight:
@@ -235,7 +235,7 @@ weight:
   # description:
   units: kg
   variable_type: numeric
-  user: valid
+  user: regular
   project: one
 
 gender:
@@ -243,7 +243,7 @@ gender:
   display_name: Gender
   # description:
   variable_type: radio
-  user: valid
+  user: regular
   project: one
   domain: var_dropdown_options
 
@@ -253,7 +253,7 @@ calculated:
   description: Automatically calculated variable
   units: "kg / (m * m)"
   variable_type: calculated
-  user: valid
+  user: regular
   calculation: "weight / (height * height)"
   calculated_format: "%0.02f"
   project: one
@@ -263,7 +263,7 @@ calculated_without_format:
   display_name: Body Mass Index
   description: Automatically calculated variable
   variable_type: calculated
-  user: valid
+  user: regular
   calculation: "weight / (height * height)"
   # calculated_format:
   project: one
@@ -284,7 +284,7 @@ change_options:
   display_name: Change Option Values
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
   variable_type: dropdown
-  user: valid
+  user: regular
   project: one
   domain: var_change_options
 
@@ -295,7 +295,7 @@ change_domain_options:
   description: This variable's domain has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
   variable_type: radio
   alignment: scale
-  user: valid
+  user: regular
   project: one
 
 scale:
@@ -305,7 +305,7 @@ scale:
   # description:
   variable_type: radio
   alignment: scale
-  user: valid
+  user: regular
   project: one
 
 scale_in_grid:
@@ -315,7 +315,7 @@ scale_in_grid:
   # description:
   variable_type: radio
   alignment: scale
-  user: valid
+  user: regular
   project: one
 
 grid:
@@ -324,7 +324,7 @@ grid:
   description: Testing for grid of Variables
   variable_type: grid
   default_row_number: 3
-  user: valid
+  user: regular
   project: one
 
 grid_with_scale_variable:
@@ -333,7 +333,7 @@ grid_with_scale_variable:
   description: Testing for grid containing a scale variable
   variable_type: grid
   default_row_number: 3
-  user: valid
+  user: regular
   project: one
 
 external_grid:
@@ -350,7 +350,7 @@ no_sites:
   display_name: Variable on Project with No Sites
   description: This variable should be editable by a user on project without sites
   variable_type: string
-  user: valid
+  user: regular
   project: no_sites
 
 autocomplete:
@@ -358,7 +358,7 @@ autocomplete:
   display_name: Animals
   description: What's your favorite animal
   variable_type: string
-  user: valid
+  user: regular
   project: one
   autocomplete_values: "Cat\nDog\nFish"
 
@@ -385,7 +385,7 @@ data_captured:
   display_name: Favorite Restaurant
   description: Choose your favorite restaurant
   variable_type: dropdown
-  user: valid
+  user: regular
   project: one
   domain: two_restaurants
 
@@ -394,7 +394,7 @@ string_on_survey:
   display_name: String on Survey
   description: Description
   variable_type: string
-  user: valid
+  user: regular
   project: named_project
 
 randomize:
@@ -402,7 +402,7 @@ randomize:
   display_name: Eligible for Randomization?
   description: For Randomizations
   variable_type: radio
-  user: valid
+  user: regular
   project: two
   domain: randomize_yes_no
 
@@ -411,7 +411,7 @@ deleted:
   display_name: Deleted on Project One
   description: This variable can be restored.
   variable_type: string
-  user: valid
+  user: regular
   project: one
   deleted: true
 
@@ -420,7 +420,7 @@ string_on_auto_lock:
   display_name: String on Auto-lock
   description: Description
   variable_type: string
-  user: valid
+  user: regular
   project: auto_lock
 
 api_radio:
@@ -428,7 +428,7 @@ api_radio:
   display_name: API Radio Button
   # description:
   variable_type: radio
-  user: valid
+  user: regular
   project: api
   domain: api_radio_options
 
@@ -437,7 +437,7 @@ api_checkbox:
   display_name: API Checkbox
   # description:
   variable_type: checkbox
-  user: valid
+  user: regular
   project: api
   domain: api_checkbox_options
 
@@ -446,7 +446,7 @@ api_integer:
   display_name: API Integer
   # description:
   variable_type: integer
-  user: valid
+  user: regular
   project: api
 
 api_numeric:
@@ -454,7 +454,7 @@ api_numeric:
   display_name: API Numeric
   # description:
   variable_type: numeric
-  user: valid
+  user: regular
   project: api
 
 api_time_of_day:
@@ -463,7 +463,7 @@ api_time_of_day:
   description: Enter your favorite time of day.
   variable_type: time_of_day
   time_of_day_format: 12hour
-  user: valid
+  user: regular
   project: api
 
 api_time_duration:
@@ -472,7 +472,7 @@ api_time_duration:
   description: How long was your run?
   variable_type: time_duration
   time_duration_format: hh:mm:ss
-  user: valid
+  user: regular
   project: api
 
 api_imperial_height:
@@ -480,7 +480,7 @@ api_imperial_height:
   display_name: Enter your height in feet and inches.
   # description:
   variable_type: imperial_height
-  user: valid
+  user: regular
   project: api
 
 api_imperial_weight:
@@ -488,7 +488,7 @@ api_imperial_weight:
   display_name: Enter your weight in pounds and ounces.
   # description:
   variable_type: imperial_weight
-  user: valid
+  user: regular
   project: api
 
 api_date:
@@ -497,7 +497,7 @@ api_date:
   # description:
   variable_type: date
   date_format: mm/dd/yyyy
-  user: valid
+  user: regular
   project: api
 
 api_dropdown:
@@ -505,7 +505,7 @@ api_dropdown:
   display_name: Dropdown Options
   # description:
   variable_type: dropdown
-  user: valid
+  user: regular
   project: api
   domain: api_dropdown_options
 
@@ -514,7 +514,7 @@ api_string:
   display_name: API String
   # description:
   variable_type: string
-  user: valid
+  user: regular
   project: api
 
 api_text:
@@ -522,7 +522,7 @@ api_text:
   display_name: API Text
   # description:
   variable_type: text
-  user: valid
+  user: regular
   project: api
 
 api_calculated:
@@ -532,7 +532,7 @@ api_calculated:
   variable_type: calculated
   calculation: api_integer + 1
   calculated_format: "%0.02f"
-  user: valid
+  user: regular
   project: api
 
 api_file:
@@ -540,7 +540,7 @@ api_file:
   display_name: Upload a File
   # description:
   variable_type: file
-  user: valid
+  user: regular
   project: api
 
 api_signature:
@@ -548,5 +548,5 @@ api_signature:
   display_name: Sign Here
   # description:
   variable_type: signature
-  user: valid
+  user: regular
   project: api

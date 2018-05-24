@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to make sure project editors can add questions and sections to designs.
 class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @site_viewer = users(:site_one_viewer)
     @project = projects(:one)
     @design = designs(:one)

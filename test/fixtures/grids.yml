@@ -2,7 +2,7 @@ one:
   sheet_variable: one
   variable: one
   position: 0
-  user: valid
+  user: regular
   domain_option: var_one_1
   # value: 1
 
@@ -10,7 +10,7 @@ two:
   sheet_variable: one
   variable: one
   position: 1
-  user: valid
+  user: regular
   domain_option: var_one_2
   # value: 2
 
@@ -19,7 +19,7 @@ two:
 value_to_update_a:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 0
   domain_option: var_change_options_1
   # value: 2
@@ -27,7 +27,7 @@ value_to_update_a:
 value_to_update_b1:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 1
   domain_option: var_change_options_2
   # value: 3
@@ -35,7 +35,7 @@ value_to_update_b1:
 value_to_update_b2:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 2
   domain_option: var_change_options_2
   # value: 3
@@ -43,7 +43,7 @@ value_to_update_b2:
 value_to_update_c1:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 3
   domain_option: var_change_options_3
   # value: 1
@@ -51,7 +51,7 @@ value_to_update_c1:
 value_to_update_c2:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 4
   domain_option: var_change_options_3
   # value: 1
@@ -59,7 +59,7 @@ value_to_update_c2:
 value_to_update_c3:
   sheet_variable: grid
   variable: change_options
-  user: valid
+  user: regular
   position: 5
   domain_option: var_change_options_3
   # value: 1
@@ -70,7 +70,7 @@ value_to_update_c3:
 domain_value_to_update_a:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 0
   domain_option: change_options_1
   # value: 2
@@ -78,7 +78,7 @@ domain_value_to_update_a:
 domain_value_to_update_b1:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 1
   domain_option: change_options_2
   # value: 3
@@ -86,7 +86,7 @@ domain_value_to_update_b1:
 domain_value_to_update_b2:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 2
   domain_option: change_options_2
   # value: 3
@@ -94,7 +94,7 @@ domain_value_to_update_b2:
 domain_value_to_update_c1:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 3
   domain_option: change_options_3
   # value: 1
@@ -102,7 +102,7 @@ domain_value_to_update_c1:
 domain_value_to_update_c2:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 4
   domain_option: change_options_3
   # value: 1
@@ -110,7 +110,7 @@ domain_value_to_update_c2:
 domain_value_to_update_c3:
   sheet_variable: grid
   variable: change_domain_options
-  user: valid
+  user: regular
   position: 5
   domain_option: change_options_3
   # value: 1
@@ -118,7 +118,7 @@ domain_value_to_update_c3:
 has_grid_row_one_var_a:
   sheet_variable: has_grid
   variable: change_options
-  user: valid
+  user: regular
   position: 0
   domain_option: var_change_options_3
   # value: 1
@@ -127,7 +127,7 @@ has_grid_row_one_var_b:
   sheet_variable: has_grid
   variable: file
   # value:
-  user: valid
+  user: regular
   position: 0
   response_file: rails.png
 
@@ -135,56 +135,56 @@ has_grid_row_one_var_c:
   sheet_variable: has_grid
   variable: checkbox
   # value:
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_var_d:
   sheet_variable: has_grid
   variable: height
   value: 1.5
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_var_e:
   sheet_variable: has_grid
   variable: weight
   value: 70.0
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_var_f:
   sheet_variable: has_grid
   variable: calculated
   value: 31.11
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_var_g:
   sheet_variable: has_grid
   variable: integer
   value: 25
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_var_h:
   sheet_variable: has_grid
   variable: time_of_day
   value: 11:59:59
-  user: valid
+  user: regular
   position: 0
 
 has_grid_row_one_attached_file:
   sheet_variable: has_grid_with_file
   variable: file
   # value:
-  user: valid
+  user: regular
   position: 0
   response_file: rails.png
 
 has_grid_row_two_var_a:
   sheet_variable: has_grid
   variable: change_options
-  user: valid
+  user: regular
   position: 1
   domain_option: var_change_options_1
   # value: 2
@@ -193,7 +193,7 @@ has_grid_row_two_var_b:
   sheet_variable: has_grid
   variable: file
   # value:
-  user: valid
+  user: regular
   position: 1
   # response_file: rails.png
 
@@ -201,48 +201,48 @@ has_grid_row_two_var_c:
   sheet_variable: has_grid
   variable: checkbox
   # value:
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_var_d:
   sheet_variable: has_grid
   variable: height
   value: 2.6
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_var_e:
   sheet_variable: has_grid
   variable: weight
   value: 80.0
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_var_f:
   sheet_variable: has_grid
   variable: calculated
   value: 11.83
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_var_g:
   sheet_variable: has_grid
   variable: integer
   value: 36
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_var_h:
   sheet_variable: has_grid
   variable: time_of_day
   value: 12:00:00
-  user: valid
+  user: regular
   position: 1
 
 has_grid_row_two_no_attached_file:
   sheet_variable: has_grid_with_file
   variable: file
   # value:
-  user: valid
+  user: regular
   position: 1
   # response_file: rails.png

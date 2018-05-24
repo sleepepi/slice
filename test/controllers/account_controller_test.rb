@@ -5,14 +5,14 @@ require "test_helper"
 # Test to assure users can update their account settings
 class AccountControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @regular = users(:valid)
+    @regular = users(:regular)
     @project = projects(:one)
   end
 
   def user_params
     {
       full_name: "FirstUpdate LastUpdate",
-      email: "valid_update@example.com",
+      email: "regular_update@example.com",
       emails_enabled: "0",
       theme: "spring"
     }
@@ -36,7 +36,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     get "/site-invite/INVALID"
     assert_equal "INVALID", session[:site_invite_token]
     assert_redirected_to new_user_session_url
-    login(users(:valid))
+    login(users(:regular))
     get dashboard_url
     assert_nil assigns(:site_user)
     assert_nil session[:site_invite_token]
@@ -78,7 +78,7 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     post settings_url, params: { user: user_params }
     @regular.reload # Needs reload to avoid stale object
     assert_equal "FirstUpdate LastUpdate", @regular.full_name
-    assert_equal "valid_update@example.com", @regular.email
+    assert_equal "regular_update@example.com", @regular.email
     assert_equal false, @regular.emails_enabled?
     assert_equal "spring", @regular.theme
     assert_equal "Settings saved.", flash[:notice]

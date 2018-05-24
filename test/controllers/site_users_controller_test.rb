@@ -13,7 +13,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should resend site invitation' do
-    login(users(:valid))
+    login(users(:regular))
     post :resend, params: { id: @site_user, project_id: @project }, format: 'js'
     assert_not_nil assigns(:site_user)
     assert_not_nil assigns(:site)
@@ -22,7 +22,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not resend site invitation with invalid id' do
-    login(users(:valid))
+    login(users(:regular))
     post :resend, params: { id: -1, project_id: @project }, format: 'js'
     assert_nil assigns(:site_user)
     assert_nil assigns(:site)
@@ -61,17 +61,17 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should accept existing site user' do
-    login(users(:valid))
+    login(users(:regular))
     session[:site_invite_token] = site_users(:accepted_viewer_invite).invite_token
     get :accept, params: { project_id: @project }
     assert_not_nil assigns(:site_user)
-    assert_equal users(:valid), assigns(:site_user).user
+    assert_equal users(:regular), assigns(:site_user).user
     assert_equal "You have already been added to #{assigns(:site_user).site.name}.", flash[:notice]
     assert_redirected_to assigns(:site_user).site.project
   end
 
   test 'should not accept invalid token for site user' do
-    login(users(:valid))
+    login(users(:regular))
     session[:site_invite_token] = 'imaninvalidtoken'
     get :accept, params: { project_id: @project }
     assert_nil assigns(:site_user)
@@ -112,7 +112,7 @@ class SiteUsersControllerTest < ActionController::TestCase
   end
 
   test 'should destroy site_user' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('SiteUser.count', -1) do
       delete :destroy, params: {
         id: @site_user, project_id: @project

@@ -4,14 +4,14 @@ project_one_editor:
   project: one
   user: project_one_editor
   editor: true
-  creator: valid
+  creator: regular
   invite_token: project_one_editor
 
 project_one_editor_blinded:
   project: one
   user: project_one_editor_blinded
   editor: true
-  creator: valid
+  creator: regular
   invite_token: project_one_editor_blinded
   unblinded: false
 
@@ -19,19 +19,19 @@ project_empty_editor:
   project: empty
   user: project_one_editor
   editor: true
-  creator: valid
+  creator: regular
   invite_token: project_empty_editor
 
 project_one_viewer:
   project: one
   user: project_one_viewer
   editor: false
-  creator: valid
+  creator: regular
   invite_token: project_one_viewer
 
 pending_editor_invite:
   project: one
-  creator: valid
+  creator: regular
   editor: true
   invite_token: pending_editor_invite
   invite_email: invited_user@example.com
@@ -40,33 +40,33 @@ accepted_editor_invite:
   project: one
   user: admin
   editor: true
-  creator: valid
+  creator: regular
   invite_token: accepted_editor_invite
 
 accepted_viewer_invite:
   project: two
-  user: valid
+  user: regular
   editor: false
-  creator: valid
+  creator: regular
   invite_token: accepted_viewer_invite
 
 accepted_viewer_invite_2:
   project: three
-  user: valid
+  user: regular
   editor: false
-  creator: valid
+  creator: regular
   invite_token: accepted_viewer_invite_2
 
 accepted_viewer_invite_3:
   project: one
-  user: valid
+  user: regular
   editor: false
-  creator: valid
+  creator: regular
   invite_token: accepted_viewer_invite_3
 
 accepted_viewer_invite_4:
   project: one
   user: associated
   editor: false
-  creator: valid
+  creator: regular
   invite_token: accepted_viewer_invite_4

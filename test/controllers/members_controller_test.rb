@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to view member profiles.
 class MembersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @regular = users(:valid)
+    @regular = users(:regular)
   end
 
   test "should get show" do

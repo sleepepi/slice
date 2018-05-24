@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to assure that designs can be created and updated by project editors.
 class DesignsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @project = projects(:one)
     @design = designs(:one)
   end

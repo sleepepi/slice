@@ -11,7 +11,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should save project order" do
-    login(users(:valid))
+    login(users(:regular))
     post save_project_order_projects_url(format: "js"), params: {
       project_ids: [
         ActiveRecord::FixtureSet.identify(:two),
@@ -38,7 +38,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should archive project" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("ProjectPreference.where(archived: true).count") do
       post archive_project_url(@project)
     end
@@ -46,7 +46,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should undo archive project" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("ProjectPreference.where(archived: false).count") do
       post archive_project_url(projects(:two), undo: "1")
     end
@@ -69,27 +69,27 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    login(users(:valid))
+    login(users(:regular))
     get projects_url
     assert_not_nil assigns(:projects)
     assert_response :success
   end
 
   test "should get index by reverse project name" do
-    login(users(:valid))
+    login(users(:regular))
     get projects_url, params: { order: "projects.name desc" }
     assert_not_nil assigns(:projects)
     assert_response :success
   end
 
   test "should get new" do
-    login(users(:valid))
+    login(users(:regular))
     get new_project_url
     assert_response :success
   end
 
   test "should create project" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("Site.count") do
       assert_difference("Project.count") do
         post projects_url, params: {
@@ -113,7 +113,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not create project with blank name" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("Site.count", 0) do
       assert_difference("Project.count", 0) do
         post projects_url, params: {
@@ -130,21 +130,21 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show project activity" do
-    login(users(:valid))
+    login(users(:regular))
     get activity_project_url(@project)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show project" do
-    login(users(:valid))
+    login(users(:regular))
     get project_url(@project)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show project using slug" do
-    login(users(:valid))
+    login(users(:regular))
     get project_url(projects(:named_project))
     assert_not_nil assigns(:project)
     assert_response :success
@@ -158,14 +158,14 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not show invalid project" do
-    login(users(:valid))
+    login(users(:regular))
     get project_url(-1)
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
 
   test "should get calendar" do
-    login(users(:valid))
+    login(users(:regular))
     get calendar_project_url(@project)
     assert_response :success
   end

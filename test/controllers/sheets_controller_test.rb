@@ -5,7 +5,7 @@ require 'test_helper'
 # Test to make sure that project and site editors can modify sheets.
 class SheetsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @sheet = sheets(:one)
     @project = projects(:one)
   end
@@ -685,7 +685,7 @@ d est laborum.',
   end
 
   test 'should not get edit for auto-locked sheet' do
-    login(users(:valid))
+    login(users(:regular))
     get :edit, params: {
       project_id: projects(:auto_lock), id: sheets(:auto_lock)
     }
@@ -694,7 +694,7 @@ d est laborum.',
   end
 
   test 'should set sheet as not missing' do
-    login(users(:valid))
+    login(users(:regular))
     post :set_as_not_missing, params: {
       project_id: projects(:auto_lock), id: sheets(:missing)
     }, format: 'js'
@@ -846,7 +846,7 @@ d est laborum.',
   end
 
   test 'should not update auto-locked sheet' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('SheetVariable.count', 0) do
       patch :update, params: {
         project_id: projects(:auto_lock), id: sheets(:auto_lock),
@@ -860,7 +860,7 @@ d est laborum.',
   end
 
   test 'should unlock sheet as project editor' do
-    login(users(:valid))
+    login(users(:regular))
     assert_equal true, sheets(:auto_lock).auto_locked?
     post :unlock, params: {
       project_id: projects(:auto_lock), id: sheets(:auto_lock)
@@ -918,7 +918,7 @@ d est laborum.',
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
     assert_nil assigns(:sheet).subject_event_id
-    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_equal users(:regular).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
@@ -929,7 +929,7 @@ d est laborum.',
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
     assert_nil assigns(:sheet).subject_event_id
-    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_equal users(:regular).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
@@ -956,7 +956,7 @@ d est laborum.',
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subject_events(:one).id, assigns(:sheet).subject_event_id
-    assert_equal users(:valid).id, assigns(:sheet).last_user_id
+    assert_equal users(:regular).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
     assert_not_nil assigns(:sheet).subject
     assert_template 'move_to_event'
@@ -1020,7 +1020,7 @@ d est laborum.',
   end
 
   test 'should not destroy auto-locked sheet' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Sheet.current.count', 0) do
       delete :destroy, params: {
         project_id: projects(:auto_lock), id: sheets(:auto_lock)

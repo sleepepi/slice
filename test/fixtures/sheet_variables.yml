@@ -3,7 +3,7 @@
 one:
   variable: one
   sheet: two_a
-  user: valid
+  user: regular
   domain_option: var_one_1
   # value: 1
 
@@ -11,18 +11,18 @@ checkbox_two:
   variable: checkbox_two
   sheet: two_a
   # value: "['1','2']" # Through Association with Responses.yml
-  user: valid
+  user: regular
 
 numeric_two:
   variable: numeric_two
   sheet: two_a
   value: 150
-  user: valid
+  user: regular
 
 dropdown_two:
   variable: dropdown_two
   sheet: two_a
-  user: valid
+  user: regular
   domain_option: checkbox_two_domain_yes
   # value: 1
 
@@ -31,49 +31,49 @@ time_two:
   variable: time_two
   sheet: two_a
   value: 81045
-  user: valid
+  user: regular
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" variable should also change this sheet variables value to '1'
 value_to_update_a:
   variable: change_options
   sheet: two_a
-  user: valid
+  user: regular
   domain_option: var_change_options_1
   # value: 2
 
 value_to_update_b1:
   variable: change_options
   sheet: two_b
-  user: valid
+  user: regular
   domain_option: var_change_options_2
   # value: 3
 
 value_to_update_b2:
   variable: change_options
   sheet: two_c
-  user: valid
+  user: regular
   domain_option: var_change_options_2
   # value: 3
 
 value_to_update_c1:
   variable: change_options
   sheet: two_d
-  user: valid
+  user: regular
   domain_option: var_change_options_3
   # value: 1
 
 value_to_update_c2:
   variable: change_options
   sheet: two_e
-  user: valid
+  user: regular
   domain_option: var_change_options_3
   # value: 1
 
 value_to_update_c3:
   variable: change_options
   sheet: two_f
-  user: valid
+  user: regular
   domain_option: var_change_options_3
   # value: 1
 
@@ -81,12 +81,12 @@ file_attachment:
   variable: file
   sheet: file_attached
   response_file: rails.png
-  user: valid
+  user: regular
 
 gender_male:
   variable: dropdown
   sheet: all_variables
-  user: valid
+  user: regular
   domain_option: var_dropdown_m
   # value: m
 
@@ -94,43 +94,43 @@ course_work:
   variable: checkbox
   sheet: all_variables
   # value: "['acct101','econ101']" # Through Association with Responses.yml
-  user: valid
+  user: regular
 
 grid:
   variable: grid
   sheet: all_variables
   # value:
-  user: valid
+  user: regular
 
 date:
   variable: date
   sheet: all_variables
   value: "2013-04-17"
-  user: valid
+  user: regular
 
 # Represents 22:30:00
 time_of_day:
   variable: time_of_day
   sheet: all_variables
   value: 81000
-  user: valid
+  user: regular
 
 string:
   variable: string
   sheet: all_variables
   value: Weight Lifting and Salsa
-  user: valid
+  user: regular
 
 text:
   variable: text
   sheet: all_variables
   value: "This Text is across \nMultiple Lines"
-  user: valid
+  user: regular
 
 integer:
   variable: integer
   sheet: all_variables
-  user: valid
+  user: regular
   domain_option: integer_unknown_9
   # value: -9
 
@@ -138,77 +138,77 @@ calculated:
   variable: calculated
   sheet: all_variables
   value: 24.36
-  user: valid
+  user: regular
 
 # Represents 57 hours, 2 minutes, and 3 seconds
 time_duration:
   variable: time_duration
   sheet: all_variables
   value: 205323
-  user: valid
+  user: regular
 
 # Represents 6 feet 2 inches
 imperial_height:
   variable: imperial_height
   sheet: all_variables
   value: 74
-  user: valid
+  user: regular
 
 # Represents 170 pounds 5 ounces
 imperial_weight:
   variable: imperial_weight
   sheet: all_variables
   value: 2725
-  user: valid
+  user: regular
 
 # This sheet variable had "Option 1" selected that was incorrectly mapped to the value '2'
 # Updating the "change_options" domain should also change the associated sheet variable and grid values to '1'
 domain_value_to_update_a:
   variable: change_domain_options
   sheet: two_a
-  user: valid
+  user: regular
   domain_option: change_options_1
   # value: 2
 
 domain_value_to_update_b1:
   variable: change_domain_options
   sheet: two_b
-  user: valid
+  user: regular
   domain_option: change_options_2
   # value: 3
 
 domain_value_to_update_b2:
   variable: change_domain_options
   sheet: two_c
-  user: valid
+  user: regular
   domain_option: change_options_2
   # value: 3
 
 domain_value_to_update_c1:
   variable: change_domain_options
   sheet: two_d
-  user: valid
+  user: regular
   domain_option: change_options_3
   # value: 1
 
 domain_value_to_update_c2:
   variable: change_domain_options
   sheet: two_e
-  user: valid
+  user: regular
   domain_option: change_options_3
   # value: 1
 
 domain_value_to_update_c3:
   variable: change_domain_options
   sheet: two_f
-  user: valid
+  user: regular
   domain_option: change_options_3
   # value: 1
 
 domain_data_captured:
   variable: data_captured
   sheet: domain_data_captured
-  user: valid
+  user: regular
   domain_option: two_restaurants_1
   # value: 1
 
@@ -216,24 +216,24 @@ has_grid:
   variable: grid
   sheet: has_grid
   # value:
-  user: valid
+  user: regular
 
 has_grid_with_file:
   variable: grid
   sheet: has_grid_with_file
   # value:
-  user: valid
+  user: regular
 
 weight_subject_one:
   variable: weight
   sheet: weight_and_gender_subject_one
   value: 70.0
-  user: valid
+  user: regular
 
 gender_subject_one:
   variable: gender
   sheet: weight_and_gender_subject_one
-  user: valid
+  user: regular
   domain_option: var_dropdown_m
   # value: m
 
@@ -241,26 +241,26 @@ weight_subject_two:
   variable: weight
   sheet: weight_and_gender_subject_two
   value: 60.0
-  user: valid
+  user: regular
 
 gender_subject_two:
   variable: gender
   sheet: weight_and_gender_subject_two
-  user: valid
+  user: regular
   domain_option: var_dropdown_f
   # value: f
 
 half_filled_first_answer:
   variable: one
   sheet: filled_out_half_visible
-  user: valid
+  user: regular
   domain_option: var_one_2
   # value: 2
 
 not_triggering_hidden_first_answer:
   variable: one
   sheet: filled_out_all_visible
-  user: valid
+  user: regular
   domain_option: var_one_2
   # value: 2
 
@@ -268,12 +268,12 @@ date_visible_third_answer:
   variable: date
   sheet: filled_out_all_visible
   value: 2014-05-05
-  user: valid
+  user: regular
 
 filled_out_all_first:
   variable: one
   sheet: filled_out_entire_sheet
-  user: valid
+  user: regular
   domain_option: var_one_1
   # value: 1
 
@@ -281,19 +281,19 @@ filled_out_all_first:
 filled_out_all_second:
   variable: two
   sheet: filled_out_entire_sheet
-  user: valid
+  user: regular
   value: Text Response
 
 filled_out_all_third:
   variable: date
   sheet: filled_out_entire_sheet
   value: "2014-05-06"
-  user: valid
+  user: regular
 
 filled_out_some_first:
   variable: one
   sheet: all_visible_not_all_answered
-  user: valid
+  user: regular
   domain_option: var_one_1
   # value: 1
 
@@ -301,39 +301,39 @@ filled_out_some_first:
 filled_out_some_second:
   variable: two
   sheet: all_visible_not_all_answered
-  user: valid
+  user: regular
   value: Text Response
 
 # TODO: Check if string variables can have domains
 hidden_response_answered:
   variable: two
   sheet: hidden_response_answered
-  user: valid
+  user: regular
   value: Some response
 
 exportable_one:
   variable: checkbox
   sheet: checkbox_example_one
   # value: "['econ101','math123']" # Through association with responses.yml
-  user: valid
+  user: regular
 
 exportable_two:
   variable: radio
   sheet: checkbox_example_one
-  user: valid
+  user: regular
   domain_option: var_radio_1
   # value: 1
 
 eligible_for_randomization:
   variable: randomize
   sheet: required_for_randomization
-  user: valid
+  user: regular
   domain_option: randomize_yes_no_1
   # value: 1
 
 api_design_api_radio:
   sheet: api_design
   variable: api_radio
-  user: valid
+  user: regular
   domain_option: api_radio_options_1
   # value: 1

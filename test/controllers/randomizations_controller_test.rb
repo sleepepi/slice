@@ -10,7 +10,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should get choose scheme and choose single published randomization scheme' do
-    login(users(:valid))
+    login(users(:regular))
     get :choose_scheme, params: { project_id: @project }
     assert_redirected_to(
       randomize_subject_project_randomization_scheme_path(assigns(:project), randomization_schemes(:one))
@@ -18,7 +18,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should get choose scheme and give options to multiple published randomization schemes' do
-    login(users(:valid))
+    login(users(:regular))
     get :choose_scheme, params: { project_id: projects(:two) }
     assert_response :success
   end
@@ -36,13 +36,13 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should get export as project editor' do
-    login(users(:valid))
+    login(users(:regular))
     get :export, params: { project_id: @project }
     assert_redirected_to [assigns(:project), assigns(:export)]
   end
 
   test 'should get index' do
-    login(users(:valid))
+    login(users(:regular))
     get :index, params: { project_id: @project }
     assert_response :success
     assert_not_nil assigns(:randomizations)
@@ -147,7 +147,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should show randomization' do
-    login(users(:valid))
+    login(users(:regular))
     get :show, params: { project_id: @project, id: @randomization }
     assert_response :success
   end
@@ -165,7 +165,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should show randomization for minimization scheme' do
-    login(users(:valid))
+    login(users(:regular))
     get :show, params: {
       project_id: projects(:two), id: randomizations(:min_one)
     }
@@ -209,7 +209,7 @@ class RandomizationsControllerTest < ActionController::TestCase
   end
 
   test 'should undo randomization' do
-    login(users(:valid))
+    login(users(:regular))
     patch :undo, params: { project_id: @project, id: @randomization }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:randomization)

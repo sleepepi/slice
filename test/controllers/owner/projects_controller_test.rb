@@ -6,7 +6,7 @@ require "test_helper"
 class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:one)
-    @owner = users(:valid)
+    @owner = users(:regular)
   end
 
   test "should get api as owner" do
@@ -20,13 +20,13 @@ class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
     login(@owner)
     post transfer_owner_project_url(@project, user_id: users(:associated))
     assert_not_nil assigns(:project)
-    assert_equal true, assigns(:project).editors.pluck(:id).include?(users(:valid).id)
+    assert_equal true, assigns(:project).editors.pluck(:id).include?(users(:regular).id)
     assert_redirected_to settings_editor_project_path(assigns(:project))
   end
 
   test "should not transfer project as non-owner" do
     login(@owner)
-    post transfer_owner_project_url(projects(:three)), params: { user_id: users(:valid) }
+    post transfer_owner_project_url(projects(:three)), params: { user_id: users(:regular) }
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end

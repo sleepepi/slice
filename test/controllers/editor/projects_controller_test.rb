@@ -86,7 +86,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should create project user and automatically add associated user" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("ProjectUser.count") do
       post :invite_user, params: {
         id: projects(:single_design), editor: "1",
@@ -154,7 +154,7 @@ class Editor::ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get settings as owner" do
-    login(users(:valid))
+    login(users(:regular))
     get :settings, params: { id: @project }
     assert_response :success
   end

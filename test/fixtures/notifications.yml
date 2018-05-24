@@ -1,42 +1,42 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 adverse_event:
-  user: valid
+  user: regular
   read: false
   project: one
   adverse_event: one
 
 comment:
-  user: valid
+  user: regular
   read: false
   project: one
   comment: one
 
 handoff:
-  user: valid
+  user: regular
   read: false
   project: one
   handoff: one
 
 blank:
-  user: valid
+  user: regular
   read: false
   project: one
 
 sheet_unlock_request:
-  user: valid
+  user: regular
   read: false
   project: auto_lock
   sheet_unlock_request: one
 
 export:
-  user: valid
+  user: regular
   read: false
   project: one
   export: one
 
 sheet_created:
-  user: valid
+  user: regular
   read: false
   project: one
   sheet: one

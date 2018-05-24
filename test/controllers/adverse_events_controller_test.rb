@@ -6,7 +6,7 @@ require "test_helper"
 # and site staff.
 class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @site_editor = users(:site_one_editor)
     @site_viewer = users(:site_one_viewer)
     @project = projects(:one)

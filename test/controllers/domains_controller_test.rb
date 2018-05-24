@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to make sure that domains can be created by project editors.
 class DomainsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @project = projects(:one)
     @domain = domains(:one)
   end

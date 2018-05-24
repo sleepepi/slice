@@ -5,35 +5,35 @@ one:
   slug: event-one
   description: MyText
   project: one
-  user: valid
+  user: regular
 
 two:
   name: Event Two
   slug: event-two
   description: MyText
   project: one
-  user: valid
+  user: regular
 
 grid:
   name: Event with Grid
   slug: event-with-grid
   description: Testing Grids for Handoff
   project: one
-  user: valid
+  user: regular
 
 calculated:
   name: Event with Calculated Field
   slug: event-with-calculated-field
   description: Testing Format Number for Calculated Variables
   project: one
-  user: valid
+  user: regular
 
 typeahead:
   name: Event with String Autocomplete Field
   slug: event-with-typeahead-field
   description: Testing Format Number for String Autocomplete Variables
   project: one
-  user: valid
+  user: regular
 
 required_forms:
   name: Has required values on forms
@@ -47,10 +47,10 @@ auto_lock_event_one:
   slug: auto-lock-event-one
   description: Show that locks sheets can't be moved to event
   project: auto_lock
-  user: valid
+  user: regular
 
 api_event:
   name: Baseline
   slug: baseline
   project: api
-  user: valid
+  user: regular

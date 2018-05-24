@@ -6,7 +6,7 @@ require 'test_helper'
 # schemes
 class TreatmentArmsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @published_scheme = randomization_schemes(:one)
     @published_treatment_arm = treatment_arms(:one)

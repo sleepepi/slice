@@ -5,7 +5,7 @@ require 'test_helper'
 # Tests to assure that project editors can view and modify events.
 class EventsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @event = events(:one)
   end

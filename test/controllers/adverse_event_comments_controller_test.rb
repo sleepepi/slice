@@ -5,7 +5,7 @@ require "test_helper"
 # Tests the creation and modification of comments added to adverse events.
 class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @site_editor = users(:site_one_editor)
     @site_viewer = users(:site_one_viewer)
     @project = projects(:one)

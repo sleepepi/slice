@@ -10,7 +10,7 @@ class TimeoutControllerTest < ActionController::TestCase
   end
 
   test 'should get check as user' do
-    login(users(:valid))
+    login(users(:regular))
     get :check, xhr: true, format: 'js'
     assert_response :success
   end

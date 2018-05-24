@@ -4,7 +4,7 @@ male:
   project: one
   randomization_scheme: one
   stratification_factor: gender
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -12,7 +12,7 @@ female:
   project: one
   randomization_scheme: one
   stratification_factor: gender
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -20,7 +20,7 @@ ltforty:
   project: one
   randomization_scheme: one
   stratification_factor: age
-  user: valid
+  user: regular
   label: "< 40"
   value: 1
 
@@ -28,7 +28,7 @@ gteforty:
   project: one
   randomization_scheme: one
   stratification_factor: age
-  user: valid
+  user: regular
   label: ">= 40"
   value: 2
 
@@ -36,7 +36,7 @@ avgiq:
   project: two
   randomization_scheme: three
   stratification_factor: iq
-  user: valid
+  user: regular
   label: Average IQ
   value: 1
 
@@ -44,7 +44,7 @@ aboveavgiq:
   project: two
   randomization_scheme: three
   stratification_factor: iq
-  user: valid
+  user: regular
   label: Above Average IQ
   value: 2
 
@@ -52,7 +52,7 @@ lowweight:
   project: one
   randomization_scheme: two
   stratification_factor: weight
-  user: valid
+  user: regular
   label: Low Weight
   value: 1
 
@@ -60,7 +60,7 @@ male_min:
   project: two
   randomization_scheme: minimization
   stratification_factor: gender_min
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -68,7 +68,7 @@ female_min:
   project: two
   randomization_scheme: minimization
   stratification_factor: gender_min
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -76,7 +76,7 @@ lttwenty:
   project: two
   randomization_scheme: minimization
   stratification_factor: bmi_min
-  user: valid
+  user: regular
   label: "< 20"
   value: 1
 
@@ -84,7 +84,7 @@ gtetwenty:
   project: two
   randomization_scheme: minimization
   stratification_factor: bmi_min
-  user: valid
+  user: regular
   label: ">= 20"
   value: 2
 
@@ -92,7 +92,7 @@ male_min2:
   project: two
   randomization_scheme: minimization_not_by_site
   stratification_factor: gender_min2
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -100,7 +100,7 @@ female_min2:
   project: two
   randomization_scheme: minimization_not_by_site
   stratification_factor: gender_min2
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -108,7 +108,7 @@ male_min_with_lists:
   project: two
   randomization_scheme: minimization_with_lists
   stratification_factor: gender_with_lists
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -116,7 +116,7 @@ female_min_with_lists:
   project: two
   randomization_scheme: minimization_with_lists
   stratification_factor: gender_with_lists
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -124,7 +124,7 @@ male_random:
   project: two
   randomization_scheme: fully_random_minimization
   stratification_factor: gender_random
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -132,7 +132,7 @@ female_random:
   project: two
   randomization_scheme: fully_random_minimization
   stratification_factor: gender_random
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -140,7 +140,7 @@ edge_male:
   project: two
   randomization_scheme: minimization_for_testing_edge_case
   stratification_factor: edge_gender
-  user: valid
+  user: regular
   label: Male
   value: 1
 
@@ -148,7 +148,7 @@ edge_female:
   project: two
   randomization_scheme: minimization_for_testing_edge_case
   stratification_factor: edge_gender
-  user: valid
+  user: regular
   label: Female
   value: 2
 
@@ -157,7 +157,7 @@ required_and_calculated_one:
   project: two
   randomization_scheme: minimization_with_required_variable
   stratification_factor: required_and_calculated
-  user: valid
+  user: regular
   label: Yes
   value: 1
 
@@ -165,7 +165,7 @@ required_and_calculated_two:
   project: two
   randomization_scheme: minimization_with_required_variable
   stratification_factor: required_and_calculated
-  user: valid
+  user: regular
   label: No
   value: 2
 

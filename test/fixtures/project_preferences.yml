@@ -1,11 +1,11 @@
 one:
   project: one
-  user: valid
+  user: regular
   archived: false
   emails_enabled: true
 
 two:
   project: two
-  user: valid
+  user: regular
   archived: true
   emails_enabled: true

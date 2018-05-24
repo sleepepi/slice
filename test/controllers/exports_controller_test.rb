@@ -5,7 +5,7 @@ require 'test_helper'
 # Tests to make sure project and site members can export data.
 class ExportsControllerTest < ActionController::TestCase
   setup do
-    @regular_user = users(:valid)
+    @regular_user = users(:regular)
     @no_export_user = users(:project_one_editor)
     @project = projects(:one)
     @export = exports(:one)

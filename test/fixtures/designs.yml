@@ -1,56 +1,56 @@
 one:
   name: Design One
-  user: valid
+  user: regular
   project: one
   notifications_enabled: true
   survey_slug: design-one
 
 two:
   name: Design Two
-  user: valid
+  user: regular
   project: two
 
 # This is a blank design.
 two_copy:
   name: Design Two Copy
-  user: valid
+  user: regular
   project: two
 
 # A Design with all types of variables used
 all_variable_types:
   name: All Variable Types
-  user: valid
+  user: regular
   project: one
 
 # Design with no validations or ranges
 has_no_validations:
   name: Design with no validations or ranges
-  user: valid
+  user: regular
   project: one
 
 # Used to test section and variable reordering
 sections_and_variables:
   name: Sections and Variables
-  user: valid
+  user: regular
   project: one
   survey_slug: sections-and-variables
 
 # Test file upload and removal.
 section_and_file:
   name: Section and File Variable
-  user: valid
+  user: regular
   project: one
 
 # Test for grid variable saving
 has_grid:
   name: Includes a Grid Variable
-  user: valid
+  user: regular
   project: one
 
-# Valid user should be able to view and edit this design
+# Regular user should be able to view and edit this design
 no_sites:
   name: This design is saved on a project with no sites
-  user: valid
+  user: regular
   project: no_sites
 
 admin_design:
@@ -83,27 +83,27 @@ admin_public_design_with_redirect:
 
 single_design:
   name: On single_design project
-  user: valid
+  user: regular
   project: single_design
 
 one_sheet_entered:
   name: One Sheet of Existing Data
-  user: valid
+  user: regular
   project: one
 
 weight_and_gender:
   name: Weight and Gender Collected for Reports
-  user: valid
+  user: regular
   project: one
 
 two_scale_variables:
   name: two_scale_variables
-  user: valid
+  user: regular
   project: one
 
 contains_single_scale_in_grid:
   name: scale_in_grid
-  user: valid
+  user: regular
   project: one
 
 checkbox_and_radio:
@@ -111,30 +111,30 @@ checkbox_and_radio:
 
 on_slug_project:
   name: On Project with Slug
-  user: valid
+  user: regular
   project: named_project
   publicly_available: true
 
 randomize:
   name: Eligible for Randomization
-  user: valid
+  user: regular
   project: two
 
 auto_lock:
   name: On project that auto-locks sheets
-  user: valid
+  user: regular
   project: auto_lock
   survey_slug: auto-lock
   publicly_available: true
 
 api_design:
   name: Design on API project
-  user: valid
+  user: regular
   project: api
   survey_slug: api-design
 
 api_design_two:
   name: Design two on API project
-  user: valid
+  user: regular
   project: api
   survey_slug: api-design-two

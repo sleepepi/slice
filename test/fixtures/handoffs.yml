@@ -2,11 +2,11 @@
 
 one:
   token: one
-  user: valid
+  user: regular
   project: one
   subject_event: one
 
-# Created by project editor ("admin"), and relaunched by valid user
+# Created by project editor ("admin"), and relaunched by regular user
 two:
   token: two
   user: admin
@@ -15,25 +15,25 @@ two:
 
 grid:
   token: three
-  user: valid
+  user: regular
   project: one
   subject_event: grid
 
 calculated:
   token: calculated
-  user: valid
+  user: regular
   project: one
   subject_event: calculated
 
 typeahead:
   token: typeahead
-  user: valid
+  user: regular
   project: one
   subject_event: typeahead
 
 completed:
   # token:
-  user: valid
+  user: regular
   project: one
   subject_event: four
 

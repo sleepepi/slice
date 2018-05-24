@@ -5,7 +5,7 @@ require "test_helper"
 # Tests creation of categories used to group designs on a project.
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @project = projects(:one)
     @category = categories(:one)
   end

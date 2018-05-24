@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to assure project editors can view and modify variables.
 class VariablesControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @variable = variables(:one)
   end
@@ -430,7 +430,7 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should get search" do
-    login(users(:valid))
+    login(users(:regular))
     get :search, params: { project_id: @project, q: "var" }, xhr: true, format: "js"
     assert_response :success
   end

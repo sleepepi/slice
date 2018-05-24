@@ -8,7 +8,7 @@ class SheetUnlockRequestsControllerTest < ActionController::TestCase
     @project = projects(:auto_lock)
     @locked_sheet = sheets(:auto_lock)
     @sheet_unlock_request = sheet_unlock_requests(:one)
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @site_editor = users(:auto_lock_site_one_editor)
   end
 

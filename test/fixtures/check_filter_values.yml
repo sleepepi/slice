@@ -2,14 +2,14 @@
 
 one:
   project: one
-  user: valid
+  user: regular
   check: one
   check_filter: one
   value: m
 
 two:
   project: one
-  user: valid
+  user: regular
   check: one
   check_filter: one
   value: f

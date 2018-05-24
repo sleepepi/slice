@@ -6,7 +6,7 @@ require "test_helper"
 # schemes using permuted-block algorithm.
 class BlockSizeMultipliersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @project = projects(:one)
     @published_scheme = randomization_schemes(:one)
     @published_block_size_multiplier = block_size_multipliers(:one)

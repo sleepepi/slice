@@ -35,7 +35,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test 'should get create site and keep default site short name' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Site.count', 0) do
       post :create_sites, params: {
         project_id: projects(:default),
@@ -50,7 +50,7 @@ class SitesControllerTest < ActionController::TestCase
   end
 
   test 'should get create site and remove default site short name' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Site.count', 0) do
       post :create_sites, params: {
         project_id: projects(:default),

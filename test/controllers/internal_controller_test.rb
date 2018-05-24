@@ -5,7 +5,7 @@ require 'test_helper'
 # Tests to assure users can remain logged in.
 class InternalControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @regular_user = users(:valid)
+    @regular_user = users(:regular)
   end
 
   test 'should keep me active for regular user' do

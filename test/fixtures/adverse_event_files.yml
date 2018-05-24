@@ -3,18 +3,18 @@
 one:
   project: one
   adverse_event: one
-  user_id: valid
+  user: regular
   attachment: rails.png
 
 two:
   project: one
   adverse_event: one
-  user: valid
+  user: regular
   attachment: test_01.pdf
 
 # Allows testing of destroy AE files
 delete_me:
   project: one
   adverse_event: one
-  user_id: valid
+  user: regular
   attachment: rails.png

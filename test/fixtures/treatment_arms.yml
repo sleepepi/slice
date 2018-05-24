@@ -5,116 +5,116 @@ one:
   project: one
   randomization_scheme: one
   allocation: 2
-  user: valid
+  user: regular
 
 two:
   name: Treatment B
   project: one
   randomization_scheme: one
   allocation: 3
-  user: valid
+  user: regular
 
 three:
   name: Education
   project: two
   randomization_scheme: three
   allocation: 1
-  user: valid
+  user: regular
 
 four:
   name: Treatment A
   project: one
   randomization_scheme: two
   allocation: 1
-  user: valid
+  user: regular
 
 arm_a:
   name: Treatment Arm A
   project: two
   randomization_scheme: minimization
   allocation: 1
-  user: valid
+  user: regular
 
 arm_b:
   name: Treatment Arm B
   project: two
   randomization_scheme: minimization
   allocation: 2
-  user: valid
+  user: regular
 
 arm_c:
   name: Treatment Arm C
   project: two
   randomization_scheme: minimization
   allocation: 3
-  user: valid
+  user: regular
 
 treatment_a:
   name: Treatment Arm A
   project: two
   randomization_scheme: minimization_not_by_site
   allocation: 1
-  user: valid
+  user: regular
 
 treatment_b:
   name: Treatment Arm B
   project: two
   randomization_scheme: minimization_not_by_site
   allocation: 1
-  user: valid
+  user: regular
 
 ongoing_a:
   name: Ongoing A
   project: two
   randomization_scheme: minimization_with_lists
   allocation: 1
-  user: valid
+  user: regular
 
 ongoing_b:
   name: Ongoing B
   project: two
   randomization_scheme: minimization_with_lists
   allocation: 2
-  user: valid
+  user: regular
 
 random_a:
   name: Treatment Arm A
   project: two
   randomization_scheme: fully_random_minimization
   allocation: 1
-  user: valid
+  user: regular
 
 random_b:
   name: Treatment Arm B
   project: two
   randomization_scheme: fully_random_minimization
   allocation: 2
-  user: valid
+  user: regular
 
 edge_a_3:
   name: Ax3
   project: two
   randomization_scheme: minimization_for_testing_edge_case
   allocation: 3
-  user: valid
+  user: regular
 
 edge_b_1:
   name: Bx1
   project: two
   randomization_scheme: minimization_for_testing_edge_case
   allocation: 1
-  user: valid
+  user: regular
 
 required_a:
   name: Required Variable Treatment Arm A
   project: two
   randomization_scheme: minimization_with_required_variable
   allocation: 1
-  user: valid
+  user: regular
 
 required_b:
   name: Required Variable Treatment Arm B
   project: two
   randomization_scheme: minimization_with_required_variable
   allocation: 1
-  user: valid
+  user: regular

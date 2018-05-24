@@ -11,7 +11,7 @@ class HandoffsControllerTest < ActionController::TestCase
   end
 
   test 'should get new as project editor' do
-    login(users(:valid))
+    login(users(:regular))
     get :new, params: {
       project_id: @project, id: subjects(:three),
       subject_event_id: subject_events(:three)
@@ -22,7 +22,7 @@ class HandoffsControllerTest < ActionController::TestCase
   end
 
   test 'should get new as project editor for existing handoff' do
-    login(users(:valid))
+    login(users(:regular))
     get :new, params: {
       project_id: @project, id: subjects(:two),
       subject_event_id: subject_events(:two)
@@ -55,7 +55,7 @@ class HandoffsControllerTest < ActionController::TestCase
   end
 
   test 'should launch new handoff as project editor' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Handoff.count') do
       post :create, params: {
         project_id: @project, id: subjects(:three),
@@ -66,12 +66,12 @@ class HandoffsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:subject)
     assert_not_nil assigns(:handoff)
     assert_not_nil assigns(:handoff).token
-    assert_equal users(:valid), assigns(:handoff).user
+    assert_equal users(:regular), assigns(:handoff).user
     assert_redirected_to handoff_start_path(assigns(:project), assigns(:handoff))
   end
 
   test 'should launch existing handoff as project editor' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Handoff.count', 0) do
       post :create, params: {
         project_id: @project, id: subjects(:two),

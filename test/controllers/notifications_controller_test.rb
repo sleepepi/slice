@@ -5,7 +5,7 @@ require "test_helper"
 # Test that notifications can be viewed and marked as read.
 class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   setup do
-    @regular_user = users(:valid)
+    @regular_user = users(:regular)
   end
 
   test "should get index" do

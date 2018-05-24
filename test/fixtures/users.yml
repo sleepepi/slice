@@ -1,8 +1,9 @@
-# TODO: Replace valid user with "regular" user
-valid:
+<% pw = User.new(password: "password").encrypted_password %>
+
+regular:
   full_name: FirstName LastName
-  email: valid@example.com
-  encrypted_password: <%= User.new(password: "password").encrypted_password %>
+  email: regular@example.com
+  encrypted_password: <%= pw %>
   emails_enabled: true
 
 project_one_editor:
@@ -32,7 +33,7 @@ two:
 admin:
   full_name: System Admin
   email: admin@example.com
-  encrypted_password: <%= User.new(password: "password").encrypted_password %>
+  encrypted_password: <%= pw %>
   admin: true
   emails_enabled: true
 

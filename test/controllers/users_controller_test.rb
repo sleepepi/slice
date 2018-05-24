@@ -8,7 +8,7 @@ SimpleCov.command_name "test:controllers"
 # that admins can edit and update existing users.
 class UsersControllerTest < ActionController::TestCase
   setup do
-    @user = users(:valid)
+    @user = users(:regular)
   end
 
   test "should get index as admin" do
@@ -19,14 +19,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get index for autocomplete" do
-    login(users(:valid))
+    login(users(:regular))
     get :index, format: "json"
     assert_not_nil assigns(:users)
     assert_response :success
   end
 
   test "should not get index for non-system admin" do
-    login(users(:valid))
+    login(users(:regular))
     get :index
     assert_nil assigns(:users)
     assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
@@ -34,7 +34,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not get index with pagination for non-system admin" do
-    login(users(:valid))
+    login(users(:regular))
     get :index, format: "js"
     assert_nil assigns(:users)
     assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get invite for regular user" do
-    login(users(:valid))
+    login(users(:regular))
     get :invite, params: { q: "associated" }
     users_json = JSON.parse(response.body)
     assert_equal "associated@example.com", users_json.first["value"]
@@ -63,7 +63,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not get edit as regular user" do
-    login(users(:valid))
+    login(users(:regular))
     get :edit, params: { id: @user }
     assert_redirected_to root_path
   end
@@ -74,7 +74,7 @@ class UsersControllerTest < ActionController::TestCase
       id: @user,
       user: {
         full_name: "FirstName LastName",
-        email: "valid_updated_email@example.com",
+        email: "regular_updated_email@example.com",
         admin: "0"
       }
     }
@@ -97,7 +97,7 @@ class UsersControllerTest < ActionController::TestCase
       id: -1,
       user: {
         full_name: "FirstName LastName",
-        email: "valid_updated_email@example.com",
+        email: "regular_updated_email@example.com",
         admin: "0"
       }
     }

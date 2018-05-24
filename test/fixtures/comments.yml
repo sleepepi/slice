@@ -2,12 +2,12 @@
 
 one:
   description: MyText
-  user: valid
+  user: regular
   sheet: one
   deleted: false
 
 two:
   description: MyText
-  user: valid
+  user: regular
   sheet: one
   deleted: false

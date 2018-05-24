@@ -2,7 +2,7 @@
 
 one:
   project: one
-  user: valid
+  user: regular
   name: Check One
   slug: check-one
   description: MyText
@@ -12,7 +12,7 @@ one:
 
 two:
   project: one
-  user: valid
+  user: regular
   name: Check Two
   slug: check-two
   description: MyText

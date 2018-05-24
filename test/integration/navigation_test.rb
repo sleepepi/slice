@@ -9,7 +9,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    @valid = users(:valid)
+    @regular = users(:regular)
     @deleted = users(:deleted)
   end
 
@@ -29,7 +29,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
     get "/projects"
     assert_redirected_to new_user_session_path
 
-    sign_in_as @valid, "12345678"
+    sign_in_as @regular, "12345678"
     assert_equal "/projects", path
   end
 

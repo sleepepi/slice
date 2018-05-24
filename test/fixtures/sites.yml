@@ -5,39 +5,39 @@ one:
   short_name: S1
   description: MyText
   project: one
-  user: valid
+  user: regular
 
 two:
   name: Site One on Project Two
   description: MyText
   project: two
-  user: valid
+  user: regular
 
 three:
   name: Site Two
   description: Second project one site
   project: one
-  user: valid
+  user: regular
 
 valid_range:
   name: Site Three
   description: Valid Codes A000 to A999
   project: one
-  user: valid
+  user: regular
   subject_code_format: A\d\d\d
 
 site_with_subject_regex:
   name: Site with Subject Regex Code
   description: Valid codes are S100 to S199
   project: one
-  user: valid
+  user: regular
   subject_code_format: S1\d\d
 
 site_on_project_two:
   name: Site Two on Project Two
   # description:
   project: two
-  user: valid
+  user: regular
 
 admin_site:
   name: Admin Only Site
@@ -55,21 +55,21 @@ single_design_site:
   name: On single_design project
   # description:
   project: single_design
-  user: valid
+  user: regular
 
 auto_lock_site_one:
   name: Site One on Auto-lock
   # description:
   project: auto_lock
-  user: valid
+  user: regular
 
 default_site:
   name: Default Site
   short_name: Default Site
   project: default
-  user: valid
+  user: regular
 
 api_site:
   name: "API Site"
   project: api
-  user: valid
+  user: regular

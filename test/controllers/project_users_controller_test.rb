@@ -14,7 +14,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should resend project invitation' do
-    login(users(:valid))
+    login(users(:regular))
     post :resend, params: { id: @pending_editor_invite }, format: 'js'
     assert_not_nil assigns(:project_user)
     assert_not_nil assigns(:project)
@@ -23,7 +23,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not resend project invitation with invalid id' do
-    login(users(:valid))
+    login(users(:regular))
     post :resend, params: { id: -1 }, format: 'js'
     assert_nil assigns(:project_user)
     assert_nil assigns(:project)
@@ -59,12 +59,12 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should accept existing project user' do
-    login(users(:valid))
+    login(users(:regular))
     session[:invite_token] = project_users(:accepted_viewer_invite).invite_token
     get :accept
 
     assert_not_nil assigns(:project_user)
-    assert_equal users(:valid), assigns(:project_user).user
+    assert_equal users(:regular), assigns(:project_user).user
     assert_equal(
       "You have already been added to #{assigns(:project_user).project.name}.",
       flash[:notice]
@@ -73,7 +73,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not accept invalid token for project user' do
-    login(users(:valid))
+    login(users(:regular))
     get :accept, params: { invite_token: 'imaninvalidtoken' }
 
     assert_nil assigns(:project_user)
@@ -115,7 +115,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should destroy project user' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('ProjectUser.count', -1) do
       delete :destroy, params: { id: @accepted_viewer_invite }, format: 'js'
     end
@@ -136,7 +136,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should not destroy project user with invalid id' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('ProjectUser.count', 0) do
       delete :destroy, params: { id: -1 }, format: 'js'
     end

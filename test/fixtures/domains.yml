@@ -1,135 +1,135 @@
 one:
   name: difficulty_rating
   display_name: Difficulty Rating
-  user: valid
+  user: regular
   project: one
 
 two:
   name: weekday
   display_name: Weekday
-  user: valid
+  user: regular
   project: one
 
 icecream_flavors:
   name: icecream_flavors
   display_name: Icecream Flavors
-  user: valid
+  user: regular
   project: one
 
 checkbox_two_domain:
   name: checkbox_two_domain
   display_name: Checkbox Two Domain
-  user: valid
+  user: regular
   project: two
 
 change_options:
   name: change_options
   display_name: Change Options
   description: This variable has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets and grids.
-  user: valid
+  user: regular
   project: one
 
 var_one_options:
   name: one_options
   display_name: One Options
   description:
-  user: valid
+  user: regular
   project: one
 
 var_two_options:
   name: two_options
   display_name: Two Options
   description:
-  user: valid
+  user: regular
   project: one
 
 var_dropdown_options:
   name: dropdown_options
   display_name: Dropdown Options
   description:
-  user: valid
+  user: regular
   project: one
 
 var_checkbox_options:
   name: checkbox_options
   display_name: Checkbox Options
   description:
-  user: valid
+  user: regular
   project: one
 
 var_radio_options:
   name: radio_options
   display_name: Radio Options
   description:
-  user: valid
+  user: regular
   project: one
 
 var_change_options:
   name: var_change_options
   display_name: Var Change Options
   description: This variable...now domain... has the values mapped incorrectly. A test will attempt to fix these values and update the associated sheets.
-  user: valid
+  user: regular
   project: one
 
 two_restaurants:
   name: two_restaurants
   display_name: Two Restaurants
   description: Has two restaurants and will be used to test switching a variable to larger domains and smaller domains
-  user: valid
+  user: regular
   project: one
 
 three_restaurants:
   name: three_restaurants
   display_name: Three Restaurants
   description: Has three restaurants and will be used to test switching a variable to smaller domains
-  user: valid
+  user: regular
   project: one
 
 one_restaurant_encompassing:
   name: one_restaurant_encompassing
   display_name: One Restaurant Encompassing
   description: Switching to this is allowed from a domain with sheets that collected data for only the first restaurant
-  user: valid
+  user: regular
   project: one
 
 one_restaurant_not_encompassing:
   name: one_restaurant_not_encompassing
   display_name: One Restaurant Not Encompassing
   description: Switching to this is not allowed from a domain with sheets that collected data for the first restaurant
-  user: valid
+  user: regular
   project: one
 
 integer_unknown:
   name: age_unknown
   display_name: Age Unknown
   description: Missing values for unknown ages
-  user: valid
+  user: regular
   project: one
 
 randomize_yes_no:
   name: randomize_yes_no
   display_name: Randomize Yes or No
   # description:
-  user: valid
+  user: regular
   project: two
 
 api_radio_options:
   name: api_radio_options
   display_name: API Radio Options
   # description:
-  user: valid
+  user: regular
   project: api
 
 api_dropdown_options:
   name: api_dropdown_options
   display_name: API Dropdown Options
   # description:
-  user: valid
+  user: regular
   project: api
 
 api_checkbox_options:
   name: api_checkbox_options
   display_name: API Checkbox Options
   # description:
-  user: valid
+  user: regular
   project: api

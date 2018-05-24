@@ -3,7 +3,7 @@ one:
   sheet: all_variables
   sheet_variable: course_work
   # grid_id: # NULL
-  user: valid
+  user: regular
   domain_option: var_checkbox_acct101
   # value: acct101
 
@@ -12,7 +12,7 @@ two:
   sheet: all_variables
   sheet_variable: course_work
   # grid_id: # NULL
-  user: valid
+  user: regular
   domain_option: var_checkbox_econ101
   # value: econ101
 
@@ -21,7 +21,7 @@ has_grid_row_one_var_c:
   sheet: has_grid
   # sheet_variable:
   grid: has_grid_row_one_var_c
-  user: valid
+  user: regular
   domain_option: var_checkbox_econ101
   # value: econ101
 
@@ -29,7 +29,7 @@ pdf_variable_yes:
   variable: checkbox_two
   sheet: two_a
   sheet_variable: checkbox_two
-  user: valid
+  user: regular
   domain_option: checkbox_two_domain_yes
   # value: 1
 
@@ -37,7 +37,7 @@ pdf_variable_no:
   variable: checkbox_two
   sheet: two_a
   sheet_variable: checkbox_two
-  user: valid
+  user: regular
   domain_option: checkbox_two_domain_no
   # value: 2
 
@@ -45,7 +45,7 @@ export_me_one:
   variable: checkbox
   sheet: checkbox_example_one
   sheet_variable: exportable_one
-  user: valid
+  user: regular
   domain_option: var_checkbox_econ101
   # value: econ101
 
@@ -53,6 +53,6 @@ export_me_two:
   variable: checkbox
   sheet: checkbox_example_one
   sheet_variable: exportable_one
-  user: valid
+  user: regular
   domain_option: var_checkbox_math123
   # value: math123

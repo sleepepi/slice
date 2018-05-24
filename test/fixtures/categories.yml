@@ -1,6 +1,6 @@
 one:
   project: one
-  user: valid
+  user: regular
   use_for_adverse_events: true
   name: Adverse Events
   slug: adverse-events
@@ -9,7 +9,7 @@ one:
 
 two:
   project: one
-  user: valid
+  user: regular
   use_for_adverse_events: false
   name: General
   slug: general

@@ -47,7 +47,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "sheet unlock request email" do
     sheet_unlock_request = sheet_unlock_requests(:one)
-    editor = users(:valid)
+    editor = users(:regular)
     mail = UserMailer.sheet_unlock_request(sheet_unlock_request, editor)
     assert_equal [editor.email], mail.to
     assert_equal "#{sheet_unlock_request.user.full_name} Requests To Unlock a Sheet on #{sheet_unlock_request.sheet.project.name}", mail.subject
@@ -56,7 +56,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "sheet unlocked email" do
     sheet_unlock_request = sheet_unlock_requests(:one)
-    project_editor = users(:valid)
+    project_editor = users(:regular)
     mail = UserMailer.sheet_unlocked(sheet_unlock_request, project_editor)
     assert_equal [sheet_unlock_request.user.email], mail.to
     assert_equal "#{project_editor.full_name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}", mail.subject
@@ -65,24 +65,24 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "import complete email" do
     design = designs(:one)
-    valid = users(:valid)
-    mail = UserMailer.import_complete(design, valid)
-    assert_equal [valid.email], mail.to
+    regular = users(:regular)
+    mail = UserMailer.import_complete(design, regular)
+    assert_equal [regular.email], mail.to
     assert_equal "Your Design Data Import for #{design.project.name} is Complete", mail.subject
     assert_match(/The design data import for #{design.project.name} is now complete\./, mail.body.encoded)
   end
 
   test "daily digest email" do
-    valid = users(:valid)
-    mail = UserMailer.daily_digest(valid)
-    assert_equal [valid.email], mail.to
+    regular = users(:regular)
+    mail = UserMailer.daily_digest(regular)
+    assert_equal [regular.email], mail.to
     assert_equal "Daily Digest for #{Time.zone.today.strftime("%a %d %b %Y")}", mail.subject
-    assert_match(/Dear #{valid.full_name},/, mail.body.encoded)
+    assert_match(/Dear #{regular.full_name},/, mail.body.encoded)
   end
 
   test "subject randomization" do
     randomization = randomizations(:one)
-    user = users(:valid)
+    user = users(:regular)
     mail = UserMailer.subject_randomized(randomization, user)
     assert_equal [user.email], mail.to
     assert_equal "#{randomization.user.full_name} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}", mail.subject
@@ -91,18 +91,18 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "adverse event reported email" do
     adverse_event = adverse_events(:one)
-    valid = users(:valid)
-    mail = UserMailer.adverse_event_reported(adverse_event, valid)
-    assert_equal [valid.email], mail.to
+    regular = users(:regular)
+    mail = UserMailer.adverse_event_reported(adverse_event, regular)
+    assert_equal [regular.email], mail.to
     assert_equal "#{adverse_event.user.full_name} Reported an Adverse Event on #{adverse_event.project.name}", mail.subject
     assert_match(%r{#{adverse_event.user.full_name} reported an adverse event on #{adverse_event.project.name} located here: #{ENV["website_url"]}/projects/#{adverse_event.project.to_param}}, mail.body.encoded)
   end
 
   test "password expires soon email" do
-    valid = users(:valid)
-    mail = UserMailer.password_expires_soon(valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "Slice Reminder for #{valid.full_name}", mail.subject
-    assert_match(/Your #{ENV["website_name"]} password will expire in [\d]+ day[s]? on #{valid.password_expires_on.strftime("%-m-%-d-%Y.")}/, mail.body.encoded)
+    regular = users(:regular)
+    mail = UserMailer.password_expires_soon(regular)
+    assert_equal [regular.email], mail.to
+    assert_equal "Slice Reminder for #{regular.full_name}", mail.subject
+    assert_match(/Your #{ENV["website_name"]} password will expire in [\d]+ day[s]? on #{regular.password_expires_on.strftime("%-m-%-d-%Y.")}/, mail.body.encoded)
   end
 end

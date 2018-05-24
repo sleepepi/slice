@@ -3,7 +3,7 @@
 one:
   name: Project One
   description: MyText
-  user: valid
+  user: regular
   logo: rails.png
   randomizations_enabled: true
   adverse_events_enabled: true
@@ -13,7 +13,7 @@ one:
 two:
   name: Project Two
   description: MyText
-  user: valid
+  user: regular
   hide_values_on_pdfs: true
   randomizations_enabled: true
   adverse_events_enabled: true
@@ -31,37 +31,37 @@ four:
 
 no_sites:
   name: This project has no sites and one design
-  description: Use this to test that the valid user can view the design
-  user: valid
+  description: Use this to test that the regular user can view the design
+  user: regular
 
 single_design:
   name: Project With One Design
   description: When creating sheets the single design should always show by default.
-  user: valid
+  user: regular
 
 empty:
   name: Empty Project
   description: Empty for JSON Import
-  user: valid
+  user: regular
 
 named_project:
   name: Has a Slug
   slug: has-a-slug
-  user: valid
+  user: regular
 
 auto_lock:
   name: Auto-lock sheets
   slug: auto-lock-sheets
-  user: valid
+  user: regular
   auto_lock_sheets: after24hours
 
 default:
   name: Default
   slug: default
-  user: valid
+  user: regular
 
 api:
   name: API Test
   slug: api-test
-  user: valid
+  user: regular
   authentication_token: 4bf180956aec927f7a0f01f5

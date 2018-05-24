@@ -5,7 +5,7 @@ require 'test_helper'
 # Assure that project editors can view and modify randomization schemes.
 class RandomizationSchemesControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @randomization_scheme = randomization_schemes(:one)
   end

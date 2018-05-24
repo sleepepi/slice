@@ -3,55 +3,55 @@
 one:
   project: one
   subject_code: Code01
-  user: valid
+  user: regular
   site: one
 
 two:
   project: one
   subject_code: Code02
-  user: valid
+  user: regular
   site: one
 
 code03:
   project: one
   subject_code: Code03
-  user: valid
+  user: regular
   site: one
 
 three:
   project: one
   subject_code: S2001
-  user: valid
+  user: regular
   site: three
 
 four:
   project: one
   subject_code: S2002
-  user: valid
+  user: regular
   site: three
 
 unrandomized:
   project: one
   subject_code: unrandomized
-  user: valid
+  user: regular
   site: site_on_project_two
 
 randomized:
   project: two
   subject_code: alreadyRandomized01
-  user: valid
+  user: regular
   site: site_on_project_two
 
 sample:
   project: two
   subject_code: 2TWO02
-  user: valid
+  user: regular
   site: site_on_project_two
 
 eligible_for_randomization:
   project: two
   subject_code: eligible_for_randomization
-  user: valid
+  user: regular
   site: site_on_project_two
 
 external:
@@ -63,74 +63,74 @@ external:
 test_one:
   project: one
   subject_code: A500
-  user: valid
+  user: regular
   site: valid_range
 
 ## Edge Subjects for minimization
 edge01:
   project: two
   subject_code: edge01
-  user: valid
+  user: regular
   site: two
 
 edge02:
   project: two
   subject_code: edge01
-  user: valid
+  user: regular
   site: two
 
 edge03:
   project: two
   subject_code: edge01
-  user: valid
+  user: regular
   site: two
 
 edge04:
   project: two
   subject_code: edge04
-  user: valid
+  user: regular
   site: two
 
 edge05:
   project: two
   subject_code: edge05
-  user: valid
+  user: regular
   site: two
 
 edge06:
   project: two
   subject_code: edge06
-  user: valid
+  user: regular
   site: two
 
 edge07:
   project: two
   subject_code: edge07
-  user: valid
+  user: regular
   site: two
 
 edge08:
   project: two
   subject_code: edge08
-  user: valid
+  user: regular
   site: two
 
 edge09:
   project: two
   subject_code: edge09
-  user: valid
+  user: regular
   site: two
 
 edge10:
   project: two
   subject_code: edge10
-  user: valid
+  user: regular
   site: two
 
 auto_lock_site_one_subject_one:
   project: auto_lock
   subject_code: auto_lock_01
-  user: valid
+  user: regular
   site: auto_lock_site_one
 
 api_one:

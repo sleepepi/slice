@@ -2,7 +2,7 @@
 
 one:
   project: one
-  user: valid
+  user: regular
   description: Phonecall
   due_date: 2016-02-15
   window_start_date: 2016-02-12
@@ -12,7 +12,7 @@ one:
 
 two:
   project: one
-  user: valid
+  user: regular
   description: MyText
   due_date: 2016-02-15
   window_start_date: 2016-02-12

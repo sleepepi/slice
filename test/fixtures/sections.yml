@@ -33,7 +33,7 @@ private:
   image: rails.png
   project: one
   design: sections_and_variables
-  user: valid
+  user: regular
   level: 0
 
 sectiona:
@@ -42,7 +42,7 @@ sectiona:
   # image:
   project: one
   design: sections_and_variables
-  user: valid
+  user: regular
   level: 0
 
 sectionb:
@@ -51,7 +51,7 @@ sectionb:
   # image:
   project: one
   design: sections_and_variables
-  user: valid
+  user: regular
   level: 0
 
 header_section_a:
@@ -60,7 +60,7 @@ header_section_a:
   # image:
   project: one
   design: section_and_file
-  user: valid
+  user: regular
   level: 0
 
 grid_header:
@@ -69,7 +69,7 @@ grid_header:
   # image:
   project: one
   design: has_grid
-  user: valid
+  user: regular
   level: 0
 
 no_sites_header:
@@ -78,7 +78,7 @@ no_sites_header:
   # image:
   project: one
   design: no_sites
-  user: valid
+  user: regular
   level: 0
 
 admin_design_header:
@@ -114,5 +114,5 @@ single_design_section:
   # image:
   project: single_design
   design: single_design
-  user: valid
+  user: regular
   level: 0

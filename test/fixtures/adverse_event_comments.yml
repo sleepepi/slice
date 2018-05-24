@@ -17,6 +17,6 @@ two:
 three:
   project: one
   adverse_event: one
-  user: valid
+  user: regular
   # description:
   comment_type: closed

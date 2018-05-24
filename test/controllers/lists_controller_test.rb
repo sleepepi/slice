@@ -5,7 +5,7 @@ require "test_helper"
 # Tests to view and generate lists.
 class ListsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @randomization_scheme = randomization_schemes(:one)
     @list = lists(:one)

@@ -3,94 +3,94 @@
 gender:
   project: one
   randomization_scheme: one
-  user: valid
+  user: regular
   name: Gender
 
 age:
   project: one
   randomization_scheme: one
-  user: valid
+  user: regular
   name: Age
 
 iq:
   project: two
   randomization_scheme: three
-  user: valid
+  user: regular
   name: IQ
 
 weight:
   project: one
   randomization_scheme: two
-  user: valid
+  user: regular
   name: Weight
 
 gender_min:
   project: two
   randomization_scheme: minimization
-  user: valid
+  user: regular
   name: Gender
 
 bmi_min:
   project: two
   randomization_scheme: minimization
-  user: valid
+  user: regular
   name: BMI
 
 by_site:
   project: two
   randomization_scheme: minimization
-  user: valid
+  user: regular
   name: By Site
   stratifies_by_site: true
 
 gender_min2:
   project: two
   randomization_scheme: minimization_not_by_site
-  user: valid
+  user: regular
   name: Gender
 
 gender_with_lists:
   project: two
   randomization_scheme: minimization_with_lists
-  user: valid
+  user: regular
   name: Gender
 
 by_site_with_lists:
   project: two
   randomization_scheme: minimization_with_lists
-  user: valid
+  user: regular
   name: By Site
   stratifies_by_site: true
 
 gender_random:
   project: two
   randomization_scheme: fully_random_minimization
-  user: valid
+  user: regular
   name: Gender
 
 edge_site:
   project: two
   randomization_scheme: minimization_for_testing_edge_case
-  user: valid
+  user: regular
   name: Site
   stratifies_by_site: true
 
 edge_gender:
   project: two
   randomization_scheme: minimization_for_testing_edge_case
-  user: valid
+  user: regular
   name: Gender
 
 required_variable_site:
   project: two
   randomization_scheme: minimization_with_required_variable
-  user: valid
+  user: regular
   name: Site
   stratifies_by_site: true
 
 required_and_calculated:
   project: two
   randomization_scheme: minimization_with_required_variable
-  user: valid
+  user: regular
   name: calculated
   calculation: "#{<%= ActiveRecord::FixtureSet.identify(:randomize) %>}"

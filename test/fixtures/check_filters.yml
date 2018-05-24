@@ -2,7 +2,7 @@
 
 one:
   project: one
-  user: valid
+  user: regular
   check: one
   filter_type: variable
   variable: dropdown
@@ -11,7 +11,7 @@ one:
 
 two:
   project: one
-  user: valid
+  user: regular
   check: one
   filter_type: variable
   variable: dropdown

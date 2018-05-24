@@ -5,7 +5,7 @@ require "test_helper"
 # Tests uploading files to adverse events.
 class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @project_editor = users(:valid)
+    @project_editor = users(:regular)
     @site_editor = users(:site_one_editor)
     @site_viewer = users(:site_one_viewer)
     @project = projects(:one)

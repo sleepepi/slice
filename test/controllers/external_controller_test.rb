@@ -10,7 +10,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     @public_section = sections(:public)
     @private_design = designs(:sections_and_variables)
     @private_section = sections(:private)
-    @regular = users(:valid)
+    @regular = users(:regular)
   end
 
   test "should get about" do
@@ -118,7 +118,7 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     assert_equal File.binread(assigns(:section).image.path), response.body
   end
 
-  test "should get section image from design as valid user" do
+  test "should get section image from design as regular user" do
     login(@regular)
     get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
     assert_not_nil response

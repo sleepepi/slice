@@ -5,7 +5,7 @@ require 'test_helper'
 # Tests to assure that project and site editors can create and modify subjects.
 class SubjectsControllerTest < ActionController::TestCase
   setup do
-    login(users(:valid))
+    login(users(:regular))
     @project = projects(:one)
     @subject = subjects(:one)
     @project_editor = users(:project_one_editor)
@@ -752,7 +752,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should destroy unrandomized subject' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Subject.current.count', -1) do
       delete :destroy, params: { project_id: projects(:one), id: subjects(:unrandomized) }
     end
@@ -769,7 +769,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   test 'should not destroy randomized subject' do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference('Subject.current.count', 0) do
       delete :destroy, params: {
         project_id: projects(:two), id: subjects(:randomized)

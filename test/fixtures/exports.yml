@@ -5,7 +5,7 @@ one:
   include_files: false
   status: ready
   file: rails.png.zip
-  user: valid
+  user: regular
   project: one
   viewed: false
   file_created_at: 2013-10-03 12:30:45
@@ -14,7 +14,7 @@ two:
   name: MyString2
   status: pending
   # file: MyString
-  user: valid
+  user: regular
   project: one
   viewed: false
   include_xls: false
@@ -29,7 +29,7 @@ two:
 three:
   name: My Checkbox Export
   status: pending
-  user: valid
+  user: regular
   project: one
   viewed: false
   include_xls: false
@@ -44,7 +44,7 @@ three:
 four:
   name: My Grids Export
   status: pending
-  user: valid
+  user: regular
   project: one
   viewed: false
   include_xls: false
@@ -59,7 +59,7 @@ four:
 all_variables:
   name: My All Variables Export
   status: pending
-  user: valid
+  user: regular
   project: one
   viewed: false
   include_xls: false

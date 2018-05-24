@@ -15,7 +15,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create comment" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("Comment.count") do
       post comments_url(format: "js"), params: {
         sheet_id: @comment.sheet_id,
@@ -24,13 +24,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:comment)
-    assert_equal users(:valid).id, assigns(:comment).user_id
+    assert_equal users(:regular).id, assigns(:comment).user_id
     assert_template "index"
     assert_response :success
   end
 
   test "should not create comment with blank description" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("Comment.count", 0) do
       post comments_url(format: "js"), params: {
         sheet_id: @comment.sheet_id,
@@ -45,7 +45,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show comment as ajax" do
-    login(users(:valid))
+    login(users(:regular))
     get comment_url(@comment, format: "js"), params: {
       include_name: "0",
       number: @comment.number
@@ -54,7 +54,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect to comment on sheet" do
-    login(users(:valid))
+    login(users(:regular))
     get comment_url(@comment), params: {
       include_name: "0",
       number: @comment.number
@@ -67,7 +67,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
-    login(users(:valid))
+    login(users(:regular))
     get edit_comment_url(@comment, format: "js"), params: {
       include_name: "0", number: @comment.number
     }, xhr: true
@@ -85,7 +85,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update comment" do
-    login(users(:valid))
+    login(users(:regular))
     patch comment_url(@comment, format: "js"), params: {
       comment: comment_params
     }
@@ -105,7 +105,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update comment with blank description" do
-    login(users(:valid))
+    login(users(:regular))
     patch comment_url(@comment, format: "js"), params: {
       comment: comment_params.merge(description: "")
     }
@@ -116,7 +116,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy comment" do
-    login(users(:valid))
+    login(users(:regular))
     assert_difference("Notification.count", -1) do
       assert_difference("Comment.current.count", -1) do
         delete comment_url(@comment, format: "js")
