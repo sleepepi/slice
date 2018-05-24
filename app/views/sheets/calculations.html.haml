@@ -8,10 +8,12 @@
   .float-right
     .per-page= render "layouts/per_page", per_page: 40, object_count: @sheet_errors.total_count
   = @title
+  = render "search/toggle"
 
-- site_or_project_editor = @project.site_or_project_editor?(current_user)
+= render "search/simple", url: calculations_project_sheets_path(@project)
 
 - if @sheet_errors.present?
+  - site_or_project_editor = @project.site_or_project_editor?(current_user)
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col

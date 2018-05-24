@@ -1,5 +1,9 @@
 ## 64.0.0
 
+### Enhancements
+- **Project Changes**
+  - Sheet calculation errors index can now be filtered by keywords
+
 ### Refactoring
 - Removed underutilized project summary report and advanced design reports
 
