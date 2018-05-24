@@ -277,7 +277,6 @@ filled_out_all_first:
   domain_option: var_one_1
   # value: 1
 
-# TODO: Check if string variables can have domains
 filled_out_all_second:
   variable: two
   sheet: filled_out_entire_sheet
@@ -297,14 +296,12 @@ filled_out_some_first:
   domain_option: var_one_1
   # value: 1
 
-# TODO: Check if string variables can have domains
 filled_out_some_second:
   variable: two
   sheet: all_visible_not_all_answered
   user: regular
   value: Text Response
 
-# TODO: Check if string variables can have domains
 hidden_response_answered:
   variable: two
   sheet: hidden_response_answered

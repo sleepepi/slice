@@ -8,7 +8,6 @@ one:
   domain: var_one_options
   field_note: Field Note
 
-# TODO: Check if string variables can have domains
 two:
   name: var_2
   display_name: Variable Two
