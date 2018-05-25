@@ -7,6 +7,11 @@
 ### Refactoring
 - Removed underutilized project summary report and advanced design reports
 
+## 63.0.1 (May 25, 2018)
+
+### Bug Fix
+- Readded a event param to the Slice API for subject events
+
 ## 63.0.0 (May 24, 2018)
 
 ### Enhancements
