@@ -1,5 +1,8 @@
 ## 63.0.1
 
+### Bug Fix
+- Readded a event param to the Slice API for subject events
+
 ## 63.0.0 (May 24, 2018)
 
 ### Enhancements
