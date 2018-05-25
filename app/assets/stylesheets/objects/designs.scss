@@ -79,8 +79,8 @@
     }
 
     .design-edit-box {
-      background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
-      background-image: linear-gradient(90deg, theme-color($theme, table-accent-bg, $table-accent-bg), theme-color($theme, table-accent-bg, $table-accent-bg) 65%, map-get($theme, dashboard-bg));
+      background-color: theme-color($theme, shade-bg, $p50-grey);
+      background-image: linear-gradient(90deg, theme-color($theme, shade-bg, $p50-grey), theme-color($theme, shade-bg, $p50-grey) 65%, map-get($theme, dashboard-bg));
       box-shadow: -3px 0 5px map-get($theme, box-shadow-color);
     }
 
