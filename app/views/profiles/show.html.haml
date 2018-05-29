@@ -1,0 +1,7 @@
+- @title = "#{@profile.username}"
+
+- content_for :header, @title
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @profile, key: :username
+  = render "forms/horizontal/show/generic", title: "Description", content: simple_style(@profile.description)

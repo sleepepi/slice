@@ -1,0 +1,4 @@
+= form_with model: profile, local: true do |form|
+  = render "forms/vertical/text_field", form: form, object: profile, key: :username, placeholder: "Pick a username", help_text: "Great usernames are short and fun. Start with a letter followed by number or letters."
+  = render "forms/vertical/text_field", form: form, object: profile, key: :description, help_text: "Short description about yourself."
+  = render "forms/vertical/submit", form: form, object: profile, submit_text: "Save Profile", cancel: false

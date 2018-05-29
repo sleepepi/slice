@@ -1,0 +1,99 @@
+.bg-library {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-library-0 {
+  background-image: asset-url('backgrounds/coast-3358815_1920.jpg');
+}
+
+.bg-library-1 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), asset-url('backgrounds/boat-3292934_1920.jpg');
+}
+
+.bg-library-2 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), asset-url('backgrounds/boot-1620452_1920.jpg');
+}
+
+.bg-library-3 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), asset-url('backgrounds/river-3425457_1920.jpg');
+}
+
+.bg-library-4 {
+  background-image: asset-url('backgrounds/nature-3082832_1920.jpg');
+}
+
+.bg-library-5 {
+  background-image: asset-url('backgrounds/lake-scenery-1365288_1920.jpg');
+}
+
+.bg-library-6 {
+  background-image: asset-url('backgrounds/black-forest-3423425_1920.jpg');
+}
+
+.bg-library-valentines-day {
+  background-image: asset-url('backgrounds/desktop-background-3061483_1920.jpg') !important;
+}
+
+.library-profile-header {
+  padding: map-get($spacers, 2);
+
+  @include media-breakpoint-up(sm) {
+    padding: map-get($spacers, 3);
+  }
+}
+
+.library-profile-name {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: map-get($spacers, 1)
+}
+
+.library-profile-desc {
+  font-size: initial;
+  font-weight: initial;
+}
+
+.library-header {
+  padding: map-get($spacers, 2);
+
+  @include media-breakpoint-up(sm) {
+    padding: map-get($spacers, 3);
+  }
+}
+
+.library-container {
+  @include scale-images;
+  @include remove-last-child-bottom-margin;
+
+  border-radius: $border-radius;
+  margin-bottom: map-get($spacers, 4);
+  padding: map-get($spacers, 2);
+  transition: $transition-bg;
+
+  @include media-breakpoint-up(sm) {
+    padding: map-get($spacers, 3);
+  }
+}
+
+@each $name, $theme in $themes {
+  @if map-get($theme, accent) {
+    .theme-#{$name}-bg {
+      .library-header,
+      .library-container {
+        background-color: map-get($theme, brand-white);
+      }
+
+      .library-profile-header {
+        background-color: map-get($theme, body-bg);
+      }
+
+      .library-profile-desc {
+        color: $text-muted;
+      }
+    }
+  }
+}

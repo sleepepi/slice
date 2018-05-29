@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Demographics
+  slug: demographics
+  profile: one
+
+two:
+  name: Intake Questionnaire
+  slug: intake-questionnaire
+  profile: one

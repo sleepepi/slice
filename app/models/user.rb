@@ -48,7 +48,10 @@ class User < ApplicationRecord
   has_many :site_users
   has_many :subjects, -> { current }
   has_many :tasks, -> { current }
+  has_many :trays
   has_many :variables, -> { current }
+
+  has_one :profile
 
   # Methods
 
@@ -309,6 +312,11 @@ class User < ApplicationRecord
   def nickname
     (f, l) = full_name.split(" ", 2)
     "#{f}#{l.split(/[\s']/).collect(&:first).join}"
+  end
+
+  def username
+    (f, l) = full_name.downcase.split(" ", 2)
+    "#{f.split(/[\s']/).collect(&:first).join}#{l}"
   end
 
   def last_business_day

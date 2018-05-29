@@ -5,7 +5,7 @@
 - else
   - @theme = @menu = @body = @body_alt = @footer = "default"
 
-- case @body
+- case @theme
 - when "night"
   - content_for :footer, render("decorations/moon")
 - when "sunset"

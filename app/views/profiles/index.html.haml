@@ -1,0 +1,19 @@
+- @title = "Profiles"
+
+- content_for :header, @title
+
+- if @profiles.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %thead
+        %tr
+          = th_sort_field @order, "profiles.username", "Username"
+
+      %tbody
+        - @profiles.each do |profile|
+          %tr
+            %td= link_to profile.username, profile
+
+- else
+  .jumbotron.jumbotron-custom-text
+    No profiles found.

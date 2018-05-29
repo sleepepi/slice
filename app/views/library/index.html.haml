@@ -1,0 +1,31 @@
+- @theme = "default"
+- t = Time.zone.now
+- valentines_day = (t.month == 2 && (7..14).cover?(t.day))
+- @theme = "love" if valentines_day
+.page-box.last-box.bg-library{ class: "bg-library-#{Time.zone.today.wday % 3} #{"bg-library-valentines-day" if valentines_day}" }
+  .container
+    %h1
+      .text-white{ style: "font-variant: small-caps;font-weight: 300;" } Library
+
+    = form_tag library_root_path, method: :get, enforce_utf8: false, id: "search-form", class: "mb-5" do
+      .input-group
+        = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", autofocus: params[:search].blank?
+        .input-group-append
+          = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
+            %i.fa.fa-search
+
+    - if @trays.present?
+      - @trays.each do |tray|
+        = render "library/tray_library", tray: tray
+
+      .center-horizontally= paginate @trays, theme: "bootstrap"
+    - else
+      .jumbotron.jumbotron-custom-text
+        No forms found.
+
+    .center-horizontally
+      .small
+        - if current_user&.profile
+          = link_to "Create a form", new_tray_path(current_user.profile), class: "btn btn-light"
+        - else
+          = link_to "Create a form", new_profile_path, class: "btn btn-light"

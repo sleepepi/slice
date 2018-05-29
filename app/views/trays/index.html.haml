@@ -1,0 +1,24 @@
+- @title = "Trays"
+
+- content_for :header do
+  .float-right
+    = link_to "New Tray", new_tray_path, class: "btn btn-accent btn-shadow"
+  = @title
+
+- if @trays.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col{ width: "1px" }
+      %thead
+        %tr
+          = th_sort_field @order, "trays.name", "Name"
+          %th.text-center Actions
+
+
+      %tbody
+        - @trays.each do |tray|
+          %tr
+            %td= link_to "#{tray.profile.username} / #{tray.slug}", library_show_path(tray.profile, tray)
+            %td.text-center
+              = render "layouts/edit_delete_dropdown", edit_url: edit_tray_path(tray.profile, tray), delete_url: tray_path(tray.profile, tray), delete_confirmation: "Delete #{tray.name}?"

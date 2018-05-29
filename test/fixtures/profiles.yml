@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  username: regular
+  description: My public profile.
+  user: regular
+  # organization:
+
+picture:
+  username: picture
+  description: MyString
+  user: profile_picture
+  # organization: one
+
+# nonprofit:
+#   username: nonprofit
+#   description: My organization's profile.
+#   # user:
+#   organization: one

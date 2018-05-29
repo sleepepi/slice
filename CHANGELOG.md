@@ -1,6 +1,11 @@
 ## 64.0.0
 
 ### Enhancements
+- **General Changes**
+  - Added a public library of forms
+    - Users can create a profile and contribute their own forms to the public
+      library
+    - Public library forms can be copied to existing projects
 - **Project Changes**
   - Sheet calculation errors index can now be filtered by keywords
 

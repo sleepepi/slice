@@ -11,4 +11,14 @@ module ProfilesHelper
       style: style
     )
   end
+
+  def public_profile_picture_tag(profile, size: 128, style: nil)
+    image_tag(
+      picture_profile_path(profile),
+      alt: "",
+      class: "rounded img-ignore-selection",
+      size: "#{size}x#{size}",
+      style: style
+    )
+  end
 end

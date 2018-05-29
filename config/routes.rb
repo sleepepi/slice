@@ -89,6 +89,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :profiles do
+    member do
+      get :picture
+    end
+  end
+
   namespace :owner do
     resources :projects, only: :destroy do
       member do
@@ -386,6 +392,14 @@ Rails.application.routes.draw do
     get :sitemap_xml, path: "sitemap.xml.gz"
     get :use, path: "/about/use", as: :about_use
     get :version
+  end
+
+  resources :trays, path: "library/:username/trays"
+
+  namespace :library do
+    root action: :index
+    get :show, path: ":username/:id"
+    get :profile, path: ":username"
   end
 
   namespace :external do

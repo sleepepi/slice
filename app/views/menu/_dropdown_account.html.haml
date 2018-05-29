@@ -9,6 +9,11 @@
 
     .dropdown-menu.dropdown-menu-right.dropdown-menu-custom
       .dropdown-menu-custom-inner
+        - if current_user.profile
+          = link_to "My profile", library_profile_path(current_user.profile), class: "dropdown-item"
+        - else
+          = link_to "Create profile", new_profile_path, class: "dropdown-item"
+
         = link_to settings_path, class: "dropdown-item" do
           Settings
 

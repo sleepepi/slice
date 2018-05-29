@@ -3,6 +3,7 @@
 # Helps style simple markdown tags.
 module FormatHelper
   def simple_style(text)
+    text = text.to_s
     tags = [["\\*\\*", "strong"], ["__", "span", "text-decoration: underline;"], ["==", "mark"], ["\\*", "em"]]
     tags.each do |markup, tag, style|
       text.gsub!(/#{markup}(.*?)#{markup}/, "<#{tag}#{" style=\"#{style}\"" if style.present?}>\\1</#{tag}>")
