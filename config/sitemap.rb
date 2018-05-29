@@ -20,6 +20,13 @@ SitemapGenerator::Sitemap.create do
   add "/about/use", changefreq: "weekly", priority: 0.5
   add "/contact", changefreq: "monthly", priority: 0.3
 
+  Profile.find_each do |profile|
+    add "/library/#{profile.to_param}", lastmod: profile.updated_at
+  end
+  Tray.find_each do |tray|
+    add "/library/#{tray.profile.to_param}/#{tray.to_param}", lastmod: tray.updated_at
+  end
+
   add "/docs", changefreq: "weekly", priority: 0.5
   add "/docs/adverse-events", changefreq: "weekly", priority: 0.5
   add "/docs/blinding", changefreq: "weekly", priority: 0.5
