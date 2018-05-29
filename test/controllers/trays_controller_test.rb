@@ -13,7 +13,8 @@ class TraysControllerTest < ActionDispatch::IntegrationTest
     {
       name: "New Tray",
       slug: "new-tray",
-      time_in_seconds: 30
+      time_in_seconds: 30,
+      keywords: "new design, data collection"
     }
   end
 
@@ -34,7 +35,7 @@ class TraysControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Tray.count") do
       post trays_url(@regular.profile), params: { tray: tray_params }
     end
-    assert_redirected_to tray_url(Tray.last.profile, Tray.last)
+    assert_redirected_to library_tray_url(Tray.last.profile, Tray.last)
   end
 
   test "should show tray" do
@@ -55,7 +56,7 @@ class TraysControllerTest < ActionDispatch::IntegrationTest
       tray: tray_params.merge(name: "Demographics Updated")
     }
     @tray.reload
-    assert_redirected_to tray_url(@tray.profile, @tray)
+    assert_redirected_to library_tray_url(@tray.profile, @tray)
   end
 
   test "should destroy tray" do

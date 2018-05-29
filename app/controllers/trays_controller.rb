@@ -34,7 +34,7 @@ class TraysController < ApplicationController
 
     respond_to do |format|
       if @tray.save
-        format.html { redirect_to tray_path(@tray.profile, @tray.slug), notice: "Tray was successfully created." }
+        format.html { redirect_to library_tray_path(@tray.profile, @tray), notice: "Tray was successfully created." }
         format.json { render :show, status: :created, location: @tray }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class TraysController < ApplicationController
   def update
     respond_to do |format|
       if @tray.update(tray_params)
-        format.html { redirect_to tray_path(@tray.profile, @tray.slug), notice: "Tray was successfully updated." }
+        format.html { redirect_to library_tray_path(@tray.profile, @tray), notice: "Tray was successfully updated." }
         format.json { render :show, status: :ok, location: @tray }
       else
         format.html { render :edit }
@@ -80,6 +80,6 @@ class TraysController < ApplicationController
   end
 
   def tray_params
-    params.require(:tray).permit(:name, :slug, :description, :time_in_seconds)
+    params.require(:tray).permit(:name, :slug, :description, :time_in_seconds, :keywords)
   end
 end

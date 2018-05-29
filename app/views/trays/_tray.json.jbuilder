@@ -1,2 +1,3 @@
-json.extract! tray, :id, :name, :slug, :user_id, :created_at, :updated_at
-json.url tray_url(tray, format: :json)
+json.profile tray.profile.username
+json.extract! tray, :slug, :name, :created_at, :updated_at
+json.url tray_url(tray.profile, tray, format: :json)

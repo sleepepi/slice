@@ -1,0 +1,55 @@
+<% I18n.locale = World.language %>
+<% @tray = self %>
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
+\usepackage{tabularx}
+\usepackage{scrextend}
+\usepackage{soulutf8}
+
+% \usepackage{hyperref}
+\usepackage{pifont}
+
+\usepackage{needspace}
+\usepackage{color}
+
+\usepackage{ulem}
+
+\subsectionfont{\normalfont\Large\underline}
+\subsubsectionfont{\normalfont\large\underline}
+
+\fancyhf{}
+
+\lhead{\textbf{<%= latex_safe I18n.t("latex.subject") %>}\\\dotuline{~~~~~~~~~~~~~~~~~~~~~~~~}}
+\chead{\\}
+\rhead{\textbf{<%= latex_safe I18n.t("latex.entered") %>} \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~}\\}
+\lfoot{<%= latex_safe @tray.name %>}
+\cfoot{<%= latex_safe I18n.t("latex.printed_on") %> <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
+\rfoot{<%= latex_safe I18n.t("latex.page") %> \thepage\ <%= latex_safe I18n.t("latex.page_of") %> \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+
+\begin{document}
+
+\section*{<%= latex_safe @tray.name %>}
+
+<%= latex_simple_style @tray.description if @tray.description.present? %>
+
+\end{document}

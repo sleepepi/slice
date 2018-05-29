@@ -6,7 +6,7 @@
     .container
       .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center
         %div
-          = link_to @tray.name, library_show_path(@tray.profile, @tray.slug), style: "font-size: 1.75rem;"
+          = link_to @tray.name, library_tray_path(@tray.profile, @tray.slug), style: "font-size: 1.75rem;"
           .small
             by
             = link_to @tray.profile.username, library_profile_path(@tray.profile)

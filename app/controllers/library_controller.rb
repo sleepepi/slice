@@ -3,7 +3,7 @@
 # Provides access to user created Slice forms.
 class LibraryController < ApplicationController
   before_action :find_profile_or_redirect, only: :profile
-  before_action :find_tray_or_redirect, only: :show
+  before_action :find_tray_or_redirect, only: [:tray, :print]
 
   # GET /library
   def index
@@ -22,8 +22,19 @@ class LibraryController < ApplicationController
   end
 
   # GET /library/:username/:id
-  def show
+  # GET /library/:username/:id.json
+  def tray
     render layout: "layouts/full_page"
+  end
+
+  # GET /library/:username/:id.pdf
+  def print
+    file_pdf_location = @tray.latex_file_location
+    if File.exist?(file_pdf_location)
+      send_file file_pdf_location, filename: "#{@tray.profile.username}_#{@tray.slug}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
+    else
+      redirect_to tray_path(@tray.profile, @tray), alert: "Failed to generate PDF."
+    end
   end
 
   # GET /libary/:username

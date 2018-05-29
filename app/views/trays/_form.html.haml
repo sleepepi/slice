@@ -3,4 +3,5 @@
   = render "forms/horizontal/slug_field", form: form, object: tray, key: :slug, key_name: "URL Slug"
   = render "forms/horizontal/text_area", form: form, object: tray, key: :description
   = render "forms/horizontal/number_field", form: form, object: tray, key: :time_in_seconds, key_name: "Completion time (seconds)", help_text: "Set to 0 if the completion time is unknown."
+  = render "forms/horizontal/text_field", form: form, object: tray, key: :keywords, help_text: "Comma-separated list of terms to improve searchability."
   = render "forms/horizontal/submit", form: form, object: tray, cancel: library_profile_path(@profile)

@@ -37,6 +37,10 @@
   background-image: asset-url('backgrounds/desktop-background-3061483_1920.jpg') !important;
 }
 
+.bg-library-fall {
+  background-image: asset-url('themes/fall/road-1072823_1920.jpg');
+}
+
 .library-profile-header {
   padding: map-get($spacers, 2);
 

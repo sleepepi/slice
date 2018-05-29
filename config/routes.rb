@@ -398,7 +398,8 @@ Rails.application.routes.draw do
 
   namespace :library do
     root action: :index
-    get :show, path: ":username/:id"
+    get :print, path: ":username/:id.pdf"
+    get :tray, path: ":username/:id"
     get :profile, path: ":username"
   end
 

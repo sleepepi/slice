@@ -14,8 +14,21 @@ class LibraryControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Displays a public slice form.
-  test "should get show" do
-    get library_show_url(profiles(:one), trays(:one))
+  test "should show form" do
+    get library_tray_url(profiles(:one), trays(:one))
+    assert_response :success
+  end
+
+  # Displays a public slice form.
+  test "should print form" do
+    skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
+    get library_print_url(profiles(:one), trays(:one))
+    assert_response :success
+  end
+
+  # Displays a public slice form.
+  test "should copy form" do
+    get library_tray_url(profiles(:one), trays(:one), format: "json")
     assert_response :success
   end
 end
