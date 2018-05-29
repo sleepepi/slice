@@ -55,6 +55,14 @@ class User < ApplicationRecord
 
   # Methods
 
+  def profiles
+    Profile.where(user_id: id).or(Profile.where(organization_id: organization_ids))
+  end
+
+  def organization_ids
+    []
+  end
+
   def self.searchable_attributes
     %w(full_name email)
   end

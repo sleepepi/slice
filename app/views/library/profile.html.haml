@@ -1,4 +1,6 @@
-- @theme = "default"
+= render "themes/library"
+
+- owner = @profile.editable_by?(current_user)
 
 .page-box.page-box-no-padding.last-box.bg-white
 
@@ -7,7 +9,7 @@
 
       .d-flex.flex-row.align-items-center.mb-3
         .mr-3
-          - if current_user && current_user == @profile.user
+          - if owner
             = link_to edit_profile_path(@profile) do
               = public_profile_picture_tag @profile
           - else
@@ -17,20 +19,18 @@
           .small= simple_style @profile.description
 
       .mb-0
-        .float-right
-          = link_to new_tray_path(@profile), class: "btn btn-accent btn-sm" do
-            %i.fa.fa-file
-            New form
+        - if owner
+          .float-right
+            = link_to new_tray_path(@profile), class: "btn btn-accent btn-sm" do
+              %i.fa.fa-file
+              New form
 
         = link_to "#", style: "font-weight: bold;background-color: #fff;margin-bottom: -1px;", class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top border border-bottom-0", data: { object: "suppress-click" } do
           %i.fa.fa-files-o
           Forms
           %span.badge.badge-pill.badge-light= @trays.total_count
 
-
-
   .container.py-4
-
     = form_tag library_profile_path(@profile), method: :get, enforce_utf8: false, id: "search-form", class: "mb-4" do
       .input-group
         = text_field_tag :search, params[:search], class: "form-control form-control", placeholder: "Search forms...", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"

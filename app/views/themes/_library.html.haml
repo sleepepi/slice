@@ -1,0 +1,11 @@
+- @theme = "default"
+- t = Time.zone.now
+- valentines_day = (t.month == 2 && (7..14).cover?(t.day)) || params[:day] == "v"
+- @theme = "love" if valentines_day
+- if params[:day] == "v"
+  - @library_bg = "bg-library-valentines-day"
+- elsif params[:day].present?
+  - @library_bg = "bg-library-#{params[:day]}"
+- else
+  - @library_bg = "bg-library-#{Time.zone.today.wday}"
+  - @library_bg = "bg-library-valentines-day" if valentines_day

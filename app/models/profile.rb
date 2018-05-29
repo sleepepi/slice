@@ -31,6 +31,11 @@ class Profile < ApplicationRecord
     user || organization
   end
 
+  def editable_by?(current_user)
+    return false unless current_user
+    current_user.profiles.find_by(id: id).present?
+  end
+
   private
 
   # User XOR organization needs to be present, one or the other, not both.

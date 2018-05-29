@@ -1,6 +1,5 @@
-- @theme = "default"
-
-.page-box.page-box-no-padding.last-box.bg-library{ class: "bg-library-#{Time.zone.today.wday % 3}" }
+= render "themes/library"
+.page-box.page-box-no-padding.last-box.bg-library{ class: @library_bg }
 
   .library-header
     .container

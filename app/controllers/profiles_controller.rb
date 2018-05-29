@@ -75,7 +75,7 @@ class ProfilesController < ApplicationController
   end
 
   def find_editable_profile_or_redirect
-    @profile = Profile.where(user: current_user).find_by_param(params[:id])
+    @profile = current_user.profiles.find_by_param(params[:id])
     redirect_without_profile unless @profile
   end
 

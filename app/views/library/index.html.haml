@@ -1,8 +1,5 @@
-- @theme = "default"
-- t = Time.zone.now
-- valentines_day = (t.month == 2 && (7..14).cover?(t.day))
-- @theme = "love" if valentines_day
-.page-box.last-box.bg-library{ class: "bg-library-#{Time.zone.today.wday % 3} #{"bg-library-valentines-day" if valentines_day}" }
+= render "themes/library"
+.page-box.last-box.bg-library{ class: @library_bg }
   .container
     %h1
       .text-white{ style: "font-variant: small-caps;font-weight: 300;" } Library
