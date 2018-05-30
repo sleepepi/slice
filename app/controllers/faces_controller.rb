@@ -71,7 +71,7 @@ class FacesController < ApplicationController
   def destroy
     @face.destroy
     respond_to do |format|
-      format.html { redirect_to tray_cube_faces_path(@face.cube.tray.profile, @face.cube.tray, @face.cube), notice: "Face was successfully destroyed." }
+      format.html { redirect_to tray_cube_faces_path(@face.cube.tray.profile, @face.cube.tray, @face.cube), notice: "Face was successfully deleted." }
       format.json { head :no_content }
     end
   end

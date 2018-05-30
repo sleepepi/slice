@@ -1,0 +1,31 @@
+- @title = "Organizations"
+
+- content_for :header do
+  .float-right
+    = link_to plus_or("New Organization"), new_organization_path, class: "btn btn-accent btn-shadow"
+    .per-page= render "layouts/per_page", per_page: 40, object_count: @organizations.total_count
+  = @title
+  = render "search/toggle"
+
+= render "search/simple", url: organizations_path
+
+- if @organizations.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col{ width: "1px" }
+      %thead
+        %tr
+          = th_sort_field @order, "organizations.name", "Name"
+          %th.text-center Actions
+
+      %tbody
+        - @organizations.each do |organization|
+          %tr
+            %td= link_to organization.name, organization
+            %td
+              = render "layouts/edit_delete_dropdown", edit_url: edit_organization_path(organization), delete_url: organization, delete_confirmation: "Delete \"#{organization.name}\"?"
+- else
+  .jumbotron.jumbotron-custom-text
+    No organizations found.
+

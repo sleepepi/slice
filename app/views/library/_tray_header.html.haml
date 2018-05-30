@@ -17,7 +17,7 @@
 
     .mb-0
       = link_to library_tray_path(tray.profile, tray), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_tray_path(tray.profile, tray)) || current_page?(tray_path(tray.profile, tray))}", data: { object: "#{"suppress-click" if current_page?(library_tray_path(tray.profile, tray))}" } do
-        %i.fa.fa-files-o
+        %i.fa.fa-file-text-o
         Form
       - if owner
         = link_to edit_tray_path(tray.profile, tray), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if params[:controller] == "trays" && params[:action].in?(%w(edit update))}" do

@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :organizations
+
   resources :profiles do
     member do
       get :picture

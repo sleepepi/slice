@@ -52,7 +52,7 @@ class ProfilesController < ApplicationController
   # DELETE /profiles/1
   def destroy
     @profile.destroy
-    redirect_to profiles_path, notice: "Profile was successfully destroyed."
+    redirect_to profiles_path, notice: "Profile was successfully deleted."
   end
 
   # GET /profiles/:id/picture

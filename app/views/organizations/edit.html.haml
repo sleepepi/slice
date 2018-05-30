@@ -1,0 +1,7 @@
+- @title = "#{@organization.name_was} Edit"
+
+- content_for :header do
+  = link_to @organization.name_was, @organization
+  Edit
+
+.dashboard-container= render "form", organization: @organization
