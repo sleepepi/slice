@@ -1,7 +1,7 @@
 - content_for :header do
   .float-right
     - if @project.site_or_project_editor?(current_user)
-      = link_to plus_or("New Subject"), new_project_subject_path(@project), class: "btn btn-primary btn-shadow"
+      = link_to plus_or("New Subject"), new_project_subject_path(@project), class: "btn btn-accent btn-shadow"
     .per-page= render "layouts/per_page", per_page: 20, object_count: @subjects.total_count
   = @title
   = render "search/toggle"

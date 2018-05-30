@@ -21,7 +21,8 @@ class TraysControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     login(@regular)
     get trays_url(@regular.profile)
-    assert_response :success
+    # assert_response :success
+    assert_redirected_to library_profile_url(@regular.profile)
   end
 
   test "should get new" do

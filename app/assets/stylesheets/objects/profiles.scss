@@ -1,0 +1,22 @@
+.profile-tab {
+  margin-bottom: -1px;
+}
+
+.profile-tab-active {
+  font-weight: bold;
+}
+
+
+@each $name, $theme in $themes {
+  @if map-get($theme, accent) {
+    .theme-#{$name}-bg {
+      .profile-tab {
+        background-color: transparent; // map-get($theme, body-bg);
+      }
+
+      .profile-tab-active {
+        background-color: map-get($theme, brand-white);
+      }
+    }
+  }
+}

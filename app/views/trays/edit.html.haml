@@ -1,5 +1,11 @@
-- @title = "#{@tray.name_was} Edit"
+- @title = "#{@tray.name_was} - Settings"
+= render "themes/library"
 
-- content_for :header, @title
+- owner = @tray.profile.editable_by?(current_user)
 
-.dashboard-container= render "form", tray: @tray
+.page-box.page-box-no-padding.last-box.bg-white
+  = render "library/tray_header", tray: @tray, owner: owner
+  .container.py-3
+    = render "form", tray: @tray
+
+

@@ -1,0 +1,16 @@
+.library-profile-header.pb-0.border-bottom
+  .container
+    .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center.mb-3{ style: "font-size: 1.5rem;" }
+      %div
+        = link_to "<i class=\"fa fa-book\"></i>".html_safe, library_root_path, class: "link-unstyled"
+        = link_to profile.username, library_profile_path(profile)
+        \/
+        %span.text-muted#tray-slug-preview untitled
+
+    .mb-0
+      = link_to "#", class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab", data: { object: "suppress-click" } do
+        %i.fa.fa-files-o
+        Form
+      = link_to "#", class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab border border-bottom-0 profile-tab-active", data: { object: "suppress-click" } do
+        %i.fa.fa-cog
+        Settings

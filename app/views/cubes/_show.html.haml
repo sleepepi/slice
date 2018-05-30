@@ -1,7 +1,21 @@
-.mb-3
-  .display-4= simple_style cube.text
+- if cube.text.present?
+  - case cube.cube_type
+  - when "section"
+    .section-header= simple_style cube.text
+  - when "string", "number"
+    .form-group{ class: cycle("variable-shade", "variable-blind") }
+      %label= simple_style cube.text
+      = text_field_tag cube.cube_type, "", class: "form-control"
+  - else
+    .form-group{ class: cycle("variable-shade", "variable-blind") }
+      %label= simple_style cube.text
+      - if false
+        = form.number_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}", placeholder: defined?(placeholder) ? placeholder : nil, id: id
+        - if defined?(key_name)
+          = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
+        - else
+          = render "forms/invalid_feedback", object: object, key: key
+        = render "forms/help_text", help_text: help_text if defined?(help_text)
 
-  - cube.faces.each do |face|
-    = render "faces/show", face: face
-
-
+      - cube.faces.each do |face|
+        = render "faces/show", face: face

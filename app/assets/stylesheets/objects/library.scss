@@ -56,11 +56,6 @@
   margin-bottom: map-get($spacers, 1)
 }
 
-.library-profile-desc {
-  font-size: initial;
-  font-weight: initial;
-}
-
 .library-header {
   padding: map-get($spacers, 2);
 
@@ -93,10 +88,6 @@
 
       .library-profile-header {
         background-color: map-get($theme, body-bg);
-      }
-
-      .library-profile-desc {
-        color: $text-muted;
       }
     }
   }

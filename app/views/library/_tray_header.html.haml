@@ -1,0 +1,25 @@
+.library-profile-header.pb-0.border-bottom
+  .container
+    .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center.mb-3{ style: "font-size: 1.5rem;" }
+      %div
+        = link_to "<i class=\"fa fa-book\"></i>".html_safe, library_root_path, class: "link-unstyled"
+        = link_to tray.profile.username, library_profile_path(tray.profile)
+        \/
+        = link_to tray.slug_was, library_tray_path(tray.profile, tray)
+      %div
+        = link_to library_tray_path(tray.profile, tray, format: "json"), class: "btn btn-sm btn-accent btn-shadow" do
+          %i.fa.fa-flask
+          Copy
+        &nbsp;
+        = link_to library_print_path(tray.profile, tray), class: "btn btn-sm btn-dark btn-shadow", data: { turbolinks: false } do
+          %i.fa.fa-print
+          Print
+
+    .mb-0
+      = link_to library_tray_path(tray.profile, tray), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_tray_path(tray.profile, tray)) || current_page?(tray_path(tray.profile, tray))}", data: { object: "#{"suppress-click" if current_page?(library_tray_path(tray.profile, tray))}" } do
+        %i.fa.fa-files-o
+        Form
+      - if owner
+        = link_to edit_tray_path(tray.profile, tray), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if params[:controller] == "trays" && params[:action].in?(%w(edit update))}" do
+          %i.fa.fa-cog
+          Settings

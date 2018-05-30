@@ -6,17 +6,19 @@ class TraysController < ApplicationController
   before_action :find_profile_or_redirect
   before_action :find_tray_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page"
+
   # GET /trays
   # GET /trays.json
   def index
-    @trays = Tray.all
+    # @trays = Tray.all
+    redirect_to library_profile_path(@profile)
   end
 
-  # GET /trays/1
-  # GET /trays/1.json
-  def show
-    render layout: "layouts/full_page"
-  end
+  # # GET /trays/1
+  # # GET /trays/1.json
+  # def show
+  # end
 
   # GET /trays/new
   def new

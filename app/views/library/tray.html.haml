@@ -1,32 +1,31 @@
 - @title = "#{@tray.profile.username}/#{@tray.slug}#{": #{strip_tags(simple_style(@tray.description))}" if @tray.description.present?}"
 = render "themes/library"
 - @keywords = @tray.keywords
-.page-box.page-box-no-padding.last-box.bg-library{ class: @library_bg }
 
-  .library-header
-    .container
-      .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center.mb-3{ style: "font-size: 1.75rem;" }
-        %div
-          = link_to "<i class=\"fa fa-book\"></i>".html_safe, library_root_path, class: "link-unstyled"
-          = link_to @tray.profile.username, library_profile_path(@tray.profile)
-          \/
-          = link_to @tray.slug, library_tray_path(@tray.profile, @tray)
-          = link_to "edit", edit_tray_path(@tray.profile, @tray), class: "btn btn-sm btn-light border-secondary" if @tray.profile.editable_by?(current_user)
-        %div
-          = link_to library_tray_path(@tray.profile, @tray, format: "json"), class: "btn btn-sm btn-accent btn-shadow" do
-            %i.fa.fa-flask
-            Copy
-          &nbsp;
-          = link_to library_print_path(@tray.profile, @tray), class: "btn btn-sm btn-dark btn-shadow", data: { turbolinks: false } do
-            %i.fa.fa-print
-            Print
-      = simple_style @tray.description
+- owner = @tray.profile.editable_by?(current_user)
+
+.page-box.page-box-no-padding.last-box.bg-white
+
+  = render "library/tray_header", tray: @tray, owner: owner
 
   .container.py-3
-    .dashboard-container.bg-white
-      .display-1
-        = @tray.name
-        = link_to "edit form", tray_path(@tray.profile, @tray), class: "btn btn-sm btn-light border-secondary" if @tray.profile.editable_by?(current_user)
+    .mt-2.mb-4
+      - if @tray.description.blank?
+        - if owner
+          = link_to "Add description...", edit_tray_path(@tray.profile, @tray), class: "text-muted"
+      - else
+        = simple_style @tray.description
+    .card
+      .card-header
+        - if owner
+          .float-right
+            = link_to tray_path(@tray.profile, @tray), class: "link-unstyled" do
+              %i.fa.fa-pencil
 
-      - @tray.cubes.each do |cube|
-        = render "cubes/show", cube: cube
+        = @tray.slug
+      .card-body
+        .design-header
+          = @tray.name
+
+        - @tray.cubes.each do |cube|
+          = render "cubes/show", cube: cube

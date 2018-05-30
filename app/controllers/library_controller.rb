@@ -5,6 +5,8 @@ class LibraryController < ApplicationController
   before_action :find_profile_or_redirect, only: :profile
   before_action :find_tray_or_redirect, only: [:tray, :print]
 
+  layout "layouts/full_page"
+
   # GET /library
   def index
     search = []
@@ -18,14 +20,12 @@ class LibraryController < ApplicationController
     end
 
     @trays = Tray.search(search.join(" "), match_start: false).order(:name).page(params[:page]).per(20)
-    render layout: "layouts/full_page"
   end
 
-  # GET /library/:username/:id
-  # GET /library/:username/:id.json
-  def tray
-    render layout: "layouts/full_page"
-  end
+  # # GET /library/:username/:id
+  # # GET /library/:username/:id.json
+  # def tray
+  # end
 
   # GET /library/:username/:id.pdf
   def print
@@ -40,7 +40,6 @@ class LibraryController < ApplicationController
   # GET /libary/:username
   def profile
     @trays = @profile.trays.search(params[:search], match_start: false).order(:name).page(params[:page]).per(20)
-    render layout: "layouts/full_page"
   end
 
   # GET /members/:id/profile_picture

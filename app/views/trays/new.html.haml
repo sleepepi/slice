@@ -1,5 +1,8 @@
-- @title = "New Tray"
+- @title = "New Form"
+= render "themes/library"
 
-- content_for :header, @title
+.page-box.page-box-no-padding.last-box.bg-white
+  = render "library/new_tray_header", profile: @profile
 
-.dashboard-container= render "form", tray: @tray
+  .container.py-3
+    = render "form", tray: @tray

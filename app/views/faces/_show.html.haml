@@ -1,2 +1,7 @@
-.mb-3
+.mb-1.d-block
+  - if true
+    %i.fa.fa-circle.text-disabled
+  - else
+    %i.fa.fa-square.text-disabled
+  = "P#{face.position}: "
   = simple_style face.text
