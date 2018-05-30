@@ -1,0 +1,7 @@
+- enter_option_placeholder = "choice"
+.face-wrapper{ class: face.new_record? ? "face-wrapper-unsaved" : nil, data: { object: "face-wrapper", cube: face.cube.to_param, face: face.id, url: tray_cube_faces_path(face.cube.tray, face.cube), position: face.position, position_original: face.position, text_original: face.text } }
+  .face-prepend
+    \-
+  = text_field_tag :face, face.text, placeholder: enter_option_placeholder, class: "face-input", id: nil, autocomplete: "off"
+  .face-id
+    = face.position.presence || "Ø"

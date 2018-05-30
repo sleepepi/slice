@@ -1,0 +1,9 @@
+one:
+  cube: one
+  position: 1
+  text: MyText
+
+two:
+  cube: one
+  position: 2
+  text: MyText

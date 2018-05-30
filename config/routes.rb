@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :cubes
   root "account#dashboard"
 
   get "survey", to: "survey#index", as: :about_survey

@@ -1,0 +1,11 @@
+- @title = "#{@face.cube.tray.name} #{@face.name}"
+
+- content_for :header do
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face), delete_url: tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face), delete_confirmation: "Delete \"#{@face.name}\"?"
+  = @title
+
+.dashboard-container
+  = render "forms/horizontal/show/generic", title: "Cube", content: link_to(@cube.name, tray_cube_path(@face.cube.tray.profile, @face.cube.tray, @face.cube))
+  = render "forms/horizontal/show/text", object: @face, key: :position
+  = render "forms/horizontal/show/generic", title: "Text", content: simple_style(@face.text)

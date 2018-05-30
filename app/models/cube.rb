@@ -12,7 +12,7 @@ class Cube < ApplicationRecord
 
   # Relationships
   belongs_to :tray
-  # has_many :faces, -> { order(:position) }, dependent: :destroy
+  has_many :faces, -> { order(:position) }, dependent: :destroy
 
   # Methods
   def name

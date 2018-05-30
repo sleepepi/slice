@@ -1,0 +1,29 @@
+- @title = "Faces"
+
+- content_for :header do
+  .float-right
+    = link_to "New Face", new_tray_cube_face_path(@tray.profile, @tray, @cube), class: "btn btn-accent btn-shadow"
+  = @title
+
+- if @faces.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %thead
+        %tr
+          %th Position
+          %th Text
+          %th Cube
+          %th{ colspan: 3 }
+
+      %tbody
+        - @faces.includes(cube: :tray).each do |face|
+          %tr
+            %td= face.position
+            %td= face.text
+            %td= link_to face.cube.text, tray_cube_face_path(face.cube.tray.profile, face.cube.tray, face.cube, face)
+            %td= link_to "Show", tray_cube_face_path(face.cube.tray.profile, face.cube.tray, face.cube, face)
+            %td= link_to "Edit", edit_tray_cube_face_path(face.cube.tray.profile, face.cube.tray, face.cube, face)
+            %td= link_to "Destroy", tray_cube_face_path(face.cube.tray.profile, face.cube.tray, face.cube, face), method: :delete, data: { confirm: "Are you sure?" }
+- else
+  .jumbotron.jumbotron-custom-text
+    No faces found.

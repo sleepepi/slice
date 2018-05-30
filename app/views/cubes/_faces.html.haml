@@ -1,0 +1,8 @@
+- if cube.faces.present?
+  %ul.list-unstyled
+    - cube.faces.each do |face|
+      %li
+        = link_to face.name, tray_cube_face_path(cube.tray.profile, cube.tray, cube, face)
+        = simple_style face.text
+- else
+  .text-muted No faces.

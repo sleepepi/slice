@@ -1,0 +1,5 @@
+- url = face.new_record? ? tray_cube_faces_path(face.cube.tray.profile, face.cube.tray, face.cube) : tray_cube_face_path(face.cube.tray.profile, face.cube.tray, face.cube, face)
+= form_with model: face, url: url, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: face, key: :position
+  = render "forms/horizontal/text_field", form: form, object: face, key: :text
+  = render "forms/horizontal/submit", form: form, object: face, cancel: url
