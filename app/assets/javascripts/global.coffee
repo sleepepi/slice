@@ -7,6 +7,8 @@
 
 @componentsReady = ->
   themesReady()
+  cubesReady()
+  traysReady()
 
 @extensionsReady = ->
   clipboardReady()

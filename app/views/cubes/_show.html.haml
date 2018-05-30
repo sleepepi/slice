@@ -1,0 +1,7 @@
+.mb-3
+  .display-4= simple_style cube.text
+
+  - cube.faces.each do |face|
+    = render "faces/show", face: face
+
+

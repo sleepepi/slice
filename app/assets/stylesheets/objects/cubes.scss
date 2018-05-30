@@ -1,0 +1,94 @@
+.cube-wrapper {
+  transition: transform .25s ease-out;
+
+  &.ui-sortable-helper {
+    transform: scale(1.01) skew(0, 1deg);
+  }
+}
+
+.cube-wrapper-placeholder {
+  background-color: $p100-grey;
+  border: 1px solid $p200-grey;
+}
+
+.cube {
+  background-color: $p50-blue;
+  border: 1px solid $p100-blue;
+  display: flex;
+}
+
+.cube-wrapper-unsaved {
+  .cube {
+    border-color: transparent;
+    opacity: .8;
+  }
+}
+
+.cube-input {
+  background-color: $p50-blue;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  padding: $spacer;
+  width: 100%;
+
+  &:active,
+  &.active,
+  &:focus {
+    box-shadow: none;
+    background-color: $p100-blue;
+  }
+}
+
+.cube-wrapper-unsaved {
+  .cube-input {
+    background-color: $p50-yellow;
+  }
+}
+
+.cube-type {
+  padding: $spacer;
+  color: $text-muted;
+}
+
+.cube-id {
+  background-color: $p200-blue;
+  color: $white;
+  cursor: move; // Cursor fallback
+  cursor: grab;
+  font-family: $font-family-monospace;
+  padding: $spacer;
+  white-space: nowrap;
+}
+
+.ui-sortable-helper {
+  .cube-id {
+    cursor: move; // Cursor fallback
+    cursor: grabbing;
+  }
+}
+
+.cube-wrapper-unsaved-position {
+  .cube-id {
+    background-color: $p200-yellow;
+    color: $body-color;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .cube-input {
+      // color: map-get($theme, brand-white);
+
+      // &::placeholder {
+      //   color: map-get($theme, body-color);
+      // }
+    }
+
+    .cube-wrapper {
+      &.ui-sortable-helper {
+        box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      }
+    }
+  }
+}

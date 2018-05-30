@@ -1,0 +1,89 @@
+.face-wrapper {
+  display: flex;
+  // margin-left: $spacer;
+
+  transition: transform .25s ease-out;
+
+  &.ui-sortable-helper {
+    transform: scale(1.01) skew(0, 1deg);
+  }
+}
+
+.face-wrapper-placeholder {
+  background-color: $p100-grey;
+  border: 1px solid $p200-grey;
+  margin-left: $spacer;
+}
+
+.face-prepend {
+  padding: $spacer;
+}
+
+.face-input {
+  background-color: $p50-blue;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  // padding-bottom: $spacer;
+  padding: $spacer;
+  width: 100%;
+
+  &:active,
+  &.active,
+  &:focus {
+    box-shadow: none;
+    background-color: $p100-blue;
+  }
+}
+
+.face-wrapper-unsaved {
+  .face-input {
+    background-color: $p50-yellow;
+  }
+}
+
+.face-id {
+  background-color: $p200-blue;
+  color: $white;
+  cursor: move; // Cursor fallback
+  cursor: grab;
+  font-family: $font-family-monospace;
+  padding: $spacer;
+  white-space: nowrap;
+}
+
+.ui-sortable-helper {
+  .face-id {
+    cursor: move; // Cursor fallback
+    cursor: grabbing;
+  }
+}
+
+.face-wrapper-unsaved-position {
+  .face-id {
+    background-color: $p200-yellow;
+    color: $body-color;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .face-wrapper {
+      &.ui-sortable-helper {
+        box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      }
+    }
+  }
+}
+
+.cube-faces {
+  .face-id {
+    opacity: 0.5;
+  }
+}
+
+.cube-faces.ui-sortable {
+  .face-id {
+    opacity: 1.0;
+  }
+}

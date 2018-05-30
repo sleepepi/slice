@@ -30,8 +30,9 @@ class FacesController < ApplicationController
     @face = @cube.faces.new(face_params)
     respond_to do |format|
       if @face.save
-        format.html { redirect_to tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face), notice: "Face was successfully created." }
-        format.json { render :show, status: :created, location: [@tray, @cube, @face] }
+        url = tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face)
+        format.html { redirect_to url, notice: "Face was successfully created." }
+        format.json { render :show, status: :created, location: url }
       else
         format.html { render :new }
         format.json { render json: @face.errors, status: :unprocessable_entity }
@@ -44,8 +45,9 @@ class FacesController < ApplicationController
   def update
     respond_to do |format|
       if @face.update(face_params)
-        format.html { redirect_to tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face), notice: "Face was successfully updated." }
-        format.json { render :show, status: :ok, location: [@tray, @cube, @face] }
+        url = tray_cube_face_path(@face.cube.tray.profile, @face.cube.tray, @face.cube, @face)
+        format.html { redirect_to url, notice: "Face was successfully updated." }
+        format.json { render :show, status: :ok, location: url }
       else
         format.html { render :edit }
         format.json { render json: @face.errors, status: :unprocessable_entity }

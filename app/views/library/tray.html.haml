@@ -24,4 +24,9 @@
 
   .container.py-3
     .dashboard-container.bg-white
-      .display-1= @tray.name
+      .display-1
+        = @tray.name
+        = link_to "edit form", tray_path(@tray.profile, @tray), class: "btn btn-sm btn-light border-secondary" if @tray.profile.editable_by?(current_user)
+
+      - @tray.cubes.each do |cube|
+        = render "cubes/show", cube: cube

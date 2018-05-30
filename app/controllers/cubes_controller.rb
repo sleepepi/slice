@@ -31,8 +31,9 @@ class CubesController < ApplicationController
     @cube = @tray.cubes.new(cube_params)
     respond_to do |format|
       if @cube.save
-        format.html { redirect_to tray_cube_path(@cube.tray.profile, @cube.tray, @cube), notice: "Cube was successfully created." }
-        format.json { render :show, status: :created, location: [@tray, @cube] }
+        url = tray_cube_path(@cube.tray.profile, @cube.tray, @cube)
+        format.html { redirect_to url, notice: "Cube was successfully created." }
+        format.json { render :show, status: :created, location: url }
       else
         format.html { render :new }
         format.json { render json: @cube.errors, status: :unprocessable_entity }
@@ -45,8 +46,9 @@ class CubesController < ApplicationController
   def update
     respond_to do |format|
       if @cube.update(cube_params)
-        format.html { redirect_to tray_cube_path(@cube.tray.profile, @cube.tray, @cube), notice: "Cube was successfully updated." }
-        format.json { render :show, status: :ok, location: [@tray, @cube] }
+        url = tray_cube_path(@cube.tray.profile, @cube.tray, @cube)
+        format.html { redirect_to url, notice: "Cube was successfully updated." }
+        format.json { render :show, status: :ok, location: url }
       else
         format.html { render :edit }
         format.json { render json: @cube.errors, status: :unprocessable_entity }

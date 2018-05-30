@@ -1,0 +1,2 @@
+@traysReady = ->
+  Tray.attachEventHandlers()

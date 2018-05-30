@@ -4,17 +4,38 @@
 
   .library-header
     .container
-      .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center
+      .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center.mb-3{ style: "font-size: 1.75rem;" }
         %div
-          = link_to @tray.name, library_tray_path(@tray.profile, @tray.slug), style: "font-size: 1.75rem;"
-          .small
-            by
-            = link_to @tray.profile.username, library_profile_path(@tray.profile)
-        %div
-          = link_to "#", class: "btn btn-accent btn-shadow" do
-            %i.fa.fa-flask
-            Copy
+          = link_to "<i class=\"fa fa-book\"></i>".html_safe, library_root_path, class: "link-unstyled"
+          = link_to @tray.profile.username, library_profile_path(@tray.profile)
+          \/
+          = link_to @tray.slug, library_tray_path(@tray.profile, @tray)
 
   .container.py-3
     .dashboard-container.bg-white
+      .float-right
+        #output.text-monospace 0
       .display-1= @tray.name
+
+      - enter_question_placeholder = "Enter question here..."
+      - enter_option_placeholder = "choice"
+
+      %div.d-none#language{ data: { enter_question_placeholder: enter_question_placeholder, enter_option_placeholder: enter_option_placeholder } }
+
+      .d-flex.flex-row
+        #cubes.w-100{ data: { object: "tray-wrapper" } }
+          - @tray.cubes.includes(:tray).each do |cube|
+            = render "cubes/wrapper", cube: cube
+
+          - if @tray.cubes.blank?
+            - cube = @tray.cubes.new(position: 1)
+            = render "cubes/wrapper", cube: cube
+        #cube-details-edit-box.w-25.cube-details-edit-box.d-none{ data: { url: tray_cubes_path(@tray.profile, @tray) }}
+          .float-right
+            = link_to "#", data: { object: "cube-details-clicker-close" }, class: "text-muted", style: "text-decoration: none;" do
+              &times;
+          #cube-details-id Ø
+          = form_with model: Cube.new, url: "#" do |form|
+            .form-group
+              = form.label :cube_type
+              = form.select :cube_type, Cube::CUBE_TYPES, {}, class: "form-control", id: "cube_cube_type"
