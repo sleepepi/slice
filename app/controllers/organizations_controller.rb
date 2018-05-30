@@ -77,7 +77,7 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(:name)
+    params.require(:organization).permit(:name, :profile_picture)
   end
 
   def scope_order(scope)
