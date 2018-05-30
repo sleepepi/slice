@@ -31,7 +31,7 @@ class LibraryController < ApplicationController
   def print
     file_pdf_location = @tray.latex_file_location
     if File.exist?(file_pdf_location)
-      send_file file_pdf_location, filename: "#{@tray.profile.username}_#{@tray.slug}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
+      send_file file_pdf_location, filename: "#{@tray.profile.username}_#{@tray.slug}_v#{@tray.major_version_number}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
     else
       redirect_to tray_path(@tray.profile, @tray), alert: "Failed to generate PDF."
     end

@@ -18,7 +18,7 @@ class Tray < ApplicationRecord
 
   # Relationships
   belongs_to :profile
-  # has_many :cubes, -> { order(:position) }
+  has_many :cubes, -> { order(:position) }
 
   # Methods
   def self.searchable_attributes
@@ -27,6 +27,10 @@ class Tray < ApplicationRecord
 
   def public?
     true
+  end
+
+  def major_version_number
+    1
   end
 
   def latex_partial(partial)

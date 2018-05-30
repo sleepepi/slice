@@ -1,0 +1,13 @@
+- @title = "#{@cube.tray.name} #{@cube.name}"
+
+- content_for :header do
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_tray_cube_path(@cube.tray.profile, @cube.tray, @cube), delete_url: tray_cube_path(@cube.tray.profile, @cube.tray, @cube), delete_confirmation: "Delete \"#{@cube.name}\" randomization scheme?"
+  = @title
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @cube, key: :position
+  = render "forms/horizontal/show/generic", title: "Text", content: simple_style(@cube.text)
+  = render "forms/horizontal/show/generic", title: "Description", content: simple_style(@cube.description)
+  = render "forms/horizontal/show/text", object: @cube, key: :cube_type
+  = render "forms/horizontal/show/generic", title: link_to("Faces", tray_cube_faces_path(@cube.tray.profile, @cube.tray, @cube)), content: ""

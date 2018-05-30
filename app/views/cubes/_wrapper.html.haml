@@ -1,0 +1,15 @@
+- enter_question_placeholder = "Enter question here..."
+.cube-wrapper{ class: cube.new_record? ? "cube-wrapper-unsaved" : nil, data: { object: "cube-wrapper", tray: cube.tray.to_param, cube: cube.id, url: tray_cubes_path(cube.tray), position: cube.position, position_original: cube.position, text_original: cube.text, cube_type: cube.cube_type.presence || "string" } }
+  .cube
+    = text_field_tag :cube, cube.text, placeholder: enter_question_placeholder, class: "cube-input", id: nil, autocomplete: "off"
+    .cube-type
+      %small= link_to cube.cube_type.presence || "string", "#", data: { object: "cube-details-clicker" }, tabindex: "-1"
+    .cube-id
+      %small= "##{cube.id.presence || "Ø"}"
+      = cube.position.presence || "Ø"
+  .cube-faces
+    - cube.faces.includes(:cube).each do |face|
+      = render "faces/wrapper", face: face
+    - if !cube.new_record? && cube.faces.blank? && cube.cube_type == "choice"
+      - face = cube.faces.new(position: 1)
+      = render "faces/wrapper", face: face

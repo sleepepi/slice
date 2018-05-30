@@ -1,0 +1,38 @@
+- @title = "Cubes"
+
+- content_for :header do
+  .float-right
+    = link_to "New Cube", new_tray_cube_path(@tray), class: "btn btn-accent btn-shadow"
+  = @title
+
+- if @cubes.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %thead
+        %tr
+          %th Position
+          %th Text
+          %th ID
+          %th Cube type
+          %th Tray
+          %th.text-center{ colspan: 3 } Actions
+
+      %tbody
+        - @cubes.includes(tray: :profile).each do |cube|
+          %tr
+            %td= cube.position
+            %td
+              - if cube.text.present?
+                = link_to cube.text.presence || cube.id, tray_cube_path(cube.tray.profile, cube.tray, cube)
+              - else
+                = link_to "No text", tray_cube_path(cube.tray.profile, cube.tray, cube), class: "link-unstyled"
+
+            %td= cube.id
+            %td= cube.cube_type
+            %td= link_to cube.tray.name, tray_path(cube.tray.profile, cube.tray)
+            %td= link_to "Show", tray_cube_path(cube.tray.profile, cube.tray, cube)
+            %td= link_to "Edit", edit_tray_cube_path(cube.tray.profile, cube.tray, cube)
+            %td= link_to "Destroy", tray_cube_path(cube.tray.profile, cube.tray, cube), method: :delete, data: { confirm: "Are you sure?" }
+- else
+  .jumbotron.jumbotron-custom-text
+    No cubes found.

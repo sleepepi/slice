@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :cubes
   root "account#dashboard"
 
   get "survey", to: "survey#index", as: :about_survey
@@ -394,7 +395,20 @@ Rails.application.routes.draw do
     get :version
   end
 
-  resources :trays, path: "library/:username/trays"
+  resources :trays, path: "library/:username/trays" do
+    resources :cubes do
+      resources :faces do
+        collection do
+          post :positions
+        end
+      end
+
+      collection do
+        post :positions
+        delete :destroy_all, path: ""
+      end
+    end
+  end
 
   namespace :library do
     root action: :index

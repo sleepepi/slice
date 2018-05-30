@@ -1,0 +1,6 @@
+- url = cube.new_record? ? tray_cubes_path(cube.tray.profile, cube.tray) : tray_cube_path(cube.tray.profile, cube.tray, cube)
+= form_with model: cube, url: url, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: cube, key: :text
+  = render "forms/horizontal/text_field", form: form, object: cube, key: :description
+  = render "forms/horizontal/select", form: form, object: cube, key: :theme, options: Cube::CUBE_TYPES
+  = render "forms/horizontal/submit", form: form, object: cube, cancel: url
