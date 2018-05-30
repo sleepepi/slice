@@ -1,0 +1,6 @@
+- if organization.members.present?
+  %ul.list-unstyled
+    - organization.members.each do |member|
+      %li= member.full_name
+- else
+  .text-muted No members.

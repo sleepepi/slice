@@ -52,15 +52,13 @@ class User < ApplicationRecord
   has_many :variables, -> { current }
 
   has_one :profile
+  has_many :organization_users
+  has_many :organizations, through: :organization_users
 
   # Methods
 
   def profiles
-    Profile.where(user_id: id).or(Profile.where(organization_id: organization_ids))
-  end
-
-  def organization_ids
-    []
+    Profile.where(user_id: id).or(Profile.where(organization: organizations))
   end
 
   def self.searchable_attributes

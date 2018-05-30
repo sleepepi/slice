@@ -79,7 +79,7 @@ class FacesController < ApplicationController
   private
 
   def find_profile_or_redirect
-    @profile = current_user.profile
+    @profile = current_user.profiles.find_by_param(params[:username])
     empty_response_or_root_path(library_root_path) unless @profile
   end
 

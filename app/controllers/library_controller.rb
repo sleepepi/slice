@@ -2,7 +2,7 @@
 
 # Provides access to user created Slice forms.
 class LibraryController < ApplicationController
-  before_action :find_profile_or_redirect, only: :profile
+  before_action :find_profile_or_redirect, only: [:profile, :members]
   before_action :find_tray_or_redirect, only: [:tray, :print]
 
   layout "layouts/full_page"
@@ -40,6 +40,12 @@ class LibraryController < ApplicationController
   # GET /libary/:username
   def profile
     @trays = @profile.trays.search(params[:search], match_start: false).order(:name).page(params[:page]).per(20)
+  end
+
+  # GET /orgs/:username/members
+  def members
+    redirect_to library_profile_path unless @profile.organization
+    @members = @profile.organization.members.order(:full_name).page(params[:page]).per(20)
   end
 
   # GET /members/:id/profile_picture

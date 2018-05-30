@@ -1,35 +1,9 @@
 - @title = @profile.username
 = render "themes/library"
 
-- owner = @profile.editable_by?(current_user)
-
 .page-box.page-box-no-padding.last-box.bg-white
 
-  .library-profile-header.pb-0.border-bottom
-    .container
-
-      .d-flex.flex-row.align-items-center.mb-3
-        .mr-3
-          - if owner
-            = link_to edit_profile_path(@profile) do
-              = public_profile_picture_tag @profile
-          - else
-            = public_profile_picture_tag @profile
-        %div
-          .library-profile-name= @profile.username
-          .small= simple_style @profile.description
-
-      .mb-0
-        - if owner
-          .float-right
-            = link_to new_tray_path(@profile), class: "btn btn-accent btn-sm" do
-              %i.fa.fa-file
-              New form
-
-        = link_to "#", style: "font-weight: bold;background-color: #fff;margin-bottom: -1px;", class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top border border-bottom-0", data: { object: "suppress-click" } do
-          %i.fa.fa-files-o
-          Forms
-          %span.badge.badge-pill.badge-light= @trays.total_count
+  = render "library/profile_header", profile: @profile
 
   .container.py-4
     = form_tag library_profile_path(@profile), method: :get, enforce_utf8: false, id: "search-form", class: "mb-4" do

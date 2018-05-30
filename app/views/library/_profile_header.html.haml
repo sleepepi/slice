@@ -1,0 +1,32 @@
+- owner = profile.editable_by?(current_user)
+.library-profile-header.pb-0.border-bottom
+  .container
+
+    .d-flex.flex-row.align-items-center.mb-3
+      .mr-3
+        - if owner
+          = link_to edit_profile_path(profile) do
+            = public_profile_picture_tag profile
+        - else
+          = public_profile_picture_tag profile
+      %div
+        .library-profile-name= profile.username
+        .small= simple_style profile.description
+
+    .mb-0
+      - if owner
+        .float-right
+          = link_to new_tray_path(profile), class: "btn btn-accent btn-sm" do
+            %i.fa.fa-file
+            New form
+
+      = link_to library_profile_path(profile), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_profile_path(profile))}", data: { object: "#{"suppress-click" if current_page?(library_profile_path(profile))}" } do
+        %i.fa.fa-files-o
+        Forms
+        %span.badge.badge-pill.badge-light= profile.trays.count
+
+      - if profile.organization
+        = link_to library_members_path(profile), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_members_path(profile))}", data: { object: "#{"suppress-click" if current_page?(library_members_path(profile))}" } do
+          %i.fa.fa-files-o
+          Members
+          %span.badge.badge-pill.badge-light= profile.organization.members.count

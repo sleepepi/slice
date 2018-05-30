@@ -411,6 +411,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "orgs/:username/members" => "library#members", as: :library_members
+
   namespace :library do
     root action: :index
     get :print, path: ":username/:id.pdf"

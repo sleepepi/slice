@@ -1,0 +1,19 @@
+- @title = @profile.username
+= render "themes/library"
+
+.page-box.page-box-no-padding.last-box.bg-white
+
+  = render "library/profile_header", profile: @profile
+
+  .container.py-4
+    - if @members.present?
+      %ul.list-unstyled
+        - @members.each do |member|
+          %li
+            = public_profile_picture_tag member.profile, size: 32
+            = link_to member.profile.username, library_profile_path(member.profile)
+
+      .center-horizontally= paginate @members, theme: "bootstrap"
+    - else
+      .jumbotron.jumbotron-custom-text
+        No forms found.

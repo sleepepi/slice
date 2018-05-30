@@ -1,0 +1,4 @@
+- if organization.profile
+  = link_to organization.profile.username, library_profile_path(organization.profile)
+- else
+  .text-muted No profile.

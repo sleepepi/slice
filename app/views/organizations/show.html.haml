@@ -7,4 +7,5 @@
 
 .dashboard-container
   = render "forms/horizontal/show/text", object: @organization, key: :name
-  = render "forms/horizontal/show/generic", title: "Members", content: ""
+  = render "forms/horizontal/show/generic", title: "Profile", content: render("organizations/profile", organization: @organization)
+  = render "forms/horizontal/show/generic", title: "Members", content: render("organizations/members", organization: @organization)
