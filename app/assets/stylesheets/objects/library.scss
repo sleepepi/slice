@@ -6,11 +6,11 @@
 }
 
 .bg-library-0 {
-  background-image: asset-url('backgrounds/coast-3358815_1920.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), asset-url('backgrounds/river-3425457_1920.jpg');
 }
 
 .bg-library-1 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), asset-url('backgrounds/boat-3292934_1920.jpg');
+  background-image: asset-url('backgrounds/black-forest-3423425_1920.jpg');
 }
 
 .bg-library-2 {
@@ -18,19 +18,19 @@
 }
 
 .bg-library-3 {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), asset-url('backgrounds/river-3425457_1920.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), asset-url('backgrounds/boat-3292934_1920.jpg');
 }
 
 .bg-library-4 {
-  background-image: asset-url('backgrounds/nature-3082832_1920.jpg');
-}
-
-.bg-library-5 {
   background-image: asset-url('backgrounds/lake-scenery-1365288_1920.jpg');
 }
 
+.bg-library-5 {
+  background-image: asset-url('backgrounds/coast-3358815_1920.jpg');
+}
+
 .bg-library-6 {
-  background-image: asset-url('backgrounds/black-forest-3423425_1920.jpg');
+  background-image: asset-url('backgrounds/nature-3082832_1920.jpg');
 }
 
 .bg-library-valentines-day {
