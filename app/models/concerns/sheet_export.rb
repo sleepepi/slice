@@ -34,8 +34,8 @@ module SheetExport
     variables.uniq.each do |v|
       if v.variable_type == "checkbox"
         v.domain_options.each do |domain_option|
-          key = "#{v.id}:#{domain_option.id}"
-          responses = pull_checkbox_responses(check_stuff, key)
+          key = "#{v.id}:#{domain_option.value}"
+          responses = pull_responses(check_stuff, key)
           sorted_responses = sort_responses_by_sheet_id(responses, sheet_ids)
           formatted_responses = format_responses(v, raw_data, sorted_responses)
           csv << [v.option_variable_name(domain_option)] + formatted_responses
@@ -66,14 +66,6 @@ module SheetExport
     end
   end
 
-  def pull_checkbox_responses(hash, key)
-    if hash[key].nil?
-      []
-    else
-      hash[key].collect { |_, _, val, sheet_id| [val, sheet_id] }
-    end
-  end
-
   def load_all_checkboxes(variables, sheet_ids)
     filtered_variables = variables.where(variable_type: "checkbox")
     Response
@@ -81,8 +73,8 @@ module SheetExport
       .order(sheet_id: :desc)
       .left_outer_joins(:domain_option)
       .distinct
-      .pluck(:variable_id, "domain_options.id", "domain_options.value", :sheet_id).uniq
-      .group_by { |variable_id, domain_option_id, _, _| "#{variable_id}:#{domain_option_id}" }
+      .pluck(:variable_id, domain_option_value_or_value(table: "responses"), :sheet_id)
+      .group_by { |variable_id, value, _| "#{variable_id}:#{value}" }
   end
 
   def load_all_files(variables, sheet_ids)

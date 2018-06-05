@@ -8,6 +8,10 @@
 - **Project Changes**
   - Sheet calculation errors index can now be filtered by keywords
 
+### Bug Fix
+- Checkboxes with values unassociated to domain options are now included in
+  exports
+
 ### Refactoring
 - Removed underutilized project summary report and advanced design reports
 
