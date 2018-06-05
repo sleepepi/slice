@@ -13,19 +13,9 @@
             %i.fa.fa-search
 
     - if @trays.present?
-      - @trays.each do |tray|
-        = render "library/tray_library", tray: tray
-
-      .dashboard-container.dashboard-table
-        %table.table.table-striped.table-borderless.table-hover.table-sticky
-          %thead
-            %tr
-              %th Form
-              %th Author
-              %th Description
-          %tbody
-            - @trays.each do |tray|
-              = render "library/tray_row", tray: tray
+      .dashboard-container
+        - @trays.each do |tray|
+          = render "library/tray_library", tray: tray
 
       .center-horizontally= paginate @trays, theme: "bootstrap"
     - else

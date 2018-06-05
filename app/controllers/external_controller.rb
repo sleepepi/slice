@@ -49,6 +49,14 @@ class ExternalController < ApplicationController
     end
   end
 
+  # # GET /terms-of-service
+  # def terms_of_service
+  # end
+
+  # # GET /privacy-policy
+  # def privacy_policy
+  # end
+
   # GET /version
   # GET /version.json
   def version

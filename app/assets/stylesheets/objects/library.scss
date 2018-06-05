@@ -56,34 +56,30 @@
   margin-bottom: map-get($spacers, 1)
 }
 
-.library-header {
-  padding: map-get($spacers, 2);
-
-  @include media-breakpoint-up(sm) {
-    padding: map-get($spacers, 3);
-  }
-}
-
 .library-container {
   @include scale-images;
   @include remove-last-child-bottom-margin;
 
-  border-radius: $border-radius;
-  margin-bottom: map-get($spacers, 4);
-  padding: map-get($spacers, 2);
-  transition: $transition-bg;
+  padding-bottom: map-get($spacers, 2);
+  padding-top: map-get($spacers, 2);
 
   @include media-breakpoint-up(sm) {
-    padding: map-get($spacers, 3);
+    padding-bottom: map-get($spacers, 3);
+    padding-top: map-get($spacers, 3);
+  }
+
+  .tray-name {
+    @include media-breakpoint-up(sm) {
+      font-size: 1.25rem;
+    }
   }
 }
 
 @each $name, $theme in $themes {
   @if map-get($theme, accent) {
     .theme-#{$name}-bg {
-      .library-header,
-      .library-container {
-        background-color: map-get($theme, brand-white);
+      .library-container + .library-container {
+        border-top: 1px solid theme-color($theme, input-disabled-bg, $p200-grey);
       }
 
       .library-profile-header {

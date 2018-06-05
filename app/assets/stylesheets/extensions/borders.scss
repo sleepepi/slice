@@ -1,0 +1,21 @@
+@each $color, $value in $theme-colors {
+  @each $name, $theme in $themes {
+    @if map-get($theme, $color) {
+      .theme-#{$name}-bg {
+        .border-#{$color} {
+          border-color: map-get($theme, $color) !important;
+        }
+      }
+    }
+  }
+}
+
+@each $name, $theme in $themes {
+  @if map-get($theme, accent) {
+    .theme-#{$name}-bg {
+      .border-accent {
+        border-color: map-get($theme, accent) !important;
+      }
+    }
+  }
+}

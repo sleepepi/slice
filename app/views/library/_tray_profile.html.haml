@@ -1,9 +1,7 @@
-.library-container.border-bottom
+.library-container
   .d-flex.flex-column.flex-sm-row.justify-content-between.align-items-sm-center
-    %div
-      = link_to tray.name, library_tray_path(tray.profile, tray.slug), style: "font-size: 1.75rem;"
-      .small= simple_style tray.description
-
+    .tray-name
+      = link_to tray.name, library_tray_path(tray.profile, tray.slug)
     %div.text-sm-right
       .d-inline-block.d-sm-block
         - if tray.public?
@@ -17,3 +15,5 @@
           -# seconds = tray.time_in_seconds
           - minutes = (tray.time_in_seconds / 60.0).round(1)
           = pluralize(minutes, "minute")
+  %div
+    .small= simple_style tray.description

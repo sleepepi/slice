@@ -2,12 +2,22 @@
 .footer-container{ class: footer }
   %div{ class: defined?(container) && container.present? ? container : "container" }
     .footer
-      .nowrap
-        .float-right
-          = link_to "Questions?", contact_path
+      .nowrap.row
 
-        &copy;
-        = Time.zone.today.year
-        = link_to ENV["website_name"], about_path
-        - if @seasonal.present?
-          %span.small.text-primary{ rel: "tooltip", data: { title: "Set theme in settings", container: "body", placement: "right" } }= @seasonal.capitalize
+        .col
+          &copy;
+          = Time.zone.today.year
+          = link_to ENV["website_name"], about_path
+          - if @seasonal.present?
+            %span.small.text-primary{ rel: "tooltip", data: { title: "Set theme in settings", container: "body", placement: "right" } }= @seasonal.capitalize
+
+
+        .col.text-center.d-none.d-sm-block
+          - if false
+            %small.px-2= link_to "Terms", terms_of_service_path
+            %small.px-2= link_to "Privacy", privacy_policy_path
+
+          %small.px-2= link_to "Library", library_root_path
+
+        .col.text-right
+          = link_to "Questions?", contact_path

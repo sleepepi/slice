@@ -391,7 +391,9 @@ Rails.application.routes.draw do
     get :about
     get :contact
     get :landing
+    get :privacy_policy, path: "privacy-policy"
     get :sitemap_xml, path: "sitemap.xml.gz"
+    get :terms_of_service, path: "terms-of-service"
     get :use, path: "/about/use", as: :about_use
     get :version
   end
