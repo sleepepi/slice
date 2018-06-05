@@ -27,6 +27,8 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
     get api_v1_subject_events_path(authentication_token: @project.id_and_token, id: @subject, format: "json")
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:subject)
+    events = JSON.parse(response.body)
+    assert_equal "baseline", events.first["event"]
     assert_response :success
   end
 
