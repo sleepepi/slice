@@ -27,7 +27,7 @@ class CheckFilter < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :user
-  belongs_to :check, touch: true
+  belongs_to :check
   belongs_to :variable, optional: true
   has_many :check_filter_values, -> { order(:value) }
 

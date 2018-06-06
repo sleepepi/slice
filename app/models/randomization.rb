@@ -80,7 +80,6 @@ class Randomization < ApplicationRecord
                randomized_at: Time.zone.now,
                attested: true }
     return unless update(params)
-    subject.reset_checks_in_background!
     notify_users_in_background!
   end
 
@@ -123,13 +122,11 @@ class Randomization < ApplicationRecord
   end
 
   def undo!
-    original_subject = subject
     update(subject_id: nil, randomized_at: nil, randomized_by_id: nil,
            attested: false, dice_roll: nil, dice_roll_cutoff: nil,
            past_distributions: nil, weighted_eligible_arms: nil)
     randomization_characteristics.destroy_all
     randomization_tasks.destroy_all
-    original_subject.reset_checks_in_background! if original_subject
     randomization_scheme.reset_randomization_names!
   end
 

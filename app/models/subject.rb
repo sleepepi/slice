@@ -6,7 +6,6 @@ class Subject < ApplicationRecord
   # Concerns
   include Deletable
   include Evaluatable
-  include Forkable
   include Searchable
   include Squishable
 
@@ -183,15 +182,6 @@ class Subject < ApplicationRecord
     formatter = Formatters.for(variable)
     formatted_responses = formatter.format_array(responses, true).uniq.compact
     formatted_responses.size == 1 ? formatted_responses.first : nil
-  end
-
-  def reset_checks_in_background!
-    fork_process(:reset_checks!)
-  end
-
-  def reset_checks!
-    sheets.find_each(&:reset_checks!)
-    project.checks.runnable.find_each(&:run_pending_checks!)
   end
 
   def unblinded_not_missing_sheets

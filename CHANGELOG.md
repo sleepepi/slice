@@ -1,6 +1,9 @@
 ## 64.0.0
 
 ### Enhancements
+- **Check Changes**
+  - Checks are now run as scheduled tasks instead of being triggered by sheet or
+    subject changes
 - **Library Added**
   - Added a public library of forms
   - Users can create a profile and contribute their own forms to the public

@@ -2,7 +2,9 @@
 
 # Allows project editors to create and update project checks.
 class Editor::ChecksController < Editor::EditorController
-  before_action :find_check_or_redirect, only: [:show, :edit, :update, :destroy]
+  before_action :find_check_or_redirect, only: [
+    :show, :edit, :update, :destroy, :request_run
+  ]
 
   layout "layouts/full_page_sidebar"
 
@@ -45,6 +47,12 @@ class Editor::ChecksController < Editor::EditorController
     else
       render :edit
     end
+  end
+
+  # POST /editor/projects/1/checks/1/request-run
+  def request_run
+    @check.update(last_run_at: nil)
+    redirect_to editor_project_check_path(@project, @check), notice: "Check update requested."
   end
 
   # DELETE /editor/projects/1/checks/1

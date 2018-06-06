@@ -118,6 +118,10 @@ Rails.application.routes.draw do
       end
 
       resources :checks do
+        member do
+          post :request_run, path: "request-run"
+        end
+
         resources :check_filters, path: "filters" do
           resources :check_filter_values, path: "values"
         end

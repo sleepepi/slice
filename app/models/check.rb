@@ -2,12 +2,8 @@
 
 # Defines a check that can be run on a project to identify data inconsistencies.
 class Check < ApplicationRecord
-  # Callbacks
-  after_commit :reset_checks_in_background!
-
   # Concerns
   include Deletable
-  include Forkable
   include Sluggable
   include Squishable
 
@@ -17,9 +13,10 @@ class Check < ApplicationRecord
   scope :runnable, -> { current.where(archived: false).where.not(message: [nil, ""]) }
 
   # Validation
-  validates :project_id, :user_id, :name, presence: true
-  validates :slug, uniqueness: { scope: :project_id },
-                   format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
+  validates :name, :message, presence: true
+  validates :slug, format: { with: /\A[a-z][a-z0-9\-]*\Z/ },
+                   exclusion: { in: %w(new edit create update destroy) },
+                   uniqueness: { scope: :project_id },
                    allow_nil: true
 
   # Relationships
@@ -52,21 +49,12 @@ class Check < ApplicationRecord
     subject_scope
   end
 
-  def reset_checks_in_background!
-    fork_process :reset_checks!
-  end
-
-  def reset_checks!
-    project.sheets.find_each do |sheet|
-      status_checks.where(sheet_id: sheet.id).first_or_create
+  def run!
+    status_checks.destroy_all
+    sheets.pluck(:id).each do |sheet_id|
+      status_checks.create(sheet_id: sheet_id, failed: true)
     end
-    run_pending_checks!
-  end
-
-  def run_pending_checks!
-    status_checks.update_all(failed: nil)
-    status_checks.where(sheet_id: sheets.select(:id)).update_all(failed: true)
-    status_checks.where(failed: nil).update_all(failed: false)
+    update last_run_at: Time.zone.now
   end
 
   def destroy

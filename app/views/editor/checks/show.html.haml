@@ -10,120 +10,60 @@
   = @title
 
 .dashboard-container
-  .row
-    .col-sm-2.col-buffer
-      %strong Creator
-    .col-sm-10.col-buffer= @check.user.full_name
+  = render "forms/horizontal/show/text", object: @check.user, key: :full_name, key_name: "Creator"
+  = render "forms/horizontal/show/markdown", object: @check, key: :description if @check.description.present?
+  = render "forms/horizontal/show/markdown", object: @check, key: :message if @check.message.present?
+  = render "forms/horizontal/show/check_box", object: @check, key: :archived if @check.archived?
+  = render "editor/checks/filters", check: @check
 
-  .row
-    .col-sm-2.col-buffer
-      %strong Description
-    .col-sm-10.col-buffer= simple_markdown @check.description
-
-  - if @check.message.present?
-    .row
-      .col-sm-2.col-buffer
-        %strong Message
-      .col-sm-10.col-buffer
-        .alert.alert-danger
-          = @check.message
-
-  .row
-    .col-sm-2.col-buffer
-      %strong Archived
-    .col-sm-10.col-buffer= simple_check @check.archived
-
-  .row
-    .col-sm-2.col-buffer
-      %strong= link_to "Filters", editor_project_check_check_filters_path(@project, @check)
-    .col-sm-10.col-buffer
-      - all_sheets = current_user.all_viewable_sheets.where(id: @check.sheets.select(:id))
-      - all_subjects = current_user.all_viewable_subjects.where(id: @check.subjects.select(:id))
-      %table.table
-        %thead
-          %tr
-            %th
-            %th
-            %th
-            %th.text-right Subjects
-            %th.text-right Sheets
-        %tfoot
-          %tr
-            %th
-            %th
-            %th
-            %th.text-right= number_with_delimiter all_subjects.count
-            %th.text-right= number_with_delimiter all_sheets.count
-        - @check.check_filters.each do |check_filter|
-          %tr
-            %td
-              = link_to check_filter.name, editor_project_check_check_filter_path(@project, @check, check_filter)
-            %td
-              - if check_filter.variable
-                - if check_filter.operator == "missing"
-                  %code MISSING
-                - else
-                  %code= check_filter.database_operator
-            %td
-              - if check_filter.variable
-                - check_filter.check_filter_values.each do |check_filter_value|
-                  %code
-                    = link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, check_filter, check_filter_value)
-            %td.text-right
-              = number_with_delimiter current_user.all_viewable_subjects.where(id: check_filter.subjects.select(:id)).count
-            %td.text-right
-              = number_with_delimiter current_user.all_viewable_sheets.where(id: check_filter.sheets.select(:id)).count
-
-
-- if all_sheets.count > 0
+- unless @check.archived?
   .dashboard-container
-    - if all_sheets.count > 40
-      %h3 Top 40 Results
+    .float-right.text-muted
+      - if @check.last_run_at.present?
+        Last run
+        = @check.last_run_at.strftime("%a, %b %-d at %-l:%M %p.")
+      - else
+        Update requested.
 
-    = link_to project_sheets_path(@project, search: "checks:#{@check.slug}"), class: "btn btn-light" do
-      View All Sheets
-      %i.fa.fa-external-link
-    %table.table.table-borderless.table-hover
-      %col{ width: "1px" }
-      %thead
-        %th Subject
-        %th Sheet
-        - @check.check_filters.each do |check_filter|
-          %th.text-center
-            %code= check_filter.name
+    Checks are run hourly.
+    = link_to "Request update.", request_run_editor_project_check_path(@project, @check), method: :post if @check.last_run_at.present?
 
-      - all_sheets.includes(:subject).order("subjects.subject_code").limit(40).group_by(&:subject).each do |subject, sheets|
-        %tbody
-          - sheets.each_with_index do |sheet, index|
-            %tr
-              %td= link_to subject.subject_code, [@project, subject] if index == 0
-              %td= link_to sheet.name, [sheet.project, sheet]
-              - @check.check_filters.each do |check_filter|
-                %td.text-center
-                  - if check_filter.filter_type == "randomized"
-                    = simple_check true
-                  - elsif check_filter.variable
-                    - sheet.sheet_variables.where(variable: check_filter.variable).each do |sheet_variable|
-                      = sheet_variable.get_response(:raw)
-- else
-  - if all_subjects.count > 0
-    .dashboard-container
-      - if all_subjects.count > 40
-        %h3 Top 40 Results
 
-      %table.table.table-borderless.table-hover
+  - sheets = current_user.all_viewable_sheets.where(id: @check.status_checks.where(failed: true).select(:sheet_id))
+  - if sheets.present?
+    .dashboard-container.dashboard-table
+      %table.table.table-striped.table-borderless.table-hover
         %col{ width: "1px" }
         %thead
           %th Subject
+          %th Sheets
           - @check.check_filters.each do |check_filter|
             %th.text-center
               %code= check_filter.name
 
-        - all_subjects.order(:subject_code).limit(40).each do |subject|
-          %tbody
-            %tr
-              %td= link_to subject.subject_code, [subject.project, subject]
-              - @check.check_filters.each do |check_filter|
-                %td.text-center
-                  - if check_filter.filter_type == "randomized"
-                    = simple_check true
+        - sheets.includes(:subject, :design).order("subjects.subject_code").limit(40).group_by(&:subject).each do |subject, sheets|
+          %tr
+            %td= link_to subject.subject_code, [@project, subject]
+            %td.nowrap
+              - sheets.sort_by { |s| s.design.short_name }.each do |sheet|
+                = link_to sheet.design.short_name, [sheet.project, sheet], class: "badge badge-light"
+            - @check.check_filters.each do |check_filter|
+              %td.text-center
+                - if check_filter.filter_type == "randomized"
+                  = simple_check true
+                - elsif check_filter.variable
+                  - sheet_variables = SheetVariable.where(sheet_id: sheets, variable: check_filter.variable)
+                  - if sheet_variables.present?
+                    %ul.list-unstyled
+                      - sheet_variables.each do |sheet_variable|
+                        %li= sheet_variable.get_response(:raw)
+    - if @check.message.present? && !@check.archived?
+      .center-horizontally
+        .docs-learn-more
+          Filter
+          = succeed "." do
+            = link_to "all sheets", project_sheets_path(@project, search: "checks:#{@check.slug}")
+
+  - else
+    .jumbotron.jumbotron-custom-text
+      No invalid sheets found.

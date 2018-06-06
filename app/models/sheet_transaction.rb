@@ -50,7 +50,6 @@ class SheetTransaction < ApplicationRecord
         sheet.update_associated_subject_events!
       end
       unless skip_validation
-        sheet.subject.reset_checks_in_background!
         sheet.create_notifications! if %w(sheet_create public_sheet_create api_sheet_create).include?(transaction_type)
       end
     end
