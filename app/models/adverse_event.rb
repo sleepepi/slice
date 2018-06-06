@@ -175,7 +175,6 @@ class AdverseEvent < ApplicationRecord
   def destroy
     super
     notifications.destroy_all
-    project.reset_adverse_event_numbers!
   end
 
   def id_and_token

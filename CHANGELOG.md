@@ -14,6 +14,8 @@
 ### Bug Fix
 - Checkboxes with values unassociated to domain options are now included in
   exports
+- Fixed a bug that incorrectly renumbered adverse event numbers without taking
+  into account deleted adverse events
 
 ### Refactoring
 - Removed underutilized project summary report and advanced design reports
