@@ -148,6 +148,6 @@ class Randomization < ApplicationRecord
     File.open(file_tex, "w") do |file|
       file.syswrite(ERB.new(latex_partial("schedule")).result(binding))
     end
-    Design.generate_pdf(jobname, output_folder, file_tex)
+    Randomization.generate_pdf(jobname, output_folder, file_tex)
   end
 end

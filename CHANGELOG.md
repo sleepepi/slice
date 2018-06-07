@@ -4,6 +4,8 @@
 - **Check Changes**
   - Checks are now run as scheduled tasks instead of being triggered by sheet or
     subject changes
+- **Design Changes**
+  - Printed PDFs are now cached for each design by language
 - **Export Changes**
   - Improved export page interface
   - Temporarily disabled PDF exports

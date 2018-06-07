@@ -1,12 +1,12 @@
 one:
-  sheet: one
+  design: one
   language: en
   outdated: false
   # file:
   # file_size: 0
 
 two:
-  sheet: one
+  design: one
   language: es
   outdated: false
   # file:

@@ -25,12 +25,9 @@ class DesignsController < ApplicationController
   # This is the latex view
   # GET /projects/:project_id/designs/1/print
   def print
-    file_pdf_location = @design.latex_file_location(current_user)
-    if File.exist?(file_pdf_location)
-      send_file file_pdf_location, filename: "design_#{@design.id}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
-    else
-      redirect_to [@project, @design], alert: "Failed to generate PDF."
-    end
+    design_print = @design.design_prints.where(language: World.language).first_or_create
+    design_print.regenerate! if design_print.regenerate?
+    send_file_if_present design_print.file, type: "application/pdf", disposition: "inline"
   end
 
   # # GET /projects/:project_id/designs/1

@@ -35,7 +35,6 @@ class Design < ApplicationRecord
   include DateAndTimeParser
   include Deletable
   include Forkable
-  include Latexable
   include Searchable
   include ShortNameable
   include Sluggable
@@ -65,6 +64,7 @@ class Design < ApplicationRecord
   belongs_to :project
   belongs_to :category, -> { current }, optional: true
   belongs_to :updater, class_name: "User", foreign_key: "updater_id", optional: true
+  has_many :design_prints
   has_many :sheets, -> { current.joins(:subject).merge(Subject.current) }
   has_many :sections
   has_many :event_designs
@@ -182,22 +182,6 @@ class Design < ApplicationRecord
     end
     update updater_id: current_user.id
     reload
-  end
-
-  def latex_partial(partial)
-    File.read(File.join("app", "views", "designs", "latex", "_#{partial}.tex.erb"))
-  end
-
-  def latex_file_location(current_user)
-    jobname = "design_#{id}"
-    output_folder = File.join("tmp", "files", "tex")
-    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
-
-    File.open(file_tex, "w") do |file|
-      file.syswrite(ERB.new(latex_partial("print")).result(binding))
-    end
-
-    Design.generate_pdf(jobname, output_folder, file_tex)
   end
 
   def load_variables

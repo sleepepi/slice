@@ -247,8 +247,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
     login(@project_editor)
     get print_project_design_url(@project, designs(:all_variable_types))
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 
@@ -256,7 +254,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
     login(@project_editor)
     get print_project_design_url(@project, -1)
-    assert_nil assigns(:design)
     assert_redirected_to project_designs_url(assigns(:project))
   end
 
@@ -267,7 +264,7 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
       original_latex = ENV["latex_location"]
       ENV["latex_location"] = "echo #{original_latex}"
       get print_project_design_url(@project, designs(:has_no_validations))
-      assert_redirected_to project_design_url(@project, designs(:has_no_validations))
+      assert_response :ok
     ensure
       ENV["latex_location"] = original_latex
     end

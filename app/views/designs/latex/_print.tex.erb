@@ -1,6 +1,4 @@
 <% I18n.locale = World.language %>
-<% @design = self %>
-
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
@@ -35,7 +33,7 @@
 \chead{\textbf{<%= latex_safe @design.project.name %>}\\}
 \rhead{\textbf{<%= latex_safe I18n.t("latex.entered") %>} \dotuline{~~~~~~~/~~~~~~~/~~~~~~~~~}\\}
 \lfoot{<%= latex_safe @design.name %>}
-\cfoot{<%= latex_safe I18n.t("latex.printed_on") %> <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
+\cfoot{}
 \rfoot{<%= latex_safe I18n.t("latex.page") %> \thepage\ <%= latex_safe I18n.t("latex.page_of") %> \pageref{LastPage}}
 
 

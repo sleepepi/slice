@@ -46,6 +46,6 @@ class Tray < ApplicationRecord
       file.syswrite(ERB.new(latex_partial("print")).result(binding))
     end
 
-    Design.generate_pdf(jobname, output_folder, file_tex)
+    Tray.generate_pdf(jobname, output_folder, file_tex)
   end
 end
