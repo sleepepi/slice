@@ -39,15 +39,14 @@ class Sheet < ApplicationRecord
   scope :sheet_after, ->(*args) { where("sheets.created_at >= ?", args.first.at_midnight) }
 
   # Validations
-  validates :design_id, :project_id, :subject_id, presence: true
   validates :authentication_token, uniqueness: true, allow_nil: true
 
   # Relationships
-  belongs_to :user, optional: true
-  belongs_to :last_user, optional: true, class_name: "User"
   belongs_to :design
   belongs_to :project
   belongs_to :subject
+  belongs_to :user, optional: true
+  belongs_to :last_user, optional: true, class_name: "User"
   belongs_to :subject_event, optional: true
   belongs_to :adverse_event, -> { current }, optional: true, touch: true
   has_many :sheet_variables
