@@ -6,6 +6,7 @@
     subject changes
 - **Export Changes**
   - Improved export page interface
+  - Temporarily disabled PDF exports
 - **Library Added**
   - Added a public library of forms
   - Users can create a profile and contribute their own forms to the public
