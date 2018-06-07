@@ -238,12 +238,9 @@ class SheetsController < ApplicationController
   end
 
   def generate_pdf
-    pdf_location = Sheet.latex_file_location([@sheet], current_user)
-    if File.exist?(pdf_location)
-      send_file pdf_location, filename: "sheet_#{@sheet.id}#{"_#{World.language}" if World.translate_language?}.pdf", type: "application/pdf", disposition: "inline"
-    else
-      redirect_to [@project, @sheet], alert: "Unable to generate PDF."
-    end
+    sheet_print = @sheet.sheet_prints.where(language: World.language).first_or_create
+    sheet_print.regenerate! if sheet_print.regenerate?
+    send_file_if_present sheet_print.file, type: "application/pdf", disposition: "inline"
   end
 
   # TODO: Unify these with those in export.rb

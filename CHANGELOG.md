@@ -10,6 +10,8 @@
     library
 - **Project Changes**
   - Sheet calculation errors index can now be filtered by keywords
+- **Sheet Changes**
+  - Printed PDFs are now cached for each sheet by language
 
 ### Bug Fix
 - Checkboxes with values unassociated to domain options are now included in

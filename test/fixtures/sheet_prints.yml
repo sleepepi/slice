@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sheet: one
+  language: en
+  outdated: false
+  # file:
+  # file_size: 0
+
+two:
+  sheet: one
+  language: es
+  outdated: false
+  # file:
+  # file_size: 0

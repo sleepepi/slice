@@ -34,11 +34,11 @@
 
 \fancyhf{}
 
-\lhead{}
-\chead{}
-\rhead{}
-\lfoot{}
-\cfoot{<%= latex_safe I18n.t("latex.printed_on") %> <%= latex_safe Time.zone.today.strftime("%B %-d, %Y") %>}
+\lhead{\textbf{<%= latex_safe @sheet.subject.subject_code %>}\\}
+\chead{\textbf{<%= latex_safe @sheet.project.name %>}\\ <%= latex_safe @sheet.subject.site.name %>}
+\rhead{\textbf{<%= latex_safe I18n.t("latex.entered") %>} <%= latex_safe @sheet.created_at.strftime("%B %-d, %Y") %>\\<% if @sheet.last_edited_at and @sheet.created_at.to_date != @sheet.last_edited_at.to_date %>\textbf{<%= latex_safe I18n.t("latex.updated") %>} <%= latex_safe @sheet.last_edited_at.strftime("%B %-d, %Y") %><% end %>}
+\lfoot{<%= latex_safe @sheet.design.name %>}
+\cfoot{<%= latex_safe @sheet.subject_event.name if @sheet.subject_event %>}
 \rfoot{<%= latex_safe I18n.t("latex.page") %> \thepage\ <%= latex_safe I18n.t("latex.page_of") %> \pageref{LastPage}}
 
 

@@ -217,9 +217,10 @@ class Export < ApplicationRecord
   end
 
   def generate_pdf(sheet_scope)
-    pdf_file = Sheet.latex_file_location(sheet_scope, user)
+    # pdf_file = Sheet.latex_file_location(sheet_scope, user)
+    # [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme("pdf")]
     update_steps(sheet_ids_count)
-    [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme("pdf")]
+    [generate_readme("pdf")]
   end
 
   def generate_data_dictionary(sheet_scope)

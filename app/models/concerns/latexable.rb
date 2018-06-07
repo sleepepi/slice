@@ -14,10 +14,21 @@ module Latexable
     end
 
     def self.generate_pdf(jobname, output_folder, file_tex)
-      # Run twice to allow LaTeX to compile correctly (page numbers, etc)
-      `#{ENV['latex_location']} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
-      `#{ENV['latex_location']} -interaction=nonstopmode --jobname=#{jobname} --output-directory=#{output_folder} #{file_tex}`
+      compile(jobname, output_folder, file_tex)
       File.join("tmp", "files", "tex", "#{jobname}.pdf") # Return file name
+    end
+
+    def self.compile(jobname, output_folder, file_tex)
+      array = []
+      array << ENV["latex_location"]
+      array << "-interaction=nonstopmode"
+      array << "--jobname=#{jobname}"
+      array << "--output-directory=#{output_folder}"
+      array << file_tex.to_s
+      command = array.join(" ")
+      # Run twice to allow LaTeX to compile correctly (page numbers, etc)
+      `#{command}`
+      `#{command}`
     end
   end
 

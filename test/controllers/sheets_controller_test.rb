@@ -661,7 +661,7 @@ d est laborum.',
       get :show, params: { project_id: @project, id: sheets(:three) }, format: 'pdf'
       assert_not_nil assigns(:project)
       assert_not_nil assigns(:sheet)
-      assert_redirected_to [@project, sheets(:three)]
+      assert_response :ok
     ensure
       ENV['latex_location'] = original_latex
     end

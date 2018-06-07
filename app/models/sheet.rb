@@ -49,6 +49,7 @@ class Sheet < ApplicationRecord
   belongs_to :last_user, optional: true, class_name: "User"
   belongs_to :subject_event, optional: true
   belongs_to :adverse_event, -> { current }, optional: true, touch: true
+  has_many :sheet_prints
   has_many :sheet_variables
   has_many :responses
   has_many :variables, -> { current }, through: :sheet_variables
@@ -77,25 +78,6 @@ class Sheet < ApplicationRecord
 
   def recently_created?
     last_edited_at.nil? || ((last_edited_at - created_at) / 1.minute).to_i.zero?
-  end
-
-  def self.latex_partial(partial)
-    File.read(File.join("app", "views", "sheets", "latex", "_#{partial}.tex.erb"))
-  end
-
-  def self.latex_file_location(sheets, current_user)
-    jobname = (sheets.size == 1 ? "sheet_#{sheets.first.id}" : "sheets_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}")
-    output_folder = File.join("tmp", "files", "tex")
-    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
-    File.open(file_tex, "w") do |file|
-      file.syswrite(ERB.new(latex_partial("header")).result(binding))
-      sheets.each do |sheet|
-        @sheet = sheet # Needed by Binding
-        file.syswrite(ERB.new(latex_partial("body")).result(binding))
-      end
-      file.syswrite(ERB.new(latex_partial("footer")).result(binding))
-    end
-    generate_pdf(jobname, output_folder, file_tex)
   end
 
   # This returns the maximum size of any grid.
