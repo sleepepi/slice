@@ -1,0 +1,13 @@
+one:
+  randomization: one
+  language: en
+  outdated: false
+  # file:
+  # file_size: 0
+
+two:
+  randomization: one
+  language: es
+  outdated: false
+  # file:
+  # file_size: 0

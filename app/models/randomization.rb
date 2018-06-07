@@ -30,7 +30,6 @@ class Randomization < ApplicationRecord
   include Blindable
   include Deletable
   include Forkable
-  include Latexable
   include Siteable
 
   # Validations
@@ -49,6 +48,7 @@ class Randomization < ApplicationRecord
   belongs_to :treatment_arm
   belongs_to :subject, optional: true, counter_cache: true
   belongs_to :randomized_by, optional: true, class_name: "User", foreign_key: "randomized_by_id"
+  has_many :randomization_schedule_prints
   has_many :randomization_characteristics
   has_many :randomization_tasks
   has_many :tasks, -> { current.order(:due_date) }, through: :randomization_tasks
@@ -133,19 +133,5 @@ class Randomization < ApplicationRecord
       task = rst.create_task(randomized_at.to_date, user_id)
       randomization_tasks.create(task_id: task.id) unless task.new_record?
     end
-  end
-
-  def latex_partial(partial)
-    File.read(File.join("app", "views", "randomizations", "latex", "_#{partial}.tex.erb"))
-  end
-
-  def latex_file_location(current_user)
-    jobname = "randomization_#{id}"
-    output_folder = File.join("tmp", "files", "tex")
-    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
-    File.open(file_tex, "w") do |file|
-      file.syswrite(ERB.new(latex_partial("schedule")).result(binding))
-    end
-    Randomization.generate_pdf(jobname, output_folder, file_tex)
   end
 end

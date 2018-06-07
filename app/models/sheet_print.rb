@@ -53,7 +53,7 @@ class SheetPrint < ApplicationRecord
     temp_dir = Dir.mktmpdir
     temp_tex = File.join(temp_dir, "#{jobname}.tex")
     write_tex_file(temp_tex)
-    SheetPrint.compile(jobname, temp_dir, temp_tex)
+    self.class.compile(jobname, temp_dir, temp_tex)
     temp_pdf = File.join(temp_dir, "#{jobname}.pdf")
     update outdated: false, file: File.open(temp_pdf, "r"), file_size: File.size(temp_pdf) if File.exist?(temp_pdf)
   ensure

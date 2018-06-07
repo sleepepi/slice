@@ -192,7 +192,7 @@ class RandomizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should show randomization if PDF fails to render' do
+  test 'should show empty response if schedule PDF fails to render' do
     skip if ENV['TRAVIS'] # Skip this test on Travis since Travis can't generate PDFs
     begin
       original_latex = ENV['latex_location']
@@ -202,7 +202,7 @@ class RandomizationsControllerTest < ActionController::TestCase
         project_id: @project, id: randomizations(:two)
       }, format: 'pdf'
       assert_not_nil assigns(:randomization)
-      assert_redirected_to [@project, randomizations(:two)]
+      assert_response :ok
     ensure
       ENV['latex_location'] = original_latex
     end

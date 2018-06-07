@@ -44,12 +44,9 @@ class RandomizationsController < ApplicationController
 
   # GET /randomizations/1/schedule.pdf
   def schedule
-    pdf_location = @randomization.latex_file_location(current_user)
-    if File.exist?(pdf_location)
-      send_file pdf_location, filename: "schedule.pdf", type: "application/pdf", disposition: "inline"
-    else
-      redirect_to [@project, @randomization], alert: "Unable to generate PDF."
-    end
+    randomization_schedule_print = @randomization.randomization_schedule_prints.where(language: World.language).first_or_create
+    randomization_schedule_print.regenerate! if randomization_schedule_print.regenerate?
+    send_file_if_present randomization_schedule_print.file, type: "application/pdf", disposition: "inline"
   end
 
   # PATCH /randomizations/1/undo
