@@ -26,9 +26,7 @@ class AdverseEventComment < ApplicationRecord
 
   # Methods
   def number
-    adverse_event.adverse_event_comments.where.not(description: ["", nil]).pluck(:id).index(id) + 1
-  rescue
-    0
+    (adverse_event.adverse_event_comments.where.not(description: ["", nil]).pluck(:id).index(id) || -1) + 1
   end
 
   def anchor

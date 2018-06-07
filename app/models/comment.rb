@@ -38,9 +38,7 @@ class Comment < ApplicationRecord
   end
 
   def number
-    sheet.comments.reorder(:id).pluck(:id).index(id) + 1
-  rescue
-    0
+    (sheet.comments.reorder(:id).pluck(:id).index(id) || -1) + 1
   end
 
   def anchor

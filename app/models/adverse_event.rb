@@ -65,9 +65,7 @@ class AdverseEvent < ApplicationRecord
   end
 
   def adverse_event_number
-    AdverseEvent.where(project: project).order(:created_at).pluck(:id).index(id) + 1
-  rescue
-    nil
+    AdverseEvent.where(project: project).order(:created_at).pluck(:id).index(id)&.send(:+, 1)
   end
 
   def editable_by?(current_user)
@@ -83,11 +81,11 @@ class AdverseEvent < ApplicationRecord
 
   def last_seen_at(current_user)
     adverse_event_user = adverse_event_users.find_by user_id: current_user.id
-    adverse_event_user.last_viewed_at if adverse_event_user
+    adverse_event_user&.last_viewed_at
   end
 
   def subject_code
-    subject ? subject.subject_code : nil
+    subject&.subject_code
   end
 
   def subject_code=(code)

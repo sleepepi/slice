@@ -92,15 +92,13 @@ class Randomization < ApplicationRecord
   end
 
   def randomization_number
-    randomization_scheme.randomizations.where.not(subject_id: nil).order(:randomized_at).pluck(:id).index(id) + 1
-  rescue
-    nil
+    randomization_scheme
+      .randomizations.where.not(subject_id: nil)
+      .order(:randomized_at).pluck(:id).index(id)&.send(:+, 1)
   end
 
   def list_position
-    list.randomizations.order(:created_at).pluck(:id).index(id) + 1
-  rescue
-    nil
+    list.randomizations.order(:created_at).pluck(:id).index(id)&.send(:+, 1)
   end
 
   def notify_users_in_background!

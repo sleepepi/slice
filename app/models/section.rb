@@ -33,9 +33,7 @@ class Section < ApplicationRecord
   end
 
   def level_name
-    LEVELS.find { |_name, value| value == level }.first
-  rescue
-    "Section"
+    LEVELS.find { |_name, value| value == level }&.first || "Section"
   end
 
   def display_on_report?
