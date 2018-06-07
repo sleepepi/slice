@@ -148,8 +148,7 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_file)
     assert_kind_of String, response.body
-    assert_equal File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:adverse_event_file).attachment.url)),
-                 response.body
+    assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success
   end
 
@@ -161,8 +160,7 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:adverse_event)
     assert_not_nil assigns(:adverse_event_file)
     assert_kind_of String, response.body
-    assert_equal File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:adverse_event_file).attachment.url)),
-                 response.body
+    assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success
   end
 

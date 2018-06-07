@@ -78,10 +78,7 @@ class ExportsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:export)
     assert_kind_of String, response.body
-    assert_equal(
-      File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:export).file.url)),
-      response.body
-    )
+    assert_equal File.binread(assigns(:export).file.path), response.body
   end
 
   test 'should not download empty export file' do

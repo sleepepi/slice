@@ -59,7 +59,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_kind_of String, response.body
-    assert_equal File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:project).logo.url)), response.body
+    assert_equal File.binread(assigns(:project).logo.path), response.body
   end
 
   test "should not get logo as non-project user" do
