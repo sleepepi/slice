@@ -2,6 +2,13 @@
 
 # Creates a public profile for users and organizations.
 class Profile < ApplicationRecord
+  # Concerns
+  include Strippable
+  strip :username
+
+  include Squishable
+  squish :description
+
   # Validations
   validates :username, format: {
                          with: /\A[a-zA-Z0-9]+\Z/i,

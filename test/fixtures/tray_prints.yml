@@ -1,0 +1,13 @@
+one:
+  tray: one
+  language: en
+  outdated: false
+  # file:
+  # file_size: 0
+
+two:
+  tray: one
+  language: es
+  outdated: false
+  # file:
+  # file_size: 0

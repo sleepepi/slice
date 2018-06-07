@@ -2,7 +2,6 @@
 
 class Tray < ApplicationRecord
   # Concerns
-  include Latexable
   include Searchable
   include Sluggable
   include Strippable
@@ -19,6 +18,7 @@ class Tray < ApplicationRecord
   # Relationships
   belongs_to :profile
   has_many :cubes, -> { order(:position) }
+  has_many :tray_prints
 
   # Methods
   def self.searchable_attributes
@@ -31,21 +31,5 @@ class Tray < ApplicationRecord
 
   def major_version_number
     1
-  end
-
-  def latex_partial(partial)
-    File.read(File.join("app", "views", "trays", "latex", "_#{partial}.tex.erb"))
-  end
-
-  def latex_file_location
-    jobname = "tray_#{id}"
-    output_folder = File.join("tmp", "files", "tex")
-    file_tex = File.join("tmp", "files", "tex", "#{jobname}.tex")
-
-    File.open(file_tex, "w") do |file|
-      file.syswrite(ERB.new(latex_partial("print")).result(binding))
-    end
-
-    Tray.generate_pdf(jobname, output_folder, file_tex)
   end
 end

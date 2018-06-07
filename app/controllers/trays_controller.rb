@@ -11,7 +11,6 @@ class TraysController < ApplicationController
   # GET /trays
   # GET /trays.json
   def index
-    # @trays = Tray.all
     redirect_to library_profile_path(@profile)
   end
 
@@ -64,7 +63,7 @@ class TraysController < ApplicationController
   def destroy
     @tray.destroy
     respond_to do |format|
-      format.html { redirect_to trays_url, notice: "Tray was successfully deleted." }
+      format.html { redirect_to trays_path, notice: "Tray was successfully deleted." }
       format.json { head :no_content }
     end
   end
