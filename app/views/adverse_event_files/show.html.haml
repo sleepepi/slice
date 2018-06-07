@@ -24,4 +24,4 @@
     %code= number_to_human_size @adverse_event_file.attachment.size
 
   - if @adverse_event_file.image?
-    .text-center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: "img-responsive img-thumbnail"
+    .text-center= image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), class: "img-thumbnail img-ignore-selection"
