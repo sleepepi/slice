@@ -24,22 +24,15 @@ class ExportsController < ApplicationController
     redirect_to new_project_export_path(@project) if @exports.blank?
   end
 
-  # GET /exports/1
-  def show
-    @export.update viewed: true if @export.status == "ready"
-  end
+  # # GET /exports/1
+  # def show
+  # end
 
   # GET /exports/new
   def new
     @last_export = current_user.exports.where(project_id: @project.id).last
     @export = current_user.exports.where(project_id: @project.id).new
     set_export_defaults if @last_export
-  end
-
-  # POST /exports/1/mark_unread
-  def mark_unread
-    @export.update viewed: false
-    redirect_to project_exports_path(@project)
   end
 
   # POST /exports
@@ -86,7 +79,7 @@ class ExportsController < ApplicationController
   end
 
   def export_name
-    "#{@project.name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}"
+    "#{@project.name.gsub(/[^a-zA-Z0-9_]/, "_")}_#{Time.zone.today.strftime("%Y%m%d")}"
   end
 
   def set_export_defaults
