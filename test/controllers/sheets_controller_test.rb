@@ -3,247 +3,245 @@
 require "test_helper"
 
 # Test to make sure that project and site editors can modify sheets.
-class SheetsControllerTest < ActionController::TestCase
+class SheetsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    login(users(:regular))
+    @project_editor = users(:regular)
+    @site_editor = users(:site_one_editor)
+    @site_viewer = users(:site_one_viewer)
     @sheet = sheets(:one)
     @project = projects(:one)
   end
 
   test "should get index" do
-    get :index, params: { project_id: @project }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project)
     assert_response :success
   end
 
   test "should search for sheets by date" do
-    get :index, params: { project_id: @project, search: "created:2016-11-04" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:2016-11-04" }
     assert_response :success
   end
 
   test "should search for sheets with invalid date" do
-    get :index, params: { project_id: @project, search: "created:2016-02-30" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:2016-02-30" }
     assert_response :success
   end
 
   test "should search for sheets by less than date" do
-    get :index, params: { project_id: @project, search: "created:<2016-11-04" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:<2016-11-04" }
     assert_response :success
   end
 
   test "should search for sheets by greater than date" do
-    get :index, params: { project_id: @project, search: "created:>2016-11-04" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:>2016-11-04" }
     assert_response :success
   end
 
   test "should search for sheets by less than or equal to date" do
-    get :index, params: { project_id: @project, search: "created:<=2016-11-04" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:<=2016-11-04" }
     assert_response :success
   end
 
   test "should search for sheets by greater than or equal to date" do
-    get :index, params: { project_id: @project, search: "created:>=2016-11-04" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "created:>=2016-11-04" }
     assert_response :success
   end
 
   test "should search for sheets by variable" do
-    get :index, params: { project_id: @project, search: "var_1:1" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "var_1:1" }
     assert_response :success
   end
 
   test "should search for sheets by non-existent variable" do
-    get :index, params: { project_id: @project, search: "var_does_not_exist:any" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "var_does_not_exist:any" }
     assert_response :success
   end
 
   test "should search for sheets with comments" do
-    get :index, params: { project_id: @project, search: "has:comments" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "has:comments" }
     assert_response :success
   end
 
   test "should search for sheets with adverse events" do
-    get :index, params: { project_id: @project, search: "has:adverse-events" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "has:adverse-events" }
     assert_response :success
   end
 
   test "should search for sheets with files" do
-    get :index, params: { project_id: @project, search: "has:files" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "has:files" }
     assert_response :success
   end
 
   test "should search for sheets that fail checks" do
-    get :index, params: { project_id: @project, search: "checks:any" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "checks:any" }
     assert_response :success
   end
 
   test "should search for sheets that are on an event" do
-    get :index, params: { project_id: @project, search: "events:any" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "events:any" }
     assert_response :success
   end
 
   test "should search for sheets that are not on an event" do
-    get :index, params: { project_id: @project, search: "events:missing" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "events:missing" }
     assert_response :success
   end
 
   test "should search for sheets that have coverage computed" do
-    get :index, params: { project_id: @project, search: "coverage:any" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "coverage:any" }
     assert_response :success
   end
 
   test "should search for sheets that do not have coverage computed" do
-    get :index, params: { project_id: @project, search: "coverage:missing" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "coverage:missing" }
     assert_response :success
   end
 
   test "should search for sheets that do have coverage greater than 80 percent" do
-    get :index, params: { project_id: @project, search: "coverage:>80" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "coverage:>80" }
     assert_response :success
   end
 
   test "should search for sheets that do have coverage that is not an integer" do
-    get :index, params: { project_id: @project, search: "coverage:a" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "coverage:a" }
     assert_response :success
   end
 
   test "should search for sheets for randomized subjects" do
-    get :index, params: { project_id: @project, search: "is:randomized" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "is:randomized" }
     assert_response :success
   end
 
   test "should search for sheets for un-randomized subjects" do
-    get :index, params: { project_id: @project, search: "not:randomized" }
-    assert_not_nil assigns(:sheets)
+    login(@project_editor)
+    get project_sheets_url(@project), params: { search: "not:randomized" }
     assert_response :success
   end
 
   test "should get index with invalid project" do
-    get :index, params: { project_id: -1 }
+    login(@project_editor)
+    get project_sheets_url(-1)
     assert_nil assigns(:sheets)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should get paginated index" do
-    get :index, params: { project_id: @project, page: 2 }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { page: 2 }
+    assert_response :success
   end
 
   test "should get paginated index order by site" do
-    get :index, params: { project_id: @project, order: "site" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "site" }
+    assert_response :success
   end
 
   test "should get paginated index order by site descending" do
-    get :index, params: { project_id: @project, order: "site desc" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "site desc" }
+    assert_response :success
   end
 
   test "should get index by design" do
-    get :index, params: { project_id: @project, order: "design" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "design" }
+    assert_response :success
   end
 
   test "should get index by design desc" do
-    get :index, params: {
-      project_id: @project, order: "design desc"
-    }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "design desc" }
+    assert_response :success
   end
 
   test "should get index by subject" do
-    get :index, params: { project_id: @project, order: "subject" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "subject" }
+    assert_response :success
   end
 
   test "should get index by subject desc" do
-    get :index, params: {
-      project_id: @project, order: "subject desc"
-    }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "subject desc" }
+    assert_response :success
   end
 
   test "should get index by percent" do
-    get :index, params: { project_id: @project, order: "percent" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "percent" }
+    assert_response :success
   end
 
   test "should get index by percent desc" do
-    get :index, params: {
-      project_id: @project, order: "percent desc"
-    }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "percent desc" }
+    assert_response :success
   end
 
   test "should get index by created by" do
-    get :index, params: { project_id: @project, order: "created_by" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "created_by" }
+    assert_response :success
   end
 
   test "should get index by created by desc" do
-    get :index, params: { project_id: @project, order: "created_by desc" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "created_by desc" }
+    assert_response :success
   end
 
   test "should get index by created" do
-    get :index, params: { project_id: @project, order: "created" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "created" }
+    assert_response :success
   end
 
   test "should get index by created desc" do
-    get :index, params: { project_id: @project, order: "created desc" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "created desc" }
+    assert_response :success
   end
 
   test "should get index by edited" do
-    get :index, params: { project_id: @project, order: "edited" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "edited" }
+    assert_response :success
   end
 
   test "should get index by edited desc" do
-    get :index, params: { project_id: @project, order: "edited desc" }
-    assert_not_nil assigns(:sheets)
-    assert_template "index"
+    login(@project_editor)
+    get project_sheets_url(@project), params: { order: "edited desc" }
+    assert_response :success
   end
 
   test "should get attached file" do
+    login(@project_editor)
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
-    get :file, params: {
-      id: sheets(:file_attached), project_id: @project,
-      sheet_variable_id: sheet_variables(:file_attachment),
-      variable_id: variables(:file), position: nil
+    get file_project_sheet_url(@project, sheets(:file_attached)), params: {
+      sheet_variable_id: sheet_variables(:file_attachment).id,
+      variable_id: variables(:file).id,
+      position: nil
     }
     assert_not_nil response
     assert_not_nil assigns(:project)
@@ -251,79 +249,70 @@ class SheetsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sheet_variable)
     assert_not_nil assigns(:object)
     assert_kind_of String, response.body
-    assert_equal(
-      File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url)),
-      response.body
-    )
+    assert_equal File.binread(assigns(:object).response_file.path), response.body
   end
 
   test "should get attached file in grid" do
+    login(@project_editor)
     assert_not_equal 0, grids(:has_grid_row_one_attached_file).response_file.size
-    get :file, params: {
-      id: sheets(:has_grid_with_file), project_id: @project,
-      sheet_variable_id: sheet_variables(:has_grid_with_file),
-      variable_id: variables(:file), position: 0
+    get file_project_sheet_url(@project, sheets(:has_grid_with_file)), params: {
+      sheet_variable_id: sheet_variables(:has_grid_with_file).id,
+      variable_id: variables(:file).id,
+      position: 0
     }
-
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet_variable)
     assert_not_nil assigns(:object)
-
     assert_kind_of String, response.body
-    assert_equal(
-      File.binread(File.join(CarrierWave::Uploader::Base.root, assigns(:object).response_file.url)),
-      response.body
-    )
+    assert_equal File.binread(assigns(:object).response_file.path), response.body
   end
 
   test "should not get non-existent file in grid" do
+    login(@project_editor)
     assert_equal 0, grids(:has_grid_row_two_no_attached_file).response_file.size
-    get :file, params: {
-      id: sheets(:has_grid_with_file), project_id: @project,
-      sheet_variable_id: sheet_variables(:has_grid_with_file),
-      variable_id: variables(:file), position: 1
+    get file_project_sheet_url(@project, sheets(:has_grid_with_file)), params: {
+      sheet_variable_id: sheet_variables(:has_grid_with_file).id,
+      variable_id: variables(:file).id,
+      position: 1
     }
-
     assert_not_nil response
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet_variable)
     assert_not_nil assigns(:object)
     assert_equal 0, assigns(:object).response_file.size
-
     assert_response :success
   end
 
   test "should not get attached file for viewer on different site" do
-    login(users(:site_one_viewer))
+    login(@site_viewer)
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
-    get :file, params: {
-      id: sheets(:file_attached), project_id: @project,
-      sheet_variable_id: sheet_variables(:file_attachment),
-      variable_id: variables(:file), position: nil
+    get file_project_sheet_url(@project, sheets(:file_attached)), params: {
+      sheet_variable_id: sheet_variables(:file_attachment).id,
+      variable_id: variables(:file).id,
+      position: nil
     }
-
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_nil assigns(:variable)
     assert_nil assigns(:sheet_variable)
-
-    assert_redirected_to project_sheets_path(assigns(:project))
+    assert_redirected_to project_sheets_url(assigns(:project))
   end
 
   test "should get new and redirect" do
-    get :new, params: { project_id: @project }
+    login(@project_editor)
+    get new_project_sheet_url(@project)
     assert_redirected_to assigns(:project)
   end
 
   test "should create sheet" do
+    login(@project_editor)
     assert_difference("SheetTransaction.count") do
       assert_difference("Sheet.count") do
-        post :create, params: {
-          project_id: @project,
-          subject_id: @sheet.subject,
+        post project_sheets_url(@project), params: {
+          subject_id: @sheet.subject.id,
           sheet: { design_id: designs(:all_variable_types).id },
           variables: {
             variables(:dropdown).id.to_s => "m",
@@ -357,11 +346,11 @@ d est laborum.",
   end
 
   test "should create sheet with large integer" do
+    login(@project_editor)
     assert_difference("SheetTransaction.count") do
       assert_difference("Sheet.count") do
-        post :create, params: {
-          project_id: @project,
-          subject_id: @sheet.subject,
+        post project_sheets_url(@project), params: {
+          subject_id: @sheet.subject.id,
           sheet: { design_id: designs(:has_no_validations).id },
           variables: {
             variables(:integer_no_range).id.to_s => 127_858_751_212_122_128_384
@@ -369,20 +358,18 @@ d est laborum.",
         }
       end
     end
-
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal 127_858_751_212_122_128_384, assigns(:sheet).sheet_variables.first.get_response(:raw)
-
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should create sheet and save date to correct database format" do
+    login(@project_editor)
     assert_difference("SheetTransaction.count") do
       assert_difference("Sheet.count") do
-        post :create, params: {
-          project_id: @project,
-          subject_id: @sheet.subject,
+        post project_sheets_url(@project), params: {
+          subject_id: @sheet.subject.id,
           sheet: { design_id: designs(:has_no_validations).id },
           variables: {
             variables(:date_no_range).id.to_s => {
@@ -392,20 +379,18 @@ d est laborum.",
         }
       end
     end
-
     assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal "1992-05-02", assigns(:sheet).sheet_variables.first.get_response(:raw)
-
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should create sheet and save time of day to correct database format" do
+    login(@project_editor)
     assert_difference("SheetTransaction.count") do
       assert_difference("Sheet.count") do
-        post :create, params: {
-          project_id: @project,
-          subject_id: @sheet.subject,
+        post project_sheets_url(@project), params: {
+          subject_id: @sheet.subject.id,
           sheet: { design_id: designs(:has_no_validations).id },
           variables: {
             variables(:time_of_day_no_range).id.to_s => {
@@ -434,7 +419,7 @@ d est laborum.",
   #   assert_not_nil assigns(:sheet).event
   #   assert_not_nil assigns(:sheet).subject_schedule
 
-  #   assert_redirected_to project_subject_path(assigns(:sheet).subject.project, assigns(:sheet).subject)
+  #   assert_redirected_to project_subject_url(assigns(:sheet).subject.project, assigns(:sheet).subject)
   # end
 
   # TODO, rewrite these for subject_events
@@ -454,9 +439,9 @@ d est laborum.",
   # end
 
   test "should create sheet with grid" do
-    post :create, params: {
-      project_id: @project,
-      subject_id: sheets(:has_grid).subject,
+    login(@project_editor)
+    post project_sheets_url(@project), params: {
+      subject_id: sheets(:has_grid).subject.id,
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -473,22 +458,23 @@ d est laborum.",
   end
 
   test "should not create sheet on invalid project" do
+    login(@project_editor)
     assert_difference("Sheet.count", 0) do
-      post :create, params: {
-        project_id: projects(:four), subject_id: subjects(:one),
+      post project_sheets_url(projects(:four)), params: {
+        subject_id: subjects(:one).id,
         sheet: { design_id: @sheet.design_id }
       }
     end
-
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should not create sheet without design" do
+    login(@project_editor)
     assert_difference("Sheet.count", 0) do
-      post :create, params: {
-        project_id: @project, subject_id: subjects(:one),
+      post project_sheets_url(@project), params: {
+        subject_id: subjects(:one).id,
         sheet: { design_id: "" }
       }
     end
@@ -497,170 +483,134 @@ d est laborum.",
   end
 
   test "should not create sheet for site viewer" do
-    login(users(:site_one_viewer))
+    login(@site_viewer)
     assert_difference("Sheet.count", 0) do
-      post :create, params: {
-        project_id: @project, subject_id: subjects(:one),
+      post project_sheets_url(@project), params: {
+        subject_id: subjects(:one).id,
         sheet: { design_id: @sheet.design_id }
       }
     end
-
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should create sheet for site editor" do
-    login(users(:site_one_editor))
+    login(@site_editor)
     assert_difference("Sheet.count") do
-      post :create, params: {
-        project_id: @project, subject_id: subjects(:one),
+      post project_sheets_url(@project), params: {
+        subject_id: subjects(:one).id,
         sheet: { design_id: @sheet.design_id }
       }
     end
-
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should show sheet" do
-    get :show, params: { id: @sheet, project_id: @project }
+    login(@project_editor)
+    get project_sheet_url(@project, @sheet)
     assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show sheet to site viewer" do
-    login(users(:site_one_viewer))
-    get :show, params: { id: @sheet, project_id: @project }
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
+    login(@site_viewer)
+    get project_sheet_url(@project, @sheet)
     assert_response :success
   end
 
-  test "should show sheet with ajax" do
-    get :show, params: { id: @sheet, project_id: @project }, xhr: true, format: "js"
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_template "show"
-    assert_response :success
-  end
-
-  test "should show sheet with ajax with all variables" do
-    get :show, params: {
-      id: sheets(:all_variables),
-      project_id: sheets(:all_variables).project_id
-    }, xhr: true, format: "js"
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_template "show"
+  test "should show sheet with all variables" do
+    login(@project_editor)
+    get project_sheet_url(sheets(:all_variables).project, sheets(:all_variables))
     assert_response :success
   end
 
   test "should show sheet with grid responses" do
-    get :show, params: {
-      id: sheets(:has_grid), project_id: @project
-    }, xhr: true, format: "js"
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_template "show"
+    login(@project_editor)
+    get project_sheet_url(@project, sheets(:has_grid))
     assert_response :success
   end
 
   test "should show sheet with attached file" do
-    get :show, params: {
-      id: sheets(:file_attached), project_id: @project
-    }, xhr: true, format: "js"
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_template "show"
+    login(@project_editor)
+    get project_sheet_url(@project, sheets(:file_attached))
     assert_response :success
   end
 
   test "should show sheet transactions" do
-    get :transactions, params: { id: @sheet, project_id: @project }
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
+    login(@project_editor)
+    get transactions_project_sheet_url(@project, @sheet)
     assert_response :success
   end
 
   test "should not show invalid sheet" do
-    get :show, params: { id: -1, project_id: @project }
-    assert_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
-    assert_redirected_to project_sheets_path(@project)
+    login(@project_editor)
+    get project_sheet_url(@project, -1)
+    assert_redirected_to project_sheets_url(@project)
   end
 
   test "should not show sheet with invalid project" do
-    get :show, params: { id: @sheet, project_id: -1 }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    login(@project_editor)
+    get project_sheet_url(-1, @sheet)
+    assert_redirected_to root_url
   end
 
   test "should get sheet coverage" do
-    post :coverage, params: { id: @sheet, project_id: @project }, format: "js"
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
+    login(@project_editor)
+    post coverage_project_sheet_url(@project, @sheet, format: "js")
     assert_template "coverage"
     assert_response :success
   end
 
   test "should not show transactions for invalid sheet" do
-    get :transactions, params: { id: -1, project_id: @project }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to project_sheets_path(@project)
+    login(@project_editor)
+    get transactions_project_sheet_url(@project, -1)
+    assert_redirected_to project_sheets_url(@project)
   end
 
   test "should not show transactions for invalid project" do
-    get :transactions, params: { id: @sheet, project_id: -1 }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    login(@project_editor)
+    get transactions_project_sheet_url(-1, @sheet)
+    assert_redirected_to root_url
   end
 
   test "should not show sheet for user from different site" do
-    login(users(:site_one_viewer))
-    get :show, params: { id: sheets(:three), project_id: @project }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to project_sheets_path(assigns(:project))
+    login(@site_viewer)
+    get project_sheet_url(@project, sheets(:three))
+    assert_redirected_to project_sheets_url(@project)
   end
 
   test "should print sheet" do
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
-    get :show, params: { project_id: @project, id: @sheet }, format: "pdf"
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    get project_sheet_url(@project, @sheet, format: "pdf")
     assert_response :success
   end
 
   test "should print sheet on project that hides values" do
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
-    get :show, params: { project_id: projects(:two), id: sheets(:two_a) }, format: "pdf"
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    get project_sheet_url(projects(:two), sheets(:two_a), format: "pdf")
     assert_response :success
   end
 
   test "should not print invalid sheet" do
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
-    get :show, params: { project_id: @project, id: -1 }, format: "pdf"
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to project_sheets_path(assigns(:project))
+    login(@project_editor)
+    get project_sheet_url(@project, -1, format: "pdf")
+    assert_redirected_to project_sheets_url(@project)
   end
 
-  test "should show sheet if PDF fails to render" do
+  test "should show empty response if PDF fails to render" do
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
+    login(@project_editor)
     begin
       original_latex = ENV["latex_location"]
       ENV["latex_location"] = "echo #{original_latex}"
-      get :show, params: { project_id: @project, id: sheets(:three) }, format: "pdf"
-      assert_not_nil assigns(:project)
-      assert_not_nil assigns(:sheet)
+      get project_sheet_url(@project, sheets(:three), format: "pdf")
       assert_response :ok
     ensure
       ENV["latex_location"] = original_latex
@@ -668,45 +618,41 @@ d est laborum.",
   end
 
   test "should get edit" do
-    get :edit, params: { id: @sheet, project_id: @project }
+    login(@project_editor)
+    get edit_project_sheet_url(@project, @sheet)
     assert_response :success
   end
 
   test "should get edit for site editor" do
-    login(users(:site_one_editor))
-    get :edit, params: { id: @sheet, project_id: @project }
+    login(@site_editor)
+    get edit_project_sheet_url(@project, @sheet)
     assert_response :success
   end
 
   test "should not get edit for site viewer" do
-    login(users(:site_one_viewer))
-    get :edit, params: { id: @sheet, project_id: @project }
-    assert_redirected_to root_path
+    login(@site_viewer)
+    get edit_project_sheet_url(@project, @sheet)
+    assert_redirected_to root_url
   end
 
   test "should not get edit for auto-locked sheet" do
-    login(users(:regular))
-    get :edit, params: {
-      project_id: projects(:auto_lock), id: sheets(:auto_lock)
-    }
-
+    login(@project_editor)
+    get edit_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
   test "should set sheet as not missing" do
-    login(users(:regular))
-    post :set_as_not_missing, params: {
-      project_id: projects(:auto_lock), id: sheets(:missing)
-    }, format: "js"
+    login(@project_editor)
+    post set_as_not_missing_project_sheet_url(projects(:auto_lock), sheets(:missing), format: "js")
     assert_equal true, assigns(:sheet).deleted?
     assert_template "subject_event"
     assert_response :success
   end
 
   test "should update sheet" do
+    login(@project_editor)
     assert_difference("SheetTransaction.count") do
-      patch :update, params: {
-        id: @sheet, project_id: @project,
+      patch project_sheet_url(@project, @sheet), params: {
         sheet: { design_id: designs(:all_variable_types).id },
         variables: {
           variables(:dropdown).id.to_s => "f",
@@ -727,8 +673,8 @@ d est laborum.",
   end
 
   test "should update sheet with grid" do
-    patch :update, params: {
-      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
+    login(@project_editor)
+    patch project_sheet_url(sheets(:has_grid).project, sheets(:has_grid)), params: {
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -772,8 +718,8 @@ d est laborum.",
   end
 
   test "should update sheet with grid and remove top grid row" do
-    patch :update, params: {
-      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
+    login(@project_editor)
+    patch project_sheet_url(sheets(:has_grid).project, sheets(:has_grid)), params: {
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -807,8 +753,8 @@ d est laborum.",
   end
 
   test "should update sheet with grid and remove all grid rows" do
-    patch :update, params: {
-      id: sheets(:has_grid), project_id: sheets(:has_grid).project_id,
+    login(@project_editor)
+    patch project_sheet_url(sheets(:has_grid).project, sheets(:has_grid)), params: {
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -822,9 +768,11 @@ d est laborum.",
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-
   test "should not update sheet with blank design" do
-    patch :update, params: { project_id: @project, id: @sheet, sheet: { design_id: "" }, variables: {} }
+    login(@project_editor)
+    patch project_sheet_url(@project, @sheet), params: {
+      sheet: { design_id: "" }, variables: {}
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_template "edit"
@@ -832,24 +780,29 @@ d est laborum.",
   end
 
   test "should not update invalid sheet" do
-    patch :update, params: { id: -1, project_id: @project, sheet: { design_id: designs(:all_variable_types).id }, variables: {} }
+    login(@project_editor)
+    patch project_sheet_url(@project, -1), params: {
+      sheet: { design_id: designs(:all_variable_types).id }, variables: {}
+    }
     assert_not_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_redirected_to project_sheets_path(@project)
+    assert_redirected_to project_sheets_url(@project)
   end
 
   test "should not update sheet with invalid project" do
-    patch :update, params: { id: @sheet, project_id: -1, sheet: { design_id: designs(:all_variable_types).id }, variables: {} }
+    login(@project_editor)
+    patch project_sheet_url(-1, @sheet), params: {
+      sheet: { design_id: designs(:all_variable_types).id }, variables: {}
+    }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should not update auto-locked sheet" do
-    login(users(:regular))
+    login(@project_editor)
     assert_difference("SheetVariable.count", 0) do
-      patch :update, params: {
-        project_id: projects(:auto_lock), id: sheets(:auto_lock),
+      patch project_sheet_url(projects(:auto_lock), sheets(:auto_lock)), params: {
         variables: {
           variables(:string_on_auto_lock).id.to_s => "Updated string"
         }
@@ -860,11 +813,9 @@ d est laborum.",
   end
 
   test "should unlock sheet as project editor" do
-    login(users(:regular))
+    login(@project_editor)
     assert_equal true, sheets(:auto_lock).auto_locked?
-    post :unlock, params: {
-      project_id: projects(:auto_lock), id: sheets(:auto_lock)
-    }
+    post unlock_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
     sheets(:auto_lock).reload
     assert_equal false, sheets(:auto_lock).auto_locked?
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
@@ -873,58 +824,55 @@ d est laborum.",
   test "should not unlock sheet as site editor" do
     login(users(:auto_lock_site_one_editor))
     assert_equal true, sheets(:auto_lock).auto_locked?
-    post :unlock, params: {
-      project_id: projects(:auto_lock), id: sheets(:auto_lock)
-    }
+    post unlock_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
     sheets(:auto_lock).reload
     assert_equal true, sheets(:auto_lock).auto_locked?
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should remove shareable link as editor" do
     login(users(:admin))
     assert_difference("Sheet.where(authentication_token: nil).count") do
-      post :remove_shareable_link, params: { project_id: projects(:three), id: sheets(:external) }
+      post remove_shareable_link_project_sheet_url(projects(:three), sheets(:external))
     end
     assert_redirected_to [projects(:three), sheets(:external)]
   end
 
   test "should get reassign sheet for editor" do
-    get :reassign, params: { project_id: @project, id: @sheet }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    get reassign_project_sheet_url(@project, @sheet)
     assert_response :success
   end
 
   test "should not get reassign sheet for viewer" do
-    login(users(:site_one_viewer))
-    get :reassign, params: { project_id: @project, id: @sheet }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    login(@site_viewer)
+    get reassign_project_sheet_url(@project, @sheet)
+    assert_redirected_to root_url
   end
 
   test "should not get reassign sheet for auto-locked sheet" do
     login(users(:auto_lock_site_one_editor))
-    get :reassign, params: { project_id: projects(:auto_lock), id: sheets(:auto_lock) }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    get reassign_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
   end
 
   test "should reassign sheet to new subject for editor" do
-    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    patch reassign_project_sheet_url(@project, @sheet), params: {
+      subject_id: subjects(:two).id
+    }
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
     assert_nil assigns(:sheet).subject_event_id
     assert_equal users(:regular).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
-    assert_redirected_to [assigns(:project), assigns(:sheet)]
+    assert_redirected_to [@project, @sheet]
   end
 
   test "should undo reassign for subject for editor" do
-    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two), undo: "1" }
+    login(@project_editor)
+    patch reassign_project_sheet_url(@project, @sheet), params: {
+      subject_id: subjects(:two).id, undo: "1"
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
@@ -935,26 +883,30 @@ d est laborum.",
   end
 
   test "should not make changes if reassign does not provide a new subject" do
-    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:one) }
+    login(@project_editor)
+    patch reassign_project_sheet_url(@project, @sheet), params: {
+      subject_id: subjects(:one).id
+    }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
   test "should not reassign sheet to new subject for viewer" do
-    login(users(:site_one_viewer))
-    patch :reassign, params: { project_id: @project, id: @sheet, subject_id: subjects(:two) }
+    login(@site_viewer)
+    patch reassign_project_sheet_url(@project, @sheet), params: {
+      subject_id: subjects(:two).id
+    }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should move sheet to subject event for editor" do
-    patch :move_to_event, params: {
-      project_id: @project, id: @sheet, subject_event_id: subject_events(:one)
-    }, format: "js"
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    patch move_to_event_project_sheet_url(@project, @sheet), params: {
+      subject_event_id: subject_events(:one).id, format: "js"
+    }
     assert_equal subject_events(:one).id, assigns(:sheet).subject_event_id
     assert_equal users(:regular).id, assigns(:sheet).last_user_id
     assert_not_nil assigns(:sheet).last_edited_at
@@ -962,69 +914,63 @@ d est laborum.",
     assert_template "move_to_event"
   end
 
-  test "should not make changes if move_to_event does not provide a new subject" do
-    patch :move_to_event, params: {
-      project_id: @project, id: @sheet
-    }, format: "js"
+  test "should not make changes if move_to_event does not provide a new subject event" do
+    login(@project_editor)
+    patch move_to_event_project_sheet_url(@project, @sheet), params: { format: "js" }
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
   test "should not move sheet to subject event for viewer" do
-    login(users(:site_one_viewer))
-    patch :move_to_event, params: {
-      project_id: @project, id: @sheet, subject_event_id: subject_events(:one)
-    }, format: "js"
+    login(@site_viewer)
+    patch move_to_event_project_sheet_url(@project, @sheet), params: {
+      subject_event_id: subject_events(:one).id, format: "js"
+    }
     assert_nil assigns(:project)
     assert_nil assigns(:sheet)
     assert_response :success
   end
 
   test "should not move autolocked sheet to subject event for editor" do
-    patch :move_to_event, params: {
-      project_id: projects(:auto_lock), id: sheets(:auto_lock),
-      subject_event_id: subject_events(:auto_lock_subject_one_event_one)
-    }, format: "js"
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
+    login(@project_editor)
+    patch move_to_event_project_sheet_url(projects(:auto_lock), sheets(:auto_lock)), params: {
+      subject_event_id: subject_events(:auto_lock_subject_one_event_one).id, format: "js"
+    }
     assert_nil assigns(:sheet).subject_event_id
     assert_template "move_to_event"
     assert_response :success
   end
 
   test "should destroy sheet" do
+    login(@project_editor)
     assert_difference("Sheet.current.count", -1) do
-      delete :destroy, params: { id: @sheet, project_id: @project }
+      delete project_sheet_url(@project, @sheet)
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_redirected_to project_subject_path(@project, @sheet.subject)
+    assert_redirected_to project_subject_url(@project, @sheet.subject)
   end
 
   test "should destroy sheet with ajax" do
+    login(@project_editor)
     assert_difference("Sheet.current.count", -1) do
-      delete :destroy, params: { id: @sheet, project_id: @project }, format: "js"
+      delete project_sheet_url(@project, @sheet, format: "js")
     end
     assert_template "destroy"
     assert_response :success
   end
 
   test "should not destroy sheet with invalid project" do
+    login(@project_editor)
     assert_difference("Sheet.current.count", 0) do
-      delete :destroy, params: { id: @sheet, project_id: -1 }
+      delete project_sheet_url(-1, @sheet)
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should not destroy auto-locked sheet" do
-    login(users(:regular))
+    login(users(:regular)) # This is project_editor on @project, but not on auto_lock
     assert_difference("Sheet.current.count", 0) do
-      delete :destroy, params: {
-        project_id: projects(:auto_lock), id: sheets(:auto_lock)
-      }
+      delete project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
     end
     assert_equal "This sheet is locked.", flash[:notice]
     assert_redirected_to [projects(:auto_lock), sheets(:auto_lock)]
