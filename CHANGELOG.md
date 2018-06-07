@@ -13,6 +13,8 @@
   - Added a public library of forms
   - Users can create a profile and contribute their own forms to the public
     library
+- **Randomization Changes**
+  - Printed PDFs are now cached for each schedule by language
 - **Project Changes**
   - Sheet calculation errors index can now be filtered by keywords
 - **Sheet Changes**
