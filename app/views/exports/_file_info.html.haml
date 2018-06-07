@@ -1,0 +1,24 @@
+- if export.file_size.positive?
+  - full_url = file_project_export_path(export.project, export)
+  = link_to export.file.to_s.split("/").last, full_url, target: "_blank", class: "btn btn-light btn-sm"
+  %small.text-muted= number_to_human_size export.file_size
+  %div.mt-2
+    .small.text-muted
+      Export took
+      = succeed "." do
+        = distance_of_time_in_words export.created_at, export.file_created_at, { include_seconds: true }
+- elsif export.status == "failed"
+  %div.mt-1
+    = render "exports/progress_bar", export: export
+    .small.text-muted
+      Export took
+      = succeed "." do
+        = distance_of_time_in_words export.created_at, export.updated_at, { include_seconds: true }
+    =# export.details
+- else
+  %div.mt-1
+    = render "exports/progress_bar", export: export
+    .small.text-muted
+      Export started
+      = distance_of_time_in_words export.created_at, Time.zone.now, { include_seconds: true }
+      ago...

@@ -1,0 +1,12 @@
+- percent = export.total_steps > 0 ? export.steps_completed * 100 / export.total_steps : 100
+- percent = 0 if export.total_steps == 0 && %w(pending failed).include?(export.status)
+- status = "danger"
+- status = "warning" if percent >= 33
+- status = "primary" if percent == 100
+.progress.mb-2
+  .progress-bar.progress-bar-striped{ class: "bg-#{status}", style: "width: #{percent}%" }
+    = export.steps_completed
+    of
+    = export.total_steps
+    = surround "(", "%)" do
+      = percent

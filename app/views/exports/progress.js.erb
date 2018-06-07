@@ -1,6 +1,6 @@
-$("#progress").html("<%=j render 'exports/progress' %>");
+$("#progress").html("<%=j render "exports/progress", export: @export %>");
 
 <% if %w(ready failed).include?(@export.status) %>
 clearInterval(<%= params[:interval] %>);
-$('#export_status').html("<%=j render 'exports/status' %>");
+$("#export_status").html("<%=j render "exports/status", export: @export %>");
 <% end %>

@@ -17,41 +17,17 @@
           Delete
   = @title
 
-#progress{ data: { object: "#{"ajax-timer" if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
-  = render "exports/progress"
-
 .dashboard-container
-  %table.table.table-borderless
-    %col.d-none.d-sm-table-column{ width: "30%" }
-    %col.d-table-column.d-sm-none{ width: "50%" }
-    %tr
-      %th Status
-      %td#export_status
-        = render "exports/status"
-    - if @export.filters.present?
-      %tr
-        %th Filters
-        %td= link_to @export.filters, project_sheets_path(search: @export.filters)
-    %tr
-      %th Type
-      %td
-        - if @export.include_csv_labeled?
-          %span.badge.badge-light CSV Labeled
-        - if @export.include_csv_raw?
-          %span.badge.badge-light CSV Raw
-        - if @export.include_pdf?
-          %span.badge.badge-light PDF
-        - if @export.include_files?
-          %span.badge.badge-light Files
-        - if @export.include_data_dictionary?
-          %span.badge.badge-light Data Dictionary
-        - if @export.include_sas?
-          %span.badge.badge-light SAS
-        - if @export.include_r?
-          %span.badge.badge-light R
-        - if @export.include_xls?
-          %span.badge.badge-light XLS
-        - if @export.include_adverse_events?
-          %span.badge.badge-light Adverse Events
-        - if @export.include_randomizations?
-          %span.badge.badge-light Randomizations
+  #progress{ data: { object: "#{"ajax-timer" if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }
+    = render "exports/progress", export: @export
+
+  = render "forms/horizontal/show/generic", title: "Type", content: render("exports/types", export: @export)
+  = render "forms/horizontal/show/generic", title: "Filters", content: link_to(@export.filters, project_sheets_path(search: @export.filters)) if @export.filters.present?
+
+  .form-group.row
+    .col-md-2.col-form-label
+      .form-label-elegant Status
+    .col-md-10
+      .form-control-plaintext#export_status
+        = render "exports/status", export: @export
+

@@ -65,7 +65,7 @@
 
         %td.d-none.d-md-table-cell
           - if export.file_size.positive?
-            %code.nowrap= number_to_human_size(export.file_size)
+            %small.nowrap= number_to_human_size(export.file_size)
         %td.d-none.d-sm-table-cell.text-center
           - if export.file_size.positive?
             - full_url = file_project_export_path(@project, export)

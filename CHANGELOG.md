@@ -4,6 +4,8 @@
 - **Check Changes**
   - Checks are now run as scheduled tasks instead of being triggered by sheet or
     subject changes
+- **Export Changes**
+  - Improved export page interface
 - **Library Added**
   - Added a public library of forms
   - Users can create a profile and contribute their own forms to the public
