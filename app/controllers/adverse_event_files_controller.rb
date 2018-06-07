@@ -46,10 +46,9 @@ class AdverseEventFilesController < ApplicationController
   # GET /adverse-events/:adverse_event_id/files/1/download
   def download
     if @adverse_event_file.pdf?
-      send_file File.join(CarrierWave::Uploader::Base.root, @adverse_event_file.attachment.url),
-                type: "application/pdf", disposition: "inline"
+      send_file_if_present @adverse_event_file.attachment, type: "application/pdf", disposition: "inline"
     else
-      send_file File.join(CarrierWave::Uploader::Base.root, @adverse_event_file.attachment.url)
+      send_file_if_present @adverse_event_file.attachment
     end
   end
 
