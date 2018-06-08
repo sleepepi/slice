@@ -81,8 +81,6 @@ Rails.application.routes.draw do
     get :theme
   end
 
-  resources :lists
-
   resources :notifications do
     collection do
       patch :mark_all_as_read
