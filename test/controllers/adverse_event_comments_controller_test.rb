@@ -27,9 +27,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         adverse_event_comment: adverse_event_comment_params
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "index"
     assert_response :success
   end
@@ -41,9 +38,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         adverse_event_comment: adverse_event_comment_params
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "index"
     assert_response :success
   end
@@ -55,9 +49,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         adverse_event_comment: adverse_event_comment_params.merge(comment_type: "commented", description: "")
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
     assert_template "edit"
     assert_response :success
@@ -70,9 +61,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         adverse_event_comment: adverse_event_comment_params
       }
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:adverse_event)
-    assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -81,9 +69,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "show"
     assert_response :success
   end
@@ -93,9 +78,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "show"
     assert_response :success
   end
@@ -105,9 +87,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_nil assigns(:project)
-    assert_nil assigns(:adverse_event)
-    assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -116,9 +95,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get edit_project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -127,9 +103,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get edit_project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -138,9 +111,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     get edit_project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), xhr: true
-    assert_nil assigns(:project)
-    assert_nil assigns(:adverse_event)
-    assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -149,9 +119,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     patch project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), params: { adverse_event_comment: adverse_event_comment_params }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "show"
     assert_response :success
   end
@@ -161,9 +128,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     patch project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), params: { adverse_event_comment: adverse_event_comment_params }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "show"
     assert_response :success
   end
@@ -173,9 +137,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     patch project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, adverse_event_comments(:two), format: "js"
     ), params: { adverse_event_comment: { comment_type: "commented", description: "" } }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_equal ["can't be blank"], assigns(:adverse_event_comment).errors[:description]
     assert_template "edit"
     assert_response :success
@@ -186,9 +147,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
     patch project_adverse_event_adverse_event_comment_url(
       @project, @adverse_event, @adverse_event_comment, format: "js"
     ), params: { adverse_event_comment: adverse_event_comment_params }
-    assert_nil assigns(:project)
-    assert_nil assigns(:adverse_event)
-    assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 
@@ -199,9 +157,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         @project, @adverse_event, @adverse_event_comment, format: "js"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "index"
     assert_response :success
   end
@@ -213,9 +168,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         @project, @adverse_event, @adverse_event_comment, format: "js"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_comment)
     assert_template "index"
     assert_response :success
   end
@@ -227,9 +179,6 @@ class AdverseEventCommentsControllerTest < ActionDispatch::IntegrationTest
         @project, @adverse_event, @adverse_event_comment, format: "js"
       )
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:adverse_event)
-    assert_nil assigns(:adverse_event_comment)
     assert_response :success
   end
 end

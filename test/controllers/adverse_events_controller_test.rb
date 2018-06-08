@@ -44,63 +44,54 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_adverse_events_url(@project)
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by reported by" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "reported_by")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by reported by desc" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "reported_by desc")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by site name" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "site")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by site name desc" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "site desc")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by subject code" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "subject")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by subject code desc" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "subject desc")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by created" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "created")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get index ordered by created desc" do
     login(@project_editor)
     get project_adverse_events_url(@project, order: "created desc")
     assert_response :success
-    assert_not_nil assigns(:adverse_events)
   end
 
   test "should get new as project editor" do
@@ -128,8 +119,6 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
         adverse_event: adverse_event_params
       }
     end
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event).number
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
@@ -140,8 +129,6 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
         adverse_event: adverse_event_params
       }
     end
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event).number
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
@@ -154,7 +141,6 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
         )
       }
     end
-    assert_not_nil assigns(:adverse_event)
     assert_equal ["can't be in the future"], assigns(:adverse_event).errors[:adverse_event_date]
     assert_template "new"
     assert_response :success
@@ -253,7 +239,6 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
     patch project_adverse_event_url(@project, @adverse_event), params: {
       adverse_event: adverse_event_params.merge(description: "")
     }
-    assert_not_nil assigns(:adverse_event)
     assert_equal ["can't be blank"], assigns(:adverse_event).errors[:description]
     assert_template "edit"
   end
@@ -261,15 +246,17 @@ class AdverseEventsControllerTest < ActionDispatch::IntegrationTest
   test "should set shareable link as project editor" do
     login(@project_editor)
     post set_shareable_link_project_adverse_event_url(@project, @adverse_event)
-    assert_not_nil assigns(:adverse_event).authentication_token
+    @adverse_event.reload
+    assert_not_nil @adverse_event.authentication_token
     assert_redirected_to [assigns(:project), assigns(:adverse_event)]
   end
 
   test "should remove shareable link as project editor" do
     login(@project_editor)
     post remove_shareable_link_project_adverse_event_url(@project, adverse_events(:shared))
-    assert_nil assigns(:adverse_event).authentication_token
-    assert_redirected_to [assigns(:project), assigns(:adverse_event)]
+    adverse_events(:shared).reload
+    assert_nil adverse_events(:shared).authentication_token
+    assert_redirected_to [@project, adverse_events(:shared)]
   end
 
   test "should destroy adverse event as project editor" do

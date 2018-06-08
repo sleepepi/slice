@@ -22,24 +22,18 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
   test "should get index as project editor" do
     login(@project_editor)
     get project_adverse_event_adverse_event_files_url(@project, @adverse_event)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_files)
     assert_response :success
   end
 
   test "should get index as site editor" do
     login(@site_editor)
     get project_adverse_event_adverse_event_files_url(@project, @adverse_event)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_files)
     assert_response :success
   end
 
   test "should get index as site viewer" do
     login(@site_viewer)
     get project_adverse_event_adverse_event_files_url(@project, @adverse_event)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_files)
     assert_response :success
   end
 
@@ -88,9 +82,6 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
         adverse_event_file: adverse_event_file_params.merge(attachment: "")
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_file)
     assert_equal ["can't be blank"], assigns(:adverse_event_file).errors[:attachment]
     assert_template "new"
     assert_response :success
@@ -144,9 +135,6 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get download_project_adverse_event_adverse_event_file_url(@project, @adverse_event, @adverse_event_file)
     assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_file)
     assert_kind_of String, response.body
     assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success
@@ -156,9 +144,6 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get download_project_adverse_event_adverse_event_file_url(@project, @adverse_event, adverse_event_files(:two))
     assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:adverse_event)
-    assert_not_nil assigns(:adverse_event_file)
     assert_kind_of String, response.body
     assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success

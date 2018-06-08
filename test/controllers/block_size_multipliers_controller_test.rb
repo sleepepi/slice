@@ -22,7 +22,6 @@ class BlockSizeMultipliersControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_randomization_scheme_block_size_multipliers_url(@project, @randomization_scheme)
     assert_response :success
-    assert_not_nil assigns(:block_size_multipliers)
   end
 
   test "should get new" do
@@ -58,9 +57,6 @@ class BlockSizeMultipliersControllerTest < ActionDispatch::IntegrationTest
         block_size_multiplier: block_size_multiplier_params.merge(value: 2, allocation: "")
       }
     end
-    assert_not_nil assigns(:block_size_multiplier)
-    assert_equal 2, assigns(:block_size_multiplier).value
-    assert_equal 0, assigns(:block_size_multiplier).allocation
     assert_redirected_to project_randomization_scheme_block_size_multiplier_url(
       @project, @randomization_scheme, BlockSizeMultiplier.last
     )
@@ -85,7 +81,6 @@ class BlockSizeMultipliersControllerTest < ActionDispatch::IntegrationTest
         block_size_multiplier: block_size_multiplier_params.merge(value: 0, allocation: -1)
       }
     end
-    assert_not_nil assigns(:block_size_multiplier)
     assert_equal ["must be greater than or equal to 1"], assigns(:block_size_multiplier).errors[:value]
     assert_equal ["must be greater than or equal to 0"], assigns(:block_size_multiplier).errors[:allocation]
     assert_template "new"
@@ -148,7 +143,6 @@ class BlockSizeMultipliersControllerTest < ActionDispatch::IntegrationTest
     ), params: {
       block_size_multiplier: { value: 0, allocation: -1 }
     }
-    assert_not_nil assigns(:block_size_multiplier)
     assert_equal ["must be greater than or equal to 1"], assigns(:block_size_multiplier).errors[:value]
     assert_equal ["must be greater than or equal to 0"], assigns(:block_size_multiplier).errors[:allocation]
     assert_template "edit"

@@ -24,13 +24,11 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_categories_url(@project)
     assert_response :success
-    assert_not_nil assigns(:categories)
   end
 
   test "should not get index with invalid project" do
     login(@project_editor)
     get project_categories_url(-1)
-    assert_nil assigns(:categories)
     assert_redirected_to root_url
   end
 
@@ -57,7 +55,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
         category: category_params.merge(name: "", slug: "")
       }
     end
-    assert_not_nil assigns(:category)
     assert_equal ["can't be blank"], assigns(:category).errors[:name]
     assert_template "new"
   end
@@ -69,36 +66,30 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
         category: category_params
       }
     end
-    assert_nil assigns(:category)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 
   test "should show category" do
     login(@project_editor)
     get project_category_url(@project, @category)
-    assert_not_nil assigns(:category)
     assert_response :success
   end
 
   test "should not show category with invalid project" do
     login(@project_editor)
     get project_category_url(-1, @category)
-    assert_nil assigns(:category)
     assert_redirected_to root_url
   end
 
   test "should get edit" do
     login(@project_editor)
     get edit_project_category_url(@project, @category)
-    assert_not_nil assigns(:category)
     assert_response :success
   end
 
   test "should not get edit with invalid project" do
     login(@project_editor)
     get edit_project_category_url(-1, @category)
-    assert_nil assigns(:category)
     assert_redirected_to root_url
   end
 
@@ -116,7 +107,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     patch project_category_url(@project, @category), params: {
       category: category_params.merge(name: "")
     }
-    assert_not_nil assigns(:category)
     assert_equal ["can't be blank"], assigns(:category).errors[:name]
     assert_template "edit"
   end
@@ -126,8 +116,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     patch project_category_url(-1, @category), params: {
       category: category_params.merge(name: "Updated Category", slug: "updated-category")
     }
-    assert_nil assigns(:category)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 
@@ -136,8 +124,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Category.current.count", -1) do
       delete project_category_url(@project, @category)
     end
-    assert_not_nil assigns(:category)
-    assert_not_nil assigns(:project)
     assert_redirected_to project_categories_url(assigns(:project))
   end
 
@@ -146,8 +132,6 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Category.current.count", 0) do
       delete project_category_url(-1, @category)
     end
-    assert_nil assigns(:category)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 end

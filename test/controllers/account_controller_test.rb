@@ -27,8 +27,6 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
   test "should get dashboard and redirect to single project" do
     login(users(:site_one_viewer))
     get dashboard_url
-    assert_not_nil assigns(:projects)
-    assert_equal 1, assigns(:projects).count
     assert_redirected_to projects(:one)
   end
 
@@ -38,7 +36,6 @@ class AccountControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
     login(users(:regular))
     get dashboard_url
-    assert_nil assigns(:site_user)
     assert_nil session[:site_invite_token]
     assert_response :success
   end
