@@ -1,0 +1,4 @@
+- if variable.child_variables.present?
+  %ul.list-unstyled
+    - variable.child_variables.each do |child_variable|
+      %li= link_to child_variable.display_name, [child_variable.project, child_variable]

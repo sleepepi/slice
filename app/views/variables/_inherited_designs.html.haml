@@ -1,0 +1,4 @@
+- if variable.inherited_designs.present?
+  %ul.list-unstyled
+    - variable.inherited_designs.each do |design|
+      %li= link_to design.name, [design.project, design]

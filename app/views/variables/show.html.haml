@@ -28,6 +28,7 @@
   = @title
 
 - design_option = @variable.design_options.first
+- design_option.branching_logic = ""
 - if design_option
   - I18n.locale = World.language
   = form_with do |form|
@@ -35,167 +36,50 @@
     .dashboard-container
       = render "sheet_variables/form", form: form, design: design_option.design, design_option: design_option, variable: @variable, sheet_variables: []
 
-
 .dashboard-container
-  %table.table.table-borderless
-    %col.d-none.d-sm-table-column{ width: "30%" }
-    %col.d-table-column.d-sm-none{ width: "50%" }
+  = render "forms/horizontal/show/generic", title: "Design", content: render("variables/inherited_designs", variable: @variable)
+  = render "forms/horizontal/show/generic", title: "Name", content: content_tag(:code, @variable.name)
+  = render "forms/horizontal/show/text", object: @variable, key: :variable_type
+  = render "forms/horizontal/show/markdown", object: @variable, key: :header if @variable.header.present?
+  = render "forms/horizontal/show/markdown", object: @variable, key: :description if @variable.description.present?
+  = render "forms/horizontal/show/text", object: @variable, key: :field_note if @variable.field_note.present?
+  = render "forms/horizontal/show/text", object: @variable, key: :prepend if @variable.prepend.present?
+  = render "forms/horizontal/show/text", object: @variable, key: :append if @variable.append.present?
 
-    %tr
-      %th Design
-      %td
-        %ul.list-unstyled
-          - @variable.inherited_designs.each do |design|
-            %li= link_to design.name, [design.project, design]
+  - if ["integer", "numeric", "imperial_height", "imperial_weight"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/text", object: @variable, key: :hard_minimum if @variable.hard_minimum.present?
+    = render "forms/horizontal/show/text", object: @variable, key: :soft_minimum if @variable.soft_minimum.present?
+    = render "forms/horizontal/show/text", object: @variable, key: :soft_maximum if @variable.soft_maximum.present?
+    = render "forms/horizontal/show/text", object: @variable, key: :hard_maximum if @variable.hard_maximum.present?
 
-    %tr
-      %th Name
-      %td
-        %code= @variable.name
+  - if ["integer", "numeric", "calculated"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/text", object: @variable, key: :units if @variable.units.present?
 
-    %tr
-      %th Variable Type
-      %td
-        %code= @variable.variable_type
+  - if ["date"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/date", object: @variable, key: :date_hard_minimum if @variable.date_hard_minimum.present?
+    = render "forms/horizontal/show/date", object: @variable, key: :date_soft_minimum if @variable.date_soft_minimum.present?
+    = render "forms/horizontal/show/date", object: @variable, key: :date_soft_maximum if @variable.date_soft_maximum.present?
+    = render "forms/horizontal/show/date", object: @variable, key: :date_hard_maximum if @variable.date_hard_maximum.present?
+    = render "forms/horizontal/show/check_box", object: @variable, key: :show_current_button, key_name: "Show current date"
+    = render "forms/horizontal/show/text", object: @variable, key: :date_format_name, key_name: "Date format"
 
-    - if @variable.header.present?
-      %tr
-        %th Header
-        %td= simple_markdown @variable.header
+  - if ["time_of_day"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/check_box", object: @variable, key: :show_current_button, key_name: "Show current time"
+    = render "forms/horizontal/show/text", object: @variable, key: :time_of_day_format_name, key_name: "Time of day format"
 
-    - if false
-      %tr
-        %th Display Name
-        %td
-          = @variable.display_name
+  - if ["time_duration"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/text", object: @variable, key: :time_duration_format_name, key_name: "Time duration format"
 
-    - if @variable.description.present?
-      %tr
-        %th Description
-        %td= simple_format @variable.description
+  - if ["calculated"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/generic", title: "Calculation", content: render("variables/calculation_with_links", object: @variable)
+    = render "forms/horizontal/show/text", object: @variable, key: :calculated_format
 
-    - if @variable.field_note.present?
-      %tr
-        %th Field Note
-        %td= @variable.field_note
+  - if ["string"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/text", object: @variable, key: :autocomplete_values
 
-    - if @variable.prepend.present?
-      %tr
-        %th Prepend
-        %td= @variable.prepend
+  - if ["grid"].include?(@variable.variable_type)
+    = render "forms/horizontal/show/check_box", object: @variable, key: :multiple_rows
+    = render "forms/horizontal/show/text", object: @variable, key: :default_row_number
+    = render "forms/horizontal/show/generic", title: "Variables", content: render("variables/child_variables", variable: @variable)
 
-    - if @variable.append.present?
-      %tr
-        %th Append
-        %td= @variable.append
-
-    - if ["integer", "numeric", "imperial_height", "imperial_weight"].include?(@variable.variable_type)
-      - if @variable.hard_minimum.present?
-        %tr
-          %th Hard Minimum
-          %td= @variable.hard_minimum
-
-      - if @variable.soft_minimum.present?
-        %tr
-          %th Soft Minimum
-          %td= @variable.soft_minimum
-
-      - if @variable.soft_maximum.present?
-        %tr
-          %th Soft Maximum
-          %td= @variable.soft_maximum
-
-      - if @variable.hard_maximum.present?
-        %tr
-          %th Hard Maximum
-          %td= @variable.hard_maximum
-
-    - if ["integer", "numeric", "calculated"].include?(@variable.variable_type)
-      %tr
-        %th Units
-        %td= @variable.units
-
-    - if ["date"].include?(@variable.variable_type)
-      - if @variable.date_hard_minimum.present?
-        %tr
-          %th Date Hard Minimum
-          %td= format_date @variable.date_hard_minimum
-
-      - if @variable.date_soft_minimum.present?
-        %tr
-          %th Date Soft Minimum
-          %td= format_date @variable.date_soft_minimum
-
-      - if @variable.date_soft_maximum.present?
-        %tr
-          %th Date Soft Maximum
-          %td= format_date @variable.date_soft_maximum
-
-      - if @variable.date_hard_maximum.present?
-        %tr
-          %th Date Hard Maximum
-          %td= format_date @variable.date_hard_maximum
-
-      %tr
-        %th Show current date
-        %td= simple_check @variable.show_current_button?
-
-    - if ["time_of_day"].include?(@variable.variable_type)
-      %tr
-        %th Show current time
-        %td= simple_check @variable.show_current_button?
-      %tr
-        %th Time of Day Format
-        %td= @variable.time_of_day_format_name
-
-    - if ["time_duration"].include?(@variable.variable_type)
-      %tr
-        %th Time Duration Format
-        %td= @variable.time_duration_format_name
-
-    - if ["date"].include?(@variable.variable_type)
-      %tr
-        %th Date Format
-        %td= @variable.date_format_name
-
-    - if ["calculated"].include?(@variable.variable_type)
-      %tr
-        %th Calculation
-        %td
-          = render "variables/calculation_with_links", object: @variable
-
-      %tr
-        %th Calculated Format
-        %td= @variable.calculated_format
-
-    - if ["string"].include?(@variable.variable_type)
-      %tr
-        %th Autocomplete Values
-        %td= @variable.autocomplete_values
-
-    - if ["radio", "checkbox"].include?(@variable.variable_type)
-      %tr
-        %th Alignment
-        %td= @variable.alignment.capitalize
-
-    - if ["grid"].include?(@variable.variable_type)
-      %tr
-        %th Multiple Rows
-        %td= simple_check @variable.multiple_rows?
-      %tr
-        %th Default Row Number
-        %td= @variable.default_row_number
-      %tr
-        %th Variables
-        %td
-          %ul.list-unstyled
-            - @variable.child_variables.each do |child_variable|
-              %li= link_to child_variable.display_name, [child_variable.project, child_variable]
-
-    - if @variable.domain
-      %tr
-        %th Domain
-        %td= link_to @variable.domain.name, [@variable.domain.project, @variable.domain]
-
-  - if @variable.domain
-    = render "domain_options/domain_options", domain: @variable.domain, domain_options: @variable.domain.domain_options
+  = render "forms/horizontal/show/generic", title: "Domain", content: render("variables/domain", variable: @variable) if @variable.domain
