@@ -27,9 +27,14 @@
             Delete
   = @title
 
+- default_row_number = @variable.default_row_number
+- @variable.default_row_number = 1
+- multiple_rows = @variable.multiple_rows
+- @variable.multiple_rows = false
 - design_option = @variable.design_options.first
 - if design_option
   - design_option.branching_logic = ""
+
   - I18n.locale = World.language
   = form_with do |form|
     = form.hidden_field :language, value: World.language, name: :language
@@ -78,7 +83,9 @@
     = render "forms/horizontal/show/text", object: @variable, key: :autocomplete_values
 
   - if ["grid"].include?(@variable.variable_type)
+    - @variable.multiple_rows = multiple_rows
     = render "forms/horizontal/show/check_box", object: @variable, key: :multiple_rows
+    - @variable.default_row_number = default_row_number
     = render "forms/horizontal/show/text", object: @variable, key: :default_row_number
     = render "forms/horizontal/show/generic", title: "Variables", content: render("variables/child_variables", variable: @variable)
 
