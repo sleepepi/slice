@@ -101,6 +101,7 @@
       %label.col-md-2.col-form-label Variables
       .col-md-10
         .form-control-plaintext
+          = hidden_field_tag "variable[grid_tokens][][variable_id]", nil
           #form_grid_variables{ data: { object: "sortable" } }
             - @variable.child_grid_variables.each do |child_grid_variable|
               = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable

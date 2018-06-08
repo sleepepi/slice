@@ -1,4 +1,5 @@
 = hidden_field_tag "variable[project_id]", @design_option.variable.project.id
+= hidden_field_tag "variable[grid_tokens][][variable_id]", nil
 #form_grid_variables{ data: { object: "sortable" } }
   - @design_option.variable.child_grid_variables.each do |child_grid_variable|
     = render "variables/edit_grid_variable", child_grid_variable: child_grid_variable
