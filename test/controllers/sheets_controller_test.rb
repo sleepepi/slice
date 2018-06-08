@@ -151,13 +151,13 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get paginated index order by site" do
+  test "should get index order by site" do
     login(@project_editor)
     get project_sheets_url(@project), params: { order: "site" }
     assert_response :success
   end
 
-  test "should get paginated index order by site descending" do
+  test "should get index order by site descending" do
     login(@project_editor)
     get project_sheets_url(@project), params: { order: "site desc" }
     assert_response :success

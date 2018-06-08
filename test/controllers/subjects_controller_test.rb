@@ -527,13 +527,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
-  test "should get paginated index" do
-    login(@project_editor)
-    get project_subjects_url(@project, format: "js")
-    assert_template "index"
-    assert_response :success
-  end
-
   test "should get new" do
     login(@project_editor)
     get new_project_subject_url(@project)
