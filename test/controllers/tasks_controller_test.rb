@@ -25,7 +25,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_tasks_url(@project)
     assert_response :success
-    assert_not_nil assigns(:tasks)
   end
 
   test "should get new as project editor" do

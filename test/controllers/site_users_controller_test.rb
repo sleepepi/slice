@@ -15,8 +15,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
   test "should resend site invitation" do
     login(@project_editor)
     post resend_project_site_user_url(@project, @site_user, format: "js")
-    assert_not_nil assigns(:site_user)
-    assert_not_nil assigns(:site)
     assert_template "update"
     assert_response :success
   end
@@ -24,8 +22,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
   test "should not resend site invitation with invalid id" do
     login(@project_editor)
     post resend_project_site_user_url(@project, -1, format: "js")
-    assert_nil assigns(:site_user)
-    assert_nil assigns(:site)
     assert_template nil
     assert_response :success
   end
@@ -55,7 +51,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     get site_invite_url(site_users(:invited).invite_token)
     assert_redirected_to accept_project_site_users_url(@project)
     get accept_project_site_users_url(@project)
-    assert_not_nil assigns(:site_user)
     assert_equal users(:two), assigns(:site_user).user
     assert_equal "You have been successfully added to the project.", flash[:notice]
     assert_redirected_to assigns(:site_user).site.project
@@ -66,7 +61,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     get site_invite_url(site_users(:accepted_viewer_invite).invite_token)
     assert_redirected_to accept_project_site_users_url(@project)
     get accept_project_site_users_url(@project)
-    assert_not_nil assigns(:site_user)
     assert_equal users(:regular), assigns(:site_user).user
     assert_equal "You have already been added to #{assigns(:site_user).site.name}.", flash[:notice]
     assert_redirected_to assigns(:site_user).site.project
@@ -77,7 +71,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     get site_invite_url("imaninvalidtoken")
     assert_redirected_to root_url
     get accept_project_site_users_url(@project)
-    assert_nil assigns(:site_user)
     assert_equal "Invalid invitation token.", flash[:alert]
     assert_redirected_to root_url
   end
@@ -87,7 +80,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     get site_invite_url("validintwo")
     assert_redirected_to accept_project_site_users_url(@project)
     get accept_project_site_users_url(@project)
-    assert_not_nil assigns(:site_user)
     assert_not_equal users(:two), assigns(:site_user).user
     assert_equal "This invite has already been claimed.", flash[:alert]
     assert_redirected_to root_url
@@ -120,8 +112,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("SiteUser.count", -1) do
       delete project_site_user_url(@project, @site_user, format: "js")
     end
-    assert_not_nil assigns(:site_user)
-    assert_not_nil assigns(:site)
     assert_template "projects/members"
     assert_response :success
   end
@@ -131,8 +121,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("SiteUser.count", 0) do
       delete project_site_user_url(@project, @site_user, format: "js")
     end
-    assert_not_nil assigns(:site_user)
-    assert_nil assigns(:site)
     assert_response :success
   end
 
@@ -141,8 +129,6 @@ class SiteUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("SiteUser.count", -1) do
       delete project_site_user_url(@project, site_users(:site_viewer), format: "js")
     end
-    assert_not_nil assigns(:site_user)
-    assert_not_nil assigns(:site)
     assert_template "projects/members"
     assert_response :success
   end

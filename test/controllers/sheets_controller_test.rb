@@ -141,7 +141,6 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
   test "should get index with invalid project" do
     login(@project_editor)
     get project_sheets_url(-1)
-    assert_nil assigns(:sheets)
     assert_redirected_to root_url
   end
 
@@ -243,12 +242,6 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:file).id,
       position: nil
     }
-    assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:sheet_variable)
-    assert_not_nil assigns(:object)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:object).response_file.path), response.body
   end
 
@@ -260,12 +253,6 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:file).id,
       position: 0
     }
-    assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:sheet_variable)
-    assert_not_nil assigns(:object)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:object).response_file.path), response.body
   end
 
@@ -277,11 +264,6 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:file).id,
       position: 1
     }
-    assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:sheet_variable)
-    assert_not_nil assigns(:object)
     assert_equal 0, assigns(:object).response_file.size
     assert_response :success
   end
@@ -294,17 +276,13 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:file).id,
       position: nil
     }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
-    assert_nil assigns(:variable)
-    assert_nil assigns(:sheet_variable)
-    assert_redirected_to project_sheets_url(assigns(:project))
+    assert_redirected_to project_sheets_url(@project)
   end
 
   test "should get new and redirect" do
     login(@project_editor)
     get new_project_sheet_url(@project)
-    assert_redirected_to assigns(:project)
+    assert_redirected_to @project
   end
 
   test "should create sheet" do
@@ -340,7 +318,6 @@ d est laborum.",
         }
       end
     end
-    assert_not_nil assigns(:sheet)
     assert_equal 11, assigns(:sheet).variables.size
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -358,7 +335,6 @@ d est laborum.",
         }
       end
     end
-    assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal 127_858_751_212_122_128_384, assigns(:sheet).sheet_variables.first.get_response(:raw)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -379,7 +355,6 @@ d est laborum.",
         }
       end
     end
-    assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal "1992-05-02", assigns(:sheet).sheet_variables.first.get_response(:raw)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -400,7 +375,6 @@ d est laborum.",
         }
       end
     end
-    assert_not_nil assigns(:sheet)
     assigns(:sheet).sheet_variables.reload
     assert_equal "46920", assigns(:sheet).sheet_variables.first.get_response(:raw)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -414,11 +388,6 @@ d est laborum.",
   #                   site_id: subjects(:two).site_id,
   #                   variables: { }
   #   end
-
-  #   assert_not_nil assigns(:sheet)
-  #   assert_not_nil assigns(:sheet).event
-  #   assert_not_nil assigns(:sheet).subject_schedule
-
   #   assert_redirected_to project_subject_url(assigns(:sheet).subject.project, assigns(:sheet).subject)
   # end
 
@@ -430,11 +399,6 @@ d est laborum.",
   #                   site_id: subjects(:one).site_id,
   #                   variables: { }
   #   end
-
-  #   assert_not_nil assigns(:sheet)
-  #   assert_nil assigns(:sheet).subject_schedule
-  #   assert_nil assigns(:sheet).event
-
   #   assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   # end
 
@@ -452,7 +416,6 @@ d est laborum.",
         }
       }
     }
-    assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
@@ -465,8 +428,6 @@ d est laborum.",
         sheet: { design_id: @sheet.design_id }
       }
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_redirected_to root_url
   end
 
@@ -490,8 +451,6 @@ d est laborum.",
         sheet: { design_id: @sheet.design_id }
       }
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_redirected_to root_url
   end
 
@@ -503,16 +462,12 @@ d est laborum.",
         sheet: { design_id: @sheet.design_id }
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
   test "should show sheet" do
     login(@project_editor)
     get project_sheet_url(@project, @sheet)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
@@ -674,7 +629,7 @@ d est laborum.",
 
   test "should update sheet with grid" do
     login(@project_editor)
-    patch project_sheet_url(sheets(:has_grid).project, sheets(:has_grid)), params: {
+    patch project_sheet_url(@project, sheets(:has_grid)), params: {
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -712,14 +667,14 @@ d est laborum.",
         }
       }
     }
-    assert_not_nil assigns(:sheet)
-    assert_equal 1, assigns(:sheet).variables.size
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+    sheets(:has_grid).reload
+    assert_equal 1, sheets(:has_grid).variables.size
+    assert_redirected_to [@project, sheets(:has_grid)]
   end
 
   test "should update sheet with grid and remove top grid row" do
     login(@project_editor)
-    patch project_sheet_url(sheets(:has_grid).project, sheets(:has_grid)), params: {
+    patch project_sheet_url(@project, sheets(:has_grid)), params: {
       sheet: { design_id: designs(:has_grid).id },
       variables: {
         variables(:grid).id.to_s => {
@@ -747,9 +702,9 @@ d est laborum.",
         }
       }
     }
-    assert_not_nil assigns(:sheet)
-    assert_equal 1, assigns(:sheet).variables.size
-    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+    sheets(:has_grid).reload
+    assert_equal 1, sheets(:has_grid).variables.size
+    assert_redirected_to [@project, sheets(:has_grid)]
   end
 
   test "should update sheet with grid and remove all grid rows" do
@@ -762,7 +717,6 @@ d est laborum.",
         }
       }
     }
-    assert_not_nil assigns(:sheet)
     assert_equal 1, assigns(:sheet).variables.size
     assert_equal 0, Grid.where(sheet_variable: assigns(:sheet).sheet_variables).count
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
@@ -773,8 +727,6 @@ d est laborum.",
     patch project_sheet_url(@project, @sheet), params: {
       sheet: { design_id: "" }, variables: {}
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_template "edit"
     assert_response :success
   end
@@ -784,8 +736,6 @@ d est laborum.",
     patch project_sheet_url(@project, -1), params: {
       sheet: { design_id: designs(:all_variable_types).id }, variables: {}
     }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_redirected_to project_sheets_url(@project)
   end
 
@@ -794,8 +744,6 @@ d est laborum.",
     patch project_sheet_url(-1, @sheet), params: {
       sheet: { design_id: designs(:all_variable_types).id }, variables: {}
     }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_redirected_to root_url
   end
 
@@ -873,8 +821,6 @@ d est laborum.",
     patch reassign_project_sheet_url(@project, @sheet), params: {
       subject_id: subjects(:two).id, undo: "1"
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_equal subjects(:two).id, assigns(:sheet).subject_id
     assert_nil assigns(:sheet).subject_event_id
     assert_equal users(:regular).id, assigns(:sheet).last_user_id
@@ -887,8 +833,6 @@ d est laborum.",
     patch reassign_project_sheet_url(@project, @sheet), params: {
       subject_id: subjects(:one).id
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_redirected_to [assigns(:project), assigns(:sheet)]
   end
 
@@ -897,8 +841,6 @@ d est laborum.",
     patch reassign_project_sheet_url(@project, @sheet), params: {
       subject_id: subjects(:two).id
     }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_redirected_to root_url
   end
 
@@ -917,8 +859,6 @@ d est laborum.",
   test "should not make changes if move_to_event does not provide a new subject event" do
     login(@project_editor)
     patch move_to_event_project_sheet_url(@project, @sheet), params: { format: "js" }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
@@ -927,8 +867,6 @@ d est laborum.",
     patch move_to_event_project_sheet_url(@project, @sheet), params: {
       subject_event_id: subject_events(:one).id, format: "js"
     }
-    assert_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_response :success
   end
 

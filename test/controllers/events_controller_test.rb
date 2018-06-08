@@ -70,7 +70,6 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
         event: { name: "", description: @event.description }
       }
     end
-    assert_not_nil assigns(:event)
     assert_equal ["can't be blank"], assigns(:event).errors[:name]
     assert_template "new"
   end
@@ -131,7 +130,6 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     patch project_event_url(@project, @event), params: {
       event: { name: "", description: @event.description }
     }
-    assert_not_nil assigns(:event)
     assert_equal ["can't be blank"], assigns(:event).errors[:name]
     assert_template "edit"
   end

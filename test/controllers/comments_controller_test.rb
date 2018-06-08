@@ -22,8 +22,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
         comment: comment_params
       }
     end
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:comment)
     assert_equal users(:regular).id, assigns(:comment).user_id
     assert_template "index"
     assert_response :success
@@ -37,8 +35,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
         comment: comment_params.merge(description: "")
       }
     end
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:comment)
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
     assert_template "edit"
     assert_response :success
@@ -89,7 +85,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     patch comment_url(@comment, format: "js"), params: {
       comment: comment_params
     }
-    assert_not_nil assigns(:comment)
     assert_template "show"
     assert_response :success
   end
@@ -99,7 +94,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     patch comment_url(@comment, format: "js"), params: {
       comment: comment_params
     }
-    assert_not_nil assigns(:comment)
     assert_template "show"
     assert_response :success
   end
@@ -109,7 +103,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     patch comment_url(@comment, format: "js"), params: {
       comment: comment_params.merge(description: "")
     }
-    assert_not_nil assigns(:comment)
     assert_equal ["can't be blank"], assigns(:comment).errors[:description]
     assert_template "edit"
     assert_response :success

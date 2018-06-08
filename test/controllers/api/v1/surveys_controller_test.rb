@@ -16,12 +16,6 @@ class Api::V1::SurveysControllerTest < ActionDispatch::IntegrationTest
       authentication_token: @project.id_and_token, id: @subject,
       event: @event, design: @design, format: "json"
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:subject_event)
-    assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
@@ -30,14 +24,6 @@ class Api::V1::SurveysControllerTest < ActionDispatch::IntegrationTest
       authentication_token: @project.id_and_token, id: @subject,
       event: @event, design: @design, page: 1, format: "json"
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:subject_event)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:page)
-    assert_not_nil assigns(:design_option)
     assert_response :success
   end
 
@@ -48,14 +34,6 @@ class Api::V1::SurveysControllerTest < ActionDispatch::IntegrationTest
         event: @event, design: @design, page: 2, response: "42", format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:subject_event)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:page)
-    assert_not_nil assigns(:design_option)
     assert_response :success
   end
 
@@ -66,14 +44,6 @@ class Api::V1::SurveysControllerTest < ActionDispatch::IntegrationTest
         event: @event, design: @design, page: 1, response: "2", format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:subject_event)
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:page)
-    assert_not_nil assigns(:design_option)
     assert_response :success
   end
 end

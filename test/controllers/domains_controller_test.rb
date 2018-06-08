@@ -25,8 +25,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     post values_project_domains_url(@project, format: "js"), params: {
       domain_id: @domain.id
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:domain)
     assert_template "values"
   end
 
@@ -40,13 +38,11 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_domains_url(@project)
     assert_response :success
-    assert_not_nil assigns(:domains)
   end
 
   test "should not get index with invalid project" do
     login(@project_editor)
     get project_domains_url(-1)
-    assert_nil assigns(:domains)
     assert_redirected_to root_url
   end
 
@@ -91,7 +87,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:domain)
     assert_equal "Chocolate", assigns(:domain).domain_options.first.name
     assert_equal "1", assigns(:domain).domain_options.first.value
     assert_redirected_to project_domain_url(assigns(:domain).project, assigns(:domain))
@@ -104,7 +99,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
         domain: domain_params.merge(name: "", display_name: "")
       }
     end
-    assert_not_nil assigns(:domain)
     assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
     assert_template "new"
   end
@@ -116,36 +110,30 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
         domain: domain_params
       }
     end
-    assert_nil assigns(:domain)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 
   test "should show domain" do
     login(@project_editor)
     get project_domain_url(@project, @domain)
-    assert_not_nil assigns(:domain)
     assert_response :success
   end
 
   test "should not show domain with invalid project" do
     login(@project_editor)
     get project_domain_url(-1, @domain)
-    assert_nil assigns(:domain)
     assert_redirected_to root_url
   end
 
   test "should get edit" do
     login(@project_editor)
     get edit_project_domain_url(@project, @domain)
-    assert_not_nil assigns(:domain)
     assert_response :success
   end
 
   test "should not get edit with invalid project" do
     login(@project_editor)
     get edit_project_domain_url(-1, @domain)
-    assert_nil assigns(:domain)
     assert_redirected_to root_url
   end
 
@@ -194,7 +182,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
         ]
       }
     }
-    assert_not_nil assigns(:domain)
     assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
     assert_template "edit"
   end
@@ -211,8 +198,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
         ]
       }
     }
-    assert_nil assigns(:domain)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 
@@ -221,8 +206,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Domain.current.count", -1) do
       delete project_domain_url(@project, @domain)
     end
-    assert_not_nil assigns(:domain)
-    assert_not_nil assigns(:project)
     assert_redirected_to project_domains_url
   end
 
@@ -231,8 +214,6 @@ class DomainsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Domain.current.count", 0) do
       delete project_domain_url(-1, @domain)
     end
-    assert_nil assigns(:domain)
-    assert_nil assigns(:project)
     assert_redirected_to root_url
   end
 end

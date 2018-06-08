@@ -15,7 +15,6 @@ class ProjectPreferencesControllerTest < ActionDispatch::IntegrationTest
         project_id: projects(:one), archived: "1", format: "js"
       )
     end
-    assert_not_nil assigns(:project)
     assert_template "update"
     assert_response :success
   end
@@ -27,7 +26,6 @@ class ProjectPreferencesControllerTest < ActionDispatch::IntegrationTest
         project_id: -1, archived: "1", format: "js"
       )
     end
-    assert_nil assigns(:project)
     assert_response :success
   end
 
@@ -38,7 +36,6 @@ class ProjectPreferencesControllerTest < ActionDispatch::IntegrationTest
         project_id: projects(:two), archived: "0", format: "js"
       )
     end
-    assert_not_nil assigns(:project)
     assert_template "update"
     assert_response :success
   end
@@ -50,8 +47,6 @@ class ProjectPreferencesControllerTest < ActionDispatch::IntegrationTest
         project_id: projects(:one), emails_enabled: "1", format: "js"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:project_preference)
     assert_template "update"
     assert_response :success
   end
@@ -63,7 +58,6 @@ class ProjectPreferencesControllerTest < ActionDispatch::IntegrationTest
         project_id: projects(:one), emails_enabled: "0", format: "js"
       )
     end
-    assert_not_nil assigns(:project)
     assert_template "update"
     assert_response :success
   end

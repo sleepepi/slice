@@ -28,8 +28,6 @@ class ListsControllerTest < ActionDispatch::IntegrationTest
         randomization_schemes(:minimization)
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:randomization_scheme)
     assert_redirected_to project_randomization_scheme_url(assigns(:project), assigns(:randomization_scheme))
   end
 
@@ -41,8 +39,6 @@ class ListsControllerTest < ActionDispatch::IntegrationTest
         randomization_schemes(:minimization_not_by_site)
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:randomization_scheme)
     assert_redirected_to project_randomization_scheme_url(projects(:two), randomization_schemes(:minimization_not_by_site))
   end
 
@@ -65,8 +61,6 @@ class ListsControllerTest < ActionDispatch::IntegrationTest
         randomization_schemes(:minimization)
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:randomization_scheme)
     assert_redirected_to project_randomization_scheme_url(assigns(:project), assigns(:randomization_scheme))
   end
 

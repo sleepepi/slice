@@ -41,7 +41,6 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
     }
-    assert_not_nil assigns(:variable)
     assert_template "add_grid_row"
     assert_response :success
   end
@@ -54,7 +53,6 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       design_option_id: design_options(:admin_public_design_external_grid).id,
       sheet_authentication_token: sheets(:external).authentication_token
     }
-    assert_not_nil assigns(:variable)
     assert_template "add_grid_row"
     assert_response :success
   end
@@ -67,7 +65,6 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
     }
-    assert_not_nil assigns(:variable)
     assert_template "add_grid_row"
     assert_response :success
   end
@@ -80,7 +77,6 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id
     }
-    assert_nil assigns(:variable)
     assert_response :success
   end
 
@@ -92,17 +88,12 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       design_option_id: design_options(:has_grid_grid).id,
       handoff: handoffs(:grid).to_param
     }
-    assert_not_nil assigns(:variable)
     assert_template "add_grid_row"
     assert_response :success
   end
 
   test "should get section image from public design as public viewer" do
     get external_section_image_url(section_id: @public_section.id, project_id: projects(:three).id, design: @public_design)
-    assert_not_nil response
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:section)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:section).image.path), response.body
   end
 
@@ -111,27 +102,17 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     @design = designs(:sections_and_variables)
     @section = sections(:private)
     get external_section_image_url(section_id: @section.id, project_id: projects(:one).id, design: @design, handoff: @handoff)
-    assert_not_nil response
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:section)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:section).image.path), response.body
   end
 
   test "should get section image from design as regular user" do
     login(@regular)
     get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
-    assert_not_nil response
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:section)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:section).image.path), response.body
   end
 
   test "should not get section image from private design without login" do
     get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
-    assert_nil assigns(:design)
-    assert_nil assigns(:section)
     assert_response :success
   end
 

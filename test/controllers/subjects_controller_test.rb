@@ -59,7 +59,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
   test "should get new data entry as site editor" do
     login(users(:site_one_editor))
     get new_data_entry_project_subject_url(@project, @subject, design_id: designs(:all_variable_types).id)
-    assert_not_nil assigns(:sheet)
     assert_equal designs(:all_variable_types), assigns(:sheet).design
     assert_response :success
   end
@@ -87,7 +86,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "js"
       )
     end
-    assert_not_nil assigns(:sheet)
     assert_equal users(:site_one_editor), assigns(:sheet).user
     assert_equal users(:site_one_editor), assigns(:sheet).last_user
     assert_not_nil assigns(:sheet).last_edited_at
@@ -247,9 +245,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
       event_id: events(:one).id,
       subject_event: { event_date: "02/14/2015" }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
     assert_equal Date.parse("2015-02-14"), assigns(:subject_event).event_date
     assert_redirected_to event_project_subject_url(
       assigns(:project),
@@ -333,10 +328,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
     ), params: {
       subject_event: { event_date: "12/0/2015" }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:subject_event)
     assert_template "edit_event"
     assert_response :success
   end
@@ -344,32 +335,24 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
   test "should get choose site for new subject as project editor" do
     login(@project_editor)
     get choose_site_project_subjects_url(@project), params: { subject_code: "CodeNew" }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:subject)
     assert_response :success
   end
 
   test "should redirect to subject when choosing site for existing subject as project editor" do
     login(@project_editor)
     get choose_site_project_subjects_url(@project), params: { subject_code: "Code01" }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
   test "should redirect to subject when choosing site for existing subject as project viewer" do
     login(users(:associated))
     get choose_site_project_subjects_url(@project), params: { subject_code: "Code01" }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_redirected_to [assigns(:project), assigns(:subject)]
   end
 
   test "should redirect to project when choosing site for non-existent subject as project viewer" do
     login(users(:associated))
     get choose_site_project_subjects_url(@project), params: { subject_code: "CodeNew" }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:subject)
     assert_redirected_to assigns(:project)
   end
 
@@ -570,7 +553,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
         site_id: sites(:site_with_subject_regex).id
       }
     end
-    assert_not_nil assigns(:subject)
     assert_equal ["must be in the following format: S1[0-9][0-9]"], assigns(:subject).errors[:subject_code]
     assert_template "new"
     assert_response :success
@@ -584,7 +566,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
         site_id: @subject.site_id
       }
     end
-    assert_not_nil assigns(:subject)
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
     assert_template "new"
     assert_response :success
@@ -598,7 +579,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
         site_id: @subject.site_id
       }
     end
-    assert_not_nil assigns(:subject)
     assert_equal ["has already been taken"], assigns(:subject).errors[:subject_code]
     assert_template "new"
     assert_response :success
@@ -731,7 +711,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
       subject: { subject_code: "" },
       site_id: @subject.site_id
     }
-    assert_not_nil assigns(:subject)
     assert_equal ["can't be blank"], assigns(:subject).errors[:subject_code]
     assert_template "edit"
     assert_response :success
@@ -743,7 +722,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
       subject: { subject_code: @subject.subject_code },
       site_id: @subject.site_id
     }
-    assert_nil assigns(:subject)
     assert_redirected_to project_subjects_url(@project)
   end
 

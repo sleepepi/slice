@@ -27,55 +27,47 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     get project_designs_url(@project)
     assert_response :success
-    assert_not_nil assigns(:designs)
   end
 
   test "should not get index with invalid project" do
     login(@project_editor)
     get project_designs_url(-1)
-    assert_nil assigns(:designs)
     assert_redirected_to root_url
   end
 
   test "should get index by design" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "design" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test "should get index by design desc" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "design desc" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test "should get index by category" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "category" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test "should get index by category desc" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "category desc" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test "should get index by variables" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "variables" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
   test "should get index by variables desc" do
     login(@project_editor)
     get project_designs_url(@project), params: { order: "variables desc" }
-    assert_not_nil assigns(:designs)
     assert_response :success
   end
 
@@ -92,7 +84,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
         design: design_params
       }
     end
-    assert_not_nil assigns(:design)
     assert_redirected_to edit_project_design_url(assigns(:design).project, assigns(:design))
   end
 
@@ -124,7 +115,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:design)
     assert_equal "Design With Questions", assigns(:design).name
     assert_equal "DEWQUE", assigns(:design).short_name
     assert_redirected_to edit_project_design_url(assigns(:design).project, assigns(:design))
@@ -140,7 +130,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:design)
     assert_equal "http://example.com", assigns(:design).redirect_url
     assert_redirected_to edit_project_design_url(assigns(:design).project, assigns(:design))
   end
@@ -155,7 +144,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:design)
     assert_equal "", assigns(:design).redirect_url
     assert_redirected_to edit_project_design_url(assigns(:design).project, assigns(:design))
   end
@@ -170,7 +158,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:design)
     assert_equal "", assigns(:design).redirect_url
     assert_redirected_to edit_project_design_url(assigns(:design).project, assigns(:design))
   end
@@ -192,8 +179,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   #                                            ]
   #                           }
   #   end
-
-  #   assert_not_nil assigns(:design)
   #   assert_equal ["can only be added once"], assigns(:design).errors[:variables]
   #   assert_template "new"
   # end
@@ -207,8 +192,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   #                                            ]
   #                           }
   #   end
-
-  #   assert_not_nil assigns(:design)
   #   assert_equal ["must be unique"], assigns(:design).errors[:section_names]
   #   assert_template "new"
   # end
@@ -216,30 +199,24 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   test "should show design" do
     login(@project_editor)
     get project_design_url(@project, @design)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should show design for project with no sites" do
     login(@project_editor)
     get project_design_url(projects(:no_sites), designs(:no_sites))
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should not show invalid design" do
     login(@project_editor)
     get project_design_url(@project, -1)
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to project_designs_url(@project)
   end
 
   test "should not show design with invalid project" do
     login(@project_editor)
     get project_design_url(-1, @design)
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to root_url
   end
 
@@ -279,24 +256,18 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   test "should get edit" do
     login(@project_editor)
     get edit_project_design_url(@project, @design)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should not get edit for invalid design" do
     login(@project_editor)
     get edit_project_design_url(@project, -1)
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to project_designs_url(assigns(:project))
   end
 
   test "should not get edit with invalid project" do
     login(@project_editor)
     get edit_project_design_url(-1, @design)
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to root_url
   end
 
@@ -305,8 +276,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     patch project_design_url(@project, @design, format: "js"), params: {
       design: design_params.merge(name: "Updated Name")
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_equal "Updated Name", assigns(:design).name
     assert_template "show"
   end
@@ -325,8 +294,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     patch project_design_url(@project, @design, format: "js"), params: {
       design: design_params.merge(publicly_available: "1")
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_equal "design-one", assigns(:design).survey_slug
     assert_equal true, assigns(:design).publicly_available
     assert_template "show"
@@ -337,8 +304,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     patch project_design_url(@project, @design, format: "js"), params: {
       design: design_params.merge(publicly_available: "1", survey_slug: "design-one-custom")
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_equal "design-one-custom", assigns(:design).survey_slug
     assert_equal true, assigns(:design).publicly_available
     assert_template "show"
@@ -347,7 +312,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   # test "should not update design with blank name" do
   #   login(@project_editor)
   #   patch :update, id: @design, project_id: @project, design: { name: "" }
-  #   assert_not_nil assigns(:design)
   #   assert_equal ["can't be blank"], assigns(:design).errors[:name]
   #   assert_template "edit"
   # end
@@ -355,16 +319,12 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
   # test "should not update invalid design" do
   #   login(@project_editor)
   #   patch :update, id: -1, project_id: @project, design: { name: @design.name }
-  #   assert_not_nil assigns(:project)
-  #   assert_nil assigns(:design)
   #   assert_redirected_to project_designs_url(assigns(:project))
   # end
 
   # test "should not update design with invalid project" do
   #   login(@project_editor)
   #   patch :update, id: @design, project_id: -1, design: { name: @design.name }
-  #   assert_nil assigns(:project)
-  #   assert_nil assigns(:design)
   #   assert_redirected_to root_url
   # end
 
@@ -381,8 +341,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Design.current.count", 0) do
       delete project_design_url(-1, @design)
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to root_url
   end
 end

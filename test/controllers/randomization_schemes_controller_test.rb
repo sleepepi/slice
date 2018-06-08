@@ -28,24 +28,18 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
   test "should get randomize subject for published scheme" do
     login(@project_one_editor)
     get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_response :success
   end
 
   test "should get randomize subject for published scheme for site editor" do
     login(@site_editor)
     get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_response :success
   end
 
   test "should not get randomize subject for published scheme for site viewer" do
     login(@site_viewer)
     get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
-    assert_nil assigns(:randomization_scheme)
-    assert_nil assigns(:randomization)
     assert_redirected_to root_url
   end
 
@@ -85,8 +79,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     post randomize_subject_to_list_project_randomization_scheme_url(
       projects(:two), randomization_schemes(:three)
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:randomization_scheme)
     assert_response :success
   end
 
@@ -105,9 +97,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         attested: "1"
       }
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
@@ -126,9 +115,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         attested: "1"
       }
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
@@ -166,8 +152,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         attested: "1"
       }
     end
-    assert_nil assigns(:randomization_scheme)
-    assert_nil assigns(:randomization)
     assert_redirected_to root_url
   end
 
@@ -189,9 +173,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
     assert_equal 1, assigns(:randomization).weighted_eligible_arms.size
     assert_equal treatment_arms(:ongoing_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
@@ -218,8 +199,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["must be randomized to their site"], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
@@ -241,9 +220,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_equal 100, assigns(:randomization).dice_roll_cutoff
     assert_equal 3, assigns(:randomization).weighted_eligible_arms.size
     assert_equal treatment_arms(:random_a).name, assigns(:randomization).weighted_eligible_arms.first[:name]
@@ -272,8 +248,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -290,8 +264,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       },
       attested: "1"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["has already been randomized"], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
@@ -308,8 +280,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       },
       attested: "1"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["does not match an existing subject"], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
@@ -326,8 +296,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       },
       attested: "1"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -341,8 +309,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       subject_code: "Code02",
       attested: "1"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["can't be blank"], assigns(:randomization).errors[:stratification_factors]
     assert_response :success
   end
@@ -359,8 +325,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       },
       attested: "0"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["must be checked"], assigns(:randomization).errors[:attested]
     assert_response :success
   end
@@ -373,8 +337,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     ), params: {
       subject_code: "2TWO02", stratification_factors: { }, attested: "1"
     }
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
     assert_equal ["need to be generated before a subject can be randomized"], assigns(:randomization).errors[:lists]
     assert_response :success
   end
@@ -384,8 +346,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     post randomize_subject_to_list_project_randomization_scheme_url(
       @project, randomization_schemes(:two)
     )
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:randomization_scheme)
     assert_redirected_to project_randomization_schemes_url(assigns(:project))
   end
 
@@ -407,9 +367,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_equal 0, assigns(:randomization).dice_roll_cutoff
     # Should not include site in stratification factors
     assert_equal [{ count: 1.67, treatment_arm_id: treatment_arms(:edge_a_3).id }, { count: 1.0, treatment_arm_id: treatment_arms(:edge_b_1).id }], assigns(:randomization).past_distributions[:weighted_totals]
@@ -452,9 +409,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         attested: "1"
       }
     end
-    assert_not_nil assigns(:randomization_scheme)
-    assert_not_nil assigns(:randomization)
-    assert_not_nil assigns(:randomization).name
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
@@ -482,7 +436,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     login(@project_one_editor)
     get project_randomization_schemes_url(@project)
     assert_response :success
-    assert_not_nil assigns(:randomization_schemes)
   end
 
   test "should get new" do
@@ -508,7 +461,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
         randomization_scheme: randomization_scheme_params.merge(name: "")
       }
     end
-    assert_not_nil assigns(:randomization_scheme)
     assert_equal ["can't be blank"], assigns(:randomization_scheme).errors[:name]
     assert_template "new"
     assert_response :success
@@ -539,7 +491,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     patch project_randomization_scheme_url(@project, @randomization_scheme), params: {
       randomization_scheme: randomization_scheme_params.merge(name: "Randomization Scheme 2")
     }
-    assert_not_nil assigns(:randomization_scheme)
     assert_equal ["has already been taken"], assigns(:randomization_scheme).errors[:name]
     assert_template "edit"
     assert_response :success

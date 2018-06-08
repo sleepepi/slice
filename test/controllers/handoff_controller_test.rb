@@ -39,7 +39,6 @@ class HandoffControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Handoff.where(token: nil).count") do
       post handoff_save_url(@project, @launched, designs(:sections_and_variables))
     end
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to handoff_completed_url
   end

@@ -65,7 +65,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "#{users(:two).full_name} [#{users(:two).email}]"
       }
     end
-    assert_not_nil assigns(:member)
     assert_template "invite_user"
     assert_response :success
   end
@@ -79,7 +78,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         unblinded: "1"
       }
     end
-    assert_not_nil assigns(:member)
     assert_equal false, assigns(:member).unblinded?
     assert_template "invite_user"
     assert_response :success
@@ -93,8 +91,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "#{users(:associated).full_name} [#{users(:associated).email}]"
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:member)
     assert_template "invite_user"
     assert_response :success
   end
@@ -107,7 +103,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "invite@example.com"
       }
     end
-    assert_not_nil assigns(:member)
     assert_not_nil assigns(:member).invite_token
     assert_template "invite_user"
     assert_response :success
@@ -121,7 +116,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "#{users(:two).full_name} [#{users(:two).email}]"
       }
     end
-    assert_nil assigns(:member)
     assert_response :success
   end
 
@@ -134,7 +128,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "invite@example.com"
       }
     end
-    assert_not_nil assigns(:member)
     assert_equal true, assigns(:member).editor
     assert_template "invite_user"
     assert_response :success
@@ -148,7 +141,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
         invite_email: "invite@example.com"
       }
     end
-    assert_not_nil assigns(:member)
     assert_equal false, assigns(:member).editor
     assert_template "invite_user"
     assert_response :success
@@ -175,7 +167,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should update project" do
     login(@unblinded_editor)
     patch editor_project_url(@project), params: { project: project_params }
-    assert_not_nil assigns(:project)
     assert_equal "My Project", assigns(:project).name
     assert_equal "my-project", assigns(:project).slug
     assert_equal "Project Description\n Line two", assigns(:project).description
@@ -192,7 +183,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should not update project with blank name" do
     login(@unblinded_editor)
     patch editor_project_url(@project), params: { project: { name: "" } }
-    assert_not_nil assigns(:project)
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
     assert_template "edit"
     assert_response :success
@@ -201,7 +191,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should not update project blinding as blinded editor" do
     login(@blinded_editor)
     patch editor_project_url(@project), params: { project: project_params.merge(blinding_enabled: "0") }
-    assert_not_nil assigns(:project)
     assert_equal true, assigns(:project).blinding_enabled?
     assert_redirected_to settings_editor_project_path(assigns(:project))
   end
@@ -209,16 +198,14 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should not update invalid project" do
     login(@unblinded_editor)
     patch editor_project_url(-1), params: { project: { name: @project.name, description: @project.description } }
-    assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
 
   test "should remove attached logo" do
+    login(@unblinded_editor)
     begin
-      login(@unblinded_editor)
       assert_not_equal 0, @project.logo.size
       patch editor_project_url(@project), params: { project: { remove_logo: "1" } }
-      assert_not_nil assigns(:project)
       assert_equal 0, assigns(:project).logo.size
       assert_redirected_to settings_editor_project_path(@project)
     ensure
@@ -232,7 +219,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal 0, @project.logo.size
     login(users(:site_one_viewer))
     patch editor_project_url(@project), params: { project: { remove_logo: "1" } }
-    assert_nil assigns(:project)
     assert_not_equal 0, @project.logo.size
     assert_redirected_to projects_path
   end

@@ -42,7 +42,6 @@ class HandoffsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Handoff.count") do
       post create_handoff_project_subject_url(@project, subjects(:three), subject_events(:three))
     end
-    assert_not_nil assigns(:handoff)
     assert_not_nil assigns(:handoff).token
     assert_equal @project_editor, assigns(:handoff).user
     assert_redirected_to handoff_start_url(@project, assigns(:handoff))
@@ -53,7 +52,6 @@ class HandoffsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Handoff.count", 0) do
       post create_handoff_project_subject_url(@project, subjects(:two), subject_events(:two))
     end
-    assert_not_nil assigns(:handoff)
     assert_not_nil assigns(:handoff).token
     assert_equal users(:admin), assigns(:handoff).user
     assert_redirected_to handoff_start_url(@project, assigns(:handoff))

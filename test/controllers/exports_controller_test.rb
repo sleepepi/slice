@@ -73,10 +73,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     login(@regular_user)
     assert_not_equal 0, @export.file.size
     get file_project_export_url(@project, @export)
-    assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:export)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:export).file.path), response.body
   end
 
@@ -84,8 +80,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     login(@regular_user)
     assert_equal 0, exports(:two).file.size
     get file_project_export_url(@project, exports(:two))
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:export)
     assert_response :success
   end
 
@@ -93,8 +87,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     login(users(:site_one_viewer))
     assert_not_equal 0, @export.file.size
     get file_project_export_url(@project, @export)
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:export)
     assert_redirected_to project_exports_url(assigns(:project))
   end
 
@@ -107,7 +99,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
   test "should not show invalid export" do
     login(@regular_user)
     get project_export_url(@project, -1)
-    assert_nil assigns(:export)
     assert_redirected_to project_exports_url(assigns(:project))
   end
 
@@ -116,7 +107,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Export.current.count", -1) do
       delete project_export_url(@project, @export)
     end
-    assert_not_nil assigns(:export)
     assert_redirected_to project_exports_url(assigns(:project))
   end
 
@@ -125,7 +115,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Export.current.count", 0) do
       delete project_export_url(@project, -1)
     end
-    assert_nil assigns(:export)
     assert_redirected_to project_exports_url(assigns(:project))
   end
 end

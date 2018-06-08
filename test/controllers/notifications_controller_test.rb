@@ -23,7 +23,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show comment notification" do
     login(@regular_user)
     get notification_url(notifications(:comment))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to assigns(:notification).comment
   end
@@ -31,7 +30,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show adverse event notification" do
     login(@regular_user)
     get notification_url(notifications(:adverse_event))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).adverse_event]
   end
@@ -39,7 +37,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show export notification" do
     login(@regular_user)
     get notification_url(notifications(:export))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).export]
   end
@@ -47,7 +44,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show handoff notification" do
     login(@regular_user)
     get notification_url(notifications(:handoff))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to event_project_subject_path(
       assigns(:notification).project,
@@ -61,7 +57,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show sheet created notification" do
     login(@regular_user)
     get notification_url(notifications(:sheet_created))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to [assigns(:notification).project, assigns(:notification).sheet]
   end
@@ -69,7 +64,6 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should show blank notification and redirect" do
     login(@regular_user)
     get notification_url(notifications(:blank))
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_redirected_to notifications_path
   end
@@ -77,14 +71,12 @@ class NotificationsControllerTest <  ActionDispatch::IntegrationTest
   test "should not show notification without valid id" do
     login(@regular_user)
     get notification_url(-1)
-    assert_nil assigns(:notification)
     assert_redirected_to notifications_path
   end
 
   test "should update notification" do
     login(@regular_user)
     patch notification_url(notifications(:comment), format: "js"), params: { notification: { read: true } }
-    assert_not_nil assigns(:notification)
     assert_equal true, assigns(:notification).read
     assert_template "show"
     assert_response :success

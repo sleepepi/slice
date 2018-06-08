@@ -116,7 +116,6 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
         site: site_params.merge(name: "")
       }
     end
-    assert_not_nil assigns(:site)
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template "new"
     assert_response :success
@@ -181,8 +180,6 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
   test "should not get edit with invalid project" do
     login(@project_editor)
     get edit_project_site_url(-1, @site)
-    assert_nil assigns(:project)
-    assert_nil assigns(:site)
     assert_redirected_to root_url
   end
 
@@ -197,7 +194,6 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
     patch project_site_url(@project, @site), params: {
       site: site_params.merge(name: "")
     }
-    assert_not_nil assigns(:site)
     assert_equal ["can't be blank"], assigns(:site).errors[:name]
     assert_template "edit"
     assert_response :success

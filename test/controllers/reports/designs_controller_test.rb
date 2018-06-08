@@ -19,16 +19,12 @@ class Reports::DesignsControllerTest < ActionDispatch::IntegrationTest
   test "should show design overview as viewer" do
     login(@viewer)
     get project_reports_design_overview_url(@project, designs(:all_variable_types))
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 
   test "should show design overview for design with sections as viewer" do
     login(@viewer)
     get project_reports_design_overview_url(@project, designs(:sections_and_variables))
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 end

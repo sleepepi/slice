@@ -16,8 +16,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
 
   test "should get new survey with slug" do
     get new_survey_path(slug: @public_design.survey_slug)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
     assert_equal true, assigns(:design).publicly_available
     assert_response :success
   end
@@ -25,8 +23,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
   test "should not get new private survey" do
     assert_equal false, @private_design.publicly_available
     get new_survey_path(slug: @private_design.survey_slug)
-    assert_nil assigns(:project)
-    assert_nil assigns(:design)
     assert_redirected_to about_survey_path
   end
 
@@ -38,11 +34,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:design)
     assert_equal true, assigns(:design).publicly_available
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
     assert_not_nil assigns(:sheet).last_edited_at
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug, a: assigns(:sheet).authentication_token)
@@ -59,9 +51,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_equal ["can't be blank"], assigns(:sheet).errors["public_autocomplete_animals"]
     assert_template "new"
     assert_response :success
@@ -73,11 +62,7 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         post create_survey_path(slug: designs(:admin_public_design_with_redirect).survey_slug)
       end
     end
-    assert_not_nil assigns(:design)
     assert_equal true, assigns(:design).publicly_available
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).authentication_token
     assert_redirected_to "http://localhost/survey_completed"
   end
@@ -92,7 +77,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug, a: assigns(:sheet).authentication_token)
@@ -108,7 +92,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site).id, assigns(:sheet).subject.site_id
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug, a: assigns(:sheet).authentication_token)
@@ -124,7 +107,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:sheet)
     assert_not_nil assigns(:sheet).subject
     assert_equal sites(:admin_site_two).id, assigns(:sheet).subject.site_id
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug, a: assigns(:sheet).authentication_token)
@@ -138,10 +120,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_nil assigns(:design)
-    assert_nil assigns(:project)
-    assert_nil assigns(:subject)
-    assert_nil assigns(:sheet)
     assert_equal "This survey no longer exists.", flash[:alert]
     assert_redirected_to about_survey_path
   end
@@ -151,8 +129,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:admin_public_design).survey_slug,
       sheet_authentication_token: sheets(:external).authentication_token
     )
-    assert_not_nil assigns(:sheet)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
@@ -161,8 +137,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:admin_public_design).survey_slug,
       sheet_authentication_token: "123"
     )
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_equal "This survey no longer exists.", flash[:alert]
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug)
   end
@@ -172,8 +146,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:auto_lock).survey_slug,
       sheet_authentication_token: sheets(:auto_lock).authentication_token
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_equal "This survey has been locked.", flash[:alert]
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug)
   end
@@ -183,8 +155,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:admin_public_design).survey_slug,
       sheet_authentication_token: sheets(:external).authentication_token
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug, a: assigns(:sheet).authentication_token)
   end
 
@@ -195,9 +165,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
     ), params: {
       variables: { variables(:public_autocomplete).id.to_s => "" }
     }
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_equal ["can't be blank"], assigns(:sheet).errors["public_autocomplete_animals"]
     assert_template "edit"
     assert_response :success
@@ -208,8 +175,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:admin_public_design).survey_slug,
       sheet_authentication_token: "123"
     )
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:sheet)
     assert_equal "This survey no longer exists.", flash[:alert]
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug)
   end
@@ -219,8 +184,6 @@ class SurveyControllerTest < ActionDispatch::IntegrationTest
       slug: designs(:auto_lock).survey_slug,
       sheet_authentication_token: sheets(:auto_lock).authentication_token
     )
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:sheet)
     assert_equal "This survey has been locked.", flash[:alert]
     assert_redirected_to about_survey_path(survey: assigns(:design).survey_slug)
   end

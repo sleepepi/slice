@@ -28,7 +28,6 @@ class StratificationFactorsControllerTest < ActionDispatch::IntegrationTest
       @project, @randomization_scheme
     )
     assert_response :success
-    assert_not_nil assigns(:stratification_factors)
   end
 
   test "should get new" do

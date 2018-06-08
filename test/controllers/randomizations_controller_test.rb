@@ -174,7 +174,6 @@ class RandomizationsControllerTest < ActionDispatch::IntegrationTest
     skip if ENV["TRAVIS"] # Skip this test on Travis since Travis can't generate PDFs
     login(@site_one_viewer)
     get schedule_project_randomization_url(@project, @randomization, format: "pdf")
-    assert_not_nil assigns(:randomization)
     assert_response :success
   end
 
@@ -194,19 +193,16 @@ class RandomizationsControllerTest < ActionDispatch::IntegrationTest
   test "should undo randomization" do
     login(@project_one_editor)
     patch undo_project_randomization_url(@project, @randomization)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:randomization)
-    assert_nil assigns(:randomization).subject_id
-    assert_nil assigns(:randomization).randomized_by_id
-    assert_nil assigns(:randomization).randomized_at
+    @randomization.reload
+    assert_nil @randomization.subject_id
+    assert_nil @randomization.randomized_by_id
+    assert_nil @randomization.randomized_at
     assert_redirected_to project_randomizations_url(@project)
   end
 
   test "should not undo randomization as site editor" do
     login(@site_one_editor)
     patch undo_project_randomization_url(@project, @randomization)
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:randomization)
     assert_redirected_to project_randomizations_url(@project)
   end
 

@@ -23,8 +23,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
   test "should not resend project invitation with invalid id" do
     login(@project_editor)
     post resend_project_user_url(-1, format: "js")
-    assert_nil assigns(:project_user)
-    assert_nil assigns(:project)
     assert_template nil
     assert_response :success
   end
@@ -47,7 +45,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     get invite_url(@pending_editor_invite.invite_token)
     assert_redirected_to accept_project_users_url
     get accept_project_users_url
-    assert_not_nil assigns(:project_user)
     assert_equal users(:two), assigns(:project_user).user
     assert_equal(
       "You have been successfully added to the project.",
@@ -61,7 +58,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     get invite_url(project_users(:accepted_viewer_invite).invite_token)
     assert_redirected_to accept_project_users_url
     get accept_project_users_url
-    assert_not_nil assigns(:project_user)
     assert_equal users(:regular), assigns(:project_user).user
     assert_equal(
       "You have already been added to #{assigns(:project_user).project.name}.",
@@ -75,7 +71,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     get invite_url("imaninvalidtoken")
     assert_redirected_to accept_project_users_url
     get accept_project_users_url
-    assert_nil assigns(:project_user)
     assert_equal "Invalid invitation token.", flash[:alert]
     assert_redirected_to root_url
   end
@@ -85,7 +80,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     get invite_url("accepted_viewer_invite")
     assert_redirected_to accept_project_users_url
     get accept_project_users_url
-    assert_not_nil assigns(:project_user)
     assert_not_equal users(:two), assigns(:project_user).user
     assert_equal "This invite has already been claimed.", flash[:alert]
     assert_redirected_to root_url
@@ -120,7 +114,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("ProjectUser.count", -1) do
       delete project_user_url(@accepted_viewer_invite, format: "js")
     end
-    assert_not_nil assigns(:project)
     assert_template "projects/members"
   end
 
@@ -129,7 +122,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("ProjectUser.count", -1) do
       delete project_user_url(project_users(:project_one_viewer), format: "js")
     end
-    assert_not_nil assigns(:project)
     assert_template "projects/members"
   end
 
@@ -138,7 +130,6 @@ class ProjectUsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference("ProjectUser.count", 0) do
       delete project_user_url(-1, format: "js")
     end
-    assert_nil assigns(:project)
     assert_response :success
   end
 end

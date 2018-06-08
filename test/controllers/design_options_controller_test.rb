@@ -183,10 +183,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:domain)
     assert_equal "new_domain_for_variable", assigns(:domain).name
     assert_equal "New Domain For Variable", assigns(:domain).display_name
     assert_equal 4, assigns(:domain).domain_options.count
@@ -213,10 +209,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         variable_id: variables(:dropdown).id,
         update: "domain"
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:domain)
     assert_equal "dropdown_options_new", assigns(:design_option).variable.domain.name
     assert_equal "Easy", assigns(:design_option).variable.domain.domain_options.first.name
     assert_equal "1", assigns(:design_option).variable.domain.domain_options.first.value
@@ -248,10 +240,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:dropdown).id,
       update: "domain"
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:domain)
     assert_equal "dropdown_options_new", assigns(:design_option).variable.domain.name
     assert_equal "Easy", assigns(:design_option).variable.domain.domain_options.first.name
     assert_equal "1", assigns(:design_option).variable.domain.domain_options.first.value
@@ -283,10 +271,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
       variable_id: variables(:dropdown).id,
       update: "domain"
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:domain)
     assert_equal ["can't be blank", "is invalid"], assigns(:domain).errors[:name]
     assert_template "edit_domain"
   end
@@ -301,10 +285,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:section)
     assert_equal "Section A", assigns(:design_option).section.name
     assert_equal "Description", assigns(:design_option).section.description
     assert_equal 1, assigns(:design_option).section.level
@@ -326,10 +306,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:variable)
     assert_equal "my_new_variable", assigns(:design_option).variable.name
     assert_equal "My New Variable", assigns(:design_option).variable.display_name
     assert_equal "string", assigns(:design_option).variable.variable_type
@@ -350,10 +326,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:variable)
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
     assert_template "new_variable"
   end
@@ -378,10 +350,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
-    assert_not_nil assigns(:variable)
     assert_equal "my_new_grid_variable", assigns(:design_option).variable.name
     assert_equal "My New Grid Variable", assigns(:design_option).variable.display_name
     assert_equal "grid", assigns(:design_option).variable.variable_type
@@ -401,9 +369,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_equal "gender_for_report", assigns(:design_option).variable.name
     assert_equal "Gender", assigns(:design_option).variable.display_name
     assert_equal "radio", assigns(:design_option).variable.variable_type
@@ -422,9 +387,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_template "new_existing_variable"
   end
 
@@ -443,9 +405,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         level: "1"
       }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_equal "1 = 1", assigns(:design_option).branching_logic
     assert_equal "required", assigns(:design_option).requirement
     assert_equal "Section A Updated", assigns(:design_option).section.name
@@ -468,9 +427,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
       display_name: "Gender Updated"
       }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_equal "1 = 1", assigns(:design_option).branching_logic
     assert_equal "required", assigns(:design_option).requirement
     assert_equal "var_gender_updated", assigns(:design_option).variable.name
@@ -491,9 +447,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         name: ""
       }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_equal ["can't be blank", "is invalid"], assigns(:design_option).variable.errors[:name]
     assert_template "edit"
   end
@@ -511,9 +464,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         name: ""
       }
     }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_equal ["can't be blank", "is invalid"], assigns(:design_option).variable.errors[:name]
     assert_template "edit"
   end
@@ -527,9 +477,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         )
       end
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_template "index"
     assert_response :success
   end
@@ -541,9 +488,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
         @project, designs(:sections_and_variables), design_options(:sections_and_variables_dropdown), format: "js"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:design)
-    assert_not_nil assigns(:design_option)
     assert_template "index"
     assert_response :success
   end
@@ -553,7 +497,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     post update_option_order_project_design_design_options_url(@project, @design, format: "js"), params: {
       rows: "1,0,2"
     }
-    assert_not_nil assigns(:design)
     assert_equal [ActiveRecord::FixtureSet.identify(:two),
                   ActiveRecord::FixtureSet.identify(:one),
                   ActiveRecord::FixtureSet.identify(:date)],
@@ -566,7 +509,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
       sections: "1,0"
     }
-    assert_not_nil assigns(:design)
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
       ActiveRecord::FixtureSet.identify(:sectionb),
@@ -588,7 +530,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
       sections: "0,1"
     }
-    assert_not_nil assigns(:design)
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
       ActiveRecord::FixtureSet.identify(:sectiona),
@@ -610,7 +551,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
       sections: "1"
     }
-    assert_not_nil assigns(:design)
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
       ActiveRecord::FixtureSet.identify(:sectiona),
@@ -632,7 +572,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
       sections: "0,1"
     }
-    assert_nil assigns(:design)
     assert_response :success
   end
 end

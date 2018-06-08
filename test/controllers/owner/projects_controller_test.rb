@@ -12,14 +12,12 @@ class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should get api as owner" do
     login(@owner)
     get api_owner_project_url(@project)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should transfer project to another user" do
     login(@owner)
     post transfer_owner_project_url(@project, user_id: users(:associated))
-    assert_not_nil assigns(:project)
     assert_equal true, assigns(:project).editors.pluck(:id).include?(users(:regular).id)
     assert_redirected_to settings_editor_project_path(assigns(:project))
   end
@@ -27,7 +25,6 @@ class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should not transfer project as non-owner" do
     login(@owner)
     post transfer_owner_project_url(projects(:three)), params: { user_id: users(:regular) }
-    assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
 
@@ -44,7 +41,6 @@ class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Project.current.count", 0) do
       delete owner_project_url(projects(:three))
     end
-    assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
 

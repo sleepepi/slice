@@ -42,7 +42,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
   test "should add grid variable" do
     login(@project_editor)
     post add_grid_variable_project_variables_url(@project, format: "js")
-    assert_not_nil assigns(:child_grid_variable)
     assert_template "add_grid_variable"
     assert_response :success
   end
@@ -56,7 +55,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
   test "should not get index with invalid project" do
     login(@project_editor)
     get project_variables_url(-1)
-    assert_nil assigns(:variables)
     assert_redirected_to root_url
   end
 
@@ -109,8 +107,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-
-    assert_not_nil assigns(:variable)
     assert_equal 2, assigns(:variable).domain_options.count
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
@@ -125,7 +121,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:variable)
     assert_equal 0, assigns(:variable).domain_options.count
     assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
@@ -141,8 +136,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
     assert_redirected_to root_url
   end
 
@@ -162,7 +155,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:variable)
     assert 1, assigns(:variable).child_variables.count
     assert_redirected_to [@project, Variable.last]
   end
@@ -170,8 +162,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
   test "should show variable" do
     login(@project_editor)
     get project_variable_url(@project, @variable)
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:variable)
     assert_response :success
   end
 
@@ -254,7 +244,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         display_name: "", variable_type: @variable.variable_type
       }
     }
-    assert_not_nil assigns(:variable)
     assert_equal ["can't be blank"], assigns(:variable).errors[:display_name]
     assert_template "edit"
   end
@@ -286,7 +275,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
     patch project_variable_url(@project, variables(:data_captured)), params: {
       variable: { domain_id: domains(:three_restaurants).id }
     }
-    assert_not_nil assigns(:variable)
     assert_equal domains(:three_restaurants), assigns(:variable).domain
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
@@ -299,7 +287,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         variable_type: "integer"
       }
     }
-    assert_not_nil assigns(:variable)
     assert_equal "integer", assigns(:variable).variable_type
     assert_equal domains(:one_restaurant_not_encompassing), assigns(:variable).domain
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
@@ -310,7 +297,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
     patch project_variable_url(@project, variables(:checkbox)), params: {
       variable: { domain_id: domains(:one).id }
     }
-    assert_not_nil assigns(:variable)
     assert_equal domains(:one), assigns(:variable).domain
     assert_redirected_to project_variable_url(@project, variables(:checkbox))
   end
@@ -322,7 +308,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         variable: { domain_id: nil }
       }
     end
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_url(@project, variables(:data_captured))
   end
@@ -334,7 +319,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         variable: { domain_id: nil }
       }
     end
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_url(@project, variables(:checkbox))
   end
@@ -346,7 +330,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         variable: { domain_id: nil }
       }
     end
-    assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
     assert_redirected_to project_variable_url(@project, variables(:change_domain_options))
   end
@@ -373,7 +356,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:variable)
     assert_equal 7, assigns(:variable).child_grid_variables.count
     assert_redirected_to project_variable_url(@project, variables(:grid))
   end

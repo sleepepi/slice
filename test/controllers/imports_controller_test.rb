@@ -107,7 +107,6 @@ class ImportsControllerTest < ActionDispatch::IntegrationTest
   test "should show progress as project editor" do
     login(@project_editor)
     post progress_import_project_design_url(@project, @design, format: "js")
-    assert_not_nil assigns(:design)
     assert_template "progress"
     assert_response :success
   end
@@ -115,7 +114,6 @@ class ImportsControllerTest < ActionDispatch::IntegrationTest
   test "should get edit as project editor" do
     login(@project_editor)
     get edit_import_project_design_url(@project, @design)
-    assert_not_nil assigns(:design)
     assert_response :success
   end
 

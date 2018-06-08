@@ -129,7 +129,6 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:domain_option)
     assert_equal ["merging not permitted"], assigns(:domain_option).errors[:value]
     assert_template "edit"
     assert_response :success
@@ -159,7 +158,6 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
         end
       end
     end
-    assert_not_nil assigns(:domain_option)
     assert_equal "-11", assigns(:domain_option).value
     assert_redirected_to [@project, domains(:integer_unknown), domain_options(:integer_unknown_9)]
   end
@@ -183,7 +181,6 @@ class DomainOptionsControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_not_nil assigns(:domain_option)
     assert_equal "36", assigns(:domain_option).value
     assert_redirected_to [@project, domains(:integer_unknown), domain_options(:integer_unknown_10)]
   end

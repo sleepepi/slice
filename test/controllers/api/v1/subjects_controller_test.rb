@@ -11,22 +11,16 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get api_v1_subjects_path(authentication_token: @project.id_and_token, format: "json")
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subjects)
     assert_response :success
   end
 
   test "should get show" do
     get api_v1_subject_path(authentication_token: @project.id_and_token, id: @subject, format: "json")
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_response :success
   end
 
   test "should get events" do
     get api_v1_subject_events_path(authentication_token: @project.id_and_token, id: @subject, format: "json")
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     events = JSON.parse(response.body)
     assert_equal "baseline", events.first["event"]
     assert_response :success
@@ -34,8 +28,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get data" do
     get api_v1_subject_data_path(authentication_token: @project.id_and_token, id: @subject, data_points: ["api_radio", { event: "baseline", variable: "api_integer"}], format: "json")
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_response :success
   end
 
@@ -50,8 +42,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_response :success
   end
 
@@ -66,8 +56,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
     assert_response :unprocessable_entity
   end
 
@@ -80,10 +68,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:event)
-    assert_not_nil assigns(:subject_event)
     assert_response :success
   end
 
@@ -96,10 +80,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_nil assigns(:event)
-    assert_not_nil assigns(:subject_event)
     assert_response :unprocessable_entity
   end
 
@@ -113,9 +93,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:sheet)
     assert_response :success
   end
 
@@ -129,9 +106,6 @@ class Api::V1::SubjectsControllerTest < ActionDispatch::IntegrationTest
         format: "json"
       )
     end
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:subject)
-    assert_not_nil assigns(:sheet)
     assert_response :success
   end
 end

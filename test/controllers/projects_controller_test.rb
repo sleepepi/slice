@@ -56,9 +56,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should get logo as project editor" do
     login(@project_editor)
     get logo_project_url(@project)
-    assert_not_nil response
-    assert_not_nil assigns(:project)
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:project).logo.path), response.body
   end
 
@@ -71,14 +68,12 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     login(users(:regular))
     get projects_url
-    assert_not_nil assigns(:projects)
     assert_response :success
   end
 
   test "should get index by reverse project name" do
     login(users(:regular))
     get projects_url, params: { order: "projects.name desc" }
-    assert_not_nil assigns(:projects)
     assert_response :success
   end
 
@@ -101,7 +96,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
     assert_equal(
       File.join(CarrierWave::Uploader::Base.root, "projects", assigns(:project).id.to_s, "logo", "rails.png"),
       assigns(:project).logo.path
@@ -124,7 +118,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
         }
       end
     end
-    assert_not_nil assigns(:project)
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
     assert_template "new"
   end
@@ -132,35 +125,30 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   test "should show project activity" do
     login(users(:regular))
     get activity_project_url(@project)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show project" do
     login(users(:regular))
     get project_url(@project)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show project using slug" do
     login(users(:regular))
     get project_url(projects(:named_project))
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should show project to site user" do
     login(users(:site_one_viewer))
     get project_url(@project)
-    assert_not_nil assigns(:project)
     assert_response :success
   end
 
   test "should not show invalid project" do
     login(users(:regular))
     get project_url(-1)
-    assert_nil assigns(:project)
     assert_redirected_to projects_path
   end
 
