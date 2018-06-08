@@ -28,8 +28,8 @@
   = @title
 
 - design_option = @variable.design_options.first
-- design_option.branching_logic = ""
 - if design_option
+  - design_option.branching_logic = ""
   - I18n.locale = World.language
   = form_with do |form|
     = form.hidden_field :language, value: World.language, name: :language
