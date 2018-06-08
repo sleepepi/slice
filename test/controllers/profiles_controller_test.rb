@@ -75,8 +75,6 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get public profile picture" do
     get picture_profile_url(profiles(:picture))
-    assert_not_nil response
-    assert_kind_of String, response.body
     assert_equal File.binread(profiles(:picture).object.profile_picture.thumb.path), response.body
   end
 end

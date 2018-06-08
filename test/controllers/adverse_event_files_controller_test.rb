@@ -134,8 +134,6 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
   test "should download image as project editor" do
     login(@project_editor)
     get download_project_adverse_event_adverse_event_file_url(@project, @adverse_event, @adverse_event_file)
-    assert_not_nil response
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success
   end
@@ -143,8 +141,6 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
   test "should download pdf as project editor" do
     login(@project_editor)
     get download_project_adverse_event_adverse_event_file_url(@project, @adverse_event, adverse_event_files(:two))
-    assert_not_nil response
-    assert_kind_of String, response.body
     assert_equal File.binread(assigns(:adverse_event_file).attachment.path), response.body
     assert_response :success
   end
