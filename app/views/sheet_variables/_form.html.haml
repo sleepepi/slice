@@ -1,7 +1,7 @@
 -# This file shows a variable for use in a sheet
 - disabled = "" if defined?(disabled) == nil
 - show_values = true unless defined?(show_values)
-- sheet_variable = sheet_variables.select{ |sv| sv.variable_id == variable.id }.first
+- sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id }
 - response = (params[:variables].blank? ? (sheet_variable ? sheet_variable.get_response(:raw) : nil) : params[:variables][variable.id.to_s])
 - value = variable.response_to_value(response)
 - validate_response = if @sheet && (@sheet.errors.count > 0 || !@sheet.new_record?)
