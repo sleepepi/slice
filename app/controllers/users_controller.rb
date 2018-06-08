@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   before_action :find_user_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /users
+  # GET /users.json
   def index
     unless current_user.admin? || params[:format] == "json"
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
