@@ -83,20 +83,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
-  test "should create variable and continue" do
-    login(@project_editor)
-    assert_difference("Variable.count") do
-      post project_variables_url(@project), params: {
-        continue: "1",
-        variable: {
-          description: @variable.description, name: "var_4",
-          display_name: "Variable Four", variable_type: @variable.variable_type
-        }
-      }
-    end
-    assert_redirected_to new_project_variable_url(assigns(:variable).project)
-  end
-
   test "should create dropdown variable" do
     login(@project_editor)
     assert_difference("Variable.count") do
@@ -222,18 +208,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
-  end
-
-  test "should update variable and continue" do
-    login(@project_editor)
-    patch project_variable_url(@project, @variable), params: {
-      continue: "1",
-      variable: {
-        description: @variable.description, name: @variable.name,
-        display_name: @variable.display_name
-      }
-    }
-    assert_redirected_to new_project_variable_url(@project)
   end
 
   test "should not update variable with blank display name" do
