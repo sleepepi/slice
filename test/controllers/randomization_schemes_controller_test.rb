@@ -1,95 +1,108 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 # Assure that project editors can view and modify randomization schemes.
-class RandomizationSchemesControllerTest < ActionController::TestCase
+class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    login(users(:regular))
+    @project_one_editor = users(:project_one_editor)
+    @project_viewer = users(:project_one_viewer)
+    @site_editor = users(:site_one_editor)
+    @site_viewer = users(:site_one_viewer)
+
+    @project_two_editor = users(:regular)
+
     @project = projects(:one)
     @randomization_scheme = randomization_schemes(:one)
   end
 
   def randomization_scheme_params
     {
-      name: 'New Randomization Scheme',
+      name: "New Randomization Scheme",
       description: @randomization_scheme.description,
       published: @randomization_scheme.published,
       randomization_goal: @randomization_scheme.randomization_goal
     }
   end
 
-  test 'should get randomize subject for published scheme' do
-    get :randomize_subject, params: { project_id: @project, id: @randomization_scheme }
+  test "should get randomize subject for published scheme" do
+    login(@project_one_editor)
+    get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_response :success
   end
 
-  test 'should get randomize subject for published scheme for site editor' do
-    login(users(:site_one_editor))
-    get :randomize_subject, params: { project_id: @project, id: @randomization_scheme }
+  test "should get randomize subject for published scheme for site editor" do
+    login(@site_editor)
+    get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
     assert_response :success
   end
 
-  test 'should not get randomize subject for published scheme for site viewer' do
-    login(users(:site_one_viewer))
-    get :randomize_subject, params: { project_id: @project, id: @randomization_scheme }
+  test "should not get randomize subject for published scheme for site viewer" do
+    login(@site_viewer)
+    get randomize_subject_project_randomization_scheme_url(@project, @randomization_scheme)
     assert_nil assigns(:randomization_scheme)
     assert_nil assigns(:randomization)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
-  test 'should not get randomize subject for draft scheme' do
-    get :randomize_subject, params: { project_id: @project, id: randomization_schemes(:two) }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:randomization_scheme)
-    assert_redirected_to project_randomization_schemes_path(assigns(:project))
+  test "should not get randomize subject for draft scheme" do
+    login(@project_one_editor)
+    get randomize_subject_project_randomization_scheme_url(@project, randomization_schemes(:two))
+    assert_redirected_to project_randomization_schemes_url(@project)
   end
 
-  test 'should get subject search as project editor' do
-    get :subject_search, params: { project_id: @project, id: @randomization_scheme, q: 'Code01' }
+  test "should get subject search as project editor" do
+    login(@project_one_editor)
+    get subject_search_project_randomization_scheme_url(@project, @randomization_scheme), params: { q: "Code01" }
     subjects_json = JSON.parse(response.body)
-    assert_equal 'Code01', subjects_json.first['value']
-    assert_equal 'Code01', subjects_json.first['subject_code']
-    assert_equal 'R', subjects_json.first['status']
+    assert_equal "Code01", subjects_json.first["value"]
+    assert_equal "Code01", subjects_json.first["subject_code"]
+    assert_equal "R", subjects_json.first["status"]
     assert_response :success
   end
 
-  test 'should get subject search and display subject as ineligible for randomization' do
-    get :subject_search, params: {
-      project_id: projects(:two),
-      id: randomization_schemes(:minimization_with_required_variable),
-      q: '2TWO02'
+  test "should get subject search and display subject as ineligible for randomization" do
+    login(@project_two_editor)
+    get subject_search_project_randomization_scheme_url(
+      projects(:two),
+      randomization_schemes(:minimization_with_required_variable)
+    ), params: {
+      q: "2TWO02"
     }
     subjects_json = JSON.parse(response.body)
-    assert_equal '2TWO02', subjects_json.first['value']
-    assert_equal '2TWO02', subjects_json.first['subject_code']
-    assert_equal 'I', subjects_json.first['status']
+    assert_equal "2TWO02", subjects_json.first["value"]
+    assert_equal "2TWO02", subjects_json.first["subject_code"]
+    assert_equal "I", subjects_json.first["status"]
     assert_response :success
   end
 
-  test 'should get randomize subject for published scheme with no lists' do
-    post :randomize_subject_to_list, params: {
-      project_id: projects(:two), id: randomization_schemes(:three)
-    }
+  test "should get randomize subject for published scheme with no lists" do
+    login(@project_two_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      projects(:two), randomization_schemes(:three)
+    )
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:randomization_scheme)
     assert_response :success
   end
 
-  test 'should randomize subject for published scheme to list' do
-    # Stratification Factors { 'Gender' => 'Male', "Age" => "< 40" }
-    assert_difference('RandomizationCharacteristic.count', 2) do
-      post :randomize_subject_to_list, params: {
-        project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
+  test "should randomize subject for published scheme to list" do
+    login(@project_one_editor)
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference("RandomizationCharacteristic.count", 2) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        @project, @randomization_scheme
+      ), params: {
+        subject_code: "Code02",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
           ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
     assert_not_nil assigns(:randomization_scheme)
@@ -98,17 +111,19 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should randomize subject for published scheme to list as site editor' do
-    login(users(:site_one_editor))
-    # Stratification Factors { 'Gender' => 'Male', "Age" => "< 40" }
-    assert_difference('RandomizationCharacteristic.count', 2) do
-      post :randomize_subject_to_list, params: {
-        project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
+  test "should randomize subject for published scheme to list as site editor" do
+    login(@site_editor)
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference("RandomizationCharacteristic.count", 2) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        @project, @randomization_scheme
+      ), params: {
+        subject_code: "Code02",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
           ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
     assert_not_nil assigns(:randomization_scheme)
@@ -117,54 +132,60 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should not randomize subject on another site as the site editor' do
-    login(users(:site_one_editor))
-    # Stratification Factors { 'Gender' => 'Male', "Age" => "< 40" }
-    assert_difference('RandomizationCharacteristic.count', 0) do
-      post :randomize_subject_to_list, params: {
-        project_id: @project, id: @randomization_scheme, subject_code: 'S2001',
+  test "should not randomize subject on another site as the site editor" do
+    login(@site_editor)
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference("RandomizationCharacteristic.count", 0) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        @project, @randomization_scheme
+      ), params: {
+        subject_code: "S2001",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
           ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
-    assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
+    assert_equal ["does not match an existing subject"], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
 
-  test 'should not randomize subject for published scheme to list as site viewer' do
-    login(users(:site_one_viewer))
-    # Stratification Factors { 'Gender' => 'Male', 'Age' => '< 40' }
-    assert_difference('RandomizationCharacteristic.count', 0) do
-      post :randomize_subject_to_list, params: {
-        project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
+  test "should not randomize subject for published scheme to list as site viewer" do
+    login(@site_viewer)
+    # Stratification Factors { "Gender" => "Male", "Age" => "< 40" }
+    assert_difference("RandomizationCharacteristic.count", 0) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        @project, @randomization_scheme
+      ), params: {
+        subject_code: "Code02",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
           ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
     assert_nil assigns(:randomization_scheme)
     assert_nil assigns(:randomization)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
-  test 'should randomize subject for published minimization scheme to list' do
-    # Stratification Factors { 'Gender' => 'Male', 'Site' => 'Two' }
-    assert_difference('Randomization.count', 1) do
-      assert_difference('RandomizationCharacteristic.count', 2) do
-        post :randomize_subject_to_list, params: {
-          project_id: projects(:two),
-          id: randomization_schemes(:minimization_with_lists),
-          subject_code: '2TWO02',
+  test "should randomize subject for published minimization scheme to list" do
+    login(@project_two_editor)
+    # Stratification Factors { "Gender" => "Male", "Site" => "Two" }
+    assert_difference("Randomization.count", 1) do
+      assert_difference("RandomizationCharacteristic.count", 2) do
+        post randomize_subject_to_list_project_randomization_scheme_url(
+          projects(:two),
+          randomization_schemes(:minimization_with_lists)
+        ), params: {
+          subject_code: "2TWO02",
           stratification_factors: {
             ActiveRecord::FixtureSet.identify(:gender_with_lists).to_s => ActiveRecord::FixtureSet.identify(:male_min_with_lists).to_s,
             ActiveRecord::FixtureSet.identify(:by_site_with_lists).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s
           },
-          attested: '1'
+          attested: "1"
         }
       end
     end
@@ -179,40 +200,44 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should not randomize subject for to another site' do
-    # Stratification Factors { 'Gender' => 'Male', 'Site' => 'One' }
-    assert_difference('Randomization.count', 0) do
-      assert_difference('RandomizationCharacteristic.count', 0) do
-        post :randomize_subject_to_list, params: {
-          project_id: projects(:two),
-          id: randomization_schemes(:minimization_with_lists),
-          subject_code: '2TWO02',
+  test "should not randomize subject for to another site" do
+    login(@project_two_editor)
+    # Stratification Factors { "Gender" => "Male", "Site" => "One" }
+    assert_difference("Randomization.count", 0) do
+      assert_difference("RandomizationCharacteristic.count", 0) do
+        post randomize_subject_to_list_project_randomization_scheme_url(
+          projects(:two),
+          randomization_schemes(:minimization_with_lists)
+        ), params: {
+          subject_code: "2TWO02",
           stratification_factors: {
             ActiveRecord::FixtureSet.identify(:gender_with_lists).to_s => ActiveRecord::FixtureSet.identify(:male_min_with_lists).to_s,
             ActiveRecord::FixtureSet.identify(:by_site_with_lists).to_s => ActiveRecord::FixtureSet.identify(:two).to_s
           },
-          attested: '1'
+          attested: "1"
         }
       end
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ['must be randomized to their site'], assigns(:randomization).errors[:subject_id]
+    assert_equal ["must be randomized to their site"], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
 
-  test 'should randomize subject for fully random minimization scheme to list' do
-    # Stratification Factors { 'Gender' => 'Male' }
-    assert_difference('Randomization.count', 1) do
-      assert_difference('RandomizationCharacteristic.count', 1) do
-        post :randomize_subject_to_list, params: {
-          project_id: projects(:two),
-          id: randomization_schemes(:fully_random_minimization),
-          subject_code: '2TWO02',
+  test "should randomize subject for fully random minimization scheme to list" do
+    login(@project_two_editor)
+    # Stratification Factors { "Gender" => "Male" }
+    assert_difference("Randomization.count", 1) do
+      assert_difference("RandomizationCharacteristic.count", 1) do
+        post randomize_subject_to_list_project_randomization_scheme_url(
+          projects(:two),
+          randomization_schemes(:fully_random_minimization)
+        ), params: {
+          subject_code: "2TWO02",
           stratification_factors: {
             ActiveRecord::FixtureSet.identify(:gender_random).to_s => ActiveRecord::FixtureSet.identify(:male_random).to_s
           },
-          attested: '1'
+          attested: "1"
         }
       end
     end
@@ -230,18 +255,20 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should not randomize subject for minimization scheme without all criteria selected' do
-    # Stratification Factors { 'Gender' => 'Male' }
-    assert_difference('Randomization.count', 0) do
-      assert_difference('RandomizationCharacteristic.count', 0) do
-        post :randomize_subject_to_list, params: {
-          project_id: projects(:two),
-          id: randomization_schemes(:minimization_with_lists),
-          subject_code: '2TWO02',
+  test "should not randomize subject for minimization scheme without all criteria selected" do
+    login(@project_two_editor)
+    # Stratification Factors { "Gender" => "Male" }
+    assert_difference("Randomization.count", 0) do
+      assert_difference("RandomizationCharacteristic.count", 0) do
+        post randomize_subject_to_list_project_randomization_scheme_url(
+          projects(:two),
+          randomization_schemes(:minimization_with_lists)
+        ), params: {
+          subject_code: "2TWO02",
           stratification_factors: {
             ActiveRecord::FixtureSet.identify(:gender_with_lists).to_s => ActiveRecord::FixtureSet.identify(:male_min_with_lists).to_s
           },
-          attested: '1'
+          attested: "1"
         }
       end
     end
@@ -251,43 +278,53 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should not randomize subject to list if already randomized' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: @randomization_scheme, subject_code: 'Code01',
+  test "should not randomize subject to list if already randomized" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project, @randomization_scheme
+    ), params: {
+      subject_code: "Code01",
       stratification_factors: {
         ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
         ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
-      attested: '1'
+      attested: "1"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ['has already been randomized'], assigns(:randomization).errors[:subject_id]
+    assert_equal ["has already been randomized"], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
 
-  test 'should not randomize subject to list if subject code is blank' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: @randomization_scheme, subject_code: '',
+  test "should not randomize subject to list if subject code is blank" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project, @randomization_scheme
+    ), params: {
+      subject_code: "",
       stratification_factors: {
         ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
         ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
-      attested: '1'
+      attested: "1"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ['does not match an existing subject'], assigns(:randomization).errors[:subject_code]
+    assert_equal ["does not match an existing subject"], assigns(:randomization).errors[:subject_code]
     assert_response :success
   end
 
-  test 'should not randomize subject to list if missing one or more stratification factors' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
+  test "should not randomize subject to list if missing one or more stratification factors" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project,
+      @randomization_scheme
+    ), params: {
+      subject_code: "Code02",
       stratification_factors: {
         ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s
       },
-      attested: '1'
+      attested: "1"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
@@ -295,10 +332,14 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should not randomize subject to list if missing all stratification factors' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
-      attested: '1'
+  test "should not randomize subject to list if missing all stratification factors" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project,
+      @randomization_scheme
+    ), params: {
+      subject_code: "Code02",
+      attested: "1"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
@@ -306,54 +347,63 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should not randomize subject to list if attestation is not checked' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: @randomization_scheme, subject_code: 'Code02',
+  test "should not randomize subject to list if attestation is not checked" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project, @randomization_scheme
+    ), params: {
+      subject_code: "Code02",
       stratification_factors: {
         ActiveRecord::FixtureSet.identify(:gender).to_s => ActiveRecord::FixtureSet.identify(:male).to_s,
         ActiveRecord::FixtureSet.identify(:age).to_s => ActiveRecord::FixtureSet.identify(:ltforty).to_s
       },
-      attested: '0'
+      attested: "0"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ['must be checked'], assigns(:randomization).errors[:attested]
+    assert_equal ["must be checked"], assigns(:randomization).errors[:attested]
     assert_response :success
   end
 
-  test 'should not randomize subject if no lists have been generated for randomization scheme' do
-    post :randomize_subject_to_list, params: {
-      project_id: projects(:two), id: randomization_schemes(:three),
-      subject_code: '2TWO02', stratification_factors: { }, attested: '1'
+  test "should not randomize subject if no lists have been generated for randomization scheme" do
+    login(@project_two_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      projects(:two),
+      randomization_schemes(:three)
+    ), params: {
+      subject_code: "2TWO02", stratification_factors: { }, attested: "1"
     }
     assert_not_nil assigns(:randomization_scheme)
     assert_not_nil assigns(:randomization)
-    assert_equal ['need to be generated before a subject can be randomized'], assigns(:randomization).errors[:lists]
+    assert_equal ["need to be generated before a subject can be randomized"], assigns(:randomization).errors[:lists]
     assert_response :success
   end
 
-  test 'should not randomize subject to list for draft scheme' do
-    post :randomize_subject_to_list, params: {
-      project_id: @project, id: randomization_schemes(:two)
-    }
+  test "should not randomize subject to list for draft scheme" do
+    login(@project_one_editor)
+    post randomize_subject_to_list_project_randomization_scheme_url(
+      @project, randomization_schemes(:two)
+    )
     assert_not_nil assigns(:project)
     assert_nil assigns(:randomization_scheme)
-    assert_redirected_to project_randomization_schemes_path(assigns(:project))
+    assert_redirected_to project_randomization_schemes_url(assigns(:project))
   end
 
-  test 'should randomize male to correct treatment arm for minimization scheme' do
-    # Stratification Factors { 'Gender' => 'Male', "Site" => "Site One on Project Two" }
-    assert_difference('Randomization.count', 1) do
-      assert_difference('RandomizationCharacteristic.count', 2) do
-        post :randomize_subject_to_list, params: {
-          project_id: projects(:two),
-          id: randomization_schemes(:minimization_for_testing_edge_case),
-          subject_code: 'edge10',
+  test "should randomize male to correct treatment arm for minimization scheme" do
+    login(@project_two_editor)
+    # Stratification Factors { "Gender" => "Male", "Site" => "Site One on Project Two" }
+    assert_difference("Randomization.count", 1) do
+      assert_difference("RandomizationCharacteristic.count", 2) do
+        post randomize_subject_to_list_project_randomization_scheme_url(
+          projects(:two),
+          randomization_schemes(:minimization_for_testing_edge_case)
+        ), params: {
+          subject_code: "edge10",
           stratification_factors: {
             ActiveRecord::FixtureSet.identify(:edge_gender).to_s => ActiveRecord::FixtureSet.identify(:edge_male).to_s,
             ActiveRecord::FixtureSet.identify(:edge_site).to_s => ActiveRecord::FixtureSet.identify(:two).to_s
           },
-          attested: '1'
+          attested: "1"
         }
       end
     end
@@ -367,34 +417,39 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should not randomize ineligible subject to list' do
-    # Stratification Factors { 'Site' => 'SITE ID' }
-    assert_difference('RandomizationCharacteristic.count', 0) do
-      post :randomize_subject_to_list, params: {
-        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable),
-        subject_code: '2TWO02',
+  test "should not randomize ineligible subject to list" do
+    login(@project_two_editor)
+    # Stratification Factors { "Site" => "SITE ID" }
+    assert_difference("RandomizationCharacteristic.count", 0) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        projects(:two),
+        randomization_schemes(:minimization_with_required_variable)
+      ), params: {
+        subject_code: "2TWO02",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:required_variable_site).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s,
           ActiveRecord::FixtureSet.identify(:required_and_calculated).to_s => ActiveRecord::FixtureSet.identify(:required_and_calculated_one).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
-    assert_equal ['is ineligible for randomization due to variable criteria', 'Eligible for Randomization? is not equal to 1'], assigns(:randomization).errors[:subject_id]
+    assert_equal ["is ineligible for randomization due to variable criteria", "Eligible for Randomization? is not equal to 1"], assigns(:randomization).errors[:subject_id]
     assert_response :success
   end
 
-  test 'should randomize eligible subject to list' do
-    # Stratification Factors { 'Site' => 'SITE ID' }
-    assert_difference('RandomizationCharacteristic.count', 2) do
-      post :randomize_subject_to_list, params: {
-        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable),
-        subject_code: 'eligible_for_randomization',
+  test "should randomize eligible subject to list" do
+    login(@project_two_editor)
+    # Stratification Factors { "Site" => "SITE ID" }
+    assert_difference("RandomizationCharacteristic.count", 2) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        projects(:two), randomization_schemes(:minimization_with_required_variable)
+      ), params: {
+        subject_code: "eligible_for_randomization",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:required_variable_site).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s,
           ActiveRecord::FixtureSet.identify(:required_and_calculated).to_s => ActiveRecord::FixtureSet.identify(:required_and_calculated_one).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
     assert_not_nil assigns(:randomization_scheme)
@@ -403,87 +458,98 @@ class RandomizationSchemesControllerTest < ActionController::TestCase
     assert_redirected_to [assigns(:project), assigns(:randomization)]
   end
 
-  test 'should not randomize eligible subject to list with incorrect calculated criteria' do
-    # Stratification Factors { 'Site' => 'SITE ID' }
-    assert_difference('RandomizationCharacteristic.count', 0) do
-      post :randomize_subject_to_list, params: {
-        project_id: projects(:two), id: randomization_schemes(:minimization_with_required_variable), subject_code: 'eligible_for_randomization',
+  test "should not randomize eligible subject to list with incorrect calculated criteria" do
+    login(@project_two_editor)
+    # Stratification Factors { "Site" => "SITE ID" }
+    assert_difference("RandomizationCharacteristic.count", 0) do
+      post randomize_subject_to_list_project_randomization_scheme_url(
+        projects(:two),
+        randomization_schemes(:minimization_with_required_variable)
+      ), params: {
+        subject_code: "eligible_for_randomization",
         stratification_factors: {
           ActiveRecord::FixtureSet.identify(:required_variable_site).to_s => ActiveRecord::FixtureSet.identify(:site_on_project_two).to_s,
           ActiveRecord::FixtureSet.identify(:required_and_calculated).to_s => ActiveRecord::FixtureSet.identify(:required_and_calculated_two).to_s
         },
-        attested: '1'
+        attested: "1"
       }
     end
-    assert_equal ['does not match value specified on subject sheet'], assigns(:randomization).errors[:calculated]
+    assert_equal ["does not match value specified on subject sheet"], assigns(:randomization).errors[:calculated]
     assert_response :success
   end
 
-  test 'should get index' do
-    get :index, params: { project_id: @project }
+  test "should get index" do
+    login(@project_one_editor)
+    get project_randomization_schemes_url(@project)
     assert_response :success
     assert_not_nil assigns(:randomization_schemes)
   end
 
-  test 'should get new' do
-    get :new, params: { project_id: @project }
+  test "should get new" do
+    login(@project_one_editor)
+    get new_project_randomization_scheme_url(@project)
     assert_response :success
   end
 
-  test 'should create randomization_scheme' do
-    assert_difference('RandomizationScheme.count') do
-      post :create, params: {
-        project_id: @project, randomization_scheme: randomization_scheme_params
+  test "should create randomization_scheme" do
+    login(@project_one_editor)
+    assert_difference("RandomizationScheme.count") do
+      post project_randomization_schemes_url(@project), params: {
+        randomization_scheme: randomization_scheme_params
       }
     end
-    assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
+    assert_redirected_to project_randomization_scheme_url(assigns(:project), assigns(:randomization_scheme))
   end
 
-  test 'should not create randomization scheme with blank name' do
-    assert_difference('RandomizationScheme.count', 0) do
-      post :create, params: {
-        project_id: @project, randomization_scheme: randomization_scheme_params.merge(name: '')
+  test "should not create randomization scheme with blank name" do
+    login(@project_one_editor)
+    assert_difference("RandomizationScheme.count", 0) do
+      post project_randomization_schemes_url(@project), params: {
+        randomization_scheme: randomization_scheme_params.merge(name: "")
       }
     end
     assert_not_nil assigns(:randomization_scheme)
     assert_equal ["can't be blank"], assigns(:randomization_scheme).errors[:name]
-    assert_template 'new'
+    assert_template "new"
     assert_response :success
   end
 
-  test 'should show randomization_scheme' do
-    get :show, params: { project_id: @project, id: @randomization_scheme }
+  test "should show randomization_scheme" do
+    login(@project_one_editor)
+    get project_randomization_scheme_url(@project, @randomization_scheme)
     assert_response :success
   end
 
-  test 'should get edit' do
-    get :edit, params: { project_id: @project, id: @randomization_scheme }
+  test "should get edit" do
+    login(@project_one_editor)
+    get edit_project_randomization_scheme_url(@project, @randomization_scheme)
     assert_response :success
   end
 
-  test 'should update randomization_scheme' do
-    patch :update, params: {
-      project_id: @project, id: @randomization_scheme,
-      randomization_scheme: randomization_scheme_params.merge(name: 'Updated Randomization Scheme')
+  test "should update randomization_scheme" do
+    login(@project_one_editor)
+    patch project_randomization_scheme_url(@project, @randomization_scheme), params: {
+      randomization_scheme: randomization_scheme_params.merge(name: "Updated Randomization Scheme")
     }
-    assert_redirected_to project_randomization_scheme_path(assigns(:project), assigns(:randomization_scheme))
+    assert_redirected_to project_randomization_scheme_url(assigns(:project), assigns(:randomization_scheme))
   end
 
-  test 'should not update randomization scheme with existing name' do
-    patch :update, params: {
-      project_id: @project, id: @randomization_scheme,
-      randomization_scheme: randomization_scheme_params.merge(name: 'Randomization Scheme 2')
+  test "should not update randomization scheme with existing name" do
+    login(@project_one_editor)
+    patch project_randomization_scheme_url(@project, @randomization_scheme), params: {
+      randomization_scheme: randomization_scheme_params.merge(name: "Randomization Scheme 2")
     }
     assert_not_nil assigns(:randomization_scheme)
-    assert_equal ['has already been taken'], assigns(:randomization_scheme).errors[:name]
-    assert_template 'edit'
+    assert_equal ["has already been taken"], assigns(:randomization_scheme).errors[:name]
+    assert_template "edit"
     assert_response :success
   end
 
-  test 'should destroy randomization_scheme' do
-    assert_difference('RandomizationScheme.current.count', -1) do
-      delete :destroy, params: { project_id: @project, id: @randomization_scheme }
+  test "should destroy randomization_scheme" do
+    login(@project_one_editor)
+    assert_difference("RandomizationScheme.current.count", -1) do
+      delete project_randomization_scheme_url(@project, @randomization_scheme)
     end
-    assert_redirected_to project_randomization_schemes_path(assigns(:project))
+    assert_redirected_to project_randomization_schemes_url(assigns(:project))
   end
 end
