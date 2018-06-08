@@ -3,110 +3,106 @@
 require "test_helper"
 
 # Tests to assure project editors can view and modify variables.
-class VariablesControllerTest < ActionController::TestCase
+class VariablesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    login(users(:regular))
+    @project_editor = users(:project_one_editor)
+    @site_editor = users(:site_one_editor)
+    @site_viewer = users(:site_one_viewer)
+
     @project = projects(:one)
     @variable = variables(:one)
   end
 
   test "should get copy" do
-    get :copy, params: { id: @variable, project_id: @project }
-    assert_not_nil assigns(:variable)
+    login(@project_editor)
+    get copy_project_variable_url(@project, @variable)
     assert_template "new"
     assert_response :success
   end
 
   test "should get copy for grid variables" do
-    get :copy, params: { id: variables(:grid), project_id: @project }
-    assert_not_nil assigns(:variable)
+    login(@project_editor)
+    get copy_project_variable_url(@project, variables(:grid))
     assert_template "new"
     assert_response :success
   end
 
   test "should not copy invalid variable" do
-    get :copy, params: { id: -1, project_id: @project }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to project_variables_path(assigns(:project))
+    login(@project_editor)
+    get copy_project_variable_url(@project, -1)
+    assert_redirected_to project_variables_url(@project)
   end
 
   test "should not copy variable with invalid project" do
-    get :copy, params: { id: @variable, project_id: -1 }
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    login(@project_editor)
+    get copy_project_variable_url(-1, @variable)
+    assert_redirected_to root_url
   end
 
   test "should add grid variable" do
-    post :add_grid_variable, params: { project_id: @project }, format: "js"
+    login(@project_editor)
+    post add_grid_variable_project_variables_url(@project, format: "js")
     assert_not_nil assigns(:child_grid_variable)
     assert_template "add_grid_variable"
+    assert_response :success
   end
 
   test "should get index" do
-    get :index, params: { project_id: @project }
+    login(@project_editor)
+    get project_variables_url(@project)
     assert_response :success
-    assert_not_nil assigns(:variables)
   end
 
   test "should not get index with invalid project" do
-    get :index, params: { project_id: -1 }
+    login(@project_editor)
+    get project_variables_url(-1)
     assert_nil assigns(:variables)
-    assert_redirected_to root_path
-  end
-
-  test "should get paginated index" do
-    get :index, params: { project_id: @project }, format: "js"
-    assert_not_nil assigns(:variables)
-    assert_template "index"
-    assert_response :success
+    assert_redirected_to root_url
   end
 
   test "should get new" do
-    get :new, params: { project_id: @project }
-    assert_not_nil assigns(:variable)
+    login(@project_editor)
+    get new_project_variable_url(@project)
     assert_response :success
   end
 
   test "should not get new variable with invalid project" do
-    get :new, params: { project_id: -1 }
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    login(@project_editor)
+    get new_project_variable_url(-1)
+    assert_redirected_to root_url
   end
 
   test "should create variable" do
+    login(@project_editor)
     assert_difference("Variable.count") do
-      post :create, params: {
-        project_id: @project,
+      post project_variables_url(@project), params: {
         variable: {
           description: @variable.description, name: "var_3",
           display_name: "Variable Three", variable_type: @variable.variable_type
         }
       }
     end
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should create variable and continue" do
+    login(@project_editor)
     assert_difference("Variable.count") do
-      post :create, params: {
-        project_id: @project, continue: "1",
+      post project_variables_url(@project), params: {
+        continue: "1",
         variable: {
           description: @variable.description, name: "var_4",
           display_name: "Variable Four", variable_type: @variable.variable_type
         }
       }
     end
-
-    assert_redirected_to new_project_variable_path(assigns(:variable).project)
+    assert_redirected_to new_project_variable_url(assigns(:variable).project)
   end
 
   test "should create dropdown variable" do
+    login(@project_editor)
     assert_difference("Variable.count") do
-      post :create, params: {
-        project_id: @project,
+      post project_variables_url(@project), params: {
         variable: {
           name: "favorite_icecream", display_name: "Favorite Icecream",
           variable_type: "dropdown", domain_id: domains(:icecream_flavors).id
@@ -116,13 +112,14 @@ class VariablesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:variable)
     assert_equal 2, assigns(:variable).domain_options.count
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should create string variable without a domain" do
+    login(@project_editor)
     assert_difference("Variable.count") do
-      post :create, params: {
-        project_id: @project, variable: {
+      post project_variables_url(@project), params: {
+        variable: {
           name: "restaurant", display_name: "Favorite Restaurant",
           variable_type: "string", domain_id: domains(:icecream_flavors).id
         }
@@ -131,13 +128,14 @@ class VariablesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:variable)
     assert_equal 0, assigns(:variable).domain_options.count
     assert_nil assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should not create variable with invalid project" do
+    login(@project_editor)
     assert_difference("Variable.count", 0) do
-      post :create, params: {
-        project_id: -1, variable: {
+      post project_variables_url(-1), params: {
+        variable: {
           description: @variable.description, name: "var_3",
           display_name: "Variable Three", variable_type: @variable.variable_type
         }
@@ -145,13 +143,13 @@ class VariablesControllerTest < ActionController::TestCase
     end
     assert_nil assigns(:project)
     assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should create grid variable and combine non-unique child variables" do
+    login(@project_editor)
     assert_difference("Variable.count") do
-      post :create, params: {
-        project_id: @project,
+      post project_variables_url(@project), params: {
         variable: {
           description: @variable.description,
           name: "var_grid_tmp",
@@ -164,108 +162,93 @@ class VariablesControllerTest < ActionController::TestCase
         }
       }
     end
-
     assert_not_nil assigns(:variable)
     assert 1, assigns(:variable).child_variables.count
     assert_redirected_to [@project, Variable.last]
   end
 
   test "should show variable" do
-    get :show, params: { id: @variable, project_id: @project }
+    login(@project_editor)
+    get project_variable_url(@project, @variable)
     assert_not_nil assigns(:project)
     assert_not_nil assigns(:variable)
     assert_response :success
   end
 
   test "should show scale variable" do
-    get :show, params: {
-      project_id: variables(:change_domain_options).project_id,
-      id: variables(:change_domain_options)
-    }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    login(@project_editor)
+    get project_variable_url(@project, variables(:change_domain_options))
     assert_response :success
   end
 
   test "should not show variable with invalid project" do
-    get :show, params: { id: @variable, project_id: -1 }
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    login(@project_editor)
+    get project_variable_url(-1, @variable)
+    assert_redirected_to root_url
   end
 
   test "should show variable for project with no sites" do
-    get :show, params: {
-      project_id: projects(:no_sites),
-      id: variables(:no_sites)
-    }
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:variable)
+    login(users(:regular))
+    get project_variable_url(projects(:no_sites), variables(:no_sites))
     assert_response :success
   end
 
   test "should not show invalid variable" do
-    get :show, params: { id: -1, project_id: @project }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to project_variables_path(assigns(:project))
+    login(@project_editor)
+    get project_variable_url(@project, -1)
+    assert_redirected_to project_variables_url(@project)
   end
 
   test "should get edit" do
-    get :edit, params: { id: @variable, project_id: @project }
+    login(@project_editor)
+    get edit_project_variable_url(@project, @variable)
     assert_response :success
   end
 
   test "should not get edit for invalid variable" do
-    get :edit, params: { id: -1, project_id: @project }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to project_variables_path
+    login(@project_editor)
+    get edit_project_variable_url(@project, -1)
+    assert_redirected_to project_variables_url(@project)
   end
 
   test "should not get edit with invalid project" do
-    get :edit, params: { id: @variable, project_id: -1 }
-
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-
-    assert_redirected_to root_path
+    login(@project_editor)
+    get edit_project_variable_url(-1, @variable)
+    assert_redirected_to root_url
   end
 
   test "should not get edit for site user" do
-    login(users(:site_one_viewer))
-    get :edit, params: { id: @variable, project_id: @project }
-
-    assert_nil assigns(:variable)
-    assert_nil assigns(:project)
-    assert_redirected_to root_path
+    login(@site_editor)
+    get edit_project_variable_url(@project, @variable)
+    assert_redirected_to root_url
   end
 
   test "should update variable" do
-    patch :update, params: {
-      id: @variable, project_id: @project,
+    login(@project_editor)
+    patch project_variable_url(@project, @variable), params: {
       variable: {
         description: @variable.description, name: @variable.name,
         display_name: @variable.display_name
       }
     }
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should update variable and continue" do
-    patch :update, params: {
-      id: @variable, project_id: @project, continue: "1",
+    login(@project_editor)
+    patch project_variable_url(@project, @variable), params: {
+      continue: "1",
       variable: {
         description: @variable.description, name: @variable.name,
         display_name: @variable.display_name
       }
     }
-    assert_redirected_to new_project_variable_path(assigns(:variable).project)
+    assert_redirected_to new_project_variable_url(@project)
   end
 
   test "should not update variable with blank display name" do
-    patch :update, params: {
-      id: @variable, project_id: @project,
+    login(@project_editor)
+    patch project_variable_url(@project, @variable), params: {
       variable: {
         description: @variable.description, name: @variable.name,
         display_name: "", variable_type: @variable.variable_type
@@ -277,113 +260,102 @@ class VariablesControllerTest < ActionController::TestCase
   end
 
   test "should not update invalid variable" do
-    patch :update, params: {
-      id: -1, project_id: @project,
+    login(@project_editor)
+    patch project_variable_url(@project, -1), params: {
       variable: {
         description: @variable.description, name: @variable.name,
         display_name: @variable.display_name, variable_type: @variable.variable_type
       }
     }
-    assert_not_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to project_variables_path(assigns(:project))
+    assert_redirected_to project_variables_url(@project)
   end
 
   test "should not update variable with invalid project" do
-    patch :update, params: {
-      id: @variable, project_id: -1,
+    login(@project_editor)
+    patch project_variable_url(-1, @variable), params: {
       variable: {
         description: @variable.description, name: @variable.name,
         display_name: @variable.display_name, variable_type: @variable.variable_type
       }
     }
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should update variable and switch domain single choice" do
-    patch :update, params: {
-      project_id: variables(:data_captured).project_id,
-      id: variables(:data_captured),
-      variable: { domain_id: domains(:three_restaurants) }
+    login(@project_editor)
+    patch project_variable_url(@project, variables(:data_captured)), params: {
+      variable: { domain_id: domains(:three_restaurants).id }
     }
     assert_not_nil assigns(:variable)
     assert_equal domains(:three_restaurants), assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should update variable and switch domain for numerics" do
-    patch :update, params: {
-      project_id: variables(:data_captured).project_id,
-      id: variables(:data_captured),
+    login(@project_editor)
+    patch project_variable_url(@project, variables(:data_captured)), params: {
       variable: {
-        domain_id: domains(:one_restaurant_not_encompassing),
+        domain_id: domains(:one_restaurant_not_encompassing).id,
         variable_type: "integer"
       }
     }
     assert_not_nil assigns(:variable)
     assert_equal "integer", assigns(:variable).variable_type
     assert_equal domains(:one_restaurant_not_encompassing), assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(assigns(:variable).project, assigns(:variable))
   end
 
   test "should update variable and switch domain for checkbox" do
-    patch :update, params: {
-      project_id: @project,
-      id: variables(:checkbox),
-      variable: { domain_id: domains(:one) }
+    login(@project_editor)
+    patch project_variable_url(@project, variables(:checkbox)), params: {
+      variable: { domain_id: domains(:one).id }
     }
     assert_not_nil assigns(:variable)
     assert_equal domains(:one), assigns(:variable).domain
-    assert_redirected_to project_variable_path(@project, variables(:checkbox))
+    assert_redirected_to project_variable_url(@project, variables(:checkbox))
   end
 
   test "should update variable and remove domain from sheet variables" do
+    login(@project_editor)
     assert_difference("SheetVariable.where(value: [1,2]).count", 1) do
-      patch :update, params: {
-        project_id: variables(:data_captured).project_id,
-        id: variables(:data_captured),
+      patch project_variable_url(@project, variables(:data_captured)), params: {
         variable: { domain_id: nil }
       }
     end
     assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(@project, variables(:data_captured))
   end
 
   test "should update variable and remove domain from responses" do
+    login(@project_editor)
     assert_difference("Response.where(value: %w(acct101 econ101 math123 phys500 biol327)).count", 5) do
-      patch :update, params: {
-        project_id: variables(:checkbox).project_id,
-        id: variables(:checkbox),
+      patch project_variable_url(@project, variables(:checkbox)), params: {
         variable: { domain_id: nil }
       }
     end
     assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(@project, variables(:checkbox))
   end
 
   test "should update variable and remove domain from grids" do
+    login(@project_editor)
     assert_difference("Grid.where(value: [1, 2, 3]).count", 6) do
-      patch :update, params: {
-        project_id: variables(:change_domain_options).project_id,
-        id: variables(:change_domain_options),
+      patch project_variable_url(@project, variables(:change_domain_options)), params: {
         variable: { domain_id: nil }
       }
     end
     assert_not_nil assigns(:variable)
     assert_nil assigns(:variable).domain
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(@project, variables(:change_domain_options))
   end
 
   # Removing "grid_change_options" variable from grid.
   test "should update variable and remove first child variable from grid" do
+    login(@project_editor)
     assert_difference("GridVariable.count", -1) do
-      patch :update, params: {
-        project_id: @project,
-        id: variables(:grid),
+      patch project_variable_url(@project, variables(:grid)), params: {
         variable: {
           name: "grid",
           display_name: "Grid of Variables",
@@ -403,35 +375,36 @@ class VariablesControllerTest < ActionController::TestCase
     end
     assert_not_nil assigns(:variable)
     assert_equal 7, assigns(:variable).child_grid_variables.count
-    assert_redirected_to project_variable_path(assigns(:variable).project, assigns(:variable))
+    assert_redirected_to project_variable_url(@project, variables(:grid))
   end
 
   test "should destroy variable" do
+    login(@project_editor)
     assert_difference("Variable.current.count", -1) do
-      delete :destroy, params: { project_id: @project, id: @variable }
+      delete project_variable_url(@project, @variable)
     end
-    assert_redirected_to project_variables_path(assigns(:project))
+    assert_redirected_to project_variables_url(assigns(:project))
   end
 
   test "should not destroy variable with invalid project" do
+    login(@project_editor)
     assert_difference("Variable.current.count", 0) do
-      delete :destroy, params: { project_id: -1, id: @variable }
+      delete project_variable_url(-1, @variable)
     end
-    assert_nil assigns(:project)
-    assert_nil assigns(:variable)
-    assert_redirected_to root_path
+    assert_redirected_to root_url
   end
 
   test "should restore deleted variable" do
+    login(@project_editor)
     assert_difference("Variable.current.count") do
-      post :restore, params: { project_id: @project, id: variables(:deleted) }
+      post restore_project_variable_url(@project, variables(:deleted))
     end
     assert_redirected_to [@project, variables(:deleted)]
   end
 
   test "should get search" do
-    login(users(:regular))
-    get :search, params: { project_id: @project, q: "var" }, xhr: true, format: "js"
+    login(@project_editor)
+    get search_project_variables_url(@project, format: "js"), params: { q: "var" }, xhr: true
     assert_response :success
   end
 end
