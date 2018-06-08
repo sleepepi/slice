@@ -211,16 +211,16 @@ Rails.application.routes.draw do
       member do
         get :print
         get :reorder
-        post "imports/progress" => "imports/progress"
-        get "imports/edit" => "imports#edit"
-        patch "imports" => "imports#update"
+        post "imports/progress" => "imports/progress", as: :progress_import
+        get "imports/edit" => "imports#edit", as: :edit_import
+        patch "imports" => "imports#update", as: :update_import
       end
 
       collection do
         post :selection
         post :add_question
-        get "imports/new" => "imports#new"
-        post "imports" => "imports#create"
+        get "imports/new" => "imports#new", as: :new_import
+        post "imports" => "imports#create", as: :create_import
       end
 
       resources :design_options do

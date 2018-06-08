@@ -11,7 +11,7 @@
 - @variables = @design.load_variables
 - @file_uploaded = (@variables.size > 0)
 .dashboard-container
-  = form_with model: @design, url: imports_project_design_path(@project, @design), method: :patch, multipart: true, local: true do |form|
+  = form_with model: @design, url: update_import_project_design_path(@project, @design), method: :patch, multipart: true, local: true do |form|
     - if @design.errors.any?
       .card.border-danger.mb-3
         .card-body
@@ -80,6 +80,6 @@
       .col-md-10
         = form.submit @variables.size > 0 ? "Reimport Data" : "Proceed to Import Specification", class: "btn btn-primary"
         - if @file_uploaded
-          = link_to "Previous Step", imports_edit_project_design_path(@project, @design), class: "btn btn-light"
+          = link_to "Previous Step", edit_import_project_design_path(@project, @design), class: "btn btn-light"
         - else
           = link_to "Cancel", [@project, @design], class: "btn btn-light"
