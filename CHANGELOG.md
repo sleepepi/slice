@@ -1,5 +1,9 @@
 ## 64.0.1
 
+### Enhancements
+- **General Changes**
+  - Enabled "X-Accel-Redirect" for faster file downloads
+
 ## 64.0.0 (June 11, 2018)
 
 ### Enhancements
