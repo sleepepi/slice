@@ -1,6 +1,6 @@
 - is_grid = defined?(grid)
 
 - if is_grid
-  = render "design_options/show/checkbox_or_radio", variable: variable, grid: grid, position: defined?(position) ? position : nil
+  = render "design_options/show/checkbox_or_radio", design_option: design_option, variable: variable, grid: grid, position: defined?(position) ? position : nil
 - else
   = render "design_options/show/checkbox_or_radio", design_option: design_option, variable: variable

@@ -26,6 +26,8 @@
 - Fixed a bug that incorrectly renumbered adverse event numbers without taking
   into account deleted adverse events
 - Fixed a bug that prevented removing all variables from a grid
+- Fixed a bug that prevented the design editor from loading if a scale variable
+  was part of a grid on the design
 
 ### Refactoring
 - Removed underutilized project summary report and advanced design reports
