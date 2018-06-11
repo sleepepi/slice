@@ -1,4 +1,4 @@
-## 64.0.0
+## 64.0.0 (June 11, 2018)
 
 ### Enhancements
 - **Check Changes**
