@@ -18,6 +18,8 @@ end
 
 # Set up ActionDispatch tests.
 class ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   def login(user)
     sign_in_as(user, "1234567890")
   end
