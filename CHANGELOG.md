@@ -1,5 +1,11 @@
 ## 65.0.0
 
+## 64.1.0 (June 20, 2018)
+
+### Enhancements
+- **Handoff Changes**
+  - Handoffs now take into account conditionally required designs on events
+
 ## 64.0.1 (June 11, 2018)
 
 ### Enhancements
