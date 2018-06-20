@@ -1,4 +1,4 @@
-## 64.1.0
+## 64.1.0 (June 20, 2018)
 
 ### Enhancements
 - **Handoff Changes**
