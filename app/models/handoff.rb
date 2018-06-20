@@ -31,27 +31,28 @@ class Handoff < ApplicationRecord
   end
 
   def handoff_enabled_event_designs
-    subject_event.event.event_designs.where(handoff_enabled: true)
+    subject_event.event.event_designs.where(handoff_enabled: true).select do |event_design|
+      event_design.required?(subject_event.subject)
+    end
   end
 
   def first_design
     event_design = handoff_enabled_event_designs.first
-    event_design.design if event_design
+    event_design&.design
   end
 
   def next_design(design)
-    number = handoff_enabled_event_designs.pluck(:design_id).index(design.id)
+    number = handoff_enabled_event_designs.collect(&:design_id).index(design.id)
     event_design = handoff_enabled_event_designs[number + 1] if number
-    event_design.design if event_design
+    event_design&.design
   end
 
   def resume_design
-    event_design = handoff_enabled_event_designs.where.not(design_id: select_design_ids).first
-    event_design.design if event_design
-  end
-
-  def select_design_ids
-    subject_event.sheets.select(:design_id)
+    sheet_design_ids = subject_event.sheets.collect(&:design_id)
+    event_design = handoff_enabled_event_designs.find do |ed|
+      !ed.design_id.in?(sheet_design_ids)
+    end
+    event_design&.design
   end
 
   def set_token
