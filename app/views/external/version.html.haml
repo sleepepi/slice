@@ -2,7 +2,7 @@
 
 - render "themes/seasonal"
 
-.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@body_alt}-focus-bg" }
+.page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@theme}-focus-bg" }
   .container
     .text-center{ class: @body != "default" ? "text-white" : nil, style: "font-size: 2rem;" }
       = "v#{Slice::VERSION::STRING}"

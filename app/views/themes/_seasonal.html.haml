@@ -1,5 +1,5 @@
 - if params[:theme].present?
-  - @theme = @menu = @body = @body_alt = @footer = params[:theme]
+  - @theme = @menu = @body = @footer = params[:theme]
 - else
   - t = Time.zone.now
   - if (0..6).cover?(t.hour) # Night Mode from 12am to 7am
@@ -15,4 +15,4 @@
   - else # Fall
     - @seasonal = "fall"
 
-  - @theme = @menu = @body = @body_alt = @footer = @seasonal
+  - @theme = @menu = @body = @footer = @seasonal
