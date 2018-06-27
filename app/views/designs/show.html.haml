@@ -59,7 +59,7 @@
       - if @design.total_rows > 0
         %tr
           %th Import Progress
-          %td#progress{ data: { object: "#{"ajax-timer" if @design.total_rows != @design.rows_imported}", path: imports_progress_project_design_path(@design.project, @design) } }
+          %td#progress{ data: { object: "#{"ajax-timer" if @design.total_rows != @design.rows_imported}", path: progress_import_project_design_path(@design.project, @design) } }
             = render "imports/progress"
 
 = form_with do |form|
