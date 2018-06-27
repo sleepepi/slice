@@ -1,5 +1,10 @@
 ## 65.0.0
 
+## 64.1.1 (June 27, 2018)
+
+### Bug Fix
+- Designs that import data now display correctly
+
 ## 64.1.0 (June 20, 2018)
 
 ### Enhancements
