@@ -1,4 +1,4 @@
-## 64.1.1
+## 64.1.1 (June 27, 2018)
 
 ### Bug Fix
 - Designs that import data now display correctly
