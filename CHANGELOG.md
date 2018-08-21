@@ -1,5 +1,9 @@
 ## 65.0.0
 
+### Enhancements
+- **General Changes**
+  - Update file inputs to match custom Bootstrap file inputs
+
 ## 64.1.1 (June 27, 2018)
 
 ### Bug Fix

@@ -1,6 +1,8 @@
 .form-group
   = form.label key, defined?(key_name) ? key_name : nil
-  = form.file_field key, class: "form-control#{" is-invalid" if object.errors[key].present?}"
+  .custom-file
+    = form.label key, "Choose file", class: "custom-file-label"
+    = form.file_field key, class: "custom-file-input#{" is-invalid" if object.errors[key].present?}"
   = form.hidden_field "#{key}_cache"
   - if defined?(key_name)
     = render "forms/invalid_feedback", object: object, key: key, key_name: key_name
