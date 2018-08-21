@@ -54,6 +54,11 @@ $night: (
   dropdown-bg: $p900-grey,
   dropdown-fallback-border: $p800-grey, // TODO: Remove dropdown-fallback-border
 
+  pagination-border-color: $p50-black,
+
+  pagination-disabled-color: $p500-grey,
+  pagination-disabled-bg: $p300-black,
+
   shade-bg: $p700-black,
   table-accent-bg: $p600-black,
   table-hover-bg: $p700-black,

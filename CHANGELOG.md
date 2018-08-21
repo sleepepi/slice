@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Update file inputs to match custom Bootstrap file inputs
+- **Theme Changes**
+  - Improve display of several components in the night theme
 
 ## 64.1.1 (June 27, 2018)
 

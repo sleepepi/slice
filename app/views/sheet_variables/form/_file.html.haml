@@ -11,7 +11,7 @@
         %code= response_name
         %span.badge.badge-secondary= number_to_human_size(response_file.size)
 - else
-  .file-input.btn.btn-sm.btn-outline-dark{ rel: variable.description.blank? ? "tooltip" : "popover", title: variable.display_name, data: { content: variable.description, title: variable.display_name, html: "true" } }
-    %span.file-input-display Attach file
-    = file_field_tag "#{field_name}[response_file]", data: { object: "condition" }, disabled: disabled, class: "upload", tabindex: "-1"
+  .custom-file{ rel: variable.description.blank? ? "tooltip" : "popover", title: variable.display_name, data: { content: variable.description, title: variable.display_name, html: "true" } }
+    = label "#{field_name}[response_file]", "Choose file", class: "custom-file-label"
+    = file_field_tag "#{field_name}[response_file]", class: "custom-file-input", data: { object: "condition" }, disabled: disabled, tabindex: "-1"
   = hidden_field_tag "#{field_name}[response_file_cache]"

@@ -43,6 +43,9 @@
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: theme-color($theme, table-accent-bg, $table-accent-bg);
     }
+    .table-striped tbody tr:nth-of-type(even) {
+      background-color: map-get($theme, dashboard-bg);
+    }
     .table-hover tbody tr:hover {
       background-color: theme-color($theme, table-hover-bg, $table-hover-bg);
     }

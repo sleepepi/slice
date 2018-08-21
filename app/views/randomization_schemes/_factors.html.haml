@@ -1,0 +1,12 @@
+%ul.list-unstyled
+  - randomization_scheme.stratification_factors.order(:name).each do |stratification_factor|
+    %li
+      = link_to stratification_factor.name, [randomization_scheme.project, randomization_scheme, stratification_factor]
+      - if stratification_factor.stratifies_by_site?
+        %ul
+          - randomization_scheme.project.sites.order(:name).each do |site|
+            %li= link_to site.name, [randomization_scheme.project, site]
+      - else
+        %ul
+          - stratification_factor.stratification_factor_options.order(:value).each do |stratification_factor_option|
+            %li= link_to stratification_factor_option.name, [randomization_scheme.project, randomization_scheme, stratification_factor, stratification_factor_option]

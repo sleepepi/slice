@@ -66,5 +66,31 @@
         background-color: theme-color($theme, input-disabled-bg, $input-disabled-bg);
       }
     }
+
+    .form-control-plaintext {
+      color: map-get($theme, body-color);
+    }
+
+    .custom-file-label {
+      color: theme-color($theme, input-color, $p800-grey);
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+
+      &::after {
+        background-color: theme-color($theme, input-group-addon-bg, $input-group-addon-bg);
+        border-left-color: theme-color($theme, input-group-addon-border-color, $input-group-addon-border-color);
+        color: theme-color($theme, input-color, $p800-grey);
+      }
+    }
+
+    .custom-select {
+      color: theme-color($theme, input-color, $p800-grey);
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(map-get($theme, primary), 0.25);
+      }
+    }
   }
 }

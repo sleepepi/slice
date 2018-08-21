@@ -43,41 +43,35 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    $theme-link-color: map-get($theme, primary);
     @if map-get($theme, link-color) {
-      .page-item.active {
-        .page-link {
-          background-color: map-get($theme, link-color);
-          border-color: map-get($theme, link-color);
-          color: map-get($theme, brand-white);
-        }
-      }
-      .page-link {
-        color: map-get($theme, link-color);
+      $theme-link-color: map-get($theme, link-color);
+    }
 
-        &:hover,
-        &:focus,
-        &:active {
-          color: map-get($theme, link-color);
-          text-decoration: none;
-        }
+    .page-item {
+      &.active .page-link {
+        background-color: $theme-link-color;
+        border-color: $theme-link-color;
+        color: map-get($theme, brand-white);
       }
-    } @else {
-      .page-item.active {
-        .page-link {
-          background-color: map-get($theme, primary);
-          border-color: map-get($theme, primary);
-          color: map-get($theme, brand-white);
-        }
-      }
-      .page-link {
-        color: map-get($theme, primary);
 
-        &:hover,
-        &:focus,
-        &:active {
-          color: map-get($theme, primary);
-          text-decoration: none;
-        }
+      &.disabled .page-link {
+        color: theme-color($theme, pagination-disabled-color, $pagination-disabled-color);
+        background-color: theme-color($theme, pagination-disabled-bg, $pagination-disabled-bg);
+        border-color: theme-color($theme, pagination-border-color, $pagination-border-color);
+      }
+    }
+
+    .page-link {
+      background-color: theme-color($theme, input-bg, $white);
+      border-color: theme-color($theme, pagination-border-color, $pagination-border-color);
+      color: $theme-link-color;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: darken($theme-link-color, 7.5%);
+        text-decoration: none;
       }
     }
   }

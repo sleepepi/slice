@@ -1,0 +1,7 @@
+%ul.list-unstyled
+  - randomization_scheme.block_size_multipliers.each do |block_size_multiplier|
+    %li
+      = link_to block_size_multiplier.name, [randomization_scheme.project, randomization_scheme, block_size_multiplier]
+      Allocation:
+      %code
+        = block_size_multiplier.allocation

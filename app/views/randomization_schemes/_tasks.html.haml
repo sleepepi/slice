@@ -1,0 +1,15 @@
+%table.table.table-striped.table-borderless.table-hover.table-sticky
+  %thead
+    %th Description
+    %th Offset
+    %th Window
+  %tbody
+    - randomization_scheme.randomization_scheme_tasks.each do |rst|
+      %tr
+        %td= simple_markdown rst.description
+        %td
+          = rst.offset
+          = rst.offset_units
+        %td
+          = rst.window
+          = rst.window_units

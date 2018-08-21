@@ -1,0 +1,11 @@
+%ul.list-unstyled
+  - randomization_scheme.lists.each do |list|
+    %li
+      = link_to list.name, [randomization_scheme.project, randomization_scheme, list]
+- if randomization_scheme.randomized_subjects? and randomization_scheme.lists.count < randomization_scheme.number_of_lists
+  = link_to "Add Additional Lists", expand_project_randomization_scheme_lists_path(@project, randomization_scheme), method: :post, class: "btn btn-light btn-sm"
+- elsif !randomization_scheme.randomized_subjects?
+  - if randomization_scheme.randomizations.size > 0
+    = link_to "Regenerate Lists", generate_project_randomization_scheme_lists_path(@project, randomization_scheme), method: :post, data: { confirm: "Delete the existing lists?" }, class: "btn btn-outline-danger btn-sm"
+  - else
+    = link_to "Generate Lists", generate_project_randomization_scheme_lists_path(@project, randomization_scheme), method: :post, class: "btn btn-light btn-sm"

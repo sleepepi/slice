@@ -18,7 +18,7 @@
     margin-bottom: 0;
   }
 
-  label:not(.custom-control-label) {
+  label:not(.custom-control-label):not(.custom-file-label) {
     font-weight: bold;
   }
 }

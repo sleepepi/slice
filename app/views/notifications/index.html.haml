@@ -12,7 +12,7 @@
   .col-md-10
     - if @notifications.present?
       - @notifications.order(:project_id, created_at: :desc).includes(:project, :adverse_event, :comment, :handoff, :sheet).group_by(&:project).each do |project, notifications|
-        .dashboard-container
+        .dashboard-container.dashboard-table
           %table.table.table-fixed.table-borderless.table-striped
             %col{ width: "32px" }
             %col
