@@ -1,18 +1,18 @@
 @usersReady = ->
-  $("[data-object~='typeahead-users']").typeahead('destroy')
-  $("[data-object~='typeahead-users']").each( ->
+  $("[data-object~=typeahead-users]").typeahead("destroy")
+  $("[data-object~=typeahead-users]").each( ->
     $this = $(this)
     bloodhound = new Bloodhound(
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace("email")
       queryTokenizer: Bloodhound.tokenizers.whitespace
       remote:
-        url: "#{root_url}users/invite?q=%QUERY"
-        wildcard: '%QUERY'
+        url: "#{$this.data("path")}?search=%QUERY"
+        wildcard: "%QUERY"
     )
     $this.typeahead({ hint: true },
-      display: 'value'
+      display: "email"
       source: bloodhound
       templates:
-        suggestion: (item) -> return "<div><strong>#{item.name}</strong></div><div>#{item.value}</div>"
+        suggestion: (item) -> return "<div><strong>#{item.full_name}</strong></div><div>#{item.email}</div>"
     )
   )

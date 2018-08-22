@@ -20,9 +20,9 @@ class ApplicationController < ActionController::Base
     params[:controller] == "devise/sessions" && params[:action] == "create"
   end
 
-  def check_admin
+  def check_admin!
     return if current_user.admin?
-    redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
+    redirect_to dashboard_path
   end
 
   def scrub_order(model, params_order, default_order)

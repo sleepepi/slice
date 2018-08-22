@@ -378,11 +378,7 @@ Rails.application.routes.draw do
              path: ""
 
   get "admin" => "users#index"
-  resources :users do
-    collection do
-      get :invite
-    end
-  end
+  resources :users
 
   scope module: :search do
     get :search, action: :index
@@ -430,6 +426,7 @@ Rails.application.routes.draw do
 
   scope module: :internal do
     post :keep_me_active, path: "keep-me-active"
+    get :autocomplete
   end
 
   namespace :handoff do

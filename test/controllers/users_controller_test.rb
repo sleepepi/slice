@@ -19,26 +19,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get index for autocomplete" do
-    login(@regular)
-    get users_url(format: "json")
-    assert_response :success
-  end
-
-  test "should not get index for non-system admin" do
+  test "should not get index as regular user" do
     login(@regular)
     get users_url
-    assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
-    assert_redirected_to root_url
-  end
-
-  test "should get invite for regular user" do
-    login(@regular)
-    get invite_users_url, params: { q: "associated" }
-    users_json = JSON.parse(response.body)
-    assert_equal "associated@example.com", users_json.first["value"]
-    assert_equal "Associated User", users_json.first["name"]
-    assert_response :success
+    assert_redirected_to dashboard_url
   end
 
   test "should show user as admin" do
@@ -56,7 +40,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should not get edit as regular user" do
     login(@regular)
     get edit_user_url(@user)
-    assert_redirected_to root_url
+    assert_redirected_to dashboard_url
   end
 
   test "should update user as admin" do

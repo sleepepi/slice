@@ -3,7 +3,7 @@
 # Allows admins to create organizations.
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_admin
+  before_action :check_admin!
   before_action :find_organization_or_redirect, only: [
     :show, :edit, :update, :destroy
   ]

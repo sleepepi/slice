@@ -7,19 +7,25 @@ module Searchable
   included do
     # Search Scope
     def self.search(arg, match_start: true)
-      term = \
-        if match_start
-          arg.to_s.downcase.gsub(/ |$/, "%")
-        else
-          arg.to_s.downcase.gsub(/^| |$/, "%")
-        end
-      terms = [term] * search_queries.count
-      where search_queries.join(" or "), *terms
+      Rails.logger.debug "Deprecated: Use search_any_order(params[...]) instead."
+      search_any_order(arg)
     end
 
-    def self.search_queries
-      searchable_attributes.collect do |searchable_attribute|
-        "#{table_name}.#{searchable_attribute} ILIKE ?"
+    def self.search_any_order(args)
+      terms = args.to_s.split(/\s/).collect do |arg|
+        arg.to_s.downcase.gsub(/^| |$/, "%")
+      end
+      queries = [concat_ws] * terms.count
+      where queries.join(" AND "), *terms
+    end
+
+    def self.concat_ws
+      "concat_ws(' ', #{full_attributes.join(", ")}) ILIKE ?"
+    end
+
+    def self.full_attributes
+      searchable_attributes.collect do |attribute|
+        "#{table_name}.#{attribute}"
       end
     end
 

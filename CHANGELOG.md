@@ -6,6 +6,9 @@
 - **Theme Changes**
   - Improve display of several components in the night theme
 
+### Bug Fix
+- Admins can now search for users by last name on users index
+
 ## 64.1.1 (June 27, 2018)
 
 ### Bug Fix

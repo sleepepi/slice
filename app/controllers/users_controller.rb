@@ -4,25 +4,13 @@
 # Allows admins to review existing accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_admin, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_admin!
   before_action :find_user_or_redirect, only: [:show, :edit, :update, :destroy]
 
   # GET /users
-  # GET /users.json
   def index
-    unless current_user.admin? || params[:format] == "json"
-      redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
-      return
-    end
-    scope = User.current
-    scope = scope_filter(scope)
+    scope = User.current.search_any_order(params[:search])
     @users = scope_order(scope).page(params[:page]).per(40)
-  end
-
-  # GET /users/invite
-  def invite
-    @users = current_user.associated_users.search(params[:q]).order(:full_name).limit(10)
-    render json: @users.collect { |u| { value: u.email, name: u.full_name } }
   end
 
   # # GET /users/1
@@ -64,10 +52,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :full_name, :email, :theme, :emails_enabled, :admin
     )
-  end
-
-  def scope_filter(scope)
-    scope.search(params[:search] || params[:q])
   end
 
   def scope_order(scope)
