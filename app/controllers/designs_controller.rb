@@ -16,7 +16,7 @@ class DesignsController < ApplicationController
 
   # GET /projects/:project_id/designs
   def index
-    scope = editable_designs.search(params[:search], match_start: false)
+    scope = editable_designs.search_any_order(params[:search])
     scope = scope_includes(scope)
     scope = scope_filter(scope)
     @designs = scope_order(scope).page(params[:page]).per(40)

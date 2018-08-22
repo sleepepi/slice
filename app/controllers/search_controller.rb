@@ -28,24 +28,24 @@ class SearchController < ApplicationController
   def subjects
     return Subject.none if params[:search].blank?
     current_user.all_viewable_subjects
-                .search(params[:search]).order(:subject_code).limit(10)
+                .search_any_order(params[:search]).order(:subject_code).limit(10)
   end
 
   def projects
     return Project.none if params[:search].blank?
     current_user.all_viewable_and_site_projects
-                .search(params[:search], match_start: false).order(:name).limit(10)
+                .search_any_order(params[:search]).order(:name).limit(10)
   end
 
   def designs
     return Design.none if params[:search].blank?
     current_user.all_viewable_designs
-                .search(params[:search], match_start: false).order(:name).limit(10)
+                .search_any_order(params[:search]).order(:name).limit(10)
   end
 
   def variables
     return Variable.none if params[:search].blank?
     current_user.all_viewable_variables
-                .search(params[:search], match_start: false).order(:name).limit(10)
+                .search_any_order(params[:search]).order(:name).limit(10)
   end
 end

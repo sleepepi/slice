@@ -21,7 +21,7 @@ class DomainsController < ApplicationController
 
   # GET /projects/:project_id/domains
   def index
-    scope = @project.domains.search(params[:search], match_start: false)
+    scope = @project.domains.search_any_order(params[:search])
     scope = scope_includes(scope)
     @domains = scope_order(scope).page(params[:page]).per(20)
   end

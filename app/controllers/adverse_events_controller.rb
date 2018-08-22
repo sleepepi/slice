@@ -131,7 +131,7 @@ class AdverseEventsController < ApplicationController
     [:user_id].each do |key|
       scope = scope.where(key => params[key]) if params[key].present?
     end
-    scope.search(params[:search])
+    scope.search_any_order(params[:search])
   end
 
   def scope_order(scope)

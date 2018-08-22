@@ -19,7 +19,7 @@ class LibraryController < ApplicationController
       end
     end
 
-    @trays = Tray.search(search.join(" "), match_start: false).order(:name).page(params[:page]).per(20)
+    @trays = Tray.search_any_order(search.join(" ")).order(:name).page(params[:page]).per(20)
   end
 
   # # GET /library/:username/:id
@@ -36,7 +36,7 @@ class LibraryController < ApplicationController
 
   # GET /libary/:username
   def profile
-    @trays = @profile.trays.search(params[:search], match_start: false).order(:name).page(params[:page]).per(20)
+    @trays = @profile.trays.search_any_order(params[:search]).order(:name).page(params[:page]).per(20)
   end
 
   # GET /orgs/:username/members

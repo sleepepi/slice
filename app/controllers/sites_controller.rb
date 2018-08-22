@@ -43,7 +43,7 @@ class SitesController < ApplicationController
   # GET /sites
   def index
     @order = scrub_order(Site, params[:order], "sites.name")
-    @sites = viewable_sites.search(params[:search]).order(@order)
+    @sites = viewable_sites.search_any_order(params[:search]).order(@order)
                            .page(params[:page]).per(40)
   end
 

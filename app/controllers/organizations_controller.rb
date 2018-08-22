@@ -11,7 +11,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    scope = Organization.all.search(params[:search])
+    scope = Organization.all.search_any_order(params[:search])
     @organizations = scope_order(scope).page(params[:page]).per(40)
   end
 

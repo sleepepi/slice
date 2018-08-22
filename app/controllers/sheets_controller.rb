@@ -38,7 +38,7 @@ class SheetsController < ApplicationController
   # GET /sheets/calculations
   def calculations
     scope = SheetError.joins(:sheet).merge(current_user.all_viewable_sheets.where(project_id: @project.id).where(missing: false))
-    @sheet_errors = scope.search(params[:search], match_start: false).order(:id).page(params[:page]).per(20)
+    @sheet_errors = scope.search_any_order(params[:search]).order(:id).page(params[:page]).per(20)
   end
 
   # GET /sheets/search.json

@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Update file inputs to match custom Bootstrap file inputs
+- **Search Changes**
+  - Searches now includes better results, specifically for the variables
 - **Theme Changes**
   - Improve display of several components in the night theme
 

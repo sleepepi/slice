@@ -20,7 +20,7 @@ class ExportsController < ApplicationController
   # GET /exports
   def index
     @order = scrub_order(Export, params[:order], "exports.created_at desc")
-    @exports = viewable_exports.search(params[:search]).order(@order).page(params[:page]).per(20)
+    @exports = viewable_exports.search_any_order(params[:search]).order(@order).page(params[:page]).per(20)
     redirect_to new_project_export_path(@project) if @exports.blank?
   end
 

@@ -6,11 +6,6 @@ module Searchable
 
   included do
     # Search Scope
-    def self.search(arg, match_start: true)
-      Rails.logger.debug "Deprecated: Use search_any_order(params[...]) instead."
-      search_any_order(arg)
-    end
-
     def self.search_any_order(args)
       terms = args.to_s.split(/\s/).collect do |arg|
         arg.to_s.downcase.gsub(/^| |$/, "%")

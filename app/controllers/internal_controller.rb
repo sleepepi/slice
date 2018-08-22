@@ -10,6 +10,6 @@ class InternalController < ApplicationController
 
   # GET /autocomplete
   def autocomplete
-    @users = current_user.associated_users.search(params[:search]).order(:full_name).limit(10)
+    @users = current_user.associated_users.search_any_order(params[:search]).order(:full_name).limit(10)
   end
 end

@@ -18,7 +18,7 @@ class EventsController < ApplicationController
   def index
     @order = scrub_order(Event, params[:order], "events.position")
     @events = @project.events.blinding_scope(current_user)
-                      .search(params[:search]).order(@order)
+                      .search_any_order(params[:search]).order(@order)
                       .page(params[:page]).per(40)
   end
 

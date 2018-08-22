@@ -10,7 +10,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    scope = @project.categories.search(params[:search])
+    scope = @project.categories.search_any_order(params[:search])
     @categories = scope_order(scope).page(params[:page]).per(40)
   end
 

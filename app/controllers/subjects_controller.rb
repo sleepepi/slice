@@ -209,7 +209,7 @@ class SubjectsController < ApplicationController
   # GET /projects/:project_id/subjects/search
   def search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
-                            .search(params[:q]).order("subject_code").limit(10)
+                            .search_any_order(params[:q]).order("subject_code").limit(10)
     if @subjects.count.zero?
       render json: [{ value: params[:q], subject_code: "Subject Not Found" }]
     else
@@ -369,7 +369,7 @@ class SubjectsController < ApplicationController
       scope = SearchSubject.subjects(@project, current_user, scope, token)
     end
     terms = @tokens.select { |t| t.key == "search" }.collect(&:value)
-    scope.search(terms.join(" "))
+    scope.search_any_order(terms.join(" "))
   end
 
   def scope_order(scope)

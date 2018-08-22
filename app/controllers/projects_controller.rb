@@ -54,14 +54,14 @@ class ProjectsController < ApplicationController
     elsif @order == "projects.name desc"
       @order = "lower(projects.name) desc"
     end
-    @projects = current_user.all_viewable_and_site_projects.search(params[:search]).order(Arel.sql(@order)).page(params[:page]).per(40)
+    @projects = current_user.all_viewable_and_site_projects.search_any_order(params[:search]).order(Arel.sql(@order)).page(params[:page]).per(40)
   end
 
   # GET /projects/1
   def show
     @order = scrub_order(Subject, params[:order], "subjects.subject_code")
     subject_scope = current_user.all_viewable_subjects.where(project_id: @project.id)
-                                .search(params[:search]).order(@order)
+                                .search_any_order(params[:search]).order(@order)
     @subjects = subject_scope.page(params[:page]).per(20)
     @tokens = []
     render layout: "layouts/full_page_sidebar"

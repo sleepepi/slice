@@ -32,7 +32,7 @@ class RandomizationSchemesController < ApplicationController
   # GET /schemes/1/subject_search
   def subject_search
     @subjects = current_user.all_viewable_subjects.where(project_id: @project.id)
-                            .search(params[:q]).order(:subject_code).limit(5)
+                            .search_any_order(params[:q]).order(:subject_code).limit(5)
 
     result = @subjects.collect do |s|
       status = "E"
