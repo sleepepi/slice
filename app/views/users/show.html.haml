@@ -14,13 +14,13 @@
 
         .dropdown-menu.dropdown-menu-right
           = link_to edit_user_path(@user), class: "dropdown-item" do
-            %i.fa.fa-pencil
+            = icon("fas", "pencil-alt")
             Edit
 
           - unless current_user == @user
             .dropdown-divider
             = link_to @user, method: :delete, data: { confirm: "Delete #{@user.full_name}?" }, class: "dropdown-item text-danger" do
-              %i.fa.fa-trash
+              = icon("fas", "trash-alt")
               Delete
   = @title
 

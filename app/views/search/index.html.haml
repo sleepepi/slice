@@ -8,7 +8,7 @@
     = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autofocus: params[:search].blank?
     .input-group-append
       = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
-        %i.fa.fa-search
+        = icon("fas", "search")
 
 - if @objects.present?
   - [@subjects, @projects, @designs, @variables].each do |scope|

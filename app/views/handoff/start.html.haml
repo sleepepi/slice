@@ -12,7 +12,7 @@
   - if @handoff.first_design == @handoff.resume_design
     = link_to handoff_design_path(@project, @handoff, @handoff.first_design, language: params[:language]), class: "btn btn-lg btn-block btn-success" do
       = I18n.t("handoffs.get_started")
-      %i.fa.fa-caret-right
+      = icon("fas", "caret-right")
   - elsif @handoff.resume_design
     .row
       .col-sm-6{ style: "margin-bottom: 20px" }
@@ -22,7 +22,7 @@
       .col-sm-6
         = link_to handoff_design_path(@project, @handoff, @handoff.resume_design, language: params[:language]), class: "btn btn-lg btn-block btn-success" do
           = I18n.t("handoffs.resume_forms")
-          %i.fa.fa-caret-right
+          = icon("fas", "caret-right")
   - else
     = link_to handoff_design_path(@project, @handoff, @handoff.first_design, language: params[:language]), class: "btn btn-lg btn-block btn-light" do
       = I18n.t("handoffs.review_forms")

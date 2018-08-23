@@ -10,11 +10,11 @@
           - if comment.editable_by?(current_user)
             = succeed " " do
               = link_to edit_comment_path(comment, include_name: include_name, number: number), remote: true, class: "btn btn-sm btn-light" do
-                %i.fa.fa-pencil
+                = icon("fas", "pencil-alt")
           - if comment.deletable_by?(current_user)
             %span{ id: "comment-#{comment.id}-request-delete" }
               = link_to "#", class: "btn btn-sm btn-outline-danger", data: { object: "toggle-delete-buttons", target_show: "#comment-#{comment.id}-confirm-delete", target_hide: "#comment-#{comment.id}-request-delete" } do
-                %i.fa.fa-trash
+                = icon("fas", "trash-alt")
             %span{ id: "comment-#{comment.id}-confirm-delete", style: "display:none" }
               = link_to "Cancel", "#", class: "btn btn-sm btn-light", data: { object: "toggle-delete-buttons", target_show: "#comment-#{comment.id}-request-delete", target_hide: "#comment-#{comment.id}-confirm-delete" }
               = link_to "Confirm Delete", comment, method: :delete, remote: true, class: "btn btn-sm btn-outline-danger"

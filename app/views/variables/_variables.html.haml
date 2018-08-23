@@ -43,14 +43,14 @@
 
               .dropdown-menu.dropdown-menu-right
                 = link_to edit_project_variable_path(variable.project, variable), class: "dropdown-item" do
-                  %i.fa.fa-pencil
+                  = icon("fas", "pencil-alt")
                   Edit
                 = link_to copy_project_variable_path(variable.project, variable), class: "dropdown-item" do
                   %i.fa.fa-clipboard
                   Copy
                 .dropdown-divider
                 = link_to [variable.project, variable], method: :delete, data: { confirm: "Delete \"#{variable.name}\" variable?" }, class: "dropdown-item text-danger" do
-                  %i.fa.fa-trash
+                  = icon("fas", "trash-alt")
                   Delete
 
   .center-horizontally= paginate @variables, theme: "bootstrap"

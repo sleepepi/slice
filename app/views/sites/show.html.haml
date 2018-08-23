@@ -18,11 +18,11 @@
           View Subjects
         - if current_user.all_sites.pluck(:id).include?(@site.id)
           = link_to edit_project_site_path(@site.project, @site), class: "dropdown-item" do
-            %i.fa.fa-pencil
+            = icon("fas", "pencil-alt")
             Edit
           .dropdown-divider
           = link_to [@project, @site], method: :delete, data: { confirm: "Delete #{@site.name}?" }, class: "dropdown-item text-danger" do
-            %i.fa.fa-trash
+            = icon("fas", "trash-alt")
             Delete
   = @title
 

@@ -1,7 +1,15 @@
 - menu = "menu-default" unless defined?(menu) && menu.present?
-.background-special
-  %nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom{ class: menu }
-    - if defined?(nocontainer)
+%nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom{ class: menu }
+  - if defined?(nocontainer)
+    = render "layouts/features/logo", hide_logo: hide_logo
+
+    %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#menu-body" }, aria: { controls: "menu-body", expanded: "false", label: "Toggle navigation" } }
+      %span.navbar-toggler-icon
+
+    #menu-body.menu-body.collapse.navbar-collapse
+      = render "menu/body"
+  - else
+    %div{ class: defined?(container) && container.present? ? container : "container" }
       = render "layouts/features/logo", hide_logo: hide_logo
 
       %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#menu-body" }, aria: { controls: "menu-body", expanded: "false", label: "Toggle navigation" } }
@@ -9,12 +17,3 @@
 
       #menu-body.menu-body.collapse.navbar-collapse
         = render "menu/body"
-    - else
-      %div{ class: defined?(container) && container.present? ? container : "container" }
-        = render "layouts/features/logo", hide_logo: hide_logo
-
-        %button.navbar-toggler{ type: "button", data: { toggle: "collapse", target: "#menu-body" }, aria: { controls: "menu-body", expanded: "false", label: "Toggle navigation" } }
-          %span.navbar-toggler-icon
-
-        #menu-body.menu-body.collapse.navbar-collapse
-          = render "menu/body"

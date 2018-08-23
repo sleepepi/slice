@@ -26,17 +26,17 @@
 
           - if @project.events.where(archived: false).count > 0
             = link_to choose_event_project_subject_path(@project, @subject), class: "dropdown-item" do
-              %i.fa.fa-files-o
+              = icon("far", "copy")
               New Event
           = link_to data_entry_project_subject_path(@project, @subject), class: "dropdown-item" do
             %i.fa.fa-file-o
             New Sheet
           = link_to edit_project_subject_path(@subject.project, @subject), class: "dropdown-item" do
-            %i.fa.fa-pencil
+            = icon("fas", "pencil-alt")
             Edit Subject
           .dropdown-divider
           = link_to [@subject.project, @subject], method: :delete, data: { confirm: "Delete subject?" }, class: "dropdown-item text-danger" do
-            %i.fa.fa-trash
+            = icon("fas", "trash-alt")
             Delete Subject
 
   = @title

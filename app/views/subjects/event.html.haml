@@ -15,11 +15,11 @@
 
         .dropdown-menu.dropdown-menu-right
           = link_to edit_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), class: "dropdown-item" do
-            %i.fa.fa-pencil
+            = icon("fas", "pencil-alt")
             Edit
           .dropdown-divider
           = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." }, class: "dropdown-item text-danger" do
-            %i.fa.fa-trash
+            = icon("fas", "trash-alt")
             Delete
   = link_to @subject.name, [@project, @subject]
   = @title

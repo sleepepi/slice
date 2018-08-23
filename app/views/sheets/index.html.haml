@@ -21,7 +21,7 @@
         = form.text_field :search, value: params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, class: "form-control", placeholder: "Search #{@title}", id: "search"
         .input-group-append
           = link_to "#", class: "btn btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
-            %i.fa.fa-search
+            = icon("fas", "search")
           = link_to "#", class: "btn btn-light d-none d-sm-inline", data: { object: "sheet-export-link", project_id: @project.to_param } do
             Export
           - if params[:search].present?

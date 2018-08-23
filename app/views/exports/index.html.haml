@@ -87,7 +87,7 @@
                   Download
                 .dropdown-divider
               = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" }, class: "dropdown-item text-danger" do
-                %i.fa.fa-trash
+                = icon("fas", "trash-alt")
                 Delete
 
 .center-horizontally= paginate @exports, theme: "bootstrap"

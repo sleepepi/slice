@@ -9,4 +9,4 @@
       .input-group
         = select_tag "design[questions][][question_type]", options_for_select(Design::QUESTION_TYPES, question_hash[:question_type]), class: "form-control"
         = link_to "#", class: "btn btn-link btn-sm text-danger", data: { object: "remove", target: "#question_#{@position}" }, tabindex: "-1" do
-          %i.fa.fa-trash
+          = icon("fas", "trash-alt")

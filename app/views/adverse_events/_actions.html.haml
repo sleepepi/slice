@@ -7,7 +7,7 @@
 
     .dropdown-menu.dropdown-menu-right
       = link_to edit_project_adverse_event_path(@project, adverse_event), class: "dropdown-item" do
-        %i.fa.fa-pencil
+        = icon("fas", "pencil-alt")
         Edit
 
       - if AdverseEvent::SHAREABLE_LINKS_ENABLED
@@ -22,5 +22,5 @@
 
       .dropdown-divider
       = link_to [@project, adverse_event], method: :delete, data: { confirm: "Delete #{adverse_event.name}?" }, class: "dropdown-item text-danger" do
-        %i.fa.fa-trash
+        = icon("fas", "trash-alt")
         Delete

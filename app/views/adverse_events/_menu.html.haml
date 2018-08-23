@@ -14,7 +14,7 @@
   - if @adverse_event.editable_by?(current_user)
     %li.nav-item
       = link_to edit_project_adverse_event_path(@project, @adverse_event), class: "nav-link #{current_page?(edit_project_adverse_event_path(@project, @adverse_event)) ? "active" : nil}" do
-        %i.fa.fa-pencil
+        = icon("fas", "pencil-alt")
   %li.nav-item.disabled
     = link_to "#", data: { object: "suppress-click" }, class: "nav-link" do
       - if @adverse_event.closed?

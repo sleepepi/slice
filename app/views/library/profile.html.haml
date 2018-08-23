@@ -11,7 +11,7 @@
         = text_field_tag :search, params[:search], class: "form-control form-control", placeholder: "Search forms...", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
         .input-group-append
           = link_to "#", class: "btn btn btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
-            %i.fa.fa-search
+            = icon("fas", "search")
 
     - if @trays.present?
       - @trays.each do |tray|

@@ -12,7 +12,7 @@
             %i.fa.fa-circle.fa-stack-1x
             %i.fa.fa-sun-o.fa-stack-1x
         - else
-          %i.fa.fa-cog
+          = icon("fas", "cog")
         My Settings
       .card-body
 
@@ -27,7 +27,7 @@
   .col-md-6
     .card.mb-4
       .card-header
-        %i.fa.fa-lock
+        = icon("fas", "lock")
         Change Password
       .card-body
         = form_with model: current_user, url: change_password_path, method: :patch, local: true, id: "reset_password" do |form|
@@ -47,8 +47,8 @@
 
     .card
       .card-header
-        %i.fa.fa-user-circle
-        Profile picture
+        = icon("fas", "user-circle")
+        Profile Picture
       .card-body
         = form_with model: current_user, url: update_profile_picture_path, method: :patch, local: true do |form|
           = profile_picture_tag current_user

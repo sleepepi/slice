@@ -20,7 +20,7 @@
         - if owner
           .float-right
             = link_to tray_path(@tray.profile, @tray), class: "link-unstyled" do
-              %i.fa.fa-pencil
+              = icon("fas", "pencil-alt")
 
         = @tray.slug
       .card-body

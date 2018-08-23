@@ -6,9 +6,9 @@
 
   .dropdown-menu.dropdown-menu-right
     = link_to edit_url, class: "dropdown-item" do
-      %i.fa.fa-pencil
+      = icon("fas", "pencil-alt")
       Edit
     .dropdown-divider
     = link_to delete_url, method: :delete, data: { confirm: delete_confirmation }, class: "dropdown-item text-danger" do
-      %i.fa.fa-trash
+      = icon("fas", "trash-alt")
       Delete

@@ -7,7 +7,7 @@
     - url = new_data_entry_project_subject_path(@project, @subject, @sheet.design)
 
   = link_to url, class: "btn btn-primary" do
-    %i.fa.fa-files-o
+    = icon("far", "copy")
     %span.d-none.d-md-inline Create another?
 
 
@@ -44,7 +44,7 @@
 
       .dropdown-menu.dropdown-menu-right
         = link_to edit_project_sheet_path(sheet.project, sheet, language: params[:language]), class: "dropdown-item" do
-          %i.fa.fa-pencil
+          = icon("fas", "pencil-alt")
           Edit
         = link_to reassign_project_sheet_path(project, sheet), class: "dropdown-item" do
           %i.fa.fa-exchange
@@ -52,7 +52,7 @@
         .dropdown-divider
         = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Delete #{sheet.name}?" }, class: "dropdown-item" do
           .text-danger
-            %i.fa.fa-trash
+            = icon("fas", "trash-alt")
             Delete
 
 = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do

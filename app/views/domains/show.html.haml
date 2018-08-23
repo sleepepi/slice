@@ -18,11 +18,11 @@
           %i.fa.fa-cubes
           Options
         = link_to edit_project_domain_path(@domain.project, @domain, language: World.translate_language? ? World.language : nil), class: "dropdown-item" do
-          %i.fa.fa-pencil
+          = icon("fas", "pencil-alt")
           Edit
         .dropdown-divider
         = link_to [@project, @domain], method: :delete, data: { confirm: "Delete \"#{@domain.name}\" domain?" }, class: "dropdown-item text-danger" do
-          %i.fa.fa-trash
+          = icon("fas", "trash-alt")
           Delete
   = @title
 

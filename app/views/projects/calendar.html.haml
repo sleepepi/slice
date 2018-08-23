@@ -25,7 +25,7 @@
 
     = succeed " " do
       = link_to calendar_project_path(@project, date: move_forward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-sm btn-light" do
-        %i.fa.fa-caret-right
+        = icon("fas", "caret-right")
 
   = @title
 

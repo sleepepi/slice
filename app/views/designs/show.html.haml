@@ -15,7 +15,7 @@
 
       .dropdown-menu.dropdown-menu-right
         = link_to edit_project_design_path(@design.project, @design, language: World.translate_language? ? World.language : nil), class: "dropdown-item" do
-          %i.fa.fa-pencil
+          = icon("fas", "pencil-alt")
           Edit
         = link_to edit_import_project_design_path(@design.project, @design), class: "dropdown-item" do
           %i.fa.fa-upload
@@ -24,11 +24,11 @@
           %i.fa.fa-print
           Print
         = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}"), class: "dropdown-item" do
-          %i.fa.fa-files-o
+          = icon("far", "copy")
           View Sheets
         .dropdown-divider
         = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" }, class: "dropdown-item text-danger" do
-          %i.fa.fa-trash
+          = icon("fas", "trash-alt")
           Delete
   = @title
   = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"

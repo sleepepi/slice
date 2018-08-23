@@ -21,10 +21,10 @@
                 - if adverse_event_comment.editable_by?(current_user)
                   = succeed " " do
                     = link_to edit_project_adverse_event_adverse_event_comment_path(@project, @adverse_event, adverse_event_comment), remote: true, class: "btn btn-sm btn-light" do
-                      %i.fa.fa-pencil
+                      = icon("fas", "pencil-alt")
                   = succeed " " do
                     = link_to [@project, @adverse_event, adverse_event_comment], method: :delete, remote: true, data: { confirm: "Delete this comment?" }, class: "btn btn-sm btn-outline-danger" do
-                      %i.fa.fa-trash
+                      = icon("fas", "trash-alt")
                 = link_to "##{adverse_event_comment.number}", "#comment-#{adverse_event_comment.number}", class: "btn btn-link btn-sm", data: { object: "scroll-anchor-keep-link" }
               %strong= adverse_event_comment.user.full_name
               commented

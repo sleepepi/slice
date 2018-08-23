@@ -7,5 +7,5 @@
 
 - if @menu_title || @title
   = link_to "#top", data: { object: "remove-collapse-in scroll-anchor", target: ".navbar-full-menu" }, class: "navbar-brand navbar-show-scrolled navbar-brand-small-caps", style: "font-weight: 300;" do
-    %i.fa.fa-level-up.fa-flip-horizontal{ aria: { hidden: "true" } }
+    = icon("fas", "level-up-alt", class: "fa-flip-horizontal")
     = sanitize(@menu_title) || @title

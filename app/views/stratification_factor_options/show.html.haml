@@ -18,11 +18,11 @@
 
         .dropdown-menu.dropdown-menu-right
           = link_to edit_project_randomization_scheme_stratification_factor_stratification_factor_option_path(@project, @randomization_scheme, @stratification_factor, @stratification_factor_option), class: "dropdown-item" do
-            %i.fa.fa-pencil
+            = icon("fas", "pencil-alt")
             Edit
           .dropdown-divider
           = link_to [@project, @randomization_scheme, @stratification_factor, @stratification_factor_option], method: :delete, data: { confirm: "Delete \"#{@stratification_factor_option.name}\"?" }, class: "dropdown-item text-danger" do
-            %i.fa.fa-trash
+            = icon("fas", "trash-alt")
             Delete
   = @title
 
