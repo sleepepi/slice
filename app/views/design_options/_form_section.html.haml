@@ -41,7 +41,7 @@
   %label.col-md-2.col-form-label
     Branching Logic
     = link_to "#", class: "btn btn-info btn-sm", data: { object: "toggle-visibility", target: "#branching-logic-info" }, tabindex: "-1" do
-      %i.fa.fa-info-circle
+      = icon("fas", "info-circle")
   .col-md-10
     = text_area_tag "design_option[branching_logic]", design_option.readable_branching_logic, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
     = render "layouts/branching_logic_examples"

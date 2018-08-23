@@ -11,7 +11,7 @@
       = text_field_tag "domain[name]", @domain.name, maxlength: 30, class: "form-control", autocomplete: "off"
       .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
-          %i.fa.fa-info-circle
+          = icon("fas", "info-circle")
     = render "layouts/errors", object: @domain, key: :name
     #name-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
       .card-header

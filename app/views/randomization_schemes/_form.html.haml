@@ -22,7 +22,7 @@
     %label.col-md-2.col-form-label
       Expected Randomizations By Month
       = link_to "#", class: "btn btn-sm btn-info", data: { object: "toggle-visibility", target: "#estimates-info" }, tabindex: "-1" do
-        %i.fa.fa-info-circle
+        = icon("fas", "info-circle")
     .col-md-10
       - @project.sites.each do |site|
         = site.name
@@ -92,7 +92,7 @@
       %label.col-md-2.col-form-label
         Eligibility
         = link_to "#", class: "btn btn-sm btn-info", data: { object: "toggle-visibility", target: "#eligibility-info" }, tabindex: "-1" do
-          %i.fa.fa-info-circle
+          = icon("fas", "info-circle")
       .col-md-10
         .row
           .col-sm-6
@@ -125,7 +125,7 @@
           = form.text_field :chance_of_random_treatment_arm_selection, class: "form-control", placeholder: 30
           .input-group-append
             = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#random-chance-info" }, tabindex: "-1" do
-              %i.fa.fa-info-circle
+              = icon("fas", "info-circle")
         = render "layouts/errors", object: @randomization_scheme, key: :chance_of_random_treatment_arm_selection
         #random-chance-info.alert.alert-info{ style: "display: none;margin-top: 20px;" }
           Can be between 0 (Never Random) and 100 (Always Random)

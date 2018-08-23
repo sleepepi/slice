@@ -6,7 +6,7 @@
   - if sheet.comments_count.positive?
     %i.fa.fa-comment{ rel: "tooltip", data: { title: pluralize(sheet.comments_count, "Comment"), container: "body", placement: "top" } }
   - if sheet.uploaded_files_count.to_i.positive?
-    %i.fa.fa-paperclip{ rel: "tooltip", data: { title: pluralize(sheet.uploaded_files_count.to_i, "File"), container: "body", placement: "top" } }
+    = icon("fas", "paperclip", rel: "tooltip", data: { title: pluralize(sheet.uploaded_files_count.to_i, "File"), container: "body", placement: "top" })
 %td.nowrap= link_to sheet.subject.name, [@project, sheet.subject] if sheet.subject
 %td.d-none.d-md-table-cell.nowrap
   - if creation_ordered

@@ -1,4 +1,4 @@
 - if variable.field_note.present?
   %small{ class: variable.translation_missing?(:field_note) ? "text-muted" : nil }
-    %i.fa.fa-info-circle
+    = icon("fas", "info-circle")
     = variable.field_note

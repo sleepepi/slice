@@ -13,6 +13,6 @@
       = render "sheet_variables/form/addon", addon: variable.append
       - if variable.calculation.present?
         = link_to "#", class: "btn btn-info", tabindex: "-1", data: { object: "toggle-visibility", target: "#calculation_#{target_name}"} do
-          %i.fa.fa-info-circle
+          = icon("fas", "info-circle")
 %pre{ id: "calculation_#{target_name}", style: "display: none;margin-top: 20px;" }
   = variable.formatted_calculation

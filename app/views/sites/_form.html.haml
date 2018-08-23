@@ -10,7 +10,7 @@
         = form.text_field :subject_code_format, class: "form-control"
         .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#subject-code-format-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
+            = icon("fas", "info-circle")
       = render "layouts/errors", object: site, key: :subject_code_format
       #subject-code-format-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
         .card-header

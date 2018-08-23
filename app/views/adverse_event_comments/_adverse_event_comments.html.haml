@@ -83,9 +83,9 @@
         .comment-right-fluid
           .comment-icon
             - if file.image?
-              %i.fa.fa-picture-o
+              = icon("fas", "image")
             - else
-              %i.fa.fa-paperclip
+              = icon("fas", "paperclip")
           .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < file.created_at ? "comment-unread" : nil) }
             %strong= file.user.full_name if file.user
             attached

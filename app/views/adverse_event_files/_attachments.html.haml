@@ -27,9 +27,9 @@
         %tr
           %td
             - if file.image?
-              %i.fa.fa-picture-o
+              = icon("fas", "image")
             - else
-              %i.fa.fa-paperclip
+              = icon("fas", "paperclip")
           %td= link_to file.name, url, data: { turbolinks: false }
           %td
             %code.nowrap= number_to_human_size file.attachment.size

@@ -8,7 +8,7 @@
         = form.number_field :value, class: "form-control"
         .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#value-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
+            = icon("fas", "info-circle")
       = render "layouts/errors", object: @block_size_multiplier, key: :value
       #value-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
         .card-body
@@ -30,7 +30,7 @@
         = form.number_field :allocation, class: "form-control"
         .input-group-append
           = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#allocation-info" }, tabindex: "-1" do
-            %i.fa.fa-info-circle
+            = icon("fas", "info-circle")
       = render "layouts/errors", object: @block_size_multiplier, key: :allocation
       #allocation-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
         .card-body

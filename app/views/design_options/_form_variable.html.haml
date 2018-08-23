@@ -9,7 +9,7 @@
       = text_field_tag "variable[display_name]", variable.display_name(World.language), autocomplete: "off", class: "form-control", data: { object: (variable.new_record? ? "create-variable-name" : ""), variable_name_target: "#variable_name" }, placeholder: World.translate_language? ? variable[:display_name] : nil
       .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#display-name-info" }, tabindex: "-1" do
-          %i.fa.fa-info-circle
+          = icon("fas", "info-circle")
     = render "layouts/errors", object: variable, key: :display_name
 
     #display-name-info.card.border-info.bg-light.mt-3{ style: "display:none" }
@@ -28,7 +28,7 @@
       = text_field_tag "variable[name]", variable.name, maxlength: 32, class: "form-control"
       .input-group-append
         = link_to "#", class: "btn btn-info", data: { object: "toggle-visibility", target: "#name-info" }, tabindex: "-1" do
-          %i.fa.fa-info-circle
+          = icon("fas", "info-circle")
     = render "layouts/errors", object: variable, key: :name
     #name-info.card.border-info.bg-light.mt-3{ style: "display: none;" }
       .card-header
@@ -68,7 +68,7 @@
     %label.col-md-2.col-form-label
       Branching Logic
       = link_to "#", class: "btn btn-info btn-sm", data: { object: "toggle-visibility", target: "#branching-logic-info" }, tabindex: "-1" do
-        %i.fa.fa-info-circle
+        = icon("fas", "info-circle")
     .col-md-10
       = text_area_tag "design_option[branching_logic]", design_option.readable_branching_logic, rows: 7, class: "form-control", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }
       = render "layouts/branching_logic_examples"
