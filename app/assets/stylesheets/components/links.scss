@@ -10,19 +10,30 @@
   color: inherit;
 }
 
-.link-muted {
-  color: $text-muted;
-
-  &:hover,
-  &:focus,
-  &:active {
-    color: $text-muted;
-    text-decoration: none;
-  }
-}
-
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .link-blend-muted {
+      color: theme-color($theme, text-muted, $text-muted);
+
+      &:hover,
+      &:focus,
+      &:active {
+        // color: $text-muted;
+        // text-decoration: none;
+      }
+    }
+
+    .link-muted {
+      color: theme-color($theme, text-muted, $text-muted);
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: theme-color($theme, text-muted, $text-muted);
+        text-decoration: none;
+      }
+    }
+
     .link-unstyled {
       color: map-get($theme, body-color);
 

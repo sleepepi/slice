@@ -6,6 +6,10 @@
       color: map-get($theme, primary) !important;
     }
 
+    .text-muted {
+      color: theme-color($theme, text-muted, $text-muted) !important;
+    }
+
     .text-white {
       color: map-get($theme, brand-white) !important;
     }

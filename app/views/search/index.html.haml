@@ -3,24 +3,75 @@
 
 - content_for :header, "Search"
 
-= form_tag search_path, method: :get, id: "search-form", class: "mb-5" do
+= form_tag search_path, method: :get, id: "search-form", class: "my-3" do
   .input-group
     = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autofocus: params[:search].blank?
     .input-group-append
       = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
         %i.fa.fa-search
 
+- if @objects.present?
+  - [@subjects, @projects, @designs, @variables].each do |scope|
+    - scope.each do |item|
+      - case item.class.to_s
+      - when "Project"
+        - project = item
+        .dashboard-container.dashboard-container-border-accent.mb-3
+          .d-flex.align-items-center
+            .d-inline-block.mr-1.text-primary-muted.pr-3= icon("fas", "project-diagram", class: "fa-3x text-muted")
+            .d-inline{ style: "font-weight: 200;" }
+              .text-dark
+                = link_to project.name, project
+              .text-muted{ style: "font-size: 80%;" }
+                = pluralize(project.subjects.count, "subject")
+      - when "Subject"
+        - subject = item
+        .dashboard-container.dashboard-container-border-accent.mb-3
+          .d-flex.align-items-center
+            .d-inline-block.mr-1.text-primary-muted.pr-3= icon("fas", "user", class: "fa-3x text-muted")
+            .d-inline{ style: "font-weight: 200;" }
+              .text-dark
+                = link_to subject.name, [subject.project, subject]
+              .text-muted{ style: "font-size: 80%;" }
+                = link_to subject.project.name, subject.project, class: "link-blend-muted"
+                = icon("fas", "caret-right")
+                = subject.site.name
+            - if false && document.featured?
+              .ml-auto.d-none.d-sm-block
+                .d-inline-block.text-primary-muted= icon("fas", "star", class: "fa-3x", style: "color: #fbc02d;", data: { toggle: "tooltip", title: "Featured", container: "body", placement: "left" })
 
-- if @objects.blank? == 0
+      - when "Design"
+        - design = item
+        .dashboard-container.dashboard-container-border-accent.mb-3
+          .d-flex.align-items-center
+            .d-inline-block.mr-1.text-primary-muted.pr-3= icon("fas", "file", class: "fa-3x text-muted")
+            .d-inline{ style: "font-weight: 200;" }
+              .text-dark
+                = link_to design.name, [design.project, design]
+              .text-muted{ style: "font-size: 80%;" }
+                = link_to design.project.name, design.project, class: "link-blend-muted"
+            - if false && document.featured?
+              .ml-auto.d-none.d-sm-block
+                .d-inline-block.text-primary-muted= icon("fas", "star", class: "fa-3x", style: "color: #fbc02d;", data: { toggle: "tooltip", title: "Featured", container: "body", placement: "left" })
+
+      - when "Variable"
+        - variable = item
+        .dashboard-container.dashboard-container-border-accent.mb-3
+          .d-flex.align-items-center
+            .d-inline-block.mr-1.text-primary-muted.pr-3= icon("fas", "file-alt", class: "fa-3x text-muted")
+            .d-inline{ style: "font-weight: 200;" }
+              .text-dark
+                = link_to variable.name, [variable.project, variable]
+              .text-muted{ style: "font-size: 80%;" }
+                = variable.display_name
+              .text-muted{ style: "font-size: 80%;" }
+                = link_to variable.project.name, variable.project, class: "link-blend-muted"
+                = icon("fas", "caret-right")
+                - variable.designs.each do |design|
+                  = link_to design.name, [variable.project, design], class: "link-blend-muted"
+- elsif params[:search].present?
   .jumbotron.jumbotron-custom-text
-    No results were returned. Quick search looks across Subjects, Projects, Designs, and Variables.
+    No results returned.
+    = link_to "Start over", search_path
 - else
-  - [["Subjects", @subjects], ["Projects", @projects], ["Designs", @designs], ["Variables", @variables]].each do |name, scope|
-    - if scope.size > 0
-      .dashboard-container
-        .mb-2
-          %strong= name
-        - scope.each do |item|
-          - link = item.respond_to?("project") ? [item.project, item] : item
-          .overflow-hidden{ title: "#{item.project.name if item.respond_to?("project")}", style: "width: 100%", rel: "tooltip", data: { placement: "right", container: "body" } }
-            = link_to item.name, link
+  .mt-5.mb-4.text-center.text-primary-muted{ style: "font-weight: 300;font-size: 1.25rem;" } Search for projects, subjects, designs, and variables.

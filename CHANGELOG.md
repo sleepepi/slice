@@ -7,6 +7,8 @@
   - Searches now includes better results, specifically for the variables
 - **Theme Changes**
   - Improve display of several components in the night theme
+- **Gem Changes**
+  - Add font-awesome-sass replacing font-awesome-rails
 
 ### Bug Fix
 - Admins can now search for users by last name on users index
