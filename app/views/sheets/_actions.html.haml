@@ -10,11 +10,10 @@
     = icon("far", "copy")
     %span.d-none.d-md-inline Create another?
 
-
 - if sheet.auto_locked?
   %span.dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-      %i.fa.fa-lock
+      = icon("fas", "lock")
       %span.d-none.d-md-inline Sheet Locked
     .dropdown-menu.dropdown-menu-right
       - if project.editable_by?(current_user)
@@ -39,7 +38,7 @@
     %span.dropdown
       = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
         .d-inline-block.d-sm-none
-          %i.fa.fa-cog
+          = icon("fas", "cog")
         .d-none.d-sm-inline-block Actions
 
       .dropdown-menu.dropdown-menu-right
@@ -47,7 +46,7 @@
           = icon("fas", "pencil-alt")
           Edit
         = link_to reassign_project_sheet_path(project, sheet), class: "dropdown-item" do
-          %i.fa.fa-exchange
+          = icon("fas", "exchange-alt")
           Reassign
         .dropdown-divider
         = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Delete #{sheet.name}?" }, class: "dropdown-item" do

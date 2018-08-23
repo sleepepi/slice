@@ -62,7 +62,7 @@
         .comment-left-fixed
         .comment-right-fluid
           .comment-icon
-            %i.fa.fa-file
+            = icon("fas", "file")
           .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < sheet.updated_at ? "comment-unread" : nil) }
             %strong= sheet.user.full_name if sheet.user
             added
@@ -120,7 +120,7 @@
     .comment-right-fluid
       - unless @adverse_event.sheets.count == 0
         #additional-forms-icon.comment-icon
-          %i.fa.fa-file
+          = icon("fas", "file")
         #additional-forms-action.comment-action
           = link_to "#", data: { object: "toggle-visibility", target: "#additional-forms, #additional-forms-icon, #additional-forms-action" } do
             Add Another Form

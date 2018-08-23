@@ -19,7 +19,7 @@
   .jumbotron.text-center
     = succeed " " do
       = link_to download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, @adverse_event_file), data: { turbolinks: false }, class: "btn btn-light" do
-        %i.fa.fa-download
+        = icon("fas", "download")
         = @adverse_event_file.name
     %code= number_to_human_size @adverse_event_file.attachment.size
 

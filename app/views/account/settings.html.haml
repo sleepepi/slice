@@ -6,11 +6,11 @@
   .col-md-6
     .card
       .card-header
-        - if current_user.theme == "spring"
+        - if (params[:theme].presence || current_user.theme) == "spring"
           %span.fa-stack.flower-stack
-            %i.fa.fa-pagelines.fa-stack-1x
-            %i.fa.fa-circle.fa-stack-1x
-            %i.fa.fa-sun-o.fa-stack-1x
+            = icon("fab", "pagelines", class: "fa-stack-1x")
+            = icon("fas", "circle", class: "fa-stack-1x")
+            = icon("far", "sun", class: "fa-stack-1x")
         - else
           = icon("fas", "cog")
         My Settings

@@ -17,16 +17,16 @@
       - if owner
         .float-right
           = link_to new_tray_path(profile), class: "btn btn-accent btn-sm" do
-            %i.fa.fa-file
+            = icon("fas", "file")
             New form
 
       = link_to library_profile_path(profile), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_profile_path(profile))}", data: { object: "#{"suppress-click" if current_page?(library_profile_path(profile))}" } do
-        = icon("far", "copy")
+        = icon("fas", "copy")
         Forms
         %span.badge.badge-pill.badge-light= profile.trays.count
 
       - if profile.organization
         = link_to library_members_path(profile), class: "link-unstyled d-inline-block px-3 pt-2 pb-2 rounded-top profile-tab #{"border border-bottom-0 profile-tab-active" if current_page?(library_members_path(profile))}", data: { object: "#{"suppress-click" if current_page?(library_members_path(profile))}" } do
-          = icon("far", "copy")
+          = icon("fas", "users")
           Members
           %span.badge.badge-pill.badge-light= profile.organization.members.count

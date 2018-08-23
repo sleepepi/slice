@@ -22,7 +22,7 @@
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             .d-inline-block.d-sm-none
-              %i.fa.fa-cog
+              = icon("fas", "cog")
             .d-none.d-sm-inline-block Actions
           .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)
@@ -51,7 +51,7 @@
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             .d-inline-block.d-sm-none
-              %i.fa.fa-cog
+              = icon("fas", "cog")
             .d-none.d-sm-inline-block Actions
           .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)

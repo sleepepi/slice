@@ -5,10 +5,10 @@
     %div.text-sm-right
       .d-inline-block.d-sm-block
         - if tray.public?
-          %i.fa.fa-globe
+          = icon("fas", "globe-americas")
           public
         - else
-          %i.fa.fa-lock
+          = icon("fas", "lock")
           private
       - if tray.time_in_seconds.positive?
         .d-inline-block.d-sm-block.text-muted.small

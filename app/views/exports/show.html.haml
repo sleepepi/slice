@@ -9,7 +9,7 @@
     .dropdown
       = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
         .d-inline-block.d-sm-none
-          %i.fa.fa-cog
+          = icon("fas", "cog")
         .d-none.d-sm-inline-block Actions
       .dropdown-menu.dropdown-menu-right
         = link_to [@project, @export], method: :delete, data: { confirm: "Delete #{@export.name}?" }, class: "dropdown-item text-danger" do

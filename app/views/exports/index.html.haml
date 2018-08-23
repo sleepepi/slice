@@ -71,19 +71,19 @@
             - full_url = file_project_export_path(@project, export)
             = link_to full_url, target: "_blank", class: "btn btn-light btn-sm" do
               zip
-              %i.fa.fa-download
+              = icon("fas", "download")
         %td.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               .d-inline-block.d-sm-none
-                %i.fa.fa-cog
+                = icon("fas", "cog")
               .d-none.d-sm-inline-block Actions
 
             .dropdown-menu.dropdown-menu-right
               - if export.file_size.positive?
                 - full_url = file_project_export_path(@project, export)
                 = link_to full_url, target: "_blank", class: "dropdown-item" do
-                  %i.fa.fa-download
+                  = icon("fas", "download")
                   Download
                 .dropdown-divider
               = link_to [@project, export], method: :delete, data: { confirm: "Delete #{export.name}?" }, class: "dropdown-item text-danger" do

@@ -2,7 +2,7 @@
   .dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
       .d-inline-block.d-sm-none
-        %i.fa.fa-cog
+        = icon("fas", "cog")
       .d-none.d-sm-inline-block Actions
 
     .dropdown-menu.dropdown-menu-right
@@ -13,12 +13,12 @@
       - if AdverseEvent::SHAREABLE_LINKS_ENABLED
         - if adverse_event.authentication_token.blank?
           = link_to set_shareable_link_project_adverse_event_path(@project, adverse_event), method: :post, class: "dropdown-item" do
-            %i.fa.fa-link
-            Set Shareable Link
+            = icon("fas", "link")
+            Set shareable link
         - else
           = link_to remove_shareable_link_project_adverse_event_path(@project, adverse_event), method: :post, class: "dropdown-item" do
-            %i.fa.fa-link
-            Remove Shareable Link
+            = icon("fas", "unlink")
+            Remove shareable link
 
       .dropdown-divider
       = link_to [@project, adverse_event], method: :delete, data: { confirm: "Delete #{adverse_event.name}?" }, class: "dropdown-item text-danger" do

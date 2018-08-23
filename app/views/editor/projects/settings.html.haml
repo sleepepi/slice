@@ -154,7 +154,7 @@
     - else
       %span.badge.badge-default Disabled
     = link_to edit_editor_project_path(@project), class: "btn btn-light btn-sm btn-shadow" do
-      %i.fa.fa-cog
+      = icon("fas", "cog")
   .card-body
     - if @project.auto_locking_enabled?
       %p
