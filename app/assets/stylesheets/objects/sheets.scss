@@ -110,9 +110,10 @@ select {
 .pounds-box,
 .ounces-box {
   input {
-    box-shadow: none;
-    outline: 0;
     border: 0;
+    box-shadow: none;
+    height: initial;
+    outline: 0;
     padding: 0;
     text-align: center;
   }
