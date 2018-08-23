@@ -2,7 +2,7 @@
   - if selected
     %i.fa.fa-check-square.text-primary
   - else
-    %i.fa.fa-square.text-disabled
+    = icon("fas", "square", class: "text-disabled")
 - else
   - id = "#{variable.name}_#{domain_option.id}_#{domain_option.value}"
   .custom-control.custom-scale.custom-checkbox

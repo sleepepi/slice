@@ -1,7 +1,7 @@
 .mb-1.d-block
   - if true
-    %i.fa.fa-circle.text-disabled
+    = icon("fas", "circle", class: "text-disabled")
   - else
-    %i.fa.fa-square.text-disabled
+    = icon("fas", "square", class: "text-disabled")
   = "P#{face.position}: "
   = simple_style face.text

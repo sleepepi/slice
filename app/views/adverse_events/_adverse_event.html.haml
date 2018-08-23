@@ -6,9 +6,9 @@
 
     %span{ id: "adverse-event-#{adverse_event.id}-title" }
       - if adverse_event.closed?
-        %i.fa.fa-check-circle.text-muted
+        = icon("fas", "check-circle", class: "text-muted")
       - else
-        %i.fa.fa-exclamation-circle.text-danger
+        = icon("fas", "exclamation-circle", class: "text-danger")
 
       = link_to adverse_event.description, [@project, adverse_event]
 

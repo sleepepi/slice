@@ -1,8 +1,8 @@
 - if true
   - if selected
-    %i.fa.fa-check-circle.text-primary
+    = icon("fas", "check-circle", class: "text-primary")
   - else
-    %i.fa.fa-circle.text-disabled
+    = icon("fas", "circle", class: "text-disabled")
 - else
   - id = "#{variable.name}_#{domain_option.id}_#{domain_option.value}"
   .custom-control.custom-scale.custom-radio

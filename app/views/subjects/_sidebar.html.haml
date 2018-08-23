@@ -52,9 +52,9 @@
                 %li
                   = link_to [@project, adverse_event], class: "#{"active" if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}" do
                     - if adverse_event.closed?
-                      %i.fa.fa-check-circle.text-muted
+                      = icon("fas", "check-circle", class: "text-muted")
                     - else
-                      %i.fa.fa-exclamation-circle.text-danger
+                      = icon("fas", "exclamation-circle", class: "text-danger")
                     = adverse_event.name
 
           %li.sidebar-menu-header-link

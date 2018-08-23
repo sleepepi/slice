@@ -1,6 +1,6 @@
 .mb-1{ class: [variable.display_inline?(is_grid) ? "d-inline-block mr-3 nowrap" : "d-block", domain_option.translation_missing?(:name) ? "text-muted" : nil] }
   - if variable.single_choice?
-    %i.fa.fa-circle.text-disabled
+    = icon("fas", "circle", class: "text-disabled")
   - else
-    %i.fa.fa-square.text-disabled
+    = icon("fas", "square", class: "text-disabled")
   = domain_option.value_and_name unless variable.alignment == "scale"

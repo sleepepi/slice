@@ -16,10 +16,10 @@
                     %i.fa.fa-check-circle.text-primary
                     1: Dog
                   .mb-1
-                    %i.fa.fa-circle.text-disabled
+                    = icon("fas", "circle", class: "text-disabled")
                     2: Cat
                   .mb-1
-                    %i.fa.fa-circle.text-disabled
+                    = icon("fas", "circle", class: "text-disabled")
                     3: Fish
                 - when "dropdown"
                   = select_tag "animal", options_for_select([["1: Dog", 1], ["2: Cat", 2], ["3: Fish", 3]], 3), include_blank: true, disabled: false, class: "form-control chosen-select"
@@ -31,7 +31,7 @@
                     %i.fa.fa-check-square.text-primary
                     2: Cat
                   .mb-1
-                    %i.fa.fa-square.text-disabled
+                    = icon("fas", "square", class: "text-disabled")
                     3: Fish
                 - when "string"
                   = text_field_tag "animal", "Abc Street", disabled: true, class: "form-control"
