@@ -42,9 +42,9 @@
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
                 - if params[:treatment_arm_id].present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 = link_to "All Treatment Arms", project_randomizations_path(@project, filtered_params.merge(order: params[:order], treatment_arm_id: nil)), style: params[:treatment_arm_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - @project.treatment_arms.order(:name).each do |treatment_arm|
@@ -55,9 +55,9 @@
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
                 - if params[:randomized_by_id].present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 = link_to "All Users", project_randomizations_path(@project, filtered_params.merge(order: params[:order], randomized_by_id: nil)), style: params[:randomized_by_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_randomizers.each do |user|
@@ -68,9 +68,9 @@
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
                   - if params[:site_id].present?
-                    %i.fa.fa-filter.text-primary
+                    = icon("fas", "filter", class: "text-primary")
                   - else
-                    %i.fa.fa-filter
+                    = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All Sites", project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
@@ -81,9 +81,9 @@
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
                   - if params[:scheme_id].present?
-                    %i.fa.fa-filter.text-primary
+                    = icon("fas", "filter", class: "text-primary")
                   - else
-                    %i.fa.fa-filter
+                    = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All Schemes", project_randomizations_path(@project, filtered_params.merge(order: params[:order], scheme_id: nil)), style: params[:scheme_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - schemes.each do |scheme|
@@ -96,7 +96,7 @@
                 - if randomization.name
                   = randomization.name
                 - else
-                  %i.fa.fa-spinner.fa-pulse
+                  = icon("fas", "spinner", class: "fa-pulse")
             %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
             %td.text-center= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
             %td.d-none.d-sm-table-cell.text-center

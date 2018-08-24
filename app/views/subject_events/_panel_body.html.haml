@@ -50,7 +50,7 @@
         %td
           - if @subject.editable_by?(current_user)
             = link_to new_data_entry_project_subject_path(@project, @subject, design, sheet: { subject_event_id: subject_event.id }), class: "btn btn-sm btn-accent btn-shadow" do
-              %i.fa.fa-plus
+              = icon("fas", "plus")
         %td
           - if @subject.editable_by?(current_user)
             .float-right

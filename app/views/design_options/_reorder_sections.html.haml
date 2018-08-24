@@ -3,7 +3,7 @@
     - @design.main_sections.each_with_index do |design_option, index|
       - section = design_option.section
       %li.li-section.nowrap{ id: "section_#{index}", style: "margin-bottom: 5px;", data: { position: index } }
-        %i.fa.fa-arrows.option-handle
+        = icon("fas", "arrows-alt", class: "option-handle")
         .sortable-section
           - if section.name.present?
             = section.name

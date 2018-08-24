@@ -24,11 +24,11 @@
                     - percent = subject_event.blinded_percent
 
                   - if percent == 100
-                    %i.fa.fa-check-square.text-success
+                    = icon("fas", "check-square", class: "text-success")
                   - elsif percent && percent >= 90
-                    %i.fa.fa-square.text-success
+                    = icon("fas", "square", class: "text-success")
                   - else
-                    %i.fa.fa-square-o.text-muted
+                    = icon("far", "square", class: "text-muted")
 
                   = subject_event.event.name
           - else

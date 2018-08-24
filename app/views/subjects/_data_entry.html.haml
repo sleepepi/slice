@@ -22,7 +22,7 @@
   .row
     .col-sm-4.col-buffer
       = link_to "#", class: "btn btn-lg btn-accent btn-shadow btn-block btn-disabled", disabled: "disabled", rel: "tooltip", data: { object: "suppress-click", title: "No designs exist on project.", container: "body", placement: "bottom" } do
-        %i.fa.fa-plus
+        = icon("fas", "plus")
         New Sheet
     .col-sm-4.col-buffer
       - if @project.randomizations_enabled? && @project.unblinded?(current_user)

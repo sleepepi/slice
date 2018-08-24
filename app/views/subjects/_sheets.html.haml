@@ -3,11 +3,11 @@
     .col-md-4.col-buffer
       - if @project.events.where(archived: false).count > 0
         = link_to choose_event_project_subject_path(@project, @subject), class: "btn btn-lg btn-accent btn-shadow btn-block" do
-          %i.fa.fa-plus
+          = icon("fas", "plus")
           New Event
       - else
         = link_to data_entry_project_subject_path(@project, @subject), class: "btn btn-lg btn-accent btn-shadow btn-block" do
-          %i.fa.fa-plus
+          = icon("fas", "plus")
           New Sheet
 
     .col-md-4.col-buffer

@@ -47,9 +47,9 @@
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
                 - if params[:user_id].present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 = link_to "All Users", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_reporters.each do |user|
@@ -60,9 +60,9 @@
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
                   - if params[:site_id].present?
-                    %i.fa.fa-filter.text-primary
+                    = icon("fas", "filter", class: "text-primary")
                   - else
-                    %i.fa.fa-filter
+                    = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All Sites", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
@@ -72,9 +72,9 @@
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
                 - if params[:status].present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 = link_to "Any Status", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], status: nil)), style: params[:status].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - [["Open", "open"], ["Closed", "closed"]].each do |status_label, status_value|
@@ -89,7 +89,7 @@
                 - if adverse_event.number
                   = adverse_event.name
                 - else
-                  %i.fa.fa-spinner.fa-pulse{ aria: { hidden: "true" } }
+                  = icon("fas", "spinner", class: "fa-pulse")
             %td= link_to adverse_event.subject.subject_code, [@project, adverse_event]
             %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
               .overflow-hidden.nowrap= adverse_event.description.truncate(40)

@@ -21,7 +21,7 @@
 
     = succeed " " do
       = link_to calendar_project_path(@project), tabindex: "-1", class: "btn btn-sm btn-light", disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? "disabled" : nil) do
-        %i.fa.fa-calendar
+        = icon("far", "calendar-alt")
 
     = succeed " " do
       = link_to calendar_project_path(@project, date: move_forward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-sm btn-light" do

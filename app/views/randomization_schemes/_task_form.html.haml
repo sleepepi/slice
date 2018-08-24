@@ -13,5 +13,5 @@
       = text_field_tag "randomization_scheme[task_hashes][][window]", (randomization_scheme_task ? randomization_scheme_task.window : nil), class: "form-control", placeholder: "0"
       = select_tag "randomization_scheme[task_hashes][][window_units]", options_for_select(["days", "weeks"], (randomization_scheme_task ? randomization_scheme_task.window_units : nil)), class: "form-control"
     .col-2
-      %i.fa.fa-arrows.item-handle
+      = icon("fas", "arrows-alt", class: "item-handle")
       = link_to "Remove", "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove", target: "#task_#{position}" }, tabindex: "-1"

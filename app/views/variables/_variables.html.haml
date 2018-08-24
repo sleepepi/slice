@@ -16,7 +16,7 @@
             = link_to "Variable Type", project_variables_path(@project, order: (params[:order] == "variables.variable_type desc" ? "variables.variable_type" : "variables.variable_type desc"), variable_type: params[:variable_type])
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
-                %i.fa.fa-filter
+                = icon("fas", "filter")
               .dropdown-menu
                 = link_to "All Variables", project_variables_path(@project, order: params[:order]), style: params[:variable_type].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - Variable::TYPE.each do |variable_type_label, variable_type_value|

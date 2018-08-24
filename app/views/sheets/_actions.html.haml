@@ -55,5 +55,5 @@
             Delete
 
 = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
-  %i.fa.fa-print
+  = icon("fas", "print")
   %span.d-none.d-md-inline Print

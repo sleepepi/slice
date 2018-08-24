@@ -60,9 +60,9 @@
             %span.dropright
               = link_to "#", data: { toggle: "dropdown" } do
                 - if design_params.present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 - design_search = @tokens.reject { |t| t.key == "designs" }.collect(&:to_s).join(" ")
                 = link_to "All Designs", project_sheets_path(@project, filtered_params.merge(order: params[:order], search: design_search)), style: design_params.blank? ? "font-weight:bold;" : "", class: "dropdown-item"
@@ -77,7 +77,7 @@
               = link_to "Last Edited", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "edited" ? "edited desc" : "edited")))
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
-                %i.fa.fa-filter
+                = icon("fas", "filter")
               .dropdown-menu
                 = link_to "Last Edited", project_sheets_path(@project, filtered_params.merge(order: "edited desc")), style: !creation_ordered ? "font-weight:bold;" : "", class: "dropdown-item"
                 = link_to "Created", project_sheets_path(@project, filtered_params.merge(order: "created desc")), style: creation_ordered ? "font-weight:bold;" : "", class: "dropdown-item"
@@ -87,9 +87,9 @@
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
                   - if params[:site_id].present?
-                    %i.fa.fa-filter.text-primary
+                    = icon("fas", "filter", class: "text-primary")
                   - else
-                    %i.fa.fa-filter
+                    = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All Sites", project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
@@ -99,9 +99,9 @@
             %span.dropleft
               = link_to "#", data: { toggle: "dropdown" } do
                 - if params[:user_id].present?
-                  %i.fa.fa-filter.text-primary
+                  = icon("fas", "filter", class: "text-primary")
                 - else
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
               .dropdown-menu
                 = link_to "All Users", project_sheets_path(@project, filtered_params.merge(order: params[:order], user_id: nil)), style: params[:user_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                 - all_creators.order(:full_name).each do |user|

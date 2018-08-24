@@ -4,8 +4,7 @@
 .bg-light.p-3.rounded.mb-3{ id: "design_#{@position}" }
   .float-right
     = link_to "Remove", "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove", target: "#design_#{@position}" }, tabindex: "-1"
-  %i.fa.fa-arrows.design-handle
-
+  = icon("fas", "arrows-alt", class: "design-handle")
 
   %div{ style: "padding: 20px 20px 0;" }
     .form-group.row

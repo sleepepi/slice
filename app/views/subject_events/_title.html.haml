@@ -8,9 +8,9 @@
   - questions = subject_event.blinded_questions_count
 
 - if percent == 100
-  %i.fa.fa-check-square.text-success
+  = icon("fas", "check-square", class: "text-success")
 - elsif percent && percent >= 90
-  %i.fa.fa-square.text-success
+  = icon("fas", "square", class: "text-success")
 - elsif percent.nil?
   - if current_user.theme == "spring"
     %span.fa-stack.flower-stack
@@ -18,10 +18,10 @@
       = icon("fas", "circle", class: "fa-stack-1x")
       = icon("far", "sun", class: "fa-stack-1x flower-spin")
   - else
-    %i.fa.fa-spinner.fa-pulse.text-muted
+    = icon("fas", "spinner", class: "fa-pulse text-muted")
   %div{ style: "display:none;", aria: { hidden: "true" }, data: { object: "sheet-coverage-updater", url: event_coverage_project_subject_path(@project, subject_event.subject, subject_event_id: subject_event.id) } }
 - else
-  %i.fa.fa-square-o.text-muted
+  = icon("far", "square", class: "text-muted")
 
 = link_to subject_event.name, event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param)
 

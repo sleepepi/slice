@@ -2,7 +2,7 @@
 
 %tr{ id: "variable_#{variable.id}_grid_row_#{position}" }
   %td{ style: "vertical-align: middle;" }
-    %i.fa.fa-arrows.grid-handle
+    = icon("fas", "arrows-alt", class: "grid-handle")
   - variable.child_variables.each do |child_variable|
     %td
       - grid = all_grids.find { |g| g.variable_id == child_variable.id && g.position == position }

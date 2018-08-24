@@ -36,8 +36,8 @@
   .dashboard-container.dashboard-table
     .float-right.px-2.py-1
       = link_to schedule_project_randomization_path(@project, @randomization, format: "pdf"), class: "btn btn-sm btn-outline-dark" do
-        %i.fa.fa-print
-        Print Schedule
+        = icon("fas", "print")
+        Print schedule
     %h3.px-2.py-1 Schedule of Events
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %thead

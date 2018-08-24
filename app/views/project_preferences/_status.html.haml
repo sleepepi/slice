@@ -1,4 +1,4 @@
 - if project.archived_by?(current_user)
-  %i.fa.fa-square-o
+  = icon("far", "square")
 - else
-  %i.fa.fa-check-square.text-primary
+  = icon("fas", "check-square", class: "text-primary")

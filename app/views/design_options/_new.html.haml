@@ -13,7 +13,7 @@
               %div
                 - case variable_type when "radio"
                   .mb-1
-                    %i.fa.fa-check-circle.text-primary
+                    = icon("fas", "check-circle", class: "text-primary")
                     1: Dog
                   .mb-1
                     = icon("fas", "circle", class: "text-disabled")
@@ -25,10 +25,10 @@
                   = select_tag "animal", options_for_select([["1: Dog", 1], ["2: Cat", 2], ["3: Fish", 3]], 3), include_blank: true, disabled: false, class: "form-control chosen-select"
                 - when "checkbox"
                   .mb-1
-                    %i.fa.fa-check-square.text-primary
+                    = icon("fas", "check-square", class: "text-primary")
                     1: Dog
                   .mb-1
-                    %i.fa.fa-check-square.text-primary
+                    = icon("fas", "check-square", class: "text-primary")
                     2: Cat
                   .mb-1
                     = icon("fas", "square", class: "text-disabled")
@@ -54,7 +54,7 @@
                     = text_field_tag "animal", "", class: "datepicker form-control", placeholder: "mm/dd/yyyy"
                     .input-group-append
                       %span.input-group-text
-                        %i.fa.fa-calendar
+                        = icon("far", "calendar-alt")
                 - when "time_of_day"
                   .time-input.form-inline
                     %span.hour-box

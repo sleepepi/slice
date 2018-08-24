@@ -1,7 +1,7 @@
 - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s
 %tr.domain-option-container{ class: "#{"fieldset_with_errors" if @domain && @domain.errors.keys.include?(:options)}" }
   %td{ style: "vertical-align: middle;" }
-    %i.fa.fa-arrows
+    = icon("fas", "arrows-alt")
     = hidden_field_tag "domain[option_tokens][][domain_option_id]", domain_option.id
   %td{ style: @domain && @domain.new_record? ? "display:none" : nil }
     = text_field_tag "domain[option_tokens][][value]", domain_option.value, autocomplete: "off", rel: "tooltip", title: "Value", class: "form-control"

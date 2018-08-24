@@ -3,7 +3,7 @@
 - @select_variables = Variable.where(id: @project.unassigned_variables.where.not(variable_type: %w(grid file))).or(Variable.where(id: child_grid_variable.child_variable_id)).order(:name).pluck(:name, :id)
 .row{ id: "form_grid_variable_#{position}", style: "cursor:move;line-height:20px;padding-top:5px" }
   .col-1
-    %i.fa.fa-arrows
+    = icon("fas", "arrows-alt")
   .col-5
     = select_tag "variable[grid_tokens][][variable_id]", options_for_select([[nil, nil]] + @select_variables, child_grid_variable.child_variable_id), data: { object: "variable-load", position: position, placeholder: "Choose a Variable" }, class: "form-control chosen-select", id: "variable_grid_tokens_#{position}_variable_id"
   .col-2

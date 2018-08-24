@@ -46,7 +46,7 @@
               = link_to "Site", project_subjects_path(@project, filtered_params.merge(order: (params[:order] == "subjects.site_id desc" ? "subjects.site_id" : "subjects.site_id desc")))
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All Sites", project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
@@ -57,7 +57,7 @@
               Randomized
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "randomized" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "randomized" }.blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   = link_to "Randomized", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "randomized" }.collect(&:to_s) + ["is:randomized"]).join(" "))), style: @tokens.select { |t| t.key == "randomized" && t.operator == "=" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
@@ -67,7 +67,7 @@
               AEs
               %span.dropleft
                 = link_to "#", data: { toggle: "dropdown" } do
-                  %i.fa.fa-filter
+                  = icon("fas", "filter")
                 .dropdown-menu
                   = link_to "All", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: @tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" }.blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   = link_to "Open", project_subjects_path(@project, filtered_params.merge(order: params[:order], search: (@tokens.reject { |t| t.key == "adverse-events" }.collect(&:to_s) + ["adverse-events:open"]).join(" "))), style: @tokens.select { |t| t.key == "adverse-events" && t.value == "open" }.present? ? "font-weight:bold;" : "", class: "dropdown-item"
