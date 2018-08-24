@@ -28,7 +28,7 @@
 
     = link_to create_handoff_project_subject_path(subject_event_id: params[:subject_event_id], language: params[:language]), method: :post, class: "btn btn-lg btn-accent btn-shadow" do
       Launch tablet handoff
-      %i.fa.fa-paper-plane
+      = icon("fas", "paper-plane")
 
 - else
   = render "handoffs/no_handoff_enabled_designs_on_event"

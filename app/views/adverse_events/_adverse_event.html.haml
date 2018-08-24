@@ -21,7 +21,7 @@
 
     - if @project.blinding_enabled?
       %small
-        %i.fa.fa-eye.text-muted{ rel: "tooltip", data: { title: "Unblinded Only", placement: "top", container: "body" } }
+        = icon("far", "eye", class: "text-muted", rel: "tooltip", data: { title: "Unblinded only", placement: "top", container: "body" })
 
   .card-body.p-0
     .progress.progress-simple

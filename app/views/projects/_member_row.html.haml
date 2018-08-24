@@ -11,9 +11,9 @@
   - if @project.blinding_enabled?
     %td.text-center
       - if member.unblinded?
-        %i.fa.fa-eye.text-muted
+        = icon("far", "eye", class: "text-muted")
       - else
-        %i.fa.fa-eye-slash.text-danger
+        = icon("far", "eye-slash", class: "text-danger")
   %td.d-none.d-sm-table-cell
     = member.creator.nickname if member.creator
   %td.text-center
@@ -28,17 +28,17 @@
             - if @project.editable_by?(current_user)
               - if member.user.nil?
                 = link_to resend_project_user_path(member), method: :post, remote: true, class: "dropdown-item" do
-                  %i.fa.fa-paper-plane
-                  Resend Invitation
+                  = icon("fas", "paper-plane")
+                  Resend invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    %i.fa.fa-eye-slash
-                    Set as Blinded
+                    = icon("far", "eye-slash")
+                    Set as blinded
                 - else
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
-                    %i.fa.fa-eye
-                    Set as Unblinded
+                    = icon("far", "eye")
+                    Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
@@ -57,17 +57,17 @@
             - if @project.editable_by?(current_user)
               - if member.user.nil?
                 = link_to resend_project_site_user_path(member.project, member), method: :post, remote: true, class: "dropdown-item" do
-                  %i.fa.fa-paper-plane
-                  Resend Invitation
+                  = icon("fas", "paper-plane")
+                  Resend invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    %i.fa.fa-eye-slash
-                    Set as Blinded
+                    = icon("far", "eye-slash")
+                    Set as blinded
                 - else
                   = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
-                    %i.fa.fa-eye
-                    Set as Unblinded
+                    = icon("far", "eye")
+                    Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
               - if @project.editable_by?(current_user)
                 - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)

@@ -30,7 +30,7 @@
         Owner
       - if @project.blinding_enabled?
         %td.text-center
-          %i.fa.fa-eye.text-muted
+          = icon("far", "eye", class: "text-muted")
       %td.d-none.d-sm-table-cell
       %td
     - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|

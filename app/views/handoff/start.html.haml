@@ -18,7 +18,7 @@
       .col-sm-6{ style: "margin-bottom: 20px" }
         = link_to handoff_design_path(@project, @handoff, @handoff.first_design, language: params[:language]), class: "btn btn-lg btn-block btn-light" do
           = I18n.t("handoffs.review_forms")
-          %i.fa.fa-eye
+          = icon("far", "eye")
       .col-sm-6
         = link_to handoff_design_path(@project, @handoff, @handoff.resume_design, language: params[:language]), class: "btn btn-lg btn-block btn-success" do
           = I18n.t("handoffs.resume_forms")
@@ -26,7 +26,7 @@
   - else
     = link_to handoff_design_path(@project, @handoff, @handoff.first_design, language: params[:language]), class: "btn btn-lg btn-block btn-light" do
       = I18n.t("handoffs.review_forms")
-      %i.fa.fa-eye
+      = icon("far", "eye")
 - else
   %h2 Tablet Handoff
 
