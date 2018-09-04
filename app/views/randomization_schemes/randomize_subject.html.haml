@@ -70,7 +70,7 @@
             = render "layouts/errors", object: @randomization, key: stratification_factor.name.to_sym, key_name: stratification_factor.name
 
       .form-group.row.bg-light.py-3.rounded
-        = label_tag :attested, "<i class=\"fa fa-leaf\" style=\"color: #5cb85c;\"></i> Attestation".html_safe, class: "col-md-2 col-form-label"
+        = label_tag :attested, "#{icon("fas", "leaf", style: "color: #5cb85c;")} Attestation".html_safe, class: "col-md-2 col-form-label"
         .col-md-10
           .custom-control.custom-checkbox
             - text = (@randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements))

@@ -87,4 +87,4 @@
         = text_field_tag "member_invite", clipboard_text, class: "form-control"
         .input-group-append
           = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, style: "text-decoration: none", class: "btn btn-accent" do
-            %i.fa.fa-clipboard
+            = icon("fas", "paste")

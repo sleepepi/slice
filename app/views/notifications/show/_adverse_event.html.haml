@@ -1,5 +1,5 @@
-%td
-  %i.fa.fa-exclamation-triangle{ class: (notification.read? ? "text-muted" : "text-danger") }
+%td{ class: (notification.read? ? "text-muted" : "text-danger") }
+  = icon("fas", "exclamation-triangle")
 
 %td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden

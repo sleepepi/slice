@@ -12,7 +12,7 @@
         = icon("fas", "pencil-alt")
         Edit
       = link_to editor_project_check_path(@project, check, check: { archived: check.archived? ? "0" : "1" }), method: :patch, remote: true, class: "dropdown-item" do
-        %i.fa.fa-archive
+        = icon("fas", "archive")
         - if check.archived?
           Restore
         - else

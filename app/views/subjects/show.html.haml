@@ -18,7 +18,7 @@
             - scheme_count = @project.randomization_schemes.published.count
             - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
               = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: "dropdown-item" do
-                %i.fa.fa-random
+                = icon("fas", "random")
                 Randomize
                 - if scheme_count > 1
                   to
@@ -29,7 +29,7 @@
               = icon("far", "copy")
               New Event
           = link_to data_entry_project_subject_path(@project, @subject), class: "dropdown-item" do
-            %i.fa.fa-file-o
+            = icon("far", "file")
             New Sheet
           = link_to edit_project_subject_path(@subject.project, @subject), class: "dropdown-item" do
             = icon("fas", "pencil-alt")

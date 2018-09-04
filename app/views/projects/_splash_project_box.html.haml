@@ -2,6 +2,5 @@
   .float-right.nowrap
     = number_with_delimiter project.subjects.count
     = render "project_preferences/splash_actions", project: project
-
-  %i.fa.fa-ellipsis-v.handle-visible.pr-1
+  = icon("fas", "ellipsis-v", class: "handle-visible pr-1")
   = link_to project.name, project

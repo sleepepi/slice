@@ -2,7 +2,7 @@
 #signature-pad.signature-pad
   .signature-pad-header
     = link_to "#", data: { action: "clear" }, class: "small" do
-      %i.fa.fa-eraser
+      = icon("fas", "eraser")
       %span Clear
       %span.d-none.d-sm-inline Signature
   .signature-pad-body.background-p200-green{ id: "signature-pad-body", data: { object: "text-input-expandable", help_element: "signature-pad-body", help_text: "Signature" } }

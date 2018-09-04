@@ -25,8 +25,7 @@
                 %th.d-none.d-md-table-cell
                 %th.d-none.d-md-table-cell
                 %th
-                  = link_to mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: "text-muted" do
-                    %i.fa.fa-check
+                  = link_to icon("fas", "check"), mark_all_as_read_notifications_path(project_id: project.id), method: :patch, remote: true, class: "text-muted"
             %tbody
               - notifications.each do |notification|
                 %tr{ id: "notification_#{notification.id}"}

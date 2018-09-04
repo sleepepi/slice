@@ -56,10 +56,10 @@
         .comment-right-fluid
           .jumbotron.bg-light.mb-0
             .timeline-large-icon
-              %i.fa.fa-random
+              = icon("fas", "random")
             %strong
               %span.d-inline.d-sm-none
-                %i.fa.fa-random
+                = icon("fas", "random")
               - if randomization.randomized_by
                 = randomization.randomized_by.full_name
               - else
@@ -77,10 +77,10 @@
         .comment-right-fluid
           .jumbotron.bg-danger.mb-0.text-white
             .timeline-large-icon
-              %i.fa.fa-exclamation-triangle.text-danger
+              = icon("fas", "exclamation-triangle", class: "text-danger")
             %strong
               %span.d-inline.d-sm-none
-                %i.fa.fa-exclamation-triangle
+                = icon("fas", "exclamation-triangle")
               = adverse_event.user.full_name
             reported an
             = link_to "adverse event", [@project, adverse_event], class: "text-dark"
@@ -102,10 +102,10 @@
     .comment-right-fluid
       .jumbotron.bg-light.mb-0
         .timeline-large-icon
-          %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
+          = icon("fas", "birthday-cake")
         %strong
           %span.d-inline.d-sm-none
-            %i.fa.fa-birthday-cake{ aria: { hidden: "true" } }
+            = icon("fas", "birthday-cake")
           - if @subject.user
             = @subject.user.full_name
           - else

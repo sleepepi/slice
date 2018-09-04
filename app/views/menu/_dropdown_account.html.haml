@@ -2,7 +2,7 @@
   .btn-group.nav-item
     - if false
       = link_to "#", class: "nav-link", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
-        %i.fa.fa-ellipsis-v
+        = icon("fas", "ellipsis-v")
     - else
       = link_to "#", class: "nav-link dropdown-toggle", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
         = profile_picture_tag(current_user, size: 20)

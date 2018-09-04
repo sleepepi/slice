@@ -79,7 +79,7 @@
                   nil
                 - elsif a.value_before == ""
                   %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
-                    %i.fa.fa-ban
+                    = icon("fas", "ban")
                 - else
                   - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
                     %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_before}" } }
@@ -94,7 +94,7 @@
                   nil
                 - elsif a.value_after == ""
                   %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
-                    %i.fa.fa-ban
+                    = icon("fas", "ban")
                 - else
                   - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
                     %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_after}" } }

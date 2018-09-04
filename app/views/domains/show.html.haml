@@ -15,7 +15,7 @@
 
       .dropdown-menu.dropdown-menu-right
         = link_to project_domain_domain_options_path(@domain.project, @domain), class: "dropdown-item" do
-          %i.fa.fa-cubes
+          = icon("fas", "cubes")
           Options
         = link_to edit_project_domain_path(@domain.project, @domain, language: World.translate_language? ? World.language : nil), class: "dropdown-item" do
           = icon("fas", "pencil-alt")

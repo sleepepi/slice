@@ -1,4 +1,4 @@
 - if project.emails_enabled?(current_user)
-  %i.fa.fa-envelope.text-primary
+  = icon("fas", "envelope", class: "text-primary")
 - else
-  %i.fa.fa-envelope-o
+  = icon("far", "envelope")

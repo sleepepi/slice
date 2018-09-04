@@ -7,20 +7,20 @@
   .dropdown-menu.dropdown-menu-right
     - if project.archived_by?(current_user)
       = link_to project_preferences_update_path(project_id: project, archived: "0"), remote: true, method: :patch, class: "dropdown-item" do
-        %i.fa.fa-thumb-tack
+        = icon("fas", "thumbtack")
         Pin to dashboard
     - else
       = link_to project_preferences_update_path(project_id: project, archived: "1"), remote: true, method: :patch, class: "dropdown-item" do
-        %i.fa.fa-archive
+        = icon("fas", "archive")
         Archive
 
     - if project.emails_enabled?(current_user)
       = link_to project_preferences_update_path(project_id: project, emails_enabled: "0"), remote: true, method: :patch, class: "dropdown-item" do
-        %i.fa.fa-envelope
+        = icon("fas", "envelope")
         Disable emails
     - else
       = link_to project_preferences_update_path(project_id: project, emails_enabled: "1"), remote: true, method: :patch, class: "dropdown-item" do
-        %i.fa.fa-envelope
+        = icon("fas", "envelope")
         Enable emails
     - if project.editable_by?(current_user)
       .dropdown-divider

@@ -946,9 +946,9 @@
     },
     headTemplate: '<thead>'+
               '<tr>'+
-                '<th class="prev"><i class="fa fa-caret-left"/></th>'+
+                '<th class="prev"><i class="fas fa-caret-left"/></th>'+
                 '<th colspan="5" class="switch"></th>'+
-                '<th class="next"><i class="fa fa-caret-right"/></th>'+
+                '<th class="next"><i class="fas fa-caret-right"/></th>'+
               '</tr>'+
             '</thead>',
     contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',

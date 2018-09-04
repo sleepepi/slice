@@ -13,7 +13,7 @@
   - if current_user
     %li.nav-item.d-none.d-lg-block{ class: current_page?(notifications_path) ? "active" : nil }
       = link_to notifications_path, class: "nav-link notifications-link#{" notifications-link-active" if current_user.unread_notifications?}" do
-        %i.fa.fa-bell
+        = icon("fas", "bell")
       - if current_page?(notifications_path)
         %span.sr-only (current)
     = render "menu/dropdown_account"

@@ -46,7 +46,7 @@
                   = icon("fas", "pencil-alt")
                   Edit
                 = link_to copy_project_variable_path(variable.project, variable), class: "dropdown-item" do
-                  %i.fa.fa-clipboard
+                  = icon("fas", "paste")
                   Copy
                 .dropdown-divider
                 = link_to [variable.project, variable], method: :delete, data: { confirm: "Delete \"#{variable.name}\" variable?" }, class: "dropdown-item text-danger" do

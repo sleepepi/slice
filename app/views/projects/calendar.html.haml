@@ -17,7 +17,7 @@
   .float-right
     = succeed " " do
       = link_to calendar_project_path(@project, date: move_backward.strftime("%Y%m%d")), tabindex: "-1", class: "btn btn-sm btn-light" do
-        %i.fa.fa-caret-left
+        = icon("fas", "caret-left")
 
     = succeed " " do
       = link_to calendar_project_path(@project), tabindex: "-1", class: "btn btn-sm btn-light", disabled: (@anchor_date == Time.zone.today.beginning_of_week(:sunday) ? "disabled" : nil) do
@@ -128,38 +128,38 @@
                   - task = object
                   %li.nowrap
                     - if task.phonecall?
-                      %i.fa.fa-phone
+                      = icon("fas", "phone")
                     - elsif task.visit?
-                      %i.fa.fa-user-md
+                      = icon("fas", "user-md")
                     - else
-                      %i.fa.fa-thumb-tack
+                      = icon("fas", "thumbtack")
                     = link_to [@project, task], data: { object: "calendar-window-hover", task_id: task.id } do
                       = object.calendar_description
                 - elsif object.is_a?(Randomization)
                   - randomization = object
                   - display_text = "#{randomization.subject.name} #{randomization.treatment_arm.short_name}"
                   %li.nowrap
-                    %i.fa.fa-random
+                    = icon("fas", "random")
                     = link_to [@project, randomization] do
                       = display_text
                 - elsif object.is_a?(AdverseEvent)
                   - adverse_event = object
                   - display_text = "#{adverse_event.subject.name} #{adverse_event.name}"
                   %li.nowrap
-                    %i.fa.fa-exclamation-triangle.text-danger
+                    = icon("fas", "exclamation-triangle", class: "text-danger")
                     = link_to [@project, adverse_event] do
                       = display_text
                 - elsif object.is_a?(Comment)
                   - comment = object
                   - display_text = "#{comment.description}"
                   %li.nowrap
-                    %i.fa.fa-comment
+                    = icon("fas", "comment")
                     = link_to [@project, comment.sheet] do
                       = display_text
                 - elsif object.is_a?(SubjectEvent)
                   - subject_event = object
                   - display_text = "#{subject_event.subject.name} #{subject_event.name}"
                   %li.nowrap
-                    %i.fa.fa-comment
+                    = icon("fas", "comment")
                     = link_to event_project_subject_path(@project, subject_event.subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
                       = display_text

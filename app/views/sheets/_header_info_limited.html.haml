@@ -50,6 +50,6 @@
 
         .input-group-append
           = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, class: "btn btn-light" do
-            %i.fa.fa-clipboard
+            = icon("fas", "paste")
           = link_to remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: "btn btn-outline-danger", rel: "tooltip", data: { confirm: "Remove link?", title: "Remove Link", container: "body", placement: "bottom" } do
             = icon("fas", "trash-alt")

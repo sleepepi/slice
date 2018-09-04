@@ -32,9 +32,9 @@
                   = succeed " " do
                     = link_to project_sheet_path(@project, sheet, anchor: "comments"), class: "btn btn-sm btn-accent" do
                       = sheet.comments_count
-                      %i.fa.fa-comment
+                      = icon("fas", "comment")
               - if sheets.count > 1 && event_design.highlight_duplicates?
-                %i.fa.fa-exclamation-triangle.text-warning{ rel: "tooltip", title: "Duplicate Entry", data: { placement: "left", container: "body" } }
+                = icon("fas", "exclamation-triangle", class: "text-warning", rel: "tooltip", title: "Duplicate Entry", data: { placement: "left", container: "body" })
               - if sheets.count > 1
                 %span.d-inline.d-sm-none.nowrap= sheet.created_at.strftime("%b %-d, %Y")
                 %span.d-none.d-sm-inline.nowrap= sheet.created_at.strftime("%a, %b %-d, %Y")
@@ -87,7 +87,7 @@
             - if sheet.comments_count.positive?
               = link_to project_sheet_path(@project, sheet, anchor: "comments"), class: "btn btn-sm" do
                 = sheet.comments_count
-                %i.fa.fa-comment
+                = icon("fas", "comment")
 
           %span.badge.badge-warning.d-inline.d-sm-none{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } E
           %span.badge.badge-warning.d-none.d-sm-inline{ rel: "tooltip", title: "Not on base event", data: { placement: "bottom", container: "body" } } Extra

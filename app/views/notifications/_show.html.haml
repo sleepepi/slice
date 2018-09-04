@@ -20,5 +20,4 @@
 
 %td
   - unless notification.read?
-    = link_to notification_path(notification, notification: { read: true }), method: :patch, remote: true, class: "text-muted" do
-      %i.fa.fa-check
+    = link_to icon("fas", "check"), notification_path(notification, notification: { read: true }), method: :patch, remote: true, class: "text-muted"

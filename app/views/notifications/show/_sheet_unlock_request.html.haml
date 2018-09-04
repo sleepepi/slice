@@ -1,4 +1,4 @@
-%td{ class: "#{notification.read? ? "text-muted" : "text-primary"}" }
+%td{ class: (notification.read? ? "text-muted" : "text-primary") }
   = icon("fas", "lock")
 
 %td.nowrap{ class: "#{"text-muted" if notification.read?}" }

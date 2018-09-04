@@ -17,7 +17,7 @@
       .card-header
         .float-right
           = link_to library_tray_path(@tray.profile, @tray), class: "link-unstyled" do
-            %i.fa.fa-level-up
+            = icon("fas", "level-up-alt")
         = @tray.slug
         %small (editing)
       .card-body

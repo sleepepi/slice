@@ -14,7 +14,7 @@
 
       .dropdown-menu.dropdown-menu-right
         = link_to project_subjects_path(@project, site_id: @site.id), class: "dropdown-item" do
-          %i.fa.fa-users
+          = icon("fas", "users")
           View Subjects
         - if current_user.all_sites.pluck(:id).include?(@site.id)
           = link_to edit_project_site_path(@site.project, @site), class: "dropdown-item" do

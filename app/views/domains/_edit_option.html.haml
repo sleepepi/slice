@@ -22,7 +22,7 @@
     - total_count = domain_option.captured_values_count
     - if total_count > 0
       .btn.btn-sm.btn-light{ style: "cursor: default", rel: "tooltip", data: { title: pluralize(total_count, "response"), container: "body", placement: "top" } }
-        %i.fa.fa-pie-chart.text-primary
+        = icon("fas", "chart-pie", class: "text-primary")
     = link_to "#", class: "btn btn-sm btn-outline-danger", data: { object: "remove-closest", target: ".domain-option-container", count: total_count }, tabindex: "-1" do
       = icon("fas", "trash-alt")
 

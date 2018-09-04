@@ -77,11 +77,11 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    content_tag(:i, "", class: "fa #{checked ? "fa-check-square-o" : "fa-square-o"}")
+    checked ? icon("fas", "check-square") : icon("far", "square")
   end
 
   def simple_markdown(text, table_class = "")
-    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true, tables: true, lax_spacing: true, space_after_headers: true, underline: true, highlight: true, footnotes: true )
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true, tables: true, lax_spacing: true, space_after_headers: true, underline: true, highlight: true, footnotes: true)
     result = replace_numbers_with_ascii(text.to_s)
     result = markdown.render(result)
     result = result.encode("UTF-16", undef: :replace, invalid: :replace, replace: "").encode("UTF-8")

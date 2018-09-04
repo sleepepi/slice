@@ -16,13 +16,13 @@
         - if @subject.randomizations_count.zero? && scheme_count == 1
           - @project.randomization_schemes.published.where.not(id: @subject.randomizations.select(:randomization_scheme_id)).each do |scheme|
             = link_to randomize_subject_to_list_project_randomization_scheme_path(@project, scheme, subject_code: @subject.subject_code), class: "btn btn-lg btn-accent btn-shadow btn-block" do
-              %i.fa.fa-random
+              = icon("fas", "random")
               Randomize
 
     .col-md-4.col-buffer
       - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
         = link_to new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-lg btn-accent btn-shadow btn-block" do
-          %i.fa.fa-exclamation-triangle
+          = icon("fas", "exclamation-triangle")
           Report
           %span.d-inline.d-xl-none AE
           %span.d-none.d-xl-inline Adverse Event

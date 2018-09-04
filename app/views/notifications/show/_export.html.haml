@@ -1,5 +1,5 @@
-%td
-  %i.fa.fa-file-archive-o{ class: (notification.read? ? "text-muted" : "text-primary") }
+%td{ class: (notification.read? ? "text-muted" : "text-primary") }
+  = icon("fas", "file-archive")
 
 %td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden
