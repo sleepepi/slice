@@ -10,5 +10,8 @@
 
     .dropdown-menu.dropdown-menu-right
       - World.available_languages.each do |language|
-        = link_to url_for(language: World.default_language == language.code ? nil : language.code), class: "dropdown-item#{" active" if language.code == World.language}" do
+        - hash = { language: World.default_language == language.code ? nil : language.code }
+        - hash[:sheet] = { subject_event_id: params.dig(:sheet, :subject_event_id) } if params.dig(:sheet, :subject_event_id).present?
+        - hash[:adverse_event_id] = params[:adverse_event_id] if params[:adverse_event_id].present?
+        = link_to url_for(hash), class: "dropdown-item#{" active" if language.code == World.language}" do
           = "#{language.name(I18n.locale)} (#{language.code})"
