@@ -12,6 +12,7 @@
 
 ### Bug Fix
 - Admins can now search for users by last name on users index
+- AM fields are no longer cutoff in time entry fields in certain browsers
 
 ## 64.1.1 (June 27, 2018)
 
