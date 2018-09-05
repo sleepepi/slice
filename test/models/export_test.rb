@@ -15,7 +15,7 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
                  "var_gender,var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year,radio_no_domain,"\
@@ -30,7 +30,7 @@ class ExportTest < ActiveSupport::TestCase
                  "#{sheets(:all_variables).response_count},"\
                  "#{sheets(:all_variables).total_response_count},"\
                  "#{sheets(:all_variables).created_at.strftime("%F %T")},"\
-                 "0,m: Male,acct101: ACCT 101,econ101: ECON 101,,,,,,Weight Li"\
+                 "en,0,m: Male,acct101: ACCT 101,econ101: ECON 101,,,,,,Weight Li"\
                  "fting and Salsa,\"This Text is across", rows[1]
     assert_equal "Multiple Lines\",-9: Unknown,,04/17/2013,,22:30:00,24.36 kg "\
                  "/ (m * m),,,57 hours 2 minutes 3 seconds,6 feet 2 inches,170"\
@@ -43,7 +43,7 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", true, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
                  "var_gender,var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year,radio_no_domain,"\
@@ -58,7 +58,7 @@ class ExportTest < ActiveSupport::TestCase
                  "#{sheets(:all_variables).response_count},"\
                  "#{sheets(:all_variables).total_response_count},"\
                  "#{sheets(:all_variables).created_at.strftime("%F %T")},"\
-                 "0,m,acct101,econ101,,,,,,Weight Lifting and Salsa,\"This Tex"\
+                 "en,0,m,acct101,econ101,,,,,,Weight Lifting and Salsa,\"This Tex"\
                  "t is across", rows[1]
     assert_equal "Multiple Lines\",-9,,2013-04-17,,81000,24.36,,,205323,74,272"\
                  "5,", rows[2]
@@ -68,7 +68,7 @@ class ExportTest < ActiveSupport::TestCase
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
     (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, "test-export.csv", true, "")
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
                  "var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year", rows[0]
@@ -78,7 +78,7 @@ class ExportTest < ActiveSupport::TestCase
                  "#{sheets(:checkbox_example_one).response_count},"\
                  "#{sheets(:checkbox_example_one).total_response_count},"\
                  "#{sheets(:checkbox_example_one).created_at.strftime("%F %T")},"\
-                 "0,,econ101,math123,,,1", rows[1]
+                 "en,0,,econ101,math123,,,1", rows[1]
   end
 
   test "generate an export with checkbox labeled values split across columns" do
@@ -87,7 +87,7 @@ class ExportTest < ActiveSupport::TestCase
       :generate_csv_sheets, sheets_with_checkboxes, "test-export-labeled.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
-    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Missing,"\
+    assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
                  "var_course_work__acct101,var_course_work__econ101,"\
                  "var_course_work__math123,var_course_work__phys500,"\
                  "var_course_work__biol327,var_year", rows[0]
@@ -96,7 +96,7 @@ class ExportTest < ActiveSupport::TestCase
                  "#{sheets(:checkbox_example_one).response_count},"\
                  "#{sheets(:checkbox_example_one).total_response_count},"\
                  "#{sheets(:checkbox_example_one).created_at.strftime("%F %T")},"\
-                 "0,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
+                 "en,0,,econ101: ECON 101,math123: MATH 123,,,1: Freshman", rows[1]
   end
 
   test "generate a grid export with rows for each grid row" do

@@ -7,6 +7,7 @@ one:
   user: regular
   last_user: regular
   subject_event: one
+  initial_language_code: en
 
 two_a:
   design: two
@@ -14,6 +15,7 @@ two_a:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 two_b:
   design: two
@@ -21,6 +23,7 @@ two_b:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 two_c:
   design: two
@@ -28,6 +31,7 @@ two_c:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 two_d:
   design: two
@@ -35,6 +39,7 @@ two_d:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 two_e:
   design: two
@@ -42,6 +47,7 @@ two_e:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 two_f:
   design: two
@@ -49,6 +55,7 @@ two_f:
   subject: sample
   user: regular
   last_user: regular
+  initial_language_code: en
 
 three:
   design: one
@@ -56,6 +63,7 @@ three:
   subject: three
   user: regular
   last_user: regular
+  initial_language_code: en
 
 file_attached:
   design: section_and_file
@@ -64,6 +72,7 @@ file_attached:
   user: regular
   last_user: regular
   uploaded_files_count: 1
+  initial_language_code: en
 
 all_variables:
   design: all_variable_types
@@ -71,6 +80,7 @@ all_variables:
   subject: one
   user: regular
   last_user: regular
+  initial_language_code: en
 
 external:
   design: admin_public_design
@@ -79,6 +89,7 @@ external:
   user: admin
   authentication_token: abc123
   last_user: admin
+  initial_language_code: en
 
 external_with_required_fields:
   design: admin_public_design_with_required_fields
@@ -87,6 +98,7 @@ external_with_required_fields:
   user: admin
   authentication_token: external_with_required_fields
   last_user: admin
+  initial_language_code: en
 
 domain_data_captured:
   design: one_sheet_entered
@@ -94,6 +106,7 @@ domain_data_captured:
   subject: one
   user: regular
   last_user: regular
+  initial_language_code: en
 
 has_grid:
   design: has_grid
@@ -101,6 +114,7 @@ has_grid:
   subject: one
   user: regular
   last_user: regular
+  initial_language_code: en
 
 has_grid_with_file:
   design: has_grid
@@ -108,6 +122,7 @@ has_grid_with_file:
   subject: two
   user: regular
   last_user: regular
+  initial_language_code: en
 
 weight_and_gender_subject_one:
   design: weight_and_gender
@@ -115,6 +130,7 @@ weight_and_gender_subject_one:
   subject: one
   user: regular
   last_user: regular
+  initial_language_code: en
 
 weight_and_gender_subject_two:
   design: weight_and_gender
@@ -122,6 +138,7 @@ weight_and_gender_subject_two:
   subject: two
   user: regular
   last_user: regular
+  initial_language_code: en
 
 coverage_complete:
   design: all_variable_types
@@ -132,6 +149,7 @@ coverage_complete:
   total_response_count: 11
   response_count: 11
   percent: 100
+  initial_language_code: en
 
 coverage_90:
   design: all_variable_types
@@ -142,6 +160,7 @@ coverage_90:
   total_response_count: 11
   response_count: 10
   percent: 90
+  initial_language_code: en
 
 coverage_70:
   design: all_variable_types
@@ -152,6 +171,7 @@ coverage_70:
   total_response_count: 11
   response_count: 8
   percent: 72
+  initial_language_code: en
 
 coverage_50:
   design: all_variable_types
@@ -162,6 +182,7 @@ coverage_50:
   total_response_count: 11
   response_count: 6
   percent: 55
+  initial_language_code: en
 
 coverage_30:
   design: all_variable_types
@@ -172,6 +193,7 @@ coverage_30:
   total_response_count: 11
   response_count: 4
   percent: 36
+  initial_language_code: en
 
 coverage_0:
   design: all_variable_types
@@ -182,54 +204,63 @@ coverage_0:
   total_response_count: 11
   response_count: 0
   percent: 0
+  initial_language_code: en
 
 coverage_empty:
   design: two_copy
   project: two
   subject: sample
   user: regular
+  initial_language_code: en
 
 filled_out_half_visible:
   design: one
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 filled_out_all_visible:
   design: one
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 filled_out_entire_sheet:
   design: one
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 all_visible_not_all_answered:
   design: one
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 hidden_response_answered:
   design: one
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 checkbox_example_one:
   design: checkbox_and_radio
   project: one
   subject: one
   user: regular
+  initial_language_code: en
 
 required_for_randomization:
   design: randomize
   project: two
   subject: eligible_for_randomization
   user: regular
+  initial_language_code: en
 
 auto_lock:
   design: auto_lock
@@ -238,6 +269,7 @@ auto_lock:
   user: regular
   created_at: 2016-03-01 12:30:45
   authentication_token: auto_lock
+  initial_language_code: en
 
 missing:
   design: auto_lock
@@ -253,3 +285,4 @@ api_design:
   subject: api_one
   user: regular
   subject_event: api_one_api_event
+  initial_language_code: en
