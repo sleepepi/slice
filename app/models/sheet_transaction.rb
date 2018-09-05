@@ -60,6 +60,7 @@ class SheetTransaction < ApplicationRecord
     sheet_save_result = \
       case transaction_type
       when "sheet_create", "public_sheet_create", "api_sheet_create"
+        sheet.initial_language_code = World.language
         sheet.save
       else
         sheet.update(sheet_params)

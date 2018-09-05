@@ -30,6 +30,7 @@ data slice<%= "_grids" if use_grids %>;
   informat _sheet_coverage_count       best32.     ;   * Sheet Coverage Count ;
   informat _sheet_coverage_total       best32.     ;   * Sheet Coverage Total ;
   informat _sheet_created              anydtdtm40. ;   * Sheet Created ;
+  informat _initial_language_code      $100.       ;   * Initial Language Code ;
   informat _missing                    best32.     ;   * Missing ;<% end %>
 
   /* Sheet Variables */
@@ -45,6 +46,7 @@ data slice<%= "_grids" if use_grids %>;
   format _sheet_coverage_count         best32.     ;
   format _sheet_coverage_total         best32.     ;
   format _sheet_created                datetime.   ;
+  format _initial_language_code        $100.       ;
   format _missing                      best32.     ;<% end %>
 
   /* Sheet Variables */
@@ -62,6 +64,7 @@ data slice<%= "_grids" if use_grids %>;
     _sheet_coverage_count
     _sheet_coverage_total
     _sheet_created
+    _initial_language_code
     _missing<% end %>
 
 <%= column_headers.collect{ |c| "    #{c}" }.join("\n") %>

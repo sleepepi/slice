@@ -20,6 +20,7 @@ module SheetExport
       csv << ["Sheet Coverage Count"] + sheet_scope.pluck(:response_count)
       csv << ["Sheet Coverage Total"] + sheet_scope.pluck(:total_response_count)
       csv << ["Sheet Created"] + sheet_scope.pluck(:created_at).collect { |created| created.strftime("%F %T") }
+      csv << ["Initial Language Code"] + sheet_scope.pluck(:initial_language_code)
       csv << ["Missing"] + sheet_scope.select(:missing).collect { |s| s.missing? ? 1 : 0 }
       load_all(variables, sheet_ids, raw_data, csv)
     end
