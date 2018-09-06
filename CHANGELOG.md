@@ -5,6 +5,10 @@
   - Update file inputs to match custom Bootstrap file inputs
 - **Export Changes**
   - Initial language used for sheet data entry is now displayed in exports
+- **Randomization Schemes**
+  - Added the option to choose "Custom List" as the randomization scheme,
+    allowing custom randomization lists to be entered that do not use
+    "Minimization" or "Permuted Block"
 - **Search Changes**
   - Searches now includes better results, specifically for the variables
 - **Theme Changes**

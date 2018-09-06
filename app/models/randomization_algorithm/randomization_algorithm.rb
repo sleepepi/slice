@@ -5,7 +5,8 @@ module RandomizationAlgorithm
   DEFAULT_CLASS = RandomizationAlgorithm::Algorithms::Default
   ALGORITHM_CLASSES = {
     "permuted-block" => RandomizationAlgorithm::Algorithms::PermutedBlock,
-    "minimization" => RandomizationAlgorithm::Algorithms::Minimization
+    "minimization" => RandomizationAlgorithm::Algorithms::Minimization,
+    "custom-list" => RandomizationAlgorithm::Algorithms::CustomList
   }
 
   def self.for(object)

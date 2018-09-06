@@ -1,0 +1,12 @@
+- @title = @list.name
+- @menu_title = "#{@project.name} #{@title}"
+- @breadcrumbs = []
+- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
+
+- content_for :container_class, "container-fluid"
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header do
+  = link_to @list.name, [@project, @randomization_scheme, @list]
+  Edit
+
+.dashboard-container= render "lists/form", list: @list

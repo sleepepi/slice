@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 module RandomizationAlgorithm
-
   module Algorithms
 
     class Default
-
       attr_reader :randomization_scheme
 
       def initialize(randomization_scheme)

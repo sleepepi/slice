@@ -33,8 +33,8 @@ class Randomization < ApplicationRecord
   include Siteable
 
   # Validations
-  validates :project_id, :randomization_scheme_id, :list_id, :user_id, :block_group,
-            :multiplier, :position, :treatment_arm_id, presence: true
+  validates :block_group, :multiplier, :position, presence: true
+  validates :treatment_arm, presence: true, unless: :custom_list?
   validates :subject_id, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, allow_nil: true
   validates :block_group, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :multiplier, numericality: { greater_than_or_equal_to: 0, only_integer: true }
@@ -45,7 +45,7 @@ class Randomization < ApplicationRecord
   belongs_to :randomization_scheme
   belongs_to :list
   belongs_to :user
-  belongs_to :treatment_arm
+  belongs_to :treatment_arm, optional: true
   belongs_to :subject, optional: true, counter_cache: true
   belongs_to :randomized_by, optional: true, class_name: "User", foreign_key: "randomized_by_id"
   has_many :randomization_schedule_prints
@@ -54,6 +54,7 @@ class Randomization < ApplicationRecord
   has_many :tasks, -> { current.order(:due_date) }, through: :randomization_tasks
 
   delegate :site, to: :subject
+  delegate :custom_list?, to: :randomization_scheme
 
   # Scopes
   def self.year(year)
@@ -89,6 +90,14 @@ class Randomization < ApplicationRecord
 
   def generate_name!
     update name: randomization_number
+  end
+
+  def treatment_arm_name
+    if custom_list?
+      custom_treatment_name
+    else
+      treatment_arm.name
+    end
   end
 
   def randomization_number

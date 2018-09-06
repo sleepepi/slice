@@ -1,41 +1,64 @@
-- if list.randomizations.count == 0
-  .text-center.text-muted
-    Randomizations expand list automatically.
-- elsif @randomization_scheme.permuted_block?
-  - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
-    .block-group
-      - assignment_block_position = 1
-      - current_multiplier = randomizations.first.multiplier
-      .multiplier{ class: "multiplier-#{current_multiplier}" }
-        - randomizations.each do |randomization|
-          - # The HTML end and start DIVs below are intentional
-          - if current_multiplier != randomization.multiplier or (assignment_block_position - 1 != 0 and (assignment_block_position - 1) % (randomization.multiplier * @randomization_scheme.minimum_block_size) == 0)
-            - current_multiplier = randomization.multiplier
-            - assignment_block_position = 2
-            </div>
-            <div class="multiplier multiplier-#{current_multiplier}">
-          - else
-            - assignment_block_position += 1
+- if @randomization_scheme.permuted_block?
+  - if list.randomizations.present?
+    - list.randomizations.order(:block_group, :position).group_by(&:block_group).each do |block_group, randomizations|
+      .block-group
+        - assignment_block_position = 1
+        - current_multiplier = randomizations.first.multiplier
+        .multiplier{ class: "multiplier-#{current_multiplier}" }
+          - randomizations.each do |randomization|
+            - # The HTML end and start DIVs below are intentional
+            - if current_multiplier != randomization.multiplier or (assignment_block_position - 1 != 0 and (assignment_block_position - 1) % (randomization.multiplier * @randomization_scheme.minimum_block_size) == 0)
+              - current_multiplier = randomization.multiplier
+              - assignment_block_position = 2
+              </div>
+              <div class="multiplier multiplier-#{current_multiplier}">
+            - else
+              - assignment_block_position += 1
 
-          - if randomization.subject
-            .overflow-hidden.nowrap
-              = link_to [@project, randomization], rel: "tooltip", title: randomization.subject.subject_code do
+            - if randomization.subject
+              .overflow-hidden.nowrap
+                = link_to [@project, randomization], rel: "tooltip", title: randomization.subject.subject_code do
+                  = randomization.position
+                  = randomization.treatment_arm_name
+            - else
+              .overflow-hidden.nowrap
                 = randomization.position
-                = randomization.treatment_arm.name
+                = randomization.treatment_arm_name
+  - else
+    .text-center.text-muted
+      Randomizations expand list automatically.
+
+- if @randomization_scheme.minimization?
+  - if list.randomizations.present?
+    .block-group
+      .multiplier
+        - list.randomizations.order(:created_at).each_with_index do |randomization, index|
+          - if randomization.subject
+            .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
+              = link_to [@project, randomization] do
+                = index + 1
+                = randomization.treatment_arm_name
           - else
             .overflow-hidden.nowrap
-              = randomization.position
-              = randomization.treatment_arm.name
-- else
-  .block-group
-    .multiplier
-      - list.randomizations.order(:created_at).each_with_index do |randomization, index|
-        - if randomization.subject
-          .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
-            = link_to [@project, randomization] do
               = index + 1
-              = randomization.treatment_arm.name
-        - else
-          .overflow-hidden.nowrap
-            = index + 1
-            = randomization.treatment_arm.name
+              = randomization.treatment_arm_name
+  - else
+    .text-center.text-muted
+      Randomizations expand list automatically.
+
+- if @randomization_scheme.custom_list?
+  - if list.randomizations.present?
+    .block-group
+      .multiplier
+        - list.randomizations.order(:id).each_with_index do |randomization, index|
+          - if randomization.subject
+            .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
+              = link_to [@project, randomization] do
+                .badge.badge-primary= index + 1
+                = randomization.treatment_arm_name
+          - else
+            .overflow-hidden.nowrap
+              .badge.badge-primary= index + 1
+              = randomization.treatment_arm_name
+
+  .text-center= link_to "Add items to list", edit_project_randomization_scheme_list_path(@project, @randomization_scheme, list)

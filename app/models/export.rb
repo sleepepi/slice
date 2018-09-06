@@ -448,7 +448,7 @@ class Export < ApplicationRecord
         row = [
           r.name,
           (r.subject ? r.subject.name : nil),
-          (r.treatment_arm ? r.treatment_arm.name : nil),
+          (r.treatment_arm ? r.treatment_arm_name : nil),
           (r.list ? r.list.name : nil),
           r.randomized_at,
           (r.randomized_by ? r.randomized_by.full_name : nil)

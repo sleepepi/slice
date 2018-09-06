@@ -98,7 +98,11 @@
                 - else
                   = icon("fas", "spinner", class: "fa-pulse")
             %td= link_to randomization.subject.name, [@project, randomization] if randomization.subject
-            %td.text-center= randomization.treatment_arm.short_name if randomization.randomization_scheme && randomization.treatment_arm
+            %td.text-center
+              - if randomization.custom_list?
+                = randomization.custom_treatment_name
+              - elsif randomization.treatment_arm
+                = randomization.treatment_arm.short_name
             %td.d-none.d-sm-table-cell.text-center
               - if randomization.randomized_at
                 %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }

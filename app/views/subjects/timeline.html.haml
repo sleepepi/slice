@@ -65,7 +65,7 @@
               - else
                 Public user
             randomized subject to
-            = link_to randomization.treatment_arm.name, [@project, randomization]
+            = link_to randomization.treatment_arm_name, [@project, randomization]
             %abbr{ rel: "tooltip", data: { title: randomization.randomized_at.strftime("%-d %B %Y, %-l:%M %p"), container: "body", placement: "right" } }
               = time_ago_in_words(randomization.randomized_at)
               ago

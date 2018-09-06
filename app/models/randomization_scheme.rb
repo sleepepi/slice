@@ -9,7 +9,11 @@ class RandomizationScheme < ApplicationRecord
 
   # Constants
   MAX_LISTS = 128
-  ALGORITHMS = [["Permuted-Block Algorithm", "permuted-block"], ["Minimization Algorithm", "minimization"]]
+  ALGORITHMS = [
+    ["Permuted-Block Algorithm", "permuted-block"],
+    ["Minimization Algorithm", "minimization"],
+    ["Pre-made Custom List", "custom-list"]
+  ]
 
   # Concerns
   include Deletable
@@ -103,6 +107,10 @@ class RandomizationScheme < ApplicationRecord
 
   def minimization?
     algorithm == "minimization"
+  end
+
+  def custom_list?
+    algorithm == "custom-list"
   end
 
   def randomization_error_message

@@ -88,7 +88,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @email_to = user.email
     mail(to: user.email,
-         subject: "#{randomization.randomized_by.full_name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}",
+         subject: "#{randomization.randomized_by.full_name if randomization.randomized_by} Randomized A Subject to #{randomization.treatment_arm_name} on #{randomization.project.name}",
          reply_to: (randomization.randomized_by ? randomization.randomized_by.email : nil))
   end
 

@@ -8,6 +8,8 @@ class List < ApplicationRecord
   # Concerns
   include Deletable
 
+  attr_accessor :items
+
   # Scopes
 
   # Validations
@@ -90,5 +92,17 @@ class List < ApplicationRecord
 
   def extra_option_pairs
     extra_options.collect { |h| [h[:stratification_factor_id].to_i, h[:site_id].to_i] }
+  end
+
+  def append_items!(items, current_user)
+    return unless randomization_scheme.custom_list?
+    items.to_s.split(/[\n\r]/).collect(&:squish).reject(&:blank?).each do |item|
+      randomizations.create(
+        project: randomization_scheme.project,
+        randomization_scheme: randomization_scheme,
+        user: current_user,
+        custom_treatment_name: item
+      )
+    end
   end
 end

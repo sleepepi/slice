@@ -1,6 +1,6 @@
 Dear <%= @user.full_name %>,
 
-<%= @randomization.subject.name %> was randomized to <%= @randomization.treatment_arm.name %> on <%= @randomization.project.name %> <% if @randomization.randomized_by %>by <%= @randomization.randomized_by.full_name %><% end %>.
+<%= @randomization.subject.name %> was randomized to <%= @randomization.treatment_arm_name %> on <%= @randomization.project.name %> <% if @randomization.randomized_by %>by <%= @randomization.randomized_by.full_name %><% end %>.
 
 View Randomization #<%= @randomization.randomization_number %> of <%= @randomization.randomization_scheme.randomization_goal %>.
 

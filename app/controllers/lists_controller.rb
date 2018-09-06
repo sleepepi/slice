@@ -6,7 +6,9 @@ class ListsController < ApplicationController
   before_action :find_editable_project_or_redirect
   before_action :redirect_blinded_users
   before_action :find_randomization_scheme_or_redirect
-  before_action :find_list_or_redirect, only: [:show]
+  before_action :check_custom_list_or_redirect, only: [:edit, :update]
+  before_action :find_list_or_redirect, only: [:show, :edit, :update]
+
 
   layout "layouts/full_page_sidebar"
 
@@ -23,6 +25,15 @@ class ListsController < ApplicationController
     @randomization_scheme.add_missing_lists!(current_user)
     flash[:notice] = "Additional lists were successfully created."
     redirect_to [@project, @randomization_scheme]
+  end
+
+  # GET /lists/1/edit
+  # def edit
+  # end
+
+  def update
+    @list.append_items!(params.dig(:list, :items), current_user)
+    redirect_to [@project, @randomization_scheme], notice: "Items added successfully."
   end
 
   # GET /lists
@@ -43,6 +54,10 @@ class ListsController < ApplicationController
 
   def redirect_without_randomization_scheme
     empty_response_or_root_path(project_randomization_schemes_path(@project)) unless @randomization_scheme
+  end
+
+  def check_custom_list_or_redirect
+    redirect_to [@project, @randomization_scheme] unless @randomization_scheme.custom_list?
   end
 
   def find_list_or_redirect

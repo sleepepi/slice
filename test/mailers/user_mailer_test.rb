@@ -85,8 +85,8 @@ class UserMailerTest < ActionMailer::TestCase
     user = users(:regular)
     mail = UserMailer.subject_randomized(randomization, user)
     assert_equal [user.email], mail.to
-    assert_equal "#{randomization.user.full_name} Randomized A Subject to #{randomization.treatment_arm.name} on #{randomization.project.name}", mail.subject
-    assert_match(/#{randomization.subject.name} was randomized to #{randomization.treatment_arm.name} on #{randomization.project.name} by #{randomization.user.full_name}\./, mail.body.encoded)
+    assert_equal "#{randomization.user.full_name} Randomized A Subject to #{randomization.treatment_arm_name} on #{randomization.project.name}", mail.subject
+    assert_match(/#{randomization.subject.name} was randomized to #{randomization.treatment_arm_name} on #{randomization.project.name} by #{randomization.user.full_name}\./, mail.body.encoded)
   end
 
   test "adverse event reported email" do
