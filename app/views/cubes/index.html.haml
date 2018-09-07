@@ -2,7 +2,7 @@
 
 - content_for :header do
   .float-right
-    = link_to "New Cube", new_tray_cube_path(@tray), class: "btn btn-accent btn-shadow"
+    = link_to "New Cube", new_tray_cube_path(@tray.profile, @tray), class: "btn btn-accent btn-shadow"
   = @title
 
 - if @cubes.present?

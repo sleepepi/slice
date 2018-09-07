@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class OrganizationsTest < ApplicationSystemTestCase
@@ -42,6 +44,6 @@ class OrganizationsTest < ApplicationSystemTestCase
       click_on "Destroy", match: :first
     end
 
-    assert_text "Organization was successfully destroyed"
+    assert_text "Organization was successfully deleted"
   end
 end

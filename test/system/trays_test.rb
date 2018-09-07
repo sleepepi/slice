@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class TraysTest < ApplicationSystemTestCase
@@ -5,12 +7,12 @@ class TraysTest < ApplicationSystemTestCase
     @tray = trays(:one)
   end
 
-  test "visiting the index" do
+  test "visit the index" do
     visit trays_url
     assert_selector "h1", text: "Trays"
   end
 
-  test "creating a Tray" do
+  test "create a tray" do
     visit trays_url
     click_on "New Tray"
 
@@ -23,7 +25,7 @@ class TraysTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "updating a Tray" do
+  test "update a tray" do
     visit trays_url
     click_on "Edit", match: :first
 
@@ -36,12 +38,12 @@ class TraysTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "destroying a Tray" do
+  test "destroy a tray" do
     visit trays_url
     page.accept_confirm do
       click_on "Destroy", match: :first
     end
 
-    assert_text "Tray was successfully destroyed"
+    assert_text "Tray was successfully deleted"
   end
 end

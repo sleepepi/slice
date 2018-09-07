@@ -3,5 +3,5 @@
   = render "forms/horizontal/text_field", form: form, object: cube, key: :position
   = render "forms/horizontal/text_field", form: form, object: cube, key: :text
   = render "forms/horizontal/text_field", form: form, object: cube, key: :description
-  = render "forms/horizontal/select", form: form, object: cube, key: :theme, options: Cube::CUBE_TYPES
+  = render "forms/horizontal/select", form: form, object: cube, key: :cube_type, options: Cube::CUBE_TYPES
   = render "forms/horizontal/submit", form: form, object: cube, cancel: url

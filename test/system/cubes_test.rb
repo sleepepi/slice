@@ -1,51 +1,62 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
+# Test adding cubes to trays.
 class CubesTest < ApplicationSystemTestCase
   setup do
+    @tray = trays(:one)
     @cube = cubes(:one)
+    @regular = users(:regular)
   end
 
-  test "visiting the index" do
-    visit cubes_url
+  test "visit cubes index" do
+    visit_login(@regular)
+    visit tray_cubes_url(@tray.profile, @tray)
     assert_selector "h1", text: "Cubes"
+    screenshot("visit-cubes-index")
   end
 
-  test "creating a Cube" do
-    visit cubes_url
+  test "create a cube" do
+    visit_login(@regular)
+    visit tray_cubes_url(@tray.profile, @tray)
+    screenshot("create-a-cube")
     click_on "New Cube"
-
-    fill_in "Cube Type", with: @cube.cube_type
-    fill_in "Description", with: @cube.description
-    fill_in "Position", with: @cube.position
-    fill_in "Text", with: @cube.text
-    fill_in "Tray", with: @cube.tray_id
+    fill_in "cube[position]", with: @cube.position
+    fill_in "cube[text]", with: @cube.text
+    fill_in "cube[description]", with: @cube.description
+    select "section", from: "cube[cube_type]"
+    screenshot("create-a-cube")
     click_on "Create Cube"
-
     assert_text "Cube was successfully created"
-    click_on "Back"
+    # assert_selector "h1", text: "Demographics ##{}"
+    screenshot("create-a-cube")
   end
 
-  test "updating a Cube" do
-    visit cubes_url
+  test "update a cube" do
+    visit_login(@regular)
+    visit tray_cubes_url(@tray.profile, @tray)
+    screenshot("update-a-cube")
     click_on "Edit", match: :first
-
-    fill_in "Cube Type", with: @cube.cube_type
-    fill_in "Description", with: @cube.description
-    fill_in "Position", with: @cube.position
-    fill_in "Text", with: @cube.text
-    fill_in "Tray", with: @cube.tray_id
+    fill_in "cube[position]", with: @cube.position
+    fill_in "cube[text]", with: @cube.text
+    fill_in "cube[description]", with: @cube.description
+    select "section", from: "cube[cube_type]"
+    screenshot("update-a-cube")
     click_on "Update Cube"
-
     assert_text "Cube was successfully updated"
-    click_on "Back"
+    # assert_selector "h1", text: "Demographics ##{}"
+    screenshot("update-a-cube")
   end
 
-  test "destroying a Cube" do
-    visit cubes_url
+  test "destroy a cube" do
+    visit_login(@regular)
+    visit tray_cubes_url(@tray.profile, @tray)
+    screenshot("destroy-a-cube")
     page.accept_confirm do
       click_on "Destroy", match: :first
     end
-
-    assert_text "Cube was successfully destroyed"
+    assert_text "Cube was successfully deleted"
+    screenshot("destroy-a-cube")
   end
 end

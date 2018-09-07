@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
 class ProfilesTest < ApplicationSystemTestCase
@@ -44,6 +46,6 @@ class ProfilesTest < ApplicationSystemTestCase
       click_on "Destroy", match: :first
     end
 
-    assert_text "Profile was successfully destroyed"
+    assert_text "Profile was successfully deleted"
   end
 end

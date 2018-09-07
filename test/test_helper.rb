@@ -42,3 +42,30 @@ module Rack
     end
   end
 end
+
+# Add helper method to login user.
+class ActionDispatch::SystemTestCase
+  def visit_login(user, screenshot_name = nil)
+    password = "PASSword2"
+    user.update(password: password, password_confirmation: password)
+    visit new_user_session_url
+    screenshot(screenshot_name) if screenshot_name.present?
+    fill_in "user[email]", with: user.email
+    fill_in "user[password]", with: user.password
+    click_form_submit
+  end
+end
+
+# # Discarding files stored during integration tests.
+# module ActionDispatch
+#   class IntegrationTest
+#     def remove_uploaded_files
+#       FileUtils.rm_rf(Rails.root.join("tmp", "storage"))
+#     end
+
+#     def after_teardown
+#       super
+#       remove_uploaded_files
+#     end
+#   end
+# end

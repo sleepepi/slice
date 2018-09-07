@@ -1,11 +1,11 @@
 one:
   tray: one
-  text: MyString
+  text: Choices
   description: MyText
-  cube_type: MyString
+  cube_type: choice
 
 two:
   tray: one
   text: MyString
   description: MyText
-  cube_type: MyString
+  cube_type: section
