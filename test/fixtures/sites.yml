@@ -70,6 +70,11 @@ default_site:
   user: regular
 
 api_site:
-  name: "API Site"
+  name: API Site
   project: api
   user: regular
+
+custom_randomizations_site:
+  name: Default
+  project: custom_randomizations
+  user: custom_randomizations_editor

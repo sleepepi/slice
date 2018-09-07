@@ -170,3 +170,35 @@ edge_nine:
   attested: true
   dice_roll: 50
   dice_roll_cutoff: 0
+
+custom_one:
+  custom_treatment_name: "Device #5001"
+  project: custom_randomizations
+  randomization_scheme: custom_randomizations
+  user: custom_randomizations_editor
+  list: custom_all_sites
+  subject: custom_randomizations_one
+  randomized_at: 2018-09-07 11:11:23
+  randomized_by: custom_randomizations_editor
+  attested: true
+
+custom_two:
+  custom_treatment_name: "Device #5002"
+  project: custom_randomizations
+  randomization_scheme: custom_randomizations
+  user: custom_randomizations_editor
+  list: custom_all_sites
+
+custom_three:
+  custom_treatment_name: "Device #5003"
+  project: custom_randomizations
+  randomization_scheme: custom_randomizations
+  user: custom_randomizations_editor
+  list: custom_all_sites
+
+custom_four:
+  custom_treatment_name: "Device #5004"
+  project: custom_randomizations
+  randomization_scheme: custom_randomizations
+  user: custom_randomizations_editor
+  list: custom_all_sites

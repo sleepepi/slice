@@ -1,0 +1,3 @@
+= form_with model: randomization, url: update_randomization_project_randomization_scheme_path(randomization.project, randomization.randomization_scheme, randomization), method: :patch, local: true do |form|
+  = render "forms/vertical/text_field", form: form, object: randomization, key: :custom_treatment_name
+  = render "forms/vertical/submit", form: form, object: randomization, cancel: [randomization.project, randomization.randomization_scheme]

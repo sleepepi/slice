@@ -97,3 +97,11 @@ minimization_with_required_variable:
   chance_of_random_treatment_arm_selection: 30
   variable: randomize
   variable_value: 1
+
+custom_randomizations:
+  name: Customized List of Randomizations
+  project: custom_randomizations
+  user: custom_randomizations_editor
+  published: true
+  randomization_goal: 100
+  algorithm: custom-list

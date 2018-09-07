@@ -98,3 +98,8 @@ profile_picture:
   encrypted_password: ""
   emails_enabled: false
   profile_picture: image.png
+
+custom_randomizations_editor:
+  full_name: Custom Randomizations Editor
+  email: custom_randomizations_editor@example.com
+  encrypted_password: ""

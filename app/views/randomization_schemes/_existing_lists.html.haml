@@ -15,19 +15,12 @@
           = succeed "." do
             %strong Undo randomization
 
-    .table-responsive
-      %table.table.table-fixed.table-borderless
-        %thead
-          %tr
-            - lists.each do |list|
-              %th.text-center
-                %strong= link_to list.name, [@project, @randomization_scheme, list]
-                %small.text-muted
-                  = surround "(", ")" do
-                    = list.randomizations.where.not(subject_id: nil).count
-
-        %tbody
-          %tr
-            - lists.each do |list|
-              %td
-                = render "lists/block_groups", list: list
+    .d-flex.flex-column.flex-md-row.justify-content-around.flex-wrap
+      - lists.each do |list|
+        .flex-fill
+          .text-center
+            %strong= link_to list.name, [@project, @randomization_scheme, list]
+            %small.text-muted
+              = surround "(", ")" do
+                = list.randomizations.where.not(subject_id: nil).count
+          .p-3= render "lists/block_groups", list: list

@@ -35,6 +35,7 @@ class Randomization < ApplicationRecord
   # Validations
   validates :block_group, :multiplier, :position, presence: true
   validates :treatment_arm, presence: true, unless: :custom_list?
+  validates :custom_treatment_name, presence: true, if: :custom_list?
   validates :subject_id, uniqueness: { scope: [:deleted, :project_id, :randomization_scheme_id] }, allow_nil: true
   validates :block_group, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :multiplier, numericality: { greater_than_or_equal_to: 0, only_integer: true }

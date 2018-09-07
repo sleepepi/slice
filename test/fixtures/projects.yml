@@ -65,3 +65,9 @@ api:
   slug: api-test
   user: regular
   authentication_token: 4bf180956aec927f7a0f01f5
+
+custom_randomizations:
+  name: Custom Randomizations
+  slug: custom-randomizations
+  user: custom_randomizations_editor
+  randomizations_enabled: true

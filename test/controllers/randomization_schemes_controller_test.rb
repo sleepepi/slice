@@ -466,7 +466,7 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should show randomization_scheme" do
+  test "should show randomization scheme" do
     login(@project_one_editor)
     get project_randomization_scheme_url(@project, @randomization_scheme)
     assert_response :success
@@ -478,7 +478,7 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should update randomization_scheme" do
+  test "should update randomization scheme" do
     login(@project_one_editor)
     patch project_randomization_scheme_url(@project, @randomization_scheme), params: {
       randomization_scheme: randomization_scheme_params.merge(name: "Updated Randomization Scheme")
@@ -502,5 +502,98 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
       delete project_randomization_scheme_url(@project, @randomization_scheme)
     end
     assert_redirected_to project_randomization_schemes_url(assigns(:project))
+  end
+
+  test "should get edit randomization" do
+    login(users(:custom_randomizations_editor))
+    get edit_randomization_project_randomization_scheme_url(
+      projects(:custom_randomizations),
+      randomization_schemes(:custom_randomizations),
+      randomizations(:custom_two)
+    )
+    assert_response :success
+  end
+
+  test "should not edit assigned randomization" do
+    login(users(:custom_randomizations_editor))
+    get edit_randomization_project_randomization_scheme_url(
+      projects(:custom_randomizations),
+      randomization_schemes(:custom_randomizations),
+      randomizations(:custom_one)
+    )
+    assert_redirected_to project_randomization_scheme_url(
+      projects(:custom_randomizations), randomization_schemes(:custom_randomizations)
+    )
+  end
+
+  test "should update randomization" do
+    login(users(:custom_randomizations_editor))
+    patch update_randomization_project_randomization_scheme_url(
+      projects(:custom_randomizations),
+      randomization_schemes(:custom_randomizations),
+      randomizations(:custom_two)
+    ), params: {
+      randomization: { custom_treatment_name: "Device #B001 - Backup" }
+    }
+    assert_redirected_to project_randomization_scheme_url(
+      projects(:custom_randomizations), randomization_schemes(:custom_randomizations)
+    )
+  end
+
+  test "should not update randomization with blank treatment name" do
+    login(users(:custom_randomizations_editor))
+    patch update_randomization_project_randomization_scheme_url(
+      projects(:custom_randomizations),
+      randomization_schemes(:custom_randomizations),
+      randomizations(:custom_two)
+    ), params: {
+      randomization: { custom_treatment_name: "" }
+    }
+    assert_template "edit_randomization"
+    assert_response :success
+  end
+
+  test "should not update assigned randomization" do
+    login(users(:custom_randomizations_editor))
+    patch update_randomization_project_randomization_scheme_url(
+      projects(:custom_randomizations),
+      randomization_schemes(:custom_randomizations),
+      randomizations(:custom_one)
+    ), params: {
+      randomization: { custom_treatment_name: "Device #5001 - Rename" }
+    }
+    randomizations(:custom_one).reload
+    assert_equal "Device #5001", randomizations(:custom_one).custom_treatment_name
+    assert_redirected_to project_randomization_scheme_url(
+      projects(:custom_randomizations), randomization_schemes(:custom_randomizations)
+    )
+  end
+
+  test "should destroy randomization" do
+    login(users(:custom_randomizations_editor))
+    assert_difference("Randomization.current.count", -1) do
+      delete destroy_randomization_project_randomization_scheme_url(
+        projects(:custom_randomizations),
+        randomization_schemes(:custom_randomizations),
+        randomizations(:custom_four)
+      )
+    end
+    assert_redirected_to project_randomization_scheme_url(
+      projects(:custom_randomizations), randomization_schemes(:custom_randomizations)
+    )
+  end
+
+  test "should not destroy assigned randomization" do
+    login(users(:custom_randomizations_editor))
+    assert_difference("Randomization.current.count", 0) do
+      delete destroy_randomization_project_randomization_scheme_url(
+        projects(:custom_randomizations),
+        randomization_schemes(:custom_randomizations),
+        randomizations(:custom_one)
+      )
+    end
+    assert_redirected_to project_randomization_scheme_url(
+      projects(:custom_randomizations), randomization_schemes(:custom_randomizations)
+    )
   end
 end

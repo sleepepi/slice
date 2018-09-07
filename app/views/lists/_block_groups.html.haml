@@ -17,7 +17,7 @@
 
             - if randomization.subject
               .overflow-hidden.nowrap
-                = link_to [@project, randomization], rel: "tooltip", title: randomization.subject.subject_code do
+                = link_to [@project, randomization], data: { toggle: "tooltip", title: randomization.subject.subject_code } do
                   = randomization.position
                   = randomization.treatment_arm_name
             - else
@@ -29,36 +29,53 @@
       Randomizations expand list automatically.
 
 - if @randomization_scheme.minimization?
-  - if list.randomizations.present?
-    .block-group
-      .multiplier
-        - list.randomizations.order(:created_at).each_with_index do |randomization, index|
-          - if randomization.subject
-            .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
-              = link_to [@project, randomization] do
-                = index + 1
-                = randomization.treatment_arm_name
-          - else
-            .overflow-hidden.nowrap
-              = index + 1
-              = randomization.treatment_arm_name
-  - else
-    .text-center.text-muted
-      Randomizations expand list automatically.
+  %table.table.table-sm.table-borderless.table-striped
+    %col{ width: "1px" }
+    %col
+    - list.randomizations.order(:created_at).each_with_index do |randomization, index|
+      %tbody
+        %tr
+          %td.text-center.px-2
+            %strong= index + 1
+          %td.overflow-hidden.nowrap
+            = link_to_if randomization.subject, randomization.treatment_arm_name, [@project, randomization], { data: { toggle: "tooltip", title: randomization.subject&.subject_code, container: "body", placement: "top" } }
+
+    %tbody
+      %tr
+        %td.text-center.px-2
+          = icon("fas", "info-circle", class: "text-muted")
+        %td.text-muted{ colspan: 2 }
+          New randomizations added automatically.
 
 - if @randomization_scheme.custom_list?
-  - if list.randomizations.present?
-    .block-group
-      .multiplier
-        - list.randomizations.order(:id).each_with_index do |randomization, index|
-          - if randomization.subject
-            .overflow-hidden.nowrap{ rel: "tooltip", data: { title: randomization.subject.subject_code, container: "body" } }
-              = link_to [@project, randomization] do
-                .badge.badge-primary= index + 1
-                = randomization.treatment_arm_name
-          - else
-            .overflow-hidden.nowrap
-              .badge.badge-primary= index + 1
-              = randomization.treatment_arm_name
-
-  .text-center= link_to "Add items to list", edit_project_randomization_scheme_list_path(@project, @randomization_scheme, list)
+  %table.table.table-sm.table-borderless.table-striped
+    %col{ width: "1px" }
+    %col
+    %col{ width: "1px" }
+    - list.randomizations.order(:id).each_with_index do |randomization, index|
+      %tbody
+        %tr
+          %td.text-center.px-2
+            %strong= index + 1
+          %td.overflow-hidden.nowrap
+            = link_to_if randomization.subject, randomization.treatment_arm_name, [@project, randomization], { data: { toggle: "tooltip", title: randomization.subject&.subject_code, container: "body", placement: "top" } }
+          %td.text-center.px-2
+            - unless randomization.subject
+              .dropdown
+                = link_to icon("fas", "caret-down"), "#", class: "link-unstyled", data: { toggle: "dropdown" }
+                .dropdown-menu.dropdown-menu-right
+                  = link_to edit_randomization_project_randomization_scheme_path(@project, @randomization_scheme, randomization), class: "dropdown-item" do
+                    = icon("fas", "pencil-alt")
+                    Edit
+                  .dropdown-divider
+                  = link_to destroy_randomization_project_randomization_scheme_path(@project, @randomization_scheme, randomization), method: :delete, data: { confirm: "Delete randomization ##{index + 1}?" }, class: "dropdown-item text-danger" do
+                    = icon("fas", "trash-alt")
+                    Delete
+            - else
+              = icon("fas", "caret-down", class: "text-muted", data: { toggle: "tooltip", title: "Assigned randomizations cannot be edited.", placement: "top" })
+    %tbody
+      %tr
+        %td.text-center.px-2
+          = icon("fas", "plus-circle", class: "text-primary")
+        %td{ colspan: 2 }
+          = link_to "Add items to list", edit_project_randomization_scheme_list_path(@project, @randomization_scheme, list)

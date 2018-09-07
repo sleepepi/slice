@@ -4,15 +4,24 @@
 # or minimization algorithms.
 class RandomizationSchemesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_editable_project_or_editable_site_or_redirect,
-                only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
-  before_action :find_editable_project_or_redirect,
-                only: [:add_task, :index, :show, :new, :edit, :create, :update, :destroy]
+  before_action :find_editable_project_or_editable_site_or_redirect, only: [
+    :randomize_subject, :subject_search, :randomize_subject_to_list
+  ]
+  before_action :find_editable_project_or_redirect, only: [
+    :add_task, :index, :show, :new, :edit, :create, :update, :destroy,
+    :edit_randomization, :update_randomization, :destroy_randomization
+  ]
   before_action :redirect_blinded_users
-  before_action :find_scheme_or_redirect,
-                only: [:show, :edit, :update, :destroy]
-  before_action :find_published_scheme_or_redirect,
-                only: [:randomize_subject, :subject_search, :randomize_subject_to_list]
+  before_action :find_scheme_or_redirect, only: [
+    :show, :edit, :update, :destroy,
+    :edit_randomization, :update_randomization, :destroy_randomization
+  ]
+  before_action :find_published_scheme_or_redirect, only: [
+    :randomize_subject, :subject_search, :randomize_subject_to_list
+  ]
+  before_action :find_randomization_or_redirect, only: [
+    :edit_randomization, :update_randomization, :destroy_randomization
+  ]
 
   layout "layouts/full_page_sidebar"
 
@@ -197,6 +206,25 @@ class RandomizationSchemesController < ApplicationController
     redirect_to project_randomization_schemes_path(@project), notice: "Randomization scheme was successfully deleted."
   end
 
+  # # GET /schemes/1/randomizations/:randomization_id/edit
+  # def edit_randomization
+  # end
+
+  # PATCH /schemes/1/randomizations/:randomization_id
+  def update_randomization
+    if @randomization.update(randomization_params)
+      redirect_to [@project, @randomization_scheme], notice: "Randomization was successfully updated."
+    else
+      render :edit_randomization
+    end
+  end
+
+  # DELETE /schemes/1/randomizations/:randomization_id
+  def destroy_randomization
+    @randomization.destroy
+    redirect_to [@project, @randomization_scheme], notice: "Randomization was successfully deleted."
+  end
+
   private
 
   def find_scheme_or_redirect
@@ -207,6 +235,11 @@ class RandomizationSchemesController < ApplicationController
   def find_published_scheme_or_redirect
     @randomization_scheme = @project.randomization_schemes.published.find_by(id: params[:id])
     redirect_without_scheme
+  end
+
+  def find_randomization_or_redirect
+    @randomization = @randomization_scheme.randomizations.where(subject_id: nil).find_by(id: params[:randomization_id])
+    empty_response_or_root_path([@project, @randomization_scheme]) unless @randomization
   end
 
   def redirect_without_scheme
@@ -231,6 +264,10 @@ class RandomizationSchemesController < ApplicationController
         :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value
       )
     end
+  end
+
+  def randomization_params
+    params.require(:randomization).permit(:custom_treatment_name)
   end
 
   def build_criteria_pairs

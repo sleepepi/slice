@@ -137,3 +137,9 @@ api_one:
   project: api
   subject_code: API0001
   site: api_site
+
+custom_randomizations_one:
+  project: custom_randomizations
+  subject_code: CR0001
+  user: custom_randomizations_editor
+  site: custom_randomizations_site
