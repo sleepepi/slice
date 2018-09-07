@@ -2,48 +2,66 @@
 
 require "application_system_test_case"
 
+# Test editing trays.
 class TraysTest < ApplicationSystemTestCase
   setup do
     @tray = trays(:one)
+    @regular = users(:regular)
   end
 
-  test "visit the index" do
-    visit trays_url
-    assert_selector "h1", text: "Trays"
+  test "visit trays index" do
+    visit_login(@regular)
+    visit library_profile_url(@regular.profile)
+    assert_selector "div", text: "Forms"
+    screenshot("visit-trays-index")
   end
 
   test "create a tray" do
-    visit trays_url
-    click_on "New Tray"
-
-    fill_in "Name", with: @tray.name
-    fill_in "Slug", with: @tray.slug
-    fill_in "User", with: @tray.user_id
+    visit_login(@regular)
+    visit library_profile_url(@regular.profile)
+    screenshot("create-a-tray")
+    click_on "New form"
+    fill_in "tray[name]", with: "Intake Form"
+    fill_in "tray[description]", with: "My extensive description."
+    fill_in "tray[time_in_seconds]", with: 210
+    fill_in "tray[keywords]", with: "test, empty, blank"
+    screenshot("create-a-tray")
     click_on "Create Tray"
-
     assert_text "Tray was successfully created"
-    click_on "Back"
+    assert_selector "div", text: "Intake Form"
+    screenshot("create-a-tray")
   end
 
   test "update a tray" do
-    visit trays_url
-    click_on "Edit", match: :first
-
-    fill_in "Name", with: @tray.name
-    fill_in "Slug", with: @tray.slug
-    fill_in "User", with: @tray.user_id
+    visit_login(@regular)
+    visit library_profile_url(@regular.profile)
+    screenshot("update-a-tray")
+    click_on @tray.name
+    screenshot("update-a-tray")
+    click_on "Settings"
+    screenshot("update-a-tray")
+    fill_in "tray[name]", with: "Intake Form"
+    fill_in "tray[description]", with: "My extensive description."
+    fill_in "tray[time_in_seconds]", with: 210
+    fill_in "tray[keywords]", with: "test, empty, blank"
+    screenshot("update-a-tray")
     click_on "Update Tray"
-
     assert_text "Tray was successfully updated"
-    click_on "Back"
+    assert_selector "div", text: "Intake Form"
+    screenshot("update-a-tray")
   end
 
   test "destroy a tray" do
-    visit trays_url
+    skip
+    visit_login(@regular)
+    visit library_profile_url(@regular.profile)
+    screenshot("destroy-a-tray")
+    click_on @tray.name
+    screenshot("destroy-a-tray")
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_on "Delete", match: :first
     end
-
     assert_text "Tray was successfully deleted"
+    screenshot("destroy-a-tray")
   end
 end
