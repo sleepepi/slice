@@ -2,48 +2,57 @@
 
 require "application_system_test_case"
 
+# Test modifying organizations as an admin.
 class OrganizationsTest < ApplicationSystemTestCase
   setup do
     @organization = organizations(:one)
+    @admin = users(:admin)
   end
 
-  test "visiting the index" do
+  test "visit organizations index" do
+    visit_login(@admin)
     visit organizations_url
     assert_selector "h1", text: "Organizations"
+    screenshot("visit-organizations-index")
   end
 
-  test "creating a Organization" do
+  test "create an organization" do
+    visit_login(@admin)
     visit organizations_url
+    screenshot("create-an-organization")
     click_on "New Organization"
-
-    fill_in "Description", with: @organization.description
-    fill_in "Name", with: @organization.name
-    fill_in "Slug", with: @organization.slug
+    fill_in "organization[name]", with: "Organization One"
+    screenshot("create-an-organization")
     click_on "Create Organization"
-
     assert_text "Organization was successfully created"
-    click_on "Back"
+    assert_selector "h1", text: "Organization One"
+    screenshot("create-an-organization")
   end
 
-  test "updating a Organization" do
+  test "update an organization" do
+    visit_login(@admin)
     visit organizations_url
-    click_on "Edit", match: :first
-
-    fill_in "Description", with: @organization.description
-    fill_in "Name", with: @organization.name
-    fill_in "Slug", with: @organization.slug
+    screenshot("update-an-organization")
+    click_on "Actions", match: :first
+    screenshot("update-an-organization")
+    click_on "Edit"
+    fill_in "organization[name]", with: "Updated Name"
+    screenshot("update-an-organization")
     click_on "Update Organization"
-
     assert_text "Organization was successfully updated"
-    click_on "Back"
+    assert_selector "h1", text: "Updated Name"
+    screenshot("update-an-organization")
   end
 
-  test "destroying a Organization" do
+  test "destroy an organization" do
+    visit_login(@admin)
     visit organizations_url
+    screenshot("destroy-an-organization")
+    click_on "Actions", match: :first
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_on "Delete"
     end
-
     assert_text "Organization was successfully deleted"
+    screenshot("destroy-an-organization")
   end
 end

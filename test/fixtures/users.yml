@@ -103,3 +103,8 @@ custom_randomizations_editor:
   full_name: Custom Randomizations Editor
   email: custom_randomizations_editor@example.com
   encrypted_password: ""
+
+no_profile:
+  full_name: No Profile
+  email: no_profile@example.com
+  encrypted_password: ""
