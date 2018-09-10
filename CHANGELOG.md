@@ -1,5 +1,8 @@
 ## 66.0.0
 
+- **General Changes**
+  - Update framework files to resemble Rails 5.2 defaults more closely
+
 ## 65.0.0 (September 10, 2018)
 
 ### Enhancements
