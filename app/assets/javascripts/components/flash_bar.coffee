@@ -1,4 +1,4 @@
 $(document)
-  .on("click", ".flash-bar-show", ->
+  .on("click touchstart", ".flash-bar-show", ->
     $(this).removeClass("flash-bar-show")
   )
