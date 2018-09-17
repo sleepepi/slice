@@ -1,7 +1,12 @@
 ## 66.0.0
 
+### Enhancements
 - **General Changes**
   - Update framework files to resemble Rails 5.2 defaults more closely
+- **Slice Expression Engine Added**
+  - The Slice Expression Engine interprets the new Slice Context Free Grammar
+    that allows users to build search templates to filter subjects and sheets
+    based on one or more conditions
 
 ## 65.0.0 (September 10, 2018)
 

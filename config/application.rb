@@ -48,5 +48,9 @@ module Slice
 
     # Add world languages module to autoload path.
     config.autoload_paths << Rails.root.join("app", "models", "world")
+
+    # Add engine module to autoload path.
+    config.autoload_paths << Rails.root.join("app", "models", "engine")
+    config.autoload_paths << Rails.root.join("app", "models", "engine", "expressions")
   end
 end
