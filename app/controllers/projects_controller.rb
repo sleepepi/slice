@@ -4,8 +4,28 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar, :reports
+    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar,
+    :reports, :expressions, :expressions_engine, :expressions_search
   ]
+
+  # GET /projects/1/expressions
+  def expressions
+
+  end
+
+  # POST /projects/1/expressions/engine.json
+  def expressions_engine
+    @engine = ::Engine::Engine.new(@project)
+    @engine.run(params[:expressions])
+  end
+
+  # POST /projects/1/expressions/search.json
+  def expressions_search
+    variable_scope = @project.variables.where(variable_type: %w(dropdown checkbox radio string integer numeric date calculated imperial_height imperial_weight))
+                                       .search_any_order(params[:search])
+                                       .order(:name).limit(10)
+    render json: variable_scope.pluck(:name)
+  end
 
   # POST /projects/save_project_order.js
   def save_project_order

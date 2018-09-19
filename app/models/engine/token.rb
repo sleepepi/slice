@@ -17,11 +17,12 @@ module Engine
       :left_paren, :right_paren
     ]
 
-    attr_accessor :token_type, :raw
+    attr_accessor :token_type, :raw, :auto
 
-    def initialize(token_type, raw: nil)
+    def initialize(token_type, raw: nil, auto: false)
       @token_type = token_type
       @raw = raw
+      @auto = auto
     end
 
     def print

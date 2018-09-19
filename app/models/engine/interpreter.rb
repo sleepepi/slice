@@ -3,7 +3,7 @@
 # Engine that interprets the Slice Context Free Grammar.
 module Engine
   class Interpreter
-    attr_accessor :sobjects, :lexer, :parser, :tree, :variable_names
+    attr_accessor :sobjects, :lexer, :parser, :tree, :variable_names, :subjects_count, :sobjects
 
     def initialize(project, verbose: false)
       @project = project
@@ -11,6 +11,7 @@ module Engine
       @operation_count = 0
       @variable_names = []
       @verbose = verbose
+      @subjects_count = 0
     end
 
     def run
@@ -19,8 +20,8 @@ module Engine
 
       # Run through tree in LRN order.
       result = lrn(@tree)
-      sobjects = filter(result)
-      puts Subject.current.where(id: sobjects.collect { |key, sobject| sobject.subject_id }).pluck(:id, :subject_code).to_s
+      filter(result)
+      @subjects_count = @project.subjects.where(id: @sobjects.collect { |key, sobject| sobject.subject_id }).count
     end
 
     def lrn(node)
@@ -90,7 +91,7 @@ module Engine
     end
 
     def filter(result_name, value: true)
-      @sobjects.select do |subject_id, sobject|
+      @sobjects.select! do |subject_id, sobject|
         sobject.get_value(result_name) == value
       end
     end
@@ -171,8 +172,13 @@ module Engine
         .joins(:sheet)
         .pluck(:subject_id, domain_option_value_or_value)
       formatter = Formatters.for(variable)
+      number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
       svs.each do |subject_id, value|
-        add_sobject_value(subject_id, variable.name, formatter.raw_response(value))
+        formatted_value = formatter.raw_response(value)
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
+          formatted_value = Float(formatted_value)
+        end
+        add_sobject_value(subject_id, variable.name, formatted_value)
       end
     end
 

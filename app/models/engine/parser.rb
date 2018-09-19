@@ -19,6 +19,11 @@ module Engine
       set_position(@current_position + 1)
     end
 
+    def insert(token_type)
+      # puts @tokens
+      @tokens.insert(@current_position, ::Engine::Token.new(token_type, auto: true))
+    end
+
     def parse(tokens)
       @tokens = tokens
       set_position(0)
@@ -45,7 +50,9 @@ module Engine
       if @current_token&.token_type == token_type
         advance
       else
-        raise "consume_token! Error: #{@current_token&.token_type} #{message}"
+        insert(token_type)
+        advance
+        # raise "consume_token! Error: #{@current_token&.token_type} #{message}"
       end
     end
 

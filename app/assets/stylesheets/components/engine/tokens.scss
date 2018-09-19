@@ -1,0 +1,28 @@
+.token {
+  color: $text-muted;
+
+  + .token {
+    margin-left: map-get($spacers, 2);
+  }
+}
+
+.token-variable {
+  color: $p500-blue;
+}
+
+.token-number {
+  color: $p500-green;
+}
+
+.token-operator {
+  color: $p500-orange;
+}
+
+.token-paren {
+  color: $p500-black;
+  font-weight: bold;
+
+  + .token-paren {
+    margin-left: 0;
+  }
+}

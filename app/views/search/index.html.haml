@@ -5,7 +5,7 @@
 
 = form_tag search_path, method: :get, id: "search-form", class: "my-3" do
   .input-group
-    = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autofocus: params[:search].blank?
+    = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autofocus: params[:search].blank?, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
     .input-group-append
       = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
         = icon("fas", "search")

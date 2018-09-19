@@ -145,6 +145,9 @@ Rails.application.routes.draw do
       get :logo
       get :reports
       get :team
+      get :expressions
+      post :expressions_engine, path: "expressions/engine"
+      get :expressions_search, path: "expressions/search"
       post :archive
       get :advanced, to: redirect("editor/projects/%{id}/advanced")
       get :settings, to: redirect("editor/projects/%{id}/settings")
