@@ -1,9 +1,5 @@
 .token {
   color: $text-muted;
-
-  + .token {
-    margin-left: map-get($spacers, 2);
-  }
 }
 
 .token-variable {

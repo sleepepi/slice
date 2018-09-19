@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
 
   end
 
-  # POST /projects/1/expressions/engine.json
+  # POST /projects/1/expressions/engine.js
   def expressions_engine
     @engine = ::Engine::Engine.new(@project)
     @engine.run(params[:expressions])

@@ -130,7 +130,7 @@ module Engine
         lower = addition
         consume_token!(:and, "Missing `and` after between.")
         higher = addition
-        expr = ::Engine::Expressions::Between.new(expr, lower, higher)
+        expr = ::Engine::Expressions::Between.new(expr, operator, lower, higher)
       end
 
       expr

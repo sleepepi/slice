@@ -1,0 +1,11 @@
+$("#current-space").html("<%=j params[:expressions] %>");
+
+$("#current-tokens").html("<%=j render "engine/tokens", engine: @engine %>");
+
+
+$("#subjects-count").html("<%=j number_with_delimiter(@engine.interpreter.subjects_count) %>");
+$("#run-ms").html("<%= @engine.run_ms %>ms");
+
+$("#sobjects-table").html("<%=j render "engine/sobjects", engine: @engine %>");
+
+$("#engine-tree").html("<%=j render "engine/tree", engine: @engine %>");

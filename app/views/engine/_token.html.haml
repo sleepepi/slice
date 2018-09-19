@@ -1,0 +1,53 @@
+- token_auto = token.auto ? "token-auto" : nil
+- value = token.token_type
+- token_class = nil
+
+- if token.token_type == :variable
+  - token_class = "token-variable"
+  - value = token.raw
+- elsif token.token_type == :number
+  - token_class = "token-number"
+  - value = token.raw
+- elsif token.token_type == :left_paren
+  - token_class = "token-paren"
+  - value = "("
+- elsif token.token_type == :right_paren
+  - token_class = "token-paren"
+  - value = ")"
+- elsif token.token_type == :greater
+  - token_class = "token-operator"
+  - value = ">"
+- elsif token.token_type == :less
+  - token_class = "token-operator"
+  - value = "<"
+- elsif token.token_type == :greater_equal
+  - token_class = "token-operator"
+  - value = ">="
+- elsif token.token_type == :less_equal
+  - token_class = "token-operator"
+  - value = "<="
+- elsif token.token_type == :bang_equal
+  - token_class = "token-operator"
+  - value = "!="
+- elsif token.token_type == :equal
+  - token_class = "token-operator"
+  - value = "="
+- elsif token.token_type == :minus
+  - token_class = "token-operator"
+  - value = "-"
+- elsif token.token_type == :plus
+  - token_class = "token-operator"
+  - value = "+"
+- elsif token.token_type == :star
+  - token_class = "token-operator"
+  - value = "*"
+- elsif token.token_type == :slash
+  - token_class = "token-operator"
+  - value = "/"
+- elsif token.token_type == :bang
+  - token_class = "token-operator"
+  - value = "!"
+- elsif token.token_type.in?([:between, :and, :or])
+  - token_class = "token-operator"
+
+%span.token{ class: [token_auto, token_class].compact }= value

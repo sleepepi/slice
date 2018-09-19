@@ -16,7 +16,7 @@ module Engine
 
     def run
       puts "Interpreter started..." if @verbose
-      load_sobjects
+      initialize_sobjects
 
       # Run through tree in LRN order.
       result = lrn(@tree)
@@ -30,11 +30,11 @@ module Engine
         left = lrn(node.left)
         lower = lrn(node.lower)
         higher = lrn(node.higher)
-        between_operation(left, lower, higher)
+        between_operation(node, left, lower, higher)
       when "Engine::Expressions::Binary"
         left = lrn(node.left)
         right = lrn(node.right)
-        operation_helper(node.operator, left, right)
+        operation_helper(node, node.operator, left, right)
       when "Engine::Expressions::Grouping"
         lrn(node.expression)
       when "Engine::Expressions::Literal"
@@ -43,7 +43,7 @@ module Engine
         right = lrn(node.right)
         case node.operator.token_type
         when :minus
-          operation(:*, -1, right)
+          operation(node, :*, -1, right, result_name: "_unary_#{@operation_count += 1}")
         when :plus
           right
         when :bang
@@ -54,9 +54,9 @@ module Engine
       end
     end
 
-    def operation_helper(token, left, right)
+    def operation_helper(node, token, left, right)
       if token.token_type.in?([:and, :or])
-        return boolean_operation(token.token_type, left, right)
+        return boolean_operation(node, token.token_type, left, right)
       end
 
       symbol = case token.token_type
@@ -84,20 +84,55 @@ module Engine
           raise "Illegal operator: #{token.token_type}"
         end
 
-      operation(symbol, left, right)
+      operation(node, symbol, left, right)
+    end
+
+    def initialize_sobjects
+      load_sobjects
+      load_sobjects_variables
+    end
+
+
+    def load_sobjects
+      @project.subjects.pluck(:id).each do |subject_id|
+        key = :"#{subject_id}"
+        @sobjects[key] ||= Sobject.new(subject_id)
+      end
+    end
+
+    def load_sobjects_variables
+      variables = @project.variables.where(name: @variable_names)
+      @sobjects.each do |key, sobject|
+        variables.each do |variable|
+          sobject.add_value(variable.name, nil)
+        end
+      end
+      variables.each do |variable|
+        pluck_sobject_values(variable)
+      end
+    end
+
+    def pluck_sobject_values(variable)
+      svs = SheetVariable
+        .where(variable: variable)
+        .left_outer_joins(:domain_option)
+        .joins(:sheet).merge(Sheet.current)
+        .pluck(:subject_id, domain_option_value_or_value)
+      formatter = Formatters.for(variable)
+      number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
+      svs.each do |subject_id, value|
+        formatted_value = formatter.raw_response(value)
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
+          formatted_value = Float(formatted_value)
+        end
+        add_sobject_value(subject_id, variable.name, formatted_value)
+      end
     end
 
     def add_sobject_value(subject_id, variable_name, value)
       key = :"#{subject_id}"
-      @sobjects[key] ||= Sobject.new(subject_id)
-      @sobjects[key].add_value(variable_name, value)
-    end
-
-    def load_sobjects
-      variables = @project.variables.where(name: @variable_names)
-      variables.each do |variable|
-        pluck_sobject_values(variable)
-      end
+      # @sobjects[key] ||= Sobject.new(subject_id)
+      @sobjects[key].add_value(variable_name, value) if @sobjects.key?(key)
     end
 
     def filter(result_name, value: true)
@@ -106,10 +141,12 @@ module Engine
       end
     end
 
-    def between_operation(left, lower, higher, result_name: "_operation_#{@operation_count += 1}")
-      r1 = operation(:>=, left, lower)
-      r2 = operation(:<=, left, higher)
+    def between_operation(node, left, lower, higher)
+      r1 = operation(node, :>=, left, lower)
+      r2 = operation(node, :<=, left, higher)
 
+      result_name = "_betweenop_#{@operation_count += 1}"
+      node.result_name = result_name
       @sobjects.each do |subject_id, sobject|
         result = sobject.get_value(r1) && sobject.get_value(r2)
         sobject.add_value(result_name, result)
@@ -117,7 +154,7 @@ module Engine
       result_name
     end
 
-    def boolean_operation(token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
+    def boolean_operation(node, token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
       @sobjects.each do |subject_id, sobject|
         result = if token_type == :and
           sobject.get_value(left) && sobject.get_value(right)
@@ -126,12 +163,13 @@ module Engine
         end
         sobject.add_value(result_name, result)
       end
+      node.result_name = result_name
       result_name
     end
 
     # Allows "a", and "b" to be variable names OR numerics
     # operator is :+, :-, :/, :*, :**, :==, :>=, :<=, :>, :<
-    def operation(operator, a, b, result_name: "_operation_#{@operation_count += 1}")
+    def operation(node, operator, a, b, result_name: "_operation_#{@operation_count += 1}")
       if a.is_a?(String) && b.is_a?(String)
         operation_variables(operator, a, b, result_name)
       elsif a.is_a?(String)
@@ -141,6 +179,7 @@ module Engine
       else
         operation_numbers(operator, a, b, result_name)
       end
+      node.result_name = result_name
       result_name
     end
 
@@ -195,23 +234,6 @@ module Engine
       end
       @sobjects.each do |subject_id, sobject|
         sobject.add_value(result_name, result)
-      end
-    end
-
-    def pluck_sobject_values(variable)
-      svs = SheetVariable
-        .where(variable: variable)
-        .left_outer_joins(:domain_option)
-        .joins(:sheet)
-        .pluck(:subject_id, domain_option_value_or_value)
-      formatter = Formatters.for(variable)
-      number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
-      svs.each do |subject_id, value|
-        formatted_value = formatter.raw_response(value)
-        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
-          formatted_value = Float(formatted_value)
-        end
-        add_sobject_value(subject_id, variable.name, formatted_value)
       end
     end
 

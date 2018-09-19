@@ -1,0 +1,26 @@
+- @sobjects = @engine.interpreter.sobjects.first(10)
+
+- (sobject_key, first_sobject) = @sobjects.first
+
+- @debug = true || params[:debug] == "1"
+
+- if @sobjects.present?
+  %table.table.table-striped.table-borderless
+    %thead
+      %tr
+        %th Internal Subject ID
+        - first_sobject.values.each do |key, _|
+          - if key[0] != "_" || @debug
+            %th= key
+    %tbody
+      - @sobjects.each do |_key, sobject|
+        - @subject = @project.subjects.find_by(id: sobject.subject_id)
+        %tr
+          %td= link_to @subject.subject_code, [@project, @subject]
+          - sobject.values.each do |key, value|
+            - if key[0] != "_" || @debug
+              %td
+                - if value.nil?
+                  %span.text-muted nil
+                - else
+                  = value
