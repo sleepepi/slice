@@ -104,6 +104,12 @@ module Engine
         @tokens << ::Engine::Token.new(:or, raw: word)
       when "at"
         @tokens << ::Engine::Token.new(:at, raw: word)
+      when "true"
+        @tokens << ::Engine::Token.new(:true, raw: word)
+      when "false"
+        @tokens << ::Engine::Token.new(:false, raw: word)
+      when "nil", "null"
+        @tokens << ::Engine::Token.new(:nil, raw: word)
       else
         @tokens << ::Engine::Token.new(:variable, raw: word)
       end

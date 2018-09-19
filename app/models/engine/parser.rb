@@ -20,7 +20,6 @@ module Engine
     end
 
     def insert(token_type)
-      # puts @tokens
       @tokens.insert(@current_position, ::Engine::Token.new(token_type, auto: true))
     end
 
@@ -171,9 +170,9 @@ module Engine
     end
 
     def primary
-      return ::Engine::Expressions::Literal(false) if token_is?([:false])
-      return ::Engine::Expressions::Literal(true) if token_is?([:true])
-      return ::Engine::Expressions::Literal(nil) if token_is?([:nil])
+      return ::Engine::Expressions::Literal.new(false) if token_is?([:false])
+      return ::Engine::Expressions::Literal.new(true) if token_is?([:true])
+      return ::Engine::Expressions::Literal.new(nil) if token_is?([:nil])
 
       if token_is?([:number, :string])
         return ::Engine::Expressions::Literal.new(@previous_token.raw)

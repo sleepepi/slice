@@ -19,7 +19,7 @@
       = render "engine/node", node: node.expression
   - when "Engine::Expressions::Literal"
     .small.text-muted literal
-    %code= node.value
+    %code.nowrap= node.value
   - when "Engine::Expressions::Unary"
     .small.text-muted= node.result_name
     .d-flex.justify-content-around.align-items-center
@@ -27,4 +27,4 @@
       = render "engine/node", node: node.right
   - when "Engine::Expressions::VariableExp"
     .small.text-muted variable
-    %code= node.name
+    %code.nowrap= node.name

@@ -18,7 +18,7 @@ module Engine
     def run(input)
       t = Time.zone.now
       puts "#{"Engine".white} started..." if @verbose
-      @lexer.lexer(input)
+      @lexer.lexer(input.downcase)
       @lexer.tokens.each(&:print) if @verbose
       @parser.parse(@lexer.tokens)
       @parser.print_tree if @verbose
