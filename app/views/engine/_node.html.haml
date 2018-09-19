@@ -19,12 +19,21 @@
       = render "engine/node", node: node.expression
   - when "Engine::Expressions::Literal"
     .small.text-muted literal
-    %code.nowrap= node.value
+    %code.nowrap= node.value.to_s.presence || "nil"
   - when "Engine::Expressions::Unary"
     .small.text-muted= node.result_name
     .d-flex.justify-content-around.align-items-center
       .border.bg-white.box-shadow.rounded.p-3.text-center.m-1= render "engine/token", token: node.operator
       = render "engine/node", node: node.right
   - when "Engine::Expressions::VariableExp"
+    .small.text-muted variable
+    %code.nowrap= node.name
+    - if node.event
+      %span.text-muted at
+      %code.nowrap= node.event.name
+  - when "Engine::Expressions::EventExp"
+    .small.text-muted event
+    %code.nowrap= node.name
+  - when "Engine::Expressions::DesignExp"
     .small.text-muted variable
     %code.nowrap= node.name

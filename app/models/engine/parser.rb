@@ -4,15 +4,19 @@ module Engine
   # Generates a expression tree from a set of tokens based on the Slice
   # Context Free Grammar. (Slice Expression Language)
   class Parser
-    attr_accessor :tokens, :tree
+    attr_accessor :tokens, :tree, :variable_exps, :events, :designs
 
-    def initialize(verbose: false)
+    def initialize(project, verbose: false)
+      @project = project
       @current_position = nil
       @current_token = nil
       @next_token = nil
       @previous_token = nil
       @tree = nil
       @verbose = verbose
+      @events = []
+      @designs = []
+      @variable_exps = []
     end
 
     def advance
@@ -56,10 +60,6 @@ module Engine
 
     def print_tree
       puts "#{"@tree".green}: #{@tree}"
-    end
-
-    def variable_names
-      @tokens.select { |t| t.token_type == :variable }.collect { |t| t.raw }
     end
 
     private
@@ -129,7 +129,16 @@ module Engine
         lower = addition
         consume_token!(:and, "Missing `and` after between.")
         higher = addition
-        expr = ::Engine::Expressions::Between.new(expr, operator, lower, higher)
+
+
+        # expr = ::Engine::Expressions::Between.new(expr, operator, lower, higher)
+
+
+        left = ::Engine::Expressions::Binary.new(expr, ::Engine::Token.new(:greater_equal, auto: true), lower)
+        right = ::Engine::Expressions::Binary.new(expr, ::Engine::Token.new(:less_equal, auto: true), higher)
+
+        expr = ::Engine::Expressions::Binary.new(left, ::Engine::Token.new(:and), right)
+
       end
 
       expr
@@ -166,7 +175,19 @@ module Engine
         return ::Engine::Expressions::Unary.new(operator, right)
       end
 
-      primary
+      variable_event
+    end
+
+    def variable_event
+      expr = primary
+      if token_is?([:at])
+        operator = @previous_token
+        right = primary
+        @variable_exps.pop
+        expr = ::Engine::Expressions::VariableExp.new(expr.name, event: right)
+        @variable_exps << expr
+      end
+      expr
     end
 
     def primary
@@ -178,8 +199,23 @@ module Engine
         return ::Engine::Expressions::Literal.new(@previous_token.raw)
       end
 
-      if token_is?([:variable])
-        return ::Engine::Expressions::VariableExp.new(@previous_token.raw)
+      if token_is?([:identifier])
+        variable = @project.variables.find_by(name: @previous_token.raw)
+        if variable
+          var_exp = ::Engine::Expressions::VariableExp.new(variable.name)
+          @variable_exps << var_exp
+          return var_exp
+        end
+        event = @project.events.find_by(slug: @previous_token.raw)
+        if event
+          @events << event
+          return ::Engine::Expressions::EventExp.new(event.slug)
+        end
+        design = @project.designs.find_by(slug: @previous_token.raw)
+        if design
+          @designs << design
+          return ::Engine::Expressions::DesignExp.new(design.slug)
+        end
       end
 
       if token_is?([:left_paren])
@@ -187,6 +223,8 @@ module Engine
         consume_token!(:right_paren, "Missing closing ')'.")
         return ::Engine::Expressions::Grouping.new(expr)
       end
+
+      return ::Engine::Expressions::Literal.new(nil)
     end
   end
 end

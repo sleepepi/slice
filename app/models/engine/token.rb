@@ -4,7 +4,7 @@
 module Engine
   class Token
     TYPES = [
-      :variable,
+      :identifier,
       :value,
       :number,
       :minus,

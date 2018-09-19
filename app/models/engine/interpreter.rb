@@ -3,13 +3,12 @@
 # Engine that interprets the Slice Context Free Grammar.
 module Engine
   class Interpreter
-    attr_accessor :sobjects, :lexer, :parser, :tree, :variable_names, :subjects_count, :sobjects
+    attr_accessor :sobjects, :lexer, :parser, :subjects_count, :sobjects
 
     def initialize(project, verbose: false)
       @project = project
       @sobjects = {}
       @operation_count = 0
-      @variable_names = []
       @verbose = verbose
       @subjects_count = 0
     end
@@ -19,10 +18,14 @@ module Engine
       initialize_sobjects
 
       # Run through tree in LRN order.
-      node = lrn(@tree)
+      node = lrn(@parser.tree)
       if node.is_a?(::Engine::Expressions::Literal) && node.value == true
         # Do nothing
       elsif node.is_a?(::Engine::Expressions::VariableExp)
+        # Do nothing
+      elsif node.is_a?(::Engine::Expressions::EventExp)
+        # Do nothing
+      elsif node.is_a?(::Engine::Expressions::DesignExp)
         # Do nothing
       else
         filter(node)
@@ -58,6 +61,10 @@ module Engine
       when "Engine::Expressions::Literal"
         node
       when "Engine::Expressions::VariableExp"
+        node
+      when "Engine::Expressions::DesignExp"
+        node
+      when "Engine::Expressions::EventExp"
         node
       end
     end
@@ -109,18 +116,22 @@ module Engine
     end
 
     def load_sobjects_variables
-      variables = @project.variables.where(name: @variable_names)
       @sobjects.each do |key, sobject|
-        variables.each do |variable|
-          sobject.add_value(variable.name, nil)
+        @parser.variable_exps.each do |variable_exp|
+          sobject.add_value(variable_exp.storage_name, nil)
         end
       end
-      variables.each do |variable|
-        pluck_sobject_values(variable)
+      @parser.variable_exps.each do |variable_exp|
+        if variable_exp.event
+          pluck_sobject_values_at_event(variable_exp)
+        else
+          pluck_sobject_values(variable_exp)
+        end
       end
     end
 
-    def pluck_sobject_values(variable)
+    def pluck_sobject_values(variable_exp)
+      variable = @project.variables.find_by(name: variable_exp.name)
       svs = SheetVariable
         .where(variable: variable)
         .left_outer_joins(:domain_option)
@@ -133,18 +144,36 @@ module Engine
         if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
           formatted_value = Float(formatted_value)
         end
-        add_sobject_value(subject_id, variable.name, formatted_value)
+        add_sobject_value(subject_id, variable_exp.storage_name, formatted_value)
       end
     end
 
-    def add_sobject_value(subject_id, variable_name, value)
+    def pluck_sobject_values_at_event(variable_exp)
+      variable = @project.variables.find_by(name: variable_exp.name)
+      event = @project.events.find_by(slug: variable_exp.event.name)
+      svs = SheetVariable
+        .where(variable: variable)
+        .left_outer_joins(:domain_option)
+        .joins(:sheet).merge(Sheet.current)
+        .where(sheets: { subject_event: SubjectEvent.where(event: event) })
+        .pluck(:subject_id, domain_option_value_or_value)
+      formatter = Formatters.for(variable)
+      number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
+      svs.each do |subject_id, value|
+        formatted_value = formatter.raw_response(value)
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
+          formatted_value = Float(formatted_value)
+        end
+        add_sobject_value(subject_id, variable_exp.storage_name, formatted_value)
+      end
+    end
+
+    def add_sobject_value(subject_id, storage_name, value)
       key = :"#{subject_id}"
-      @sobjects[key].add_value(variable_name, value) if @sobjects.key?(key)
+      @sobjects[key].add_value(storage_name, value) if @sobjects.key?(key)
     end
 
     def filter(node, value: true)
-
-      Rails.logger.debug "REMO: filter(#{node.result_name}, value: #{value})"
       @sobjects.select! do |subject_id, sobject|
         sobject.get_value(node.result_name) == value
       end
@@ -172,7 +201,6 @@ module Engine
         sobject.add_value(result_name, result)
       end
       node.result_name = result_name
-      result_name
       node
     end
 
@@ -186,7 +214,6 @@ module Engine
         sobject.add_value(result_name, result)
       end
       node.result_name = result_name
-      result_name
       node
     end
 
@@ -203,13 +230,12 @@ module Engine
         operation_variables(operator, a, b, result_name)
       end
       node.result_name = result_name
-      result_name
       node
     end
 
     def operation_variables(operator, v1, v2, result_name)
-      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.name : v1.result_name
-      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.name : v2.result_name
+      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
+      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
 
       @sobjects.each do |subject_id, sobject|
         result = if sobject.get_value(v1_name).class.in?([String, NilClass]) || sobject.get_value(v2_name).class.in?([String, NilClass])
@@ -224,7 +250,7 @@ module Engine
     end
 
     def operation_variable_number(operator, v1, n2, result_name)
-      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.name : v1.result_name
+      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
       n2_value = n2.value
 
       if operator == :/ && n2_value.zero?
@@ -245,7 +271,7 @@ module Engine
 
     def operation_number_variable(operator, n1, v2, result_name)
       n1_value = n1.value
-      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.name : v2.result_name
+      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
       @sobjects.each do |subject_id, sobject|
         result = if sobject.get_value(v2_name).class.in?([String, NilClass])
           nil

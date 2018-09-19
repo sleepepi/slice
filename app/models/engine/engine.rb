@@ -10,7 +10,7 @@ module Engine
       @project = project
       @verbose = verbose
       @lexer = ::Engine::Lexer.new(verbose: @verbose)
-      @parser = ::Engine::Parser.new(verbose: @verbose)
+      @parser = ::Engine::Parser.new(project, verbose: @verbose)
       @interpreter = ::Engine::Interpreter.new(project, verbose: @verbose)
       puts "#{"Engine".white} initialized." if @verbose
     end
@@ -22,8 +22,7 @@ module Engine
       @lexer.tokens.each(&:print) if @verbose
       @parser.parse(@lexer.tokens)
       @parser.print_tree if @verbose
-      @interpreter.variable_names = @parser.variable_names
-      @interpreter.tree = @parser.tree
+      @interpreter.parser = @parser
       @interpreter.run
       puts "...#{"DONE".white}" if @verbose
       @run_ms = ((Time.zone.now - t) * 1000).to_i

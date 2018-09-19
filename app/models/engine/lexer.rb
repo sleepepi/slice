@@ -19,7 +19,7 @@ module Engine
         when :single
           single_mode(letter)
         when :word
-          variable_mode(letter)
+          word_mode(letter)
         when :number
           number_mode(letter)
         when :decimal
@@ -79,20 +79,20 @@ module Engine
       end
     end
 
-    def variable_mode(letter)
+    def word_mode(letter)
       case letter
       when /[a-z0-9\_\-]/i
         @buffer << letter
         print letter.blue.bg_gray if @verbose
       else
-        reserved_word_or_variable(@buffer.join)
+        reserved_word_or_identifier(@buffer.join)
         @buffer = []
         @mode = :single
         single_mode(letter)
       end
     end
 
-    def reserved_word_or_variable(word)
+    def reserved_word_or_identifier(word)
       case word
       when "is"
         @tokens << ::Engine::Token.new(:equal, raw: word)
@@ -111,7 +111,7 @@ module Engine
       when "nil", "null"
         @tokens << ::Engine::Token.new(:nil, raw: word)
       else
-        @tokens << ::Engine::Token.new(:variable, raw: word)
+        @tokens << ::Engine::Token.new(:identifier, raw: word)
       end
     end
 
@@ -181,7 +181,7 @@ module Engine
       word = @buffer.join
       case @mode
       when :word
-        reserved_word_or_variable(word)
+        reserved_word_or_identifier(word)
       when :number
         @tokens << ::Engine::Token.new(:number, raw: Integer(word))
       when :decimal
