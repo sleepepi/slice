@@ -15,7 +15,8 @@
       = render "engine/node", node: node.right
   - when "Engine::Expressions::Grouping"
     .small.text-muted grouping
-    -# lrn(node.expression)
+    .d-flex.justify-content-around
+      = render "engine/node", node: node.expression
   - when "Engine::Expressions::Literal"
     .small.text-muted literal
     %code= node.value
