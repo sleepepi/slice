@@ -26,6 +26,11 @@ module Engine
 
     def lrn(node)
       case node.class.to_s
+      when "Engine::Expressions::Between"
+        left = lrn(node.left)
+        lower = lrn(node.lower)
+        higher = lrn(node.higher)
+        between_operation(left, lower, higher)
       when "Engine::Expressions::Binary"
         left = lrn(node.left)
         right = lrn(node.right)
@@ -50,6 +55,10 @@ module Engine
     end
 
     def operation_helper(token, left, right)
+      if token.token_type.in?([:and, :or])
+        return boolean_operation(token.token_type, left, right)
+      end
+
       symbol = case token.token_type
         when :bang_equal
           :!=
@@ -74,6 +83,7 @@ module Engine
         else
           raise "Illegal operator: #{token.token_type}"
         end
+
       operation(symbol, left, right)
     end
 
@@ -96,8 +106,31 @@ module Engine
       end
     end
 
+    def between_operation(left, lower, higher, result_name: "_operation_#{@operation_count += 1}")
+      r1 = operation(:>=, left, lower)
+      r2 = operation(:<=, left, higher)
+
+      @sobjects.each do |subject_id, sobject|
+        result = sobject.get_value(r1) && sobject.get_value(r2)
+        sobject.add_value(result_name, result)
+      end
+      result_name
+    end
+
+    def boolean_operation(token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
+      @sobjects.each do |subject_id, sobject|
+        result = if token_type == :and
+          sobject.get_value(left) && sobject.get_value(right)
+        elsif token_type == :or
+          sobject.get_value(left) || sobject.get_value(right)
+        end
+        sobject.add_value(result_name, result)
+      end
+      result_name
+    end
+
     # Allows "a", and "b" to be variable names OR numerics
-    # operator is :+, :-, :/, :*, :**, :==
+    # operator is :+, :-, :/, :*, :**, :==, :>=, :<=, :>, :<
     def operation(operator, a, b, result_name: "_operation_#{@operation_count += 1}")
       if a.is_a?(String) && b.is_a?(String)
         operation_variables(operator, a, b, result_name)

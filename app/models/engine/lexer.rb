@@ -59,6 +59,9 @@ module Engine
       when "/"
         @tokens << ::Engine::Token.new(:slash)
         print letter.yellow.bold if @verbose
+      when "@"
+        @tokens << ::Engine::Token.new(:at)
+        print letter.yellow.bold if @verbose
       when /[a-z]/i
         @mode = :word
         @buffer << letter
@@ -93,6 +96,14 @@ module Engine
       case word
       when "is"
         @tokens << ::Engine::Token.new(:equal, raw: word)
+      when "between"
+        @tokens << ::Engine::Token.new(:between, raw: word)
+      when "and"
+        @tokens << ::Engine::Token.new(:and, raw: word)
+      when "or"
+        @tokens << ::Engine::Token.new(:or, raw: word)
+      when "at"
+        @tokens << ::Engine::Token.new(:at, raw: word)
       else
         @tokens << ::Engine::Token.new(:variable, raw: word)
       end

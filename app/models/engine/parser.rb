@@ -52,7 +52,6 @@ module Engine
       else
         insert(token_type)
         advance
-        # raise "consume_token! Error: #{@current_token&.token_type} #{message}"
       end
     end
 
@@ -72,6 +71,30 @@ module Engine
     end
 
     def expression
+      expr = term
+
+      while token_is?([:or])
+        operator = @previous_token
+        right = term
+        expr = ::Engine::Expressions::Binary.new(expr, operator, right)
+      end
+
+      expr
+    end
+
+    def term
+      expr = factor
+
+      while token_is?([:and])
+        operator = @previous_token
+        right = factor
+        expr = ::Engine::Expressions::Binary.new(expr, operator, right)
+      end
+
+      expr
+    end
+
+    def factor
       equality
     end
 
@@ -88,12 +111,26 @@ module Engine
     end
 
     def comparison
-      expr = addition
+      expr = between
 
       while token_is?([:greater, :less, :greater_equal, :less_equal])
         operator = @previous_token
-        right = addition
+        right = between
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
+      end
+
+      expr
+    end
+
+    def between
+      expr = addition
+
+      if token_is?([:between])
+        operator = @previous_token
+        lower = addition
+        consume_token!(:and, "Missing `and` after between.")
+        higher = addition
+        expr = ::Engine::Expressions::Between.new(expr, lower, higher)
       end
 
       expr

@@ -21,19 +21,19 @@
   console.log value
   $("#debug-console").prepend("#{value}<br>")
 
-@drawSobjectsTable = (sobjects) ->
+@drawSobjectsTable = (sobjects, debug = true) ->
   result = "<table class=\"table table-striped table-borderless\">"
   result += "<thead><tr>"
   result += "<th>Subject ID</th>"
   if sobjects[0]?
     for key, value of sobjects[0].values
-      result += "<th>#{key}</th>" unless key[0] == "_"
+      result += "<th>#{key}</th>" if key[0] != "_" || debug
   result += "</tr></thead><tbody>"
   for sobject in sobjects
     result += "<tr>"
     result += "<td>#{sobject.subject_id}</td>"
     for key, value of sobject.values
-      result += "<td>#{value}</td>" unless key[0] == "_"
+      result += "<td>#{value}</td>" if key[0] != "_" || debug
     result += "</tr>"
   result += "</tbody></table>"
   result
