@@ -70,9 +70,21 @@ module Engine
     end
 
     def expression
-      expr = term
+      expr = xorterm
 
       while token_is?([:or])
+        operator = @previous_token
+        right = xorterm
+        expr = ::Engine::Expressions::Binary.new(expr, operator, right)
+      end
+
+      expr
+    end
+
+    def xorterm
+      expr = term
+
+      while token_is?([:xor])
         operator = @previous_token
         right = term
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
