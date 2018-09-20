@@ -175,6 +175,8 @@ module Engine
         @sobjects.select! do |subject_id, sobject|
           sobject.get_value(node.result_name) == value
         end
+      elsif node.is_a?(::Engine::Expressions::Literal) && !node.value
+        @sobjects = []
       end
     end
 
