@@ -14,7 +14,10 @@ module Engine
       :bang,
       :greater, :less, :greater_equal, :less_equal, :bang_equal, :equal,
       :false, :true, :nil,
-      :left_paren, :right_paren
+      :left_paren, :right_paren,
+      :and,
+      :or,
+      :xor
     ]
 
     attr_accessor :token_type, :raw, :auto
@@ -37,7 +40,10 @@ module Engine
         :greater,
         :greater_equal,
         :less,
-        :less_equal
+        :less_equal,
+        :and,
+        :or,
+        :xor
       ])
     end
   end

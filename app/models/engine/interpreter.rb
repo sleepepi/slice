@@ -36,11 +36,6 @@ module Engine
 
     def lrn(node)
       case node.class.to_s
-      when "Engine::Expressions::Between"
-        left = lrn(node.left)
-        lower = lrn(node.lower)
-        higher = lrn(node.higher)
-        between_operation(node, left, lower, higher)
       when "Engine::Expressions::Binary"
         left = lrn(node.left)
         right = lrn(node.right)
@@ -183,42 +178,45 @@ module Engine
       end
     end
 
-    def between_operation(node, left, lower, higher)
-      # TODO: Should these be added to the actual tree instead of generated in here?
-      # BETWEEN operation is essentially three binary nodes in one.
-      # perhaps expand this in the parser instead of adding a "between" operation itself.
-      node_child1 = ::Engine::Expressions::Binary.new(left, ::Engine::Token.new(:greater_equal, auto: true), lower)
-      node_child2 = ::Engine::Expressions::Binary.new(left, ::Engine::Token.new(:less_equal, auto: true), higher)
-
-      r1 = operation(node_child1, :>=, left, lower)
-      r2 = operation(node_child2, :<=, left, higher)
-
-      result_name = "_betweenop_#{@operation_count += 1}"
-      @sobjects.each do |subject_id, sobject|
-        result = sobject.get_value(r1.result_name) && sobject.get_value(r2.result_name)
-        if result
-          Rails.logger.debug "REMO: r1.result_name: #{r1.result_name}"
-          Rails.logger.debug "REMO: r2.result_name: #{r2.result_name}"
-          Rails.logger.debug "REMO: r1.class: #{r1.class}"
-          Rails.logger.debug "REMO: r2.class: #{r2.class}"
-        end
-        sobject.add_value(result_name, result)
+    def boolean_operation(node, token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
+      case token_type
+      when :and
+        # Note: `&` is the bitwise operator, however, both left and right are
+        #       made "truthy" using the !! cast in boolean_generic()
+        boolean_generic(node, token_type, left, right, result_name, :&)
+      when :or
+        # Note: `|` is the bitwise operator, however, both left and right are
+        #       made "truthy" using the !! cast in boolean_generic()
+        boolean_generic(node, token_type, left, right, result_name, :|)
+      when :xor
+        boolean_generic(node, token_type, left, right, result_name, :^)
       end
       node.result_name = result_name
       node
     end
 
-    def boolean_operation(node, token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
-      @sobjects.each do |subject_id, sobject|
-        result = if token_type == :and
-          sobject.get_value(left.result_name) && sobject.get_value(right.result_name)
-        elsif token_type == :or
-          sobject.get_value(left.result_name) || sobject.get_value(right.result_name)
+    def boolean_generic(node, token_type, left, right, result_name, operator)
+      if left.is_a?(::Engine::Expressions::Literal) && right.is_a?(::Engine::Expressions::Literal)
+        @sobjects.each do |subject_id, sobject|
+          result = (!!left.value).send(operator, !!right.value)
+          sobject.add_value(result_name, result)
         end
-        sobject.add_value(result_name, result)
+      elsif left.is_a?(::Engine::Expressions::Literal)
+        @sobjects.each do |subject_id, sobject|
+          result = (!!left.value).send(operator, !!sobject.get_value(right.result_name))
+          sobject.add_value(result_name, result)
+        end
+      elsif right.is_a?(::Engine::Expressions::Literal)
+        @sobjects.each do |subject_id, sobject|
+          result = (!!right.value).send(operator, !!sobject.get_value(left.result_name))
+          sobject.add_value(result_name, result)
+        end
+      else
+        @sobjects.each do |subject_id, sobject|
+          result = (!!sobject.get_value(left.result_name)).send(operator, !!sobject.get_value(right.result_name))
+          sobject.add_value(result_name, result)
+        end
       end
-      node.result_name = result_name
-      node
     end
 
     # Allows "a", and "b" to be variable names OR numerics

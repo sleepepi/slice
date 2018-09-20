@@ -1,12 +1,5 @@
 .border.bg-white.box-shadow.rounded.p-3.text-center.m-1
   - case node.class.to_s
-  - when "Engine::Expressions::Between"
-    .small.text-muted= node.result_name
-    = render "engine/token", token: node.operator
-    .d-flex.justify-content-around.align-items-center
-      = render "engine/node", node: node.left
-      = render "engine/node", node: node.lower
-      = render "engine/node", node: node.higher
   - when "Engine::Expressions::Binary"
     .small.text-muted= node.result_name
     = render "engine/token", token: node.operator

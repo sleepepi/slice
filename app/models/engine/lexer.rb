@@ -105,6 +105,8 @@ module Engine
         @tokens << ::Engine::Token.new(:and, raw: word)
       when "or"
         @tokens << ::Engine::Token.new(:or, raw: word)
+      when "xor"
+        @tokens << ::Engine::Token.new(:xor, raw: word)
       when "at"
         @tokens << ::Engine::Token.new(:at, raw: word)
       when "true"
