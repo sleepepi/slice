@@ -59,6 +59,9 @@ module Engine
       when "/"
         @tokens << ::Engine::Token.new(:slash)
         print letter.yellow.bold if @verbose
+      when "^"
+        @tokens << ::Engine::Token.new(:power)
+        print letter.yellow.bold if @verbose
       when "@"
         @tokens << ::Engine::Token.new(:at)
         print letter.yellow.bold if @verbose

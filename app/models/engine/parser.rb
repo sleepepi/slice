@@ -157,9 +157,21 @@ module Engine
     end
 
     def multiplication
-      expr = unary
+      expr = exponentiation
 
       while token_is?([:slash, :star])
+        operator = @previous_token
+        right = exponentiation
+        expr = ::Engine::Expressions::Binary.new(expr, operator, right)
+      end
+
+      expr
+    end
+
+    def exponentiation
+      expr = unary
+
+      while token_is?([:power])
         operator = @previous_token
         right = unary
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)

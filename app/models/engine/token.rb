@@ -28,5 +28,17 @@ module Engine
     def print
       puts "#{token_type.to_s.upcase}#{"[#{raw}]" if raw.present?}"
     end
+
+    def boolean_operator?
+      @token_type.in?([
+        :bang,
+        :bang_equal,
+        :equal,
+        :greater,
+        :greater_equal,
+        :less,
+        :less_equal
+      ])
+    end
   end
 end

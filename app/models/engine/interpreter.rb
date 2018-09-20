@@ -70,7 +70,7 @@ module Engine
     end
 
     def operation_helper(node, token, left, right)
-      if token.token_type.in?([:and, :or])
+      if token.token_type.in?([:and, :or, :xor])
         return boolean_operation(node, token.token_type, left, right)
       end
 
@@ -95,6 +95,8 @@ module Engine
           :/
         when :star
           :*
+        when :power
+          :**
         else
           raise "Illegal operator: #{token.token_type}"
         end
@@ -174,8 +176,10 @@ module Engine
     end
 
     def filter(node, value: true)
-      @sobjects.select! do |subject_id, sobject|
-        sobject.get_value(node.result_name) == value
+      if node.is_a?(::Engine::Expressions::Binary) && node.operator.boolean_operator?
+        @sobjects.select! do |subject_id, sobject|
+          sobject.get_value(node.result_name) == value
+        end
       end
     end
 
