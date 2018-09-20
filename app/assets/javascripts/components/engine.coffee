@@ -7,6 +7,21 @@
     $this.textcomplete(
       [
         {
+          name: "reserved-words"
+          match: /(^|\s)(and|or|xor|between|is|at|true|false|nil|null)$/
+          search: (term, callback) ->
+            words = [] # ["and", "or", "is"]
+            resp = $.map(words, (word) ->
+              if word.indexOf(term) == 0
+                word
+              else
+                null
+            )
+            callback(resp)
+          replace: (value) -> return "$1#{value}"
+        },
+
+        {
           match: /(^|\s)([a-zA-Z]\w*)$/
           search: (term, callback) ->
             $.getJSON("#{$this.data("textcomplete-url")}", { search: term })
