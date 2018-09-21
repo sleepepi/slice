@@ -26,6 +26,7 @@ module Engine
       @interpreter.run
       puts "...#{"DONE".white}" if @verbose
       @run_ms = ((Time.zone.now - t) * 1000).to_i
+      # Rails.logger.debug "Memory Used: " + (`ps -o rss -p #{$$}`.strip.split.last.to_i / 1024).to_s + " MB"
     end
   end
 end

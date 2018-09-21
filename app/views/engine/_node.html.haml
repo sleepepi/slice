@@ -13,7 +13,9 @@
   - when "Engine::Expressions::Literal"
     .small.text-muted literal
     %code.nowrap
-      - if node.value.is_a?(String)
+      - if node.meta
+        = ":#{node.value}"
+      - elsif node.value.is_a?(String)
         = "\"#{node.value}\""
       - else
         = node.value.to_s.presence || "nil"
