@@ -24,24 +24,24 @@ module Engine
         if left.is_a?(::Engine::Expressions::Literal) && right.is_a?(::Engine::Expressions::Literal)
           result = (!!left.value).send(operator, !!right.value)
           @sobjects.each do |subject_id, sobject|
-            sobject.add_value(result_name, result)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         elsif left.is_a?(::Engine::Expressions::Literal)
           l = !!left.value
           @sobjects.each do |subject_id, sobject|
-            result = l.send(operator, !!sobject.get_value(right.result_name))
-            sobject.add_value(result_name, result)
+            result = l.send(operator, !!sobject.get_cell(right.result_name).value)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         elsif right.is_a?(::Engine::Expressions::Literal)
           r = !!right.value
           @sobjects.each do |subject_id, sobject|
-            result = r.send(operator, !!sobject.get_value(left.result_name))
-            sobject.add_value(result_name, result)
+            result = r.send(operator, !!sobject.get_cell(left.result_name).value)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         else
           @sobjects.each do |subject_id, sobject|
-            result = (!!sobject.get_value(left.result_name)).send(operator, !!sobject.get_value(right.result_name))
-            sobject.add_value(result_name, result)
+            result = (!!sobject.get_cell(left.result_name).value).send(operator, !!sobject.get_cell(right.result_name).value)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         end
       end

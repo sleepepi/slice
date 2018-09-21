@@ -9,7 +9,7 @@
     %thead
       %tr
         %th Internal Subject ID
-        - first_sobject.values.each do |key, _|
+        - first_sobject.cells.each do |key, _|
           - if key[0] != "_" || @debug
             %th= key
     %tbody
@@ -17,10 +17,12 @@
         - @subject = @project.subjects.find_by(id: sobject.subject_id)
         %tr
           %td= link_to @subject.subject_code, [@project, @subject]
-          - sobject.values.each do |key, value|
+          - sobject.cells.each do |key, cell|
             - if key[0] != "_" || @debug
               %td
-                - if value.nil?
+                - if cell.value.nil?
                   %span.text-muted nil
+                - elsif cell.missing?
+                  %span.text-danger= cell.value
                 - else
-                  = value
+                  = cell.value

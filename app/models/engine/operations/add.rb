@@ -12,6 +12,12 @@ module Engine
           nil
         end
       end
+
+      def operation_add_cell(left, right)
+        left = left.value if left.is_a?(::Engine::Cell)
+        right = right.value if right.is_a?(::Engine::Cell)
+        operation_add(left, right)
+      end
     end
   end
 end

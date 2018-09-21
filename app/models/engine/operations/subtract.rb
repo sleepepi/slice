@@ -10,6 +10,12 @@ module Engine
           nil
         end
       end
+
+      def operation_subtract_cell(left, right)
+        left = left.value if left.is_a?(::Engine::Cell)
+        right = right.value if right.is_a?(::Engine::Cell)
+        operation_subtract(left, right)
+      end
     end
   end
 end

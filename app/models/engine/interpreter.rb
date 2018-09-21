@@ -89,7 +89,7 @@ module Engine
     def load_sobjects_variables
       @sobjects.each do |key, sobject|
         @parser.variable_exps.each do |variable_exp|
-          sobject.add_value(variable_exp.storage_name, nil)
+          sobject.add_cell(variable_exp.storage_name, ::Engine::Cell.new(nil))
         end
       end
       @parser.variable_exps.each do |variable_exp|
@@ -107,15 +107,16 @@ module Engine
         .where(variable: variable)
         .left_outer_joins(:domain_option)
         .joins(:sheet).merge(Sheet.current)
-        .pluck(:subject_id, domain_option_value_or_value)
+        .pluck(:subject_id, :sheet_id, domain_option_value_or_value, :missing_code)
       formatter = Formatters.for(variable)
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
-      svs.each do |subject_id, value|
+      svs.each do |subject_id, sheet_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
         if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
           formatted_value = Float(formatted_value)
         end
-        add_sobject_value(subject_id, variable_exp.storage_name, formatted_value)
+        cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
+        add_sobject_cell(subject_id, variable_exp.storage_name, cell)
       end
     end
 
@@ -127,27 +128,28 @@ module Engine
         .left_outer_joins(:domain_option)
         .joins(:sheet).merge(Sheet.current)
         .where(sheets: { subject_event: SubjectEvent.where(event: event) })
-        .pluck(:subject_id, domain_option_value_or_value)
+        .pluck(:subject_id, :sheet_id, domain_option_value_or_value, :missing_code)
       formatter = Formatters.for(variable)
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
-      svs.each do |subject_id, value|
+      svs.each do |subject_id, sheet_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
         if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
           formatted_value = Float(formatted_value)
         end
-        add_sobject_value(subject_id, variable_exp.storage_name, formatted_value)
+        cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
+        add_sobject_cell(subject_id, variable_exp.storage_name, cell)
       end
     end
 
-    def add_sobject_value(subject_id, storage_name, value)
+    def add_sobject_cell(subject_id, storage_name, cell)
       key = :"#{subject_id}"
-      @sobjects[key].add_value(storage_name, value) if @sobjects.key?(key)
+      @sobjects[key].add_cell(storage_name, cell) if @sobjects.key?(key)
     end
 
     def filter(node, value: true)
       if node.is_a?(::Engine::Expressions::Binary) && node.operator.boolean_operator?
         @sobjects.select! do |subject_id, sobject|
-          sobject.get_value(node.result_name) == value
+          sobject.get_cell(node.result_name).value == value
         end
       elsif node.is_a?(::Engine::Expressions::Literal) && !node.value
         @sobjects = []

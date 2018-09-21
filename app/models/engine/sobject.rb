@@ -6,25 +6,30 @@
 # actual ActiveRecord Subject instances.
 module Engine
   class Sobject
-    attr_accessor :subject_id, :values
+    attr_accessor :subject_id, :cells
 
     def initialize(subject_id)
       @subject_id = subject_id
-      @values = {}
-      # Ex: @values = { "age": 40, "bmi": 20.2, "free_text": "Once a day." }
+      @cells = {}
+      # Example:
+      # @cells = {
+      #   "age": [Cell(sheet_id: 1, value: 40), Cell(sheet_id: 2, value: 50)],
+      #   "bmi": [Cell(sheet_id: 1, value: 20.2)],
+      #   "free_text": [Cell(sheet_id: 1, value: "Once a day.")]
+      # }
     end
 
-    def add_value(variable_name, value)
-      @values[variable_name] = value
+    def get_cell(storage_name)
+      @cells[storage_name]
     end
 
-    def get_value(variable_name)
-      @values[variable_name]
+    def add_cell(storage_name, cell)
+      @cells[storage_name] = cell
     end
 
-    def print_values
-      puts "Subject: #{@subject_id}"
-      puts "Values: #{@values}"
-    end
+    # def add_cell(storage_name, cell)
+    #   @values[storage_name] ||= []
+    #   @values[storage_name] << cell
+    # end
   end
 end

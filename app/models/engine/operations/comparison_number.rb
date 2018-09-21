@@ -20,6 +20,12 @@ module Engine
           nil
         end
       end
+
+      def operation_comparison_number_cell(token_type, left, right)
+        left = left.value if left.is_a?(::Engine::Cell)
+        right = right.value if right.is_a?(::Engine::Cell)
+        operation_comparison_number(token_type, left, right)
+      end
     end
   end
 end

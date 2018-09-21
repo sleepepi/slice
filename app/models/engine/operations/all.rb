@@ -28,34 +28,12 @@ module Engine
 
       private
 
-      def operation_generic(token_type, left, right)
-        case token_type
-        when :plus
-          operation_add(left, right)
-        when :minus
-          operation_subtract(left, right)
-        when :star
-          operation_multiply(left, right)
-        when :slash
-          operation_divide(left, right)
-        when :power
-          operation_exponent(left, right)
-        when :bang_equal, :equal
-          operation_comparison(token_type, left, right)
-        when :greater_equal, :less_equal, :greater, :less
-          operation_comparison_number(token_type, left, right)
-        else
-          raise "Unknown operator"
-          nil
-        end
-      end
-
       def operation_identifiers(node, token_type, v1, v2, result_name)
         v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
         v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, sobject.get_value(v1_name), sobject.get_value(v2_name))
-          sobject.add_value(result_name, result)
+          result = operation_generic(token_type, sobject.get_cell(v1_name), sobject.get_cell(v2_name))
+          sobject.add_cell(result_name, ::Engine::Cell.new(result))
         end
       end
 
@@ -63,8 +41,8 @@ module Engine
         v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
         n2_value = n2.value
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, sobject.get_value(v1_name), n2_value)
-          sobject.add_value(result_name, result)
+          result = operation_generic(token_type, sobject.get_cell(v1_name), n2_value)
+          sobject.add_cell(result_name, ::Engine::Cell.new(result))
         end
       end
 
@@ -72,8 +50,8 @@ module Engine
         n1_value = n1.value
         v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, n1_value, sobject.get_value(v2_name))
-          sobject.add_value(result_name, result)
+          result = operation_generic(token_type, n1_value, sobject.get_cell(v2_name))
+          sobject.add_cell(result_name, ::Engine::Cell.new(result))
         end
       end
 
@@ -82,7 +60,29 @@ module Engine
         n2_value = n2.value
         result = operation_generic(token_type, n1_value, n2_value)
         @sobjects.each do |subject_id, sobject|
-          sobject.add_value(result_name, result)
+          sobject.add_cell(result_name, ::Engine::Cell.new(result))
+        end
+      end
+
+      def operation_generic(token_type, left, right)
+        case token_type
+        when :plus
+          operation_add_cell(left, right)
+        when :minus
+          operation_subtract_cell(left, right)
+        when :star
+          operation_multiply_cell(left, right)
+        when :slash
+          operation_divide_cell(left, right)
+        when :power
+          operation_exponent_cell(left, right)
+        when :bang_equal, :equal
+          operation_comparison_cell(token_type, left, right)
+        when :greater_equal, :less_equal, :greater, :less
+          operation_comparison_number_cell(token_type, left, right)
+        else
+          raise "Unknown operator"
+          nil
         end
       end
     end

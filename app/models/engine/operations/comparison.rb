@@ -13,6 +13,80 @@ module Engine
           nil
         end
       end
+
+      def operation_comparison_cell(token_type, left, right)
+        if left.is_a?(::Engine::Cell) && right == :missing
+          return check_missing(token_type, left, right)
+        elsif right.is_a?(::Engine::Cell) && left == :missing
+          return check_missing(token_type, right, left)
+        end
+
+        if left.is_a?(::Engine::Cell) && right == :any
+          return check_any(token_type, left, right)
+        elsif right.is_a?(::Engine::Cell) && left == :any
+          return check_any(token_type, right, left)
+        end
+
+        if left.is_a?(::Engine::Cell) && right == :entered
+          return check_entered(token_type, left, right)
+        elsif right.is_a?(::Engine::Cell) && left == :entered
+          return check_entered(token_type, right, left)
+        end
+
+        if left.is_a?(::Engine::Cell) && right == :unentered
+          return check_unentered(token_type, left, right)
+        elsif right.is_a?(::Engine::Cell) && left == :unentered
+          return check_unentered(token_type, right, left)
+        end
+
+        left = left.value if left.is_a?(::Engine::Cell)
+        right = right.value if right.is_a?(::Engine::Cell)
+        operation_comparison(token_type, left, right)
+      end
+
+      def check_entered(token_type, left, right)
+        if token_type == :equal
+          !left.value.blank?
+        elsif token_type == :bang_equal
+          left.value.blank?
+        else
+          raise "Unknown comparison: #{token_type} for #{left} #{token_type} #{right}"
+          nil
+        end
+      end
+
+      def check_any(token_type, left, right)
+        if token_type == :equal
+          !left.missing? && !left.value.blank?
+        elsif token_type == :bang_equal
+          left.missing? || left.value.blank?
+        else
+          raise "Unknown comparison: #{token_type} for #{left} #{token_type} #{right}"
+          nil
+        end
+      end
+
+      def check_missing(token_type, left, right)
+        if token_type == :equal
+          left.missing? || left.value.blank?
+        elsif token_type == :bang_equal
+          !left.missing? && !left.value.blank?
+        else
+          raise "Unknown comparison: #{token_type} for #{left} #{token_type} #{right}"
+          nil
+        end
+      end
+
+      def check_unentered(token_type, left, right)
+        if token_type == :equal
+          left.value.blank?
+        elsif token_type == :bang_equal
+          !left.value.blank?
+        else
+          raise "Unknown comparison: #{token_type} for #{left} #{token_type} #{right}"
+          nil
+        end
+      end
     end
   end
 end
