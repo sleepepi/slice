@@ -8,7 +8,7 @@
       [
         {
           name: "reserved-words"
-          match: /(^|\s)(and|or|xor|between|is|at|true|false|nil|null)$/
+          match: /(^|\s)(and|or|xor|between|is|at|true|false|nil|null|entered|present|any|missing|unentered|blank)$/
           search: (term, callback) ->
             words = [] # ["and", "or", "is"]
             resp = $.map(words, (word) ->

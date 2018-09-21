@@ -5,6 +5,8 @@ module Engine
   class Interpreter
     attr_accessor :sobjects, :lexer, :parser, :subjects_count, :sobjects
 
+    include ::Engine::Operations::All
+
     def initialize(project, verbose: false)
       @project = project
       @sobjects = {}
@@ -47,7 +49,7 @@ module Engine
         case node.operator.token_type
         when :minus
           negative_one = ::Engine::Expressions::Literal.new(-1)
-          operation(node, :*, negative_one, right, result_name: "_unary_#{@operation_count += 1}")
+          operation(node, :star, negative_one, right, result_name: "_unary_#{@operation_count += 1}")
         when :plus
           right
         when :bang
@@ -69,41 +71,13 @@ module Engine
         return boolean_operation(node, token.token_type, left, right)
       end
 
-      symbol = case token.token_type
-        when :bang_equal
-          :!=
-        when :greater_equal
-          :>=
-        when :less_equal
-          :<=
-        when :equal
-          :==
-        when :greater
-          :>
-        when :less
-          :<
-        when :minus
-          :-
-        when :plus
-          :+
-        when :slash
-          :/
-        when :star
-          :*
-        when :power
-          :**
-        else
-          raise "Illegal operator: #{token.token_type}"
-        end
-
-      operation(node, symbol, left, right)
+      operation(node, token.token_type, left, right)
     end
 
     def initialize_sobjects
       load_sobjects
       load_sobjects_variables
     end
-
 
     def load_sobjects
       @project.subjects.pluck(:id).each do |subject_id|
@@ -177,129 +151,6 @@ module Engine
         end
       elsif node.is_a?(::Engine::Expressions::Literal) && !node.value
         @sobjects = []
-      end
-    end
-
-    def boolean_operation(node, token_type, left, right, result_name: "_boolop_#{@operation_count += 1}")
-      case token_type
-      when :and
-        # Note: `&` is the bitwise operator, however, both left and right are
-        #       made "truthy" using the !! cast in boolean_generic()
-        boolean_generic(node, token_type, left, right, result_name, :&)
-      when :or
-        # Note: `|` is the bitwise operator, however, both left and right are
-        #       made "truthy" using the !! cast in boolean_generic()
-        boolean_generic(node, token_type, left, right, result_name, :|)
-      when :xor
-        boolean_generic(node, token_type, left, right, result_name, :^)
-      end
-      node.result_name = result_name
-      node
-    end
-
-    def boolean_generic(node, token_type, left, right, result_name, operator)
-      if left.is_a?(::Engine::Expressions::Literal) && right.is_a?(::Engine::Expressions::Literal)
-        result = (!!left.value).send(operator, !!right.value)
-        @sobjects.each do |subject_id, sobject|
-          sobject.add_value(result_name, result)
-        end
-      elsif left.is_a?(::Engine::Expressions::Literal)
-        l = !!left.value
-        @sobjects.each do |subject_id, sobject|
-          result = l.send(operator, !!sobject.get_value(right.result_name))
-          sobject.add_value(result_name, result)
-        end
-      elsif right.is_a?(::Engine::Expressions::Literal)
-        r = !!right.value
-        @sobjects.each do |subject_id, sobject|
-          result = r.send(operator, !!sobject.get_value(left.result_name))
-          sobject.add_value(result_name, result)
-        end
-      else
-        @sobjects.each do |subject_id, sobject|
-          result = (!!sobject.get_value(left.result_name)).send(operator, !!sobject.get_value(right.result_name))
-          sobject.add_value(result_name, result)
-        end
-      end
-    end
-
-    # Allows "a", and "b" to be variable names OR numerics
-    # operator is :+, :-, :/, :*, :**, :==, :>=, :<=, :>, :<
-    def operation(node, operator, a, b, result_name: "_operation_#{@operation_count += 1}")
-      if a.is_a?(::Engine::Expressions::Literal) && b.is_a?(::Engine::Expressions::Literal)
-        operation_numbers(operator, a, b, result_name)
-      elsif a.is_a?(::Engine::Expressions::Literal)
-        operation_number_variable(operator, a, b, result_name)
-      elsif b.is_a?(::Engine::Expressions::Literal)
-        operation_variable_number(operator, a, b, result_name)
-      else
-        operation_variables(operator, a, b, result_name)
-      end
-      node.result_name = result_name
-      node
-    end
-
-    def operation_variables(operator, v1, v2, result_name)
-      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
-      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
-
-      @sobjects.each do |subject_id, sobject|
-        result = if sobject.get_value(v1_name).class.in?([String, NilClass]) || sobject.get_value(v2_name).class.in?([String, NilClass])
-          nil
-        elsif operator == :/ && sobject.get_value(v2_name).zero?
-          nil
-        else
-          sobject.get_value(v1_name).send(operator, sobject.get_value(v2_name))
-        end
-        sobject.add_value(result_name, result)
-      end
-    end
-
-    def operation_variable_number(operator, v1, n2, result_name)
-      v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
-      n2_value = n2.value
-
-      if operator == :/ && n2_value.zero?
-        @sobjects.each do |subject_id, sobject|
-          sobject.add_value(result_name, nil)
-        end
-      else
-        @sobjects.each do |subject_id, sobject|
-          result = if sobject.get_value(v1_name).class.in?([String, NilClass])
-            nil
-          else
-            sobject.get_value(v1_name).send(operator, n2_value)
-          end
-          sobject.add_value(result_name, result)
-        end
-      end
-    end
-
-    def operation_number_variable(operator, n1, v2, result_name)
-      n1_value = n1.value
-      v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
-      @sobjects.each do |subject_id, sobject|
-        result = if sobject.get_value(v2_name).class.in?([String, NilClass])
-          nil
-        elsif operator == :/ && sobject.get_value(v2_name).zero?
-          nil
-        else
-          n1_value.send(operator, sobject.get_value(v2_name))
-        end
-        sobject.add_value(result_name, result)
-      end
-    end
-
-    def operation_numbers(operator, n1, n2, result_name)
-      n1_value = n1.value
-      n2_value = n2.value
-      result = if operator == :/ && n2_value.zero?
-        nil
-      else
-        n1_value.send(operator, n2_value)
-      end
-      @sobjects.each do |subject_id, sobject|
-        sobject.add_value(result_name, result)
       end
     end
 

@@ -28,3 +28,12 @@
     margin-left: 0;
   }
 }
+
+.token-auto {
+  border-bottom: 1px dotted $body-color;
+}
+
+.token-identifier-not-found {
+  border-bottom: 1px dotted $p500-red;
+  color: $p500-grey;
+}
