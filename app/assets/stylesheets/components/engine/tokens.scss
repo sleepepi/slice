@@ -6,8 +6,14 @@
   color: $p500-blue;
 }
 
-.token-number {
+.token-number,
+.token-string,
+.token-value {
   color: $p500-green;
+}
+
+.token-boolean {
+  color: $p500-red;
 }
 
 .token-operator {

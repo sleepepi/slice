@@ -199,18 +199,20 @@ module Engine
 
     def boolean_generic(node, token_type, left, right, result_name, operator)
       if left.is_a?(::Engine::Expressions::Literal) && right.is_a?(::Engine::Expressions::Literal)
+        result = (!!left.value).send(operator, !!right.value)
         @sobjects.each do |subject_id, sobject|
-          result = (!!left.value).send(operator, !!right.value)
           sobject.add_value(result_name, result)
         end
       elsif left.is_a?(::Engine::Expressions::Literal)
+        l = !!left.value
         @sobjects.each do |subject_id, sobject|
-          result = (!!left.value).send(operator, !!sobject.get_value(right.result_name))
+          result = l.send(operator, !!sobject.get_value(right.result_name))
           sobject.add_value(result_name, result)
         end
       elsif right.is_a?(::Engine::Expressions::Literal)
+        r = !!right.value
         @sobjects.each do |subject_id, sobject|
-          result = (!!right.value).send(operator, !!sobject.get_value(left.result_name))
+          result = r.send(operator, !!sobject.get_value(left.result_name))
           sobject.add_value(result_name, result)
         end
       else

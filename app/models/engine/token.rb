@@ -7,17 +7,14 @@ module Engine
       :identifier,
       :value,
       :number,
-      :minus,
-      :plus,
-      :star,
-      :slash,
+      :minus, :plus,
+      :star, :slash,
       :bang,
       :greater, :less, :greater_equal, :less_equal, :bang_equal, :equal,
-      :false, :true, :nil,
+      :true, :false, :nil,
       :left_paren, :right_paren,
-      :and,
-      :or,
-      :xor
+      :and, :xor, :or,
+      :entered, :any, :missing, :unentered
     ]
 
     attr_accessor :token_type, :raw, :auto
