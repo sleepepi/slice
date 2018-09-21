@@ -21,8 +21,17 @@
             - if key[0] != "_" || @debug
               %td
                 - if cell.value.nil?
-                  %span.text-muted nil
+                  - if cell.sheet_id
+                    = link_to "nil", project_sheet_path(@project, cell.sheet_id), class: "text-muted"
+                  - else
+                    %span.text-muted nil
                 - elsif cell.missing?
-                  %span.text-danger= cell.value
+                  - if cell.sheet_id
+                    = link_to cell.value, project_sheet_path(@project, cell.sheet_id), class: "text-danger"
+                  - else
+                    %span.text-danger= cell.value
                 - else
-                  = cell.value
+                  - if cell.sheet_id
+                    = link_to cell.value, project_sheet_path(@project, cell.sheet_id), class: "link-blend"
+                  - else
+                    = cell.value

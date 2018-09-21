@@ -12,6 +12,17 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .link-blend {
+      color: theme-color($theme, body-color, $p900-grey);
+
+      &:hover,
+      &:focus,
+      &:active {
+        // color: theme-color($theme, body-color, $p900-grey);
+        // text-decoration: none;
+      }
+    }
+
     .link-blend-muted {
       color: theme-color($theme, text-muted, $text-muted);
 
