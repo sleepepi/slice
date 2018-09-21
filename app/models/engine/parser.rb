@@ -40,7 +40,7 @@ module Engine
       @next_token = tokens[@current_position + 1]
     end
 
-    def token_is?(token_types)
+    def token_is?(*token_types)
       if @current_token&.token_type.in?(token_types)
         advance
         true
@@ -72,7 +72,7 @@ module Engine
     def expression
       expr = xorterm
 
-      while token_is?([:or])
+      while token_is?(:or)
         operator = @previous_token
         right = xorterm
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -84,7 +84,7 @@ module Engine
     def xorterm
       expr = term
 
-      while token_is?([:xor])
+      while token_is?(:xor)
         operator = @previous_token
         right = term
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -96,7 +96,7 @@ module Engine
     def term
       expr = factor
 
-      while token_is?([:and])
+      while token_is?(:and)
         operator = @previous_token
         right = factor
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -112,7 +112,7 @@ module Engine
     def equality
       expr = comparison
 
-      while token_is?([:bang_equal, :equal])
+      while token_is?(:bang_equal, :equal)
         operator = @previous_token
         right = comparison
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -124,7 +124,7 @@ module Engine
     def comparison
       expr = between
 
-      while token_is?([:greater, :less, :greater_equal, :less_equal])
+      while token_is?(:greater, :less, :greater_equal, :less_equal)
         operator = @previous_token
         right = between
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -136,7 +136,7 @@ module Engine
     def between
       expr = addition
 
-      if token_is?([:between])
+      if token_is?(:between)
         operator = @previous_token
         lower = addition
         consume_token!(:and, "Missing `and` after between.")
@@ -152,7 +152,7 @@ module Engine
     def addition
       expr = multiplication
 
-      while token_is?([:minus, :plus])
+      while token_is?(:minus, :plus)
         operator = @previous_token
         right = multiplication
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -164,7 +164,7 @@ module Engine
     def multiplication
       expr = exponentiation
 
-      while token_is?([:slash, :star])
+      while token_is?(:slash, :star)
         operator = @previous_token
         right = exponentiation
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -176,7 +176,7 @@ module Engine
     def exponentiation
       expr = unary
 
-      while token_is?([:power])
+      while token_is?(:power)
         operator = @previous_token
         right = unary
         expr = ::Engine::Expressions::Binary.new(expr, operator, right)
@@ -186,7 +186,7 @@ module Engine
     end
 
     def unary
-      if token_is?([:bang, :minus, :plus])
+      if token_is?(:bang, :minus, :plus)
         operator = @previous_token
         right = unary
         return ::Engine::Expressions::Unary.new(operator, right)
@@ -197,7 +197,7 @@ module Engine
 
     def variable_event
       expr = primary
-      if token_is?([:at])
+      if token_is?(:at)
         operator = @previous_token
         right = primary
         @variable_exps.pop
@@ -208,15 +208,15 @@ module Engine
     end
 
     def primary
-      return ::Engine::Expressions::Literal.new(false) if token_is?([:false])
-      return ::Engine::Expressions::Literal.new(true) if token_is?([:true])
-      return ::Engine::Expressions::Literal.new(nil) if token_is?([:nil])
+      return ::Engine::Expressions::Literal.new(false) if token_is?(:false)
+      return ::Engine::Expressions::Literal.new(true) if token_is?(:true)
+      return ::Engine::Expressions::Literal.new(nil) if token_is?(:nil)
 
-      if token_is?([:number, :string])
+      if token_is?(:number, :string)
         return ::Engine::Expressions::Literal.new(@previous_token.raw)
       end
 
-      if token_is?([:identifier])
+      if token_is?(:identifier)
         variable = @project.variables.find_by(name: @previous_token.raw)
         if variable
           var_exp = ::Engine::Expressions::VariableExp.new(variable.name)
@@ -235,7 +235,7 @@ module Engine
         end
       end
 
-      if token_is?([:left_paren])
+      if token_is?(:left_paren)
         expr = expression
         consume_token!(:right_paren, "Missing closing ')'.")
         return ::Engine::Expressions::Grouping.new(expr)
