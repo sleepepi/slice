@@ -26,6 +26,10 @@ module Engine
           decimal_mode(letter)
         when :operator
           operator_mode(letter)
+        when :string
+          string_mode(letter)
+        when :string_escape
+          string_escape_mode(letter)
         end
       end
 
@@ -67,7 +71,7 @@ module Engine
         print letter.yellow.bold if @verbose
       when /[a-z]/i
         @mode = :word
-        @buffer << letter
+        @buffer << letter.downcase
         print letter.blue.bg_gray if @verbose
       when /\./
         @mode = :decimal
@@ -77,15 +81,41 @@ module Engine
         @mode = :number
         @buffer << letter
         print letter.green if @verbose
+      when "\""
+        @mode = :string
+        print letter.bg_green if @verbose
       else
         print letter.bg_black if @verbose
       end
     end
 
+    def string_mode(letter)
+      case letter
+      when "\\"
+        @mode = :string_escape
+        print letter.bg_green if @verbose
+      when "\""
+        word = @buffer.join
+        @tokens << ::Engine::Token.new(:string, raw: word)
+        @buffer = []
+        @mode = :single
+        print letter.bg_green if @verbose
+      else
+        @buffer << letter
+        print letter.green if @verbose
+      end
+    end
+
+    def string_escape_mode(letter)
+      @buffer << letter
+      @mode = :string
+      print letter.green.bold if @verbose
+    end
+
     def word_mode(letter)
       case letter
       when /[a-z0-9\_\-]/i
-        @buffer << letter
+        @buffer << letter.downcase
         print letter.blue.bg_gray if @verbose
       else
         reserved_word_or_identifier(@buffer.join)

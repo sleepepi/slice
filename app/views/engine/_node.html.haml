@@ -12,7 +12,11 @@
       = render "engine/node", node: node.expression
   - when "Engine::Expressions::Literal"
     .small.text-muted literal
-    %code.nowrap= node.value.to_s.presence || "nil"
+    %code.nowrap
+      - if node.value.is_a?(String)
+        = "\"#{node.value}\""
+      - else
+        = node.value.to_s.presence || "nil"
   - when "Engine::Expressions::Unary"
     .small.text-muted= node.result_name
     .d-flex.justify-content-around.align-items-center

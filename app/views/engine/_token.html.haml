@@ -8,6 +8,9 @@
 - elsif token.token_type == :number
   - token_class = "token-number"
   - value = token.raw
+- elsif token.token_type == :string
+  - token_class = "token-string"
+  - value = "\"#{token.raw}\""
 - elsif token.token_type == :left_paren
   - token_class = "token-paren"
   - value = "("

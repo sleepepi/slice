@@ -7,6 +7,7 @@ module Engine
       :identifier,
       :value,
       :number,
+      :string,
       :minus, :plus,
       :star, :slash,
       :bang,

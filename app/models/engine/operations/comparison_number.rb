@@ -4,8 +4,7 @@ module Engine
   module Operations
     module ComparisonNumber
       def operation_comparison_number(token_type, left, right)
-        return nil unless left.is_a?(Numeric) && right.is_a?(Numeric)
-        return nil unless left.is_a?(String) && right.is_a?(String)
+        return nil unless (left.is_a?(Numeric) && right.is_a?(Numeric)) || (left.is_a?(String) && right.is_a?(String))
 
         case token_type
         when :greater_equal
