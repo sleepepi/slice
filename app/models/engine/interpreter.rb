@@ -53,7 +53,7 @@ module Engine
         when :plus
           right
         when :bang
-          right # TODO: What would bang operator be used for here?
+          operation_not(node, right)
         end
       when "Engine::Expressions::Literal"
         node

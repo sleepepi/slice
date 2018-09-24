@@ -3,6 +3,7 @@
 module Engine
   module Operations
     module All
+      include ::Engine::Operations::Not
       include ::Engine::Operations::Boolean
       include ::Engine::Operations::Add
       include ::Engine::Operations::Subtract

@@ -190,7 +190,6 @@ module Engine
       end
     end
 
-    # @tokens << ::Engine::Token.new(:operator, raw: letter)
     def operator_mode(letter)
       case letter
       when "="
@@ -199,6 +198,9 @@ module Engine
       end
 
       word = @buffer.join
+      @buffer = []
+      @mode = :single
+
       case word
       when "!="
         @tokens << ::Engine::Token.new(:bang_equal, raw: word)
@@ -206,17 +208,23 @@ module Engine
         @tokens << ::Engine::Token.new(:greater_equal, raw: word)
       when "<="
         @tokens << ::Engine::Token.new(:less_equal, raw: word)
-      when "==", "="
+      when "=="
         @tokens << ::Engine::Token.new(:equal, raw: word)
+      when "="
+        @tokens << ::Engine::Token.new(:equal, raw: word)
+        single_mode(letter)
+      when "!"
+        @tokens << ::Engine::Token.new(:bang, raw: word)
+        single_mode(letter)
       when ">"
         @tokens << ::Engine::Token.new(:greater, raw: word)
+        single_mode(letter)
       when "<"
         @tokens << ::Engine::Token.new(:less, raw: word)
+        single_mode(letter)
       else
         print letter.bg_black if @verbose
       end
-      @buffer = []
-      @mode = :single
     end
 
     def evaluate_buffer
@@ -229,6 +237,17 @@ module Engine
         @tokens << ::Engine::Token.new(:number, raw: Integer(word))
       when :decimal
         @tokens << ::Engine::Token.new(:number, raw: Float(word))
+      when :operator
+        case word
+        when "="
+          @tokens << ::Engine::Token.new(:equal, raw: word)
+        when "!"
+          @tokens << ::Engine::Token.new(:bang, raw: word)
+        when ">"
+          @tokens << ::Engine::Token.new(:greater, raw: word)
+        when "<"
+          @tokens << ::Engine::Token.new(:less, raw: word)
+        end
       end
       @buffer = []
       @mode = :single
