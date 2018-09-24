@@ -2,11 +2,15 @@
 
 module Engine
   module Expressions
-    class EventExp < Expression
+    class IdentifierEvent < Expression
       attr_accessor :name
 
       def initialize(name)
         @name = name
+      end
+
+      def storage_name
+        "_e_#{@name}"
       end
     end
   end

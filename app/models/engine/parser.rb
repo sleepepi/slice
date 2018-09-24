@@ -4,7 +4,7 @@ module Engine
   # Generates a expression tree from a set of tokens based on the Slice
   # Context Free Grammar. (Slice Expression Language)
   class Parser
-    attr_accessor :tokens, :tree, :variable_exps, :events, :designs
+    attr_accessor :tokens, :tree, :events, :identifiers
 
     def initialize(project, verbose: false)
       @project = project
@@ -15,8 +15,7 @@ module Engine
       @tree = nil
       @verbose = verbose
       @events = []
-      @designs = []
-      @variable_exps = []
+      @identifiers = []
     end
 
     def advance
@@ -60,6 +59,18 @@ module Engine
 
     def print_tree
       puts "#{"@tree".green}: #{@tree}"
+    end
+
+    def identifier_designs
+      @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::IdentifierDesign) }
+    end
+
+    def identifier_events
+      @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::IdentifierEvent) }
+    end
+
+    def identifier_variables
+      @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::IdentifierVariable) }
     end
 
     private
@@ -192,17 +203,17 @@ module Engine
         return ::Engine::Expressions::Unary.new(operator, right)
       end
 
-      variable_event
+      identifier_event
     end
 
-    def variable_event
+    def identifier_event
       expr = primary
       if token_is?(:at)
         operator = @previous_token
         right = primary
-        @variable_exps.pop
-        expr = ::Engine::Expressions::VariableExp.new(expr.name, event: right)
-        @variable_exps << expr
+        # TODO: Raise "expected an event" if right is not of type ::Engine::Expressions::IdentifierEvent
+        # TODO: @identifiers[-2] also needs to be an IdentifierVariable or an IdentifierEvent
+        @identifiers[-2].event = right if @identifiers[-2].respond_to?(:event)
       end
       expr
     end
@@ -223,19 +234,21 @@ module Engine
       if token_is?(:identifier)
         variable = @project.variables.find_by(name: @previous_token.raw)
         if variable
-          var_exp = ::Engine::Expressions::VariableExp.new(variable.name)
-          @variable_exps << var_exp
-          return var_exp
+          identifier = ::Engine::Expressions::IdentifierVariable.new(variable.name)
+          @identifiers << identifier
+          return identifier
         end
         event = @project.events.find_by(slug: @previous_token.raw)
         if event
-          @events << event
-          return ::Engine::Expressions::EventExp.new(event.slug)
+          identifier = ::Engine::Expressions::IdentifierEvent.new(event.slug)
+          @identifiers << identifier
+          return identifier
         end
         design = @project.designs.find_by(slug: @previous_token.raw)
         if design
-          @designs << design
-          return ::Engine::Expressions::DesignExp.new(design.slug)
+          identifier = ::Engine::Expressions::IdentifierDesign.new(design.slug)
+          @identifiers << identifier
+          return identifier
         end
       end
 

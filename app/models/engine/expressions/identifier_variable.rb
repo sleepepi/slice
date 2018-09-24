@@ -2,19 +2,19 @@
 
 module Engine
   module Expressions
-    class VariableExp < Expression
+    class IdentifierVariable < Expression
       attr_accessor :name, :event
 
       def initialize(name, event: nil)
         @name = name
-        @event = event if event.is_a?(::Engine::Expressions::EventExp)
+        @event = event if event.is_a?(::Engine::Expressions::IdentifierEvent)
       end
 
       def storage_name
         if @event
-          "#{@name}@#{@event.name}"
+          "_v_#{@name}@#{@event.name}"
         else
-          @name
+          "_v_#{@name}"
         end
       end
     end

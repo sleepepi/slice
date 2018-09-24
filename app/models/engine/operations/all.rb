@@ -30,8 +30,8 @@ module Engine
       private
 
       def operation_identifiers(node, token_type, v1, v2, result_name)
-        v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
-        v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
+        v1_name = v1.respond_to?(:storage_name) ? v1.storage_name : v1.result_name
+        v2_name = v2.respond_to?(:storage_name) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
           result = operation_generic(token_type, sobject.get_cell(v1_name), sobject.get_cell(v2_name))
           sobject.add_cell(result_name, ::Engine::Cell.new(result))
@@ -39,7 +39,7 @@ module Engine
       end
 
       def operation_identifier_literal(node, token_type, v1, n2, result_name)
-        v1_name = v1.is_a?(::Engine::Expressions::VariableExp) ? v1.storage_name : v1.result_name
+        v1_name = v1.respond_to?(:storage_name) ? v1.storage_name : v1.result_name
         n2_value = n2.value
         @sobjects.each do |subject_id, sobject|
           result = operation_generic(token_type, sobject.get_cell(v1_name), n2_value)
@@ -49,7 +49,7 @@ module Engine
 
       def operation_literal_identifier(node, token_type, n1, v2, result_name)
         n1_value = n1.value
-        v2_name = v2.is_a?(::Engine::Expressions::VariableExp) ? v2.storage_name : v2.result_name
+        v2_name = v2.respond_to?(:storage_name) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
           result = operation_generic(token_type, n1_value, sobject.get_cell(v2_name))
           sobject.add_cell(result_name, ::Engine::Cell.new(result))

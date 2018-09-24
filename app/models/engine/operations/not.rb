@@ -10,7 +10,7 @@ module Engine
             sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         else
-          cell_name = right.is_a?(::Engine::Expressions::VariableExp) ? right.storage_name : right.result_name
+          cell_name = right.respond_to?(:storage_name) ? right.storage_name : right.result_name
           @sobjects.each do |subject_id, sobject|
             result = !sobject.get_cell(cell_name).value
             sobject.add_cell(result_name, ::Engine::Cell.new(result))

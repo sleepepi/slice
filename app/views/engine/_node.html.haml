@@ -24,15 +24,18 @@
     .d-flex.justify-content-around.align-items-center
       .border.bg-white.box-shadow.rounded.p-3.text-center.m-1= render "engine/token", token: node.operator
       = render "engine/node", node: node.right
-  - when "Engine::Expressions::VariableExp"
+  - when "Engine::Expressions::IdentifierVariable"
     .small.text-muted variable
     %code.nowrap= node.name
     - if node.event
       %span.text-muted at
       %code.nowrap= node.event.name
-  - when "Engine::Expressions::EventExp"
+  - when "Engine::Expressions::IdentifierEvent"
     .small.text-muted event
     %code.nowrap= node.name
-  - when "Engine::Expressions::DesignExp"
-    .small.text-muted variable
+  - when "Engine::Expressions::IdentifierDesign"
+    .small.text-muted design
     %code.nowrap= node.name
+    - if node.event
+      %span.text-muted at
+      %code.nowrap= node.event.name

@@ -23,11 +23,11 @@ module Engine
       node = lrn(@parser.tree)
       if node.is_a?(::Engine::Expressions::Literal) && node.value == true
         # Do nothing
-      elsif node.is_a?(::Engine::Expressions::VariableExp)
+      elsif node.is_a?(::Engine::Expressions::IdentifierVariable)
         # Do nothing
-      elsif node.is_a?(::Engine::Expressions::EventExp)
+      elsif node.is_a?(::Engine::Expressions::IdentifierEvent)
         # Do nothing
-      elsif node.is_a?(::Engine::Expressions::DesignExp)
+      elsif node.is_a?(::Engine::Expressions::IdentifierDesign)
         # Do nothing
       else
         filter(node)
@@ -57,11 +57,11 @@ module Engine
         end
       when "Engine::Expressions::Literal"
         node
-      when "Engine::Expressions::VariableExp"
+      when "Engine::Expressions::IdentifierVariable"
         node
-      when "Engine::Expressions::DesignExp"
+      when "Engine::Expressions::IdentifierDesign"
         node
-      when "Engine::Expressions::EventExp"
+      when "Engine::Expressions::IdentifierEvent"
         node
       end
     end
@@ -88,21 +88,29 @@ module Engine
 
     def load_sobjects_variables
       @sobjects.each do |key, sobject|
-        @parser.variable_exps.each do |variable_exp|
-          sobject.add_cell(variable_exp.storage_name, ::Engine::Cell.new(nil))
+        @parser.identifiers.each do |identifier|
+          sobject.add_cell(identifier.storage_name, ::Engine::Cell.new(nil))
         end
       end
-      @parser.variable_exps.each do |variable_exp|
-        if variable_exp.event
-          pluck_sobject_values_at_event(variable_exp)
+      @parser.identifier_variables.each do |identifier|
+        if identifier.event
+          pluck_sobject_values_at_event(identifier)
         else
-          pluck_sobject_values(variable_exp)
+          pluck_sobject_values(identifier)
         end
+      end
+
+      @parser.identifier_designs.each do |identifier|
+        pluck_sobject_designs(identifier)
+      end
+
+      @parser.identifier_events.each do |identifier|
+        pluck_sobject_events(identifier)
       end
     end
 
-    def pluck_sobject_values(variable_exp)
-      variable = @project.variables.find_by(name: variable_exp.name)
+    def pluck_sobject_values(identifier)
+      variable = @project.variables.find_by(name: identifier.name)
       svs = SheetVariable
         .where(variable: variable)
         .left_outer_joins(:domain_option)
@@ -112,17 +120,17 @@ module Engine
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
       svs.each do |subject_id, sheet_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
-        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil? && !missing_code
           formatted_value = Float(formatted_value)
         end
         cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
-        add_sobject_cell(subject_id, variable_exp.storage_name, cell)
+        add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end
 
-    def pluck_sobject_values_at_event(variable_exp)
-      variable = @project.variables.find_by(name: variable_exp.name)
-      event = @project.events.find_by(slug: variable_exp.event.name)
+    def pluck_sobject_values_at_event(identifier)
+      variable = @project.variables.find_by(name: identifier.name)
+      event = @project.events.find_by(slug: identifier.event.name)
       svs = SheetVariable
         .where(variable: variable)
         .left_outer_joins(:domain_option)
@@ -133,11 +141,34 @@ module Engine
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
       svs.each do |subject_id, sheet_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
-        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil?
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil? && !missing_code
           formatted_value = Float(formatted_value)
         end
         cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
-        add_sobject_cell(subject_id, variable_exp.storage_name, cell)
+        add_sobject_cell(subject_id, identifier.storage_name, cell)
+      end
+    end
+
+    def pluck_sobject_designs(identifier)
+      design = @project.designs.find_by(slug: identifier.name)
+      event = @project.events.find_by(slug: identifier.event.name) if identifier.event
+      hash = {}
+      hash[:design] = design
+      hash[:subject_event] = SubjectEvent.where(event: event) if event
+      sheets = @project.sheets.where(hash).pluck(:subject_id, :id, :percent, :missing)
+      sheets.each do |subject_id, sheet_id, percent, missing|
+        cell = ::Engine::Cell.new(!missing, subject_id: subject_id, sheet_id: sheet_id, coverage: percent)
+        add_sobject_cell(subject_id, identifier.storage_name, cell)
+      end
+    end
+
+    def pluck_sobject_events(identifier)
+      event = @project.events.find_by(slug: identifier.name)
+      hash = { subject_event: SubjectEvent.where(event: event) }
+      sheets = @project.sheets.left_outer_joins(:subject_event).where(hash).pluck(:subject_id, :id, "subject_events.unblinded_percent") # TODO: Change based on current user permissions
+      sheets.each do |subject_id, sheet_id, percent|
+        cell = ::Engine::Cell.new(true, subject_id: subject_id, sheet_id: sheet_id, coverage: percent)
+        add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end
 

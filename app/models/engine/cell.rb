@@ -5,13 +5,14 @@ module Engine
   # value, whether the value is a missing code, or simply missing, and other
   # information used by the interpreter.
   class Cell
-    attr_accessor :value, :subject_id, :sheet_id, :missing_code
+    attr_accessor :value, :subject_id, :sheet_id, :missing_code, :coverage
 
-    def initialize(value, subject_id: nil, sheet_id: nil, missing_code: nil)
+    def initialize(value, subject_id: nil, sheet_id: nil, missing_code: nil, coverage: nil)
       @value = value
       @subject_id = subject_id
       @sheet_id = sheet_id
       @missing_code = missing_code
+      @coverage = coverage
     end
 
     def missing?
