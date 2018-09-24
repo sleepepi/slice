@@ -2,6 +2,6 @@
 
 module Slicers
   # Provides default methods for checking variables and saving to database.
-  class IntegerSlicer < DefaultSlicer
+  class IntegerSlicer < NumericSlicer
   end
 end

@@ -9,7 +9,7 @@ class SlicerTest < ActiveSupport::TestCase
   test "should prepare value for db for calculated variable" do
     slicer = Slicers.for(variables(:api_calculated))
     assert_equal(
-      { value: "43" },
+      { value: "43", domain_option_id: nil },
       slicer.format_for_db_update("43")
     )
     # Should be "43.00"?
@@ -80,15 +80,27 @@ class SlicerTest < ActiveSupport::TestCase
   test "should prepare value for db for integer variable" do
     slicer = Slicers.for(variables(:api_integer))
     assert_equal(
-      { value: "42" },
+      { value: "42", domain_option_id: nil },
       slicer.format_for_db_update("42")
+    )
+  end
+
+  test "should prepare value for db for integer variable with domain" do
+    slicer = Slicers.for(variables(:integer))
+    assert_equal(
+      { value: "42", domain_option_id: nil },
+      slicer.format_for_db_update("42")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:integer_unknown_9).id },
+      slicer.format_for_db_update("-9")
     )
   end
 
   test "should prepare value for db for numeric variable" do
     slicer = Slicers.for(variables(:api_numeric))
     assert_equal(
-      { value: "98.6" },
+      { value: "98.6", domain_option_id: nil },
       slicer.format_for_db_update("98.6")
     )
   end
