@@ -83,11 +83,7 @@ module Engine
         end
       end
       @parser.identifier_variables.each do |identifier|
-        if identifier.event
-          pluck_sobject_values_at_event(identifier)
-        else
-          pluck_sobject_values(identifier)
-        end
+        pluck_sobject_values(identifier)
       end
 
       @parser.identifier_designs.each do |identifier|
@@ -101,31 +97,14 @@ module Engine
 
     def pluck_sobject_values(identifier)
       variable = @project.variables.find_by(name: identifier.name)
+      event = @project.events.find_by(slug: identifier.event.name) if identifier.event
+      hash = {}
+      hash[:sheets] = { subject_event: SubjectEvent.where(event: event) } if event
       svs = SheetVariable
         .where(variable: variable)
         .left_outer_joins(:domain_option)
         .joins(:sheet).merge(Sheet.current)
-        .pluck(:subject_id, :sheet_id, domain_option_value_or_value, :missing_code)
-      formatter = Formatters.for(variable)
-      number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
-      svs.each do |subject_id, sheet_id, value, missing_code|
-        formatted_value = formatter.raw_response(value)
-        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil? && !missing_code
-          formatted_value = Float(formatted_value)
-        end
-        cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
-        add_sobject_cell(subject_id, identifier.storage_name, cell)
-      end
-    end
-
-    def pluck_sobject_values_at_event(identifier)
-      variable = @project.variables.find_by(name: identifier.name)
-      event = @project.events.find_by(slug: identifier.event.name)
-      svs = SheetVariable
-        .where(variable: variable)
-        .left_outer_joins(:domain_option)
-        .joins(:sheet).merge(Sheet.current)
-        .where(sheets: { subject_event: SubjectEvent.where(event: event) })
+        .where(hash)
         .pluck(:subject_id, :sheet_id, domain_option_value_or_value, :missing_code)
       formatter = Formatters.for(variable)
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
