@@ -2,7 +2,7 @@
 
 module Engine
   module Expressions
-    class IdentifierVariable < Expression
+    class IdentifierVariable < Identifier
       attr_accessor :name, :event
 
       def initialize(name, event: nil)

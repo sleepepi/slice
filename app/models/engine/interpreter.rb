@@ -21,17 +21,7 @@ module Engine
 
       # Run through tree in LRN order.
       node = lrn(@parser.tree)
-      if node.is_a?(::Engine::Expressions::Literal) && node.value == true
-        # Do nothing
-      elsif node.is_a?(::Engine::Expressions::IdentifierVariable)
-        # Do nothing
-      elsif node.is_a?(::Engine::Expressions::IdentifierEvent)
-        # Do nothing
-      elsif node.is_a?(::Engine::Expressions::IdentifierDesign)
-        # Do nothing
-      else
-        filter(node)
-      end
+      filter(node)
 
       @subjects_count = @project.subjects.where(id: @sobjects.collect { |key, sobject| sobject.subject_id }).count
     end
@@ -177,10 +167,10 @@ module Engine
       @sobjects[key].add_cell(storage_name, cell) if @sobjects.key?(key)
     end
 
-    def filter(node, value: true)
+    def filter(node)
       if node.is_a?(::Engine::Expressions::Binary) && node.operator.boolean_operator?
         @sobjects.select! do |subject_id, sobject|
-          sobject.get_cell(node.result_name).value == value
+          sobject.get_cell(node.result_name).value
         end
       elsif node.is_a?(::Engine::Expressions::Literal) && !node.value
         @sobjects = []

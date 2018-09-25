@@ -2,7 +2,7 @@
 
 module Engine
   module Expressions
-    class IdentifierDesign < Expression
+    class IdentifierDesign < Identifier
       attr_accessor :name, :event
 
       def initialize(name, event: nil)
