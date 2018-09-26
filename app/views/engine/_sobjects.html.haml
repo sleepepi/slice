@@ -1,41 +1,170 @@
 - @sobjects = @engine.interpreter.sobjects.first(10)
-
 - (sobject_key, first_sobject) = @sobjects.first
-
-- @debug = true || params[:debug] == "1"
 
 - if @sobjects.present?
   %table.table.table-striped.table-borderless
     %thead
       %tr
-        %th Internal Subject ID
+        %th Subject
         - first_sobject.cells.each do |key, _|
-          - if key[0] != "_" || @debug
-            %th= key
+          - if key.first(3) == "_v_"
+            %th= key.gsub(/^\_v\_/, "")
+          - elsif key.first(3) == "_d_"
+            %th= key.gsub(/^\_d\_/, "")
+          - elsif key.first(3) == "_e_"
+            %th= key.gsub(/^\_e\_/, "")
+          - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_operation\_/ !~ key
+            %th Result
     %tbody
       - @sobjects.each do |_key, sobject|
-        - @subject = @project.subjects.find_by(id: sobject.subject_id)
+        - subject = @project.subjects.find_by(id: sobject.subject_id)
         %tr
-          %td= link_to @subject.subject_code, [@project, @subject]
-          - sobject.cells.each do |key, cell|
-            - if key[0] != "_" || @debug
+          %td= link_to subject.subject_code, [@project, subject], class: "link-blend"
+          - last_cells = sobject.get_cells(engine.interpreter.final)
+          - all_values = []
+          - last_cells.each { |cell| all_values += cell.seds.collect(&:values) }
+          - sobject.cells.each do |key, cells|
+            - if key.first(3) == "_v_"
               %td
-                - if cell.value.nil?
-                  - if cell.sheet_id
-                    = link_to "nil", project_sheet_path(@project, cell.sheet_id), class: "text-muted"
-                  - else
-                    %span.text-muted nil
-                - elsif cell.missing? || cell.value == false
-                  - if cell.sheet_id
-                    = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "text-danger"
-                  - else
-                    %span.text-danger= cell.value
-                - else
-                  - if cell.sheet_id
-                    = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "link-blend"
-                  - else
-                    = cell.value
-                - if cell.coverage
-                  %span.text-muted.small
-                    = surround "(", "%)" do
-                      = cell.coverage
+                .cell-values
+                  - cell_found = false
+                  - cells.each do |cell|
+                    - cell.seds.each do |sed|
+                      - if cell.seds.select { |sed| sed.values.in?(all_values) }.present?
+                        - cell_found = true
+                        .cell-value
+                          - sheet = @project.sheets.find_by(id: sed.sheet_id)
+                          - event = @project.events.find_by(id: sed.event_id)
+                          - design = @project.designs.find_by(id: sed.design_id)
+                          - if sheet
+                            - if cell.value.nil?
+                              = link_to "nil", [@project, sheet], class: "text-dark"
+                            - elsif cell.missing? || cell.value == false
+                              = link_to cell.value.to_s, [@project, sheet], class: "text-danger"
+                            - else
+                              = link_to cell.value, [@project, sheet]
+                            - if false
+                              = "on #{design.slug.presence || design.short_name}" if design
+                              = "@#{event.slug}" if event
+                          - else
+                            = cell.value.inspect
+                  - unless cell_found
+                    .cell-value.text-muted.strong
+                      nil
+            - elsif key.first(3) == "_d_" || key.first(3) == "_e_"
+              %td
+                .cell-values
+                  - cell_found = false
+                  - cells.each do |cell|
+                    - cell.seds.each do |sed|
+                      - if cell.seds.select { |sed| sed.values.in?(all_values) }.present?
+                        - cell_found = true
+                        .cell-value
+                          - sheet = @project.sheets.find_by(id: sed.sheet_id)
+                          - event = @project.events.find_by(id: sed.event_id)
+                          - design = @project.designs.find_by(id: sed.design_id)
+                          - if sheet
+                            - if cell.value.nil?
+                              = link_to "unentered", [@project, sheet], class: "text-dark"
+                            - elsif cell.missing? || cell.value == false
+
+                              = link_to [@project, sheet], class: "text-danger" do
+                                %span.badge.badge-default{ rel: "tooltip", title: "Marked as Missing", data: { container: "body", placement: "right" } } M
+                            - elsif cell.value == true
+                              = link_to coverage_helper_static(sheet), [@project, sheet]
+                            - else
+                              = link_to cell.value, [@project, sheet]
+                            - if false
+                              = "on #{design.slug.presence || design.short_name}" if design
+                              = "@#{event.slug}" if event
+                          - else
+                            = cell.value.inspect
+                  - unless cell_found
+                    .cell-value.text-muted.strong
+                      unentered
+            - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_operation\_/ !~ key
+              %td
+                .cell-values
+                  - cells.each do |cell|
+                    .cell-value
+                      - if cell.value
+                        = cell.value
+                      - else
+                        %span.text-muted nil
+
+
+
+
+- if Rails.env.development?
+  - @debug = true
+  - if @sobjects.present?
+    %table.table.table-striped.table-borderless
+      %thead
+        %tr
+          %th Subject
+          - first_sobject.cells.each do |key, _|
+            - if key.first(3) == "_v_" || @debug
+              %th= key.gsub(/^\_v\_/, "")
+      %tbody
+        - @sobjects.each do |_key, sobject|
+          - @subject = @project.subjects.find_by(id: sobject.subject_id)
+          %tr
+            %td= link_to @subject.subject_code, [@project, @subject]
+            - sobject.cells.each do |key, cells|
+              - if key.first(3) == "_v_" || @debug
+                %td
+                  - cells.each do |cell|
+                    .text-muted.small
+                      Cell
+                      = surround "(", ")" do
+                        = pluralize(cell.seds.count, "SED")
+
+                    - if cell.missing?
+                      %span.text-danger= cell.value
+                    - elsif cell.value == false
+                      %span.text-danger= cell.value
+                    - elsif cell.value == true
+                      %span{ style: "color: #2196f3;" }= cell.value
+                    - elsif cell.value.nil?
+                      %span.text-muted nil
+                    - else
+                      %span= cell.value
+                    - if cell.coverage
+                      %span.text-muted.small
+                        = surround "(", "%)" do
+                          = cell.coverage
+
+                    - if false
+                      - if cell.value.nil?
+                        - if cell.sheet_id
+                          = link_to "nil", project_sheet_path(@project, cell.sheet_id), class: "text-muted"
+                        - else
+                          %span.text-muted nil
+                      - elsif cell.missing? || cell.value == false
+                        - if cell.sheet_id
+                          = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "text-danger"
+                        - else
+                          %span.text-danger= cell.value
+                      - else
+                        - if cell.sheet_id
+                          = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "link-blend"
+                        - else
+                          = cell.value
+                      - if cell.coverage
+                        %span.text-muted.small
+                          = surround "(", "%)" do
+                            = cell.coverage
+                      - if cell.sheet_id
+                        %span.small= cell.sheet_id
+                        %br
+
+
+
+                    - cell.seds.each do |sed|
+                      %div.border
+                        - sheet = @project.sheets.find_by(id: sed.sheet_id)
+                        - event = @project.events.find_by(id: sed.event_id)
+                        - design = @project.designs.find_by(id: sed.design_id)
+                        = link_to "##{sheet.id}", [@project, sheet] if sheet
+                        = "on #{design.slug.presence || design.short_name}" if design
+                        = "@#{event.slug}" if event

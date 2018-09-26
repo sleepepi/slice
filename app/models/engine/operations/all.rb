@@ -33,8 +33,17 @@ module Engine
         v1_name = v1.respond_to?(:storage_name) ? v1.storage_name : v1.result_name
         v2_name = v2.respond_to?(:storage_name) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, sobject.get_cell(v1_name), sobject.get_cell(v2_name))
-          sobject.add_cell(result_name, ::Engine::Cell.new(result))
+          sobject.initialize_cells(result_name)
+          cells1 = sobject.get_cells(v1_name)
+          cells2 = sobject.get_cells(v2_name)
+          cells1.each do |c1|
+            cells2.each do |c2|
+              next if ::Engine::Sed.skip?(c1.seds, c2.seds)
+              result = operation_generic(token_type, c1, c2)
+              seds = (c1.seds + c2.seds).uniq { |sed| sed.values }
+              sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: seds))
+            end
+          end
         end
       end
 
@@ -42,8 +51,12 @@ module Engine
         v1_name = v1.respond_to?(:storage_name) ? v1.storage_name : v1.result_name
         n2_value = n2.value
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, sobject.get_cell(v1_name), n2_value)
-          sobject.add_cell(result_name, ::Engine::Cell.new(result))
+          sobject.initialize_cells(result_name)
+          cells1 = sobject.get_cells(v1_name)
+          cells1.each do |c1|
+            result = operation_generic(token_type, c1, n2_value)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: c1.seds))
+          end
         end
       end
 
@@ -51,8 +64,12 @@ module Engine
         n1_value = n1.value
         v2_name = v2.respond_to?(:storage_name) ? v2.storage_name : v2.result_name
         @sobjects.each do |subject_id, sobject|
-          result = operation_generic(token_type, n1_value, sobject.get_cell(v2_name))
-          sobject.add_cell(result_name, ::Engine::Cell.new(result))
+          sobject.initialize_cells(result_name)
+          cells2 = sobject.get_cells(v2_name)
+          cells2.each do |c2|
+            result = operation_generic(token_type, n1_value, c2)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: c2.seds))
+          end
         end
       end
 
@@ -61,6 +78,7 @@ module Engine
         n2_value = n2.value
         result = operation_generic(token_type, n1_value, n2_value)
         @sobjects.each do |subject_id, sobject|
+          sobject.initialize_cells(result_name)
           sobject.add_cell(result_name, ::Engine::Cell.new(result))
         end
       end

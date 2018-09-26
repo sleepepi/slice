@@ -7,13 +7,18 @@ module Engine
         if right.is_a?(::Engine::Expressions::Literal)
           result = !right.value
           @sobjects.each do |subject_id, sobject|
+            sobject.initialize_cells(result_name)
             sobject.add_cell(result_name, ::Engine::Cell.new(result))
           end
         else
           cell_name = right.respond_to?(:storage_name) ? right.storage_name : right.result_name
           @sobjects.each do |subject_id, sobject|
-            result = !sobject.get_cell(cell_name).value
-            sobject.add_cell(result_name, ::Engine::Cell.new(result))
+            sobject.initialize_cells(result_name)
+            cells = sobject.get_cells(cell_name)
+            cells.each do |cell|
+              result = !cell.value
+              sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: cell.seds))
+            end
           end
         end
         node.result_name = result_name

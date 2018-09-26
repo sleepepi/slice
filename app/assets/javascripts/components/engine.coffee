@@ -1,5 +1,6 @@
 @engineReady = ->
   expressionsReady()
+  $("[data-object~=expressions-input]").trigger("keyup")
 
 @expressionsReady = ->
   $("[data-object~=expressions-textcomplete]").each( ->
@@ -20,7 +21,6 @@
             callback(resp)
           replace: (value) -> return "$1#{value}"
         },
-
         {
           match: /(^|\s)([a-zA-Z]\w*)$/
           search: (term, callback) ->

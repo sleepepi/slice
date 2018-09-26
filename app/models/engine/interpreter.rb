@@ -3,7 +3,7 @@
 # Engine that interprets the Slice Context Free Grammar.
 module Engine
   class Interpreter
-    attr_accessor :sobjects, :lexer, :parser, :subjects_count, :sobjects
+    attr_accessor :sobjects, :lexer, :parser, :subjects_count, :sobjects, :final
 
     include ::Engine::Operations::All
 
@@ -13,6 +13,7 @@ module Engine
       @operation_count = 0
       @verbose = verbose
       @subjects_count = 0
+      @final = nil
     end
 
     def run
@@ -22,6 +23,7 @@ module Engine
       # Run through tree in LRN order.
       node = lrn(@parser.tree)
       filter(node)
+      @final = node.result_name
 
       @subjects_count = @project.subjects.where(id: @sobjects.collect { |key, sobject| sobject.subject_id }).count
     end
@@ -66,7 +68,7 @@ module Engine
 
     def initialize_sobjects
       load_sobjects
-      load_sobjects_variables
+      load_sobjects_identifiers
     end
 
     def load_sobjects
@@ -76,21 +78,33 @@ module Engine
       end
     end
 
-    def load_sobjects_variables
+    def load_sobjects_identifiers
       @sobjects.each do |key, sobject|
         @parser.identifiers.each do |identifier|
-          sobject.add_cell(identifier.storage_name, ::Engine::Cell.new(nil))
+          sobject.initialize_cells(identifier.storage_name)
         end
       end
+      list = []
       @parser.identifier_variables.each do |identifier|
+        entry = [identifier.name, identifier.event&.name]
+        next if entry.in?(list)
+        list << entry
         pluck_sobject_values(identifier)
       end
 
+      list = []
       @parser.identifier_designs.each do |identifier|
+        entry = [identifier.name, identifier.event&.name]
+        next if entry.in?(list)
+        list << entry
         pluck_sobject_designs(identifier)
       end
 
+      list = []
       @parser.identifier_events.each do |identifier|
+        entry = identifier.name
+        next if entry.in?(list)
+        list << entry
         pluck_sobject_events(identifier)
       end
     end
@@ -99,21 +113,20 @@ module Engine
       variable = @project.variables.find_by(name: identifier.name)
       event = @project.events.find_by(slug: identifier.event.name) if identifier.event
       hash = {}
+      hash[:variable] = variable
       hash[:sheets] = { subject_event: SubjectEvent.where(event: event) } if event
       svs = SheetVariable
-        .where(variable: variable)
-        .left_outer_joins(:domain_option)
-        .joins(:sheet).merge(Sheet.current)
-        .where(hash)
-        .pluck(:subject_id, :sheet_id, domain_option_value_or_value, :missing_code)
+        .left_outer_joins(:domain_option).joins(:sheet).merge(Sheet.current).where(hash).order(:sheet_id)
+        .pluck(:subject_id, :sheet_id, :design_id, domain_option_value_or_value, :missing_code)
       formatter = Formatters.for(variable)
       number_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
-      svs.each do |subject_id, sheet_id, value, missing_code|
+      svs.each do |subject_id, sheet_id, design_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
-        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil? && !missing_code
+        if formatted_value.is_a?(String) && !(number_regex =~ formatted_value).nil? # && !missing_code
           formatted_value = Float(formatted_value)
         end
-        cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, sheet_id: sheet_id, missing_code: missing_code)
+        cell = ::Engine::Cell.new(formatted_value, subject_id: subject_id, missing_code: missing_code)
+        cell.add_sed(sheet_id: sheet_id, event_id: event&.id, design_id: design_id)
         add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end
@@ -124,9 +137,10 @@ module Engine
       hash = {}
       hash[:design] = design
       hash[:subject_event] = SubjectEvent.where(event: event) if event
-      sheets = @project.sheets.where(hash).pluck(:subject_id, :id, :percent, :missing)
+      sheets = @project.sheets.where(hash).order(:id).pluck(:subject_id, :id, :percent, :missing)
       sheets.each do |subject_id, sheet_id, percent, missing|
-        cell = ::Engine::Cell.new(!missing, subject_id: subject_id, sheet_id: sheet_id, coverage: percent)
+        cell = ::Engine::Cell.new(!missing, subject_id: subject_id, coverage: percent)
+        cell.add_sed(sheet_id: sheet_id, event_id: event&.id, design_id: design.id)
         add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end
@@ -134,9 +148,10 @@ module Engine
     def pluck_sobject_events(identifier)
       event = @project.events.find_by(slug: identifier.name)
       hash = { subject_event: SubjectEvent.where(event: event) }
-      sheets = @project.sheets.left_outer_joins(:subject_event).where(hash).pluck(:subject_id, :id, "subject_events.unblinded_percent") # TODO: Change based on current user permissions
-      sheets.each do |subject_id, sheet_id, percent|
-        cell = ::Engine::Cell.new(true, subject_id: subject_id, sheet_id: sheet_id, coverage: percent)
+      sheets = @project.sheets.left_outer_joins(:subject_event).where(hash).order(:id).pluck(:subject_id, :id, :design_id, "subject_events.unblinded_percent") # TODO: Change based on current user permissions
+      sheets.each do |subject_id, sheet_id, design_id, percent|
+        cell = ::Engine::Cell.new(true, subject_id: subject_id, coverage: percent)
+        cell.add_sed(sheet_id: sheet_id, event_id: event.id, design_id: design_id)
         add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end
@@ -149,7 +164,8 @@ module Engine
     def filter(node)
       if node.is_a?(::Engine::Expressions::Binary) && node.operator.boolean_operator?
         @sobjects.select! do |subject_id, sobject|
-          sobject.get_cell(node.result_name).value
+          sobject.cells[node.result_name] = sobject.get_cells(node.result_name).select { |c| c.value }
+          sobject.cells[node.result_name].present?
         end
       elsif node.is_a?(::Engine::Expressions::Literal) && !node.value
         @sobjects = []

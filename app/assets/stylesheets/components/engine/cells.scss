@@ -1,0 +1,13 @@
+.cell-values {
+  display: flex;
+}
+
+.cell-value {
+  display: inline;
+
+  + .cell-value {
+    &::before {
+      content: ", ";
+    }
+  }
+}

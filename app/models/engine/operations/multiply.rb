@@ -6,7 +6,7 @@ module Engine
       def operation_multiply(left, right)
         if left.is_a?(Numeric) && right.is_a?(Numeric)
           left.send(:*, right)
-        elsif left.is_a?(String) && right.is_a?(Numeric)
+        elsif left.is_a?(String) && right.is_a?(Numeric) && right.positive?
           left.send(:*, right)
         else
           nil
