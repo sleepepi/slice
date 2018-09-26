@@ -4,7 +4,7 @@ module Engine
   module Operations
     module Exponent
       def operation_exponent(left, right)
-        if left.zero? && right.zero?
+        if left == 0 && right == 0
           nil
         elsif left.is_a?(Numeric) && right.is_a?(Numeric)
           left.send(:**, right)
