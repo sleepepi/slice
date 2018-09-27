@@ -2,27 +2,22 @@
 
 - content_for :header, @title
 
-=# form_with url: expressions_project_path(@project), method: :post, local: true, enforce_utf8: false, class: "mb-3" do |form|
 .mb-3
   .input-group
     = text_field_tag :expressions, params[:expressions], class: "form-control form-control-lg", data: { object: "expressions-input expressions-textcomplete", url: expressions_engine_project_path(@project, format: "js"), textcomplete_url: expressions_search_project_path(@project, format: "json") }, autofocus: params[:expressions].blank?, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
-    - if false
-      .input-group-append
-        = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
-          = icon("fas", "circle-notch")
 
 #current-tokens
 
 .bg-white.rounded.p-3.mb-3
   .float-right
     #run-ms.d-inline.text-secondary.small{ style: "font-size: 1.5rem;font-weight: 300;" }
-  #subjects-count.pb-2.mb-3.border-bottom{ style: "font-size: 1.5rem;" }
+  #subjects-count.mb-3{ style: "font-size: 1.5rem;" }
 
   #sobjects-table
 
 .bg-white.rounded.p-3.mb-3
   #engine-tree
 
-.bg-white.rounded.p-3.d-none
-  .pb-2.mb-3.border-bottom{ style: "font-size: 1.5rem;" } Log
-  #debug-console
+.rounded.p-3.bg-dark.text-white.d-none
+  .mb-3{ style: "font-size: 1.5rem;" } Log
+  #debug-console.p-3
