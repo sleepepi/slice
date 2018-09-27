@@ -78,3 +78,8 @@ custom_randomizations_site:
   name: Default
   project: custom_randomizations
   user: custom_randomizations_editor
+
+engine_site:
+  name: Engine Site
+  project: engine
+  user: engine_editor

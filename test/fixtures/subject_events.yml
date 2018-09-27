@@ -49,3 +49,38 @@ api_one_api_event:
   subject: api_one
   event: api_event
   event_date: 2017-07-19
+
+engine_se_1:
+  subject: engine_incorrect1
+  event: engine_event_one
+  event_date: 2018-09-27
+
+engine_se_2:
+  subject: engine_correct2
+  event: engine_event_one
+  event_date: 2018-09-27
+
+engine_se_3:
+  subject: engine_correct1
+  event: engine_event_two
+  event_date: 2018-09-27
+
+engine_se_4:
+  subject: engine_correct1
+  event: engine_event_one
+  event_date: 2018-09-27
+
+engine_se_5:
+  subject: engine_blanks
+  event: engine_event_one
+  event_date: 2018-09-27
+
+engine_se_6:
+  subject: engine_missing
+  event: engine_event_one
+  event_date: 2018-09-27
+
+engine_se_7:
+  subject: engine_set_missing
+  event: engine_event_one
+  event_date: 2018-09-27

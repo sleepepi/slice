@@ -334,3 +334,141 @@ api_design_api_radio:
   user: regular
   domain_option: api_radio_options_1
   # value: 1
+
+engine_sv1:
+  sheet: engine_sheet1
+  variable: engine_small_number
+  user: engine_editor
+  value: 5
+
+engine_sv2:
+  sheet: engine_sheet2
+  variable: engine_small_number
+  user: engine_editor
+  value: 10
+
+engine_sv3:
+  sheet: engine_sheet3
+  variable: engine_small_number
+  user: engine_editor
+  value: 45
+
+engine_sv4:
+  sheet: engine_sheet4
+  variable: engine_name
+  user: engine_editor
+  value: Correct One
+
+engine_sv5:
+  sheet: engine_sheet4
+  variable: engine_height
+  user: engine_editor
+  value: 70
+
+engine_sv6:
+  sheet: engine_sheet4
+  variable: engine_weight
+  user: engine_editor
+  value: 2640
+
+engine_sv7:
+  sheet: engine_sheet5
+  variable: engine_large_number
+  user: engine_editor
+  value: 30
+
+engine_sv8:
+  sheet: engine_sheet5
+  variable: engine_animals
+  user: engine_editor
+  domain_option: engine_animals_dog
+
+engine_sv9:
+  sheet: engine_sheet6
+  variable: engine_large_number
+  user: engine_editor
+  value: 20
+
+engine_sv10:
+  sheet: engine_sheet6
+  variable: engine_animals
+  user: engine_editor
+  domain_option: engine_animals_cat
+
+engine_sv11:
+  sheet: engine_sheet7
+  variable: engine_large_number
+  user: engine_editor
+  value: 20
+
+engine_sv12:
+  sheet: engine_sheet7
+  variable: engine_animals
+  user: engine_editor
+  domain_option: engine_animals_monkey
+
+engine_sv13:
+  sheet: engine_sheet8
+  variable: engine_large_number
+  user: engine_editor
+  value: 100
+
+engine_sv14:
+  sheet: engine_sheet8
+  variable: engine_animals
+  user: engine_editor
+  domain_option: engine_animals_cat
+
+engine_sv15:
+  sheet: engine_sheet9
+  variable: engine_large_number
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv16:
+  sheet: engine_sheet9
+  variable: engine_animals
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv17:
+  sheet: engine_sheet10
+  variable: engine_name
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv18:
+  sheet: engine_sheet10
+  variable: engine_height
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv19:
+  sheet: engine_sheet10
+  variable: engine_weight
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv20:
+  sheet: engine_sheet11
+  variable: engine_small_number
+  user: engine_editor
+  value: ""
+  # domain_option:
+
+engine_sv21:
+  sheet: engine_sheet12
+  variable: engine_large_number
+  user: engine_editor
+  domain_option: engine_missing_missing
+
+engine_sv22:
+  sheet: engine_sheet12
+  variable: engine_animals
+  user: engine_editor
+  domain_option: engine_animals_refused

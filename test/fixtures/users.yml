@@ -108,3 +108,8 @@ no_profile:
   full_name: No Profile
   email: no_profile@example.com
   encrypted_password: ""
+
+engine_editor:
+  full_name: Engine Tester
+  email: engine_tester@example.com
+  # encrypted_password: "" # TODO: Check if needed.

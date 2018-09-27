@@ -572,3 +572,35 @@ api_design_api_integer:
   position: 1
   # requirement:
   # branching_logic:
+
+## Engine
+
+engine_anthropometry_name:
+  design: engine_anthropometry
+  variable: engine_name
+  position: 0
+
+engine_anthropometry_height:
+  design: engine_anthropometry
+  variable: engine_height
+  position: 1
+
+engine_anthropometry_weight:
+  design: engine_anthropometry
+  variable: engine_weight
+  position: 2
+
+engine_large_number_large_number:
+  design: engine_large_number
+  variable: engine_large_number
+  position: 0
+
+engine_large_number_animals:
+  design: engine_large_number
+  variable: engine_animals
+  position: 1
+
+engine_small_number_small_number:
+  design: engine_small_number
+  variable: engine_small_number
+  position: 0

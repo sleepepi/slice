@@ -54,3 +54,15 @@ api_event:
   slug: baseline
   project: api
   user: regular
+
+engine_event_one:
+  name: Event One
+  slug: event-one
+  project: engine
+  user: engine_editor
+
+engine_event_two:
+  name: Event Two
+  slug: event-two
+  project: engine
+  user: engine_editor

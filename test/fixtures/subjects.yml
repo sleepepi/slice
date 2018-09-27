@@ -143,3 +143,52 @@ custom_randomizations_one:
   subject_code: CR0001
   user: custom_randomizations_editor
   site: custom_randomizations_site
+
+# Sheets exist but are filled in with blanks.
+engine_blanks:
+  project: engine
+  subject_code: blanks
+  user: engine_editor
+  site: engine_site
+
+# Has large_number > small_number
+engine_correct1:
+  project: engine
+  subject_code: correct1
+  user: engine_editor
+  site: engine_site
+
+# Has large_number > small_number
+engine_correct2:
+  project: engine
+  subject_code: correct2
+  user: engine_editor
+  site: engine_site
+
+# No sheets or events exist for this subject/
+engine_empty:
+  project: engine
+  subject_code: empty
+  user: engine_editor
+  site: engine_site
+
+# Has large_number < small_number
+engine_incorrect1:
+  project: engine
+  subject_code: incorrect1
+  user: engine_editor
+  site: engine_site
+
+# Sheets have missing options selected.
+engine_missing:
+  project: engine
+  subject_code: missing
+  user: engine_editor
+  site: engine_site
+
+# Has a sheet set as missing.
+engine_set_missing:
+  project: engine
+  subject_code: set_missing
+  user: engine_editor
+  site: engine_site

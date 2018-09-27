@@ -549,3 +549,47 @@ api_signature:
   variable_type: signature
   user: regular
   project: api
+
+engine_animals:
+  name: animals
+  display_name: Animals
+  variable_type: radio
+  user: engine_editor
+  project: engine
+  domain: engine_animals
+
+engine_height:
+  name: height
+  display_name: Height
+  variable_type: imperial_height
+  user: engine_editor
+  project: engine
+
+engine_large_number:
+  name: large_number
+  display_name: Large number
+  variable_type: numeric
+  user: engine_editor
+  project: engine
+  domain: engine_missing
+
+engine_name:
+  name: name
+  display_name: Name
+  variable_type: string
+  user: engine_editor
+  project: engine
+
+engine_small_number:
+  name: small_number
+  display_name: Small number
+  variable_type: numeric
+  user: engine_editor
+  project: engine
+
+engine_weight:
+  name: weight
+  display_name: Weight
+  variable_type: imperial_weight
+  user: engine_editor
+  project: engine

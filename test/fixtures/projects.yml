@@ -71,3 +71,8 @@ custom_randomizations:
   slug: custom-randomizations
   user: custom_randomizations_editor
   randomizations_enabled: true
+
+engine:
+  name: Expressions Engine
+  slug: engine
+  user: engine_editor

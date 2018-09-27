@@ -169,4 +169,17 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     get reports_project_url(@project)
     assert_response :success
   end
+
+  test "should get expressions as project editor" do
+    login(@project_editor)
+    get expressions_project_url(@project)
+    assert_response :success
+  end
+
+  test "should get expressions as project viewer" do
+    login(users(:project_one_viewer))
+    get expressions_project_url(@project)
+    assert_response :success
+  end
 end
+

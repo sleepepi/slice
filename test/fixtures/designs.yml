@@ -144,3 +144,21 @@ imported:
   user: regular
   project: one
   total_rows: 10
+
+engine_anthropometry:
+  name: Anthropometry
+  slug: anthropometry
+  user: engine_editor
+  project: engine
+
+engine_large_number:
+  name: Large number
+  slug: large-number
+  user: engine_editor
+  project: engine
+
+engine_small_number:
+  name: Small number
+  slug: small-number
+  user: engine_editor
+  project: engine

@@ -172,6 +172,18 @@ module Engine
       end
     end
 
+    def sheets
+      @project.sheets.where(id: sheet_ids)
+    end
+
+    def sheet_ids
+      @sobjects.collect do |_, sobject|
+        sobject.get_cells(@final).collect do |cell|
+          cell.seds.collect(&:sheet_id)
+        end
+      end.flatten
+    end
+
     private
 
     def domain_option_value_or_value(table: "sheet_variables")

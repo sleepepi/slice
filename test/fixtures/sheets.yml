@@ -286,3 +286,88 @@ api_design:
   user: regular
   subject_event: api_one_api_event
   initial_language_code: en
+
+engine_sheet1:
+  design: engine_small_number
+  project: engine
+  subject: engine_correct1
+  user: engine_editor
+
+engine_sheet2:
+  design: engine_small_number
+  project: engine
+  subject: engine_correct2
+  user: engine_editor
+
+engine_sheet3:
+  design: engine_small_number
+  project: engine
+  subject: engine_incorrect1
+  user: engine_editor
+
+engine_sheet4:
+  design: engine_anthropometry
+  project: engine
+  subject: engine_correct1
+  user: engine_editor
+
+engine_sheet5:
+  design: engine_large_number
+  project: engine
+  subject: engine_incorrect1
+  user: engine_editor
+  subject_event: engine_se_1
+
+engine_sheet6:
+  design: engine_large_number
+  project: engine
+  subject: engine_correct2
+  user: engine_editor
+  subject_event: engine_se_2
+
+engine_sheet7:
+  design: engine_large_number
+  project: engine
+  subject: engine_correct1
+  user: engine_editor
+  subject_event: engine_se_3
+
+engine_sheet8:
+  design: engine_large_number
+  project: engine
+  subject: engine_correct1
+  user: engine_editor
+  subject_event: engine_se_4
+
+engine_sheet9:
+  design: engine_large_number
+  project: engine
+  subject: engine_blanks
+  user: engine_editor
+  subject_event: engine_se_5
+
+engine_sheet10:
+  design: engine_anthropometry
+  project: engine
+  subject: engine_blanks
+  user: engine_editor
+
+engine_sheet11:
+  design: engine_small_number
+  project: engine
+  subject: engine_blanks
+  user: engine_editor
+
+engine_sheet12:
+  design: engine_large_number
+  project: engine
+  subject: engine_missing
+  user: engine_editor
+  subject_event: engine_se_6
+
+engine_sheet_missing:
+  design: engine_large_number
+  project: engine
+  subject: engine_set_missing
+  user: engine_editor
+  subject_event: engine_se_7

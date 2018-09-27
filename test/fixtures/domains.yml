@@ -133,3 +133,15 @@ api_checkbox_options:
   # description:
   user: regular
   project: api
+
+engine_animals:
+  name: animals
+  display_name: Animals
+  user: engine_editor
+  project: engine
+
+engine_missing:
+  name: missing
+  display_name: Missing
+  user: engine_editor
+  project: engine

@@ -349,3 +349,35 @@ api_checkbox_options_2:
   name: "Option 2"
   value: 2
   position: 2
+
+engine_animals_dog:
+  domain: engine_animals
+  name: Dog
+  value: 1
+  position: 0
+
+engine_animals_cat:
+  domain: engine_animals
+  name: Cat
+  value: 2
+  position: 1
+
+engine_animals_monkey:
+  domain: engine_animals
+  name: Monkey
+  value: 3
+  position: 2
+
+engine_animals_refused:
+  domain: engine_animals
+  name: Refused
+  value: -9
+  position: 3
+  missing_code: true
+
+engine_missing_missing:
+  domain: engine_missing
+  name: Missing
+  value: -9
+  position: 0
+  missing_code: true

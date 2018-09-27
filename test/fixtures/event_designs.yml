@@ -43,3 +43,13 @@ api_two:
   event: api_event
   design: api_design_two
   position: 2
+
+engine_event_one_engine_large_number:
+  event: engine_event_one
+  design: engine_large_number
+  position: 0
+
+engine_event_two_engine_large_number:
+  event: engine_event_two
+  design: engine_large_number
+  position: 0
