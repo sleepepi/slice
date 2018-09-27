@@ -41,6 +41,9 @@
 - elsif token.token_type == :plus
   - token_class = "token-operator"
   - value = "+"
+- elsif token.token_type == :power
+  - token_class = "token-operator"
+  - value = "^"
 - elsif token.token_type == :star
   - token_class = "token-operator"
   - value = "*"
