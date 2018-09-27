@@ -41,6 +41,8 @@
           %li.sidebar-menu-header
             Reports
           %li= link_to "Overview", reports_project_path(@project), class: (current_page?(reports_project_path(@project)) ? "active" : nil)
+          - if current_user.admin? || current_page?(expressions_project_path(@project))
+            %li= link_to "Expressions", expressions_project_path(@project), class: (current_page?(expressions_project_path(@project)) ? "active" : nil)
 
         - if @project.editable_by?(current_user)
           %ul.sidebar-menu

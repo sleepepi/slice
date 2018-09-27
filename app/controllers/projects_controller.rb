@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/expressions
   def expressions
-
+    render layout: "layouts/full_page_sidebar"
   end
 
   # POST /projects/1/expressions/engine.js
