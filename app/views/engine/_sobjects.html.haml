@@ -13,7 +13,7 @@
             %th= key.gsub(/^\_d\_/, "")
           - elsif key.first(3) == "_e_"
             %th= key.gsub(/^\_e\_/, "")
-          - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_operation\_/ !~ key
+          - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_comparison\_/ !~ key
             %th Result
     %tbody
       - @sobjects.each do |_key, sobject|
@@ -82,7 +82,7 @@
                   - unless cell_found
                     .cell-value.text-muted.strong
                       unentered
-            - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_operation\_/ !~ key
+            - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_comparison\_/ !~ key
               %td
                 .cell-values
                   - cells.each do |cell|
@@ -94,77 +94,74 @@
 
 
 
-
-- if Rails.env.development?
-  - @debug = true
+- @debug = false
+- if Rails.env.development? && @debug
   - if @sobjects.present?
     %table.table.table-striped.table-borderless
       %thead
         %tr
           %th Subject
           - first_sobject.cells.each do |key, _|
-            - if key.first(3) == "_v_" || @debug
-              %th= key.gsub(/^\_v\_/, "")
+            %th= key.gsub(/^\_v\_/, "")
       %tbody
         - @sobjects.each do |_key, sobject|
           - @subject = @project.subjects.find_by(id: sobject.subject_id)
           %tr
             %td= link_to @subject.subject_code, [@project, @subject]
             - sobject.cells.each do |key, cells|
-              - if key.first(3) == "_v_" || @debug
-                %td
-                  - cells.each do |cell|
-                    .text-muted.small
-                      Cell
-                      = surround "(", ")" do
-                        = pluralize(cell.seds.count, "SED")
+              %td
+                - cells.each do |cell|
+                  .text-muted.small
+                    Cell
+                    = surround "(", ")" do
+                      = pluralize(cell.seds.count, "SED")
 
-                    - if cell.missing?
-                      %span.text-danger= cell.value
-                    - elsif cell.value == false
-                      %span.text-danger= cell.value
-                    - elsif cell.value == true
-                      %span{ style: "color: #2196f3;" }= cell.value
-                    - elsif cell.value.nil?
-                      %span.text-muted nil
+                  - if cell.missing?
+                    %span.text-danger= cell.value
+                  - elsif cell.value == false
+                    %span.text-danger= cell.value
+                  - elsif cell.value == true
+                    %span{ style: "color: #2196f3;" }= cell.value
+                  - elsif cell.value.nil?
+                    %span.text-muted nil
+                  - else
+                    %span= cell.value
+                  - if cell.coverage
+                    %span.text-muted.small
+                      = surround "(", "%)" do
+                        = cell.coverage
+
+                  - if false
+                    - if cell.value.nil?
+                      - if cell.sheet_id
+                        = link_to "nil", project_sheet_path(@project, cell.sheet_id), class: "text-muted"
+                      - else
+                        %span.text-muted nil
+                    - elsif cell.missing? || cell.value == false
+                      - if cell.sheet_id
+                        = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "text-danger"
+                      - else
+                        %span.text-danger= cell.value
                     - else
-                      %span= cell.value
+                      - if cell.sheet_id
+                        = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "link-blend"
+                      - else
+                        = cell.value
                     - if cell.coverage
                       %span.text-muted.small
                         = surround "(", "%)" do
                           = cell.coverage
-
-                    - if false
-                      - if cell.value.nil?
-                        - if cell.sheet_id
-                          = link_to "nil", project_sheet_path(@project, cell.sheet_id), class: "text-muted"
-                        - else
-                          %span.text-muted nil
-                      - elsif cell.missing? || cell.value == false
-                        - if cell.sheet_id
-                          = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "text-danger"
-                        - else
-                          %span.text-danger= cell.value
-                      - else
-                        - if cell.sheet_id
-                          = link_to cell.value.to_s, project_sheet_path(@project, cell.sheet_id), class: "link-blend"
-                        - else
-                          = cell.value
-                      - if cell.coverage
-                        %span.text-muted.small
-                          = surround "(", "%)" do
-                            = cell.coverage
-                      - if cell.sheet_id
-                        %span.small= cell.sheet_id
-                        %br
+                    - if cell.sheet_id
+                      %span.small= cell.sheet_id
+                      %br
 
 
 
-                    - cell.seds.each do |sed|
-                      %div.border
-                        - sheet = @project.sheets.find_by(id: sed.sheet_id)
-                        - event = @project.events.find_by(id: sed.event_id)
-                        - design = @project.designs.find_by(id: sed.design_id)
-                        = link_to "##{sheet.id}", [@project, sheet] if sheet
-                        = "on #{design.slug.presence || design.short_name}" if design
-                        = "@#{event.slug}" if event
+                  - cell.seds.each do |sed|
+                    %div.border
+                      - sheet = @project.sheets.find_by(id: sed.sheet_id)
+                      - event = @project.events.find_by(id: sed.event_id)
+                      - design = @project.designs.find_by(id: sed.design_id)
+                      = link_to "##{sheet.id}", [@project, sheet] if sheet
+                      = "on #{design.slug.presence || design.short_name}" if design
+                      = "@#{event.slug}" if event

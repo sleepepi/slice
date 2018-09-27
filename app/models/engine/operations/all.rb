@@ -14,6 +14,10 @@ module Engine
       include ::Engine::Operations::ComparisonNumber
 
       def operation(node, token_type, a, b, result_name: "_operation_#{@operation_count += 1}")
+        if token_type.in?([:bang_equal, :equal, :greater, :greater_equal, :less, :less_equal])
+          result_name = "_comparison_#{@operation_count - 1}"
+        end
+
         if a.is_a?(::Engine::Expressions::Literal) && b.is_a?(::Engine::Expressions::Literal)
           operation_literals(node, token_type, a, b, result_name)
         elsif a.is_a?(::Engine::Expressions::Literal)

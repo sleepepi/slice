@@ -1,2 +1,4 @@
-- @engine.lexer.tokens.each do |token|
-  = render "engine/token", token: token
+- if @engine.lexer.tokens.present?
+  .bg-white.rounded.p-3.mb-3
+    - @engine.lexer.tokens.each do |token|
+      = render "engine/token", token: token

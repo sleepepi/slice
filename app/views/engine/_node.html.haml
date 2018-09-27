@@ -1,7 +1,8 @@
-.border.bg-white.box-shadow.rounded.p-3.text-center.m-1
+.border.bg-white.rounded.p-3.text-center.m-1
   - case node.class.to_s
   - when "Engine::Expressions::Binary"
-    .small.text-muted= node.result_name
+    - if false
+      .small.text-muted= node.result_name
     = render "engine/token", token: node.operator
     .d-flex.justify-content-around
       = render "engine/node", node: node.left
@@ -20,7 +21,8 @@
       - else
         = node.value.to_s.presence || "nil"
   - when "Engine::Expressions::Unary"
-    .small.text-muted= node.result_name
+    - if false
+      .small.text-muted= node.result_name
     .d-flex.justify-content-around.align-items-center
       .border.bg-white.box-shadow.rounded.p-3.text-center.m-1= render "engine/token", token: node.operator
       = render "engine/node", node: node.right

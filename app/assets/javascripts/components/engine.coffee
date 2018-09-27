@@ -1,6 +1,6 @@
 @engineReady = ->
   expressionsReady()
-  $("[data-object~=expressions-input]").trigger("keyup")
+  sendExpression($("[data-object~=expressions-input]"), { setup: "1" })
 
 @expressionsReady = ->
   $("[data-object~=expressions-textcomplete]").each( ->
@@ -39,9 +39,9 @@
   console.log value
   $("#debug-console").prepend("#{value}<br>")
 
-@sendExpression = (element, params) ->
+@sendExpression = (element, params = {}) ->
   consoleAndScreen $(element).val()
-  params = { expressions: $(element).val() }
+  params["expressions"] = $(element).val()
   $("#run-ms").html("...")
   $("#subjects-count").html("<i class=\"d-inline-block fas fa-circle-notch fa-spin\"></i>")
   $.post($(element).data("url"), params, null, "script")

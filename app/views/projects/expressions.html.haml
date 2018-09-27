@@ -11,21 +11,18 @@
         = link_to "#", class: "btn btn-lg btn-primary", data: { object: "submit-and-disable", target: "#search-form" } do
           = icon("fas", "circle-notch")
 
-.text-monospace.bg-white.rounded.p-3.mb-3
-  %strong Server
-  #run-ms.d-inline.text-secondary.small
-  #current-space
-  #current-tokens
+#current-tokens
 
 .bg-white.rounded.p-3.mb-3
-  %strong # of Subjects
-  #subjects-count{ style: "font-size: 2rem;" }
+  .float-right
+    #run-ms.d-inline.text-secondary.small{ style: "font-size: 1.5rem;font-weight: 300;" }
+  #subjects-count.pb-2.mb-3.border-bottom{ style: "font-size: 1.5rem;" }
 
   #sobjects-table
 
 .bg-white.rounded.p-3.mb-3
   #engine-tree
 
-.text-monospace.bg-white.rounded.p-3
-  %strong Local Log
+.bg-white.rounded.p-3.d-none
+  .pb-2.mb-3.border-bottom{ style: "font-size: 1.5rem;" } Log
   #debug-console

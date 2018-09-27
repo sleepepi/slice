@@ -31,17 +31,17 @@ module Engine
     end
 
     def boolean_operator?
+      comparison_operator? || @token_type.in?([:bang, :and, :or, :xor])
+    end
+
+    def comparison_operator?
       @token_type.in?([
-        :bang,
         :bang_equal,
         :equal,
         :greater,
         :greater_equal,
         :less,
-        :less_equal,
-        :and,
-        :or,
-        :xor
+        :less_equal
       ])
     end
   end
