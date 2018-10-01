@@ -55,6 +55,13 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 7, engine.interpreter.subjects_count
   end
 
+  test "should parse positive integer" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("+42")
+    assert_equal [:plus, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
   test "should parse decimal" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run(".31416")
@@ -74,6 +81,13 @@ class EngineTest < ActiveSupport::TestCase
     engine.run("-.31416")
     assert_equal [:minus, :number], engine.lexer.tokens.collect(&:token_type)
     assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should parse decimal followed by expression" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run(".31416 > 5")
+    assert_equal [:number, :greater, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 0, engine.interpreter.subjects_count
   end
 
   test "should parse string" do
@@ -109,6 +123,41 @@ class EngineTest < ActiveSupport::TestCase
     engine.run("event-one")
     assert_equal [:identifier], engine.lexer.tokens.collect(&:token_type)
     assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should parse equal" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("=")
+    assert_equal [:equal], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should parse not" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("!")
+    assert_equal [:bang], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should parse greater" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run(">")
+    assert_equal [:greater], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 0, engine.interpreter.subjects_count
+  end
+
+  test "should parse less" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("<")
+    assert_equal [:less], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 0, engine.interpreter.subjects_count
+  end
+
+  test "should not parse unrecognized symbol" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("`")
+    assert_equal [], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 0, engine.interpreter.subjects_count
   end
 
   # Test "not" operator.
@@ -686,6 +735,14 @@ class EngineTest < ActiveSupport::TestCase
   test "should parse identifier variable at event" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run("large_number at event-two >= 20")
+    assert_equal [:identifier, :at, :identifier, :greater_equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 1, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
+
+  test "should parse identifier variable at event with @ symbol" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number @ event-two >= 20")
     assert_equal [:identifier, :at, :identifier, :greater_equal, :number], engine.lexer.tokens.collect(&:token_type)
     assert_equal 1, engine.interpreter.subjects_count
     assert_equal 1, engine.interpreter.sheets.count

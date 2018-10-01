@@ -21,7 +21,6 @@ module Engine
       @lexer.lexer(input)
       @lexer.tokens.each(&:print) if @verbose
       @parser.parse(@lexer.tokens)
-      @parser.print_tree if @verbose
       @interpreter.parser = @parser
       @interpreter.run
       puts "...#{"DONE".white}" if @verbose

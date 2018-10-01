@@ -57,10 +57,6 @@ module Engine
       end
     end
 
-    def print_tree
-      puts "#{"@tree".green}: #{@tree}"
-    end
-
     def identifier_designs
       @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::IdentifierDesign) }
     end
