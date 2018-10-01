@@ -1,4 +1,5 @@
 %td= link_to check.name, editor_project_check_path(@project, check)
+%td.d-none.d-sm-table-cell.text-center= simple_check check.expression.present?
 %td.d-none.d-sm-table-cell.text-center= simple_check check.archived?
 %td.text-center
   .dropdown

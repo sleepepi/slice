@@ -16,6 +16,11 @@
   = render "forms/horizontal/show/check_box", object: @check, key: :archived if @check.archived?
   = render "editor/checks/filters", check: @check
 
+  - if @check.expression.present?
+    - engine = ::Engine::Engine.new(@project)
+    - engine.lexer.lexer(@check.expression)
+    = render "forms/horizontal/show/generic", title: "Expression", content: render("engine/tokens", engine: engine)
+
 - unless @check.archived?
   .dashboard-container
     .float-right.text-muted
@@ -67,3 +72,12 @@
   - else
     .jumbotron.jumbotron-custom-text
       No invalid sheets found.
+
+- if @check.expression.present?
+  = hidden_field_tag :expressions, @check.expression, data: { object: "expressions-input", url: expressions_engine_project_path(@project, format: "js") }
+  .bg-white.rounded.p-3.mb-3
+    .float-right
+      #run-ms.d-inline.text-secondary.small{ style: "font-size: 1.5rem;font-weight: 300;" }
+    #subjects-count.mb-3{ style: "font-size: 1.5rem;" }
+
+    #sobjects-table

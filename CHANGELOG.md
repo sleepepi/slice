@@ -7,6 +7,8 @@
   - The Slice Expression Engine interprets the new Slice Context Free Grammar
     that allows users to build search templates to filter subjects and sheets
     based on one or more conditions
+  - Existing data checks can now be updated to use the new Slice Expression
+    Engine syntax
 - **Variable Changes**
   - Numeric, integer, and calculated variables now link sheet values to domains
     when there is a match

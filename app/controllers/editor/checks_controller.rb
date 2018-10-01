@@ -72,6 +72,8 @@ class Editor::ChecksController < Editor::EditorController
   end
 
   def check_params
-    params.require(:check).permit(:name, :slug, :description, :message, :archived)
+    params.require(:check).permit(
+      :name, :slug, :description, :message, :archived, :expression
+    )
   end
 end

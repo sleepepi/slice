@@ -3,6 +3,7 @@
 = form_with model: [check.project, check], url: url, method: method, local: true do |form|
   = render "forms/horizontal/text_field", form: form, object: check, key: :name, slug: "slug"
   = render "forms/horizontal/slug_field", form: form, object: check, key: :slug, key_name: "URL Slug"
+  = render "forms/horizontal/text_field", form: form, object: check, key: :expression, help_text: "Expression to evaluate using the Slice Expression Engine.", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
   = render "forms/horizontal/text_field", form: form, object: check, key: :message, help_text: "Message displayed on sheet when check fails."
   = render "forms/horizontal/text_area", form: form, object: check, key: :description, rows: 7
   = render "forms/horizontal/check_box", form: form, object: check, key: :archived, help_text: "Archived checks will not show alongside other data checks for project members."

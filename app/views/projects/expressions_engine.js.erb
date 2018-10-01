@@ -1,4 +1,4 @@
-$("#current-tokens").html("<%=j render "engine/tokens", engine: @engine %>");
+$("#current-tokens").html("<%=j render "engine/tokens_border", engine: @engine %>");
 
 
 $("#subjects-count").html("<%=j pluralize(number_with_delimiter(@engine.interpreter.subjects_count), "Subject") %>");
