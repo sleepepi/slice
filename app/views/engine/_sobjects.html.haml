@@ -87,11 +87,12 @@
                 .cell-values
                   - cells.each do |cell|
                     .cell-value
-                      - if cell.value
-                        = cell.value
-                      - else
+                      - if cell.value.nil?
                         %span.text-muted nil
-
+                      - elsif cell.value == false
+                        %span.text-danger false
+                      - else
+                        = cell.value
 
 
 - @debug = false
