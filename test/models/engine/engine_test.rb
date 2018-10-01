@@ -203,6 +203,20 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 0, engine.interpreter.subjects_count
   end
 
+  test "should parse equality on left side" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("true and (1 = 1)")
+    assert_equal [:true, :and, :left_paren, :number, :equal, :number, :right_paren], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should parse equality on right side" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("(1 = 1) and true")
+    assert_equal [:left_paren, :number, :equal, :number, :right_paren, :and, :true], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
   test "should compare identifier variable greater than literal" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run("large_number > 20")
@@ -260,6 +274,22 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 5, engine.interpreter.sheets.count
   end
 
+  test "should parse entered identifier variable on right" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("entered = large_number")
+    assert_equal [:entered, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 4, engine.interpreter.subjects_count
+    assert_equal 5, engine.interpreter.sheets.count
+  end
+
+  test "should parse is not entered identifier variable" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number != entered")
+    assert_equal [:identifier, :bang_equal, :entered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 3, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
+
   test "should parse present identifier variable" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run("large_number is present")
@@ -276,10 +306,42 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 4, engine.interpreter.sheets.count
   end
 
+  test "should parse is not any identifier variable" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number != any")
+    assert_equal [:identifier, :bang_equal, :any], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 4, engine.interpreter.subjects_count
+    assert_equal 2, engine.interpreter.sheets.count
+  end
+
+  test "should parse any identifier variable on right" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("any = large_number")
+    assert_equal [:any, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 3, engine.interpreter.subjects_count
+    assert_equal 4, engine.interpreter.sheets.count
+  end
+
   test "should parse missing identifier variable" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run("large_number is missing")
     assert_equal [:identifier, :equal, :missing], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 4, engine.interpreter.subjects_count
+    assert_equal 2, engine.interpreter.sheets.count
+  end
+
+  test "should parse is not missing identifier variable" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number != missing")
+    assert_equal [:identifier, :bang_equal, :missing], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 3, engine.interpreter.subjects_count
+    assert_equal 4, engine.interpreter.sheets.count
+  end
+
+  test "should parse missing identifier variable on right" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("missing = large_number")
+    assert_equal [:missing, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
     assert_equal 4, engine.interpreter.subjects_count
     assert_equal 2, engine.interpreter.sheets.count
   end
@@ -292,6 +354,22 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 1, engine.interpreter.sheets.count
   end
 
+  test "should parse is not unentered identifier variable" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number != unentered")
+    assert_equal [:identifier, :bang_equal, :unentered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 4, engine.interpreter.subjects_count
+    assert_equal 5, engine.interpreter.sheets.count
+  end
+
+  test "should parse unentered identifier variable on right" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("unentered = large_number")
+    assert_equal [:unentered, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 3, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
+
   test "should parse blank identifier variable" do
     engine = Engine::Engine.new(projects(:engine))
     engine.run("large_number is blank")
@@ -300,10 +378,21 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 1, engine.interpreter.sheets.count
   end
 
-  # TODO: Test design identifier presence.
+  test "should parse blank identifier design" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large-number is blank")
+    assert_equal [:identifier, :equal, :unentered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 2, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
 
-  # TODO: Test event identifier presence.
-
+  test "should parse blank identifier event" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("event-two is blank")
+    assert_equal [:identifier, :equal, :unentered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 6, engine.interpreter.subjects_count
+    assert_equal 0, engine.interpreter.sheets.count
+  end
 
   # Test comparison of identifiers and literals.
   test "should compare identifier variable to literal" do
@@ -439,31 +528,143 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 0, engine.interpreter.subjects_count
   end
 
-  # TODO: Addition
+  # Test addition
   test "should add number and number" do
-    skip
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("32 + 10")
+    assert_equal [:number, :plus, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
   end
 
   test "should add variable identifier and number" do
-    skip
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number + 42")
+    assert_equal [:identifier, :plus, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
   end
 
   test "should add variable identifier and variable identifier" do
-    skip
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number + small_number")
+    assert_equal [:identifier, :plus, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
   end
 
   test "should add string and string" do
-    skip
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("\"hot\"+\"dog\"")
+    assert_equal [:string, :plus, :string], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
   end
 
-  # TODO: Subtraction
+  # Test subtraction
+  test "should subtract number and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("55 - 13")
+    assert_equal [:number, :minus, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
 
-  # TODO: Multiplication
+  test "should subtract variable identifier and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("small_number - 42")
+    assert_equal [:identifier, :minus, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
 
-  # TODO: Division
+  test "should subtract variable identifier and variable identifier" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number - small_number")
+    assert_equal [:identifier, :minus, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
 
-  # TODO: Exponentiation
+  # Test multiplication
+  test "should multiply number and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("3 * 14")
+    assert_equal [:number, :star, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
 
+  test "should multiply variable identifier and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("small_number * 1")
+    assert_equal [:identifier, :star, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should multiply variable identifier and variable identifier" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number * small_number")
+    assert_equal [:identifier, :star, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should multiply string and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("\"hello!\" * 3")
+    assert_equal [:string, :star, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  # Test division
+  test "should divide number and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("42 / 14")
+    assert_equal [:number, :slash, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should divide variable identifier and number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("small_number / 3")
+    assert_equal [:identifier, :slash, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should divide variable identifier and variable identifier" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number / small_number")
+    assert_equal [:identifier, :slash, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should divide number by zero and return nil" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("42 / 0")
+    assert_equal [:number, :slash, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  # Test exponentiation
+  test "should raise number to number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("2 ^ 10")
+    assert_equal [:number, :power, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should raise variable identifier to number" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("small_number ^ 3")
+    assert_equal [:identifier, :power, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should raise variable identifier to variable identifier" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large_number ^ small_number")
+    assert_equal [:identifier, :power, :identifier], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
+
+  test "should raise zero by zero and return nil" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("0 ^ 0")
+    assert_equal [:number, :power, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 7, engine.interpreter.subjects_count
+  end
 
   # Test auto-corrections for common syntax errors.
   test "should correct identifier between literals with missing and" do
@@ -514,6 +715,20 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 1, engine.interpreter.sheets.count
   end
 
-  # TODO: Test design at event
-  # large-number at event-one
+  # Test design at event is present.
+  test "should parse identifier design at event is entered" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large-number at event-one is entered")
+    assert_equal [:identifier, :at, :identifier, :equal, :entered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 5, engine.interpreter.subjects_count
+    assert_equal 5, engine.interpreter.sheets.count
+  end
+
+  test "should parse identifier design at event is missing" do
+    engine = Engine::Engine.new(projects(:engine))
+    engine.run("large-number at event-one is missing")
+    assert_equal [:identifier, :at, :identifier, :equal, :missing], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 2, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
 end

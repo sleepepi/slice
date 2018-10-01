@@ -10,6 +10,7 @@ module Engine
       :string,
       :minus, :plus,
       :star, :slash,
+      :power,
       :bang,
       :greater, :less, :greater_equal, :less_equal, :bang_equal, :equal,
       :true, :false, :nil,
