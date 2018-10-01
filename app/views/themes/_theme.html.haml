@@ -1,4 +1,4 @@
-- if params[:theme].present?
+- if params[:theme].in?(Slice::THEMES.collect(&:second))
   - @theme = @menu = @body = @footer = params[:theme]
 - elsif current_user&.theme.in?(Slice::THEMES.collect(&:second))
   - @theme = @menu = @body = @footer = current_user&.theme

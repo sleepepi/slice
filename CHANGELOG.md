@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Update framework files to resemble Rails 5.2 defaults more closely
+  - Slice has a brand new logo (created by @mmorrical)
 - **Slice Expression Engine Added**
   - The Slice Expression Engine interprets the new Slice Context Free Grammar
     that allows users to build search templates to filter subjects and sheets

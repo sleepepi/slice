@@ -1,6 +1,7 @@
 @engineReady = ->
   expressionsReady()
-  sendExpression($("[data-object~=expressions-input]"), { setup: "1" })
+  if $("[data-object~=expressions-input]").length > 1
+    sendExpression($("[data-object~=expressions-input]"), { setup: "1" })
 
 @expressionsReady = ->
   $("[data-object~=expressions-textcomplete]").each( ->
@@ -36,7 +37,7 @@
   )
 
 @consoleAndScreen = (value) ->
-  console.log value
+  console.log "#{value}"
   $("#debug-console").prepend("#{value}<br>")
 
 @sendExpression = (element, params = {}) ->

@@ -1,1 +1,19 @@
-.d-none{ data: { object: "notification-png", url: image_path("slice-s.png") } }
+- case @theme
+- when "night"
+  - url = image_path("logos/slice-v5-black-icon-128.png")
+- when "underwater"
+  - url = image_path("logos/slice-v5-teal-icon-128.png")
+- when "love"
+  - url = image_path("logos/slice-v5-pink-icon-128.png")
+- when "royal"
+  - url = image_path("logos/slice-v5-purple-icon-128.png")
+- when "spring"
+  - url = image_path("logos/slice-v5-blue-icon-128.png")
+- when "fall"
+  - url = image_path("logos/slice-v5-amber-icon-128.png")
+- when "winter"
+  - url = image_path("logos/slice-v5-blue-icon-128.png")
+- else
+  - url = image_path("logos/slice-v5-blue-icon-128.png")
+
+.d-none{ data: { object: "notification-png", url: url } }

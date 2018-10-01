@@ -1,60 +1,97 @@
-%h1
-  %strong Slice:
-  Empower your research.
+.d-flex.flex-column.align-items-center.mb-5.mt-5
+  %div
+    = image_tag "logos/slice-v5-blue-logo-transparent.png", style: "width: 100%;max-width: 600px;", class: "img-ignore-selection"
+  %div{ style: "font-size: 1.75rem;" }
+    Data collection made easy.
+
+
+.text-center.mb-5
+  = link_to new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow" do
+    = image_tag("logos/slice-v5-transparent-icon-128.png", style: "height: 2rem;", class: "mr-2 img-ignore-selection")
+    Create a free account
+    = icon("fas", "caret-right")
+
 
 .docs-container
   %p
     = ENV["website_name"]
-    is a free clinical research data collection system for capturing and
-    analyzing data.
-  %p
-    Learn how to:
-  %p
-    1.
-    = link_to "Create a project.", docs_project_setup_path
-
-  %p
-    2.
-    = link_to "Enter data.", docs_sheets_path
-
-  %p
-    3.
-    = link_to "Discover results.", docs_data_review_path
-
-  %p
-    Slice allows you to
-    = succeed "," do
-      = link_to "create forms", docs_designs_path
-
-    = succeed "," do
-      = link_to "collect data", docs_sheets_path
-
-    = succeed "," do
-      = link_to "build your team", docs_roles_path
-
-    = succeed "," do
-      = link_to "view reports", docs_reports_path
-
-    = succeed "," do
-      = link_to "report adverse events", docs_adverse_events_path
-
-    = succeed "," do
-      = link_to "randomize participants", docs_randomization_schemes_path
-
-    = succeed "," do
-      = link_to "run data quality checks", docs_checks_path
-
-    = succeed "," do
-      = link_to "analyze data", docs_data_review_path
-
+    is a modern data capture system for clinical trials and research
+    studies.
+    = ENV["website_name"]
+    makes data entry
+    %span simple
+    and subject management
     = succeed "." do
-      = link_to "publish results", docs_exports_path
+      %span straightforward
+    Quickly build data collection forms, collect data, view no-hassle reports,
+    and export your data to R or SAS for further analysis.
 
+  %p
+    Work with your local team, or build a project with collaborators across
+    different sites. Project roles are simple by design making adding new team
+    members quick and easy.
 
-- content_for :footer do
-  %div{ style: "background-color: transparent;color: #fff" }
-    .container
-      .jumbotron{ style: "background-color: transparent" }
-        %h2.text-center{ style: "margin-bottom: 40px" } Start working at the next level.
-        .text-center
-          = link_to "Create an account today", new_user_registration_path, class: "btn btn-lg btn-accent btn-shadow"
+  %p
+    = ENV["website_name"]
+    provides advanced features like project-level blinding, multiple
+    randomization schemes, adverse event review and monitoring, participant
+    "tablet handoff" data entry, customizable data quality checks,
+    multi-language translations,
+    = succeed "." do
+      = link_to "and more", docs_path
+
+  %p
+    Have questions about
+    = succeed "?" do
+      = ENV["website_name"]
+    Contact us at
+    = succeed "." do
+      = mail_to ENV["support_email"]
+
+  - if false
+    %p
+      = ENV["website_name"]
+      is a free clinical research data collection system for capturing and
+      analyzing data.
+    %p
+      Learn how to:
+    %p
+      1.
+      = link_to "Create a project.", docs_project_setup_path
+
+    %p
+      2.
+      = link_to "Enter data.", docs_sheets_path
+
+    %p
+      3.
+      = link_to "Discover results.", docs_data_review_path
+
+    %p
+      Slice allows you to
+      = succeed "," do
+        = link_to "create forms", docs_designs_path
+
+      = succeed "," do
+        = link_to "collect data", docs_sheets_path
+
+      = succeed "," do
+        = link_to "build your team", docs_roles_path
+
+      = succeed "," do
+        = link_to "view reports", docs_reports_path
+
+      = succeed "," do
+        = link_to "report adverse events", docs_adverse_events_path
+
+      = succeed "," do
+        = link_to "randomize participants", docs_randomization_schemes_path
+
+      = succeed "," do
+        = link_to "run data quality checks", docs_checks_path
+
+      = succeed "," do
+        = link_to "analyze data", docs_data_review_path
+
+      = succeed "." do
+        = link_to "publish results", docs_exports_path

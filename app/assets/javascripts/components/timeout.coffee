@@ -19,7 +19,7 @@
       "Slice",
       icon: $("[data-object~=notification-png]").data("url")
       body: "Your session is ending soon."
-      tag: "timeout-notification"
+      # tag: "timeout-notification"
     )
     notification.onclick = ->
       window.focus()

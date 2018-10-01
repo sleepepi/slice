@@ -11,7 +11,7 @@
     -# Don't cache any pages
     %meta{ name: "turbolinks-cache-control", content: "no-cache" }
     %title= @title
-    = favicon_link_tag
+    = render "layouts/meta/favicon"
 
     = csrf_meta_tags
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
