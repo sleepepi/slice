@@ -208,7 +208,7 @@ module Engine
         operator = @previous_token
         right = primary
         # TODO: Raise "expected an event" if right is not of type ::Engine::Expressions::IdentifierEvent
-        # TODO: @identifiers[-2] also needs to be an IdentifierVariable or an IdentifierEvent
+        # TODO: @identifiers[-2] also needs to be an IdentifierVariable or an IdentifierDesign
         @identifiers[-2].event = right if @identifiers[-2].respond_to?(:event)
       end
       expr
