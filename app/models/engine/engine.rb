@@ -6,8 +6,9 @@ module Engine
   class Engine
     attr_accessor :lexer, :parser, :interpreter, :run_ms
 
-    def initialize(project, verbose: false)
+    def initialize(project, current_user, verbose: false)
       @project = project
+      @current_user = current_user
       @verbose = verbose
       @lexer = ::Engine::Lexer.new(verbose: @verbose)
       @parser = ::Engine::Parser.new(project, verbose: @verbose)
@@ -26,6 +27,16 @@ module Engine
       puts "...#{"DONE".white}" if @verbose
       @run_ms = ((Time.zone.now - t) * 1000).to_i
       # Rails.logger.debug "Memory Used: " + (`ps -o rss -p #{$$}`.strip.split.last.to_i / 1024).to_s + " MB"
+      unless input.blank?
+        EngineRun.create(
+          project: @project,
+          user: @current_user,
+          expression: input,
+          runtime_ms: @run_ms,
+          subjects_count: @interpreter.subjects_count,
+          sheets_count: @interpreter.sheets.count
+        )
+      end
     end
   end
 end

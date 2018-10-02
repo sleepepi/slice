@@ -1,6 +1,6 @@
 @engineReady = ->
   expressionsReady()
-  if $("[data-object~=expressions-input]").length > 1
+  if $("[data-object~=expressions-input]").length > 0
     sendExpression($("[data-object~=expressions-input]"), { setup: "1" })
 
 @expressionsReady = ->
@@ -42,7 +42,7 @@
 
 @sendExpression = (element, params = {}) ->
   consoleAndScreen $(element).val()
-  params["expressions"] = $(element).val()
+  params["expression"] = $(element).val()
   $("#run-ms").html("...")
   $("#subjects-count").html("<i class=\"d-inline-block fas fa-circle-notch fa-spin\"></i>")
   $.post($(element).data("url"), params, null, "script")

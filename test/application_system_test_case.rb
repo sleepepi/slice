@@ -28,7 +28,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     find("input[type=submit]").click
   end
 
-  def click_element(selector)
-    page.execute_script("$(\"#{selector}\").click();")
+  def click_element(selector, match: :first)
+    find(selector, match: match).click
   end
 end

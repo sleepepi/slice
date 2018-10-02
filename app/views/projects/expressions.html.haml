@@ -7,7 +7,7 @@
 
 .mb-3
   .input-group
-    = text_field_tag :expressions, params[:expressions], class: "form-control form-control-lg", data: { object: "expressions-input expressions-textcomplete", url: expressions_engine_project_path(@project, format: "js"), textcomplete_url: expressions_search_project_path(@project, format: "json") }, autofocus: params[:expressions].blank?, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
+    = text_field_tag :expression, params[:expression], class: "form-control form-control-lg", data: { object: "expressions-input expressions-textcomplete", url: expressions_engine_project_path(@project, format: "js"), textcomplete_url: expressions_search_project_path(@project, format: "json") }, autofocus: params[:expressions].blank?, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
 
 #current-tokens
 

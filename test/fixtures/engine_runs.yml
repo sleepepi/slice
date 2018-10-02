@@ -1,0 +1,15 @@
+one:
+  user: engine_editor
+  project: engine
+  expression: large_number > 5
+  runtime_ms: 116
+  subjects_count: 3
+  sheets_count: 4
+
+two:
+  user: engine_editor
+  project: engine
+  expression: large_number is 100 and animals is 2
+  runtime_ms: 507
+  subjects_count: 1
+  sheets_count: 1

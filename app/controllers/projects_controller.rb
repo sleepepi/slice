@@ -15,8 +15,8 @@ class ProjectsController < ApplicationController
 
   # POST /projects/1/expressions/engine.js
   def expressions_engine
-    @engine = ::Engine::Engine.new(@project)
-    @engine.run(params[:expressions])
+    @engine = ::Engine::Engine.new(@project, current_user)
+    @engine.run(params[:expression])
   end
 
   # POST /projects/1/expressions/search.json

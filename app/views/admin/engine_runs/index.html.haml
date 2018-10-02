@@ -1,0 +1,36 @@
+- @title = "Engine Runs"
+
+- content_for :header do
+  .float-right
+    .per-page= render "layouts/per_page", per_page: 20, object_count: @engine_runs.total_count
+  = @title
+  = render "search/toggle"
+
+= render "search/simple", url: admin_engine_runs_path
+
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
+    %thead
+      %tr
+        %th= order_to "Run", primary: "run"
+        %th.text-center User
+        %th.text-center Project
+        %th Expression
+        %th.text-right= order_to "Runtime", primary: "runtime desc", secondary: "runtime"
+        %th.text-center= order_to "Subjects", primary: "subjects desc", secondary: "subjects"
+        %th.text-center= order_to "Sheets", primary: "sheets desc", secondary: "sheets"
+        %th
+
+    %tbody
+      - @engine_runs.each do |engine_run|
+        %tr
+          %td= link_to engine_run.name, [:admin, engine_run]
+          %td.text-center= engine_run.user.username
+          %td.text-center= engine_run.project.name
+          %td= link_to engine_run.expression, expressions_project_path(engine_run.project, expression: engine_run.expression)
+          %td.text-right= render "admin/engine_runs/runtime", engine_run: engine_run
+          %td.text-center= render "admin/engine_runs/subjects_count", engine_run: engine_run
+          %td.text-center= render "admin/engine_runs/sheets_count", engine_run: engine_run
+          %td= link_to icon("fas", "trash-alt"), [:admin, engine_run], method: :delete, data: { confirm: "Delete \"#{engine_run.name}\"?" }, class: "text-danger"
+
+.center-horizontally= paginate @engine_runs, theme: "bootstrap"

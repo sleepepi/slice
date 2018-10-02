@@ -10,6 +10,6 @@ $("#engine-tree").html("<%=j render "engine/tree", engine: @engine %>");
 
 <% unless params[:setup] == "1" %>
 if (Turbolinks.supported) {
-  Turbolinks.controller.pushHistoryWithLocationAndRestorationIdentifier("//" + location.host + location.pathname + "?" + "expressions=<%= CGI.escape(params[:expressions]) %>", Turbolinks.uuid());
+  Turbolinks.controller.pushHistoryWithLocationAndRestorationIdentifier("//" + location.host + location.pathname + "?" + "expression=<%= CGI.escape(params[:expression]) %>", Turbolinks.uuid());
 }
 <% end %>

@@ -22,6 +22,10 @@ Rails.application.routes.draw do
     get :change_password, to: redirect("settings")
   end
 
+  namespace :admin do
+    resources :engine_runs, path: "engine-runs"
+  end
+
   namespace :api do
     namespace :v1 do
       get "projects/:authentication_token", to: "projects#show", as: :project

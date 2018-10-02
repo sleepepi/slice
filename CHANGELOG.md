@@ -10,6 +10,8 @@
     based on one or more conditions
   - Existing data checks can now be updated to use the new Slice Expression
     Engine syntax
+  - Admins can view statistics from of Sleep Expression Engine runs, including
+    runtime, sheet counts, and subject counts
 - **Variable Changes**
   - Numeric, integer, and calculated variables now link sheet values to domains
     when there is a match

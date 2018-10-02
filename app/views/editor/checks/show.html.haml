@@ -17,7 +17,7 @@
   = render "editor/checks/filters", check: @check
 
   - if @check.expression.present?
-    - engine = ::Engine::Engine.new(@project)
+    - engine = ::Engine::Engine.new(@project, current_user)
     - engine.lexer.lexer(@check.expression)
     = render "forms/horizontal/show/generic", title: "Expression", content: render("engine/tokens", engine: engine)
 

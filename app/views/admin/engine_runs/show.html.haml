@@ -1,0 +1,16 @@
+- @title = @engine_run.name
+- @breadcrumbs = []
+- @breadcrumbs << ["Engine Runs", admin_engine_runs_path]
+
+- content_for :header, @title
+
+.dashboard-container
+  = render "forms/horizontal/show/generic", title: "Project", content: link_to(@engine_run.project.name, @engine_run.project)
+  = render "forms/horizontal/show/generic", title: "User", content: link_to(@engine_run.user.username, @engine_run.user)
+  = render "forms/horizontal/show/generic", title: "Expression", content: link_to(@engine_run.expression, expressions_project_path(@engine_run.project, expression: @engine_run.expression))
+  - engine = ::Engine::Engine.new(@engine_run.project, current_user)
+  - engine.lexer.lexer(@engine_run.expression)
+  = render "forms/horizontal/show/generic", title: "Tokens", content: render("engine/tokens", engine: engine)
+  = render "forms/horizontal/show/generic", title: "Runtime", content: render("admin/engine_runs/runtime", engine_run: @engine_run)
+  = render "forms/horizontal/show/generic", title: "Subjects", content: render("admin/engine_runs/subjects_count", engine_run: @engine_run)
+  = render "forms/horizontal/show/generic", title: "Sheets", content: render("admin/engine_runs/sheets_count", engine_run: @engine_run)
