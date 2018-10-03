@@ -9,25 +9,21 @@ regular:
 project_one_editor:
   full_name: Project One Editor
   email: project_one_editor@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 project_one_viewer:
   full_name: Project One Viewer
   email: project_one_viewer@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 project_one_editor_blinded:
   full_name: Blinded Project Editor
   email: project_one_editor_blinded@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 two:
   full_name: Two Deux
   email: two@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 admin:
@@ -40,76 +36,63 @@ admin:
 associated:
   full_name: Associated User
   email: associated@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 deleted:
   full_name: Deleted Deleted
   email: deleted@example.com
-  encrypted_password: ""
   emails_enabled: true
   deleted: true
 
 site_one_viewer:
   full_name: SiteOne Viewer
   email: site_one_viewer@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 site_one_editor:
   full_name: SiteOne Editor
   email: site_one_editor@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 site_one_editor_blinded:
   full_name: SiteOne EditorBlinded
   email: site_one_editor_blinded@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 site_two_viewer:
   full_name: SiteTwo Viewer
   email: site_two_viewer@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 site_two_editor:
   full_name: SiteTwo Editor
   email: site_two_editor@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 auto_lock_site_one_editor:
   full_name: Auto-lock Site Editor
   email: auto_lock_site_one_editor@example.com
-  encrypted_password: ""
   emails_enabled: true
 
 send_no_email:
   full_name: FirstName LastName
   email: send_no_email@example.com
-  encrypted_password: ""
   emails_enabled: false
 
 profile_picture:
   full_name: Profile Picture
   email: profile_picture@example.com
-  encrypted_password: ""
   emails_enabled: false
   profile_picture: image.png
 
 custom_randomizations_editor:
   full_name: Custom Randomizations Editor
   email: custom_randomizations_editor@example.com
-  encrypted_password: ""
 
 no_profile:
   full_name: No Profile
   email: no_profile@example.com
-  encrypted_password: ""
 
 engine_editor:
   full_name: Engine Tester
   email: engine_tester@example.com
-  # encrypted_password: "" # TODO: Check if needed.
