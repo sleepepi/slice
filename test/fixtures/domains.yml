@@ -106,6 +106,13 @@ integer_unknown:
   user: regular
   project: one
 
+numeric_missing:
+  name: numeric_missing
+  display_name: Numeric Missing
+  # description:
+  user: regular
+  project: one
+
 randomize_yes_no:
   name: randomize_yes_no
   display_name: Randomize Yes or No

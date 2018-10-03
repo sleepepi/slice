@@ -283,6 +283,20 @@ integer_unknown_10:
   missing_code: true
   position: 1
 
+numeric_missing_1:
+  domain: numeric_missing
+  name: Missing -1
+  value: -1
+  missing_code: true
+  position: 0
+
+numeric_missing_2_0:
+  domain: numeric_missing
+  name: Missing -2.0
+  value: -2.0
+  missing_code: true
+  position: 1
+
 randomize_yes_no_1:
   domain: randomize_yes_no
   name: "Yes"

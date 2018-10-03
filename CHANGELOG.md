@@ -16,6 +16,11 @@
   - Numeric, integer, and calculated variables now link sheet values to domains
     when there is a match
 
+### Bug Fix
+- Numeric and integer variables that have a domain with missing codes now
+  correctly associate values to the missing code if both numbers are equal
+  regardless of decimal verse integer input
+
 ## 65.0.0 (September 10, 2018)
 
 ### Enhancements

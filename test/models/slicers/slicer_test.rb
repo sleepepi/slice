@@ -97,6 +97,30 @@ class SlicerTest < ActiveSupport::TestCase
     )
   end
 
+  test "should prepare value for db for numeric variable with domain" do
+    slicer = Slicers.for(variables(:numeric))
+    assert_equal(
+      { value: "98.6", domain_option_id: nil },
+      slicer.format_for_db_update("98.6")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:numeric_missing_1).id },
+      slicer.format_for_db_update("-1")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:numeric_missing_1).id },
+      slicer.format_for_db_update("-1.0")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:numeric_missing_2_0).id },
+      slicer.format_for_db_update("-2")
+    )
+    assert_equal(
+      { value: nil, domain_option_id: domain_options(:numeric_missing_2_0).id },
+      slicer.format_for_db_update("-2.0")
+    )
+  end
+
   test "should prepare value for db for numeric variable" do
     slicer = Slicers.for(variables(:api_numeric))
     assert_equal(

@@ -136,6 +136,7 @@ numeric:
   variable_type: numeric
   user: regular
   project: one
+  domain: numeric_missing
 
 date:
   name: var_date
