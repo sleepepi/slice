@@ -22,6 +22,7 @@
   - Update to carrierwave 1.2.3
   - Update to chunky_png 1.3.10
   - Update to devise 4.5.0
+  - Update to font-awesome-sass 5.3.1
 
 ### Bug Fix
 - Numeric and integer variables that have a domain with missing codes now
