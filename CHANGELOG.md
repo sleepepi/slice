@@ -24,6 +24,7 @@
   - Update to devise 4.5.0
   - Update to font-awesome-sass 5.3.1
   - Update to mini_magick 4.9.2
+  - Update to rubyzip 1.2.2
 
 ### Bug Fix
 - Numeric and integer variables that have a domain with missing codes now
