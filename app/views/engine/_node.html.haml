@@ -24,7 +24,7 @@
     - if false
       .small.text-muted= node.result_name
     .d-flex.justify-content-around.align-items-center
-      .border.bg-white.box-shadow.rounded.p-3.text-center.m-1= render "engine/token", token: node.operator
+      .node-container= render "engine/token", token: node.operator
       = render "engine/node", node: node.right
   - when "Engine::Expressions::IdentifierVariable"
     .small.text-muted variable

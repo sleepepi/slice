@@ -75,7 +75,7 @@
 
 - if @check.expression.present?
   = hidden_field_tag :expressions, @check.expression, data: { object: "expressions-input", url: expressions_engine_project_path(@project, format: "js") }
-  .bg-white.rounded.p-3.mb-3
+  .engine-container
     .float-right
       #run-ms.d-inline.text-secondary.small{ style: "font-size: 1.5rem;font-weight: 300;" }
     #subjects-count.mb-3{ style: "font-size: 1.5rem;" }
