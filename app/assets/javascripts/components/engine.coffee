@@ -47,7 +47,7 @@
   $("#subjects-count").html("<i class=\"d-inline-block fas fa-circle-notch fa-spin\"></i>")
   $.post($(element).data("url"), params, null, "script")
     .fail(->
-      $("#current-tokens").html("<div class=\"bg-white rounded p-3 mb-3\">error</div>")
+      $("#current-tokens").html("<div class=\"engine-container\">error</div>")
       $("#run-ms").html("")
       $("#sobjects-table").html("")
       $("#engine-tree").html("")

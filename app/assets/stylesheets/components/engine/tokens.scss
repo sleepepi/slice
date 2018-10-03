@@ -37,3 +37,36 @@
   border-bottom: 1px dotted $p500-red;
   color: $p500-grey;
 }
+
+.engine-container {
+  border-radius: $border-radius;
+  margin-bottom: $spacer;
+  padding: $spacer;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .engine-container {
+      background-color: map-get($theme, dashboard-bg);
+      color: map-get($theme, body-color);
+    }
+  }
+}
+
+.node-container {
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  margin: map-get($spacers, 1);
+  padding: $spacer;
+  text-align: center;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .node-container {
+      background-color: map-get($theme, dashboard-bg);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+      color: map-get($theme, body-color);
+    }
+  }
+}
