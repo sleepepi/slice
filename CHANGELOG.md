@@ -19,6 +19,7 @@
   - Update to rails 5.2.1
   - Update to pg 1.1.3
   - Update to bootstrap 4.1.3
+  - Update to carrierwave 1.2.3
 
 ### Bug Fix
 - Numeric and integer variables that have a domain with missing codes now
