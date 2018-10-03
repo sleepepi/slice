@@ -15,6 +15,8 @@
 - **Variable Changes**
   - Numeric, integer, and calculated variables now link sheet values to domains
     when there is a match
+- **Gem Changes**
+  - Update to rails 5.2.1
 
 ### Bug Fix
 - Numeric and integer variables that have a domain with missing codes now
