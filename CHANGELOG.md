@@ -26,6 +26,7 @@
   - Update to mini_magick 4.9.2
   - Update to rubyzip 1.2.2
   - Update to sitemap_generator 6.0.1
+  - Update to jquery-rails 4.3.3
 
 ### Bug Fix
 - Numeric and integer variables that have a domain with missing codes now
