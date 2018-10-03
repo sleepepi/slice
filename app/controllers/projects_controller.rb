@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
 
   # POST /projects/1/expressions/search.json
   def expressions_search
-    variable_scope = @project.variables.where(variable_type: %w(dropdown checkbox radio string integer numeric date calculated imperial_height imperial_weight))
+    variable_scope = @project.variables.where(variable_type: Variable::TYPE_SEARCHABLE)
                                        .search_any_order(params[:search])
                                        .order(:name).limit(10)
     render json: variable_scope.pluck(:name)

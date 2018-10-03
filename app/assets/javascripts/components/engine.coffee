@@ -36,12 +36,11 @@
     )
   )
 
-@consoleAndScreen = (value) ->
-  console.log "#{value}"
+@addToDebugConsole = (value) ->
   $("#debug-console").prepend("#{value}<br>")
 
 @sendExpression = (element, params = {}) ->
-  consoleAndScreen $(element).val()
+  addToDebugConsole $(element).val()
   params["expression"] = $(element).val()
   $("#run-ms").html("...")
   $("#subjects-count").html("<i class=\"d-inline-block fas fa-circle-notch fa-spin\"></i>")
@@ -63,7 +62,6 @@
 $(document)
   .on("keyup", "[data-object~=expressions-input]", (event) ->
     return if event.which in [9, 12, 16, 17, 18, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 91, 93]
-    # consoleAndScreen event.which
     $this = $(this)
     clearExistingTimeouts($this)
     timeout = setTimeout(sendExpression.bind(null, $this), 250 * 1)
