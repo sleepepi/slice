@@ -19,6 +19,7 @@
   - if @check.expression.present?
     - engine = ::Engine::Engine.new(@project, current_user)
     - engine.lexer.lexer(@check.expression)
+    - engine.parser.parse(engine.lexer.tokens)
     = render "forms/horizontal/show/generic", title: "Expression", content: render("engine/tokens", engine: engine)
 
 - unless @check.archived?
