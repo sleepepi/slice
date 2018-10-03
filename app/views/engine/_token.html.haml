@@ -1,4 +1,5 @@
 - token_auto = token.auto ? "token-auto" : nil
+- token_identified = (token.token_type == :identifier && !token.identified ? "token-identifier-not-found" : nil)
 - value = token.token_type
 - token_class = nil
 
@@ -60,4 +61,4 @@
 - elsif token.token_type.in?([:true, :false, :nil])
   - token_class = "token-boolean"
 
-%span.token{ class: [token_auto, token_class].compact }= value
+%span.token{ class: [token_auto, token_identified, token_class].compact }= value

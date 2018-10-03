@@ -230,18 +230,21 @@ module Engine
       if token_is?(:identifier)
         variable = @project.variables.find_by(name: @previous_token.raw)
         if variable
+          @previous_token.identified = true
           identifier = ::Engine::Expressions::IdentifierVariable.new(variable.name)
           @identifiers << identifier
           return identifier
         end
         event = @project.events.find_by(slug: @previous_token.raw)
         if event
+          @previous_token.identified = true
           identifier = ::Engine::Expressions::IdentifierEvent.new(event.slug)
           @identifiers << identifier
           return identifier
         end
         design = @project.designs.find_by(slug: @previous_token.raw)
         if design
+          @previous_token.identified = true
           identifier = ::Engine::Expressions::IdentifierDesign.new(design.slug)
           @identifiers << identifier
           return identifier

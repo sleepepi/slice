@@ -19,12 +19,13 @@ module Engine
       :entered, :any, :missing, :unentered
     ]
 
-    attr_accessor :token_type, :raw, :auto
+    attr_accessor :token_type, :raw, :auto, :identified
 
     def initialize(token_type, raw: nil, auto: false)
       @token_type = token_type
       @raw = raw
       @auto = auto
+      @identified = false
     end
 
     def print
