@@ -431,8 +431,8 @@ class EngineTest < ActiveSupport::TestCase
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
     engine.run("large-number is blank")
     assert_equal [:identifier, :equal, :unentered], engine.lexer.tokens.collect(&:token_type)
-    assert_equal 2, engine.interpreter.subjects_count
-    assert_equal 1, engine.interpreter.sheets.count
+    assert_equal 1, engine.interpreter.subjects_count
+    assert_equal 0, engine.interpreter.sheets.count
   end
 
   test "should parse blank identifier event" do
@@ -777,6 +777,14 @@ class EngineTest < ActiveSupport::TestCase
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
     engine.run("large-number at event-one is entered")
     assert_equal [:identifier, :at, :identifier, :equal, :entered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 6, engine.interpreter.subjects_count
+    assert_equal 6, engine.interpreter.sheets.count
+  end
+
+  test "should parse identifier design at event is any" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("large-number at event-one is any")
+    assert_equal [:identifier, :at, :identifier, :equal, :any], engine.lexer.tokens.collect(&:token_type)
     assert_equal 5, engine.interpreter.subjects_count
     assert_equal 5, engine.interpreter.sheets.count
   end
@@ -787,5 +795,13 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal [:identifier, :at, :identifier, :equal, :missing], engine.lexer.tokens.collect(&:token_type)
     assert_equal 2, engine.interpreter.subjects_count
     assert_equal 1, engine.interpreter.sheets.count
+  end
+
+  test "should parse identifier design at event is unentered" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("large-number at event-one is unentered")
+    assert_equal [:identifier, :at, :identifier, :equal, :unentered], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 1, engine.interpreter.subjects_count
+    assert_equal 0, engine.interpreter.sheets.count
   end
 end

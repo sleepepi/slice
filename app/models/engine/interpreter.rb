@@ -142,7 +142,7 @@ module Engine
       hash[:subject_event] = SubjectEvent.where(event: event) if event
       sheets = @project.sheets.where(hash).order(:id).pluck(:subject_id, :id, :percent, :missing)
       sheets.each do |subject_id, sheet_id, percent, missing|
-        cell = ::Engine::Cell.new(!missing, subject_id: subject_id, coverage: percent)
+        cell = ::Engine::Cell.new(true, subject_id: subject_id, coverage: percent, missing_code: missing)
         cell.add_sed(sheet_id: sheet_id, event_id: event&.id, design_id: design.id)
         add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
