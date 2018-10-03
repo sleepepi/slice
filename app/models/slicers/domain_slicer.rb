@@ -22,7 +22,7 @@ module Slicers
       # Return true if the strings are equal.
       return true if left.to_s == right.to_s
       # Else check if they are equal as numbers if both are formatted as numbers.
-      decimal_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
+      decimal_regex = Regexp.new(/^[-+]?[0-9]*(\.)?[0-9]+$/)
       if !(decimal_regex =~ left).nil? && !(decimal_regex =~ right).nil?
         return Float(left) == Float(right)
       else

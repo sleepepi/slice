@@ -120,7 +120,7 @@ module Engine
         .pluck(:subject_id, :sheet_id, :design_id, domain_option_value_or_value, :missing_code)
       formatter = Formatters.for(variable)
       integer_regex = Regexp.new(/^[-+]?[1-9][0-9]*$/)
-      decimal_regex = Regexp.new(/^[-+]?[0-9]*(\.[0-9]+)?$/)
+      decimal_regex = Regexp.new(/^[-+]?[0-9]*(\.)?[0-9]+$/)
       svs.each do |subject_id, sheet_id, design_id, value, missing_code|
         formatted_value = formatter.raw_response(value)
         if formatted_value.is_a?(String) && (formatted_value == "0" || !(integer_regex =~ formatted_value).nil?)
