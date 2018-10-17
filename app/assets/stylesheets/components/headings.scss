@@ -146,3 +146,47 @@
     }
   }
 }
+
+.brand-title {
+  border-bottom: 2px solid transparent;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: map-get($spacers, 4);
+}
+
+.brand-subtitle {
+  border-bottom: 1px solid transparent;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-top: map-get($spacers, 5);
+  margin-bottom: map-get($spacers, 3);
+}
+
+.brand-subsubtitle {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: map-get($spacers, 2);
+}
+
+@include media-breakpoint-up(sm) {
+  .brand-title {
+    font-size: 1.75rem;
+  }
+
+  .brand-subtitle {
+    font-size: 1.375rem;
+  }
+
+  .brand-subsubtitle {
+    font-size: 1.25rem;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .brand-title,
+    .brand-subtitle {
+      border-color: map-get($theme, p500); // $p200-orange;
+    }
+  }
+}

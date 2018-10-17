@@ -1,5 +1,9 @@
 ## 67.0.0
 
+### Enhancements
+- **General Changes**
+  - Add updated Privacy Policy
+
 ## 66.0.0 (October 4, 2018)
 
 ### Enhancements

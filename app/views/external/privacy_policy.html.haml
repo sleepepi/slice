@@ -2,5 +2,292 @@
 
 - content_for :header, @title
 
+- full_name = ENV["website_name"]
+- short_name = full_name
+- support_email = ActionMailer::Base.smtp_settings[:email]
+
 .dashboard-container
-  %h2.border-bottom.border-primary{ style: "border-width: 2px !important;" }= @title
+  .brand-title
+    = full_name
+    Web Privacy Policy
+  .brand-subtitle 1. INTRODUCTION
+  .brand-subsubtitle Purpose
+  %p
+    The purpose of this Website Privacy Policy is to describe how
+    = full_name
+    and its affiliates (collectively,
+    = surround "\"", "\")" do
+      = short_name
+    collects, uses and shares information about you through this website
+    (the "Site").  Please read this notice carefully to understand what we do.
+    If you do not understand any aspects of our Website Privacy Policy, please
+    feel free to contact us at
+    = mail_to support_email
+    or as described in Section 7 of this Website Privacy Policy.
+
+  .brand-subsubtitle Scope; Third Party Sites
+  %p
+    This Website Privacy Policy applies only to information we collect at and
+    through the Site. Other sites owned by or affiliated with
+    = short_name
+    are governed by their own separate privacy policies. Our Site also contains
+    links to third party sites that are not owned or controlled by
+    = succeed "." do
+      = short_name
+    Please be aware that we are not responsible for the privacy practices of
+    such other sites. We encourage you to be aware when you leave our Site and
+    to read the privacy statements of each and every website that collects
+    personal information.
+
+  - if false
+    .brand-subsubtitle Terms of Use
+    %p
+      Please note that your use of our Site is also subject to our
+      = succeed "." do
+        = link_to "Terms and Conditions", terms_path
+
+  .brand-subtitle 2. INFORMATION THAT WE COLLECT
+  .brand-subsubtitle Information You Provide to Us
+  %p
+    We collect information you provide to us, for example when you create or
+    modify your account, register to use our Site, purchase services from us,
+    request information from us, contact customer support, or otherwise
+    communicate with us. This information may include:
+  %ul
+    %li Name
+    %li Address
+    %li Billing address
+    %li Email address
+    %li Telephone number
+    %li Employer
+    %li Credit card number (solely for payment purposes)
+    %li Date of birth
+    %li Medical history, medical records and other health related information, including images
+    %li Insurance carrier and subscriber information
+
+  - if false
+    .brand-subsubtitle Information We Collect Through Your Use of our Site
+    .brand-subsubtitle Google and Other Third Party Services
+    %p
+      We may use web analytics and tag management services and tools service
+      provided by Google, Inc. ("Google") and other third parties to collect
+      certain information relating to your use of the Site. Google Analytics uses
+      "cookies", which are text files placed on your computer, and tags (such as
+      tracking codes and event codes) to help us analyze how users use the site.
+      You can find out more about how Google uses data when you visit our Site by
+      visiting "How Google uses data when you use our partners' sites or apps"
+      (located at
+      = succeed ")." do
+        = link_to "https://policies.google.com/privacy", "https://policies.google.com/privacy", title: "Google Privacy website"
+
+  .brand-subsubtitle Information Collected Through Cookies and Similar Technologies
+  %p
+    We and our service providers use cookies, web beacons, and other
+    technologies to receive and store certain types of information whenever you
+    interact with our Site through your computer or mobile device. A cookie is a
+    small file containing a string of characters that is sent to your computer
+    when you visit a website. When you visit the Site again, the cookie allows
+    the Site to recognize your browser. Cookies may store unique identifiers,
+    user preferences and other information. You can reset your browser to refuse
+    all cookies or to indicate when a cookie is being sent. However, some Site
+    features or services may not function properly without cookies. We use
+    cookies to improve the quality of our service, including for storing user
+    preferences, and tracking user trends.
+
+  .brand-subsubtitle No Information from Children Under Age 13
+  %p
+    If you are under the age of 13, please do not attempt to register with us at
+    this Site or provide any personal information about yourself to us. If we
+    learn that we have collected personal information from a child under the age
+    of 13, we will promptly delete that information. If you believe we have
+    collected personal information from a child under the age of 13, please
+    contact us at
+    = succeed "." do
+      = mail_to support_email
+
+  .brand-subtitle 3. HOW WE USE AND SHARE YOUR INFORMATION
+  .brand-subsubtitle To Facilitate or Provide Services and Information
+  %p
+    We collect information from you in order to facilitate or provide services
+    that you request from us; register and service your online account; provide
+    information that you request from us; contact you about your services
+    requests; and process credit card transactions.
+
+  .brand-subsubtitle For Clinical Research
+  %p
+    We (and our researchers and affiliates) may collect, use and share
+    information from you for the purposes of determining which clinical research
+    opportunities may be of interest to you, contacting you to participate in
+    research opportunities, or conducting clinical research as part of a
+    research study in which you have agreed to participate as a research subject
+    or researcher or in which your existing data is used, or providing
+    information to you regarding research studies or medical information you
+    have requested.
+
+  %p
+    Please note that not every research study will collect, use and share data
+    in the same way. In certain cases, you will be provided with a consent or
+    authorization form relating to a specific research project that explains the
+    types of information collected and the purposes for which the information is
+    collected, used and shared. If you are provided with a consent or
+    authorization form for a particular research study, the description of the
+    collection, use or sharing of your information contained in such form shall
+    apply to the specific study in question.
+
+  .brand-subsubtitle Sharing with Third Parties
+  %p
+    We may provide information to third party service providers that help us
+    operate and manage our Site, process services requests, and deliver services
+    that you purchase through the Site. We may also provide information
+    affiliated individuals and organizations providing professional medical
+    services that you access through the Site. These service providers will have
+    access to your personal information in order to provide these services, but
+    when this occurs we implement reasonable contractual and technical
+    protections to limit their use of that information to helping us provide the
+    service.
+
+  .brand-subsubtitle Your Consent
+  %p
+    In addition to the sharing described elsewhere in this Policy, we will share
+    personal information with companies, organizations or individuals outside of
+    = short_name
+    and its affiliates when we have your consent to do so. By using our Site,
+    you consent to the collection, use and sharing of this information as
+    described in this Policy.
+
+  .brand-subsubtitle Legal Proceedings
+  %p
+    We will share personal information with third party companies, organizations
+    or individuals outside of
+    = short_name
+    and its affiliates if we have a good-faith belief that access, use,
+    preservation or disclosure of the information is reasonably necessary to:
+  %ul
+    %li
+      Meet any applicable law, regulation, subpoena, legal process or
+      enforceable governmental request.
+    %li
+      Enforce applicable Terms of Use, including investigation of potential
+      violations.
+    %li
+      Detect, prevent, or otherwise address fraud, security or technical issues.
+    %li
+      Protect against harm to the rights, property or safety of
+      = succeed "," do
+        = short_name
+      the site, our users, customers or the public as required or permitted by
+      law.
+
+  .brand-subsubtitle Transfer in the Event of Sale or Change of Control
+  %p
+    If the ownership of all or substantially all of our business changes or we
+    otherwise transfer assets relating to our business or the Site to a third
+    party, such as by merger, acquisition, bankruptcy proceeding or otherwise,
+    we may transfer or sell your personal information to the new owner. In such
+    a case, unless permitted otherwise by applicable law, your information would
+    remain subject to the promises made in the applicable Website Privacy Policy
+    unless you agree differently.
+
+  %p
+    If you use our website and provide us with information, you understand and
+    agree you understand and agree that your information may be transferred to
+    and stored on servers located outside your resident jurisdiction and, to the
+    extent you are a resident of a country other than the United States, that
+    you consent to the transfer of such data to the United States for processing
+    by us in accordance with this Privacy Policy.
+
+  .brand-subtitle 4. ACCESS TO YOUR INFORMATION AND CHOICES
+  %p
+    If you have questions about personal information we have about you or need
+    to update your information, you can contact us as described in Section 7 of
+    this Website Privacy Policy.
+
+  .brand-subtitle 5. SECURITY OF YOUR INFORMATION
+  %p
+    We use industry standard physical, technical and administrative security
+    measures and safeguards to protect the confidentiality and security of your
+    personal information. However, since the Internet is not a 100% secure
+    environment, we cannot guarantee, ensure, or warrant the security of any
+    information you transmit to us. There is no guarantee that information may
+    not be accessed, disclosed, altered, or destroyed by breach of any of our
+    physical, technical, or managerial safeguards. It is your responsibility to
+    protect the security of your login information. Please note that while
+    communications and information you send to us using our Site are encrypted,
+    e-mails and other communications you send to us outside of the Site are not
+    encrypted. Thus, we strongly advise you not to communicate any confidential
+    information through unencrypted email.
+
+  .brand-subtitle 6. CHANGES TO OUR WEBSITE PRIVACY POLICY
+  %p
+    Our Website Privacy Policy may change from time to time. We will not reduce
+    your rights under this Website Privacy Policy without your consent in
+    accordance with applicable law. We will post any Website Privacy Policy
+    changes on this page and, if the changes are significant, we will provide a
+    more prominent notice (including, for certain services, email notification
+    of Website Privacy Policy changes).
+
+  .brand-subtitle 7. QUESTIONS AND HOW TO CONTACT US
+  %p
+    If you have any questions, concerns, complaints or suggestions regarding our
+    Website Privacy Policy or otherwise need to contact us, please email us at
+    = succeed "," do
+      = mail_to support_email
+
+    or contact us by US postal mail at the following address:
+
+  %address.ml-4
+    Brigham Health
+    %br
+    Division of Sleep and Circadian Disorders
+    %br
+    221 Longwood Avenue, BLI 225
+    %br
+    Boston, MA 02115
+
+  .brand-subtitle 8. USERS IN THE EUROPEAN ECONOMIC AREA (EEA) AND SWITZERLAND
+  %p
+    If you are a resident of the EEA or Switzerland, the following information
+    applies with respect to personal data collected through your use of our
+    Site.
+
+  .brand-subsubtitle Use of Website
+  %p
+    If you use our website and provide us with information, you consent to the
+    collection, use and sharing of this information as described in this Policy
+    and you understand and agree you understand and agree that your information
+    may be transferred to and stored on servers located outside your resident
+    jurisdiction and, to the extent you are a resident of a country other than
+    the United States, that you consent to the transfer of such data to the
+    United States for processing by us in accordance with this Website Privacy
+    Policy.
+
+  .brand-subsubtitle Purposes of processing and legal basis for processing
+  %p
+    As explained above, we process personal data in various ways depending upon
+    your use of the services. We process personal data on the following legal
+    bases: (1) with your consent; (2) as necessary to provide the services; and
+    (3) as necessary for our legitimate interests in providing the services
+    where those interests do not override your fundamental rights and freedom
+    related to data privacy.
+
+  .brand-subsubtitle Transfers
+  %p
+    Personal data we collect may be transferred to, and stored and processed in,
+    the United States or any other country in which we or our affiliates or
+    processors maintain facilities. We will use reasonable efforts to ensure
+    that transfers of personal data to a country or an international
+    organization outside the EEA or Switzerland are subject to appropriate
+    safeguards.
+
+  .brand-subsubtitle Your rights
+  %p
+    You are entitled to the rights under Chapter III of the EU General Data
+    Protection Regulation or Section 2 of the Swiss Federal Act on Data
+    Protection with respect to the processing of your personal data, which
+    include the right to access and rectify and to request erasure of personal
+    data. In order to verify your identity, we may require you to provide us
+    with personal information prior to accessing any records containing
+    information about you.
+
+  .mt-5
+    %em Updated August 30, 2018

@@ -1,0 +1,12 @@
+- unless Rails.env.test?
+  - if cookies[:privacy_policy_closed] != "1"
+    #service-announcement.bg-dark
+      %div{ class: defined?(container) && container.present? ? container : "container" }
+        .py-1.small.text-white.text-center
+          = icon("fas", "info-circle")
+          We've updated our
+          = succeed "." do
+            = link_to "privacy policy", privacy_policy_path, data: { object: "service-announcement-link", cookie: "privacy_policy_closed" }
+
+          .float-right
+            = link_to icon("fas", "times"), "#", data: { object: "service-announcement", cookie: "privacy_policy_closed", days: 14 }, class: "text-white no-underline"
