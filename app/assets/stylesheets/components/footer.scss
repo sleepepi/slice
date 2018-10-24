@@ -20,12 +20,19 @@
 }
 
 @each $name, $theme in $themes {
-  .footer-#{$name} {
-    background-color: theme-color($theme, footer-bg, $p100-grey);
-    color: theme-color($theme, footer-color, $p900-grey);
+  .theme-#{$name}-bg {
+    .footer-custom {
+      background-color: theme-color($theme, footer-bg, $p100-grey);
+      color: theme-color($theme, footer-color, $p900-grey);
 
-    a {
-      color: theme-color($theme, footer-color, $p900-grey) !important;
+      a {
+        color: theme-color($theme, footer-color, $p900-grey) !important;
+      }
+    }
+
+    .footer-custom-bg {
+      background-color: theme-color($theme, footer-bg, $p100-grey);
+      color: theme-color($theme, footer-color, $body-color);
     }
   }
 }

@@ -1,6 +1,6 @@
 !!!
 %html{ lang: "en" }
-  - render "themes/theme"
+  - @random_theme ? render("themes/random") : render("themes/theme")
   %head
     %meta{ charset: "utf-8" }
     %meta{ content: "IE=Edge,chrome=1", http: { equiv: "X-UA-Compatible" } }
@@ -13,13 +13,14 @@
     %meta{ name: "turbolinks-cache-control", content: "no-cache" }
     %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV["website_name"]].flatten.compact.uniq.join(" - ").html_safe
     = render "layouts/meta/favicon"
-
     = csrf_meta_tags
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page-no-header.theme-bg{ class: @body ? "theme-#{@body}-bg" : nil, data: { theme: @theme } }
-    .row.no-gutters.flex-nowrap
+  %body#top.full-page-no-header.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
+    - @container = "container-fluid"
+    - @nocontainer = true
+    .row.no-gutters.flex-md-nowrap
       = yield :sidebar
       .col
         .page-box.last-box.p-0
@@ -28,14 +29,14 @@
           = render "layouts/features/sound_enabled" # Slice extra
           = render "layouts/features/timeout" # Slice extra
           = render "layouts/features/notifications" # Slice extra
-          #top-menu.top-menu= render "layouts/menu", container: "#{yield(:container_class)} px-lg-0", menu: @menu ? "menu-#{@menu}" : nil, hide_logo: true
+          #top-menu.top-menu= render "menu/menu", container: "#{@container.presence} px-lg-0", hide_logo: true
           - if content_for?(:header)
             .header-container
               .container-fluid
                 %h1.page-heading
                   = yield :header
           = render "layouts/breadcrumbs" # Slice extra
-          %main.p-3{ role: "main" }= yield
-          = yield :mini_footer
-    = yield :footer
-    = render "layouts/footer", container: yield(:container_class), footer: @footer ? "footer-#{@footer}" : nil
+          .theme-custom-spacing
+            %main.p-3.remove-last-margin{ role: "main" }= yield
+          = yield :footer
+    = render "layouts/footer", container: @container.presence

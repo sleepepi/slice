@@ -12,19 +12,18 @@
     %meta{ name: "turbolinks-cache-control", content: "no-cache" }
     %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV["website_name"]].flatten.compact.uniq.join(" - ").html_safe
     = render "layouts/meta/favicon"
-
     = csrf_meta_tags
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page.theme-bg{ class: @theme ? "theme-#{@theme}-bg" : nil, data: { theme: @theme } }
+  %body#top.full-page.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
     = render "layouts/features/service_announcement", container: @container.presence
     = render "layouts/features/flash_bar"
     = render "layouts/features/sound_enabled" # Slice extra
     = render "layouts/features/timeout" # Slice extra
     = render "layouts/features/notifications" # Slice extra
-    #top-menu.top-menu= render "layouts/menu", container: yield(:container_class), menu: @theme ? "menu-#{@theme}" : nil, hide_logo: false
+    #top-menu.top-menu= render "menu/menu", container: @container.presence, hide_logo: false
     = yield :header
     = yield
     = yield :footer
-    = render "layouts/footer", container: yield(:container_class), footer: @theme ? "footer-#{@theme}" : nil
+    = render "layouts/footer", container: @container.presence

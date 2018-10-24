@@ -186,7 +186,7 @@
   .theme-#{$name}-bg {
     .brand-title,
     .brand-subtitle {
-      border-color: map-get($theme, p500); // $p200-orange;
+      border-color: map-get($theme, p500);
     }
   }
 }

@@ -1,30 +1,43 @@
 $grass-height: 45px;
 
-.footer-spring {
-  &::before {
-    background-image: asset-url('themes/spring/grass-color.png');
-    background-repeat: repeat-x;
-    content: ' ';
-    position: absolute;
-    top: -$grass-height;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background-size: 60px;
-  }
-}
-
 .theme-spring-bg {
-  .sidebar-wrapper {
+  background-image: linear-gradient(180deg, $a100-light-blue, $a200-light-blue 60%, $a400-light-blue 80%, $a700-light-blue 90%, $a700-light-blue);
+
+  .footer-container {
+    &.footer-custom {
+      &::before {
+        background-image: asset-url('themes/spring/grass-color.png');
+        background-repeat: repeat-x;
+        content: ' ';
+        position: absolute;
+        top: -$grass-height;
+        left: 0;
+        right: 0;
+        height: 120px;
+        background-size: 60px;
+      }
+    }
+  }
+
+  .footer-custom-bg {
+    background-color: transparent !important;
+  }
+
+  .sidebar-wrapper,
+  .theme-custom-spacing {
+    padding-bottom: $grass-height;
+  }
+
+  .comments-footer-wrapper {
+    margin-top: -$grass-height;
     padding-bottom: $grass-height;
   }
 }
 
-// .theme-spring-focus-bg
-.theme-spring-bg {
-  background-color: $a700-light-blue;
-  background-image: linear-gradient(180deg, $a100-light-blue, $a200-light-blue 60%, $a400-light-blue 80%, $a700-light-blue 90%, $a700-light-blue);
+.theme-spring-focus-bg {
+  background-color: $p900-light-green;
 }
+
 
 @keyframes flow-spin {
   from { transform: rotate(0deg); }

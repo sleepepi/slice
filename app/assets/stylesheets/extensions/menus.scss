@@ -8,39 +8,41 @@
     $menu-color: map-get($theme, menu-color);
   }
 
-  .menu-#{$name} {
-    background-color: $menu-bg;
-    border-color: darken($menu-bg, 6.5%);
-
-    .btn-menu {
+  .theme-#{$name}-bg {
+    .navbar-custom {
       background-color: $menu-bg;
-      border-color: darken($menu-bg, 6.5%);
-      color: $menu-color;
+      // border-color: darken($menu-bg, 6.5%);
 
-      &:hover,
-      &:focus,
-      &:active,
-      &.active,
-      &.disabled,
-      &[disabled] {
-        background-color: darken($menu-bg, 6.5%);
+      .btn-menu {
+        background-color: $menu-bg;
         border-color: darken($menu-bg, 6.5%);
         color: $menu-color;
+
+        &:hover,
+        &:focus,
+        &:active,
+        &.active,
+        &.disabled,
+        &[disabled] {
+          background-color: darken($menu-bg, 6.5%);
+          border-color: darken($menu-bg, 6.5%);
+          color: $menu-color;
+        }
       }
-    }
 
-    $theme-dropdown-bg: darken($menu-bg, 6.5%);
-    @if map-get($theme, menu-dropdown-bg) {
-      $theme-dropdown-bg: map-get($theme, menu-dropdown-bg);
-    }
-
-    .dropdown-menu-custom {
-      .dropdown-menu-custom-inner {
-        background-color: $theme-dropdown-bg;
+      $theme-dropdown-bg: darken($menu-bg, 6.5%);
+      @if map-get($theme, menu-dropdown-bg) {
+        $theme-dropdown-bg: map-get($theme, menu-dropdown-bg);
       }
 
-      &::after {
-        border-bottom-color: $theme-dropdown-bg;
+      .dropdown-menu-custom {
+        .dropdown-menu-custom-inner {
+          background-color: $theme-dropdown-bg;
+        }
+
+        &::after {
+          border-bottom-color: $theme-dropdown-bg;
+        }
       }
     }
   }

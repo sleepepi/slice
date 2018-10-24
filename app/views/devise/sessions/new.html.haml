@@ -4,7 +4,8 @@
 
 .page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@theme}-focus-bg" }
   .container
-    %p.lead.text-center.text-white Welcome back!
+    %p.lead.text-center{ class: @theme != "default" ? "text-white" : nil }
+      Welcome back!
 
     .sign-up-form
       .sign-up-form-title

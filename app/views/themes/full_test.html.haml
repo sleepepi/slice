@@ -2,12 +2,10 @@
 
 - render "themes/random"
 
-- content_for :container_class, "container-fluid"
-
 .page-box.last-box.d-flex.align-items-center.theme-bg{ class: "theme-#{@theme}-focus-bg" }
   .container
-    .text-center.text-white
-      .page-heading{ style: "font-size: 2rem;" }= @menu.capitalize
+    .text-center{ class: @theme != "default" ? "text-white" : nil }
+      %div{ style: "font-size: 2rem;" }= @theme.capitalize
       %small
         = link_to "Dashboard test", themes_dashboard_test_url
         &middot;

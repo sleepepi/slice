@@ -10,7 +10,6 @@
         Search
       - if current_page?(search_path)
         %span.sr-only (current)
-  - if current_user
     %li.nav-item.d-none.d-lg-block{ class: current_page?(notifications_path) ? "active" : nil }
       = link_to notifications_path, class: "nav-link notifications-link#{" notifications-link-active" if current_user.unread_notifications?}" do
         = icon("fas", "bell")

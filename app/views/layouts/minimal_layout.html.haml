@@ -1,5 +1,6 @@
 !!!
 %html{ lang: "en" }
+  - @theme = "default"
   %head
     %meta{ charset: "utf-8" }
     %meta{ content: "IE=Edge,chrome=1", http: { equiv: "X-UA-Compatible" } }
@@ -12,25 +13,24 @@
     %meta{ name: "turbolinks-cache-control", content: "no-cache" }
     %title= @title
     = render "layouts/meta/favicon"
-
     = csrf_meta_tags
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page.theme-bg.theme-default-bg
+  %body#top.full-page.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
     = render "layouts/features/flash_bar"
     #top-menu.top-menu
-      %nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom.menu-default
+      %nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom
         .container
-          = render "layouts/features/logo", hide_logo: false
+          = render "menu/logo", hide_logo: false
 
     - if content_for?(:header)
       .header-container
-        %div{ class: defined?(container) && container.present? ? container : "container" }
+        %div{ class: @container.presence || "container" }
           %h1.page-heading
             = yield :header
 
     .py-3
       .container= yield
 
-    = render "layouts/footer", footer: @footer ? "footer-#{@footer}" : nil
+    = render "layouts/footer", container: @container.presence

@@ -20,7 +20,7 @@
           = render "forms/vertical/text_field", form: form, object: current_user, key: :full_name
           = render "forms/vertical/email_field", form: form, object: current_user, key: :email
           = render "forms/vertical/check_box", form: form, object: current_user, key: :emails_enabled, help_text: "Allow #{ENV["website_name"]} to send you emails. Unchecking this box will disable all emails except for password reset and account unlock emails."
-          = render "forms/vertical/select", form: form, object: current_user, key: :theme, options: Slice::THEMES, include_blank: "Default"
+          = render "forms/vertical/select", form: form, object: current_user, key: :theme, options: Slice::THEMES
           = render "forms/vertical/check_box", form: form, object: current_user, key: :sound_enabled, help_text: "Enable audio alerts when entering data."
           = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Save settings", cancel: false
 

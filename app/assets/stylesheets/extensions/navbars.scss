@@ -33,19 +33,21 @@
 }
 
 @each $name, $theme in $themes {
-  .menu-#{$name} {
-    .navbar-brand {
-      color: map-get($theme, brand-white) !important;
-    }
+  .theme-#{$name}-bg {
+    .navbar-custom {
+      .navbar-brand {
+        color: map-get($theme, brand-white) !important;
+      }
 
-    @include media-breakpoint-up(lg) {
-      .nav-item {
-        &:focus,
-        &:hover,
-        &.active {
-          color: rgba($white, .9);
-          background-color: rgba($black, .2);
-          border-color: map-get($theme, p200);
+      @include media-breakpoint-up(lg) {
+        .nav-item {
+          &:focus,
+          &:hover,
+          &.active {
+            color: rgba($white, .9);
+            background-color: rgba($black, .2);
+            border-color: map-get($theme, p200);
+          }
         }
       }
     }

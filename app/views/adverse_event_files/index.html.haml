@@ -4,7 +4,6 @@
 - @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
 - @subject = @adverse_event.subject
-- content_for :container_class, "container-fluid"
 - content_for :sidebar, render("subjects/sidebar")
 
 - content_for :header do

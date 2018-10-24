@@ -13,25 +13,25 @@
     %meta{ name: "turbolinks-cache-control", content: "no-cache" }
     %title= [@title, (@breadcrumbs || []).reverse.collect(&:first), @subject.try(:name), @project.try(:name), ENV["website_name"]].flatten.compact.uniq.join(" - ").html_safe
     = render "layouts/meta/favicon"
-
     = csrf_meta_tags
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page.theme-bg{ class: @theme ? "theme-#{@theme}-bg" : nil, data: { theme: @theme } }
+  %body#top.full-page.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
     = render "layouts/features/service_announcement", container: @container.presence
     = render "layouts/features/flash_bar"
     = render "layouts/features/sound_enabled" # Slice extra
     = render "layouts/features/timeout" # Slice extra
     = render "layouts/features/notifications" # Slice extra
-    #top-menu.top-menu= render "layouts/menu", menu: @menu ? "menu-#{@menu}" : nil, hide_logo: false
+    #top-menu.top-menu= render "menu/menu", container: @container.presence, hide_logo: false
     - if content_for?(:header)
       .header-container
-        %div{ class: defined?(container) && container.present? ? container : "container" }
+        %div{ class: @container.presence || "container" }
           %h1.page-heading
             = yield :header
     .container= render "layouts/breadcrumbs" # Slice extra
-    .py-3
-      .container= yield
+    .theme-custom-spacing
+      .py-3
+        .remove-last-margin{ class: @container.presence || "container" }= yield
     = yield :footer
-    = render "layouts/footer", footer: @footer ? "footer-#{@footer}" : nil
+    = render "layouts/footer", container: @container.presence

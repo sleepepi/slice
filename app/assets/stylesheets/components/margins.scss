@@ -1,0 +1,14 @@
+.remove-last-margin {
+  > .dashboard-container {
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  div:last-child {
+    > .pagination {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+

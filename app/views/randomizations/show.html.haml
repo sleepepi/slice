@@ -3,10 +3,8 @@
 
 - if @randomization.subject
   - @subject = @randomization.subject
-  - content_for :container_class, "container-fluid"
   - content_for :sidebar, render("subjects/sidebar")
 - else
-  - content_for :container_class, "container-fluid"
   - content_for :sidebar, render("projects/sidebar")
 
 - content_for :header do

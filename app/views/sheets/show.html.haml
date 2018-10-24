@@ -6,7 +6,6 @@
 - @breadcrumbs << [@sheet.subject_event.name, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
 - @subject = @sheet.subject
-- content_for :container_class, "container-fluid"
 - content_for :sidebar, render("subjects/sidebar")
 
 - content_for :header do
@@ -32,7 +31,7 @@
   = render "sheets/show"
 
 - unless @sheet.adverse_event
-  - content_for :mini_footer do
+  - content_for :footer do
     %a.anchor-top{ id: "comments" }
     .comments-footer-wrapper
       .mb-3.text-white

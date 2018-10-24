@@ -1,11 +1,10 @@
 - @title = "Site Setup"
 - @menu_title = "#{@project.name} #{@title}"
 
-- content_for :container_class, "container-fluid"
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-.mb-3.text-center{ class: @body != "default" ? "text-white" : nil }
+.mb-3.text-center{ class: @theme != "default" ? "text-white" : nil }
   Add additional project sites.
 
 .dashboard-container

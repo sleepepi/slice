@@ -1,6 +1,5 @@
-- footer = "footer-default" unless defined?(footer) && footer.present?
-.footer-container{ class: footer }
-  %div{ class: defined?(container) && container.present? ? container : "container" }
+.footer-container.footer-custom
+  %div{ class: @container.presence || "container" }
     .footer
       .nowrap.row
 

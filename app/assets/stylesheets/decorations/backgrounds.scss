@@ -3,18 +3,28 @@
 }
 
 @each $name, $theme in $themes {
+  $selection-bg: map-get($theme, p200);
+  @if map-get($theme, selection-bg) {
+    $selection-bg: map-get($theme, selection-bg);
+  }
+
+  $selection-color: map-get($theme, body-color);
+  @if map-get($theme, selection-color) {
+    $selection-color: map-get($theme, selection-color);
+  }
+
   .theme-#{$name}-bg {
     background-color: map-get($theme, body-bg);
     color: map-get($theme, body-color);
 
     ::selection {
-      background-color: rgba(map-get($theme, p200), .99);
-      color: map-get($theme, body-color);
+      background-color: rgba($selection-bg, .99);
+      color: $selection-color;
       text-shadow: none;
     }
 
     :focus {
-      outline-color: map-get($theme, p200) !important;
+      outline-color: $selection-bg !important;
     }
   }
 
