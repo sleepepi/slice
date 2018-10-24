@@ -27,11 +27,7 @@
 #= require global
 
 # External
-#= require external/bootstrap-datepicker.js
-#= require external/clipboard-2.0.0.src.js
-#= require external/highcharts-5.0.7.src.js
-#= require external/jquery.textcomplete-1.7.3.src.js
-#= require external/typeahead-0.11.1-corejavascript.src.js
+#= require_tree ./external
 
 # Components
 
