@@ -13,13 +13,30 @@ Rails.application.routes.draw do
 
   scope module: :account do
     get :dashboard
-    get :settings
-    post :settings, action: :update_settings
-    get :update_settings, to: redirect("settings")
-    get :profile_picture, path: "settings/profile/picture", to: redirect("settings")
-    patch :update_profile_picture, path: "settings/profile/picture"
-    patch :change_password
-    get :change_password, to: redirect("settings")
+  end
+
+  get :settings, to: redirect("settings/profile")
+  namespace :settings do
+    get :profile
+    patch :update_profile, path: "profile"
+    patch :complete_profile, path: "complete-profile"
+    get :profile_picture, path: "profile/picture", to: redirect("settings/profile")
+    patch :update_profile_picture, path: "profile/picture"
+
+    get :account
+    patch :update_account, path: "account"
+    get :password, to: redirect("settings/account")
+    patch :update_password, path: "password"
+    delete :destroy, path: "account", as: "delete_account"
+
+    get :email
+    patch :update_email, path: "email"
+
+    get :notifications
+    patch :update_notifications, path: "notifications"
+
+    get :interface
+    patch :update_interface, path: "interface"
   end
 
   namespace :admin do

@@ -2,7 +2,7 @@
 
 # Displays publicly available documentation.
 class DocsController < ApplicationController
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # # GET /docs/modules
   # def modules

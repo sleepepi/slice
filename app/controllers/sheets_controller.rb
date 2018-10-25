@@ -24,7 +24,7 @@ class SheetsController < ApplicationController
     :edit, :reassign, :update, :destroy
   ]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /sheets
   def index

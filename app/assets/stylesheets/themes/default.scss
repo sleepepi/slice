@@ -20,6 +20,9 @@ $default: (
   menu-bg: null, // $p600-COLOR
   menu-color: null, // brand-white
 
+  // header-bg: null, // $p800-COLOR
+  header-border: $p200-blue,
+
   body-bg: $p50-grey,
   body-color: $p900-grey,
   body-focus: null,

@@ -1,0 +1,50 @@
+.breadcrumb-container {
+  list-style: none;
+  padding: map-get($spacers, 2) 0;
+
+  ol {
+    margin: 0;
+    padding: 0;
+
+    > li {
+      display: block;
+    }
+
+    @include media-breakpoint-up(sm) {
+      > li {
+        display: inline-block;
+      }
+    }
+
+    > li+li::before {
+      content: '\203A ';
+      padding: 0 4px 0 0;
+    }
+  }
+
+  .btn {
+    line-height: initial;
+  }
+}
+
+.breadcrumb-muted {
+  font-weight: 300;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .breadcrumb-container {
+      background-color: theme-color($theme, breadcrumb-bg, $breadcrumb-bg);
+
+      ol {
+        > li+li::before {
+          color: theme-color($theme, text-muted, $text-muted);
+        }
+      }
+    }
+
+    .breadcrumb-muted {
+      color: theme-color($theme, text-muted, $text-muted);
+    }
+  }
+}

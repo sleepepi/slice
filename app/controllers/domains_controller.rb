@@ -7,7 +7,7 @@ class DomainsController < ApplicationController
   before_action :find_domain_or_redirect,
                 only: [:show, :edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # POST /projects/:project_id/domains/values.js
   def values

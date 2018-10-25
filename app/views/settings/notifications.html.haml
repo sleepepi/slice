@@ -1,0 +1,15 @@
+- @title = "Notification Settings"
+
+- @theme = "default"
+- content_for :header, current_user.full_name.presence || current_user.username
+= render "internal/tabs"
+- content_for :sidebar, render("settings/sidebar")
+
+.card
+  %h4.card-header
+    = icon("fas", "envelope")
+    Change notifications
+  .card-body
+    = form_with model: current_user, url: settings_update_notifications_path, method: :patch, local: true do |form|
+      = render "forms/vertical/check_box", form: form, object: current_user, key: :emails_enabled, key_name: "Enable Emails", help_text: "Allow Slice to send you emails. You will still receive emails for: (1) Password reset emails"
+      = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update settings", cancel: false

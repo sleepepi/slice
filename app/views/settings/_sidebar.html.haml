@@ -1,0 +1,11 @@
+.col-12.col-md-3.col-xl-2.sidebarbubble-wrapper
+  .sidebarbubble
+    #sidebar-nav-wrapper.sidebarbubble-nav-wrapper.collapse
+      .pt-3.py-md-3.mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+        %ul.sidebarbubble-menu.sidebarbubble-menu-shadow
+          %li.sidebarbubble-menu-header= render "sidebar/toggle", title: "Settings"
+          %li= link_to "Profile", settings_profile_path, class: current_page?(settings_profile_path) ? "active" : nil
+          %li= link_to "Account", settings_account_path, class: current_page?(settings_account_path) ? "active" : nil
+          %li= link_to "Email", settings_email_path, class: current_page?(settings_email_path) ? "active" : nil
+          %li= link_to "Interface", settings_interface_path, class: current_page?(settings_interface_path) ? "active" : nil
+          %li= link_to "Notifications", settings_notifications_path, class: current_page?(settings_notifications_path) ? "active" : nil

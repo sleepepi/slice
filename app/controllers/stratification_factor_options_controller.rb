@@ -12,7 +12,7 @@ class StratificationFactorOptionsController < ApplicationController
                 only: [:show, :edit, :update, :destroy]
   before_action :redirect_with_published_scheme, only: [:destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /stratification_factor_options
   def index

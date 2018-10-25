@@ -9,7 +9,7 @@ class TreatmentArmsController < ApplicationController
   before_action :find_treatment_arm_or_redirect, only: [:show, :edit, :update, :destroy]
   before_action :redirect_with_published_scheme, only: [:new, :create, :edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /treatment_arms
   def index

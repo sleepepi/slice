@@ -23,7 +23,7 @@ class RandomizationSchemesController < ApplicationController
     :edit_randomization, :update_randomization, :destroy_randomization
   ]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # # POST /template/add_task.js
   # def add_task

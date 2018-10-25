@@ -6,7 +6,7 @@ class Editor::ChecksController < Editor::EditorController
     :show, :edit, :update, :destroy, :request_run
   ]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /editor/projects/1/checks
   def index

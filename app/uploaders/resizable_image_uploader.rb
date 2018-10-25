@@ -6,7 +6,6 @@ class ResizableImageUploader < CarrierWave::Uploader::Base
 
   # Choose what kind of storage to use for this uploader:
   storage :file
-  # storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
@@ -23,15 +22,11 @@ class ResizableImageUploader < CarrierWave::Uploader::Base
   # end
 
   # Process files as they are uploaded:
-  process resize_to_limit: [1140, 1140]
+  process resize_to_limit: [256, 256]
 
   # Create different versions of your uploaded files:
-  version :preview do
-    process resize_to_fill: [360, 360]
-  end
-
   version :thumb do
-    process resize_to_fill: [128, 128]
+    process resize_to_fill: [64, 64]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

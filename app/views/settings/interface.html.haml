@@ -1,0 +1,16 @@
+- @title = "Interface Settings"
+
+- @theme = "default"
+- content_for :header, current_user.full_name.presence || current_user.username
+= render "internal/tabs"
+- content_for :sidebar, render("settings/sidebar")
+
+.card
+  %h4.card-header
+    = icon("fas", "envelope")
+    Interface options
+  .card-body
+    = form_with model: current_user, url: settings_update_interface_path, method: :patch, local: true do |form|
+      = render "forms/vertical/select", form: form, object: current_user, key: :theme, options: Slice::THEMES
+      = render "forms/vertical/check_box", form: form, object: current_user, key: :sound_enabled, help_text: "Enable audio alerts when entering data."
+      = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update settings", cancel: false

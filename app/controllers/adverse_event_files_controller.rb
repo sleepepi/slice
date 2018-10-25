@@ -8,7 +8,7 @@ class AdverseEventFilesController < ApplicationController
   before_action :set_adverse_event
   before_action :set_adverse_event_file, only: [:show, :download, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /adverse-events/:adverse_event_id/files
   def index

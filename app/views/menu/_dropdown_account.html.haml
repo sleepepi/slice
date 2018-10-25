@@ -4,8 +4,12 @@
       = link_to "#", class: "nav-link", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
         = icon("fas", "ellipsis-v")
     - else
-      = link_to "#", class: "nav-link dropdown-toggle", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
-        = profile_picture_tag(current_user, size: 20)
+      - if current_user[:photo]
+        - picture_content = profile_picture_tag(current_user, size: 20)
+      - else
+        - picture_content = icon("fas", "user")
+
+      = link_to picture_content, "#", class: "nav-link dropdown-toggle", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" }
 
     .dropdown-menu.dropdown-menu-right.dropdown-menu-custom
       .dropdown-menu-custom-inner

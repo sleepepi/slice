@@ -4,7 +4,7 @@
 class Editor::GridVariablesController < Editor::EditorController
   before_action :set_grid_variable, only: [:show, :edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /grid-variables
   def index

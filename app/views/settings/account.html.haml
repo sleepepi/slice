@@ -1,0 +1,38 @@
+- @title = "Account Settings"
+
+- @theme = "default"
+- content_for :header, current_user.full_name.presence || current_user.username
+= render "internal/tabs"
+- content_for :sidebar, render("settings/sidebar")
+
+.card.mb-3
+  %h4.card-header
+    = icon("fas", "user")
+    Change password
+  .card-body
+    = form_with model: current_user, url: settings_update_password_path, method: :patch, local: true do |form|
+      = render "forms/vertical/password_field", form: form, object: current_user, key: :current_password, key_name: "Old password", autocomplete: "current-password"
+      = render "forms/vertical/password_field", form: form, object: current_user, key: :password, key_name: "New password", autocomplete: "new-password"
+      = render "forms/vertical/password_field", form: form, object: current_user, key: :password_confirmation, key_name: "Confirm new password", autocomplete: "new-password"
+      =# render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update password", cancel: false, alternate_link: link_to("I forgot my password", new_user_password_path)
+      -# TODO: Allow new_user_password_path to be accessible when logged in.
+      = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update password", cancel: false
+
+%a.anchor-top{ name: "username", id: "username" }
+.card.mb-3
+  %h4.card-header
+    = icon("fas", "user")
+    Change name
+  .card-body
+    = form_with model: current_user, url: settings_update_account_path, local: true do |form|
+      = render "forms/vertical/text_field", form: form, object: current_user, key: :full_name, help_text: "You can change your profile picture #{link_to "here", settings_profile_path(anchor: "picture")}.".html_safe
+      = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update name", cancel: false
+
+- if false
+  .card
+    %h4.card-header.text-danger
+      = icon("fas", "user")
+      Delete account
+    .card-body
+      %p You may delete you account, but this action is PERMANENT.
+      = link_to "Delete your account", settings_delete_account_path, method: :delete, class: "btn btn-outline-danger", data: { confirm: "Delete your account?" }

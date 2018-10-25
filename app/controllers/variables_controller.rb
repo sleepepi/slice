@@ -13,7 +13,7 @@ class VariablesController < ApplicationController
     :show, :edit, :update, :destroy
   ]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /projects/:project_id/variables/1/copy
   def copy

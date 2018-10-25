@@ -17,26 +17,32 @@
     = stylesheet_link_tag "application", media: "all", data: { turbolinks_track: "reload" }
     = javascript_include_tag "application", data: { turbolinks_track: "reload" }
     = javascript_tag "var root_url=\"#{request.script_name + "/"}\";"
-  %body#top.full-page-no-header.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
+  %body#top.full-page.theme-bg{ class: "theme-#{@theme}-bg", data: { theme: @theme } }
     - @container = "container-fluid"
     - @nocontainer = true
-    .row.no-gutters.flex-md-nowrap
-      = yield :sidebar
-      .col
-        .page-box.last-box.p-0
-          = render "layouts/features/service_announcement"
-          = render "layouts/features/flash_bar"
-          = render "layouts/features/sound_enabled" # Slice extra
-          = render "layouts/features/timeout" # Slice extra
-          = render "layouts/features/notifications" # Slice extra
-          #top-menu.top-menu= render "menu/menu", container: "#{@container.presence} px-lg-0", hide_logo: true
-          - if content_for?(:header)
-            .header-container
-              .container-fluid
-                %h1.page-heading
-                  = yield :header
-          = render "layouts/breadcrumbs" # Slice extra
-          .theme-custom-spacing
-            %main.p-3.remove-last-margin{ role: "main" }= yield
-          = yield :footer
-    = render "layouts/footer", container: @container.presence
+    = render "layouts/features/service_announcement"
+    = render "layouts/features/flash_bar"
+    = render "layouts/features/sound_enabled" # Slice extra
+    = render "layouts/features/timeout" # Slice extra
+    = render "layouts/features/notifications" # Slice extra
+    #top-menu.top-menu= render "menu/menu", container: @container.presence, hide_logo: false
+    .header-container{ class: content_for?(:tabs) ? "header-container-no-border" : nil }
+      .container-fluid
+        %h1.page-heading
+          = yield :header
+    - if content_for?(:tabs)
+      .header-tabs{ class: "#{"header-tabs-no-breadcrumbs" unless content_for?(:breadcrumbs)}" }
+        .container-fluid
+          = yield :tabs
+    = yield :progress_bar
+    - if content_for?(:breadcrumbs)
+      .breadcrumb-container
+        .container-fluid
+          .px-1= yield :breadcrumbs
+    .row.no-gutters.flex-md-nowrap.theme-custom-spacing
+      = render "sidebar/mini"
+      = yield(:sidebar)
+      %main.col.p-3.remove-last-margin{ role: "main" }
+        = yield
+    = yield :footer
+    = render "layouts/footer"

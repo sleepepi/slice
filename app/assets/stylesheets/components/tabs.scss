@@ -1,0 +1,77 @@
+.header-tab {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  display: inline-block;
+  padding: map-get($spacers, 2) map-get($spacers, 3);
+
+  + .header-tab {
+    margin-left: map-get($spacers, 1);
+  }
+}
+
+.header-tab-active {
+  font-weight: bold;
+}
+
+@each $name, $theme in $themes {
+  @if map-get($theme, accent) {
+    .theme-#{$name}-bg {
+      @if map-get($theme, header-border) {
+        .header-tabs {
+          border-bottom: 2px solid map-get($theme, header-border);
+        }
+      }
+
+      .header-tab {
+        background-color: map-get($theme, p400);
+        color: map-get($theme, brand-white);
+
+        @if map-get($theme, header-border) {
+          border-bottom: 2px solid map-get($theme, header-border);
+          margin-bottom: -2px;
+        }
+
+        &:hover {
+          background-color: map-get($theme, body-bg);
+          color: map-get($theme, body-color);
+          text-decoration: none;
+        }
+      }
+
+      .header-tab-active,
+      .header-tab-active:hover {
+        background-color: theme-color($theme, breadcrumb-bg, $breadcrumb-bg);
+        @if map-get($theme, header-border) {
+          border-bottom: 2px solid theme-color($theme, breadcrumb-bg, $breadcrumb-bg);
+          border-left: 2px solid map-get($theme, header-border);
+          border-right: 2px solid map-get($theme, header-border);
+          border-top: 2px solid map-get($theme, header-border);
+        }
+        color: map-get($theme, body-color);
+      }
+
+      .header-tabs-no-breadcrumbs {
+        .header-tab-active,
+        .header-tab-active:hover {
+          background-color: map-get($theme, body-bg);
+          @if map-get($theme, header-border) {
+            border-bottom: 2px solid map-get($theme, body-bg);
+          }
+          color: map-get($theme, body-color);
+        }
+      }
+    }
+  }
+
+  $header-bg: map-get($theme, p800);
+  @if map-get($theme, header-bg) {
+    $header-bg: map-get($theme, header-bg);
+  }
+
+  .theme-#{$name}-bg {
+    .header-tabs {
+      background-color: $header-bg;
+      color: map-get($theme, brand-white);
+    }
+  }
+}

@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Add updated Privacy Policy
+- **Settings Changes**
+  - Account settings reorganized into categories
 - **Gem Changes**
   - Update to ruby 2.5.3
   - Update to font-awesome-sass 5.4.1

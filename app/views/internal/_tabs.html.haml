@@ -1,0 +1,24 @@
+- content_for :tabs do
+  - current_page = params[:controller].in?(%w(internal)) && params[:action].in?(%w(dashboard data_health report_card randomizations))
+  = link_to dashboard_path, class: "header-tab #{"header-tab-active" if current_page}", data: { object: "#{"suppress-click" if current_page?(dashboard_path)}" } do
+    = icon("fas", "home")
+    - if current_page
+      Dashboard
+    - else
+      .d-none.d-sm-inline Dashboard
+
+  - current_page = params[:controller].in?(%w(settings))
+  = link_to settings_path, class: "header-tab #{"header-tab-active" if current_page}", data: { object: "#{"suppress-click" if current_page?(settings_path)}" } do
+    = icon("fas", "cog")
+    - if current_page
+      Settings
+    - else
+      .d-none.d-sm-inline Settings
+
+  - current_page = params[:controller].in?(%w(internal)) && params[:action].in?(%w(search))
+  = link_to search_path, class: "header-tab #{"header-tab-active" if current_page}", data: { object: "#{"suppress-click" if current_page?(search_path)}" } do
+    = icon("fas", "search")
+    - if current_page
+      Search
+    - else
+      .d-none.d-sm-inline Search

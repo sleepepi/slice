@@ -5,7 +5,7 @@ class Editor::CheckFiltersController < Editor::EditorController
   before_action :find_check_or_redirect
   before_action :find_filter_or_redirect, only: [:show, :edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /editor/projects/1/checks/1/filters
   def index

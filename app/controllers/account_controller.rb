@@ -14,51 +14,7 @@ class AccountController < ApplicationController
     redirect_to @projects.first if current_user.all_viewable_and_site_projects.count == 1
   end
 
-  # PATCH /settings/profile/picture
-  def update_profile_picture
-    if current_user.update(profile_picture_params)
-      redirect_to settings_path, notice: "Profile picture successfully updated."
-    else
-      render :settings
-    end
-  end
-
-  # PATCH /change_password
-  def change_password
-    if current_user.valid_password?(params[:user][:current_password])
-      if current_user.reset_password(params[:user][:password], params[:user][:password_confirmation])
-        bypass_sign_in current_user
-        redirect_to settings_path, notice: "Your password has been changed."
-      else
-        render :settings
-      end
-    else
-      current_user.errors.add :current_password, "is invalid"
-      render :settings
-    end
-  end
-
-  # GET /settings
-  # def settings
-  # end
-
-  # POST /settings
-  def update_settings
-    current_user.update user_params
-    redirect_to settings_path, notice: "Settings saved."
-  end
-
   private
-
-  def user_params
-    params.require(:user).permit(
-      :full_name, :email, :emails_enabled, :theme, :sound_enabled
-    )
-  end
-
-  def profile_picture_params
-    params.require(:user).permit(:profile_picture)
-  end
 
   def check_invite_tokens
     if session[:invite_token].present?

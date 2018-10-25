@@ -10,7 +10,7 @@ class TasksController < ApplicationController
   before_action :find_viewable_task_or_redirect, only: [:show]
   before_action :find_editable_task_or_redirect, only: [:edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /projects/1/tasks
   def index

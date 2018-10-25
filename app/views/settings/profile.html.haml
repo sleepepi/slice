@@ -1,0 +1,41 @@
+- @title = "Your Profile"
+
+- @theme = "default"
+- content_for :header, current_user.full_name.presence || current_user.username
+= render "internal/tabs"
+- content_for :sidebar, render("settings/sidebar")
+
+- if false
+  .card.mb-3
+    %h4.card-header
+      = icon("fas", "user-circle")
+      Profile
+    .card-body
+      = form_with model: current_user, url: settings_update_profile_path, method: :patch, local: true do |form|
+        = render "forms/vertical/text_field", form: form, object: current_user, key: :username
+        =# render "forms/vertical/text_area", form: form, object: current_user, key: :description, key_name: "Bio", help_text: "Short description about yourself.", rows: 3, maxlength: 160
+        = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Update profile", cancel: false
+
+%a.anchor-top{ name: "picture", id: "picture" }
+.card
+  %h4.card-header
+    = icon("fas", "user-circle")
+    Profile picture
+  .card-body
+    = form_with model: current_user, url: settings_update_profile_picture_path, method: :patch, local: true do |form|
+      .d-flex.align-items-center.flex-column.flex-sm-row
+        .mb-4.mb-sm-0
+          = render "forms/vertical/file_field", form: form, object: current_user, key: :profile_picture
+          = render "forms/vertical/submit", form: form, object: current_user, submit_text: "Upload new picture", cancel: false
+        .ml-5.key-contact-icon
+          .d-flex.align-items-center.flex-column.flex-md-row
+            - if current_user[:profile_picture]
+              .mb-4.mb-md-0= profile_picture_tag current_user, size: 256
+              .ml-3
+                = link_to settings_update_profile_picture_path(user: { remove_profile_picture: 1 }), method: :patch, class: "btn btn-sm btn-primary" do
+                  = icon("fas", "trash-alt")
+                  Remove profile picture
+
+            - else
+              .mb-4.mb-md-0.border.rounded.p-3= icon("fas", "user", class: "text-muted fa-3x")
+              .ml-3.text-muted.text-center default profile photo

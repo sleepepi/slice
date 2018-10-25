@@ -14,7 +14,7 @@ class AdverseEventsController < ApplicationController
     :edit, :update, :destroy, :set_shareable_link, :remove_shareable_link
   ]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /projects/:project_id/adverse-events/export
   def export

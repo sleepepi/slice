@@ -1,0 +1,87 @@
+// This is for %ul elements
+.sidebarbubble-menu {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 10px 0;
+
+  li {
+    display: block;
+    position: relative;
+
+    a {
+      border-left: 2px solid transparent;
+      display: block;
+      overflow: hidden;
+      padding: 7px 15px;
+      position: relative;
+      text-overflow: ellipsis;
+    }
+
+    .active,
+    a:hover,
+    a:focus {
+      text-decoration: none;
+    }
+
+    &.sidebarbubble-menu-header {
+      font-size: 85%;
+      font-variant: small-caps;
+      font-weight: normal;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      a {
+        border: 0;
+        padding: 0;
+      }
+    }
+
+    // Add a margin to the top of a menu header if it has other menu items
+    // preceding it.
+    + .sidebarbubble-menu-header {
+      margin-top: 20px;
+    }
+  }
+
+  &.sidebarbubble-menu-shadow {
+    border-radius: 3px;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .sidebarbubble-menu {
+      .badge-sidebar {
+        background-color: map-get($theme, p400);
+        color: map-get($theme, brand-white);
+      }
+
+      .active,
+      a:hover,
+      a:focus {
+        background-color: map-get($theme, p400);
+        border-color: map-get($theme, header-border);
+        color: map-get($theme, brand-white);
+
+        > .badge-sidebar {
+          background-color: map-get($theme, brand-white);
+          color: map-get($theme, p400);
+        }
+      }
+
+      .sidebarbubble-menu-header {
+        a {
+          background-color: initial;
+          color: map-get($theme, body-color);
+        }
+      }
+
+      &.sidebarbubble-menu-shadow {
+        background-color: map-get($theme, dashboard-bg);
+        box-shadow: 0 1px 5px map-get($theme, box-shadow-color);
+      }
+    }
+  }
+}

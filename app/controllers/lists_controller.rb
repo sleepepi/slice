@@ -10,7 +10,7 @@ class ListsController < ApplicationController
   before_action :find_list_or_redirect, only: [:show, :edit, :update]
 
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   def generate
     if @randomization_scheme.generate_lists!(current_user)

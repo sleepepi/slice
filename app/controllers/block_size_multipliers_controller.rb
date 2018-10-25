@@ -9,7 +9,7 @@ class BlockSizeMultipliersController < ApplicationController
   before_action :find_block_size_multiplier_or_redirect, only: [:show, :edit, :update, :destroy]
   before_action :redirect_with_published_scheme, only: [:new, :create, :edit, :update, :destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # GET /block_size_multipliers
   def index

@@ -14,7 +14,7 @@ class ThemesController < ApplicationController
 
   # GET /themes/menu-test
   def menu_test
-    render layout: "layouts/full_page_sidebar"
+    render layout: "layouts/full_page_sidebar_dark"
   end
 
   # # GET /themes/transition-test

@@ -10,7 +10,7 @@ class Reports::DesignsController < ApplicationController
   before_action :find_viewable_project_or_redirect
   before_action :find_viewable_design
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # def basic
   # end

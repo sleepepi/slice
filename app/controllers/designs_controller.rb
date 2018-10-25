@@ -8,7 +8,7 @@ class DesignsController < ApplicationController
   before_action :find_viewable_design_or_redirect, only: [:print]
   before_action :find_editable_design_or_redirect, only: [:show, :edit, :update, :destroy, :reorder]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # # POST /projects/:project_id/designs/add_question.js
   # def add_question

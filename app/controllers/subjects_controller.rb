@@ -29,7 +29,7 @@ class SubjectsController < ApplicationController
   ]
   before_action :check_for_randomizations, only: [:destroy]
 
-  layout "layouts/full_page_sidebar"
+  layout "layouts/full_page_sidebar_dark"
 
   # POST /projects/:project_id/subjects/1/event_coverage.js
   def event_coverage
