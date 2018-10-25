@@ -25,19 +25,19 @@ namespace :sheets do
         project.sheets.where(missing: false).order(:id).find_each.with_index do |sheet, index|
           count_message = " [Sheet #{index + 1} of #{total_project_sheets} (#{format("%0.2f", ((index + 1) * 100.0 / total_project_sheets))}%), Project #{project_index + 1} of #{total_projects}], [All Sheets #{current_sheet + 1} of #{total_sheets} (#{format("%0.2f", ((current_sheet + 1) * 100.0 / total_sheets))}%)]"
           if sheet.successfully_validated?
-            print "\r#{format("%6d", sheet.id)}:" + " VALID".colorize(:green) + count_message
+            print "\r#{format("%6d", sheet.id)}:" + " VALID".green + count_message
             project_results[project_index][:valid_sheets_count] += 1
           else
             in_memory_sheet = Validation::InMemorySheet.new(sheet)
             in_memory_sheet.variables = sheet.design.variables.to_a
             if in_memory_sheet.valid?
-              print "\r#{format("%6d", sheet.id)}:" + " VALID".colorize(:green) + count_message
+              print "\r#{format("%6d", sheet.id)}:" + " VALID".green + count_message
               project_results[project_index][:valid_sheets_count] += 1
               sheet.update_column :successfully_validated, true
             else
-              puts "\n#{format("%6d", sheet.id)}:" + " NOT VALID".colorize(:red) + count_message
+              puts "\n#{format("%6d", sheet.id)}:" + " NOT VALID".red + count_message
               puts "        " + "#{ENV["website_url"]}/projects/#{sheet.project.to_param}/sheets/#{sheet.to_param}"
-              puts "        " + "#{in_memory_sheet.errors.count} error#{"s" unless in_memory_sheet.errors.count == 1}".colorize(:red)
+              puts "        " + "#{in_memory_sheet.errors.count} error#{"s" unless in_memory_sheet.errors.count == 1}".red
               in_memory_sheet.errors.each do |error|
                 puts "       " + " #{error}"
               end
@@ -50,13 +50,13 @@ namespace :sheets do
         end
       end
     rescue Interrupt
-      puts "\nINTERRUPTED".colorize(:red)
+      puts "\nINTERRUPTED".red
     end
 
     project_results.sort { |a, b| [b[:invalid_sheets_count], a[:name]] <=> [a[:invalid_sheets_count], b[:name]] }.each do |hash|
       puts "\n"
-      puts "#{hash[:name]}".colorize(hash[:invalid_sheets_count] == 0 ? :green : :red) + " #{ENV["website_url"]}/projects/#{hash[:param]}"
-      puts "  #{hash[:valid_sheets_count]} VALID sheet#{"s" unless hash[:valid_sheets_count] == 1}".colorize(:green) + ", " + "#{hash[:invalid_sheets_count]} NOT VALID sheet#{"s" unless hash[:invalid_sheets_count] == 1}".colorize(hash[:invalid_sheets_count] == 0 ? :white : :red)
+      puts "#{hash[:name]}".send(hash[:invalid_sheets_count] == 0 ? :green : :red) + " #{ENV["website_url"]}/projects/#{hash[:param]}"
+      puts "  #{hash[:valid_sheets_count]} VALID sheet#{"s" unless hash[:valid_sheets_count] == 1}".green + ", " + "#{hash[:invalid_sheets_count]} NOT VALID sheet#{"s" unless hash[:invalid_sheets_count] == 1}".send(hash[:invalid_sheets_count] == 0 ? :white : :red)
     end
   end
 

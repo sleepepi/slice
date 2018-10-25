@@ -124,10 +124,6 @@ module Pats
       project.sheets.where(design_id: design_id, missing: false)
     end
 
-    def ciws_print(project)
-      sheets_by_site_print(project, ciws(project), 'Screened')
-    end
-
     def screened_sheets(project)
       ciws(project)
     end
@@ -174,15 +170,6 @@ module Pats
     def psg_report_sheets(project)
       design = project.designs.find_by(short_name: 'PSG-RPT')
       project.sheets.where(design: design, missing: false)
-    end
-
-    def sheets_by_site_print(project, sheets, text)
-      total_sheets_count = count_subjects(sheets)
-      puts "#{text} [Total]: " + total_sheets_count.to_s.colorize(total_sheets_count > 0 ? :green : :white)
-      project.sites.each do |site|
-        site_sheet_count = count_subjects(sheets.where(subjects: { site_id: site.id }))
-        puts "#{text} [#{site.name}]: " + site_sheet_count.to_s.colorize(site_sheet_count > 0 ? :green : :white)
-      end
     end
 
     def by_week(sheets, start_date)

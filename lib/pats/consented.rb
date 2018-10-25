@@ -41,9 +41,5 @@ module Pats
     def informed_consent_sheets(project)
       consented_sheets(project)
     end
-
-    def informed_consent_sheets_print(project)
-      sheets_by_site_print(project, informed_consent_sheets(project), 'Consented')
-    end
   end
 end

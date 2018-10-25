@@ -22,7 +22,7 @@ namespace :tasks do
             window_end_date: rst.window_end_date(base_date)
           )
         else
-          puts "Template #{"NOT FOUND".colorize(:red)} for Task: #{task.id}"
+          puts "Template #{"NOT FOUND".red} for Task: #{task.id}"
         end
       end
     end

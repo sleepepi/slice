@@ -47,7 +47,7 @@ def copy_project_sites(original, copy)
       user_id: s.user_id,
       subject_code_format: s.subject_code_format
     )
-    puts "Added #{sc.name.colorize(:white)} site"
+    puts "Added #{sc.name.white} site"
   end
 end
 
@@ -60,7 +60,7 @@ def copy_project_users(original, copy)
       creator_id: pu.creator_id,
       unblinded: pu.unblinded
     )
-    puts "Added #{pu.user.full_name.colorize(:white)} as project #{pu.editor ? 'editor' : 'viewer'}"
+    puts "Added #{pu.user.full_name.white} as project #{pu.editor ? 'editor' : 'viewer'}"
   end
 end
 
@@ -87,7 +87,7 @@ def copy_variables(original, copy)
       )
     end
     domain_map[d.id.to_s] = dc.id
-    puts "Added #{dc.name.colorize(:white)} domain"
+    puts "Added #{dc.name.white} domain"
   end
   puts "Variables: #{original.variables.count}"
   original.variables.where.not(variable_type: "grid").each do |v|
@@ -126,7 +126,7 @@ def copy_variables(original, copy)
     )
     vc.update_column :calculation, v.readable_calculation
     variable_map[v.id.to_s] = vc.id
-    puts "Added #{vc.name.colorize(:white)} variable"
+    puts "Added #{vc.name.white} variable"
   end
   original.variables.where(variable_type: "grid").each do |v|
     vc = copy.variables.create(
@@ -171,7 +171,7 @@ def copy_variables(original, copy)
       )
     end
     variable_map[v.id.to_s] = vc.id
-    puts "Added #{vc.name.colorize(:white)} variable"
+    puts "Added #{vc.name.white} variable"
   end
   copy.variables.find_each { |v| v.update calculation: v.readable_calculation }
   variable_map
@@ -191,7 +191,7 @@ def copy_sections(d, dc)
       user_id: s.user_id
     )
     section_map[s.id.to_s] = sc.id
-    puts "Added #{sc.name.to_s.colorize(:white)} section"
+    puts "Added #{sc.name.to_s.white} section"
   end
   section_map
 end
@@ -210,7 +210,7 @@ def copy_categories(original, copy)
       user_id: c.user_id
     )
     category_map[c.id.to_s] = cc.id
-    puts "Added #{cc.name.colorize(:white)} category"
+    puts "Added #{cc.name.white} category"
   end
   category_map
 end
@@ -241,7 +241,7 @@ def copy_designs(original, copy, variable_map)
       doc.update(branching_logic: design_option.readable_branching_logic)
     end
     design_map[d.id.to_s] = dc.id
-    puts "Added #{dc.name.colorize(:white)} design"
+    puts "Added #{dc.name.white} design"
   end
   design_map
 end
@@ -264,7 +264,7 @@ def copy_schemes(original, copy, variable_map)
     copy_treatment_arms(rs, rsc)
     rsc.generate_lists!(rsc.user)
     rsc.update(published: rs.published)
-    puts "Added #{rsc.name.colorize(:white)} randomization scheme"
+    puts "Added #{rsc.name.white} randomization scheme"
   end
 end
 
@@ -277,7 +277,7 @@ def copy_block_size_multipliers(rs, rsc)
       value: bsm.value,
       allocation: bsm.allocation
     )
-    puts "Added #{bsmc.name.colorize(:white)} block size multiplier"
+    puts "Added #{bsmc.name.white} block size multiplier"
   end
 end
 
@@ -292,7 +292,7 @@ def copy_stratification_factors(rs, rsc)
       calculation: sf.readable_calculation
     )
     copy_stratification_factor_options(sf, sfc)
-    puts "Added #{sfc.name.colorize(:white)} stratification factor"
+    puts "Added #{sfc.name.white} stratification factor"
   end
 end
 
@@ -306,7 +306,7 @@ def copy_stratification_factor_options(sf, sfc)
       label: sfo.label,
       value: sfo.value
     )
-    puts "Added #{sfoc.name.colorize(:white)} stratification factor option"
+    puts "Added #{sfoc.name.white} stratification factor option"
   end
 end
 
@@ -319,7 +319,7 @@ def copy_treatment_arms(rs, rsc)
       allocation: ta.allocation,
       user_id: ta.user_id
     )
-    puts "Added #{tac.name.colorize(:white)} treatment arms"
+    puts "Added #{tac.name.white} treatment arms"
   end
 end
 
@@ -335,7 +335,7 @@ def copy_events(original, copy, design_map)
       slug: e.slug
     )
     copy_event_designs(e, ec, design_map)
-    puts "Added #{ec.name.colorize(:white)} event"
+    puts "Added #{ec.name.white} event"
   end
 end
 
@@ -347,7 +347,7 @@ def copy_event_designs(e, ec, design_map)
       position: ed.position,
       handoff_enabled: ed.handoff_enabled
     )
-    puts "Added #{edc.design.name.colorize(:white)} event design"
+    puts "Added #{edc.design.name.white} event design"
   end
 end
 

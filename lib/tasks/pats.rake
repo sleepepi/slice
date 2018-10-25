@@ -41,9 +41,9 @@ namespace :pats do
       File.open(recruitment_json_file, "w") do |f|
         f.write(recruitment.to_json)
       end
-      puts "Wrote file to: " + recruitment_json_file.to_s.colorize(:green)
+      puts "Wrote file to: #{recruitment_json_file.to_s.green}"
     else
-      puts "Unable to load project: " + slug.colorize(:red)
+      puts "Unable to load project: #{slug.red}"
     end
   end
 end

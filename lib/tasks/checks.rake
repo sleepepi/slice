@@ -6,7 +6,7 @@ namespace :checks do
     start_time = Time.zone.now
 
     Check.runnable.find_each do |check|
-      puts check.name.to_s.colorize(:blue).on_white
+      puts check.name.blue.bg_gray
       if check.last_run_at && check.last_run_at > Time.zone.now - 1.hour
         puts "       skipped (run recently)\n\n"
         next
@@ -15,7 +15,7 @@ namespace :checks do
       t = Time.zone.now
       check.run!
       failed = check.status_checks.where(failed: true).count
-      puts format("%6d failed", failed).colorize(failed.positive? ? :red : nil)
+      puts format("%6d failed", failed).send(failed.positive? ? :red : :colorless)
       puts "#{format("%6d", Time.zone.now - t)} seconds\n\n"
     end
 

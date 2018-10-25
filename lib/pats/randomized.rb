@@ -60,10 +60,6 @@ module Pats
       generic_table(project, start_date, 'Randomized', objects, attribute: :randomized_at)
     end
 
-    def randomizations_print(project)
-      sheets_by_site_print(project, randomizations(project), 'Randomized')
-    end
-
     def expected_total_array
       [
         0,

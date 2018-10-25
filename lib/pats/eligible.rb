@@ -45,13 +45,5 @@ module Pats
     def eligible_to_continue_to_baseline_sheets(project, value: '1')
       eligible_sheets(project, value: value)
     end
-
-    def eligible_to_continue_to_baseline_sheets_print(project)
-      sheets_by_site_print(
-        project,
-        eligible_to_continue_to_baseline_sheets(project),
-        'Eligible to Continue To Baseline'
-      )
-    end
   end
 end
