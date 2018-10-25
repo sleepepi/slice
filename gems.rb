@@ -40,7 +40,7 @@ group :development do
 end
 
 group :test do
-  gem "capybara", "~> 3.0"
+  gem "capybara",           "~> 3.0"
   gem "minitest"
   gem "puma"
   gem "rails-controller-testing"
