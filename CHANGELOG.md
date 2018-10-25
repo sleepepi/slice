@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Add updated Privacy Policy
+- **Gem Changes**
+  - Update to ruby 2.5.3
 
 ## 66.0.0 (October 4, 2018)
 
