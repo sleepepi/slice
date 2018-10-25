@@ -1,7 +1,4 @@
 - @title = @user.full_name
-- if current_user.admin?
-  - @breadcrumbs = []
-  - @breadcrumbs << ["Users", users_path]
 
 - content_for :header do
   - if current_user.admin?
@@ -23,6 +20,10 @@
               = icon("fas", "trash-alt")
               Delete
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "users", users_path
+    %li.breadcrumb-muted= @user.username.downcase
 
 .dashboard-container
   = render "forms/horizontal/show/text", object: @user, key: :full_name
@@ -38,4 +39,4 @@
   - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
   - if current_user.admin? && site_invitations.count > 0
     = render "forms/horizontal/show/generic", title: "Invitations", content: render("users/invitations", user: @user, site_invitations: site_invitations)
-  = render "forms/horizontal/show/generic", title: "Profile picture", content: profile_picture_tag(@user)
+  = render "forms/horizontal/show/generic", title: "Profile picture", content: render("users/profile_picture", user: @user) if @user[:profile_picture]

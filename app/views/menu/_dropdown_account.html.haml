@@ -4,7 +4,7 @@
       = link_to "#", class: "nav-link", data: { toggle: "dropdown" }, aria: { haspopup: "true", expanded: "false" } do
         = icon("fas", "ellipsis-v")
     - else
-      - if current_user[:photo]
+      - if current_user[:profile_picture]
         - picture_content = profile_picture_tag(current_user, size: 20)
       - else
         - picture_content = icon("fas", "user")

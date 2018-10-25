@@ -28,7 +28,11 @@
     - @users.each do |user|
       %tr
         %td.nowrap
-          = profile_picture_tag user, size: 18, style: "vertical-align:text-bottom;min-width: 18px;"
+          - if user[:profile_picture]
+            - picture_content = profile_picture_tag(user, size: 18, style: "vertical-align:text-bottom;min-width: 18px;")
+          - else
+            - picture_content = icon("fas", "user", class: "text-muted")
+          = picture_content
           = link_to user do
             .d-none.d-sm-inline= user.full_name
             .d-inline.d-sm-none= user.nickname

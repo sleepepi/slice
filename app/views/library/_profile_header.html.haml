@@ -4,11 +4,15 @@
 
     .d-flex.flex-row.align-items-center.mb-3
       .mr-3
-        - if owner
-          = link_to edit_profile_path(profile) do
-            = public_profile_picture_tag profile
+        - if profile.object[:profile_picture]
+          - picture_content = public_profile_picture_tag(profile)
         - else
-          = public_profile_picture_tag profile
+          - picture_content = icon("fas", "user", class: "text-muted pt-3", style: "font-size: 96px;width: 128px;height: 128px;text-align: center;")
+
+        - if owner
+          = link_to picture_content, edit_profile_path(profile)
+        - else
+          = picture_content
       %div
         .library-profile-name= profile.username
         .small= simple_style profile.description

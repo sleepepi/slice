@@ -30,6 +30,10 @@
           %h1.page-heading
             = yield :header
     .container= render "layouts/breadcrumbs" # Slice extra
+    - if content_for?(:breadcrumbs)
+      .breadcrumb-container
+        %div{ class: defined?(container) && container.present? ? container : "container" }
+          = yield :breadcrumbs
     .theme-custom-spacing
       .py-3
         .remove-last-margin{ class: @container.presence || "container" }= yield
