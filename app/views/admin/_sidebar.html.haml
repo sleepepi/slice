@@ -1,0 +1,9 @@
+.col-12.col-md-3.col-xl-2.sidebarbubble-wrapper
+  .sidebarbubble
+    #sidebarbubble-nav-wrapper.sidebarbubble-nav-wrapper.collapse
+      .pt-3.py-md-3.mx-3.my-0.ml-md-3.mb-md-3.mr-md-0
+        %ul.sidebarbubble-menu.sidebarbubble-menu-shadow
+          %li.sidebarbubble-menu-header= render "sidebar/toggle", title: "Admin"
+          %li= link_to "Dashboard", admin_path, class: current_page?(admin_path) ? "active" : nil
+          %li= link_to "Engine Runs", admin_engine_runs_path, class: params[:controller] == "admin/engine_runs" ? "active" : nil
+          %li= link_to "Users", users_path, class: params[:controller] == "users" ? "active" : nil

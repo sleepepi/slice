@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   before_action :check_admin!
   before_action :find_user_or_redirect, only: [:show, :edit, :update, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /users
   def index
     scope = User.current.search_any_order(params[:search])

@@ -1,0 +1,5 @@
+- content_for :tabs do
+  - current_page = params[:controller].in?(%w(admin users admin/engine_runs))
+  = link_to admin_path, class: "header-tab #{"header-tab-active" if current_page}", data: { object: "#{"suppress-click" if current_page?(admin_path)}" } do
+    = icon("fas", "toolbox")
+    Admin

@@ -1,29 +1,15 @@
-- @title = @user.full_name
+- @title = "#{@user.username} - Users"
 
 - content_for :header do
-  - if current_user.admin?
-    .float-right
-      .dropdown
-        = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-          .d-inline-block.d-sm-none
-            = icon("fas", "cog")
-          .d-none.d-sm-inline-block Actions
-
-        .dropdown-menu.dropdown-menu-right
-          = link_to edit_user_path(@user), class: "dropdown-item" do
-            = icon("fas", "pencil-alt")
-            Edit
-
-          - unless current_user == @user
-            .dropdown-divider
-            = link_to @user, method: :delete, data: { confirm: "Delete #{@user.full_name}?" }, class: "dropdown-item text-danger" do
-              = icon("fas", "trash-alt")
-              Delete
-  = @title
+  .float-right
+    = render "layouts/edit_delete_dropdown", edit_url: edit_user_path(@user), delete_url: @user, delete_confirmation: "Delete #{@user.full_name}?"
+  = @user.full_name.presence || @user.username
+= render "admin/tabs"
 - content_for :breadcrumbs do
   %ol
     %li= link_to "users", users_path
     %li.breadcrumb-muted= @user.username.downcase
+- content_for :sidebar, render("admin/sidebar")
 
 .dashboard-container
   = render "forms/horizontal/show/text", object: @user, key: :full_name

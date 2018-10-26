@@ -325,6 +325,11 @@ class User < ApplicationRecord
     "#{f.split(/[\s']/).collect(&:first).join}#{l}"
   end
 
+  def username_was
+    (f, l) = full_name_was.downcase.split(" ", 2)
+    "#{f.split(/[\s']/).collect(&:first).join}#{l}"
+  end
+
   def last_business_day
     days = Time.zone.now.monday? ? 3.days : 1.day
     Time.zone.now - days

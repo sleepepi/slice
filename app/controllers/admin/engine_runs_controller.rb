@@ -6,6 +6,8 @@ class Admin::EngineRunsController < ApplicationController
   before_action :check_admin!
   before_action :find_engine_run_or_redirect, only: [:show, :destroy]
 
+  layout "layouts/full_page_sidebar"
+
   # GET /admin/engine-runs
   def index
     scope = EngineRun.all.includes(:user, :project).search_any_order(params[:search])

@@ -1,0 +1,29 @@
+- per_page = 20 unless defined?(per_page) && per_page
+- object_count = 0 unless defined?(object_count) && object_count
+- page = params[:page].blank? ? 1 : params[:page].to_i
+- current_page_min = [[(page - 1) * per_page + 1, 0].max, object_count].min
+- current_page_max = [[page * per_page, 0].max, object_count].min
+
+- filtered_params = params.permit(:order)
+
+.float-right
+  - if current_page_min > 1
+    = link_to url_for(filtered_params.merge(page: page - 1)), class: "link-no-underline small" do
+      = icon("fas", "angle-double-left")
+  - else
+    = icon("fas", "angle-double-left", class: "text-muted small")
+
+  %span.mx-1.small
+    %strong
+      = number_with_delimiter current_page_min
+      to
+      = number_with_delimiter current_page_max
+    %span
+      of
+      = number_with_delimiter object_count
+
+  - if current_page_max < object_count
+    = link_to url_for(filtered_params.merge(page: page + 1)), class: "link-no-underline small" do
+      = icon("fas", "angle-double-right")
+  - else
+    = icon("fas", "angle-double-right", class: "text-muted small")

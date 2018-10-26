@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     patch :update_interface, path: "interface"
   end
 
+  get :admin, to: "admin#dashboard"
   namespace :admin do
     resources :engine_runs, path: "engine-runs"
   end
@@ -405,7 +406,6 @@ Rails.application.routes.draw do
              path_names: { sign_up: "join", sign_in: "login" },
              path: ""
 
-  get "admin" => "users#index"
   resources :users
 
   scope module: :search do

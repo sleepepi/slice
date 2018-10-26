@@ -1,0 +1,12 @@
+- @title = "Admin Dashboard"
+
+- @theme = "default"
+- content_for :header, @title
+= render "admin/tabs"
+- content_for :sidebar, render("admin/sidebar")
+
+.dashboard-container
+  = render "forms/horizontal/show/generic", title: "Users", content: User.count
+  =# render "forms/horizontal/show/generic", title: "Documents", content: -1
+
+#files-count
