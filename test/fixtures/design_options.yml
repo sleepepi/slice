@@ -570,7 +570,7 @@ api_design_api_integer:
   variable: api_integer
   # section:
   position: 1
-  # requirement:
+  requirement: required
   # branching_logic:
 
 ## Engine

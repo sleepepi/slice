@@ -94,7 +94,9 @@ module Validation
       return true if branching_logic.to_s.strip.blank?
       result = exec_js_context.eval(expanded_branching_logic(branching_logic))
       result == false ? false : true
-    rescue
+    rescue ExecJS::Error => e
+      Rails.logger.debug e
+      Rails.logger.debug "IN_MEMORY_SHEET: show_design_option?(#{branching_logic.inspect})"
       true
     end
 
