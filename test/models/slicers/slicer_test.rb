@@ -123,6 +123,14 @@ class SlicerTest < ActiveSupport::TestCase
       { value: "", domain_option_id: nil },
       slicer.format_for_db_update("")
     )
+    assert_equal(
+      { value: {}, domain_option_id: nil },
+      slicer.format_for_db_update({})
+    )
+    assert_equal(
+      { value: nil, domain_option_id: nil },
+      slicer.format_for_db_update(nil)
+    )
   end
 
   test "should prepare value for db for numeric variable" do

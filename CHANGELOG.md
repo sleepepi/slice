@@ -1,5 +1,8 @@
 ## 66.0.1
 
+### Bug Fix
+- Fix bug that occurred when domain slicer compared non-string values
+
 ## 66.0.0 (October 4, 2018)
 
 ### Enhancements
