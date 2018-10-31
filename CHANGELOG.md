@@ -12,6 +12,13 @@
   - Update to font-awesome-sass 5.4.1
   - Remove colorize
 
+## 66.0.1 (October 31, 2018)
+
+### Bug Fixes
+- Fix bug that occurred when domain slicer compared non-string values
+- Fix bug that occurred in survey API when a request attempted to update a
+  response on a non-existent page
+
 ## 66.0.0 (October 4, 2018)
 
 ### Enhancements

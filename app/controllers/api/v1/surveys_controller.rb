@@ -53,8 +53,10 @@ class Api::V1::SurveysController < Api::V1::BaseController
       @sheet.audit_set_lasted_edited!
       @sheet.reset_coverage!
       render json: {}, status: :ok
-    else
+    elsif @design_option
       render :survey_page, status: :unprocessable_entity
+    else
+      render json: {}, status: :bad_request
     end
   end
 

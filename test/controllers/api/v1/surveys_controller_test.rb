@@ -46,4 +46,24 @@ class Api::V1::SurveysControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
   end
+
+  test "should not create survey response if blank and required" do
+    assert_difference("SheetVariable.count", 0) do
+      patch api_v1_show_survey_page_path(
+        authentication_token: @project.id_and_token, id: @subject,
+        event: @event, design: @design, page: 2, response: "", format: "json"
+      )
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not create survey response for unknown page" do
+    assert_difference("SheetVariable.count", 0) do
+      patch api_v1_show_survey_page_path(
+        authentication_token: @project.id_and_token, id: @subject,
+        event: @event, design: @design, page: 3, response: "1", format: "json"
+      )
+    end
+    assert_response :bad_request
+  end
 end
