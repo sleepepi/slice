@@ -1,4 +1,4 @@
-## 66.0.1
+## 66.0.1 (October 31, 2018)
 
 ### Bug Fixes
 - Fix bug that occurred when domain slicer compared non-string values
