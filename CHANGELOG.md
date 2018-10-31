@@ -1,5 +1,10 @@
 ## 66.1.0
 
+### Enhancements
+- **API Changes**
+  - The `update_survey_response` method call now requires `design_option_id` to
+    be specified in the request
+
 ## 66.0.1 (October 31, 2018)
 
 ### Bug Fixes

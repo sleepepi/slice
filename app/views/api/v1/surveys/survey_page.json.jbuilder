@@ -12,6 +12,8 @@ json.design do
   json.current_page @page
 end
 
+json.design_option_id @design_option.id
+
 if @design_option.section
   json.section do
     json.partial! "api/v1/surveys/section", section: @design_option.section
