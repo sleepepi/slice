@@ -1,4 +1,4 @@
-## 66.1.0
+## 66.1.0 (November 5, 2018)
 
 ### Enhancements
 - **API Changes**
