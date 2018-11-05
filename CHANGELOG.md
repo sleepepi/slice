@@ -12,6 +12,13 @@
   - Update to font-awesome-sass 5.4.1
   - Remove colorize
 
+## 66.1.0 (November 5, 2018)
+
+### Enhancements
+- **API Changes**
+  - The `update_survey_response` method call now requires `design_option_id` to
+    be specified in the request
+
 ## 66.0.1 (October 31, 2018)
 
 ### Bug Fixes

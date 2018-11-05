@@ -5,7 +5,8 @@ class Api::V1::SurveysController < Api::V1::BaseController
   before_action :find_project_or_redirect
   before_action :find_subject_or_redirect
   before_action :find_subject_sheet
-  before_action :find_design_option, only: [:show_survey_page, :update_survey_response]
+  before_action :find_design_option_by_page, only: [:show_survey_page]
+  before_action :find_design_option_by_id, only: [:update_survey_response]
 
   # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subjects/1/surveys/:event/:design.json
   def show_survey
@@ -79,9 +80,13 @@ class Api::V1::SurveysController < Api::V1::BaseController
     sheet
   end
 
-  def find_design_option
+  def find_design_option_by_page
     @page = [params[:page].to_i, 1].max
     @design_option = @sheet.goto_page_number(@page) if @sheet
+  end
+
+  def find_design_option_by_id
+    @design_option = @sheet.design.design_options.find_by(id: params[:design_option_id]) if @sheet
   end
 
   def save_response_to_sheet!(sheet, design_option, value)
