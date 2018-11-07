@@ -604,3 +604,8 @@ engine_small_number_small_number:
   design: engine_small_number
   variable: engine_small_number
   position: 0
+
+engine_culture_favorite_genres:
+  design: engine_culture
+  variable: engine_favorite_genres
+  position: 0

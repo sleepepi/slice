@@ -56,3 +56,31 @@ export_me_two:
   user: regular
   domain_option: var_checkbox_math123
   # value: math123
+
+engine_culture1_drama:
+  variable: engine_favorite_genres
+  sheet: engine_culture1
+  sheet_variable: engine_genres_1
+  user: engine_editor
+  domain_option: engine_genre_drama
+
+engine_culture1_romance:
+  variable: engine_favorite_genres
+  sheet: engine_culture1
+  sheet_variable: engine_genres_1
+  user: engine_editor
+  domain_option: engine_genre_romance
+
+engine_culture2_action:
+  variable: engine_favorite_genres
+  sheet: engine_culture2
+  sheet_variable: engine_genres_2
+  user: engine_editor
+  domain_option: engine_genre_action
+
+engine_culture2_romance:
+  variable: engine_favorite_genres
+  sheet: engine_culture2
+  sheet_variable: engine_genres_2
+  user: engine_editor
+  domain_option: engine_genre_romance

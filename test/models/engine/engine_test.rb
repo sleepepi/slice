@@ -804,4 +804,50 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 1, engine.interpreter.subjects_count
     assert_equal 0, engine.interpreter.sheets.count
   end
+
+  # Test should return results for checkbox variables
+  test "should return results for favorite genres includes action" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("favorite_genres is 1")
+    assert_equal [:identifier, :equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 1, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
+
+  test "should return results for favorite genres includes romance" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("favorite_genres is 7")
+    assert_equal [:identifier, :equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 2, engine.interpreter.subjects_count
+    assert_equal 2, engine.interpreter.sheets.count
+  end
+
+  test "should return results for favorite genres includes action and romance" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("favorite_genres is 1 and favorite_genres is 7")
+    assert_equal [:identifier, :equal, :number, :and, :identifier, :equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 1, engine.interpreter.subjects_count
+    assert_equal 1, engine.interpreter.sheets.count
+  end
+
+  test "should return results for favorite genres includes action or drama" do
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("favorite_genres is 1 or favorite_genres is 4")
+    assert_equal [:identifier, :equal, :number, :or, :identifier, :equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 2, engine.interpreter.subjects_count
+    assert_equal 2, engine.interpreter.sheets.count
+  end
+
+  test "should return results for favorite genres that do not include romance" do
+    # TODO: Determine what this is expected to return. Should it include a sheet
+    # that has other responses alongside romance, or disregard that completely?
+    skip
+    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
+    engine.run("favorite_genres != 7")
+    assert_equal [:identifier, :bang_equal, :number], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 2, engine.interpreter.subjects_count
+    assert_equal 2, engine.interpreter.sheets.count
+    puts "includes romance (correct1, correct2)"
+    puts engine.interpreter.sheets.collect { |s| s.subject.name }
+  end
 end

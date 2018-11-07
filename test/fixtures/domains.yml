@@ -152,3 +152,9 @@ engine_missing:
   display_name: Missing
   user: engine_editor
   project: engine
+
+engine_genres:
+  name: genres
+  display_name: Genres
+  user: engine_editor
+  project: engine

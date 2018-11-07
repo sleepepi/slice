@@ -472,3 +472,15 @@ engine_sv22:
   variable: engine_animals
   user: engine_editor
   domain_option: engine_animals_refused
+
+engine_genres_1:
+  sheet: engine_culture1
+  variable: engine_favorite_genres
+  user: engine_editor
+  # value: "['4','7']" [drama, romance] # Defined in responses.yml
+
+engine_genres_2:
+  sheet: engine_culture2
+  variable: engine_favorite_genres
+  user: engine_editor
+  # value: "['1','7']" [action, romance] # Defined in responses.yml

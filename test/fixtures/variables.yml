@@ -594,3 +594,11 @@ engine_weight:
   variable_type: imperial_weight
   user: engine_editor
   project: engine
+
+engine_favorite_genres:
+  name: favorite_genres
+  display_name: Select your favorite book and movie genres
+  variable_type: checkbox
+  user: engine_editor
+  project: engine
+  domain: engine_genres

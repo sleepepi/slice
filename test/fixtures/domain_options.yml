@@ -395,3 +395,63 @@ engine_missing_missing:
   value: -9
   position: 0
   missing_code: true
+
+engine_genre_action:
+  domain: engine_genres
+  name: Action
+  value: 1
+  position: 0
+
+engine_genre_adventure:
+  domain: engine_genres
+  name: Adventure
+  value: 2
+  position: 1
+
+engine_genre_comedy:
+  domain: engine_genres
+  name: Comedy
+  value: 3
+  position: 2
+
+engine_genre_drama:
+  domain: engine_genres
+  name: Drama
+  value: 4
+  position: 3
+
+engine_genre_fantasy:
+  domain: engine_genres
+  name: Fantasy
+  value: 5
+  position: 4
+
+engine_genre_horror:
+  domain: engine_genres
+  name: Horror
+  value: 6
+  position: 5
+
+engine_genre_romance:
+  domain: engine_genres
+  name: Romance
+  value: 7
+  position: 6
+
+engine_genre_satire:
+  domain: engine_genres
+  name: Satire
+  value: 8
+  position: 7
+
+engine_genre_science fiction:
+  domain: engine_genres
+  name: Science Fiction
+  value: 9
+  position: 8
+
+engine_genre_thriller:
+  domain: engine_genres
+  name: Thriller
+  value: 10
+  position: 9

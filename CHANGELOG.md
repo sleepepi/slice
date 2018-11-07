@@ -5,6 +5,8 @@
   - Add updated Privacy Policy
 - **Admin Changes**
   - Admin interface updated to include Slice Engine run statistics
+- **Slice Expression Engine Changes**
+  - Slice Expressions can now filter results using checkbox variables
 - **Settings Changes**
   - Account settings reorganized into categories
 - **Gem Changes**
