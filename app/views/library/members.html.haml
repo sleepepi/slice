@@ -10,7 +10,11 @@
       %ul.list-unstyled
         - @members.each do |member|
           %li
-            = public_profile_picture_tag member.profile, size: 32
+            - if member[:profile_picture]
+              - picture_content = public_profile_picture_tag member.profile, size: 16
+            - else
+              - picture_content = icon("fas", "user", class: "text-muted")
+            = picture_content
             = link_to member.profile.username, library_profile_path(member.profile)
 
       .center-horizontally= paginate @members, theme: "bootstrap"
