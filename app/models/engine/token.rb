@@ -16,7 +16,7 @@ module Engine
       :true, :false, :nil,
       :left_paren, :right_paren,
       :and, :xor, :or,
-      :entered, :any, :missing, :unentered
+      :entered, :present, :missing, :unentered
     ]
 
     attr_accessor :token_type, :raw, :auto, :identified

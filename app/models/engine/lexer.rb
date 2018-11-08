@@ -143,10 +143,10 @@ module Engine
         @tokens << ::Engine::Token.new(:true, raw: word)
       when "false"
         @tokens << ::Engine::Token.new(:false, raw: word)
-      when "entered", "present"
+      when "entered"
         @tokens << ::Engine::Token.new(:entered, raw: word)
-      when "any"
-        @tokens << ::Engine::Token.new(:any, raw: word)
+      when "present"
+        @tokens << ::Engine::Token.new(:present, raw: word)
       when "missing"
         @tokens << ::Engine::Token.new(:missing, raw: word)
       when "unentered", "blank"

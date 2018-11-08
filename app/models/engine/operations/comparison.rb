@@ -21,10 +21,10 @@ module Engine
           return check_missing(token_type, right, left)
         end
 
-        if left.is_a?(::Engine::Cell) && right == :any
-          return check_any(token_type, left, right)
-        elsif right.is_a?(::Engine::Cell) && left == :any
-          return check_any(token_type, right, left)
+        if left.is_a?(::Engine::Cell) && right == :present
+          return check_present(token_type, left, right)
+        elsif right.is_a?(::Engine::Cell) && left == :present
+          return check_present(token_type, right, left)
         end
 
         if left.is_a?(::Engine::Cell) && right == :entered
@@ -55,7 +55,7 @@ module Engine
         end
       end
 
-      def check_any(token_type, left, right)
+      def check_present(token_type, left, right)
         if token_type == :equal
           !left.missing? && !left.value.blank?
         elsif token_type == :bang_equal

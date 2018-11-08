@@ -56,7 +56,7 @@
   - value = "!"
 - elsif token.token_type.in?([:between, :and, :or, :at])
   - token_class = "token-operator"
-- elsif token.token_type.in?([:entered, :any, :missing, :unentered])
+- elsif token.token_type.in?([:entered, :present, :missing, :unentered])
   - token_class = "token-value"
 - elsif token.token_type.in?([:true, :false, :nil])
   - token_class = "token-boolean"

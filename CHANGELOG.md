@@ -13,6 +13,14 @@
     export is complete
 - **Slice Expression Engine Changes**
   - Slice Expressions can now filter results using checkbox variables
+  - Removed "any" filter and replaced with "present"
+    - `entered` All entered values including missing codes (formerly `entered` and `present`)
+    - `present` Non-missing code values (formerly `any`)
+    - `missing` Missing codes and blank values, and unentered
+    - `unentered`, `blank` Blank values, and unentered sheets
+  - Searches for "present" no longer include missing codes
+    - This makes searches for designs more logical too, as "design is present"
+      no longer includes sheets that have been set as missing
 - **Settings Changes**
   - Account settings reorganized into categories
 - **Gem Changes**

@@ -342,31 +342,23 @@ class EngineTest < ActiveSupport::TestCase
   test "should parse present identifier variable" do
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
     engine.run("large_number is present")
-    assert_equal [:identifier, :equal, :entered], engine.lexer.tokens.collect(&:token_type)
-    assert_equal 4, engine.interpreter.subjects_count
-    assert_equal 5, engine.interpreter.sheets.count
-  end
-
-  test "should parse any identifier variable" do
-    engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
-    engine.run("large_number is any")
-    assert_equal [:identifier, :equal, :any], engine.lexer.tokens.collect(&:token_type)
+    assert_equal [:identifier, :equal, :present], engine.lexer.tokens.collect(&:token_type)
     assert_equal 3, engine.interpreter.subjects_count
     assert_equal 4, engine.interpreter.sheets.count
   end
 
-  test "should parse is not any identifier variable" do
+  test "should parse is not present identifier variable" do
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
-    engine.run("large_number != any")
-    assert_equal [:identifier, :bang_equal, :any], engine.lexer.tokens.collect(&:token_type)
+    engine.run("large_number != present")
+    assert_equal [:identifier, :bang_equal, :present], engine.lexer.tokens.collect(&:token_type)
     assert_equal 4, engine.interpreter.subjects_count
     assert_equal 2, engine.interpreter.sheets.count
   end
 
-  test "should parse any identifier variable on right" do
+  test "should parse present identifier variable on right" do
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
-    engine.run("any = large_number")
-    assert_equal [:any, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
+    engine.run("present = large_number")
+    assert_equal [:present, :equal, :identifier], engine.lexer.tokens.collect(&:token_type)
     assert_equal 3, engine.interpreter.subjects_count
     assert_equal 4, engine.interpreter.sheets.count
   end
@@ -781,10 +773,10 @@ class EngineTest < ActiveSupport::TestCase
     assert_equal 6, engine.interpreter.sheets.count
   end
 
-  test "should parse identifier design at event is any" do
+  test "should parse identifier design at event is present" do
     engine = Engine::Engine.new(projects(:engine), users(:engine_editor))
-    engine.run("large-number at event-one is any")
-    assert_equal [:identifier, :at, :identifier, :equal, :any], engine.lexer.tokens.collect(&:token_type)
+    engine.run("large-number at event-one is present")
+    assert_equal [:identifier, :at, :identifier, :equal, :present], engine.lexer.tokens.collect(&:token_type)
     assert_equal 5, engine.interpreter.subjects_count
     assert_equal 5, engine.interpreter.sheets.count
   end

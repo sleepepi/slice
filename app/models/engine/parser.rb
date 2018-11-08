@@ -219,7 +219,7 @@ module Engine
       return ::Engine::Expressions::Literal.new(true) if token_is?(:true)
       return ::Engine::Expressions::Literal.new(nil) if token_is?(:nil)
       return ::Engine::Expressions::Literal.new(:entered, meta: true) if token_is?(:entered)
-      return ::Engine::Expressions::Literal.new(:any, meta: true) if token_is?(:any)
+      return ::Engine::Expressions::Literal.new(:present, meta: true) if token_is?(:present)
       return ::Engine::Expressions::Literal.new(:missing, meta: true) if token_is?(:missing)
       return ::Engine::Expressions::Literal.new(:unentered, meta: true) if token_is?(:unentered)
 
