@@ -3,10 +3,10 @@
 module SheetExport
   extend ActiveSupport::Concern
 
-  def generate_csv_sheets(sheet_scope, filename, raw_data, folder)
+  def generate_csv_sheets(sheet_scope, temp_dir, filename, raw_data, folder)
     sheet_scope = sheet_scope.order(id: :desc)
-    tmp_export_file = File.join("tmp", "files", "exports", "#{filename}_#{raw_data ? 'raw' : 'labeled'}_tmp.csv")
-    export_file = File.join("tmp", "files", "exports", "#{filename}_#{raw_data ? 'raw' : 'labeled'}.csv")
+    tmp_export_file = File.join(temp_dir, "#{filename}_#{raw_data ? "raw" : "labeled"}_tmp.csv")
+    export_file = File.join(temp_dir, "#{filename}_#{raw_data ? "raw" : "labeled"}.csv")
     design_ids = sheet_scope.select(:design_id)
     variables = all_design_variables_using_design_ids(design_ids).where.not(variable_type: "grid").includes(domain: :domain_options)
     sheet_ids = sheet_scope.pluck(:id)
@@ -25,7 +25,7 @@ module SheetExport
       load_all(variables, sheet_ids, raw_data, csv)
     end
     transpose_tmp_csv(tmp_export_file, export_file)
-    ["#{folder}/#{export_file.split('/').last}", export_file]
+    ["#{folder}/#{export_file.split("/").last}", export_file]
   end
 
   def load_all(variables, sheet_ids, raw_data, csv)

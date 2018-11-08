@@ -4,6 +4,14 @@ require "test_helper"
 
 # Tests to make sure projects are exported in an expected format
 class ExportTest < ActiveSupport::TestCase
+  setup do
+    @temp_dir = Dir.mktmpdir
+  end
+
+  teardown do
+    FileUtils.remove_entry @temp_dir
+  end
+
   test "generate an export with a sheet_scope" do
     exports(:two).generate_export!
     assert_equal "ready", exports(:two).status
@@ -12,7 +20,7 @@ class ExportTest < ActiveSupport::TestCase
   test "generate a labeled export for all variables" do
     sheets_with_all_variables = projects(:one).sheets.where(id: sheets(:all_variables))
     (_, export_file) = exports(:all_variables).send(
-      :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", false, ""
+      :generate_csv_sheets, sheets_with_all_variables, @temp_dir, "test-export.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
@@ -40,7 +48,7 @@ class ExportTest < ActiveSupport::TestCase
   test "generate a raw export for all variables" do
     sheets_with_all_variables = projects(:one).sheets.where(id: sheets(:all_variables))
     (_, export_file) = exports(:all_variables).send(
-      :generate_csv_sheets, sheets_with_all_variables, "test-export.csv", true, ""
+      :generate_csv_sheets, sheets_with_all_variables, @temp_dir, "test-export.csv", true, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
@@ -66,7 +74,7 @@ class ExportTest < ActiveSupport::TestCase
 
   test "generate an export with checkbox values split across columns" do
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
-    (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, "test-export.csv", true, "")
+    (_, export_file) = exports(:three).send(:generate_csv_sheets, sheets_with_checkboxes, @temp_dir, "test-export.csv", true, "")
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
                  "var_course_work__acct101,var_course_work__econ101,"\
@@ -84,7 +92,7 @@ class ExportTest < ActiveSupport::TestCase
   test "generate an export with checkbox labeled values split across columns" do
     sheets_with_checkboxes = projects(:one).sheets.where(id: sheets(:checkbox_example_one))
     (_, export_file) = exports(:three).send(
-      :generate_csv_sheets, sheets_with_checkboxes, "test-export-labeled.csv", false, ""
+      :generate_csv_sheets, sheets_with_checkboxes, @temp_dir, "test-export-labeled.csv", false, ""
     )
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal "Subject,Site,Event,Design,Sheet ID,Sheet Coverage Percent,Sheet Coverage Count,Sheet Coverage Total,Sheet Created,Initial Language Code,Missing,"\
@@ -101,7 +109,7 @@ class ExportTest < ActiveSupport::TestCase
 
   test "generate a grid export with rows for each grid row" do
     sheets_with_grids = projects(:one).sheets.where(id: sheets(:has_grid))
-    (_, export_file) = exports(:four).send(:generate_csv_grids, sheets_with_grids, "test-export-grids.csv", true, "")
+    (_, export_file) = exports(:four).send(:generate_csv_grids, sheets_with_grids, @temp_dir, "test-export-grids.csv", true, "")
     rows = IO.readlines(export_file).collect(&:strip)
     assert_equal '"","","","","",grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid,grid', rows[0]
     assert_equal "Subject,Site,Event,Design,Sheet ID,change_options,"\

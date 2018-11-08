@@ -13,7 +13,7 @@ Project
 Included Files
 ==============
 
-`-- DD
+`-- data_dictionary
     |-- README.txt
     |-- designs.csv
     |-- variables.csv
@@ -32,10 +32,10 @@ The `domains.csv` contains option domains that include name and values of possib
 Design Descriptions
 ===================
 
-<% Design.where(id: sheet_scope.pluck(:design_id)).order('name').each do |d| %>
+<% Design.where(id: sheet_scope.pluck(:design_id)).order(:name).each do |d| %>
 
 <%= d.name %> - Description
-<%= '-'*d.name.size %>--------------
+<%= "-" * d.name.size %>--------------
 
     <%= d.description %>
 

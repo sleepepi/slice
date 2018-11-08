@@ -21,6 +21,8 @@ two:
   include_sas: true
   include_files: true
   include_r: true
+  include_adverse_events: true
+  include_randomizations: true
 
 three:
   name: My Checkbox Export

@@ -16,7 +16,7 @@ class Export < ApplicationRecord
   include SheetExport
 
   # Validations
-  validates :name, :user_id, :project_id, presence: true
+  validates :name, presence: true
 
   # Relationships
   belongs_to :user
@@ -52,7 +52,7 @@ class Export < ApplicationRecord
     grid_variables_count = all_variables.where(variable_type: "grid").uniq.count
     update sheet_ids_count: sheet_ids.size, variables_count: variables_count, grid_variables_count: grid_variables_count
     calculate_total_steps
-    finalize_export!(generate_zip_file(sheet_scope))
+    generate_zip_file!(sheet_scope)
   rescue => e
     export_failed(e.message.to_s + e.backtrace.to_s)
   end
@@ -102,14 +102,6 @@ class Export < ApplicationRecord
 
   private
 
-  def finalize_export!(export_file)
-    if export_file
-      export_succeeded(export_file)
-    else
-      export_failed(failure_details)
-    end
-  end
-
   def failure_details
     if include_files?
       "No sheets have had files uploaded. Zip file not created."
@@ -134,31 +126,31 @@ class Export < ApplicationRecord
     create_notification
   end
 
-  def generate_all_files(sheet_scope, filename)
+  def generate_all_files(sheet_scope, temp_dir, filename)
     all_files = [] # If numerous files are created then they need to be zipped!
-    all_files << generate_csv_sheets(sheet_scope, filename, false, "csv") if include_csv_labeled?
-    all_files << generate_csv_grids(sheet_scope, filename, false, "csv")  if include_csv_labeled? && include_grids?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, "csv")  if include_csv_raw?
-    all_files << generate_csv_grids(sheet_scope, filename, true, "csv")   if include_csv_raw? && include_grids?
-    all_files << generate_readme("csv")                                   if include_csv_labeled? || include_csv_raw?
-    all_files += generate_pdf(sheet_scope)                                if include_pdf?
-    all_files += generate_data_dictionary(sheet_scope)                    if include_data_dictionary?
-    all_files += generate_sas(sheet_scope, filename)                      if include_sas?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, "sas")  if include_sas?
-    all_files << generate_csv_grids(sheet_scope, filename, true, "sas")   if include_sas? && include_grids?
-    all_files += generate_r(sheet_scope, filename)                        if include_r?
-    all_files << generate_csv_sheets(sheet_scope, filename, true, "r")    if include_r?
-    all_files << generate_csv_grids(sheet_scope, filename, true, "r")     if include_r? && include_grids?
-    all_files << generate_csv_adverse_events(filename)                    if include_adverse_events?
-    all_files << generate_csv_adverse_events_master_list(filename)        if include_adverse_events?
-    all_files << generate_csv_randomizations(filename)                    if include_randomizations?
+    all_files << generate_csv_sheets(sheet_scope, temp_dir, filename, false, "csvs") if include_csv_labeled?
+    all_files << generate_csv_grids(sheet_scope, temp_dir, filename, false, "csvs")  if include_csv_labeled? && include_grids?
+    all_files << generate_csv_sheets(sheet_scope, temp_dir, filename, true, "csvs")  if include_csv_raw?
+    all_files << generate_csv_grids(sheet_scope, temp_dir, filename, true, "csvs")   if include_csv_raw? && include_grids?
+    all_files << generate_readme(temp_dir, "csvs")                                   if include_csv_labeled? || include_csv_raw?
+    all_files += generate_pdf(sheet_scope, temp_dir)                                 if include_pdf?
+    all_files += generate_data_dictionary(sheet_scope, temp_dir)                     if include_data_dictionary?
+    all_files += generate_sas(sheet_scope, temp_dir, filename)                       if include_sas?
+    all_files << generate_csv_sheets(sheet_scope, temp_dir, filename, true, "sas")   if include_sas?
+    all_files << generate_csv_grids(sheet_scope, temp_dir, filename, true, "sas")    if include_sas? && include_grids?
+    all_files += generate_r(sheet_scope, temp_dir, filename)                         if include_r?
+    all_files << generate_csv_sheets(sheet_scope, temp_dir, filename, true, "r")     if include_r?
+    all_files << generate_csv_grids(sheet_scope, temp_dir, filename, true, "r")      if include_r? && include_grids?
+    all_files << generate_csv_adverse_events(temp_dir, filename)                     if include_adverse_events?
+    all_files << generate_csv_adverse_events_master_list(temp_dir, filename)         if include_adverse_events?
+    all_files << generate_csv_randomizations(temp_dir, filename)                     if include_randomizations?
 
     if include_files?
       sheet_scope.each do |sheet|
         all_files += sheet.files
         update_steps(1)
       end
-      all_files << generate_readme("files")
+      all_files << generate_readme(temp_dir, "files")
     end
 
     all_files
@@ -166,14 +158,17 @@ class Export < ApplicationRecord
 
   # Zip multiple files, or zip one file if it's part of the sheet uploaded
   # files, always zip folder
-  def generate_zip_file(sheet_scope)
-    filename = "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')}_#{created_at.strftime('%H%M')}"
-    all_files = generate_all_files(sheet_scope, filename)
+  def generate_zip_file!(sheet_scope)
+    temp_dir = Dir.mktmpdir
+
+
+    filename = "#{name.gsub(/[^a-zA-Z0-9_-]/, "_")}_#{created_at.strftime("%H%M")}"
+    all_files = generate_all_files(sheet_scope, temp_dir, filename)
 
     return if all_files.empty?
 
     # Create a zip file
-    zipfile_name = File.join("tmp", "files", "exports", "#{filename} #{Digest::SHA1.hexdigest(Time.zone.now.usec.to_s)[0..8]}.zip")
+    zipfile_name = File.join(temp_dir, "#{filename}.zip")
     Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
       all_files.uniq.each do |location, input_file|
         # Two arguments:
@@ -183,6 +178,15 @@ class Export < ApplicationRecord
       end
     end
     zipfile_name
+
+    if File.exist?(zipfile_name)
+      export_succeeded(zipfile_name)
+    else
+      export_failed(failure_details)
+    end
+  ensure
+    # Remove the directory.
+    FileUtils.remove_entry temp_dir
   end
 
   def calculate_total_steps
@@ -216,25 +220,21 @@ class Export < ApplicationRecord
     grid_variables_count > 0
   end
 
-  def generate_pdf(sheet_scope)
+  def generate_pdf(sheet_scope, temp_dir)
     # pdf_file = Sheet.latex_file_location(sheet_scope, user)
-    # [["pdf/#{pdf_file.split('/').last}", pdf_file], generate_readme("pdf")]
+    # [["pdf/#{pdf_file.split("/").last}", pdf_file], generate_readme(temp_dir, "pdf")]
     update_steps(sheet_ids_count)
-    [generate_readme("pdf")]
+    [generate_readme(temp_dir, "pdf")]
   end
 
-  def generate_data_dictionary(sheet_scope)
+  def generate_data_dictionary(sheet_scope, temp_dir)
     design_scope = \
       if filters.present?
         project.designs.where(id: sheet_scope.select(:design_id)).order(:name)
       else
         project.designs.order(:name)
       end
-    designs_csv = \
-      File.join(
-        "tmp", "files", "exports",
-        "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_designs.csv"
-      )
+    designs_csv = File.join(temp_dir, "#{name.gsub(/[^a-zA-Z0-9_-]/, "_")}_designs.csv")
 
     CSV.open(designs_csv, "wb") do |csv|
       csv << ["Design Name", "Name", "Display Name", "Branching Logic", "Description", "Field Note"]
@@ -258,7 +258,7 @@ class Export < ApplicationRecord
       end
     end
 
-    variables_csv = File.join("tmp", "files", "exports", "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_variables.csv")
+    variables_csv = File.join(temp_dir, "#{name.gsub(/[^a-zA-Z0-9_-]/, "_")}_variables.csv")
 
     CSV.open(variables_csv, "wb") do |csv|
       csv << [
@@ -332,8 +332,8 @@ class Export < ApplicationRecord
         end
       end
     end
-    csv_name = "#{name.gsub(/[^a-zA-Z0-9_-]/, '_')} #{created_at.strftime('%I%M%P')}_domains.csv"
-    domains_csv = File.join("tmp", "files", "exports", csv_name)
+    csv_name = "#{name.gsub(/[^a-zA-Z0-9_-]/, "_")}_domains.csv"
+    domains_csv = File.join(temp_dir, csv_name)
     CSV.open(domains_csv, "wb") do |csv|
       csv << [
         "Domain Name", "Description", "Option Name", "Option Value",
@@ -358,37 +358,37 @@ class Export < ApplicationRecord
     end
     update_steps(sheet_ids_count)
     [
-      ["dd/#{designs_csv.split('/').last}", designs_csv],
-      ["dd/#{variables_csv.split('/').last}", variables_csv],
-      ["dd/#{domains_csv.split('/').last}", domains_csv],
-      generate_readme("dd")
+      ["data_dictionary/#{designs_csv.split("/").last}", designs_csv],
+      ["data_dictionary/#{variables_csv.split("/").last}", variables_csv],
+      ["data_dictionary/#{domains_csv.split("/").last}", domains_csv],
+      generate_readme(temp_dir, "data_dictionary")
     ]
   end
 
-  def generate_statistic_export_from_erb(sheet_scope, filename, language)
+  def generate_statistic_export_from_erb(sheet_scope, temp_dir, filename, language)
     @export_formatter = ExportFormatter.new(sheet_scope, filename)
 
     erb_file = File.join("app", "views", "exports", "export.#{language}.erb")
-    export_file = File.join("tmp", "files", "exports", "#{filename}_#{language}.#{language}")
+    export_file = File.join(temp_dir, "#{filename}_#{language}.#{language}")
 
     File.open(export_file, "w") do |file|
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
     end
 
-    [["#{language}/#{export_file.split('/').last}", export_file], generate_readme(language)]
+    [["#{language}/#{export_file.split("/").last}", export_file], generate_readme(temp_dir, language)]
   end
 
-  def generate_r(sheet_scope, filename)
-    generate_statistic_export_from_erb(sheet_scope, filename, "r")
+  def generate_r(sheet_scope, temp_dir, filename)
+    generate_statistic_export_from_erb(sheet_scope, temp_dir, filename, "r")
   end
 
-  def generate_sas(sheet_scope, filename)
-    generate_statistic_export_from_erb(sheet_scope, filename, "sas")
+  def generate_sas(sheet_scope, temp_dir, filename)
+    generate_statistic_export_from_erb(sheet_scope, temp_dir, filename, "sas")
   end
 
-  def generate_readme(language, sheet_scope = Sheet.none)
+  def generate_readme(temp_dir, language, sheet_scope = Sheet.none)
     erb_file = File.join("test", "support", "exports", language, "README.erb")
-    readme = File.join("tmp", "files", "exports", "README_#{language}_#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}.txt")
+    readme = File.join(temp_dir, "README_#{language}.txt")
 
     File.open(readme, "w") do |file|
       file.syswrite(ERB.new(File.read(erb_file)).result(binding))
@@ -397,8 +397,8 @@ class Export < ApplicationRecord
     ["#{language}/README.txt", readme]
   end
 
-  def generate_csv_adverse_events(filename)
-    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_aes.csv")
+  def generate_csv_adverse_events(temp_dir, filename)
+    export_file = Rails.root.join(temp_dir, "#{filename}_aes.csv")
     CSV.open(export_file, "wb") do |csv|
       csv << ["Adverse Event ID", "Reported By", "Subject", "Date of AE", "Description", "Status"]
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
@@ -412,11 +412,11 @@ class Export < ApplicationRecord
         ]
       end
     end
-    ["csv/#{filename}_aes.csv", export_file]
+    ["csvs/#{filename}_aes.csv", export_file]
   end
 
-  def generate_csv_adverse_events_master_list(filename)
-    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_aes_master_list.csv")
+  def generate_csv_adverse_events_master_list(temp_dir, filename)
+    export_file = Rails.root.join(temp_dir, "#{filename}_aes_master_list.csv")
     CSV.open(export_file, "wb") do |csv|
       csv << ["Adverse Event ID", "Sheet ID"]
       user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
@@ -425,11 +425,11 @@ class Export < ApplicationRecord
         end
       end
     end
-    ["csv/#{filename}_aes_master_list.csv", export_file]
+    ["csvs/#{filename}_aes_master_list.csv", export_file]
   end
 
-  def generate_csv_randomizations(filename)
-    export_file = Rails.root.join("tmp", "files", "exports", "#{filename}_randomizations.csv")
+  def generate_csv_randomizations(temp_dir, filename)
+    export_file = Rails.root.join(temp_dir, "#{filename}_randomizations.csv")
     CSV.open(export_file, "wb") do |csv|
       randomizations = user.all_viewable_randomizations.where(project_id: project.id)
       schemes = project.randomization_schemes.where(id: randomizations.select(:randomization_scheme_id)).order(:name)
@@ -460,7 +460,7 @@ class Export < ApplicationRecord
         csv << row
       end
     end
-    ["csv/#{filename}_randomizations.csv", export_file]
+    ["csvs/#{filename}_randomizations.csv", export_file]
   end
 
   def randomization_characteristic_name(randomization, stratification_factor)

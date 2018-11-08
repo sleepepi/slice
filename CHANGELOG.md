@@ -5,6 +5,12 @@
   - Add updated Privacy Policy
 - **Admin Changes**
   - Admin interface updated to include Slice Engine run statistics
+- **Export Changes**
+  - Export folder structure has been updated
+    - `csv` folder is now named `csvs`
+    - `dd` folder is now named `data_dictionary`
+  - Exports are now generated in a temporary folder that is deleted when the
+    export is complete
 - **Slice Expression Engine Changes**
   - Slice Expressions can now filter results using checkbox variables
 - **Settings Changes**
