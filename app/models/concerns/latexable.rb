@@ -13,11 +13,6 @@ module Latexable
       new.latex_simple_style(text)
     end
 
-    def self.generate_pdf(jobname, output_folder, file_tex)
-      compile(jobname, output_folder, file_tex)
-      File.join("tmp", "files", "tex", "#{jobname}.pdf") # Return file name
-    end
-
     def self.compile(jobname, output_folder, file_tex)
       array = []
       array << ENV["latex_location"]
