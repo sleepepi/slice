@@ -1,4 +1,4 @@
-## 67.0.0
+## 67.0.0 (November 9, 2018)
 
 ### Enhancements
 - **General Changes**
