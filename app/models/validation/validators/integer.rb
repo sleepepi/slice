@@ -17,6 +17,7 @@ module Validation
       private
 
       def get_number(value)
+        value = value.gsub(/^([-+]?)(0*)/, "\\1") if value.is_a?(String)
         Integer(format("%d", value))
       rescue
         nil

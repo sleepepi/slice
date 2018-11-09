@@ -1,5 +1,9 @@
 ## 68.0.0
 
+### Bug Fix
+- Fixed an issue where saving an integer with leading zeros would convert the
+  value to its octal integer representation
+
 ## 67.0.0 (November 9, 2018)
 
 ### Enhancements

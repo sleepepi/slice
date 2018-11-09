@@ -76,3 +76,8 @@ engine:
   name: Expressions Engine
   slug: engine
   user: engine_editor
+
+format:
+  name: Format All the Values
+  slug: format
+  user: format_editor

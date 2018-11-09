@@ -192,3 +192,9 @@ engine_set_missing:
   subject_code: set_missing
   user: engine_editor
   site: engine_site
+
+format_zeros:
+  project: format
+  subject_code: 000001
+  user: format_editor
+  site: format_site

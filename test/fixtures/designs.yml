@@ -168,3 +168,9 @@ engine_culture:
   slug: culture
   user: engine_editor
   project: engine
+
+format_leading_zeros:
+  name: Check Leading Zeros in Strings, Integers, and Numerics
+  slug: format-numbers
+  user: format_editor
+  project: format

@@ -85,6 +85,29 @@ class SlicerTest < ActiveSupport::TestCase
     )
   end
 
+  test "should prepare value for db for integer variable with leading zero" do
+    # TODO: Slicers don't currently handle value formatting. Instead they handle
+    # hash generation for complex values and missing codes.
+    skip
+    slicer = Slicers.for(variables(:format_integer_view_count))
+    assert_equal(
+      { value: "20041", domain_option_id: nil },
+      slicer.format_for_db_update("020041")
+    )
+    assert_equal(
+      { value: "20041", domain_option_id: nil },
+      slicer.format_for_db_update("00020041")
+    )
+    assert_equal(
+      { value: "20041", domain_option_id: nil },
+      slicer.format_for_db_update("+020041")
+    )
+    assert_equal(
+      { value: "-20041", domain_option_id: nil },
+      slicer.format_for_db_update("-020041")
+    )
+  end
+
   test "should prepare value for db for integer variable with domain" do
     slicer = Slicers.for(variables(:integer))
     assert_equal(

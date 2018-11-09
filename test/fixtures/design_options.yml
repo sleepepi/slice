@@ -609,3 +609,20 @@ engine_culture_favorite_genres:
   design: engine_culture
   variable: engine_favorite_genres
   position: 0
+
+## Format
+
+format_zeros_string:
+  design: format_leading_zeros
+  variable: format_string_zip_code
+  position: 0
+
+format_zeros_integer:
+  design: format_leading_zeros
+  variable: format_integer_view_count
+  position: 1
+
+format_zeros_numeric:
+  design: format_leading_zeros
+  variable: format_numeric_average_snowfall
+  position: 2

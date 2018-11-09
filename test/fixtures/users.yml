@@ -96,3 +96,7 @@ no_profile:
 engine_editor:
   full_name: Engine Tester
   email: engine_tester@example.com
+
+format_editor:
+  full_name: Format Editor
+  email: format_editor@example.com

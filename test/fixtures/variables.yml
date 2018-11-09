@@ -602,3 +602,24 @@ engine_favorite_genres:
   user: engine_editor
   project: engine
   domain: engine_genres
+
+format_string_zip_code:
+  name: string_zip_code
+  display_name: Zip Code
+  variable_type: string
+  user: format_editor
+  project: format
+
+format_integer_view_count:
+  name: integer_view_count
+  display_name: View Count
+  variable_type: integer
+  user: format_editor
+  project: format
+
+format_numeric_average_snowfall:
+  name: numeric_average_snowfall
+  display_name: Average Snowfall
+  variable_type: numeric
+  user: format_editor
+  project: format

@@ -83,3 +83,8 @@ engine_site:
   name: Engine Site
   project: engine
   user: engine_editor
+
+format_site:
+  name: Format Site
+  project: format
+  user: format_editor

@@ -380,6 +380,29 @@ d est laborum.",
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
+
+  test "should create sheet with leading zeros" do
+    login(users(:format_editor))
+    assert_difference("SheetTransaction.count") do
+      assert_difference("Sheet.count") do
+        post project_sheets_url(projects(:format)), params: {
+          subject_id: subjects(:format_zeros).id,
+          sheet: { design_id: designs(:format_leading_zeros).id },
+          variables: {
+            variables(:format_string_zip_code).id.to_s => "020041",
+            variables(:format_integer_view_count).id.to_s => "020041",
+            variables(:format_numeric_average_snowfall).id.to_s => "020041"
+          }
+        }
+      end
+    end
+    assigns(:sheet).sheet_variables.reload
+    assert_equal "020041", assigns(:sheet).sheet_variables[0].get_response(:raw)
+    assert_equal 20_041, assigns(:sheet).sheet_variables[1].get_response(:raw)
+    assert_equal 20_041.0, assigns(:sheet).sheet_variables[2].get_response(:raw)
+    assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
+  end
+
   # TODO, rewrite these for subject_events
   # test "should create sheet with subject schedule and event" do
   #   assert_difference("Sheet.count") do
