@@ -1,0 +1,101 @@
+class ChangeUserIdToBigint < ActiveRecord::Migration[5.2]
+  def up
+    change_column :users, :id, :bigint
+
+    change_column :adverse_event_comments, :user_id, :bigint
+    change_column :adverse_event_files, :user_id, :bigint
+    change_column :adverse_event_users, :user_id, :bigint
+    change_column :adverse_events, :user_id, :bigint
+    change_column :audits, :user_id, :bigint
+    change_column :authentications, :user_id, :bigint
+    change_column :block_size_multipliers, :user_id, :bigint
+    change_column :categories, :user_id, :bigint
+    change_column :check_filter_values, :user_id, :bigint
+    change_column :check_filters, :user_id, :bigint
+    change_column :checks, :user_id, :bigint
+    change_column :comments, :user_id, :bigint
+    change_column :designs, :user_id, :bigint
+    change_column :domains, :user_id, :bigint
+    change_column :engine_runs, :user_id, :bigint
+    change_column :events, :user_id, :bigint
+    change_column :exports, :user_id, :bigint
+    change_column :grids, :user_id, :bigint
+    change_column :handoffs, :user_id, :bigint
+    change_column :lists, :user_id, :bigint
+    change_column :notifications, :user_id, :bigint
+    change_column :old_passwords, :user_id, :bigint
+    change_column :organization_users, :user_id, :bigint
+    change_column :profiles, :user_id, :bigint
+    change_column :project_preferences, :user_id, :bigint
+    change_column :project_users, :user_id, :bigint
+    change_column :projects, :user_id, :bigint
+    change_column :randomization_schemes, :user_id, :bigint
+    change_column :randomizations, :user_id, :bigint
+    change_column :responses, :user_id, :bigint
+    change_column :sections, :user_id, :bigint
+    change_column :sheet_transaction_audits, :user_id, :bigint
+    change_column :sheet_transactions, :user_id, :bigint
+    change_column :sheet_unlock_requests, :user_id, :bigint
+    change_column :sheet_variables, :user_id, :bigint
+    change_column :sheets, :user_id, :bigint
+    change_column :site_users, :user_id, :bigint
+    change_column :sites, :user_id, :bigint
+    change_column :stratification_factor_options, :user_id, :bigint
+    change_column :stratification_factors, :user_id, :bigint
+    change_column :subject_events, :user_id, :bigint
+    change_column :subjects, :user_id, :bigint
+    change_column :tasks, :user_id, :bigint
+    change_column :treatment_arms, :user_id, :bigint
+    change_column :variables, :user_id, :bigint
+  end
+
+  def down
+    change_column :users, :id, :integer
+
+    change_column :adverse_event_comments, :user_id, :integer
+    change_column :adverse_event_files, :user_id, :integer
+    change_column :adverse_event_users, :user_id, :integer
+    change_column :adverse_events, :user_id, :integer
+    change_column :audits, :user_id, :integer
+    change_column :authentications, :user_id, :integer
+    change_column :block_size_multipliers, :user_id, :integer
+    change_column :categories, :user_id, :integer
+    change_column :check_filter_values, :user_id, :integer
+    change_column :check_filters, :user_id, :integer
+    change_column :checks, :user_id, :integer
+    change_column :comments, :user_id, :integer
+    change_column :designs, :user_id, :integer
+    change_column :domains, :user_id, :integer
+    change_column :engine_runs, :user_id, :integer
+    change_column :events, :user_id, :integer
+    change_column :exports, :user_id, :integer
+    change_column :grids, :user_id, :integer
+    change_column :handoffs, :user_id, :integer
+    change_column :lists, :user_id, :integer
+    change_column :notifications, :user_id, :integer
+    change_column :old_passwords, :user_id, :integer
+    change_column :organization_users, :user_id, :integer
+    change_column :profiles, :user_id, :integer
+    change_column :project_preferences, :user_id, :integer
+    change_column :project_users, :user_id, :integer
+    change_column :projects, :user_id, :integer
+    change_column :randomization_schemes, :user_id, :integer
+    change_column :randomizations, :user_id, :integer
+    change_column :responses, :user_id, :integer
+    change_column :sections, :user_id, :integer
+    change_column :sheet_transaction_audits, :user_id, :integer
+    change_column :sheet_transactions, :user_id, :integer
+    change_column :sheet_unlock_requests, :user_id, :integer
+    change_column :sheet_variables, :user_id, :integer
+    change_column :sheets, :user_id, :integer
+    change_column :site_users, :user_id, :integer
+    change_column :sites, :user_id, :integer
+    change_column :stratification_factor_options, :user_id, :integer
+    change_column :stratification_factors, :user_id, :integer
+    change_column :subject_events, :user_id, :integer
+    change_column :subjects, :user_id, :integer
+    change_column :tasks, :user_id, :integer
+    change_column :treatment_arms, :user_id, :integer
+    change_column :variables, :user_id, :integer
+  end
+end

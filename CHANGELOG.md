@@ -1,5 +1,10 @@
 ## 68.0.0
 
+### Enhancements
+- **General Changes**
+  - Primary and foreign keys have been updated to use `bigint` instead of
+    `integer` to adhere to new Rails 5.1 defaults
+
 ### Bug Fix
 - Fixed an issue where saving an integer with leading zeros would convert the
   value to its octal integer representation
