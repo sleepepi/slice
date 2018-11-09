@@ -397,9 +397,9 @@ d est laborum.",
       end
     end
     assigns(:sheet).sheet_variables.reload
-    assert_equal "020041", assigns(:sheet).sheet_variables[0].get_response(:raw)
-    assert_equal 20_041, assigns(:sheet).sheet_variables[1].get_response(:raw)
-    assert_equal 20_041.0, assigns(:sheet).sheet_variables[2].get_response(:raw)
+    assert_equal "020041", assigns(:sheet).sheet_variables.find_by(variable: variables(:format_string_zip_code)).get_response(:raw)
+    assert_equal 20_041, assigns(:sheet).sheet_variables.find_by(variable: variables(:format_integer_view_count)).get_response(:raw)
+    assert_equal 20_041.0, assigns(:sheet).sheet_variables.find_by(variable: variables(:format_numeric_average_snowfall)).get_response(:raw)
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
