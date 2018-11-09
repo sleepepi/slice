@@ -62,7 +62,7 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
 
   test "should search for sheets by non-existent variable" do
     login(@project_editor)
-    get project_sheets_url(@project), params: { search: "var_does_not_exist:any" }
+    get project_sheets_url(@project), params: { search: "var_does_not_exist:present" }
     assert_response :success
   end
 
@@ -86,13 +86,13 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
 
   test "should search for sheets that fail checks" do
     login(@project_editor)
-    get project_sheets_url(@project), params: { search: "checks:any" }
+    get project_sheets_url(@project), params: { search: "checks:present" }
     assert_response :success
   end
 
   test "should search for sheets that are on an event" do
     login(@project_editor)
-    get project_sheets_url(@project), params: { search: "events:any" }
+    get project_sheets_url(@project), params: { search: "events:present" }
     assert_response :success
   end
 
@@ -104,7 +104,7 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
 
   test "should search for sheets that have coverage computed" do
     login(@project_editor)
-    get project_sheets_url(@project), params: { search: "coverage:any" }
+    get project_sheets_url(@project), params: { search: "coverage:present" }
     assert_response :success
   end
 

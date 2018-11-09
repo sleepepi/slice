@@ -10,8 +10,8 @@
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ':any', event_id: event_id
-      %td.text-center= filter_link Statistics.array_count(blank_responses), @design, variable, ':blank', event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":present", event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(blank_responses), @design, variable, ":blank", event_id: event_id
       %td.text-center= filter_link Statistics.array_count(responses), @design, nil, nil, event_id: event_id
 
 - if responses_and_subjects.size <= 50

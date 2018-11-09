@@ -338,7 +338,7 @@ class SheetsController < ApplicationController
     end
   end
 
-  # any, missing, present, unentered, entered, blank, open, closed
+  # missing, present, unentered, entered, blank, open, closed
   def other_words(key, _project)
     # open closed for adverse-events
     case key
@@ -347,13 +347,13 @@ class SheetsController < ApplicationController
     when "adverse-events"
       %w(open closed).collect { |i| [i, i] }
     when "checks"
-      %w(any).collect { |i| [i, i] }
+      %w(present).collect { |i| [i, i] }
     when "event", "events"
-      %w(any missing).collect { |i| [i, i] }
+      %w(present missing).collect { |i| [i, i] }
     when "coverage"
       %w(<70 >=70 missing).collect { |i| [i, i] }
     else
-      %w(any missing entered blank).collect { |i| [i, i] }
+      %w(entered present missing unentered blank).collect { |i| [i, i] }
     end
   end
 

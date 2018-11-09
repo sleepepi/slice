@@ -1,6 +1,6 @@
 - missing_responses = responses.select(&:blank?)
 - valid_responses = responses.reject(&:blank?).map(&:to_i).sort
-- valid_sheets = sheet_scope.filter_variable(variable, current_user, "any")
+- valid_sheets = sheet_scope.filter_variable(variable, current_user, "present")
 - no_responses = valid_responses.count.zero?
 
 - categories = []
@@ -56,7 +56,7 @@
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":present", event_id: event_id
       %td.text-center
         - mean = Sheet.array_calculation(valid_sheets, variable, "array_mean")
         - if mean

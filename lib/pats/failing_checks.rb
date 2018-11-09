@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pats/core'
+require "pats/core"
 
 module Pats
   # Export number of failing checks for each site.
@@ -17,7 +17,7 @@ module Pats
     def check_totals(project)
       project.sites.collect do |site|
         total = StatusCheck.where(failed: true).joins(:check, sheet: :subject).merge(project.checks.runnable).merge(Subject.current.where(site: site)).count
-        { short_name: site.short_name, count: total, link: "#{ENV['website_url']}/projects/#{project.to_param}/sheets?search=checks:any&site_id=#{site.id}" }
+        { short_name: site.short_name, count: total, link: "#{ENV["website_url"]}/projects/#{project.to_param}/sheets?search=checks:present&site_id=#{site.id}" }
       end
     end
 
@@ -30,10 +30,10 @@ module Pats
           row_count += count
           row[:cells] << {
             count: count,
-            link: "#{ENV['website_url']}/projects/#{project.to_param}/sheets?search=checks:#{check.to_param}&site_id=#{site.id}"
+            link: "#{ENV["website_url"]}/projects/#{project.to_param}/sheets?search=checks:#{check.to_param}&site_id=#{site.id}"
           }
         end
-        row[:total] = { count: row_count, link: "#{ENV['website_url']}/projects/#{project.to_param}/sheets?search=checks:#{check.to_param}" }
+        row[:total] = { count: row_count, link: "#{ENV["website_url"]}/projects/#{project.to_param}/sheets?search=checks:#{check.to_param}" }
         row
       end
     end

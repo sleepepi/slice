@@ -1,7 +1,7 @@
 - if ounces
   - weight = parse_imperial_weight(ounces.to_i)
   - link_text = "#{"#{weight[:pounds]}lb " unless weight[:pounds].zero?}#{"#{weight[:ounces]}oz" if weight[:pounds].zero? || !weight[:ounces].zero?}"
-  - search_text = link_text.tr(' ', '')
+  - search_text = link_text.tr(" ", "")
   = filter_link(link_text, design, variable, search_text, event_id: event_id)
 - else
   \-

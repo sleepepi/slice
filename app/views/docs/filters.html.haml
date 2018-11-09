@@ -80,20 +80,18 @@
     = succeed "," do
       %code :entered
     = succeed "," do
-      %code :any
+      %code :present
     = succeed "," do
       %code :missing
     = succeed "." do
       %code :unentered
 
-  %h3 Entered / Present
+  %h3 Entered
   %p
     The
     %code :entered
-    and
-    %code :present
-    keywords find sheets that have data entered for a variable.
-    These filters find sheets with actual values
+    keyword finds sheets that have data entered for a variable.
+    This filter find sheets with actual values
     = succeed "," do
       %strong 23.0
     = succeed "," do
@@ -102,13 +100,13 @@
     = succeed "." do
       %strong -9
 
-  %h3 Any
+  %h3 Present
   %p
     The
-    %code :any
+    %code :present
     keyword finds sheets that have a value entered for a variable
     that is NOT a missing code. The example
-    %code bmi:any
+    %code bmi:present
     returns sheets that have values
     %strong 23.0
     and
@@ -144,7 +142,7 @@
     setup, sheets can be filtered as follow:
   %p
     To filter on sheets that are failing a check, type:
-    %code checks:any
+    %code checks:present
   %p
     To filter on a single check, type:
     %code= "checks:<b>NAME</b>".html_safe
@@ -157,7 +155,7 @@
     setup, sheets can be filtered as follow:
   %p
     To filter on sheets on an event, type:
-    %code events:any
+    %code events:present
   %p
     To filter sheets not on an event, type:
     %code events:missing

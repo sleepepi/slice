@@ -13,7 +13,7 @@
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":present", event_id: event_id
       %td.text-center
         - min = sorted_responses.first
         = min ? filter_link(formatter.name_response(min), @design, variable, min, event_id: event_id) : "-"

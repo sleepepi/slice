@@ -386,7 +386,7 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get index for subjects with any adverse events" do
+  test "should get index for subjects with adverse events" do
     login(@project_editor)
     get project_subjects_url(@project), params: { search: "has:adverse-events" }
     assert_response :success

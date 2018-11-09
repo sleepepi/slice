@@ -130,7 +130,7 @@ class SearchSubject
 
   def set_designs
     @designs = \
-      if %w(any missing).include?(@token.operator)
+      if %w(present missing).include?(@token.operator)
         @project.designs
       else
         @project.designs.where(
@@ -143,7 +143,7 @@ class SearchSubject
 
   def set_events
     @events = \
-      if %w(any missing).include?(@token.operator)
+      if %w(present missing).include?(@token.operator)
         @project.events
       else
         @project.events.where(

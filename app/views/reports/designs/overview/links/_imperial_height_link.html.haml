@@ -1,7 +1,7 @@
 - if inches
   - height = parse_imperial_height(inches.to_i)
   - link_text = "#{"#{height[:feet]}ft " unless height[:feet].zero?}#{"#{height[:inches]}in" if height[:feet].zero? || !height[:inches].zero?}"
-  - search_text = link_text.tr(' ', '')
+  - search_text = link_text.tr(" ", "")
   = filter_link(link_text, design, variable, search_text, event_id: event_id)
 - else
   \-

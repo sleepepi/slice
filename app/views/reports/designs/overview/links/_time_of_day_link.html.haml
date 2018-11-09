@@ -1,9 +1,9 @@
 - if seconds
   - time_of_day = parse_time_of_day(seconds.to_i)
   - if variable.twelve_hour_clock?
-    - link_text = "#{time_of_day[:hours]}#{format(':%02d', time_of_day[:minutes])}#{format(':%02d', time_of_day[:seconds]) if variable.show_seconds?}#{time_of_day[:period]}"
+    - link_text = "#{time_of_day[:hours]}#{format(":%02d", time_of_day[:minutes])}#{format(":%02d", time_of_day[:seconds]) if variable.show_seconds?}#{time_of_day[:period]}"
   - else
-    - link_text = "#{format('%02d', time_of_day[:hours_24])}#{format(':%02d', time_of_day[:minutes])}#{format(':%02d', time_of_day[:seconds]) if variable.show_seconds?}"
+    - link_text = "#{format("%02d", time_of_day[:hours_24])}#{format(":%02d", time_of_day[:minutes])}#{format(":%02d", time_of_day[:seconds]) if variable.show_seconds?}"
   = filter_link(link_text, design, variable, link_text, event_id: event_id)
 - else
   \-

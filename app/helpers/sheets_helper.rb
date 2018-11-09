@@ -34,8 +34,8 @@ module SheetsHelper
 
   def convert_value(value)
     case value
-    when ":any"
-      "any"
+    when ":present"
+      "present"
     when ":missing"
       "missing"
     when ":blank"

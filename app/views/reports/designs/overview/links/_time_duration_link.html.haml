@@ -1,7 +1,7 @@
 - if seconds
   - time_duration = parse_time_duration(seconds.to_i, no_hours: variable.no_hours?)
   - link_text = "#{"#{time_duration[:hours]}h" unless time_duration[:hours].zero?} #{"#{time_duration[:minutes]}m" unless time_duration[:minutes].zero?} #{"#{time_duration[:seconds]}s" if time_duration[:hours].zero? && time_duration[:minutes].zero? || !time_duration[:seconds].zero?}"
-  - search_text = link_text.tr(' ', '')
+  - search_text = link_text.tr(" ", "")
   = filter_link(link_text, design, variable, search_text, event_id: event_id)
 - else
   \-

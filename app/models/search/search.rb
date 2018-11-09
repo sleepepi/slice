@@ -43,7 +43,7 @@ class Search
 
   def set_checks
     @checks = \
-      if @token.operator == "any"
+      if @token.operator == "present"
         @project.checks.runnable
       else
         @project.checks.where(slug: @token.values)
@@ -52,7 +52,7 @@ class Search
 
   def set_designs
     @designs = \
-      if %w(any missing).include?(@token.operator)
+      if %w(present missing).include?(@token.operator)
         @project.designs
       else
         @project.designs.where(
@@ -65,7 +65,7 @@ class Search
 
   def set_events
     @events = \
-      if %w(any missing).include?(@token.operator)
+      if %w(present missing).include?(@token.operator)
         @project.events
       else
         @project.events.where(
@@ -80,7 +80,7 @@ class Search
     @variable = @token.variable
     @variable = @project.variables.find_by(name: @token.key) unless @variable
     return unless @variable
-    if %w(any missing).include?(@token.operator)
+    if %w(present missing).include?(@token.operator)
       @values = []
       @values = \
         if all_numeric?
@@ -88,7 +88,7 @@ class Search
         else
           @variable.captured_values.uniq - @variable.missing_codes
         end
-    elsif %w(entered present unentered blank).include?(@token.operator)
+    elsif %w(entered unentered blank).include?(@token.operator)
       @values = @variable.captured_values.uniq
     else
       @values = parse_values_for_variable
@@ -222,7 +222,7 @@ class Search
     sheet_scope = all_viewable_sheets
     if %w(missing unentered blank).include?(@token.operator)
       sheet_scope.where(percent: nil)
-    elsif %w(any entered present).include?(@token.operator)
+    elsif %w(entered present).include?(@token.operator)
       sheet_scope.where.not(percent: nil)
     elsif @token.operator.in?(%w(< > <= >=))
       sheet_scope.where("sheets.percent #{database_operator} ?", @token.value.to_i)
@@ -297,7 +297,7 @@ class Search
       @token.operator
     when "!="
       "NOT IN"
-    when "entered", "present", "any", "missing", "unentered", "blank"
+    when "entered", "present", "missing", "unentered", "blank"
       "IN"
     else
       "IN"

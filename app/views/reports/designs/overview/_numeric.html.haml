@@ -1,7 +1,7 @@
 - missing_codes = variable.missing_codes
 - missing_responses = responses.select { |r| r.blank? || missing_codes.include?(r) }
 - valid_responses = responses.reject { |r| r.blank? || missing_codes.include?(r) }.map(&:to_f)
-- valid_sheets = sheet_scope.filter_variable(variable, current_user, "any")
+- valid_sheets = sheet_scope.filter_variable(variable, current_user, "present")
 - no_responses = valid_responses.count.zero?
 
 - unless no_responses
@@ -20,7 +20,7 @@
       %th.text-center Total
   %tbody
     %tr
-      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":any", event_id: event_id
+      %td.text-center= filter_link Statistics.array_count(valid_responses), @design, variable, ":present", event_id: event_id
       %td.text-center
         - mean = Sheet.array_calculation(valid_sheets, variable, "array_mean")
         = mean ? mean : "-"

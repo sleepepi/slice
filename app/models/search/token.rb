@@ -177,7 +177,7 @@ class Token
 
   def set_operator
     operator = nil
-    found = (/^>=|^<=|^>|^=|^<|^!=|^!|^entered$|^present$|^any$|^missing$|^unentered$|^blank$/).match(@value)
+    found = (/^>=|^<=|^>|^=|^<|^!=|^!|^entered$|^present$|^missing$|^unentered$|^blank$/).match(@value)
     operator = found[0] if found
     operator
   end
