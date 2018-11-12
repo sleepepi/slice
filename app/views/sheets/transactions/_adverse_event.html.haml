@@ -1,0 +1,30 @@
+- adverse_event_before = project.adverse_events.find_by(id: audit.value_before)
+- adverse_event_after = project.adverse_events.find_by(id: audit.value_after)
+%tr
+  %td.breakword.overflow-hidden
+    Adverse Event
+  %td.breakword
+    - if audit.value_before.nil?
+      %span.text-muted nil
+    - elsif audit.value_before == ""
+      %span.text-muted{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+        = icon("fas", "ban")
+    - else
+      - if adverse_event_before
+        = link_to adverse_event_before.name, [project, adverse_event_before]
+      - else
+        = audit.value_before
+  %td.breakword
+    - diff = Differ.diff_by_char(adverse_event_after&.name || audit.value_after.to_s, adverse_event_before&.name || audit.value_before.to_s)
+    = diff.format_as(:html).html_safe
+  %td.breakword
+    - if audit.value_after == nil
+      %span.text-muted nil
+    - elsif audit.value_after == ""
+      %span.text-muted{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+        = icon("fas", "ban")
+    - else
+      - if adverse_event_after
+        = link_to adverse_event_after.name, [project, adverse_event_after]
+      - else
+        = audit.value_after

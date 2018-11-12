@@ -54,48 +54,52 @@
             %th Value After
         - t.sheet_transaction_audits.each do |a|
           - if !variable || (variable && a.sheet_variable && a.sheet_variable.variable_id == variable.id)
-            %tr
-              %td.breakword{ style: "overflow: hidden;" }
-                = a.sheet_attribute_name
-                - if a.sheet_variable
-                  - case a.sheet_variable.variable.variable_type
-                  - when "signature", "checkbox", "text"
-                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : "present"}")
-                  - else
-                    - if !/\s/.match(a.value_after.to_s).nil?
-                      - search = "\"#{a.value_after.to_s}\""
+            - case a.sheet_attribute_name
+            - when "adverse_event_id"
+              = render "sheets/transactions/adverse_event", project: @project, audit: a
+            - else
+              %tr
+                %td.breakword.overflow-hidden
+                  = a.sheet_attribute_name
+                  - if a.sheet_variable
+                    - case a.sheet_variable.variable.variable_type
+                    - when "signature", "checkbox", "text"
+                      - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : "present"}")
                     - else
-                      - search = "#{a.value_after.to_s}"
-                    - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : search}")
-                  = link_to a.sheet_variable.variable.name, url
-                - if a.grid
-                  %br
-                  Row
-                  = "##{a.grid.position + 1}"
-                  = a.grid.variable.name
-              %td.breakword{ class: "#{"text-muted" if a.value_before == nil || a.value_before == ""}" }
-                - if a.value_before == nil
-                  nil
-                - elsif a.value_before == ""
-                  %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
-                    = icon("fas", "ban")
-                - else
-                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
-                    %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_before}" } }
+                      - if !/\s/.match(a.value_after.to_s).nil?
+                        - search = "\"#{a.value_after.to_s}\""
+                      - else
+                        - search = "#{a.value_after.to_s}"
+                      - url = project_sheets_path(@project, search: "#{a.sheet_variable.variable.name}:#{a.value_after.blank? ? "blank" : search}")
+                    = link_to a.sheet_variable.variable.name, url
+                  - if a.grid
+                    %br
+                    Row
+                    = "##{a.grid.position + 1}"
+                    = a.grid.variable.name
+                %td.breakword{ class: "#{"text-muted" if a.value_before == nil || a.value_before == ""}" }
+                  - if a.value_before == nil
+                    nil
+                  - elsif a.value_before == ""
+                    %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+                      = icon("fas", "ban")
                   - else
-                    = a.value_before
-              %td.breakword
-                - unless a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
-                  - diff = Differ.diff_by_char(a.value_after.to_s, a.value_before.to_s)
-                  = diff.format_as(:html).html_safe
-              %td.breakword{ class: "#{"text-muted" if a.value_after == nil || a.value_after == ""}" }
-                - if a.value_after == nil
-                  nil
-                - elsif a.value_after == ""
-                  %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
-                    = icon("fas", "ban")
-                - else
-                  - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
-                    %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_after}" } }
+                    - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
+                      %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_before}" } }
+                    - else
+                      = a.value_before
+                %td.breakword
+                  - unless a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
+                    - diff = Differ.diff_by_char(a.value_after.to_s, a.value_before.to_s)
+                    = diff.format_as(:html).html_safe
+                %td.breakword{ class: "#{"text-muted" if a.value_after == nil || a.value_after == ""}" }
+                  - if a.value_after == nil
+                    nil
+                  - elsif a.value_after == ""
+                    %span{ rel: "tooltip", title: "Blank Response", data: { placement: "right", container: "body" } }
+                      = icon("fas", "ban")
                   - else
-                    = a.value_after
+                    - if a.sheet_variable && a.sheet_variable.variable.variable_type == "signature"
+                      %canvas.pad-display{ width: 250, height: 55, data: { object: "signature-display", signature_string: "#{a.value_after}" } }
+                    - else
+                      = a.value_after

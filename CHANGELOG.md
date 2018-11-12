@@ -4,6 +4,9 @@
 - **General Changes**
   - Primary and foreign keys have been updated to use `bigint` instead of
     `integer` to adhere to new Rails 5.1 defaults
+- **Transaction Changes**
+  - Adverse events are now listed in sheet transactions using their project id
+    instead of the internal id
 
 ### Bug Fix
 - Fixed an issue where saving an integer with leading zeros would convert the
