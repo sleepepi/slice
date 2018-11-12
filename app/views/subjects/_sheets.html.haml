@@ -29,12 +29,10 @@
 
 - if @project.events.where(archived: false).count > 0 && @subject.blinded_subject_events(current_user).count == 0
   .jumbotron.jumbotron-custom-text
-    .mb-5 No events have been added for this subject.
-    = image_tag "sad-slice.png"
+    No events have been added for this subject.
 - elsif @subject.blinded_subject_events(current_user).count == 0 && @subject.blinded_sheets(current_user).count == 0
   .jumbotron.jumbotron-custom-text
-    .mb-5 No data have been entered for this subject.
-    = image_tag "sad-slice.png"
+    No data have been entered for this subject.
 - else
   - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil, adverse_event_id: nil).includes(:design).order("designs.name, sheets.created_at")
   - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order("designs.name, sheets.created_at")

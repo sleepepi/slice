@@ -117,8 +117,10 @@ module Engine
       hash[:sheets] = { subject_event: SubjectEvent.where(event: event) } if event
       klass = (variable.variable_type == "checkbox" ? Response : SheetVariable)
       values = klass
-        .left_outer_joins(:domain_option).joins(:sheet).merge(Sheet.current).where(hash).order(:sheet_id)
-        .pluck(:subject_id, :sheet_id, :design_id, domain_option_value_or_value(table: klass.table_name), :missing_code)
+        .left_outer_joins(:domain_option).joins(:sheet).merge(
+          Sheet.current.left_outer_joins(:adverse_event).where("sheets.adverse_event_id IS NULL or adverse_events.deleted = ?", false)
+        ).where(hash).order(:sheet_id)
+        .pluck("sheets.subject_id", :sheet_id, :design_id, domain_option_value_or_value(table: klass.table_name), :missing_code)
       formatter = Formatters.for(variable)
       integer_regex = Regexp.new(/^[-+]?[1-9][0-9]*$/)
       decimal_regex = Regexp.new(/^[-+]?[0-9]*(\.)?[0-9]+$/)

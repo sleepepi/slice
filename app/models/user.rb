@@ -145,6 +145,8 @@ class User < ApplicationRecord
       .where(design_id: all_viewable_designs.select(:id))
       .left_outer_joins(:subject_event)
       .where("sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)", all_viewable_events.select(:id))
+      .left_outer_joins(:adverse_event)
+      .where("sheets.adverse_event_id IS NULL or adverse_events.deleted = ?", false)
   end
 
   # Project Editors and Viewers and Site Members can view sheets
@@ -155,6 +157,8 @@ class User < ApplicationRecord
       .where(design_id: all_viewable_designs.select(:id))
       .left_outer_joins(:subject_event)
       .where("sheets.subject_event_id IS NULL or subject_events.event_id IS NULL or subject_events.event_id IN (?)", all_viewable_events.select(:id))
+      .left_outer_joins(:adverse_event)
+      .where("sheets.adverse_event_id IS NULL or adverse_events.deleted = ?", false)
   end
 
   # Only Project Editors or Project Owner can modify randomization

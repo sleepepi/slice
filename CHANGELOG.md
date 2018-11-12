@@ -4,6 +4,9 @@
 - **General Changes**
   - Primary and foreign keys have been updated to use `bigint` instead of
     `integer` to adhere to new Rails 5.1 defaults
+- **Adverse Event Changes**
+  - Sheets linked to deleted adverse events are no longer displayed in sheets
+    index or in exports
 - **Transaction Changes**
   - Adverse events are now listed in sheet transactions using their project id
     instead of the internal id
