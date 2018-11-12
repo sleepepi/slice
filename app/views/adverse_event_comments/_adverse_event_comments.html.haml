@@ -1,5 +1,5 @@
 - @last_seen_at = @adverse_event.last_seen_at current_user
-- all_events = (@adverse_event.sheets + @adverse_event.adverse_event_files + adverse_event_comments + @adverse_event.adverse_event_users + @adverse_event.adverse_event_reviews).sort_by(&:created_at)
+- all_events = (SheetTransaction.where(sheet_id: @adverse_event.sheets) + @adverse_event.adverse_event_files + adverse_event_comments + @adverse_event.adverse_event_users + @adverse_event.adverse_event_reviews).sort_by(&:created_at)
 - @adverse_event.mark_as_viewed_by_user current_user
 
 .comment-outer
@@ -59,26 +59,28 @@
   - elsif event.is_a?(AdverseEventComment)
     %div{ id: "adverse_event_comment_#{event.id}" }
       = render "adverse_event_comments/show", adverse_event_comment: event
-  - elsif event.is_a?(Sheet)
-    - sheet = event
+  - elsif event.is_a?(SheetTransaction)
+    - sheet_transaction = event
+    - sheet_created = sheet_transaction.transaction_type.in?(%w(sheet_create public_sheet_create api_sheet_create))
     %div
       .comment-outer
         .comment-left-fixed
         .comment-right-fluid
           .comment-icon
-            = icon("fas", "file")
-          .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < sheet.updated_at ? "comment-unread" : nil) }
-            %strong= sheet.user.full_name if sheet.user
-            added
-            = link_to sheet.name, [@project, sheet]
-            %abbr{ rel: "tooltip", data: { title: sheet.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
-              = time_ago_in_words sheet.created_at
-              ago
-            - unless sheet.recently_created?
-              and updated
-              %abbr{ rel: "tooltip", data: { title: sheet.updated_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }
-                = time_ago_in_words sheet.updated_at
-                ago
+            = sheet_created ? icon("fas", "file") : icon("fas", "pencil-alt")
+          .comment-action{ class: (@last_seen_at.nil? || @last_seen_at < sheet_transaction.created_at ? "comment-unread" : nil) }
+            %strong= sheet_transaction.user.full_name if sheet_transaction.user
+            - if sheet_created
+              added
+            - else
+              updated
+            = link_to sheet_transaction.sheet.name, [@project, sheet_transaction.sheet]
+            %abbr{ rel: "tooltip", data: { title: sheet_transaction.created_at.strftime("%-d %b %Y, %-l:%M %p"), container: "body", placement: "right" } }<
+              = time_ago_in_words(sheet_transaction.created_at) + " ago"
+            - unless sheet_created
+              = link_to [:transactions, @project, sheet_transaction.sheet, anchor: sheet_transaction.id], class: "small" do
+                See changes
+                = icon("fas", "caret-right")
   - elsif event.is_a?(AdverseEventFile)
     - file = event
     %div

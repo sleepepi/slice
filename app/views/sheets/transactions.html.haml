@@ -17,6 +17,7 @@
 - sheet_transaction_total = @sheet_transactions.count
 
 - @sheet_transactions.each_with_index do |t, index|
+  %a.anchor-top{ id: "#{t.id}" }
   - if !variable || (variable && @sheet.sheet_variables.where(id: t.sheet_transaction_audits.pluck(:sheet_variable_id)).select { |sv| sv.variable_id == variable.id }.count > 0)
     .dashboard-container.dashboard-table
       %table.table.table-striped.table-borderless.table-hover.table-fixed

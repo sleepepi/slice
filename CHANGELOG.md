@@ -7,6 +7,8 @@
 - **Adverse Event Changes**
   - Sheets linked to deleted adverse events are no longer displayed in sheets
     index or in exports
+  - Adverse event sheet update events now include a link to the list of changes
+    made and are displayed separately from sheet creation events
 - **Transaction Changes**
   - Adverse events are now listed in sheet transactions using their project id
     instead of the internal id
