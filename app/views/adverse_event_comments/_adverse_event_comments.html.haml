@@ -50,7 +50,11 @@
               %small Seen by
               - event.each do |adverse_event_user|
                 %span{ rel: "tooltip", data: { title: adverse_event_user.user.full_name, container: "body", placement: "top" } }
-                  = profile_picture_tag adverse_event_user.user, size: 16
+                  - if adverse_event_user.user[:profile_picture]
+                    - picture_content = profile_picture_tag adverse_event_user.user, size: 16, style: "vertical-align: text-bottom;"
+                  - else
+                    - picture_content = icon("fas", "user", class: "text-muted")
+                  = picture_content
             &nbsp;
   - elsif event.is_a?(AdverseEventComment)
     %div{ id: "adverse_event_comment_#{event.id}" }
@@ -94,10 +98,10 @@
                 = link_to file.name, [@project, @adverse_event, file]
               - else
                 = link_to file.name, download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), data: { turbolinks: false }
-            - if file.image? and false
-              .text-center{ style: "margin-top:5px" }
+            - if file.image? && false
+              %div{ style: "margin-top:5px" }
                 = link_to [@project, @adverse_event, file] do
-                  = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: "height: 64px", class: "img-thumbnail"
+                  = image_tag download_project_adverse_event_adverse_event_file_path(@project, @adverse_event, file), style: "height: 256px", class: "img-thumbnail"
   - elsif event.is_a?(AdverseEventReview)
     .comment-outer
       .comment-left-fixed
