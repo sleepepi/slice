@@ -1,6 +1,10 @@
 .comment-outer
   .comment-left-fixed
-    = profile_picture_tag @adverse_event_comment.user, size: 48
+    - if @adverse_event_comment.user[:profile_picture]
+      - picture_content = profile_picture_tag @adverse_event_comment.user, size: 48
+    - else
+      - picture_content = icon("fas", "user", class: "text-muted fa-3x")
+    = picture_content
 
   .comment-right-fluid
     .comment-comment

@@ -4,7 +4,12 @@
 
 .comment-outer.mb-0
   .comment-left-fixed
-    = profile_picture_tag current_user, size: 48
+    - if current_user[:profile_picture]
+      - picture_content = profile_picture_tag current_user, size: 48
+    - else
+      - picture_content = icon("fas", "user", class: "text-muted fa-3x")
+    = picture_content
+
 
   .comment-right-fluid
     .comment-comment
