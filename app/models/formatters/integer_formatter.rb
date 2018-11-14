@@ -10,7 +10,7 @@ module Formatters
       elsif response.blank?
         response
       else
-        response = response.gsub(/^([-+]?)(0*)/, "\\1") if response.is_a?(String)
+        response = response.gsub(/^([-+]?)(0*)/, "\\1") if response.is_a?(String) && response.strip != "0"
         Integer(format("%d", response))
       end
     rescue

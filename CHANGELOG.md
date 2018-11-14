@@ -1,5 +1,8 @@
 ## 68.0.1
 
+### Bug Fix
+- Fixed an issue saving the number `0` zero to integer variables
+
 ## 68.0.0 (November 14, 2018)
 
 ### Enhancements
