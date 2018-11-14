@@ -1,4 +1,4 @@
-## 68.0.1
+## 68.0.1 (November 14, 2018)
 
 ### Bug Fix
 - Fixed an issue saving the number `0` zero to integer variables
