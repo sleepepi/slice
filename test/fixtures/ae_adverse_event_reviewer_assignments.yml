@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id:
+  ae_adverse_event_id:
+  ae_review_team_id:
+  manager_id:
+  reviewer_id:
+  review_completed_at: 2018-11-15 15:30:00
+  review_unassigned_at: 2018-11-15 15:30:00
+
+two:
+  project_id:
+  ae_adverse_event_id:
+  ae_review_team_id:
+  manager_id:
+  reviewer_id:
+  review_completed_at: 2018-11-15 15:30:00
+  review_unassigned_at: 2018-11-15 15:30:00

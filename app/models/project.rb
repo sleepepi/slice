@@ -20,6 +20,7 @@ class Project < ApplicationRecord
   include ShortNameable
   include Sluggable
   include Squishable
+  include AeReviews
 
   squish :name
 

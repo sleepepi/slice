@@ -88,3 +88,8 @@ format_site:
   name: Format Site
   project: format
   user: format_editor
+
+aes_site:
+  name: AE Site
+  project: aes
+  user: aes_editor

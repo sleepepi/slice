@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id:
+  ae_adverse_event_id:
+  user_id:
+  ae_review_team_id:
+  entry_type: ae_opened
+
+two:
+  project_id:
+  ae_adverse_event_id:
+  user_id:
+  ae_review_team_id:
+  entry_type: ae_closed

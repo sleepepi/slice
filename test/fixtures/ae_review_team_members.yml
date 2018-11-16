@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id: 
+  ae_review_team_id: 
+  user_id: 
+  manager: false
+  reviewer: false
+  viewer: false
+
+two:
+  project_id: 
+  ae_review_team_id: 
+  user_id: 
+  manager: false
+  reviewer: false
+  viewer: false

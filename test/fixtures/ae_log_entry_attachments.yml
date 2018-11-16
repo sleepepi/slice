@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ae_adverse_event_log_entry_id: 
+  attachment_id: 
+  attachment_type: MyString
+
+two:
+  ae_adverse_event_log_entry_id: 
+  attachment_id: 
+  attachment_type: MyString

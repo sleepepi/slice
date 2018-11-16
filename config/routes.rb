@@ -15,6 +15,25 @@ Rails.application.routes.draw do
     get :dashboard
   end
 
+  namespace :ae_module, path: "projects/:project_id/ae-module" do
+    get :dashboard
+
+    namespace :admins do
+      get :dashboard
+      get :adverse_event, path: "adverse-event/:id"
+      get :request_additional_details, path: "adverse-event/:id/request-additional-details"
+      post :submit_request_additional_details, path: "adverse-event/:id/request-additional-details"
+    end
+
+    namespace :managers do
+      get :dashboard
+    end
+
+    namespace :reviewers do
+      get :dashboard
+    end
+  end
+
   get :settings, to: redirect("settings/profile")
   namespace :settings do
     get :profile

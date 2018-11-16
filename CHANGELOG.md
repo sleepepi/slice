@@ -1,5 +1,9 @@
 ## 69.0.0
 
+### Enhancements
+- **Adverse Event Reviews Added**
+  - A new team-based review process for adverse event is now available
+
 ## 68.0.1 (November 14, 2018)
 
 ### Bug Fix

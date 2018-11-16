@@ -1,0 +1,95 @@
+- @title = "AE Module Dashboard"
+
+- content_for :header, @title
+
+.dashboard-container
+  %h2 Dashboard
+
+.dashboard-container
+  %h2 Admins
+
+  = @project.ae_admins.inspect
+
+.dashboard-container
+  %h2 Teams
+  - teams = @project.ae_review_teams
+  - if teams.present?
+    - teams.each do |team|
+      .border-left.pl-3.mb-3.border-primary.border-top.pt-3.pb-3
+        .mb-3.border-bottom.pb-2
+          = team.name
+          %code.text-primary.bg-light= team.slug
+        %div
+          - managers = team.managers
+          .mb-3
+            %strong Managers
+            - if managers.present?
+              - managers.each do |user|
+                %div= user.full_name
+            - else
+              %div.text-muted No managers.
+
+          - reviewers = team.reviewers
+          .mb-3
+            %strong Reviewers
+
+            - if reviewers.present?
+              - reviewers.each do |user|
+                %div= user.full_name
+            - else
+              %div.text-muted No reviewers.
+
+          - viewers = team.viewers
+          .mb-3
+            %strong Viewers
+
+            - if viewers.present?
+              - viewers.each do |user|
+                %div= user.full_name
+            - else
+              %div.text-muted No viewers.
+
+          - users = team.no_role_users
+          - if users.present?
+            .mb-3
+              %strong Unassigned role
+              - users.each do |user|
+                %div= user.user.full_name
+  - else
+    %span.text-muted No teams found.
+
+
+
+.dashboard-container
+  %h2 Open Requests
+
+  = @project.ae_open_requests.inspect
+
+.dashboard-container
+  %h2 AE Notifications
+
+  = @project.ae_notifications.inspect
+
+
+.dashboard-container
+  %h2 AE Log
+
+  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject) # :ae_adverse_event_info_request, )
+  - if log_entries.present?
+    - log_entries.each do |log_entry|
+      = render "ae_module/log_entries/show", log_entry: log_entry
+
+.dashboard-container
+  %h2 Adverse Events
+
+  - adverse_events = @project.ae_adverse_events
+  - if adverse_events.present?
+    - adverse_events.each do |adverse_event|
+      %div
+        %span.text-muted.border-right.pr-2.mr-2= adverse_event.name
+        = adverse_event.description
+        \~
+        = adverse_event.user.full_name
+  - else
+    %span.text-muted No adverse events found.
+

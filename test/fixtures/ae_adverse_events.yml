@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: aes
+  user: aes_editor
+  subject: aes_01
+  number: 1
+  description: Broken leg.
+  # closed_at:
+  # closer_id:
+
+two:
+  project: aes
+  user: aes_editor
+  subject: aes_01
+  number: 2
+  description: Hospitalization after runny nose.
+  # closed_at:
+  # closer_id:

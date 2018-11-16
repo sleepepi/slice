@@ -1,0 +1,11 @@
+- @title = "AeModule::Managers#dashboard"
+
+- content_for :header, @title
+
+.dashboard-container
+  %h2 AE "Teams" Log
+
+  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject).where.not(ae_review_team_id: nil) # TODO: Where team is current team.
+  - if log_entries.present?
+    - log_entries.each do |log_entry|
+      = render "ae_module/log_entries/show", log_entry: log_entry

@@ -1,0 +1,31 @@
+- @title = "AeModule::Admins#adverse_event"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "admin dashboard", ae_module_admins_dashboard_path(@project)
+    %li.breadcrumb-muted= @adverse_event.name.downcase
+
+.dashboard-container
+  = @adverse_event.name
+  = @adverse_event.description
+  = @adverse_event.subject.name
+  = @adverse_event.user.nickname
+
+.dashboard-container
+  .dropdown.d-inline-block
+    = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
+      = icon("fas", "paper-plane")
+      Send to team...
+    .dropdown-menu
+      - @project.ae_review_teams.each do |team|
+        = link_to team.name, "#", class: "dropdown-item", data: { object: "suppress-click" }
+  = link_to ae_module_admins_request_additional_details_path(@project, @adverse_event), class: "btn btn-light btn-sm" do
+    = icon("fas", "question-circle")
+    Request additional feedback
+
+.dashboard-container
+  %h2 Log
+  - @adverse_event.ae_adverse_event_log_entries.each do |log_entry|
+    = render "ae_module/log_entries/show", log_entry: log_entry

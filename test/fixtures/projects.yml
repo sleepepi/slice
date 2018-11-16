@@ -81,3 +81,10 @@ format:
   name: Format All the Values
   slug: format
   user: format_editor
+
+# For new Adverse Event Reviews
+aes:
+  name: Enhanced Adverse Event Reviews
+  slug: aes
+  user: aes_editor
+  adverse_event_reviews_enabled: true
