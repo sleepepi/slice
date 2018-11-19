@@ -17,11 +17,12 @@ class AeAdverseEvent < ApplicationRecord
   belongs_to :closer, class_name: "User", foreign_key: "closer_id", optional: true
   has_many :ae_adverse_event_log_entries, -> { order(:id) }
   has_many :ae_adverse_event_info_requests
+  has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
   has_many :ae_adverse_event_reviewer_assignments
 
   # Methods
   def name
-    "##{number || "???"}"
+    "AE##{number || "???"}"
   end
 
   def generate_number!
@@ -34,5 +35,23 @@ class AeAdverseEvent < ApplicationRecord
 
   def closed?
     !closed_at.nil?
+  end
+
+  def subject_code
+    subject&.subject_code
+  end
+
+  def subject_code=(code)
+    s = project.subjects.find_by "LOWER(subject_code) = ?", code.to_s.downcase
+    self.subject_id = (s ? s.id : nil)
+  end
+
+  # Logs and notifications
+  def opened!(current_user)
+    # TODO: AE Notifications
+    #   @adverse_event.create_notifications
+    #   @adverse_event.send_email_in_background
+    generate_number!
+    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
   end
 end

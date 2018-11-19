@@ -2,11 +2,24 @@
 
 - content_for :header, @title
 
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to @project do
+        = icon("fas", "caret-left")
+        = @project.name.downcase
+
 .dashboard-container
   .row
     .col
+      %strong Reporters
+      %ul
+        %li= link_to "Reporter Overview", ae_module_reporters_overview_path(@project)
+        %li= link_to "Report AE", ae_module_reporters_report_path(@project)
+    .col
       %strong Administrative
       %ul
+        %li= link_to "Admin Inbox", ae_module_admins_inbox_path(@project)
         %li= link_to "Admin Dashboard", ae_module_admins_dashboard_path(@project)
         %li= link_to "Manager Dashboard", ae_module_managers_dashboard_path(@project)
         %li= link_to "Reviewer Dashboard", ae_module_reviewers_dashboard_path(@project)

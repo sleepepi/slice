@@ -70,3 +70,9 @@ accepted_viewer_invite_4:
   editor: false
   creator: regular
   invite_token: accepted_viewer_invite_4
+
+aes_editor:
+  project: aes
+  user: aes_project_editor
+  editor: true
+  creator: aes_owner

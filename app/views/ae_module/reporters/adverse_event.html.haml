@@ -1,0 +1,32 @@
+- @title = "AeModule::Reporters#adverse_event"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "reporters inbox", ae_module_reporters_overview_path(@project)
+    %li.breadcrumb-muted= @adverse_event.name.downcase
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @adverse_event, key: :description
+
+.dashboard-container
+  - @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil).order("resolved_at desc NULLS FIRST").each do |info_request|
+    %div
+      - if info_request.resolved?
+        = icon("fas", "check-square")
+      - else
+        = icon("far", "square")
+
+      = info_request.comment
+      %span.text-muted= info_request.user.full_name
+      - if info_request.resolved?
+        .ml-4.small
+          Resolved on
+          = info_request.resolved_at.strftime("%-d %b %Y, %-l:%M %p")
+          by
+          = info_request.resolver.full_name
+      - else
+        = link_to ae_module_reporters_resolve_info_request_path(@project, @adverse_event, info_request), method: :post do
+          Mark as resolved
+          = icon("fas", "caret-right")

@@ -204,3 +204,9 @@ aes_01:
   subject_code: AE01
   user: aes_project_editor
   site: aes_site
+
+aes_02:
+  project: aes
+  subject_code: AE02
+  user: aes_project_editor
+  site: aes_site

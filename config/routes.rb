@@ -18,8 +18,17 @@ Rails.application.routes.draw do
   namespace :ae_module, path: "projects/:project_id/ae-module" do
     get :dashboard
 
+    namespace :reporters do
+      get :overview
+      get :report
+      post :submit_report, path: "report"
+      get :adverse_event, path: "adverse-event/:id"
+      post :resolve_info_request, path: "adverse-event/:id/info-requests/:info_request_id"
+    end
+
     namespace :admins do
       get :dashboard
+      get :inbox
       get :adverse_event, path: "adverse-event/:id"
       get :request_additional_details, path: "adverse-event/:id/request-additional-details"
       post :submit_request_additional_details, path: "adverse-event/:id/request-additional-details"

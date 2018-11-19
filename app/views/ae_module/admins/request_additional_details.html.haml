@@ -5,7 +5,8 @@
 - content_for :breadcrumbs do
   %ol
     %li= link_to "admin dashboard", ae_module_admins_dashboard_path(@project)
-    %li.breadcrumb-muted= @adverse_event.name.downcase
+    %li= link_to @adverse_event.name.downcase, ae_module_admins_adverse_event_path(@project, @adverse_event)
+    %li.breadcrumb-muted request additional details
 
 .dashboard-container
   %h2 Adverse Event

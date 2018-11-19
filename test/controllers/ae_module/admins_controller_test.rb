@@ -13,4 +13,10 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
     get ae_module_admins_dashboard_url(@project)
     assert_response :success
   end
+
+  test "should get inbox" do
+    login(@review_admin)
+    get ae_module_admins_inbox_url(@project)
+    assert_response :success
+  end
 end

@@ -2,6 +2,13 @@
 
 - content_for :header, @title
 
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to ae_module_dashboard_path(@project) do
+        = icon("fas", "caret-left")
+        ae dashboard
+
 .dashboard-container
   %h2 AE "Teams" Log
 

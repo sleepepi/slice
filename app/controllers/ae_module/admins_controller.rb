@@ -8,6 +8,11 @@ class AeModule::AdminsController < ApplicationController
   def dashboard
   end
 
+  # GET /projects/:project_id/ae-module/admins/inbox
+  def inbox
+    @adverse_events = @project.ae_adverse_events.order(id: :desc).page(params[:page]).per(20)
+  end
+
   # # GET /projects/:project_id/ae-module/admins/adverse-events/:id
   # def adverse_event
   # end
@@ -21,7 +26,7 @@ class AeModule::AdminsController < ApplicationController
   def submit_request_additional_details
     @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.where(project: @project, user: current_user).new(info_request_params)
     if @adverse_event_info_request.save
-      # @adverse_event_info_request.log_info # TODO: Generate notifications and log entries
+      @adverse_event_info_request.open!(current_user)
       redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request submitted successfully."
     else
       render :request_additional_details
@@ -38,7 +43,7 @@ class AeModule::AdminsController < ApplicationController
 
   def find_adverse_event_or_redirect
     @adverse_event = @project.ae_adverse_events.find_by(id: params[:id])
-    empty_response_or_root_path(ae_module_dashboard(@project)) unless @adverse_event
+    empty_response_or_root_path(ae_module_dashboard_path(@project)) unless @adverse_event
   end
 
   def info_request_params
