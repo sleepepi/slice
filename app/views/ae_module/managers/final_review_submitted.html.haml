@@ -1,0 +1,17 @@
+- @title = "AeModule::Managers#final_review"
+
+- content_for :header, @title
+
+.dashboard-container
+
+  .mb-3 AE#5
+  .mb-3 Hospitalization
+  .mb-3 Subject #123
+
+
+.jumbotron.jumbotron-custom-text
+  Final review submitted successfully.
+  %br
+  = link_to ae_module_managers_inbox_path(@project) do
+    = icon("fas", "caret-left")
+    Back to inbox

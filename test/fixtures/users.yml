@@ -101,6 +101,26 @@ format_editor:
   full_name: Format Editor
   email: format_editor@example.com
 
-aes_editor:
+aes_owner:
+  full_name: AES Project Owner
+  email: aes_owner@example.com
+
+aes_project_editor:
   full_name: AES Project Editor
   email: aes_editor@example.com
+
+aes_review_admin:
+  full_name: AES Review Admin
+  email: aes_review_admin@example.com
+
+aes_team_manager:
+  full_name: AES Team Manager
+  email: aes_team_manager@example.com
+
+aes_team_reviewer:
+  full_name: AES Team Reviewer
+  email: aes_team_reviewer@example.com
+
+aes_team_viewer:
+  full_name: AES Team Reviewer
+  email: aes_team_viewer@example.com

@@ -1,0 +1,25 @@
+- @title = "AeModule::Managers#pathway_assigned"
+
+- content_for :header, @title
+
+.dashboard-container
+
+  .mb-3 AE#5
+  .mb-3 Hospitalization
+  .mb-3 Subject #123
+
+.jumbotron.jumbotron-custom-text
+  Assigned to
+  = @project.ae_team_pathways.first.name
+  %br
+
+  Sent to
+  %strong Reviewer 1
+  and
+  = succeed "." do
+    %strong Reviewer 2
+
+  %br
+  = link_to ae_module_managers_inbox_path(@project) do
+    = icon("fas", "caret-left")
+    Back to inbox

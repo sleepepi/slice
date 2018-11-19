@@ -1,0 +1,11 @@
+death:
+  project: aes
+  ae_review_team: clinical
+  name: Death
+  number_of_reviewers: 2
+
+heart_failure:
+  project: aes
+  ae_review_team: clinical
+  name: Heart Failure
+  number_of_reviewers: 2

@@ -1,0 +1,28 @@
+- @title = "AeModule::Managers#final_review"
+
+- content_for :header, @title
+
+.dashboard-container
+
+  .mb-3 AE#5
+  .mb-3 Hospitalization
+  .mb-3 Subject #123
+
+  %strong Reviewer 1
+  submitted
+  = link_to "sheet 1", "#"
+  and
+  %strong Reviewer 2
+  submitted
+  = succeed "." do
+    = link_to "sheet 2", "#"
+
+  There are
+  %strong 0
+  differences between the sheets.
+
+
+.text-center
+  = link_to ae_module_managers_final_review_submitted_path(@project), class: "btn btn-lg btn-primary" do
+    Merge and submit final review
+    = icon("fas", "caret-right")

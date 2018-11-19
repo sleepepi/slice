@@ -27,10 +27,17 @@ Rails.application.routes.draw do
 
     namespace :managers do
       get :dashboard
+      get :inbox
+      get :determine_pathway
+      get :pathway_assigned
+      get :final_review
+      get :final_review_submitted
     end
 
     namespace :reviewers do
       get :dashboard
+      get :inbox
+      get :face_sheet
     end
   end
 

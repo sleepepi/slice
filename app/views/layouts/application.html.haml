@@ -30,6 +30,10 @@
           %h1.page-heading
             = yield :header
     .container= render "layouts/breadcrumbs" # Slice extra
+    - if content_for?(:tabs)
+      .header-tabs{ class: "#{"header-tabs-no-breadcrumbs" unless content_for?(:breadcrumbs)}" }
+        .container
+          = yield :tabs
     - if content_for?(:breadcrumbs)
       .breadcrumb-container
         %div{ class: defined?(container) && container.present? ? container : "container" }

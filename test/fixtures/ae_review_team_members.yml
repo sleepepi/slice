@@ -1,17 +1,17 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+aes_team_manager:
+  project: aes
+  ae_review_team: clinical
+  user: aes_team_manager
+  manager: true
 
-one:
-  project_id: 
-  ae_review_team_id: 
-  user_id: 
-  manager: false
-  reviewer: false
-  viewer: false
+aes_team_reviewer:
+  project: aes
+  ae_review_team: clinical
+  user: aes_team_reviewer
+  reviewer: true
 
-two:
-  project_id: 
-  ae_review_team_id: 
-  user_id: 
-  manager: false
-  reviewer: false
-  viewer: false
+aes_team_viewer:
+  project: aes
+  ae_review_team: clinical
+  user: aes_team_viewer
+  viewer: true

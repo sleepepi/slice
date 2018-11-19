@@ -1,0 +1,67 @@
+- @title = "AeModule::Reviewers#face_sheet"
+
+- content_for :header, @title
+- render "ae_module/reviewers/tabs"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "inbox", ae_module_reviewers_inbox_path(@project)
+    %li.breadcrumb-muted adverse event #5
+
+.dashboard-container
+  %p
+    %strong Adverse Event
+
+  %p
+    The subject was admitted to the hospital for
+    %strong extreme chest pain
+    on
+    = succeed "." do
+      %strong 12 Nov 2018
+
+  %p
+    At baseline, the subjects BMI was
+    %strong 29.4
+    and their assigned pressure was
+    = succeed "." do
+      %strong 200 lbs / liter
+
+.dashboard-container
+  .row
+    .col
+      %strong Initial AE Reports
+      %ul
+        %li= link_to "Sheet #1 - Hospitalization Report", "#", data: { object: "suppress-click" }
+    .col
+      %strong Supplemental files
+      %ul
+        %li= link_to "12210441.pdf", "#", data: { object: "suppress-click" }
+        %li= link_to "heart-info.pdf", "#", data: { object: "suppress-click" }
+        %li= link_to "lab-test-2018 review 5.pdf", "#", data: { object: "suppress-click" }
+
+
+.row
+  .col
+    %ul.text-muted
+      %li
+        = icon("far", "square")
+        Death Adjudication Form (10 questions)
+      %li
+        = icon("fas", "check-square")
+        Death Supplemental Form (2 questions)
+  .col-auto
+    = link_to "#", class: "btn btn-lg btn-primary", data: { object: "suppress-click" } do
+      Complete review
+      = icon("fas", "caret-right")
+
+.dashboard-container
+  .mb-3
+    %strong Comments
+
+  .mb-3
+    .float-right
+    %span.text-muted Reviewer 1
+    I wasn't able to complete my form today, I'll be checking back in tomorrow
+    after clinic.
+
+
+  = link_to "Add comment", "#", data: { object: "suppress-click" }

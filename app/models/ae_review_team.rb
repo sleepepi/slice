@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 class AeReviewTeam < ApplicationRecord
@@ -25,4 +24,6 @@ class AeReviewTeam < ApplicationRecord
   has_many :viewers, -> { current.where(ae_review_team_members: { viewer: true }) }, through: :ae_review_team_members, source: :user
 
   has_many :no_role_users, -> { current.where(ae_review_team_members: { manager: false, reviewer: false, viewer: false }) }, through: :ae_review_team_members, source: :user
+
+  has_many :ae_team_pathways, -> { current }
 end

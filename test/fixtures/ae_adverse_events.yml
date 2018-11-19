@@ -2,7 +2,7 @@
 
 one:
   project: aes
-  user: aes_editor
+  user: aes_project_editor
   subject: aes_01
   number: 1
   description: Broken leg.
@@ -11,7 +11,7 @@ one:
 
 two:
   project: aes
-  user: aes_editor
+  user: aes_project_editor
   subject: aes_01
   number: 2
   description: Hospitalization after runny nose.

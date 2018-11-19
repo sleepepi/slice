@@ -1,0 +1,63 @@
+- @title = "AeModule::Managers#inbox"
+
+- content_for :header, @title
+
+.dashboard-container.dashboard-table
+  %table.table.table-striped.table-borderless.table-hover.table-sticky
+    %col{ width: "1px" }
+    %col{ width: "1px" }
+    %col
+    %col
+    %col
+    %col{ width: "1px" }
+    %thead
+      %tr
+        %th
+        %th.text-center AE
+        %th Sent to team date
+        %th Description
+        %th
+        %th Team
+        %th Status
+    %tbody
+      %tr
+        %td
+        %td.text-center AE#5
+        %td= Time.zone.now.strftime("%a, %b %-d, %Y")
+        %td= link_to "Hospitalization", ae_module_managers_determine_pathway_path(@project)
+        %td
+        %td.nowrap Clinical Event Committee
+        %td
+          %span.badge.badge-success New
+
+      %tr
+        %td
+        %td.text-center AE#4
+        %td= (Time.zone.now - 2.weeks).strftime("%a, %b %-d, %Y")
+        %td= link_to "Heart failure", "#", class: "text-danger", style: "text-decoration: line-through;", data: { object: "suppress-click" } # ae_module_reviewers_face_sheet_path(@project)
+        %td
+        %td.nowrap Clinical Event Committee
+        %td.text-muted
+          = icon("fas", "paper-plane")
+          Sent for review
+
+      %tr
+        %td
+        %td.text-center AE#3
+        %td= (Time.zone.now - 3.weeks).strftime("%a, %b %-d, %Y")
+        %td= link_to "Death", ae_module_managers_final_review_path(@project)
+        %td
+        %td.nowrap Clinical Event Committee
+        %td
+          %span.badge.badge-success Ready for final review
+
+      %tr.text-muted
+        %td
+        %td.text-center AE#2
+        %td= (Time.zone.now - 4.weeks).strftime("%a, %b %-d, %Y")
+        %td= link_to "Heart failure", "#", class: "text-muted", style: "text-decoration: line-through;", data: { object: "suppress-click" } # ae_module_reviewers_face_sheet_path(@project)
+        %td
+        %td.nowrap Clinical Event Committee
+        %td.nowrap.text-muted
+          = icon("fas", "check-square")
+          Submitted final review

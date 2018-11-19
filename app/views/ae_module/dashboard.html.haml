@@ -3,12 +3,32 @@
 - content_for :header, @title
 
 .dashboard-container
-  %h2 Dashboard
+  .row
+    .col
+      %strong Administrative
+      %ul
+        %li= link_to "Admin Dashboard", ae_module_admins_dashboard_path(@project)
+        %li= link_to "Manager Dashboard", ae_module_managers_dashboard_path(@project)
+        %li= link_to "Reviewer Dashboard", ae_module_reviewers_dashboard_path(@project)
+    .col
+      %strong Managers
+      %ul
+        %li= link_to "Manager inbox", ae_module_managers_inbox_path(@project)
+        %li= link_to "Manager determine pathway", ae_module_managers_determine_pathway_path(@project)
+        %li= link_to "Manager pathway assigned", ae_module_managers_pathway_assigned_path(@project)
+    .col
+      %strong Reviewers
+      %ul
+        %li= link_to "Reviewer inbox", ae_module_reviewers_inbox_path(@project)
+        %li= link_to "Reviewer face sheet", ae_module_reviewers_face_sheet_path(@project)
+
 
 .dashboard-container
   %h2 Admins
 
-  = @project.ae_admins.inspect
+  - if @project.ae_review_admins.present?
+    - @project.ae_review_admins.each do |review_admin|
+      %div= review_admin.user.full_name
 
 .dashboard-container
   %h2 Teams
@@ -55,6 +75,8 @@
               %strong Unassigned role
               - users.each do |user|
                 %div= user.user.full_name
+        %strong Pathways
+        = team.ae_team_pathways.pluck(:name).to_sentence
   - else
     %span.text-muted No teams found.
 

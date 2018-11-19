@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  project_id:
+clinical:
+  project: aes
   name: Clinical
   slug: clinical
 
-two:
-  project_id:
+dsmb:
+  project: aes
   name: DSMB
   slug: dsmb

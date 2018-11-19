@@ -92,4 +92,4 @@ format_site:
 aes_site:
   name: AE Site
   project: aes
-  user: aes_editor
+  user: aes_owner

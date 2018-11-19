@@ -1,0 +1,16 @@
+- @title = "AeModule::Managers#determine_pathway"
+
+- content_for :header, @title
+
+.dashboard-container
+
+  .mb-3 AE#5
+  .mb-3 Hospitalization
+  .mb-3 Subject #123
+
+  %strong Assign to Pathway
+
+  %ul
+    -# TODO: Filter to "team" pathways, not all project pathways.
+    - @project.ae_team_pathways.each do |pathway|
+      %li= link_to pathway.name, ae_module_managers_pathway_assigned_path(@project)
