@@ -8,6 +8,43 @@
       = link_to ae_module_dashboard_path(@project) do
         = icon("fas", "caret-left")
         ae dashboard
+    %li.breadcrumb-muted reviewers inbox
+
+- if @assignments.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col{ width: "2px" }
+      %col{ width: "1px" }
+      %col
+      %col
+      %col
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th.p-0
+          %th.text-center AE
+          %th Description
+          %th Pathway
+          %th Team
+          %th.text-center Status
+      %tbody
+        - @assignments.each do |assignment|
+          %tr{ class: assignment.completed? ? "text-muted" : nil }
+            %td.p-0{ class: assignment.completed? ? nil : "bg-primary" }
+            %td.text-center= assignment.ae_adverse_event.name
+            %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
+              .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_reviewers_assignment_path(@project, assignment), class: assignment.completed? ? "link-blend-muted" : nil
+            %td= assignment.ae_team_pathway.name
+            %td= assignment.ae_review_team.name
+            - if assignment.completed?
+              %td.text-center.nowrap.text-muted
+                = icon("fas", "check-square")
+                Complete
+            - else
+              %td
+- else
+  .jumbotron.jumbotron-custom-text
+    No assignments found.
 
 .jumbotron.jumbotron-custom-text
   %strong 2

@@ -22,31 +22,36 @@ Rails.application.routes.draw do
       get :overview
       get :report
       post :submit_report, path: "report"
-      get :adverse_event, path: "adverse-event/:id"
-      post :resolve_info_request, path: "adverse-event/:id/info-requests/:info_request_id"
+      get :adverse_event, path: "adverse-events/:id"
+      post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
     end
 
     namespace :admins do
       get :dashboard
       get :inbox
-      get :adverse_event, path: "adverse-event/:id"
-      get :request_additional_details, path: "adverse-event/:id/request-additional-details"
-      post :submit_request_additional_details, path: "adverse-event/:id/request-additional-details"
+      get :adverse_event, path: "adverse-events/:id"
+      get :request_additional_details, path: "adverse-events/:id/request-additional-details"
+      post :submit_request_additional_details, path: "adverse-events/:id/request-additional-details"
+      post :assign_team, path: "adverse-events/:id/assign-team"
     end
 
     namespace :managers do
       get :dashboard
       get :inbox
-      get :determine_pathway
-      get :pathway_assigned
-      get :final_review
-      get :final_review_submitted
+      get :adverse_event, path: "teams/:team_id/adverse-events/:id"
+      get :determine_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
+      post :assign_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
+      get :pathway_assignments, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id"
+      get :final_review, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id/final-review"
+      get :final_review_submitted, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id/final-review/submitted"
     end
 
     namespace :reviewers do
       get :dashboard
       get :inbox
       get :face_sheet
+      get :assignment, path: "assignments/:assignment_id"
+      post :complete_assignment, path: "assignments/:assignment_id"
     end
   end
 

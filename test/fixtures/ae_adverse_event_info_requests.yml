@@ -1,19 +1,17 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  project_id:
-  ae_adverse_event_id:
-  user_id:
-  ae_review_team_id:
-  comment: MyText
-  resolved_at: 2018-11-15 12:00:16
-  resolver_id:
+  project: aes
+  ae_adverse_event: one
+  user: aes_review_admin
+  # ae_review_team:
+  comment: Please upload additional documentation.
+  # resolved_at:
+  # resolver:
 
-two:
-  project_id:
-  ae_adverse_event_id:
-  user_id:
-  ae_review_team_id:
-  comment: MyText
+resolved_by_reporter:
+  project: aes
+  ae_adverse_event: two
+  user: aes_review_admin
+  # ae_review_team:
+  comment: Please click mark as resolved.
   resolved_at: 2018-11-15 12:00:16
-  resolver_id:
+  resolver: aes_project_editor

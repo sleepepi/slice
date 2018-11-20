@@ -1,10 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+# Reported, sent to clinical team, reviewed, final review, and closed
+# TODO: Create log entries for events.
+closed:
+  project: aes
+  user: aes_project_editor
+  subject: aes_02
+  number: 1
+  description: Heart attack
+  closed_at: 2018-11-20 15:30:00
+  closer_id: aes_review_admin
+
+# TODO: Remove both 9XX fixtures
 one:
   project: aes
   user: aes_project_editor
   subject: aes_01
-  number: 1
+  number: 998
   description: Broken leg.
   # closed_at:
   # closer_id:
@@ -13,7 +25,7 @@ two:
   project: aes
   user: aes_project_editor
   subject: aes_01
-  number: 2
+  number: 999
   description: Hospitalization after runny nose.
   # closed_at:
   # closer_id:

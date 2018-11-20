@@ -1,9 +1,4 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  ae_adverse_event_id: 
-  ae_review_team_id: 
-
-two:
-  ae_adverse_event_id: 
-  ae_review_team_id: 
+aes_closed_clinical:
+  project: aes
+  ae_adverse_event: closed
+  ae_review_team: clinical

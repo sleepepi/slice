@@ -54,4 +54,10 @@ class AeAdverseEvent < ApplicationRecord
     generate_number!
     ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
   end
+
+  def assign_team!(current_user, team)
+    ae_adverse_event_review_teams.where(project: project, ae_review_team: team).first_or_create
+    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_review_team: team)
+    # TODO: Generate in app notifications and LOG notifications for assignment to team (notify team managers, in this case team managers)
+  end
 end

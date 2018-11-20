@@ -7,9 +7,11 @@ module AeReviews
     # Relationships
     has_many :ae_review_admins
     has_many :ae_review_teams, -> { current }
+    has_many :ae_adverse_event_review_teams
     has_many :ae_adverse_events, -> { current }
     has_many :ae_adverse_event_log_entries, -> { order(:id) }
     has_many :ae_team_pathways, -> { current }
+    has_many :ae_adverse_event_reviewer_assignments
   end
 
   def ae_teams_enabled?

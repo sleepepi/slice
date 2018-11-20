@@ -1,5 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+
+aes_closed_reviewer_one:
+  project: aes
+  ae_adverse_event: closed
+  ae_review_team: clinical
+  ae_team_pathway: heart_failure
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer
+  review_completed_at: 2018-11-15 15:30:00
+  # review_unassigned_at:
+
+aes_closed_reviewer_two:
+  project: aes
+  ae_adverse_event: closed
+  ae_review_team: clinical
+  ae_team_pathway: heart_failure
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer_two
+  review_completed_at: 2018-11-16 15:30:00
+  # review_unassigned_at:
+
+
+
+
+# TODO: Remove these fixtures
+
 one:
   project_id:
   ae_adverse_event_id:

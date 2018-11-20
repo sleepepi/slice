@@ -2,9 +2,19 @@
 
 - content_for :header, @title
 
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to ae_module_dashboard_path(@project) do
+        = icon("fas", "caret-left")
+        ae dashboard
+    %li= link_to "manager inbox", ae_module_managers_inbox_path(@project)
+    %li= link_to "ae#3", ae_module_managers_inbox_path(@project)
+    %li.breadcrumb-muted final review
+
 .dashboard-container
 
-  .mb-3 AE#5
+  .mb-3 AE#3
   .mb-3 Hospitalization
   .mb-3 Subject #123
 

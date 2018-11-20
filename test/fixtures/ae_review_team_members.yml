@@ -10,6 +10,12 @@ aes_team_reviewer:
   user: aes_team_reviewer
   reviewer: true
 
+aes_team_reviewer_two:
+  project: aes
+  ae_review_team: clinical
+  user: aes_team_reviewer_two
+  reviewer: true
+
 aes_team_viewer:
   project: aes
   ae_review_team: clinical

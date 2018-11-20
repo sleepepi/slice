@@ -2,7 +2,8 @@ class AeModule::AdminsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_review_admin_project_or_redirect
   before_action :find_adverse_event_or_redirect, only: [
-    :adverse_event, :request_additional_details, :submit_request_additional_details
+    :adverse_event, :request_additional_details,
+    :submit_request_additional_details, :assign_team
   ]
 
   def dashboard
@@ -31,6 +32,18 @@ class AeModule::AdminsController < ApplicationController
     else
       render :request_additional_details
     end
+  end
+
+  # POST /projects/:project_id/ae-module/admins/adverse-events/:id/assign-team
+  def assign_team
+    team = @project.ae_review_teams.find_by_param(params[:review_team_id])
+    if team
+      @adverse_event.assign_team!(current_user, team)
+      notice = "Team assigned successfully."
+    else
+      notice = "Unable to assign team."
+    end
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: notice
   end
 
   private

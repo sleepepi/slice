@@ -45,18 +45,39 @@
             %td
               %span.badge.badge-primary New
 
+  .center-horizontally= paginate @adverse_events, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No adverse events found.
+
+
+.bg-light.border.border-dark.p-3.mb-3
+  %p
+    %strong Example
+  .dashboard-container.dashboard-table.mb-0
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col{ width: "2px" }
+      %col{ width: "1px" }
+      %col.d-none.d-sm-table-column
+      %col
+      %col
+      %col
+      %col{ width: "1px" }
+      %thead
         %tr
-          %td.p-0
-          %td
-          %td.d-none.d-sm-table-cell
-          %td{ colspan: 4 }
-
-
+          %th.p-0
+          %th.text-center #
+          %th.d-none.d-sm-table-cell Description
+          %th Reported
+          %th.text-center (reserved)
+          %th Team
+          %th Status
+      %tbody
 
         %tr
           %td.p-0
           %td.text-center AE#5
-          %td= link_to "Hospitalization", ae_module_managers_determine_pathway_path(@project)
+          %td= link_to "Hospitalization", ae_module_managers_determine_pathway_path(@project, @project.ae_review_teams.first, @project.ae_adverse_events.first)
           %td= Time.zone.now.strftime("%a, %b %-d, %Y")
           %td.text-center X
           %td.nowrap Clinical Event Committee
@@ -66,7 +87,7 @@
         %tr
           %td.p-0
           %td.text-center AE#4
-          %td= link_to "Heart failure", "#", class: "text-danger", style: "text-decoration: line-through;", data: { object: "suppress-click" } # ae_module_reviewers_face_sheet_path(@project)
+          %td= link_to "Heart failure", "#", class: "text-danger", style: "text-decoration: line-through;", data: { object: "suppress-click" }
           %td= (Time.zone.now - 2.weeks).strftime("%a, %b %-d, %Y")
           %td.text-center X
           %td.nowrap Clinical Event Committee
@@ -77,7 +98,7 @@
         %tr
           %td.p-0.bg-primary
           %td.text-center AE#3
-          %td= link_to "Death", ae_module_managers_final_review_path(@project)
+          %td= link_to "Death", ae_module_managers_final_review_path(@project, @project.ae_review_teams.first, @project.ae_adverse_events.first, @project.ae_team_pathways.first)
           %td= (Time.zone.now - 3.weeks).strftime("%a, %b %-d, %Y")
           %td.text-center X
           %td.nowrap Clinical Event Committee
@@ -87,15 +108,10 @@
         %tr.text-muted
           %td.p-0
           %td.text-center AE#2
-          %td= link_to "Heart failure", "#", class: "text-muted", style: "text-decoration: line-through;", data: { object: "suppress-click" } # ae_module_reviewers_face_sheet_path(@project)
+          %td= link_to "Heart failure", "#", class: "text-muted", style: "text-decoration: line-through;", data: { object: "suppress-click" }
           %td= (Time.zone.now - 4.weeks).strftime("%a, %b %-d, %Y")
           %td.text-center X
           %td.nowrap Clinical Event Committee
           %td.nowrap.text-muted
             = icon("fas", "check-square")
             Submitted final review
-
-  .center-horizontally= paginate @adverse_events, theme: "bootstrap"
-- else
-  .jumbotron.jumbotron-custom-text
-    No adverse events found.

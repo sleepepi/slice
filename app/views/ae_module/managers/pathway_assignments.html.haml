@@ -1,0 +1,40 @@
+- @title = "AeModule::Managers#pathway_assignments"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to ae_module_dashboard_path(@project) do
+        = icon("fas", "caret-left")
+        ae dashboard
+    %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
+    %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
+    %li.breadcrumb-muted assignments
+
+.dashboard-container
+  .mb-3= @adverse_event.name
+  .mb-3= @adverse_event.description
+  .mb-3.text-muted= @adverse_event.subject.name
+
+.jumbotron.jumbotron-custom-text
+  -# @assignments = @assignments + @assignments
+  -# @assignments = @assignments[0..0]
+
+  - case @assignments.count
+  - when 0
+  - when 1
+    %strong= @assignments[0].reviewer.full_name
+  - when 2
+    %strong= @assignments[0].reviewer.full_name
+    and
+    %strong= @assignments[-1].reviewer.full_name
+  - else
+    - @assignments[0...-1].each do |assignment|
+      = content_tag(:strong, assignment.reviewer.full_name) + ","
+    and
+    %strong= @assignments[-1].reviewer.full_name
+
+  assigned reviews for
+  = succeed "." do
+    %strong= @pathway.name

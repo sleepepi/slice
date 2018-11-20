@@ -1,0 +1,45 @@
+- @title = "AeModule::Managers#adverse_event"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to ae_module_dashboard_path(@project) do
+        = icon("fas", "caret-left")
+        ae dashboard
+    %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
+    %li.breadcrumb-muted= @adverse_event.name.downcase
+
+.dashboard-container
+  .mb-3= @adverse_event.name
+  .mb-3= @adverse_event.description
+  .mb-3.text-muted= @adverse_event.subject.name
+
+.dashboard-container
+  %h2 Log
+
+  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject).where(ae_adverse_event: @adverse_event, ae_review_team: @team)
+  - if log_entries.present?
+    - log_entries.each do |log_entry|
+      = render "ae_module/log_entries/show", log_entry: log_entry
+
+
+.mb-3
+  = link_to ae_module_managers_determine_pathway_path(@project, @team, @adverse_event), class: "btn btn-lg btn-primary" do
+    Assign reviewers
+    = icon("fas", "caret-right")
+
+- @team.ae_team_pathways.where(id: @adverse_event.ae_adverse_event_reviewer_assignments.select(:ae_team_pathway_id)).each do |pathway|
+  .p-3.border.border-dark.bg-light
+    %strong= pathway.name
+    .mb-3
+      = link_to ae_module_managers_pathway_assignments_path(@project, @team, @adverse_event, pathway), class: "btn btn-primary" do
+        Reviewers assigned for
+        = pathway.name
+        = icon("fas", "caret-right")
+    %div
+      = link_to ae_module_managers_final_review_path(@project, @team, @adverse_event, pathway), class: "btn btn-primary" do
+        Final review for
+        = pathway.name
+        = icon("fas", "caret-right")

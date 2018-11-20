@@ -121,6 +121,10 @@ aes_team_reviewer:
   full_name: AES Team Reviewer
   email: aes_team_reviewer@example.com
 
+aes_team_reviewer_two:
+  full_name: AES Team Reviewer Two
+  email: aes_team_reviewer_two@example.com
+
 aes_team_viewer:
   full_name: AES Team Reviewer
   email: aes_team_viewer@example.com

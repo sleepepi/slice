@@ -2,15 +2,28 @@
 
 - content_for :header, @title
 
+- content_for :breadcrumbs do
+  %ol
+    %li
+      = link_to ae_module_dashboard_path(@project) do
+        = icon("fas", "caret-left")
+        ae dashboard
+    %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
+    %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
+    %li.breadcrumb-muted launch assignments
+
 .dashboard-container
 
-  .mb-3 AE#5
-  .mb-3 Hospitalization
-  .mb-3 Subject #123
+  .mb-3= @adverse_event.name
+  .mb-3= @adverse_event.description
+  .mb-3.text-muted= @adverse_event.subject.name
 
   %strong Assign to Pathway
 
-  %ul
-    -# TODO: Filter to "team" pathways, not all project pathways.
-    - @project.ae_team_pathways.each do |pathway|
-      %li= link_to pathway.name, ae_module_managers_pathway_assigned_path(@project)
+  - if @team.ae_team_pathways.present?
+    %ul
+      - @team.ae_team_pathways.each do |pathway|
+        %li= link_to pathway.name, ae_module_managers_assign_pathway_path(@project, @team, @adverse_event, pathway_id: pathway.id), method: :post
+  - else
+    %ul
+      %li.text-muted No team pathways setup.

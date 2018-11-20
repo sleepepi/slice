@@ -4,6 +4,8 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:aes)
     @reporter = users(:aes_project_editor)
+    @adverse_event = ae_adverse_events(:one)
+    @info_request = ae_adverse_event_info_requests(:one)
   end
 
   def adverse_event_params
@@ -19,13 +21,13 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get adverse event report as reporter" do
+  test "should get report adverse event as reporter" do
     login(@reporter)
     get ae_module_reporters_report_url(@project)
     assert_response :success
   end
 
-  test "should create adverse event as site editor" do
+  test "should create adverse event as reporter" do
     login(@reporter)
     assert_difference("AeAdverseEvent.count") do
       post ae_module_reporters_submit_report_url(@project), params: {
@@ -33,5 +35,30 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
       }
     end
     assert_redirected_to ae_module_reporters_overview_url(@project)
+  end
+
+  test "should not create adverse event without description as reporter" do
+    login(@reporter)
+    assert_difference("AeAdverseEvent.count", 0) do
+      post ae_module_reporters_submit_report_url(@project), params: {
+        ae_adverse_event: adverse_event_params.merge(description: "")
+      }
+    end
+    assert_response :success
+  end
+
+  test "should get adverse event as reporter" do
+    login(@reporter)
+    get ae_module_reporters_adverse_event_url(@project, @adverse_event)
+    assert_response :success
+  end
+
+  test "should mark info request resolved as reporter" do
+    login(@reporter)
+    post ae_module_reporters_resolve_info_request_url(@project, @adverse_event, @info_request)
+    @info_request.reload
+    assert_not_nil @info_request.resolved_at
+    assert_equal @reporter, @info_request.resolver
+    assert_redirected_to ae_module_reporters_adverse_event_url(@project, @adverse_event)
   end
 end
