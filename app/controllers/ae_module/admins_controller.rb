@@ -11,7 +11,7 @@ class AeModule::AdminsController < ApplicationController
 
   # GET /projects/:project_id/ae-module/admins/inbox
   def inbox
-    @adverse_events = @project.ae_adverse_events.order(id: :desc).page(params[:page]).per(20)
+    @adverse_events = @project.ae_adverse_events.order(reported_at: :desc).page(params[:page]).per(20)
   end
 
   # # GET /projects/:project_id/ae-module/admins/adverse-events/:id

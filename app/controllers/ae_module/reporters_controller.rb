@@ -8,7 +8,7 @@ class AeModule::ReportersController < ApplicationController
   # GET /projects/:project_id/ae-module/reporters/overview
   def overview
     scope = @project.ae_adverse_events.where(user: current_user)
-    @adverse_events = scope.order(id: :desc).page(params[:page]).per(20)
+    @adverse_events = scope.order(reported_at: :desc).page(params[:page]).per(20)
   end
 
   # GET /projects/:project_id/ae-module/reporters/report

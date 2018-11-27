@@ -2,3 +2,38 @@ aes_closed_clinical:
   project: aes
   ae_adverse_event: closed
   ae_review_team: clinical
+
+aes_teamdone_clinical:
+  project: aes
+  ae_adverse_event: teamdone
+  ae_review_team: clinical
+
+aes_pathdone_clinical:
+  project: aes
+  ae_adverse_event: pathdone
+  ae_review_team: clinical
+
+aes_rvwsdone_clinical:
+  project: aes
+  ae_adverse_event: rvwsdone
+  ae_review_team: clinical
+
+aes_pathset_clinical:
+  project: aes
+  ae_adverse_event: pathset
+  ae_review_team: clinical
+
+aes_teamindone_clinical:
+  project: aes
+  ae_adverse_event: teamindone
+  ae_review_team: clinical
+
+aes_teaminfo_clinical:
+  project: aes
+  ae_adverse_event: teaminfo
+  ae_review_team: clinical
+
+aes_teamset_clinical:
+  project: aes
+  ae_adverse_event: teamset
+  ae_review_team: clinical

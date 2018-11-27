@@ -1,15 +1,318 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  project_id:
-  ae_adverse_event_id:
-  user_id:
-  ae_review_team_id:
+# Adverse Event "closed" entries.
+closed_opened:
+  created_at: 2018-10-01 15:30:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_project_editor
+  # ae_review_team:
   entry_type: ae_opened
 
-two:
-  project_id:
-  ae_adverse_event_id:
-  user_id:
-  ae_review_team_id:
-  entry_type: ae_closed
+closed_sheet_created:
+  created_at: 2018-10-01 15:35:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+closed_team_assigned:
+  created_at: 2018-10-01 15:40:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+
+# Adverse Event "teamdone" entries.
+teamdone_opened:
+  created_at: 2018-10-02 15:30:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+teamdone_sheet_created:
+  created_at: 2018-10-02 15:35:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+
+
+
+teamdone_team_assigned:
+  created_at: 2018-10-02 15:40:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+
+# Adverse Event "pathdone" entries.
+pathdone_opened:
+  created_at: 2018-10-03 15:30:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+pathdone_sheet_created:
+  created_at: 2018-10-03 15:35:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+pathdone_team_assigned:
+  created_at: 2018-10-03 15:40:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+
+# Adverse Event "rvwsdone" entries.
+rvwsdone_opened:
+  created_at: 2018-10-04 15:30:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+rvwsdone_sheet_created:
+  created_at: 2018-10-04 15:35:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+rvwsdone_team_assigned:
+  created_at: 2018-10-04 15:40:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+
+# Adverse Event "pathset" entries.
+pathset_opened:
+  created_at: 2018-10-05 15:30:00
+  project: aes
+  ae_adverse_event: pathset
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+pathset_sheet_created:
+  created_at: 2018-10-05 15:35:00
+  project: aes
+  ae_adverse_event: pathset
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+pathset_team_assigned:
+  created_at: 2018-10-05 15:40:00
+  project: aes
+  ae_adverse_event: pathset
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+
+# Adverse Event "teamindone" entries.
+teamindone_opened:
+  created_at: 2018-10-06 15:30:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+teamindone_sheet_created:
+  created_at: 2018-10-06 15:35:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+teamindone_team_assigned:
+  created_at: 2018-10-06 15:40:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+teamindone_manager_info_request_created:
+  created_at: 2018-10-06 15:45:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_info_request_created
+
+teamindone_manager_info_request_resolved:
+  created_at: 2018-10-06 15:50:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_info_request_resolved
+
+
+# Adverse Event "teaminfo" entries.
+teaminfo_opened:
+  created_at: 2018-10-07 15:30:00
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+teaminfo_sheet_created:
+  created_at: 2018-10-07 15:35:00
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+teaminfo_team_assigned:
+  created_at: 2018-10-07 15:40:00
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+teaminfo_manager_info_request_created:
+  created_at: 2018-10-07 15:45:00
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_info_request_created
+
+
+# Adverse Event "teamset" entries.
+teamset_opened:
+  created_at: 2018-10-08 15:30:00
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+teamset_sheet_created:
+  created_at: 2018-10-08 15:35:00
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+teamset_team_assigned:
+  created_at: 2018-10-08 15:40:00
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_review_admin
+  ae_review_team: clinical
+  entry_type: ae_team_assigned
+
+# Adverse Event "repindone" entries.
+repindone_opened:
+  created_at: 2018-10-09 15:30:00
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+repindone_sheet_created:
+  created_at: 2018-10-09 15:35:00
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+repindone_admin_info_request_created:
+  created_at: 2018-10-09 15:40:00
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_review_admin
+  # ae_review_team:
+  entry_type: ae_info_request_created
+
+repindone_admin_info_request_resolved:
+  created_at: 2018-10-09 15:45:00
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_info_request_resolved
+
+# Adverse Event "repinfo" entries.
+repinfo_opened:
+  created_at: 2018-10-10 15:30:00
+  project: aes
+  ae_adverse_event: repinfo
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+repinfo_sheet_created:
+  created_at: 2018-10-10 15:35:00
+  project: aes
+  ae_adverse_event: repinfo
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+repinfo_admin_info_request_created:
+  created_at: 2018-10-10 15:40:00
+  project: aes
+  ae_adverse_event: repinfo
+  user: aes_review_admin
+  # ae_review_team:
+  entry_type: ae_info_request_created
+
+# Adverse Event "sheetdone" entries.
+sheetdone_opened:
+  created_at: 2018-10-11 15:30:00
+  project: aes
+  ae_adverse_event: sheetdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened
+
+sheetdone_sheet_created:
+  created_at: 2018-10-11 15:35:00
+  project: aes
+  ae_adverse_event: sheetdone
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_sheet_created
+
+
+# Adverse Event "reported" entries.
+reported_opened:
+  created_at: 2018-10-12 15:30:00
+  project: aes
+  ae_adverse_event: reported
+  user: aes_project_editor
+  # ae_review_team:
+  entry_type: ae_opened

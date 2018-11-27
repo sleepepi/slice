@@ -15,7 +15,7 @@ class AeAdverseEvent < ApplicationRecord
   belongs_to :user
   belongs_to :subject
   belongs_to :closer, class_name: "User", foreign_key: "closer_id", optional: true
-  has_many :ae_adverse_event_log_entries, -> { order(:id) }
+  has_many :ae_adverse_event_log_entries, -> { order(:created_at) }
   has_many :ae_adverse_event_info_requests
   has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
   has_many :ae_adverse_event_reviewer_assignments
@@ -48,11 +48,11 @@ class AeAdverseEvent < ApplicationRecord
 
   # Logs and notifications
   def opened!(current_user)
+    update(number: adverse_event_number, reported_at: created_at)
+    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
     # TODO: AE Notifications
     #   @adverse_event.create_notifications
     #   @adverse_event.send_email_in_background
-    generate_number!
-    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
   end
 
   def assign_team!(current_user, team)

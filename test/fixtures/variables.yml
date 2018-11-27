@@ -623,3 +623,11 @@ format_numeric_average_snowfall:
   variable_type: numeric
   user: format_editor
   project: format
+
+aes_date_ae_occurred:
+  name: aes_date_ae_occurred
+  display_name: Date Adverse Event Occurred
+  variable_type: date
+  user: aes_project_editor
+  project: aes
+

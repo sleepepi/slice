@@ -626,3 +626,10 @@ format_zeros_numeric:
   design: format_leading_zeros
   variable: format_numeric_average_snowfall
   position: 2
+
+## AES
+
+aes_date_ae_occurred:
+  design: aes_ae_case_report_form
+  variable: aes_date_ae_occurred
+  position: 0

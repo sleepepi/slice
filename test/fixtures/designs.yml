@@ -174,3 +174,9 @@ format_leading_zeros:
   slug: format-numbers
   user: format_editor
   project: format
+
+aes_ae_case_report_form:
+  name: Adverse Event Case Report Form
+  slug: ae-crf
+  user: aes_project_editor
+  project: aes

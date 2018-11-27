@@ -6,7 +6,7 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:aes)
     @review_admin = users(:aes_review_admin)
-    @adverse_event = ae_adverse_events(:one)
+    @adverse_event = ae_adverse_events(:reported)
   end
 
   def ae_adverse_event_info_request_params

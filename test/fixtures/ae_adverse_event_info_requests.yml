@@ -1,17 +1,35 @@
-one:
+teamindone_info_request_for_admin:
   project: aes
-  ae_adverse_event: one
+  ae_adverse_event: teamindone
+  user: aes_team_manager
+  ae_review_team: clinical
+  comment: Looks like the team needs additional information.
+  resolved_at: 2018-10-06 15:50:00
+  resolver: aes_review_admin
+
+teaminfo_info_request_for_admin:
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_team_manager
+  ae_review_team: clinical
+  comment: Please provide PDFs of hospital records.
+  # resolved_at:
+  # resolver:
+
+repindone_admin_info_request_for_reporter:
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_review_admin
+  # ae_review_team:
+  comment: Provide supporting documentation.
+  resolved_at: 2018-10-09 15:45:00
+  resolver: aes_project_editor
+
+repinfo_admin_info_request_for_reporter:
+  project: aes
+  ae_adverse_event: repinfo
   user: aes_review_admin
   # ae_review_team:
   comment: Please upload additional documentation.
   # resolved_at:
   # resolver:
-
-resolved_by_reporter:
-  project: aes
-  ae_adverse_event: two
-  user: aes_review_admin
-  # ae_review_team:
-  comment: Please click mark as resolved.
-  resolved_at: 2018-11-15 12:00:16
-  resolver: aes_project_editor

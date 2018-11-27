@@ -1,31 +1,121 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 # Reported, sent to clinical team, reviewed, final review, and closed
 # TODO: Create log entries for events.
 closed:
   project: aes
   user: aes_project_editor
-  subject: aes_02
+  subject: aes_01
+  reported_at: 2018-10-01 15:30:00
   number: 1
-  description: Heart attack
+  description: Myocardial infarction
   closed_at: 2018-11-20 15:30:00
-  closer_id: aes_review_admin
+  closer: aes_review_admin
 
-# TODO: Remove both 9XX fixtures
-one:
+teamdone:
   project: aes
   user: aes_project_editor
-  subject: aes_01
-  number: 998
-  description: Broken leg.
+  subject: aes_02
+  reported_at: 2018-10-02 15:30:00
+  number: 2
+  description: Sleep deprivation after treatment
   # closed_at:
-  # closer_id:
+  # closer:
 
-two:
+pathdone:
   project: aes
   user: aes_project_editor
-  subject: aes_01
-  number: 999
-  description: Hospitalization after runny nose.
+  subject: aes_03
+  reported_at: 2018-10-03 15:30:00
+  number: 3
+  description: Common cold with cough
   # closed_at:
-  # closer_id:
+  # closer:
+
+rvwsdone:
+  project: aes
+  user: aes_project_editor
+  subject: aes_04
+  reported_at: 2018-10-04 15:30:00
+  number: 4
+  description: Heart arrhythmia
+  # closed_at:
+  # closer:
+
+pathset:
+  project: aes
+  user: aes_project_editor
+  subject: aes_05
+  reported_at: 2018-10-05 15:30:00
+  number: 5
+  description: Fever
+  # closed_at:
+  # closer:
+
+teamindone:
+  project: aes
+  user: aes_project_editor
+  subject: aes_06
+  reported_at: 2018-10-06 15:30:00
+  number: 6
+  description: Stomach flu
+  # closed_at:
+  # closer:
+
+teaminfo:
+  project: aes
+  user: aes_project_editor
+  subject: aes_07
+  reported_at: 2018-10-07 15:30:00
+  number: 7
+  description: Trouble breathing
+  # closed_at:
+  # closer:
+
+teamset:
+  project: aes
+  user: aes_project_editor
+  subject: aes_08
+  reported_at: 2018-10-08 15:30:00
+  number: 8
+  description: Death
+  # closed_at:
+  # closer:
+
+repindone:
+  project: aes
+  user: aes_project_editor
+  subject: aes_09
+  reported_at: 2018-10-09 15:30:00
+  number: 9
+  description: Paper cut
+  # closed_at:
+  # closer:
+
+repinfo:
+  project: aes
+  user: aes_project_editor
+  subject: aes_10
+  reported_at: 2018-10-10 15:30:00
+  number: 10
+  description: Ear infection
+  # closed_at:
+  # closer:
+
+sheetdone:
+  project: aes
+  user: aes_project_editor
+  subject: aes_11
+  reported_at: 2018-10-11 15:30:00
+  number: 11
+  description: Sore throat
+  # closed_at:
+  # closer:
+
+reported:
+  project: aes
+  user: aes_project_editor
+  subject: aes_12
+  reported_at: 2018-10-12 15:30:00
+  number: 12
+  description: High temperature
+  # closed_at:
+  # closer:

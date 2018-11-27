@@ -1,11 +1,84 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+closed_report_form:
+  ae_adverse_event_log_entry: closed_sheet_created
+  attachment: aes_closed_report_form
+  attachment_type: Sheet
 
-one:
-  ae_adverse_event_log_entry_id: 
-  attachment_id: 
-  attachment_type: MyString
+teamdone_report_form:
+  ae_adverse_event_log_entry: teamdone_sheet_created
+  attachment: aes_teamdone_report_form
+  attachment_type: Sheet
 
-two:
-  ae_adverse_event_log_entry_id: 
-  attachment_id: 
-  attachment_type: MyString
+pathdone_report_form:
+  ae_adverse_event_log_entry: pathdone_sheet_created
+  attachment: aes_pathdone_report_form
+  attachment_type: Sheet
+
+rvwsdone_report_form:
+  ae_adverse_event_log_entry: rvwsdone_sheet_created
+  attachment: aes_rvwsdone_report_form
+  attachment_type: Sheet
+
+pathset_report_form:
+  ae_adverse_event_log_entry: pathset_sheet_created
+  attachment: aes_pathset_report_form
+  attachment_type: Sheet
+
+teamindone_report_form:
+  ae_adverse_event_log_entry: teamindone_sheet_created
+  attachment: teamindone_report_form
+  attachment_type: Sheet
+
+teamindone_info_request:
+  ae_adverse_event_log_entry: teamindone_manager_info_request_created
+  attachment: teamindone_info_request_for_admin
+  attachment_type: AeAdverseEventInfoRequest
+
+teamindone_info_resolve:
+  ae_adverse_event_log_entry: teamindone_manager_info_request_resolved
+  attachment: teamindone_info_request_for_admin
+  attachment_type: AeAdverseEventInfoRequest
+
+teaminfo_report_form:
+  ae_adverse_event_log_entry: teaminfo_sheet_created
+  attachment: aes_teaminfo_report_form
+  attachment_type: Sheet
+
+teaminfo_info_request:
+  ae_adverse_event_log_entry: teaminfo_manager_info_request_created
+  attachment: teaminfo_info_request_for_admin
+  attachment_type: AeAdverseEventInfoRequest
+
+teamset_report_form:
+  ae_adverse_event_log_entry: teamset_sheet_created
+  attachment: aes_teamset_report_form
+  attachment_type: Sheet
+
+repindone_report_form:
+  ae_adverse_event_log_entry: repindone_sheet_created
+  attachment: aes_repindone_report_form
+  attachment_type: Sheet
+
+repindone_admin_info_request:
+  ae_adverse_event_log_entry: repindone_admin_info_request_created
+  attachment: repindone_admin_info_request_for_reporter
+  attachment_type: AeAdverseEventInfoRequest
+
+repindone_admin_info_resolve:
+  ae_adverse_event_log_entry: repindone_admin_info_request_resolved
+  attachment: repindone_admin_info_request_for_reporter
+  attachment_type: AeAdverseEventInfoRequest
+
+repinfo_report_form:
+  ae_adverse_event_log_entry: repinfo_sheet_created
+  attachment: aes_repinfo_report_form
+  attachment_type: Sheet
+
+repinfo_admin_info_request:
+  ae_adverse_event_log_entry: repinfo_admin_info_request_created
+  attachment: repinfo_admin_info_request_for_reporter
+  attachment_type: AeAdverseEventInfoRequest
+
+sheetdone_report_form:
+  ae_adverse_event_log_entry: sheetdone_sheet_created
+  attachment: aes_sheetdone_report_form
+  attachment_type: Sheet

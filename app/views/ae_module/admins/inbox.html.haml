@@ -1,4 +1,4 @@
-- @title = "AeModule::Admins#inbox"
+- @title = "Adverse Events"
 
 - content_for :header, @title
 
@@ -42,8 +42,28 @@
                 = adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).pluck(:name).to_sentence
               - else
                 %span.text-muted Not assigned.
-            %td
+            %td.nowrap
               %span.badge.badge-primary New
+              -# TODO: Check if AE report form is present
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_sheet_created").present?
+                %span.badge.badge-dark= icon("fas", "file")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_info_request_created").where(ae_review_team_id: nil).present?
+                %span.badge.badge-dark= icon("fas", "question-circle")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_info_request_resolved").where(ae_review_team_id: nil).present?
+                %span.badge.badge-dark= icon("fas", "check-circle")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_team_assigned").present?
+                %span.badge.badge-dark= icon("fas", "users")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_info_request_created").where.not(ae_review_team_id: nil).present?
+                %span.badge.badge-dark= icon("far", "question-circle")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_info_request_resolved").where.not(ae_review_team_id: nil).present?
+                %span.badge.badge-dark= icon("far", "check-circle")
+
+
 
   .center-horizontally= paginate @adverse_events, theme: "bootstrap"
 - else

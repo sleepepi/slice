@@ -384,3 +384,70 @@ engine_culture2:
   project: engine
   subject: engine_correct2
   user: engine_editor
+
+aes_closed_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_01
+  user: aes_project_editor
+
+aes_teamdone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_02
+  user: aes_project_editor
+
+aes_pathdone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_03
+  user: aes_project_editor
+
+aes_rvwsdone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_04
+  user: aes_project_editor
+
+aes_pathset_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_05
+  user: aes_project_editor
+
+aes_teamindone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_06
+  user: aes_project_editor
+
+aes_teaminfo_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_07
+  user: aes_project_editor
+
+aes_teamset_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_08
+  user: aes_project_editor
+
+aes_repindone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_09
+  user: aes_project_editor
+
+aes_repinfo_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject: aes_10
+  user: aes_project_editor
+
+aes_sheetdone_report_form:
+  design: aes_ae_case_report_form
+  project: aes
+  subject:
+  subject: aes_11
+

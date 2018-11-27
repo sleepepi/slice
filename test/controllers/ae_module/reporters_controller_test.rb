@@ -4,8 +4,8 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:aes)
     @reporter = users(:aes_project_editor)
-    @adverse_event = ae_adverse_events(:one)
-    @info_request = ae_adverse_event_info_requests(:one)
+    @adverse_event = ae_adverse_events(:repinfo)
+    @info_request = ae_adverse_event_info_requests(:repinfo_admin_info_request_for_reporter)
   end
 
   def adverse_event_params

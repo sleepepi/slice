@@ -210,3 +210,63 @@ aes_02:
   subject_code: AE02
   user: aes_project_editor
   site: aes_site
+
+aes_03:
+  project: aes
+  subject_code: AE03
+  user: aes_project_editor
+  site: aes_site
+
+aes_04:
+  project: aes
+  subject_code: AE04
+  user: aes_project_editor
+  site: aes_site
+
+aes_05:
+  project: aes
+  subject_code: AE05
+  user: aes_project_editor
+  site: aes_site
+
+aes_06:
+  project: aes
+  subject_code: AE06
+  user: aes_project_editor
+  site: aes_site
+
+aes_07:
+  project: aes
+  subject_code: AE07
+  user: aes_project_editor
+  site: aes_site
+
+aes_08:
+  project: aes
+  subject_code: AE08
+  user: aes_project_editor
+  site: aes_site
+
+aes_09:
+  project: aes
+  subject_code: AE09
+  user: aes_project_editor
+  site: aes_site
+
+aes_10:
+  project: aes
+  subject_code: AE10
+  user: aes_project_editor
+  site: aes_site
+
+aes_11:
+  project: aes
+  subject_code: AE11
+  user: aes_project_editor
+  site: aes_site
+
+aes_12:
+  project: aes
+  subject_code: AE12
+  user: aes_project_editor
+  site: aes_site
