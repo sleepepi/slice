@@ -23,6 +23,45 @@ closed_team_assigned:
   ae_review_team: clinical
   entry_type: ae_team_assigned
 
+closed_reviewers_assigned:
+  created_at: 2018-10-01 15:45:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_reviewers_assigned
+
+closed_reviewer_one_completed:
+  created_at: 2018-10-01 15:50:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_team_reviewer
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+closed_reviewer_two_completed:
+  created_at: 2018-10-01 15:55:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_team_reviewer_two
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+closed_pathway_completed:
+  created_at: 2018-10-01 16:00:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_final_review_completed
+
+closed_adverse_event_closed:
+  created_at: 2018-10-01 16:05:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_review_admin
+  # ae_review_team:
+  entry_type: ae_closed
 
 # Adverse Event "teamdone" entries.
 teamdone_opened:
@@ -41,9 +80,6 @@ teamdone_sheet_created:
   # ae_review_team:
   entry_type: ae_sheet_created
 
-
-
-
 teamdone_team_assigned:
   created_at: 2018-10-02 15:40:00
   project: aes
@@ -51,6 +87,38 @@ teamdone_team_assigned:
   user: aes_review_admin
   ae_review_team: clinical
   entry_type: ae_team_assigned
+
+teamdone_reviewers_assigned:
+  created_at: 2018-10-02 15:45:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_reviewers_assigned
+
+teamdone_reviewer_one_completed:
+  created_at: 2018-10-02 15:50:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_team_reviewer
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+teamdone_reviewer_two_completed:
+  created_at: 2018-10-02 15:55:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_team_reviewer_two
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+teamdone_pathway_completed:
+  created_at: 2018-10-02 16:00:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_final_review_completed
 
 
 # Adverse Event "pathdone" entries.
@@ -78,6 +146,38 @@ pathdone_team_assigned:
   ae_review_team: clinical
   entry_type: ae_team_assigned
 
+pathdone_reviewers_assigned:
+  created_at: 2018-10-03 15:45:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_reviewers_assigned
+
+pathdone_reviewer_one_completed:
+  created_at: 2018-10-03 15:50:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_team_reviewer
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+pathdone_reviewer_two_completed:
+  created_at: 2018-10-03 15:55:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_team_reviewer_two
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+pathdone_pathway_completed:
+  created_at: 2018-10-03 16:00:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_final_review_completed
+
 
 # Adverse Event "rvwsdone" entries.
 rvwsdone_opened:
@@ -104,6 +204,30 @@ rvwsdone_team_assigned:
   ae_review_team: clinical
   entry_type: ae_team_assigned
 
+rvwsdone_reviewers_assigned:
+  created_at: 2018-10-04 15:45:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_reviewers_assigned
+
+rvwsdone_reviewer_one_completed:
+  created_at: 2018-10-04 15:50:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_team_reviewer
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
+rvwsdone_reviewer_two_completed:
+  created_at: 2018-10-04 15:55:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_team_reviewer_two
+  ae_review_team: clinical
+  entry_type: ae_review_completed
+
 
 # Adverse Event "pathset" entries.
 pathset_opened:
@@ -129,6 +253,14 @@ pathset_team_assigned:
   user: aes_review_admin
   ae_review_team: clinical
   entry_type: ae_team_assigned
+
+pathset_reviewers_assigned:
+  created_at: 2018-10-05 15:45:00
+  project: aes
+  ae_adverse_event: pathset
+  user: aes_team_manager
+  ae_review_team: clinical
+  entry_type: ae_reviewers_assigned
 
 
 # Adverse Event "teamindone" entries.

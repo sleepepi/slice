@@ -9,3 +9,9 @@ heart_failure:
   ae_review_team: clinical
   name: Heart Failure
   number_of_reviewers: 2
+
+mild:
+  project: aes
+  ae_review_team: clinical
+  name: Mild Adverse Event
+  number_of_reviewers: 2

@@ -1,6 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-
 aes_closed_reviewer_one:
   project: aes
   ae_adverse_event: closed
@@ -8,7 +5,7 @@ aes_closed_reviewer_one:
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer
-  review_completed_at: 2018-11-15 15:30:00
+  review_completed_at: 2018-10-01 15:50:00
   # review_unassigned_at:
 
 aes_closed_reviewer_two:
@@ -18,5 +15,85 @@ aes_closed_reviewer_two:
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
-  review_completed_at: 2018-11-16 15:30:00
+  review_completed_at: 2018-10-01 15:55:00
+  # review_unassigned_at:
+
+aes_teamdone_reviewer_one:
+  project: aes
+  ae_adverse_event: teamdone
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer
+  review_completed_at: 2018-10-02 15:50:00
+  # review_unassigned_at:
+
+aes_teamdone_reviewer_two:
+  project: aes
+  ae_adverse_event: teamdo
+  ae_review_team: clinicaln
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer_two
+  review_completed_at: 2018-10-02 15:55:00
+  # review_unassigned_at:
+
+aes_pathdone_reviewer_one:
+  project: aes
+  ae_adverse_event: pathdone
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer
+  review_completed_at: 2018-10-03 15:50:00
+  # review_unassigned_at:
+
+aes_pathdone_reviewer_two:
+  project: aes
+  ae_adverse_event: pathdo
+  ae_review_team: clinicaln
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer_two
+  review_completed_at: 2018-10-03 15:55:00
+  # review_unassigned_at:
+
+aes_rvwsdone_reviewer_one:
+  project: aes
+  ae_adverse_event: rvwsdone
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer
+  review_completed_at: 2018-10-04 15:50:00
+  # review_unassigned_at:
+
+aes_rvwsdone_reviewer_two:
+  project: aes
+  ae_adverse_event: rvwsdo
+  ae_review_team: clinicaln
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer_two
+  review_completed_at: 2018-10-04 15:55:00
+  # review_unassigned_at:
+
+aes_pathset_reviewer_one:
+  project: aes
+  ae_adverse_event: pathset
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer
+  # review_completed_at:
+  # review_unassigned_at:
+
+aes_pathset_reviewer_two:
+  project: aes
+  ae_adverse_event: pathset
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_reviewer_two
+  # review_completed_at:
   # review_unassigned_at:

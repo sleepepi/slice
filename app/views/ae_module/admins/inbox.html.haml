@@ -63,7 +63,17 @@
               - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_info_request_resolved").where.not(ae_review_team_id: nil).present?
                 %span.badge.badge-dark= icon("far", "check-circle")
 
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_reviewers_assigned").present?
+                %span.badge.badge-dark= icon("fas", "user-clock")
 
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_review_completed").present?
+                %span.badge.badge-dark= icon("fas", "user-check")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_final_review_completed").present?
+                %span.badge.badge-dark= icon("fas", "user-shield")
+
+              - if adverse_event.ae_adverse_event_log_entries.where(entry_type: "ae_closed").present?
+                %span.badge.badge-dark= icon("fas", "lock")
 
   .center-horizontally= paginate @adverse_events, theme: "bootstrap"
 - else

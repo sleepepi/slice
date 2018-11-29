@@ -3,25 +3,115 @@ closed_report_form:
   attachment: aes_closed_report_form
   attachment_type: Sheet
 
+closed_reviewer_one:
+  ae_adverse_event_log_entry: closed_reviewers_assigned
+  attachment: aes_closed_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+closed_reviewer_two:
+  ae_adverse_event_log_entry: closed_reviewers_assigned
+  attachment: aes_closed_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
+closed_reviewer_one_complete:
+  ae_adverse_event_log_entry: closed_reviewers_one_completed
+  attachment: aes_closed_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+closed_reviewer_two_complete:
+  ae_adverse_event_log_entry: closed_reviewers_two_completed
+  attachment: aes_closed_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
 teamdone_report_form:
   ae_adverse_event_log_entry: teamdone_sheet_created
   attachment: aes_teamdone_report_form
   attachment_type: Sheet
+
+teamdone_reviewer_one:
+  ae_adverse_event_log_entry: teamdone_reviewers_assigned
+  attachment: aes_teamdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+teamdone_reviewer_two:
+  ae_adverse_event_log_entry: teamdone_reviewers_assigned
+  attachment: aes_teamdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
+teamdone_reviewer_one_complete:
+  ae_adverse_event_log_entry: teamdone_reviewers_one_completed
+  attachment: aes_teamdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+teamdone_reviewer_two_complete:
+  ae_adverse_event_log_entry: teamdone_reviewers_two_completed
+  attachment: aes_teamdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
 
 pathdone_report_form:
   ae_adverse_event_log_entry: pathdone_sheet_created
   attachment: aes_pathdone_report_form
   attachment_type: Sheet
 
+pathdone_reviewer_one:
+  ae_adverse_event_log_entry: pathdone_reviewers_assigned
+  attachment: aes_pathdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+pathdone_reviewer_two:
+  ae_adverse_event_log_entry: pathdone_reviewers_assigned
+  attachment: aes_pathdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
+pathdone_reviewer_one_complete:
+  ae_adverse_event_log_entry: pathdone_reviewers_one_completed
+  attachment: aes_pathdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+pathdone_reviewer_two_complete:
+  ae_adverse_event_log_entry: pathdone_reviewers_two_completed
+  attachment: aes_pathdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
 rvwsdone_report_form:
   ae_adverse_event_log_entry: rvwsdone_sheet_created
   attachment: aes_rvwsdone_report_form
   attachment_type: Sheet
 
+rvwsdone_reviewer_one:
+  ae_adverse_event_log_entry: rvwsdone_reviewers_assigned
+  attachment: aes_rvwsdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+rvwsdone_reviewer_two:
+  ae_adverse_event_log_entry: rvwsdone_reviewers_assigned
+  attachment: aes_rvwsdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
+rvwsdone_reviewer_one_complete:
+  ae_adverse_event_log_entry: rvwsdone_reviewers_one_completed
+  attachment: aes_rvwsdone_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+rvwsdone_reviewer_two_complete:
+  ae_adverse_event_log_entry: rvwsdone_reviewers_two_completed
+  attachment: aes_rvwsdone_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
+
 pathset_report_form:
   ae_adverse_event_log_entry: pathset_sheet_created
   attachment: aes_pathset_report_form
   attachment_type: Sheet
+
+pathset_reviewer_one:
+  ae_adverse_event_log_entry: pathset_reviewers_assigned
+  attachment: aes_pathset_reviewer_one
+  attachment_type: AeAdverseEventReviewerAssignment
+
+pathset_reviewer_two:
+  ae_adverse_event_log_entry: pathset_reviewers_assigned
+  attachment: aes_pathset_reviewer_two
+  attachment_type: AeAdverseEventReviewerAssignment
 
 teamindone_report_form:
   ae_adverse_event_log_entry: teamindone_sheet_created
