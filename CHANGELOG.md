@@ -4,6 +4,7 @@
 - **Adverse Event Reviews Added**
   - A new team-based review process for adverse event is now available
 - **Gem Changes**
+  - Update to rails 5.2.1.1
   - Update to font-awesome-sass 5.5.0
 
 ## 68.0.1 (November 14, 2018)
