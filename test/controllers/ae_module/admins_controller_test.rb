@@ -15,12 +15,6 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  test "should get dashboard as review admin" do
-    login(@review_admin)
-    get ae_module_admins_dashboard_url(@project)
-    assert_response :success
-  end
-
   test "should get inbox as review admin" do
     login(@review_admin)
     get ae_module_admins_inbox_url(@project)
