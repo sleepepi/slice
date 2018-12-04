@@ -6,6 +6,7 @@
   $(element_id).focus().val("").val(val)
 
 @componentsReady = ->
+  aerReady()
   engineReady()
   themesReady()
   cubesReady()

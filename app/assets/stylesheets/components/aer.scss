@@ -1,0 +1,33 @@
+// .aer-designs { }
+
+.aer-design,
+.aer-design-placeholder,
+.aer-design-empty {
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  // display: block;
+  padding: map-get($spacers, 2);
+  margin-bottom: map-get($spacers, 1);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// .aer-design-placeholder { }
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .aer-design,
+    .aer-design-placeholder {
+      background-color: map-get($theme, dashboard-bg);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+    }
+
+    .aer-design-placeholder {
+      background-color: theme-color($theme, mark-bg, $mark-bg);
+    }
+
+    .aer-design-empty {
+      color: theme-color($theme, text-muted, $text-muted);
+    }
+  }
+}

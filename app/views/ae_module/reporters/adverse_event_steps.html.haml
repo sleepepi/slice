@@ -1,0 +1,78 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "reporters inbox", ae_module_reporters_overview_path(@project)
+    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li.breadcrumb-muted= @adverse_event.name.downcase
+
+.dashboard-container
+  - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last")).includes(:design)
+  -# disconnected_sheets = @adverse_event.subject.sheets.where(ae_adverse_event: @adverse_event).where.not(design: designments.select(:design_id))
+  - if designments.present?
+    %p
+      %strong Forms
+    - designments.each do |designment|
+      - sheets = @adverse_event.sheets.where(design: designment.design)
+      - if sheets.present?
+        - sheets.each do |sheet|
+          .mb-3
+            = render "sheets/coverage", sheet: sheet
+            = link_to sheet.name, [:edit, @project, sheet]
+        - next
+      - else
+        .mb-3
+          %span.badge.badge-coverage.coverage-0 0%
+          = link_to designment.design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, designment.design, ae_adverse_event_id: @adverse_event.id)
+
+
+  %p
+    %strong Actions
+  .mb-3
+    = link_to ae_module_reporters_adverse_event_files_path(@project, @adverse_event) do
+      = icon("fas", "paperclip")
+      Attach supporting documents
+      = icon("fas", "caret-right")
+
+  .bg-light{ style: "margin-bottom: -30px;margin-left: -30px; margin-right: -30px;padding: 1.5rem 30px;" }
+    - if rand(2).zero?
+      = link_to "#" do
+        = icon("fas", "users")
+        Send for review
+        = icon("fas", "caret-right")
+      .small.text Complete all forms and provide any additional documentation before submitting for review.
+    - else
+      %span.text-primary= icon("fas", "users")
+      Review in progress.
+
+
+.bg-white.p-5
+  .mb-3
+    .d-flex
+      .p-2.d-inline-block.rounded.bg-light
+        .small{ style: "color: #f48fb1;font-weight: bold;" } Review Administrator
+        This is a comment that was added.
+      .p-2.d-inline-block.small
+        = icon("far", "circle")
+        = link_to "Mark as resolved", "#"
+
+  .mb-3.float-right
+    .p-2.d-inline-block.rounded{ style: "background-color: #fce4ec;"}
+      .small.text-right{ style: "color: #f48fb1;font-weight: bold;" } Me
+      I replied to your comment that you left.
+  .clearfix
+
+  .mb-3
+    .d-flex
+      .p-2.d-inline-block.rounded.bg-light
+        .small{ style: "color: #f48fb1;font-weight: bold;" } Review Administrator
+        Yes, probably a great idea!
+      .p-2.d-inline-block.small
+        = icon("fas", "check-circle", class: "text-success")
+        Resolved
+
+  = text_field_tag "comment", "", class: "form-control form-control-lg", placeholder: "Write a comment", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"

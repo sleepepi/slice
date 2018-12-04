@@ -10,6 +10,10 @@ class AeTeamPathway < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :ae_review_team
-  has_many :ae_team_pathway_designs, -> { order(Arel.sql("position nulls last")) }
-  has_many :designs, through: :ae_team_pathway_designs
+  # has_many :ae_team_pathway_designs, -> { order(Arel.sql("position nulls last")) }
+  # has_many :designs, through: :ae_team_pathway_designs
+
+  has_many :ae_designments, -> { order(Arel.sql("position nulls last")) }
+  has_many :designs, through: :ae_designments
+
 end

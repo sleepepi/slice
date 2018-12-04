@@ -2,7 +2,10 @@ class AeModule::ReportersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_editable_project_or_editable_site_or_redirect
   before_action :redirect_blinded_users
-  before_action :find_adverse_event_or_redirect, only: [:adverse_event, :resolve_info_request]
+  before_action :find_adverse_event_or_redirect, only: [
+    :adverse_event, :adverse_event_steps, :adverse_event_files,
+    :resolve_info_request
+  ]
   before_action :find_info_request_or_redirect, only: [:resolve_info_request]
 
   # GET /projects/:project_id/ae-module/reporters/overview
@@ -31,6 +34,14 @@ class AeModule::ReportersController < ApplicationController
   # def adverse_event
   # end
 
+  # # GET /projects/:project_id/ae-module/reporters/adverse-event/:id/steps
+  # def adverse_event_steps
+  # end
+
+  # # GET /projects/:project_id/ae-module/reporters/adverse-event/:id/files
+  # def adverse_event_files
+  # end
+
   # POST /projects/:project_id/ae-module/reporters/adverse-event/:id/info-requests/:info_request_id
   def resolve_info_request
     @info_request.resolve!(current_user)
@@ -43,12 +54,13 @@ class AeModule::ReportersController < ApplicationController
     params.require(:ae_adverse_event).permit(
       :description,
       # Attribute Accessor
-      :subject_code, :event_date
+      :subject_code
     )
   end
 
   def find_adverse_event_or_redirect
     @adverse_event = @project.ae_adverse_events.where(user: current_user).find_by(id: params[:id])
+    @subject = @adverse_event&.subject
     empty_response_or_root_path(ae_module_reporters_overview_path(@project)) unless @adverse_event
   end
 

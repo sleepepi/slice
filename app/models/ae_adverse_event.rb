@@ -19,6 +19,7 @@ class AeAdverseEvent < ApplicationRecord
   has_many :ae_adverse_event_info_requests
   has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
   has_many :ae_adverse_event_reviewer_assignments
+  has_many :sheets
 
   # Methods
   def name

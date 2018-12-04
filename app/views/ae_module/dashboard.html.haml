@@ -19,8 +19,8 @@
     .col
       %strong Administrative
       %ul
+        %li= link_to "Setup Designs", ae_module_admins_setup_designs_path(@project)
         %li= link_to "Admin Inbox", ae_module_admins_inbox_path(@project)
-        %li= link_to "Admin Dashboard", ae_module_admins_dashboard_path(@project)
         %li= link_to "Manager Dashboard", ae_module_managers_dashboard_path(@project)
         %li= link_to "Reviewer Dashboard", ae_module_reviewers_dashboard_path(@project)
     .col

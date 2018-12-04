@@ -23,16 +23,20 @@ Rails.application.routes.draw do
       get :report
       post :submit_report, path: "report"
       get :adverse_event, path: "adverse-events/:id"
+      get :adverse_event_steps, path: "adverse-events/:id/steps"
+      get :adverse_event_files, path: "adverse-events/:id/files"
       post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
     end
 
     namespace :admins do
-      get :dashboard
       get :inbox
       get :adverse_event, path: "adverse-events/:id"
       get :request_additional_details, path: "adverse-events/:id/request-additional-details"
+      get :setup_designs, path: "setup-designs"
+      post :submit_designs, path: "submit-designs"
       post :submit_request_additional_details, path: "adverse-events/:id/request-additional-details"
       post :assign_team, path: "adverse-events/:id/assign-team"
+      delete :remove_designment, path: "remove-designment"
     end
 
     namespace :managers do

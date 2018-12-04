@@ -49,6 +49,7 @@ class Sheet < ApplicationRecord
   belongs_to :last_user, optional: true, class_name: "User"
   belongs_to :subject_event, optional: true
   belongs_to :adverse_event, -> { current }, optional: true, touch: true
+  belongs_to :ae_adverse_event, -> { current }, optional: true
   has_many :sheet_prints
   has_many :sheet_variables
   has_many :responses

@@ -6,9 +6,6 @@ class AeModule::AdminsController < ApplicationController
     :submit_request_additional_details, :assign_team
   ]
 
-  def dashboard
-  end
-
   # GET /projects/:project_id/ae-module/admins/inbox
   def inbox
     @adverse_events = @project.ae_adverse_events.order(reported_at: :desc).page(params[:page]).per(20)
@@ -46,6 +43,44 @@ class AeModule::AdminsController < ApplicationController
     redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: notice
   end
 
+  # # GET /projects/:project_id/ae-module/admins/setup-designs
+  # def setup_designs
+  # end
+
+  # POST /projects/:project_id/ae-module/admins/submit-designs
+  def submit_designs
+    # Pathway may be nil.
+    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
+
+    ActiveRecord::Base.transaction do
+      @project.ae_designments.where(ae_team_pathway: @pathway).destroy_all
+      index = 0
+      (params[:design_ids] || []).uniq.each do |design_id|
+        design = @project.designs.find_by(id: design_id)
+        next unless design
+
+        @project.ae_designments.create(
+          design: design,
+          position: index,
+          ae_review_team: @pathway&.ae_review_team,
+          ae_team_pathway: @pathway
+        )
+        index += 1
+      end
+    end
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway)
+    render :designments
+  end
+
+  # DELETE /projects/:project_id/ae-module/admins/remove-designment
+  def remove_designment
+    designment = @project.ae_designments.find_by(id: params[:designment_id])
+    designment.destroy
+    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway)
+    render :designments
+  end
+
   private
 
   def find_review_admin_project_or_redirect
@@ -56,7 +91,7 @@ class AeModule::AdminsController < ApplicationController
 
   def find_adverse_event_or_redirect
     @adverse_event = @project.ae_adverse_events.find_by(id: params[:id])
-    empty_response_or_root_path(ae_module_dashboard_path(@project)) unless @adverse_event
+    empty_response_or_root_path(ae_module_admins_inbox_path(@project)) unless @adverse_event
   end
 
   def info_request_params

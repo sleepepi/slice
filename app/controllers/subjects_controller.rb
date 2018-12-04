@@ -51,7 +51,12 @@ class SubjectsController < ApplicationController
     # subject_event_id = params[:sheet][:subject_event_id] if params[:sheet] && params[:sheet].key?(:subject_event_id)
     # @sheet = @subject.sheets.new(project_id: @project.id, design_id: @design.id, subject_event_id: subject_event_id)
     @sheet = @subject.sheets
-                     .where(project_id: @project.id, design_id: @design.id, adverse_event_id: params[:adverse_event_id])
+                     .where(
+                       project_id: @project.id,
+                       design_id: @design.id,
+                       adverse_event_id: params[:adverse_event_id],
+                       ae_adverse_event_id: params[:ae_adverse_event_id]
+                     )
                      .new(sheet_params)
     render "sheets/new"
   end
@@ -344,7 +349,7 @@ class SubjectsController < ApplicationController
 
   def sheet_params
     params[:sheet] ||= { blank: "1" }
-    params.require(:sheet).permit(:subject_event_id) # :adverse_event_id
+    params.require(:sheet).permit(:subject_event_id) # :adverse_event_id, :ae_adverse_event_id
   end
 
   def subject_event_params

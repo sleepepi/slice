@@ -11,6 +11,37 @@
   = render "forms/horizontal/show/text", object: @adverse_event, key: :description
 
 .dashboard-container
+  .mb-3
+    - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last"))
+    - if designments.present?
+      %p
+        %strong
+          Complete the following
+          = succeed "." do
+            = "form".pluralize(designments.count)
+      - designments.includes(:design).each do |designment|
+        - sheets = @adverse_event.subject.sheets.where(ae_adverse_event: @adverse_event, design: designment.design)
+        - if sheets.present?
+          - sheets.each do |sheet|
+            = link_to [:edit, @project, sheet] do
+              = sheet.name
+        .mb-2
+          = link_to new_data_entry_project_subject_path(@project, @adverse_event.subject, designment.design, ae_adverse_event_id: @adverse_event.id), class: "btn btn-sm btn-primary" do
+            = icon("fas", "plus")
+            = designment.design.name
+        .mb-2
+          = link_to new_data_entry_project_subject_path(@project, @adverse_event.subject, designment.design, ae_adverse_event_id: @adverse_event.id), class: "btn btn-sm btn-outline-primary" do
+            = icon("fas", "pencil-alt")
+            = designment.design.name
+            %small (50%)
+
+  %div
+    All forms complete.
+    %strong.text-primary Submit
+    for review.
+
+
+.dashboard-container
   - @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil).order("resolved_at desc NULLS FIRST").each do |info_request|
     %div
       - if info_request.resolved?
@@ -30,3 +61,35 @@
         = link_to ae_module_reporters_resolve_info_request_path(@project, @adverse_event, info_request), method: :post do
           Mark as resolved
           = icon("fas", "caret-right")
+
+- if false
+  - if ae_designs.count > 0 && !@adverse_event.closed?
+    .comment-outer
+      .comment-left-fixed
+      .comment-right-fluid
+        - unless @adverse_event.sheets.count == 0
+          #additional-forms-icon.comment-icon
+            = icon("fas", "file")
+          #additional-forms-action.comment-action
+            = link_to "#", data: { object: "toggle-visibility", target: "#additional-forms, #additional-forms-icon, #additional-forms-action" } do
+              Add Another Form
+        #additional-forms{ style: "#{"display:none" unless @adverse_event.sheets.count == 0}" }
+          .jumbotron
+            %strong
+              Additional
+              = "Form".pluralize(ae_designs.count)
+              Available
+            %br
+            Would you like to start
+            - if ae_designs.count == 1
+              the following form
+            - else
+              one of the following forms
+            to provide more information about the adverse event?
+            - ae_designs.order("categories.position", :name).group_by(&:category).each do |category, designs|
+              %div{ style: "padding:25px 25px 15px;" }
+                - designs.in_groups_of(2, false).each do |designs|
+                  .row
+                    - designs.each do |design|
+                      .col-sm-6{ style: "margin-bottom:10px" }
+                        = link_to design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, design, adverse_event_id: @adverse_event.id), class: "btn btn-light btn-block", style: "white-space: normal"

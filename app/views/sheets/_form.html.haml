@@ -24,6 +24,7 @@
   = hidden_field_tag :subject_id, @sheet.subject_id
 
   = form.hidden_field :adverse_event_id
+  = form.hidden_field :ae_adverse_event_id
 
   - if @sheet.new_record?
     = form.hidden_field :subject_event_id if @sheet.subject_event
