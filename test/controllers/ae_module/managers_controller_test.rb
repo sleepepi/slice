@@ -8,7 +8,8 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
     @team_manager = users(:aes_team_manager)
     @team = ae_review_teams(:clinical)
     @adverse_event = ae_adverse_events(:closed)
-    @pathway = ae_team_pathways(:heart_failure)
+    @review_group = ae_review_groups(:closed_heart_failure)
+    # @pathway = ae_team_pathways(:heart_failure)
   end
 
   test "should get dashboard" do
@@ -31,19 +32,19 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get pathway assignments" do
     login(@team_manager)
-    get ae_module_managers_pathway_assignments_url(@project, @team, @adverse_event, @pathway)
+    get ae_module_managers_review_group_url(@project, @team, @adverse_event, @review_group)
     assert_response :success
   end
 
   test "should get final review" do
     login(@team_manager)
-    get ae_module_managers_final_review_url(@project, @team, @adverse_event, @pathway)
+    get ae_module_managers_final_review_url(@project, @team, @adverse_event, @review_group)
     assert_response :success
   end
 
   test "should get final review submitted" do
     login(@team_manager)
-    get ae_module_managers_final_review_submitted_url(@project, @team, @adverse_event, @pathway)
+    get ae_module_managers_final_review_submitted_url(@project, @team, @adverse_event, @review_group)
     assert_response :success
   end
 end

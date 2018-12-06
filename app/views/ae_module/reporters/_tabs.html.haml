@@ -14,3 +14,11 @@
       Documents
     - else
       .d-none.d-sm-inline Documents
+
+  - current_page = current_page?(ae_module_reporters_adverse_event_files_path(project, adverse_event))
+  = link_to ae_module_reporters_adverse_event_files_path(project, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
+    = icon("fas", "file-alt")
+    - if current_page
+      Log
+    - else
+      .d-none.d-sm-inline Log

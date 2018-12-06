@@ -1,5 +1,4 @@
-class AeModule::ReportersController < ApplicationController
-  before_action :authenticate_user!
+class AeModule::ReportersController < AeModule::BaseController
   before_action :find_editable_project_or_editable_site_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [

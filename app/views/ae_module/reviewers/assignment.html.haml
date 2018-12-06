@@ -1,94 +1,57 @@
-- @title = "AeModule::Reviewers#face_sheet"
+- @title = @assignment.ae_adverse_event.name
 
-- content_for :header, @title
+- content_for :header do
+  = @title
+  %small= @assignment.ae_adverse_event.description
 - render "ae_module/reviewers/tabs"
 - content_for :breadcrumbs do
   %ol
-    %li
-      = link_to ae_module_dashboard_path(@project) do
-        = icon("fas", "caret-left")
-        ae dashboard
     %li= link_to "reviewers inbox", ae_module_reviewers_inbox_path(@project)
     %li.breadcrumb-muted= @assignment.ae_adverse_event.name.downcase
 
-.dashboard-container
-  .mb-3= @assignment.ae_adverse_event.name
-  .mb-3= @assignment.ae_adverse_event.description
-  .mb-3.text-muted= @assignment.ae_adverse_event.subject.name
-
-- if @assignment.completed?
-  .jumbotron.jumbotron-custom-text
-    Assignment complete!
-- else
-  = link_to ae_module_reviewers_complete_assignment_path(@project, @assignment), method: :post, class: "btn btn-lg btn-primary" do
-    Complete assignment
-    = icon("fas", "caret-right")
-
-%strong Static content below
-%hr
 
 .dashboard-container
-  %h2 Template of face sheet
-  .border.bg-light.p-3
+  - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last")).includes(:design)
+  -# disconnected_sheets = @adverse_event.subject.sheets.where(ae_adverse_event: @adverse_event).where.not(design: designments.select(:design_id))
+  - if designments.present?
     %p
-      %strong Example
-    %p
-      The subject was admitted to the hospital for
-      %strong extreme chest pain
-      on
-      = succeed "." do
-        %strong 12 Nov 2018
+      %strong Forms
+    %strong.text-danger Can incorrectly pull reviewer sheets.
+    - designments.each do |designment|
+      - sheets = @assignment.ae_adverse_event.sheets.where(design: designment.design)
+      - if sheets.present?
+        - sheets.each do |sheet|
+          .mb-3
+            = render "sheets/coverage", sheet: sheet
+            = link_to sheet.name, [:edit, @project, sheet]
+      - else
+        .mb-3.text-muted No sheets present.
 
-    %p
-      At baseline, the subject's BMI was
-      %strong 29.4
-      and their assigned pressure was
-      = succeed "." do
-        %strong 200 lbs / liter
-
-
-.dashboard-container
   %p
-    %strong Adverse Event
+    %strong Documents
+
+  %p
+    %strong Review forms
+  - @assignment.ae_team_pathway.designs.each do |design|
+    - sheets = @assignment.sheets.where(design: design)
+    - if sheets.present?
+      - sheets.each do |sheet|
+        .mb-3
+          = render "sheets/coverage", sheet: sheet
+          = link_to sheet.name, ae_module_reviewers_sheet_path(@project, @assignment, sheet)
+          =# link_to sheet.name, ae_module_reviewers_review_path(@project, @assignment, design)
+    - else
+      %div
+        %span.badge.badge-coverage.coverage-0 0%
+        = link_to design.name, ae_module_reviewers_review_path(@project, @assignment, design)
 
 
-.dashboard-container
-  .row
-    .col
-      %strong Initial AE Reports
-      %ul
-        %li= link_to "Sheet #1 - Hospitalization Report", "#", data: { object: "suppress-click" }
-    .col
-      %strong Supplemental files
-      %ul
-        %li= link_to "12210441.pdf", "#", data: { object: "suppress-click" }
-        %li= link_to "heart-info.pdf", "#", data: { object: "suppress-click" }
-        %li= link_to "lab-test-2018 review 5.pdf", "#", data: { object: "suppress-click" }
-
-
-.row
-  .col
-    %ul.text-muted
-      %li
-        = icon("far", "square")
-        Death Adjudication Form (10 questions)
-      %li
-        = icon("fas", "check-square")
-        Death Supplemental Form (2 questions)
-  .col-auto
-    = link_to "#", class: "btn btn-lg btn-primary", data: { object: "suppress-click" } do
-      Complete review
-      = icon("fas", "caret-right")
-
-.dashboard-container
-  .mb-3
-    %strong Comments
-
-  .mb-3
-    .float-right
-    %span.text-muted Reviewer 1
-    I wasn't able to complete my form today, I'll be checking back in tomorrow
-    after clinic.
-
-
-  = link_to "Add comment", "#", data: { object: "suppress-click" }
+  .bg-light{ style: "margin-bottom: -30px;margin-left: -30px; margin-right: -30px;padding: 1.5rem 30px;" }
+    - if @assignment.completed?
+      %span.text-primary= icon("fas", "check-square")
+      Assignment complete!
+    - else
+      = link_to ae_module_reviewers_review_path(@project, @assignment, @assignment.first_design) do
+        Start assignment
+        = icon("fas", "caret-right")
+      .small.text Complete assigned sheets.

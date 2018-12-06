@@ -69,6 +69,7 @@ class ExternalController < ApplicationController
     @design = set_publicly_viewable_design
     @design = set_handoff_design unless @design
     @design = set_current_user_design unless @design
+    @design = set_assignment_design unless @design
   end
 
   def set_publicly_viewable_design
@@ -82,6 +83,11 @@ class ExternalController < ApplicationController
 
   def set_current_user_design
     current_user.all_viewable_designs.where(project_id: params[:project_id]).find_by_param(params[:design]) if current_user
+  end
+
+  def set_assignment_design
+    @assignment = AeAdverseEventReviewerAssignment.where(reviewer: current_user).find_by(id: params[:assignment_id])
+    @design = @assignment.ae_team_pathway.designs.find_by_param(params[:design_id]) if @assignment
   end
 
   def set_section

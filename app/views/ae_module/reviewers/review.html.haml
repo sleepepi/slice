@@ -1,0 +1,11 @@
+- content_for :header do
+  = @title
+  %small= @assignment.ae_adverse_event.description
+- render "ae_module/reviewers/tabs"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "reviewers inbox", ae_module_reviewers_inbox_path(@project)
+    %li= link_to @assignment.ae_adverse_event.name.downcase, ae_module_reviewers_assignment_path(@project, @assignment)
+    %li.breadcrumb-muted= @sheet.name.downcase
+
+= render "ae_module/reviewers/sheet_form", project: @project, assignment: @assignment, design: @design, sheet: @sheet

@@ -24,8 +24,8 @@
   .flex-fill.p-3
     .mb-5
       %h2 Reporter
-      .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project), pathway_id: 0 } }
-        - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last")).includes(:design)
+      .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project, assignment: "reporter"), pathway_id: "reporter" } }
+        - designments = @project.ae_designments.where(ae_team_pathway_id: nil, assignment: "reporter").order(Arel.sql("position nulls last")).includes(:design)
         = render "ae_module/admins/designments", project: @project, designments: designments
 
     - @project.ae_review_teams.each do |team|
@@ -34,9 +34,17 @@
         - if team.ae_team_pathways.present?
           - team.ae_team_pathways.each do |pathway|
             .mb-3
-              %strong= pathway.name
-              .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project, pathway_id: pathway.id), pathway_id: pathway.id } }
+              %strong
+                = pathway.name
+              %small.text-muted= pluralize pathway.number_of_reviewers, "reviewers"
+              .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project, pathway_id: pathway.id, assignment: "team"), pathway_id: pathway.id } }
                 - designments = pathway.ae_designments.includes(:design)
                 = render "ae_module/admins/designments", project: @project, designments: designments
         - else
           .text-muted No pathways found.
+
+    .mb-5
+      %h2 AE Admin
+      .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project, assignment: "admin"), pathway_id: "admin" } }
+        - designments = @project.ae_designments.where(ae_team_pathway_id: nil, assignment: "admin").order(Arel.sql("position nulls last")).includes(:design)
+        = render "ae_module/admins/designments", project: @project, designments: designments

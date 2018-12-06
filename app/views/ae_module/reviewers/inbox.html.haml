@@ -19,90 +19,40 @@
       %col
       %col
       %col{ width: "1px" }
+      %col{ width: "1px" }
       %thead
         %tr
           %th.p-0
           %th.text-center AE
           %th Description
-          %th Pathway
+          %th Assignment
           %th Team
+          %th Assigned
           %th.text-center Status
       %tbody
         - @assignments.each do |assignment|
           %tr{ class: assignment.completed? ? "text-muted" : nil }
-            %td.p-0{ class: assignment.completed? ? nil : "bg-primary" }
+            %td.p-0{ class: assignment.completed? ? "bg-light" : assignment.overdue? ? "bg-danger" : "bg-primary" }
             %td.text-center= assignment.ae_adverse_event.name
             %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
-              .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_reviewers_assignment_path(@project, assignment), class: assignment.completed? ? "link-blend-muted" : nil
+              .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_reviewers_assignment_path(@project, assignment), class: assignment.completed? ? "link-blend-muted" : assignment.overdue? ? "text-danger" : nil
             %td= assignment.ae_team_pathway.name
             %td= assignment.ae_review_team.name
-            - if assignment.completed?
-              %td.text-center.nowrap.text-muted
-                = icon("fas", "check-square")
-                Complete
-            - else
-              %td
+            %td.nowrap{ class: assignment.overdue? ? "text-danger" : nil }= assignment.created_at.strftime("%a, %b %-d, %Y")
+            %td.text-center.nowrap.text-muted
+              - if assignment.completed?
+                %span.badge.badge-light
+                  = icon("fas", "check")
+                  Complete
+              - elsif assignment.overdue?
+                %span.badge.badge-danger
+                  = icon("fas", "exclamation-triangle")
+                  Overdue
+              - else
+                %span.badge.badge-primary
+                  = icon("fas", "user-clock")
+                  Assigned
+  .center-horizontally= paginate @assignments, theme: "bootstrap"
 - else
   .jumbotron.jumbotron-custom-text
     No assignments found.
-
-.jumbotron.jumbotron-custom-text
-  %strong 2
-  reviews to complete.
-
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col{ width: "1px" }
-    %col{ width: "1px" }
-    %col
-    %col
-    %col
-    %col{ width: "1px" }
-    %thead
-      %tr
-        %th
-        %th.text-center AE
-        %th Assignment Date
-        %th Description
-        %th Assignment
-        %th Team
-        %th.text-center Actions
-    %tbody
-      %tr
-        %td
-        %td.text-center AE#5
-        %td= Time.zone.now.strftime("%a, %b %-d, %Y")
-        %td= link_to "Hospitalization", ae_module_reviewers_face_sheet_path(@project)
-        %td Assigned review for "Pulminary".
-        %td.nowrap Clinical Event Committee
-        %td.text-center.nowrap
-          = link_to ae_module_reviewers_face_sheet_path(@project) do
-            Start review
-            = icon("fas", "caret-right")
-
-      %tr
-        %td.text-danger= icon("fas", "exclamation")
-        %td.text-center.text-danger AE#2
-        %td.text-danger
-          = (Time.zone.now - 4.weeks).strftime("%a, %b %-d, %Y")
-          %span.badge.badge-danger Overdue
-        %td Heart attack
-        %td Assigned review for "DEATH".
-        %td.nowrap Clinical Event Committee
-        %td.text-center.nowrap
-          =# icon("far", "square")
-          = link_to "#" do
-            Start review
-            = icon("fas", "caret-right")
-
-      %tr.text-muted
-        %td
-        %td.text-center AE#1
-        %td= (Time.zone.now - 7.weeks).strftime("%a, %b %-d, %Y")
-        %td= link_to "Tummy ache", "#", class: "text-muted"
-
-        %td.text-muted Reviewed "tummy grumblies".
-        %td.text-muted.nowrap Clinical Event Committee
-        %td.text-center.nowrap.text-muted
-          = icon("fas", "check-square")
-          Complete

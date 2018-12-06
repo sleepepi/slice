@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AeTeamPathway < ApplicationRecord
   # Concerns
   include Deletable
@@ -10,10 +12,19 @@ class AeTeamPathway < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :ae_review_team
-  # has_many :ae_team_pathway_designs, -> { order(Arel.sql("position nulls last")) }
-  # has_many :designs, through: :ae_team_pathway_designs
 
   has_many :ae_designments, -> { order(Arel.sql("position nulls last")) }
   has_many :designs, through: :ae_designments
 
+  # Methods
+
+  def first_design
+    designs.first
+  end
+
+  def next_design(design)
+    design_array = designs.to_a
+    number = design_array.collect(&:id).index(design.id)
+    design_array[number + 1] if number
+  end
 end

@@ -9,6 +9,7 @@
     data: { content: variable.description, object: "condition typeahead cursor-navigatable",
       design: design.to_param,
       handoff: @handoff.to_param,
+      assignment_id: @assignment.to_param,
       local: variable.autocomplete_array.to_json,
       variable_id: variable.id, html: "true" },
       title: variable.description.blank? ? "" : variable.display_name,

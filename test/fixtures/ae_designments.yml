@@ -1,15 +1,39 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+reporter_design:
+  project: aes
+  design: aes_ae_case_report_form
+  # ae_review_team:
+  # ae_team_pathway:
+  position: 0
+  assignment: reporter
 
-one:
-  project_id: 
-  design_id: 
-  ae_review_team_id: 
-  ae_team_pathway_id: 
-  position: 1
+clinical_death:
+  project: aes
+  design: aes_death_adjudication
+  ae_review_team: clinical
+  ae_team_pathway: death
+  position: 0
+  assignment: team
 
-two:
-  project_id: 
-  design_id: 
-  ae_review_team_id: 
-  ae_team_pathway_id: 
-  position: 1
+clinical_heart_failure:
+  project: aes
+  design: aes_heart_failure_adjudication
+  ae_review_team: clinical
+  ae_team_pathway: heart_failure
+  position: 0
+  assignment: team
+
+clinical_mild:
+  project: aes
+  design: aes_mild_adjudication
+  ae_review_team: clinical
+  ae_team_pathway: mild
+  position: 0
+  assignment: team
+
+admin_design:
+  project: aes
+  design: aes_ae_adjudication
+  # ae_review_team:
+  # ae_team_pathway:
+  position: 0
+  assignment: admin

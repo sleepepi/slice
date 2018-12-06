@@ -1,5 +1,4 @@
-class AeModule::AdminsController < ApplicationController
-  before_action :authenticate_user!
+class AeModule::AdminsController < AeModule::BaseController
   before_action :find_review_admin_project_or_redirect
   before_action :find_adverse_event_or_redirect, only: [
     :adverse_event, :request_additional_details,
@@ -53,7 +52,7 @@ class AeModule::AdminsController < ApplicationController
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
 
     ActiveRecord::Base.transaction do
-      @project.ae_designments.where(ae_team_pathway: @pathway).destroy_all
+      @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment]).destroy_all
       index = 0
       (params[:design_ids] || []).uniq.each do |design_id|
         design = @project.designs.find_by(id: design_id)
@@ -62,13 +61,14 @@ class AeModule::AdminsController < ApplicationController
         @project.ae_designments.create(
           design: design,
           position: index,
+          assignment: params[:assignment],
           ae_review_team: @pathway&.ae_review_team,
           ae_team_pathway: @pathway
         )
         index += 1
       end
     end
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway)
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment])
     render :designments
   end
 
@@ -77,7 +77,7 @@ class AeModule::AdminsController < ApplicationController
     designment = @project.ae_designments.find_by(id: params[:designment_id])
     designment.destroy
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway)
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment])
     render :designments
   end
 

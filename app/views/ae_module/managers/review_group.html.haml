@@ -1,0 +1,79 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/managers/tabs", project: @project, team: @team, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
+    %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
+    %li.breadcrumb-muted= @review_group.ae_team_pathway.name.downcase
+
+.dashboard-container
+  .mb-3= @adverse_event.name
+  .mb-3= @adverse_event.description
+  .mb-3.text-muted= @adverse_event.subject.name
+
+.dashboard-container
+  - @assignments.each do |assignment|
+    .mb-3
+      = status_badge(assignment)
+      = assignment.reviewer.full_name
+      - if assignment.sheets.present?
+        %ul
+          - assignment.sheets.each do |sheet|
+            %li
+              = render "sheets/coverage", sheet: sheet
+              = sheet.name
+      - else
+        .text-muted.small No sheets completed.
+
+  %p
+    %strong Final review
+  - @review_group.sheets.each do |sheet|
+    .mb-3
+      = render "sheets/coverage", sheet: sheet
+      = link_to sheet.name, ae_module_managers_sheet_path(@project, @team, @adverse_event, @review_group, sheet)
+
+
+  .bg-light{ style: "margin-bottom: -30px;margin-left: -30px; margin-right: -30px;padding: 1.5rem 30px;" }
+    - if @review_group.completed?
+      %span.text-primary= icon("fas", "check-square")
+      Assignment complete!
+    - else
+      = link_to ae_module_managers_review_path(@project, @team, @adverse_event, @review_group, @review_group.first_design) do
+        Final review for
+        = @review_group.ae_team_pathway.name
+        = icon("fas", "caret-right")
+      .small.text Complete final review.
+
+    .mb-3
+      = link_to ae_module_managers_final_review_path(@project, @team, @adverse_event, @review_group), class: "text-danger" do
+        Final review for (merge page)
+        = @review_group.ae_team_pathway.name
+        = icon("fas", "caret-right")
+
+
+.jumbotron.jumbotron-custom-text
+  -# @assignments = @assignments + @assignments
+  -# @assignments = @assignments[0..0]
+
+  - case @assignments.count
+  - when 0
+  - when 1
+    %strong= @assignments[0].reviewer.full_name
+  - when 2
+    %strong= @assignments[0].reviewer.full_name
+    and
+    %strong= @assignments[-1].reviewer.full_name
+  - else
+    - @assignments[0...-1].each do |assignment|
+      = content_tag(:strong, assignment.reviewer.full_name) + ","
+    and
+    %strong= @assignments[-1].reviewer.full_name
+
+  assigned reviews for
+  = succeed "." do
+    %strong= @review_group.ae_team_pathway.name
+

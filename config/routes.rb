@@ -43,11 +43,17 @@ Rails.application.routes.draw do
       get :dashboard
       get :inbox
       get :adverse_event, path: "teams/:team_id/adverse-events/:id"
+      get :adverse_event_log, path: "teams/:team_id/adverse-events/:id/log"
       get :determine_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
       post :assign_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
-      get :pathway_assignments, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id"
-      get :final_review, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id/final-review"
-      get :final_review_submitted, path: "teams/:team_id/adverse-events/:id/assignments/:pathway_id/final-review/submitted"
+      get :review_group, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id"
+      get :review, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id"
+      post :review_save, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id"
+      get :sheet, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/sheets/:sheet_id"
+
+      get :final_review, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/final-review"
+      get :final_review_submitted, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/final-review/submitted"
+
     end
 
     namespace :reviewers do
@@ -55,7 +61,14 @@ Rails.application.routes.draw do
       get :inbox
       get :face_sheet
       get :assignment, path: "assignments/:assignment_id"
-      post :complete_assignment, path: "assignments/:assignment_id"
+
+      get :review, path: "assignments/:assignment_id/reviews/:design_id"
+      post :review_save, path: "assignments/:assignment_id/reviews/:design_id"
+      # get :sheet_new, path: "assignments/:assignment_id/reviews/:design_id"
+      get :sheet, path: "assignments/:assignment_id/sheets/:sheet_id"
+      get :sheet_edit, path: "assignments/:assignment_id/sheets/:sheet_id/edit"
+      post :sheet_create, path: "assignments/:assignment_id/sheets"
+      patch :sheet_update, path: "assignments/:assignment_id/sheets/:sheet_id"
     end
   end
 

@@ -180,3 +180,27 @@ aes_ae_case_report_form:
   slug: ae-crf
   user: aes_project_editor
   project: aes
+
+aes_death_adjudication:
+  name: Death Adjudication
+  slug: death-adjudication
+  user: aes_project_editor
+  project: aes
+
+aes_heart_failure_adjudication:
+  name: Heart Failure Adjudication
+  slug: heart-failure-adjudication
+  user: aes_project_editor
+  project: aes
+
+aes_mild_adjudication:
+  name: Mild Adjudication
+  slug: mild-adjudication
+  user: aes_project_editor
+  project: aes
+
+aes_ae_adjudication:
+  name: Adverse Event Adjudication
+  slug: ae-adjudication
+  user: aes_project_editor
+  project: aes

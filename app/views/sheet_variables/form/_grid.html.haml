@@ -21,4 +21,4 @@
   %tbody{ id: "variable_#{variable.id}_grid_container", data: { object: "grid-sortable" } }
     - range.each do |position|
       = render "sheet_variables/form/grid_variables", form: form, design: design, design_option: design_option, disabled: disabled, sheet_variable: object, position: position, variable: variable, show_values: show_values, all_grids: all_grids
-= link_to I18n.t("sheets.add_row"), "#", class: "btn btn-outline-dark btn-sm", data: { object: "grid-row-add", project_id: design.project_id, design: design.to_param, design_option_id: (design_option ? design_option.id : nil), variable_id: variable.id, header: show_values ? "1" : "0", handoff: @handoff.to_param }, tabindex: "-1" if variable.multiple_rows?
+= link_to I18n.t("sheets.add_row"), "#", class: "btn btn-outline-dark btn-sm", data: { object: "grid-row-add", project_id: design.project_id, design: design.to_param, design_option_id: (design_option ? design_option.id : nil), variable_id: variable.id, header: show_values ? "1" : "0", handoff: @handoff.to_param, assignment_id: @assignment.to_param }, tabindex: "-1" if variable.multiple_rows?

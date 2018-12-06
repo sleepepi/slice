@@ -1,45 +1,104 @@
-- @title = "AeModule::Managers#adverse_event"
+- @title = @adverse_event.name
 
-- content_for :header, @title
-
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/managers/tabs", project: @project, team: @team, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li
-      = link_to ae_module_dashboard_path(@project) do
-        = icon("fas", "caret-left")
-        ae dashboard
     %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
     %li.breadcrumb-muted= @adverse_event.name.downcase
 
 .dashboard-container
-  .mb-3= @adverse_event.name
-  .mb-3= @adverse_event.description
-  .mb-3.text-muted= @adverse_event.subject.name
+  - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last")).includes(:design)
+  -# disconnected_sheets = @adverse_event.subject.sheets.where(ae_adverse_event: @adverse_event).where.not(design: designments.select(:design_id))
+  - if designments.present?
+    %p
+      %strong Forms
+    - designments.each do |designment|
+      - sheets = @adverse_event.sheets.where(design: designment.design)
+      - if sheets.present?
+        - sheets.each do |sheet|
+          .mb-3
+            = render "sheets/coverage", sheet: sheet
+            = link_to sheet.name, [:edit, @project, sheet]
+        - next
+      - else
+        .mb-3
+          %span.badge.badge-coverage.coverage-0 0%
+          = link_to designment.design.name, new_data_entry_project_subject_path(@project, @adverse_event.subject, designment.design, ae_adverse_event_id: @adverse_event.id)
+
+  %p
+    %strong Documents
+  .mb-3
+    = icon("fas", "file")
+    file.pdf
+
+
+  %p
+    %strong Information Requests
+
+  .mb-3.text-muted No requests
+
+  .bg-light{ style: "margin-bottom: -30px;margin-left: -30px; margin-right: -30px;padding: 1.5rem 30px;" }
+    - if @adverse_event.closed?
+      %span.text-primary= icon("fas", "lock")
+      Adverse event closed.
+    - else
+      .mb-3
+        = link_to "#" do
+          = icon("far", "comments")
+          Request additional information
+          = icon("fas", "caret-right")
+        .small.text Have question? Get answers!
+
+      %div
+        = link_to ae_module_managers_determine_pathway_path(@project, @team, @adverse_event) do
+          = icon("fas", "users")
+          Assign reviewers
+          = icon("fas", "caret-right")
+        .small.text Select a pathway for reviewers to complete.
 
 .dashboard-container
-  %h2 Log
 
-  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject).where(ae_adverse_event: @adverse_event, ae_review_team: @team)
-  - if log_entries.present?
-    - log_entries.each do |log_entry|
-      = render "ae_module/log_entries/show", log_entry: log_entry
-
-
-.mb-3
-  = link_to ae_module_managers_determine_pathway_path(@project, @team, @adverse_event), class: "btn btn-lg btn-primary" do
-    Assign reviewers
-    = icon("fas", "caret-right")
-
-- @team.ae_team_pathways.where(id: @adverse_event.ae_adverse_event_reviewer_assignments.select(:ae_team_pathway_id)).each do |pathway|
-  .p-3.border.border-dark.bg-light
-    %strong= pathway.name
+  - @team.ae_review_groups.where(ae_adverse_event: @adverse_event).each do |review_group|
+    %p
+      %strong
+        Review Group -
+        = review_group.ae_team_pathway.name
     .mb-3
-      = link_to ae_module_managers_pathway_assignments_path(@project, @team, @adverse_event, pathway), class: "btn btn-primary" do
+      = link_to ae_module_managers_review_group_path(@project, @team, @adverse_event, review_group) do
         Reviewers assigned for
-        = pathway.name
+        = review_group.ae_team_pathway.name
         = icon("fas", "caret-right")
-    %div
-      = link_to ae_module_managers_final_review_path(@project, @team, @adverse_event, pathway), class: "btn btn-primary" do
-        Final review for
-        = pathway.name
-        = icon("fas", "caret-right")
+
+- if false
+  .bg-white.p-5
+    .mb-5
+      .mb-3.float-right
+        .p-2.d-inline-block.small
+          = icon("far", "circle")
+          = link_to "Mark as resolved", "#"
+
+        .p-2.d-inline-block.rounded{ style: "background-color: #fce4ec;" }
+          .small.text-right{ style: "color: #f48fb1;font-weight: bold;" } Me
+          This is a comment that was added.
+      .clearfix
+
+      .mb-3
+        .d-flex
+          .p-2.d-inline-block.rounded.bg-light
+            .small{ style: "color: #f48fb1;font-weight: bold;" } Reporter
+            I replied to your comment that you left.
+
+      .mb-3.float-right
+        .p-2.d-inline-block.small
+          = icon("fas", "check-circle", class: "text-success")
+          Resolved
+
+        .p-2.d-inline-block.rounded{ style: "background-color: #fce4ec;"}
+          .small.text-right{ style: "color: #f48fb1;font-weight: bold;" } Me
+          Yes, probably a great idea!
+      .clearfix
+
+    = text_field_tag "comment", "", class: "form-control form-control-lg", placeholder: "Write a comment", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"

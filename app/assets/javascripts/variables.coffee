@@ -61,12 +61,13 @@
     vals[0]
 
 @getDesignVariableAuthenticationParams = (element) ->
-  changes = {}
-  changes.project_id = $(element).data("project-id")
-  changes.design = $(element).data('design')
-  changes.variable_id = $(element).data('variable-id')
-  changes.handoff = $(element).data('handoff')
-  return changes
+  params = {}
+  params.project_id = $(element).data("project-id")
+  params.design = $(element).data("design")
+  params.variable_id = $(element).data("variable-id")
+  params.handoff = $(element).data("handoff")
+  params.assignment_id = $(element).data("assignment_id")
+  return params
 
 @updateCalculatedVariables = ->
   $.each($('[data-object~="calculated"]'), ->

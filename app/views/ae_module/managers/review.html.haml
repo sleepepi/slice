@@ -1,0 +1,13 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/managers/tabs", project: @project, team: @team, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
+    %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
+    %li.breadcrumb-muted= @sheet.name.downcase
+
+= render "ae_module/managers/sheet_form", project: @project, team: @team, adverse_event: @adverse_event, review_group: @review_group, design: @design, sheet: @sheet

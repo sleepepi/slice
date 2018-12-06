@@ -38,7 +38,6 @@
     )
   )
 
-
 @aerReady = ->
   activateAerDesignDraggables()
   activateAerDesignSortables()

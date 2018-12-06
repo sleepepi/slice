@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sheet_id: 
+  ae_adverse_event_id: 
+  ae_review_team_id: 
+  ae_team_pathway_id: 
+  ae_adverse_event_reviewer_assignment_id: 
+
+two:
+  sheet_id: 
+  ae_adverse_event_id: 
+  ae_review_team_id: 
+  ae_team_pathway_id: 
+  ae_adverse_event_reviewer_assignment_id: 

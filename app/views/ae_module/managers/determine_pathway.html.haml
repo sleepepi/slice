@@ -1,13 +1,9 @@
 - @title = "AeModule::Managers#determine_pathway"
 
 - content_for :header, @title
-
+= render "ae_module/managers/tabs", project: @project, team: @team, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li
-      = link_to ae_module_dashboard_path(@project) do
-        = icon("fas", "caret-left")
-        ae dashboard
     %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
     %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
     %li.breadcrumb-muted launch assignments

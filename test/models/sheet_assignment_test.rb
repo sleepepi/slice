@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AeTeamPathwayDesignTest < ActiveSupport::TestCase
+class SheetAssignmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

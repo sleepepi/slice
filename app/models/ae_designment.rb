@@ -4,6 +4,15 @@
 # designs that can be completed by a reporter of an adverse event, or the list
 # of designs a reviewer has to fill out on a given AE team pathway.
 class AeDesignment < ApplicationRecord
+  ASSIGNMENTS = [
+    ["Reporter", "reporter"],
+    ["Team", "team"],
+    ["Admin", "admin"]
+  ]
+
+  # Validations
+  validates :assignment, inclusion: { in: ASSIGNMENTS.collect(&:second) }
+
   # Relationships
   belongs_to :project
   belongs_to :design

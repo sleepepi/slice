@@ -9,6 +9,13 @@ class AdminsTest < ApplicationSystemTestCase
     @review_admin = users(:aes_review_admin)
   end
 
+  test "visit adverse setup designs as admin" do
+    visit_login(@review_admin)
+    visit ae_module_admins_setup_designs_url(@project)
+    assert_selector "h1", text: "Setup Designs"
+    screenshot("visit-adverse-event-admins-setup-designs")
+  end
+
   test "visit adverse event inbox as admin" do
     visit_login(@review_admin)
     visit ae_module_admins_inbox_url(@project)
