@@ -10,7 +10,6 @@ class CreateAeAdverseEventReviewerAssignments < ActiveRecord::Migration[5.2]
       t.datetime :review_unassigned_at
       t.timestamps
       t.index :project_id
-      t.index [:ae_adverse_event_id, :ae_review_team_id, :reviewer_id], unique: true, name: "ae_review_assignment_idx"
       t.index :manager_id
       t.index :review_completed_at, name: "ae_review_completed_idx"
       t.index :review_unassigned_at, name: "ae_review_unassigned_idx"
