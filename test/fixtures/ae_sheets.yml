@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project:
+  ae_adverse_event:
+  sheet:
+  role: MyString # reporter | admin | manager | reviewer
+  ae_review_team:
+  ae_review_group:
+  ae_adverse_event_reviewer_assignment:
+
+two:
+  project:
+  ae_adverse_event:
+  sheet:
+  role: MyString # reporter | admin | manager | reviewer
+  ae_review_team:
+  ae_review_group:
+  ae_adverse_event_reviewer_assignment:

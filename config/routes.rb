@@ -19,24 +19,32 @@ Rails.application.routes.draw do
     get :dashboard
 
     namespace :reporters do
-      get :overview
+      get :inbox
       get :report
       post :submit_report, path: "report"
       get :adverse_event, path: "adverse-events/:id"
-      get :adverse_event_steps, path: "adverse-events/:id/steps"
+      get :adverse_event_log, path: "adverse-events/:id/log"
       get :adverse_event_files, path: "adverse-events/:id/files"
       post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
+
+      get :form, path: "adverse-events/:id/form/:design_id"
+      post :form_save, path: "adverse-events/:id/form/:design_id"
     end
 
     namespace :admins do
       get :inbox
       get :adverse_event, path: "adverse-events/:id"
+      get :adverse_event_log, path: "adverse-events/:id/log"
+      get :adverse_event_files, path: "adverse-events/:id/files"
       get :request_additional_details, path: "adverse-events/:id/request-additional-details"
       get :setup_designs, path: "setup-designs"
       post :submit_designs, path: "submit-designs"
       post :submit_request_additional_details, path: "adverse-events/:id/request-additional-details"
       post :assign_team, path: "adverse-events/:id/assign-team"
       delete :remove_designment, path: "remove-designment"
+      get :form, path: "adverse-events/:id/form/:design_id"
+      post :form_save, path: "adverse-events/:id/form/:design_id"
+      get :sheet, path: "adverse-events/:id/sheets/:sheet_id"
     end
 
     namespace :managers do

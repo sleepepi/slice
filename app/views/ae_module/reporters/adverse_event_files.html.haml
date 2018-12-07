@@ -1,12 +1,14 @@
 - @title = @adverse_event.name
 
-- content_for :header, @title
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
 = render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li= link_to "reporters inbox", ae_module_reporters_overview_path(@project)
+    %li= link_to "reporters inbox", ae_module_reporters_inbox_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
-    %li= link_to @adverse_event.name.downcase, ae_module_reporters_adverse_event_steps_path(@project, @adverse_event)
+    %li= link_to @adverse_event.name.downcase, ae_module_reporters_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted documents
 
 .dashboard-container

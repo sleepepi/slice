@@ -1,9 +1,12 @@
 class AeModule::AdminsController < AeModule::BaseController
   before_action :find_review_admin_project_or_redirect
   before_action :find_adverse_event_or_redirect, only: [
-    :adverse_event, :request_additional_details,
-    :submit_request_additional_details, :assign_team
+    :adverse_event, :adverse_event_files, :adverse_event_log,
+    :request_additional_details, :submit_request_additional_details,
+    :assign_team, :form, :form_save, :sheet
   ]
+  before_action :set_sheet, only: [:form, :form_save]
+  before_action :find_sheet_or_redirect, only: [:sheet]
 
   # GET /projects/:project_id/ae-module/admins/inbox
   def inbox
@@ -52,7 +55,7 @@ class AeModule::AdminsController < AeModule::BaseController
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
 
     ActiveRecord::Base.transaction do
-      @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment]).destroy_all
+      @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role]).destroy_all
       index = 0
       (params[:design_ids] || []).uniq.each do |design_id|
         design = @project.designs.find_by(id: design_id)
@@ -61,14 +64,14 @@ class AeModule::AdminsController < AeModule::BaseController
         @project.ae_designments.create(
           design: design,
           position: index,
-          assignment: params[:assignment],
+          role: params[:role],
           ae_review_team: @pathway&.ae_review_team,
           ae_team_pathway: @pathway
         )
         index += 1
       end
     end
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment])
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
     render :designments
   end
 
@@ -77,8 +80,27 @@ class AeModule::AdminsController < AeModule::BaseController
     designment = @project.ae_designments.find_by(id: params[:designment_id])
     designment.destroy
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, assignment: params[:assignment])
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
     render :designments
+  end
+
+  # GET /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id
+  def form
+  end
+
+  # POST /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id
+  def form_save
+    update_type = (@sheet.new_record? ? "sheet_create" : "sheet_update")
+    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, update_type)
+      @project.ae_sheets.where(
+        ae_adverse_event: @adverse_event,
+        sheet: @sheet,
+        role: "admin"
+      ).first_or_create
+      proceed_to_next_design
+    else
+      render :form
+    end
   end
 
   private
@@ -91,6 +113,7 @@ class AeModule::AdminsController < AeModule::BaseController
 
   def find_adverse_event_or_redirect
     @adverse_event = @project.ae_adverse_events.find_by(id: params[:id])
+    @subject = @adverse_event&.subject
     empty_response_or_root_path(ae_module_admins_inbox_path(@project)) unless @adverse_event
   end
 
@@ -98,5 +121,32 @@ class AeModule::AdminsController < AeModule::BaseController
     params.require(:ae_adverse_event_info_request).permit(
       :comment
     )
+  end
+
+  def find_sheet_or_redirect
+    @sheet =  @adverse_event.sheets.find_by(id: params[:sheet_id])
+    empty_response_or_root_path(ae_module_admins_adverse_event_path(@project, @adverse_event)) unless @sheet
+  end
+
+  def set_sheet
+    @designments = @project.ae_designments.where(role: "admin")
+    @design = @project.designs.where(id: @designments.select(:design_id)).find_by_param(params[:design_id])
+    @ae_sheets = @adverse_event.ae_sheets.where(role: "admin")
+    @sheet = @adverse_event.sheets.where(id: @ae_sheets.select(:sheet_id)).find_by(design: @design)
+    @sheet = @adverse_event.sheets.where(
+      project: @project,
+      design: @design,
+      subject: @subject,
+      ae_adverse_event: @adverse_event
+    ).new(sheet_params) unless @sheet
+  end
+
+  def proceed_to_next_design
+    design = @project.next_design("admin", @design)
+    if design
+      redirect_to ae_module_admins_form_path(@project, @adverse_event, design)
+    else
+      redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event)
+    end
   end
 end

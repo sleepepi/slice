@@ -71,6 +71,7 @@ class Design < ApplicationRecord
   has_many :events, through: :event_designs
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
+  has_many :ae_designments
 
   # Methods
 

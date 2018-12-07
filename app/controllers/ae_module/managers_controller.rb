@@ -62,9 +62,12 @@ class AeModule::ManagersController < AeModule::BaseController
   def review_save
     update_type = (@sheet.new_record? ? "sheet_create" : "sheet_update")
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, update_type)
-      @review_group.ae_review_group_sheets.where(
-        project: @project,
-        sheet: @sheet
+      @project.ae_sheets.where(
+        ae_adverse_event: @adverse_event,
+        sheet: @sheet,
+        role: "manager",
+        ae_review_team: @team,
+        ae_review_group: @review_group
       ).first_or_create
       proceed_to_next_design
     else

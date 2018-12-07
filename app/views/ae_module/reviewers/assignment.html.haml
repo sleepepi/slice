@@ -23,7 +23,8 @@
         - sheets.each do |sheet|
           .mb-3
             = render "sheets/coverage", sheet: sheet
-            = link_to sheet.name, [:edit, @project, sheet]
+            -# TODO: FIX LINK!
+            = link_to sheet.name, [:edit, @project, sheet], class: "text-danger"
       - else
         .mb-3.text-muted No sheets present.
 
@@ -54,4 +55,4 @@
       = link_to ae_module_reviewers_review_path(@project, @assignment, @assignment.first_design) do
         Start assignment
         = icon("fas", "caret-right")
-      .small.text Complete assigned sheets.
+      .small Complete assigned sheets.

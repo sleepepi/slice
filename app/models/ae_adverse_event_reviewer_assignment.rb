@@ -4,7 +4,7 @@
 # `- AeReviewTeam
 #    `- AeTeamPathway
 #       `- AeReviewGroup
-#          `- AeAdverseEventReviewerAssignment   <=>  SheetAssignment  <=>  Sheet
+#          `- AeAdverseEventReviewerAssignment   <=>  AeSheet  <=>  Sheet
 class AeAdverseEventReviewerAssignment < ApplicationRecord
   # Validations
 
@@ -18,8 +18,8 @@ class AeAdverseEventReviewerAssignment < ApplicationRecord
   belongs_to :ae_review_group
   belongs_to :manager, class_name: "User", foreign_key: "manager_id"
   belongs_to :reviewer, class_name: "User", foreign_key: "reviewer_id"
-  has_many :sheet_assignments
-  has_many :sheets, through: :sheet_assignments
+  has_many :ae_sheets
+  has_many :sheets, through: :ae_sheets
 
   # Methods
   delegate :first_design, to: :ae_team_pathway

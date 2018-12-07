@@ -27,12 +27,12 @@ class AeModule::ReviewersController < AeModule::BaseController
   def review_save
     update_type = (@sheet.new_record? ? "sheet_create" : "sheet_update")
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, update_type)
-      @assignment.sheet_assignments.where(
-        project: @project,
-        sheet: @sheet,
+      @project.ae_sheets.where(
         ae_adverse_event: @assignment.ae_adverse_event,
+        sheet: @sheet,
+        role: "reviewer",
         ae_review_team: @assignment.ae_review_team,
-        ae_team_pathway: @assignment.ae_team_pathway,
+        ae_review_group: @assignment.ae_review_group,
         ae_adverse_event_reviewer_assignment: @assignment
       ).first_or_create
       proceed_to_next_design

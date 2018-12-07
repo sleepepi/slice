@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SheetAssignmentTest < ActiveSupport::TestCase
+class AeSheetTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

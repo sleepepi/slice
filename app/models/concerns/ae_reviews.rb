@@ -12,18 +12,29 @@ module AeReviews
     has_many :ae_adverse_event_log_entries, -> { order(:id) }
     has_many :ae_team_pathways, -> { current }
     has_many :ae_adverse_event_reviewer_assignments
-    has_many :ae_designments
+    has_many :ae_designments, -> { order(Arel.sql("position nulls last")) }
+    has_many :ae_sheets
   end
 
   def ae_teams_enabled?
     adverse_event_reviews_enabled?
   end
 
-  def ae_open_requests
+  def ae_notifications
     []
   end
 
-  def ae_notifications
-    []
+  def ae_designs(role)
+    designs.joins(:ae_designments).merge(AeDesignment.where(role: role))
+  end
+
+  def first_design(role)
+    ae_designs(role).first
+  end
+
+  def next_design(role, design)
+    design_array = ae_designs(role).to_a
+    number = design_array.collect(&:id).index(design.id)
+    design_array[number + 1] if number
   end
 end

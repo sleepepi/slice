@@ -1,0 +1,16 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/admins/tabs", project: @project, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "admin inbox", ae_module_admins_inbox_path(@project)
+    %li.breadcrumb-muted= @subject.name.downcase
+    %li= link_to @adverse_event.name.downcase, ae_module_admins_adverse_event_path(@project, @adverse_event)
+    %li.breadcrumb-muted documents
+
+
+
+.dashboard-container

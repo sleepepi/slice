@@ -1,31 +1,86 @@
 - @title = @adverse_event.name
 
-- content_for :header, @title
-
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/admins/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "admin inbox", ae_module_admins_inbox_path(@project)
+    %li.breadcrumb-muted= @subject.name.downcase
     %li.breadcrumb-muted= @adverse_event.name.downcase
 
-.dashboard-container
-  = @adverse_event.name
-  = @adverse_event.description
-  = @adverse_event.subject.name
-  = @adverse_event.user.nickname
 
-.dashboard-container
-  .dropdown.d-inline-block
-    = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-      = icon("fas", "paper-plane")
-      Send to team...
-    .dropdown-menu
-      - @project.ae_review_teams.each do |team|
-        = link_to team.name, ae_module_admins_assign_team_path(@project, @adverse_event, review_team_id: team), method: :post, class: "dropdown-item"
-  = link_to ae_module_admins_request_additional_details_path(@project, @adverse_event), class: "btn btn-light btn-sm" do
-    = icon("fas", "question-circle")
-    Request additional feedback
 
-.dashboard-container
-  %h2 Log
-  - @adverse_event.ae_adverse_event_log_entries.each do |log_entry|
-    = render "ae_module/log_entries/show", log_entry: log_entry
+.aer-container
+  .aer-body
+    - designments = @project.ae_designments.where(role: "reporter").order(Arel.sql("position nulls last"))
+    - if designments.present?
+      %p
+        %strong Forms
+      - designments.each do |designment|
+        - sheets = @adverse_event.sheets.where(design: designment.design)
+        - if sheets.present?
+          - sheets.each do |sheet|
+            .mb-3
+              = render "sheets/coverage", sheet: sheet
+              = link_to sheet.name, ae_module_admins_sheet_path(@project, @adverse_event, sheet)
+          - next
+        - else
+          .mb-3
+            %span.badge.badge-coverage.coverage-0 0%
+            = designment.design.name
+
+    %p
+      %strong Documents
+    .mb-3
+      = icon("fas", "file")
+      file.pdf
+
+    - designments = @project.ae_designments.where(role: "admin").order(Arel.sql("position nulls last"))
+    - if designments.present?
+      %p
+        %strong Admin Forms
+      - designments.each do |designment|
+        - sheets = @adverse_event.sheets.where(design: designment.design)
+        - if sheets.present?
+          - sheets.each do |sheet|
+            .mb-3
+              = render "sheets/coverage", sheet: sheet
+              = link_to sheet.name, ae_module_admins_form_path(@project, @adverse_event, sheet.design)
+          - next
+        - else
+          .mb-3
+            %span.badge.badge-coverage.coverage-0 0%
+            = link_to designment.design.name, ae_module_admins_form_path(@project, @adverse_event, designment.design)
+
+
+  .aer-footer
+    - if @adverse_event.closed?
+      %div
+        %span.text-primary= icon("fas", "lock")
+        Adverse event closed.
+        = link_to "Reopen?", "#", class: "text-danger"
+    - else
+      .mb-3
+        %span.text-primary= icon("fas", "question-circle")
+        = link_to ae_module_admins_request_additional_details_path(@project, @adverse_event) do
+          Request additional feedback
+          = icon("fas", "caret-right")
+        .small Have questions? Get answers!
+
+      .mb-3
+        %span.text-primary= icon("fas", "paper-plane")
+        = link_to "#", class: "dropdown-toggle", data: { toggle: "dropdown" } do
+          Send to team
+        .dropdown-menu
+          - @project.ae_review_teams.each do |team|
+            = link_to team.name, ae_module_admins_assign_team_path(@project, @adverse_event, review_team_id: team), method: :post, class: "dropdown-item"
+        .small Assign a team to adverse event.
+
+      %div
+        %span.text-primary= icon("far", "copy")
+        = link_to ae_module_admins_form_path(@project, @adverse_event, @project.first_design("admin")) do
+          Enter sheets
+          = icon("fas", "caret-right")
+        .small Finalize adverse event report.

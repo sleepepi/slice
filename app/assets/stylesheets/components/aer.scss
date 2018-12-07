@@ -31,3 +31,45 @@
     }
   }
 }
+
+.aer-container {
+  border-radius: $border-radius;
+
+  margin-bottom: map-get($spacers, 4);
+}
+
+.aer-body {
+  @include remove-last-child-bottom-margin;
+  @include scale-images;
+
+  padding: map-get($spacers, 3);
+
+  @include media-breakpoint-up(sm) {
+    padding: map-get($spacers, 4);
+  }
+}
+
+.aer-footer {
+  padding: map-get($spacers, 3);
+
+  @include media-breakpoint-up(sm) {
+    padding: map-get($spacers, 4);
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .aer-container {
+      box-shadow: 0 1px 5px map-get($theme, box-shadow-color);
+      color: theme-color($theme, body-color, $p900-grey);
+    }
+
+    .aer-body {
+      background-color: map-get($theme, dashboard-bg);
+    }
+
+    .aer-footer {
+      background-color: theme-color($theme, shade-bg, $p50-grey);
+    }
+  }
+}

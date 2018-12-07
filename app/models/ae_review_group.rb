@@ -13,8 +13,8 @@ class AeReviewGroup < ApplicationRecord
   belongs_to :ae_team_pathway
   belongs_to :final_reviewer, class_name: "User", foreign_key: "final_reviewer_id", optional: true
   has_many :ae_adverse_event_reviewer_assignments
-  has_many :ae_review_group_sheets
-  has_many :sheets, through: :ae_review_group_sheets
+  has_many :ae_sheets
+  has_many :sheets, through: :ae_sheets # TODO: May need to filter by sheets that aren't associated to a review.
 
   # Methods
   delegate :first_design, to: :ae_team_pathway

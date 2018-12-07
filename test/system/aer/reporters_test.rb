@@ -12,7 +12,7 @@ class ReportersTest < ApplicationSystemTestCase
 
   test "visit adverse event reporters overview" do
     visit_login(@reporter)
-    visit ae_module_reporters_overview_url(@project)
+    visit ae_module_reporters_inbox_url(@project)
     assert_selector "h1", text: "Adverse Events"
     screenshot("visit-adverse-event-reporters-overview")
   end

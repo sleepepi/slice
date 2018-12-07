@@ -17,7 +17,7 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get adverse event overview as reporter" do
     login(@reporter)
-    get ae_module_reporters_overview_url(@project)
+    get ae_module_reporters_inbox_url(@project)
     assert_response :success
   end
 
@@ -34,7 +34,7 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
         ae_adverse_event: adverse_event_params
       }
     end
-    assert_redirected_to ae_module_reporters_overview_url(@project)
+    assert_redirected_to ae_module_reporters_adverse_event_url(@project, AeAdverseEvent.last)
   end
 
   test "should not create adverse event without description as reporter" do
