@@ -45,6 +45,8 @@ Rails.application.routes.draw do
       get :form, path: "adverse-events/:id/form/:design_id"
       post :form_save, path: "adverse-events/:id/form/:design_id"
       get :sheet, path: "adverse-events/:id/sheets/:sheet_id"
+      post :close_adverse_event, path: "adverse-events/:id/close"
+      post :reopen_adverse_event, path: "adverse-events/:id/reopen"
     end
 
     namespace :managers do

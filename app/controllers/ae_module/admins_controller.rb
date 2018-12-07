@@ -1,9 +1,7 @@
 class AeModule::AdminsController < AeModule::BaseController
   before_action :find_review_admin_project_or_redirect
-  before_action :find_adverse_event_or_redirect, only: [
-    :adverse_event, :adverse_event_files, :adverse_event_log,
-    :request_additional_details, :submit_request_additional_details,
-    :assign_team, :form, :form_save, :sheet
+  before_action :find_adverse_event_or_redirect, except: [
+    :inbox, :setup_designs, :submit_designs, :remove_designment
   ]
   before_action :set_sheet, only: [:form, :form_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
@@ -101,6 +99,19 @@ class AeModule::AdminsController < AeModule::BaseController
     else
       render :form
     end
+  end
+
+
+  # POST /projects/:project_id/ae-module/admins/adverse-events/:id/close
+  def close_adverse_event
+    @adverse_event.close!(current_user)
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event closed successfully."
+  end
+
+  # POST /projects/:project_id/ae-module/admins/adverse-events/:id/reopen
+  def reopen_adverse_event
+    @adverse_event.reopen!(current_user)
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event reopened successfully."
   end
 
   private

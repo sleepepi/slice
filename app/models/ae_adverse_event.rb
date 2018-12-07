@@ -62,4 +62,14 @@ class AeAdverseEvent < ApplicationRecord
     ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_review_team: team)
     # TODO: Generate in app notifications and LOG notifications for assignment to team (notify team managers, in this case team managers)
   end
+
+  def close!(current_user)
+    update(closed_at: Time.zone.now, closer: current_user)
+    log_entry = ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_closed")
+  end
+
+  def reopen!(current_user)
+    update(closed_at: nil, closer: nil)
+    log_entry = ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_reopened")
+  end
 end

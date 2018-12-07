@@ -1,3 +1,8 @@
+- if log_entry.entry_type == "ae_reopened"
+  .mt-5.my-3.text-center.border-top.text-muted{ style: "position: relative;" }
+    %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
+      .d-inline-block.bg-white.px-3 REOPENED
+
 %div
   .float-right
     .d-none.d-md-block= log_entry.created_at.strftime("%a, %b %-d, %Y")
@@ -55,7 +60,18 @@
     adverse event for
     = succeed "." do
       = log_entry.ae_adverse_event.subject.subject_code
+  - when "ae_reopened"
+    = log_entry.user.nickname
+    reopened
+    adverse event for
+    = succeed "." do
+      = log_entry.ae_adverse_event.subject.subject_code
   - else
     = log_entry.user.nickname
     = succeed "." do
       %code.text-primary.bg-light= log_entry.entry_type
+
+- if log_entry.entry_type == "ae_closed"
+  .my-3.text-center.border-top.text-muted{ style: "position: relative;" }
+    %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
+      .d-inline-block.bg-white.px-3 CLOSED

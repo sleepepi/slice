@@ -11,12 +11,11 @@
 
 
 .dashboard-container
-  - designments = @project.ae_designments.where(ae_team_pathway_id: nil).order(Arel.sql("position nulls last")).includes(:design)
+  - designments = @project.ae_designments.where(role: "reporter").order(Arel.sql("position nulls last")).includes(:design)
   -# disconnected_sheets = @adverse_event.subject.sheets.where(ae_adverse_event: @adverse_event).where.not(design: designments.select(:design_id))
   - if designments.present?
     %p
       %strong Forms
-    %strong.text-danger Can incorrectly pull reviewer sheets.
     - designments.each do |designment|
       - sheets = @assignment.ae_adverse_event.sheets.where(design: designment.design)
       - if sheets.present?
@@ -26,13 +25,18 @@
             -# TODO: FIX LINK!
             = link_to sheet.name, [:edit, @project, sheet], class: "text-danger"
       - else
-        .mb-3.text-muted No sheets present.
+        .mb-3
+          %span.badge.badge-coverage.coverage-0 0%
+          = designment.design.name
 
   %p
     %strong Documents
+  .mb-3
+    = icon("fas", "file")
+    file.pdf
 
   %p
-    %strong Review forms
+    %strong My review forms
   - @assignment.ae_team_pathway.designs.each do |design|
     - sheets = @assignment.sheets.where(design: design)
     - if sheets.present?
@@ -42,7 +46,7 @@
           = link_to sheet.name, ae_module_reviewers_sheet_path(@project, @assignment, sheet)
           =# link_to sheet.name, ae_module_reviewers_review_path(@project, @assignment, design)
     - else
-      %div
+      .mb-3
         %span.badge.badge-coverage.coverage-0 0%
         = link_to design.name, ae_module_reviewers_review_path(@project, @assignment, design)
 
@@ -52,7 +56,10 @@
       %span.text-primary= icon("fas", "check-square")
       Assignment complete!
     - else
-      = link_to ae_module_reviewers_review_path(@project, @assignment, @assignment.first_design) do
-        Start assignment
-        = icon("fas", "caret-right")
-      .small Complete assigned sheets.
+      - design = @assignment.first_design
+      - if design
+        %div
+          = link_to ae_module_reviewers_review_path(@project, @assignment, design) do
+            Start assignment
+            = icon("fas", "caret-right")
+          .small Complete assigned sheets.

@@ -11,7 +11,8 @@ class AeAdverseEventLogEntry < ApplicationRecord
     ["Adverse event reviewers assigned.", "ae_reviewers_assigned"],
     ["Adverse event review completed.", "ae_review_completed"],
     ["Adverse event final review completed.", "ae_final_review_completed"],
-    ["Adverse event closed.", "ae_closed"]
+    ["Adverse event closed.", "ae_closed"],
+    ["Adverse event reopened.", "ae_reopened"],
   ]
 
   # Validations

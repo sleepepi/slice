@@ -42,13 +42,16 @@
       %span.text-primary= icon("fas", "check-square")
       Assignment complete!
     - else
-      = link_to ae_module_managers_review_path(@project, @team, @adverse_event, @review_group, @review_group.first_design) do
-        Final review for
-        = @review_group.ae_team_pathway.name
-        = icon("fas", "caret-right")
-      .small Complete final review.
+      - design = @review_group.first_design
+      - if design
+        .mb-3
+          = link_to ae_module_managers_review_path(@project, @team, @adverse_event, @review_group, design) do
+            Final review for
+            = @review_group.ae_team_pathway.name
+            = icon("fas", "caret-right")
+          .small Complete final review.
 
-    .mb-3
+    %div
       = link_to ae_module_managers_final_review_path(@project, @team, @adverse_event, @review_group), class: "text-danger" do
         Final review for (merge page)
         = @review_group.ae_team_pathway.name
