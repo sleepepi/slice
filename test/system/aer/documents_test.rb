@@ -27,6 +27,27 @@ class DocumentsTest < ApplicationSystemTestCase
     screenshot("upload-ae-document")
   end
 
+  test "visit docx document" do
+    visit_login(@reporter)
+    visit ae_module_document_url(@project, @adverse_event, @document_docx)
+    assert_selector "h1", text: "AE#8"
+    screenshot("visit-docx-document")
+  end
+
+  test "visit pdf document" do
+    visit_login(@reporter)
+    visit ae_module_document_url(@project, @adverse_event, @document_pdf)
+    assert_selector "h1", text: "AE#8"
+    screenshot("visit-pdf-document")
+  end
+
+  test "visit png document" do
+    visit_login(@reporter)
+    visit ae_module_document_url(@project, @adverse_event, @document_png)
+    assert_selector "h1", text: "AE#8"
+    screenshot("visit-png-document")
+  end
+
   test "destroy a document" do
     visit_login(@reporter)
     visit ae_module_documents_url(@project, @adverse_event)
