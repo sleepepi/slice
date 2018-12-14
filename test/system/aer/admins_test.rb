@@ -9,7 +9,14 @@ class AdminsTest < ApplicationSystemTestCase
     @review_admin = users(:aes_review_admin)
   end
 
-  test "visit adverse setup designs as admin" do
+  test "visit adverse event dashboard as admin" do
+    visit_login(@review_admin)
+    visit ae_module_dashboard_url(@project)
+    assert_selector "h1", text: "AE Module Dashboard"
+    screenshot("visit-adverse-event-dashboard")
+  end
+
+  test "visit adverse event setup designs as admin" do
     visit_login(@review_admin)
     visit ae_module_admins_setup_designs_url(@project)
     assert_selector "h1", text: "Setup Designs"
@@ -28,6 +35,13 @@ class AdminsTest < ApplicationSystemTestCase
     visit ae_module_admins_adverse_event_url(@project, ae_adverse_events(:closed))
     assert_selector "h1", text: "AE#1"
     screenshot("visit-admin-adverse-event-01-closed")
+  end
+
+  test "visit closed adverse event log as admin" do
+    visit_login(@review_admin)
+    visit ae_module_admins_adverse_event_log_url(@project, ae_adverse_events(:closed))
+    assert_selector "h1", text: "AE#1"
+    screenshot("visit-admin-adverse-event-01-closed-log")
   end
 
   test "visit teamdone adverse event as admin" do

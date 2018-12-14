@@ -7,6 +7,7 @@ class AeAdverseEventLogEntry < ApplicationRecord
     ["Adverse event info request created.", "ae_info_request_created"],
     ["Adverse event info request resolved.", "ae_info_request_resolved"],
     ["Adverse event document uploaded.", "ae_document_uploaded"],
+    ["Adverse event document removed.", "ae_document_removed"],
     ["Adverse event team assigned.", "ae_team_assigned"],
     ["Adverse event reviewers assigned.", "ae_reviewers_assigned"],
     ["Adverse event review completed.", "ae_review_completed"],
@@ -28,4 +29,5 @@ class AeAdverseEventLogEntry < ApplicationRecord
   has_many :sheets, through: :ae_log_entry_attachments, source: :attachment, source_type: "Sheet"
   has_many :info_requests, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAdverseEventInfoRequest"
   has_many :reviewer_assignments, -> { order(:id) }, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAdverseEventReviewerAssignment"
+  has_many :documents, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeDocument"
 end

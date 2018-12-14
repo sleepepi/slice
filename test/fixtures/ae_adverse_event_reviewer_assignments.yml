@@ -1,4 +1,5 @@
 aes_closed_reviewer_one:
+  created_at: 2018-10-01 15:45:00
   project: aes
   ae_adverse_event: closed
   ae_review_team: clinical
@@ -10,6 +11,7 @@ aes_closed_reviewer_one:
   # review_unassigned_at:
 
 aes_closed_reviewer_two:
+  created_at: 2018-10-01 15:45:00
   project: aes
   ae_adverse_event: closed
   ae_review_team: clinical
@@ -21,6 +23,7 @@ aes_closed_reviewer_two:
   # review_unassigned_at:
 
 aes_teamdone_reviewer_one:
+  created_at: 2018-10-02 15:45:00
   project: aes
   ae_adverse_event: teamdone
   ae_review_team: clinical
@@ -32,6 +35,7 @@ aes_teamdone_reviewer_one:
   # review_unassigned_at:
 
 aes_teamdone_reviewer_two:
+  created_at: 2018-10-02 15:45:00
   project: aes
   ae_adverse_event: teamdo
   ae_review_team: clinical
@@ -43,6 +47,7 @@ aes_teamdone_reviewer_two:
   # review_unassigned_at:
 
 aes_pathdone_reviewer_one:
+  created_at: 2018-10-03 15:45:00
   project: aes
   ae_adverse_event: pathdone
   ae_review_team: clinical
@@ -54,6 +59,7 @@ aes_pathdone_reviewer_one:
   # review_unassigned_at:
 
 aes_pathdone_reviewer_two:
+  created_at: 2018-10-03 15:45:00
   project: aes
   ae_adverse_event: pathdo
   ae_review_team: clinical
@@ -65,6 +71,7 @@ aes_pathdone_reviewer_two:
   # review_unassigned_at:
 
 aes_rvwsdone_reviewer_one:
+  created_at: 2018-10-04 15:45:00
   project: aes
   ae_adverse_event: rvwsdone
   ae_review_team: clinical
@@ -76,6 +83,7 @@ aes_rvwsdone_reviewer_one:
   # review_unassigned_at:
 
 aes_rvwsdone_reviewer_two:
+  created_at: 2018-10-04 15:45:00
   project: aes
   ae_adverse_event: rvwsdo
   ae_review_team: clinical
@@ -87,6 +95,7 @@ aes_rvwsdone_reviewer_two:
   # review_unassigned_at:
 
 aes_pathset_reviewer_one:
+  created_at: 2018-10-05 15:45:00
   project: aes
   ae_adverse_event: pathset
   ae_review_team: clinical
@@ -98,6 +107,7 @@ aes_pathset_reviewer_one:
   # review_unassigned_at:
 
 aes_pathset_reviewer_two:
+  created_at: 2018-10-05 15:45:00
   project: aes
   ae_adverse_event: pathset
   ae_review_team: clinical

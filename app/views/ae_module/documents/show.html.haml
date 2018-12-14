@@ -1,0 +1,29 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  .float-right
+    = link_to icon("fas", "download"), download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }, class: "btn btn-sm btn-light"
+  %ol
+    %li= link_to "reporters inbox", ae_module_reporters_inbox_path(@project)
+    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li= link_to @adverse_event.name.downcase, ae_module_reporters_adverse_event_path(@project, @adverse_event)
+    %li= link_to "documents", ae_module_documents_path(@project, @adverse_event)
+    %li.breadcrumb-muted= @document.filename.downcase
+
+- if @document.image?
+  .text-center= image_tag download_ae_module_document_path(@project, @adverse_event, @document), class: "img-thumbnail img-ignore-selection"
+- elsif @document.pdf?
+  .embed-responsive{ style: "padding-bottom: 100.00%;" }
+    %object.embed-responsive-item{ data: download_ae_module_document_path(@project, @adverse_event, @document), type: "application/pdf" }
+      .jumbotron
+        %p
+          You may download the file here:
+        = link_to @document.filename, download_ae_module_document_path(@project, @adverse_event, @document)
+- else
+  .jumbotron.jumbotron-custom-text
+    %p Download to view file.
+    = link_to @document.filename, download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }

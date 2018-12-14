@@ -1,0 +1,4 @@
+- url = ae_module_documents_path(project, adverse_event)
+= form_with model: @document, url: url, local: true do |form|
+  = render "forms/horizontal/file_field", form: form, object: @document, key: :file
+  = render "forms/horizontal/submit", form: form, object: @document, cancel: false, submit_text: "Upload document"

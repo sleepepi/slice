@@ -33,7 +33,7 @@ class ListsController < ApplicationController
 
   def update
     @list.append_items!(params.dig(:list, :items), current_user)
-    redirect_to [@project, @randomization_scheme], notice: "Items added successfully."
+    redirect_to [@project, @randomization_scheme], notice: "Items successfully added."
   end
 
   # GET /lists

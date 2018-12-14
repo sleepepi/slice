@@ -1,0 +1,118 @@
+.file-upload {
+  border-radius: $border-radius;
+  position: relative;
+
+  .drag-files-messages {
+    opacity: 0;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  @media (hover) {
+    &:hover,
+    &.upload-hover {
+      .drag-files-messages {
+        opacity: 1;
+        // transition: all .5s ease-out;
+      }
+    }
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .file-upload {
+      // background-color: map-get($theme, brand-white);
+
+      .drag-files-messages {
+        background-color: map-get($theme, brand-white);
+      }
+
+      @media (hover) {
+        &:hover,
+        &.upload-hover {
+          box-shadow: 0 0 0 3px rgba(map-get($theme, primary), 0.5);
+        }
+      }
+
+      &.upload-started {
+        // background-color: $p50-grey;
+
+        @media (hover) {
+          &:hover,
+          &.upload-hover {
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes hide-upload-bar {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.file-upload-bar {
+  height: .25rem;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: width .5s ease-out;
+  width: 0%;
+
+  &.upload-success {
+    animation: hide-upload-bar 750ms ease-out;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+    transition-duration: 0s;
+  }
+
+  &.upload-failure {
+    animation: hide-upload-bar 750ms ease-out;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+    transition-duration: 0s;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .file-upload-bar {
+      background-color: map-get($theme, accent);
+
+      &.upload-success {
+        background-color: $p500-green;
+      }
+
+      &.upload-failure {
+        background-color: $p500-red;
+      }
+    }
+  }
+}
+
+.file-upload-error {
+  width: 100%;
+  padding: $spacer;
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .file-upload-error {
+      background-color: map-get($theme, accent);
+      color: map-get($theme, brand-white);
+    }
+  }
+}

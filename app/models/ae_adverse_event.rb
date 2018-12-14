@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AeAdverseEvent < ApplicationRecord
+  # Constants
+  DOCS_PER_PAGE = 20
+
   # Concerns
   include Deletable
   include Squishable
@@ -19,8 +22,9 @@ class AeAdverseEvent < ApplicationRecord
   has_many :ae_adverse_event_info_requests
   has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
   has_many :ae_adverse_event_reviewer_assignments
-  has_many :sheets
+  has_many :ae_documents
   has_many :ae_sheets
+  has_many :sheets
 
   # Methods
   def name
@@ -56,6 +60,34 @@ class AeAdverseEvent < ApplicationRecord
     #   @adverse_event.create_notifications
     #   @adverse_event.send_email_in_background
   end
+
+  def attach_files!(files, current_user)
+    documents = []
+    files.each do |file|
+      next unless file
+
+      document = ae_documents.create(
+        project: project,
+        user: current_user,
+        file: file,
+        byte_size: file.size,
+        filename: file.original_filename,
+        content_type: AeDocument.content_type(file.original_filename)
+      )
+
+      documents << document if document.persisted?
+    end
+
+    return if documents.blank?
+
+    ae_adverse_event_log_entries.create(
+      project: project,
+      user: current_user,
+      entry_type: "ae_document_uploaded",
+      documents: documents
+    )
+  end
+
 
   def assign_team!(current_user, team)
     ae_adverse_event_review_teams.where(project: project, ae_review_team: team).first_or_create

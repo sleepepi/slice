@@ -1,0 +1,36 @@
+blank_docx:
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  file: blank.docx
+  filename: blank.docx
+  content_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  byte_size: 11603
+
+blank_pdf:
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  file: blank.pdf
+  filename: blank.pdf
+  content_type: application/pdf
+  byte_size: 10892
+
+rails_png:
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  file: rails.png
+  filename: rails.png
+  content_type: image/png
+  byte_size: 6646
+
+# Allows testing destroy method for AE files.
+delete_me:
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  file: nofile.txt
+  filename: nofile.txt
+  content_type: text/plain
+  byte_size: 0

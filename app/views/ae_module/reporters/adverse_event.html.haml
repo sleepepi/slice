@@ -32,14 +32,34 @@
     %p
       %strong Documents
     .mb-3
-      = link_to ae_module_reporters_adverse_event_files_path(@project, @adverse_event) do
-        = icon("fas", "paperclip")
-        Attach supporting documents
-        = icon("fas", "caret-right")
+      - documents = @adverse_event.ae_documents.order(created_at: :desc).limit(10)
+      - if documents.present?
+        - if @adverse_event.ae_documents.count > 10
+          %p
+            Showing most recent
+            %strong 10
+            documents.
+
+            = link_to ae_module_documents_path(@project, @adverse_event) do
+              View all documents
+              = icon("fas", "caret-right")
+        - documents.each do |document|
+          .mb-3
+            = render "ae_module/documents/icon", document: document
+            - if document.pdf? || document.image?
+              = link_to document.filename, ae_module_document_path(@project, @adverse_event, document)
+            - else
+              = link_to document.filename, download_ae_module_document_path(@project, @adverse_event, document), data: { turbolinks: false }
+      - else
+        = link_to ae_module_documents_path(@project, @adverse_event) do
+          = icon("fas", "paperclip")
+          Attach supporting documents
+          = icon("fas", "caret-right")
 
     %p
       %strong Information Requests
 
+    - if @adverse_event.ae_adverse_event_info_requests.present?
       - @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil).order("resolved_at desc NULLS FIRST").each do |info_request|
         %div
           - if info_request.resolved?
@@ -59,8 +79,8 @@
             = link_to ae_module_reporters_resolve_info_request_path(@project, @adverse_event, info_request), method: :post do
               Mark as resolved
               = icon("fas", "caret-right")
-
-    .mb-3.text-muted No requests
+    - else
+      .mb-3.text-muted No requests
 
 
   .aer-footer

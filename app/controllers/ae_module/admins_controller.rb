@@ -25,7 +25,7 @@ class AeModule::AdminsController < AeModule::BaseController
     @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.where(project: @project, user: current_user).new(info_request_params)
     if @adverse_event_info_request.save
       @adverse_event_info_request.open!(current_user)
-      redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request submitted successfully."
+      redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request successfully submitted."
     else
       render :request_additional_details
     end
@@ -36,7 +36,7 @@ class AeModule::AdminsController < AeModule::BaseController
     team = @project.ae_review_teams.find_by_param(params[:review_team_id])
     if team
       @adverse_event.assign_team!(current_user, team)
-      notice = "Team assigned successfully."
+      notice = "Team successfully assigned."
     else
       notice = "Unable to assign team."
     end
@@ -105,13 +105,13 @@ class AeModule::AdminsController < AeModule::BaseController
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/close
   def close_adverse_event
     @adverse_event.close!(current_user)
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event closed successfully."
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully closed."
   end
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/reopen
   def reopen_adverse_event
     @adverse_event.reopen!(current_user)
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event reopened successfully."
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully reopened."
   end
 
   private

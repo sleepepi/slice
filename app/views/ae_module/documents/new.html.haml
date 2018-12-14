@@ -1,4 +1,5 @@
-- @title = @adverse_event.name
+- @title = "New Document"
+- @menu_title = "#{@title} - #{@adverse_event.name}"
 
 - content_for :header do
   = @title
@@ -9,10 +10,7 @@
     %li= link_to "reporters inbox", ae_module_reporters_inbox_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_reporters_adverse_event_path(@project, @adverse_event)
-    %li.breadcrumb-muted log
+    %li.breadcrumb-muted new document
 
 .dashboard-container
-  .mb-3
-    %strong Log
-  - @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: nil).each do |log_entry|
-    = render "ae_module/log_entries/show", log_entry: log_entry
+  = render "ae_module/documents/form", project: @project, adverse_event: @adverse_event, document: @document

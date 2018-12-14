@@ -18,6 +18,16 @@ Rails.application.routes.draw do
   namespace :ae_module, path: "projects/:project_id/ae-module" do
     get :dashboard
 
+    resources :documents, path: "adverse-events/:adverse_event_id/documents", except: [:edit, :update] do
+      collection do
+        post :upload_files, path: "upload-files"
+      end
+
+      member do
+        get :download
+      end
+    end
+
     namespace :reporters do
       get :inbox
       get :report
@@ -25,6 +35,7 @@ Rails.application.routes.draw do
       get :adverse_event, path: "adverse-events/:id"
       get :adverse_event_log, path: "adverse-events/:id/log"
       get :adverse_event_files, path: "adverse-events/:id/files"
+
       post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
 
       get :form, path: "adverse-events/:id/form/:design_id"

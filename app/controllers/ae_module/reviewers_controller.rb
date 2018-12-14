@@ -12,7 +12,7 @@ class AeModule::ReviewersController < AeModule::BaseController
 
   # GET /projects/:project_id/ae-module/reviewers/inbox
   def inbox
-    @assignments = assignments.order(id: :desc).page(params[:page]).per(20)
+    @assignments = assignments.order(created_at: :desc).page(params[:page]).per(20)
   end
 
   # # GET /projects/:project_id/ae-module/reviewers/adverse-events/:assignment_id

@@ -1,0 +1,26 @@
+- if documents.present?
+  .dashboard-container.dashboard-table.mb-0
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col.d-none.d-sm-table-column{ width: "1px" }
+      %col
+      %col
+      %col{ width: "1px" }
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th.d-none.d-sm-table-cell
+          %th File
+          %th Uploaded
+          %th Size
+          %th
+      %tbody
+        - documents.each do |document|
+          %tr
+            %td.d-none.d-sm-table-cell= render "ae_module/documents/icon", document: document
+            %td= link_to document.filename, ae_module_document_path(project, adverse_event, document)
+            %td= document.created_at.strftime("%Y-%^b-%d")
+            %td.nowrap= number_to_human_size document.byte_size
+            %td= link_to "delete", ae_module_document_path(project, adverse_event, document), method: :delete
+- else
+  .jumbotron.jumbotron-custom-text.mb-0
+    No documents found.

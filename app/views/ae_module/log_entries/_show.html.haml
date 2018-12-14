@@ -66,6 +66,15 @@
     adverse event for
     = succeed "." do
       = log_entry.ae_adverse_event.subject.subject_code
+  - when "ae_document_uploaded"
+    = log_entry.user.nickname
+    attached
+    = log_entry.documents.collect { |d| content_tag(:span, d.filename, class: "text-monospace border rounded small px-1") }.to_sentence.html_safe
+    = succeed "." do
+      = "supporting document".pluralize(log_entry.documents.count)
+  - when "ae_document_removed"
+    = log_entry.user.nickname
+    removed supporting documents.
   - else
     = log_entry.user.nickname
     = succeed "." do
