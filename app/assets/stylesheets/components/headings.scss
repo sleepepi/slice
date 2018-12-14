@@ -139,9 +139,11 @@
 
 @each $name, $theme in $themes {
   @if map-get($theme, menu-bg-scrolled) {
-    .navbar-scrolled {
-      .menu-#{$name} {
-        background-color: map-get($theme, menu-bg-scrolled);
+    .theme-#{$name}-bg {
+      .navbar-scrolled {
+        .menu-#{$name} {
+          background-color: map-get($theme, menu-bg-scrolled);
+        }
       }
     }
   }
