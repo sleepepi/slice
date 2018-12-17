@@ -1,23 +1,18 @@
-- @title = "AeModule::Admins#request_additional_details"
+- @title = @adverse_event.name
 
-- content_for :header, @title
-
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/admins/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "admin inbox", ae_module_admins_inbox_path(@project)
+    %li.breadcrumb-muted= @subject.name.downcase
     %li= link_to @adverse_event.name.downcase, ae_module_admins_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted request additional details
 
 .dashboard-container
-  %h2 Adverse Event
-  = @adverse_event.name
-  = @adverse_event.description
-  = @adverse_event.subject.name
-  = @adverse_event.user.nickname
-
-.dashboard-container
-  %h2 Request Additional Details
-  = form_with model: @adverse_event_info_request, url: ae_module_admins_submit_request_additional_details_path(@project, @adverse_event), method: :post, local: true do |form| # model: ae_request AeRequest
-    = render "forms/horizontal/text_field", form: form, object: @adverse_event_info_request, key: :comment
-    = render "forms/horizontal/submit", form: form, object: @adverse_event_info_request, submit_text: "Submit request", cancel: ae_module_admins_adverse_event_path(@project, @adverse_event)
+  = form_with model: @adverse_event_info_request, url: ae_module_admins_submit_request_additional_details_path(@project, @adverse_event), method: :post, local: true do |form|
+    = render "forms/vertical/text_field", form: form, object: @adverse_event_info_request, key: :comment, key_name: "Request additional details"
+    = render "forms/vertical/submit", form: form, object: @adverse_event_info_request, submit_text: "Submit request", cancel: ae_module_admins_adverse_event_path(@project, @adverse_event)
 

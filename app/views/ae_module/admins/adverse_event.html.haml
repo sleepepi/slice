@@ -10,8 +10,6 @@
     %li.breadcrumb-muted= @subject.name.downcase
     %li.breadcrumb-muted= @adverse_event.name.downcase
 
-
-
 .aer-container
   .aer-body
     - designments = @project.ae_designments.where(role: "reporter").order(Arel.sql("position nulls last"))
@@ -54,6 +52,14 @@
             %span.badge.badge-coverage.coverage-0 0%
             = link_to designment.design.name, ae_module_admins_form_path(@project, @adverse_event, designment.design)
 
+    %p
+      %strong Information Requests
+
+    - if @adverse_event.ae_adverse_event_info_requests.present?
+      - @adverse_event.ae_adverse_event_info_requests.order("resolved_at desc NULLS FIRST, created_at").each do |info_request|
+        = render "ae_module/info_requests/show", project: @project, adverse_event: @adverse_event, info_request: info_request
+    - else
+      .mb-3.text-muted No requests.
 
   .aer-footer
     - if @adverse_event.closed?

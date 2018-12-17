@@ -3,7 +3,7 @@ class AeModule::ReportersController < AeModule::BaseController
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [
     :adverse_event, :adverse_event_files, :adverse_event_log,
-    :resolve_info_request, :form, :form_save
+    :resolve_info_request, :form, :form_save, :send_for_review
   ]
   before_action :find_info_request_or_redirect, only: [:resolve_info_request]
   before_action :set_sheet, only: [:form, :form_save]
@@ -45,7 +45,7 @@ class AeModule::ReportersController < AeModule::BaseController
   # POST /projects/:project_id/ae-module/reporters/adverse-event/:id/info-requests/:info_request_id
   def resolve_info_request
     @info_request.resolve!(current_user)
-    redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully reported."
+    redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
   end
 
   # GET /projects/:project_id/ae-module/reporters/adverse-events/:id/form/:design_id
@@ -64,6 +64,16 @@ class AeModule::ReportersController < AeModule::BaseController
       proceed_to_next_design
     else
       render :form
+    end
+  end
+
+  # POST /projects/:project_id/ae-module/reporters/adverse-events/:id/send-for-review
+  def send_for_review
+    if @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+      redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "All information requests must be resolved before sending for review."
+    else
+      @adverse_event.update sent_for_review_at: Time.zone.now
+      redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully sent for review."
     end
   end
 

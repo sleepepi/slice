@@ -39,6 +39,10 @@ class AeAdverseEvent < ApplicationRecord
     self.class.where(project: project).order(:created_at).pluck(:id).index(id)&.send(:+, 1)
   end
 
+  def sent_for_review?
+    !sent_for_review_at.nil?
+  end
+
   def closed?
     !closed_at.nil?
   end

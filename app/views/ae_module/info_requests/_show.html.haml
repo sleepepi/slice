@@ -1,0 +1,4 @@
+.border-left.p-3.mb-1.bg-light{ style: "border-width: 2px !important;", class: info_request.resolved? ? nil : "border-primary" }
+  .mb-3
+    = render "ae_module/info_requests/header", project: @project, adverse_event: @adverse_event, info_request: info_request
+    = render "ae_module/info_requests/actions", project: @project, adverse_event: @adverse_event, info_request: info_request

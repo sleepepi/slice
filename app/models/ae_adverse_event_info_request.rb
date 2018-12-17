@@ -15,6 +15,7 @@ class AeAdverseEventInfoRequest < ApplicationRecord
 
   # Methods
   def open!(current_user)
+    ae_adverse_event.update sent_for_review_at: nil
     ae_adverse_event.ae_adverse_event_log_entries.create(
       project: project,
       user: current_user,

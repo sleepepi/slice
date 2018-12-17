@@ -37,4 +37,12 @@ module AeReviews
     number = design_array.collect(&:id).index(design.id)
     design_array[number + 1] if number
   end
+
+  def ae_admin?(current_user)
+    ae_review_admins.where(user: current_user).count == 1
+  end
+
+  def ae_reporter?(current_user)
+    site_or_project_editor?(current_user)
+  end
 end

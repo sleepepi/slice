@@ -31,6 +31,20 @@ class AeModule::AdminsController < AeModule::BaseController
     end
   end
 
+  # POST /projects/:project_id/ae-module/admins/adverse-event/:id/info-requests/:info_request_id
+  def resolve_info_request
+    @info_request.resolve!(current_user)
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
+  end
+
+  # DELETE /projects/:project_id/ae-module/admins/adverse-events/:id/info-requests/:info_request_id
+  def destroy_info_request
+    @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.find_by(id: params[:info_request_id])
+    @adverse_event_info_request.destroy
+    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request successfully deleted."
+  end
+
+
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/assign-team
   def assign_team
     team = @project.ae_review_teams.find_by_param(params[:review_team_id])

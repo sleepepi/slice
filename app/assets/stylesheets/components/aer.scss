@@ -42,6 +42,7 @@
   @include remove-last-child-bottom-margin;
   @include scale-images;
 
+  border-radius: $border-radius $border-radius 0 0;
   padding: map-get($spacers, 3);
 
   @include media-breakpoint-up(sm) {
@@ -50,6 +51,7 @@
 }
 
 .aer-footer {
+  border-radius: 0 0 $border-radius $border-radius;
   padding: map-get($spacers, 3);
 
   @include media-breakpoint-up(sm) {
