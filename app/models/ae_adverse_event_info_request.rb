@@ -14,6 +14,14 @@ class AeAdverseEventInfoRequest < ApplicationRecord
   belongs_to :ae_review_team, optional: true
 
   # Methods
+  def destroy
+    AeLogEntryAttachment.where(
+      attachment_type: self.class.to_s,
+      attachment_id: id
+    ).destroy_all
+    super
+  end
+
   def open!(current_user)
     ae_adverse_event.update sent_for_review_at: nil
     ae_adverse_event.ae_adverse_event_log_entries.create(
