@@ -19,6 +19,9 @@
     created
     = succeed "." do
       = log_entry.sheets.includes(:design).pluck("designs.name").to_sentence
+  - when "ae_sent_for_review"
+    = log_entry.user.nickname
+    sent adverse event for review.
   - when "ae_info_request_created"
     = log_entry.user.nickname
     requested

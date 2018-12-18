@@ -4,6 +4,7 @@ class AeAdverseEventLogEntry < ApplicationRecord
     ["Adverse event opened.", "ae_opened"],
     ["Adverse event sheet created.", "ae_sheet_created"],
     ["Adverse event sheet updated.", "ae_sheet_updated"],
+    ["Adverse event sent for review.", "ae_sent_for_review"],
     ["Adverse event info request created.", "ae_info_request_created"],
     ["Adverse event info request resolved.", "ae_info_request_resolved"],
     ["Adverse event document uploaded.", "ae_document_uploaded"],

@@ -72,7 +72,7 @@ class AeModule::ReportersController < AeModule::BaseController
     if @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
       redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "All information requests must be resolved before sending for review."
     else
-      @adverse_event.update sent_for_review_at: Time.zone.now
+      @adverse_event.sent_for_review!(current_user)
       redirect_to ae_module_reporters_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully sent for review."
     end
   end

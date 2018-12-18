@@ -92,6 +92,14 @@ class AeAdverseEvent < ApplicationRecord
     )
   end
 
+  def sent_for_review!(current_user)
+    update sent_for_review_at: Time.zone.now
+    ae_adverse_event_log_entries.create(
+      project: project,
+      user: current_user,
+      entry_type: "ae_sent_for_review"
+    )
+  end
 
   def assign_team!(current_user, team)
     ae_adverse_event_review_teams.where(project: project, ae_review_team: team).first_or_create
@@ -108,4 +116,15 @@ class AeAdverseEvent < ApplicationRecord
     update(closed_at: nil, closer: nil)
     log_entry = ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_reopened")
   end
+
+
+  def next_design_to_complete(role)
+    roles_sheets = ae_sheets.where(role: role)
+    project.ae_designs(role).each do |design|
+      sheet = sheets.where(id: roles_sheets.select(:sheet_id)).find_by(design: design)
+      return design if sheet.blank?
+    end
+    nil
+  end
+
 end
