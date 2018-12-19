@@ -12,7 +12,7 @@
           %th File
           %th Uploaded
           %th Size
-          %th
+          %th.text-center Actions
       %tbody
         - documents.each do |document|
           %tr
@@ -20,7 +20,10 @@
             %td= link_to document.filename, ae_module_document_path(project, adverse_event, document)
             %td= document.created_at.strftime("%Y-%^b-%d")
             %td.nowrap= number_to_human_size document.byte_size
-            %td= link_to "delete", ae_module_document_path(project, adverse_event, document), method: :delete
+            %td.text-center
+              = link_to icon("fas", "download"), download_ae_module_document_path(project, adverse_event, document), data: { turbolinks: false }
+              &nbsp;
+              = link_to icon("fas", "trash-alt"), ae_module_document_path(project, adverse_event, document), method: :delete, data: { confirm: "Delete #{document.filename}?"}, class: "text-danger"
 - else
   .jumbotron.jumbotron-custom-text.mb-0
     No documents found.

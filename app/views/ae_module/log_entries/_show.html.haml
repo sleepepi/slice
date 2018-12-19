@@ -1,15 +1,10 @@
 - display_classes = []
-- display_classes << "text-right" if current_user == log_entry.user
 - display_classes << "mt-3" if last_time.present? && (last_user != log_entry.user || log_entry.created_at - last_time > 5.minutes)
 
 %div{ class: display_classes }
   - if last_time.nil? || last_user != log_entry.user || log_entry.created_at - last_time > 5.minutes || log_entry.entry_type.in?(%w(ae_reopened))
-    - if current_user == log_entry.user
-      %small.text-muted= log_entry.created_at.strftime("%-l:%M%P")
-      %strong= log_entry.user.full_name
-    - else
-      %strong= log_entry.user.full_name
-      %small.text-muted= log_entry.created_at.strftime("%-l:%M%P")
+    %strong= log_entry.user.full_name
+    %small.text-muted= log_entry.created_at.strftime("%-l:%M%P")
   - elsif false
     %span.text-muted= log_entry.created_at.strftime("(%-l:%M%P)")
 

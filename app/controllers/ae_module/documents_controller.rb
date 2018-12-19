@@ -21,7 +21,7 @@ class AeModule::DocumentsController < AeModule::BaseController
 
   # GET /projects/:project_id/ae_module/adverse-events/:adverse_event_id/documents/:id/download
   def download
-    if @document.pdf?
+    if @document.pdf? && params[:disposition] == "inline"
       send_file_if_present @document.file, type: "application/pdf", disposition: "inline"
     else
       send_file_if_present @document.file

@@ -18,7 +18,7 @@
   .text-center= image_tag download_ae_module_document_path(@project, @adverse_event, @document), class: "img-thumbnail img-ignore-selection"
 - elsif @document.pdf?
   .embed-responsive{ style: "padding-bottom: 100.00%;" }
-    %object.embed-responsive-item{ data: download_ae_module_document_path(@project, @adverse_event, @document), type: "application/pdf" }
+    %object.embed-responsive-item{ data: download_ae_module_document_path(@project, @adverse_event, @document, disposition: "inline"), type: "application/pdf" }
       .jumbotron
         %p
           You may download the file here:
