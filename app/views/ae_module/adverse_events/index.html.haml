@@ -46,8 +46,12 @@
             %td
               - if adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
                 %span.badge.badge-primary Additional info required
-              - else
+              - elsif adverse_event.sent_for_review?
                 %span.badge.badge-secondary Reported
+              - elsif adverse_event.open?
+                %span.badge.badge-primary Open
+              - else
+                %span.badge.badge-secondary Closed
             %td.nowrap
               = adverse_event.ae_adverse_event_log_entries.last&.entry_type_text
 
