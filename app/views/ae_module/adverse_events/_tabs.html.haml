@@ -7,7 +7,7 @@
     - else
       .d-none.d-sm-inline Overview
 
-  - current_page = current_page?(ae_module_documents_path(project, adverse_event))
+  - current_page = (params[:controller] == "ae_module/documents")
   = link_to ae_module_documents_path(project, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
     = icon("fas", "paperclip")
     - if current_page

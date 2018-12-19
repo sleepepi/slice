@@ -3,7 +3,7 @@
 - content_for :header do
   = @title
   %small= @adverse_event.description
-= render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
+= render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   .float-right
     = link_to icon("fas", "download"), download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }, class: "btn btn-sm btn-light"

@@ -3,7 +3,7 @@
 - content_for :header do
   = @title
   %small= @adverse_event.description
-= render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
+= render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
