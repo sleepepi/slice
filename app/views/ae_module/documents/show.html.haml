@@ -25,5 +25,13 @@
         = link_to @document.filename, download_ae_module_document_path(@project, @adverse_event, @document)
 - else
   .jumbotron.jumbotron-custom-text
-    %p Download to view file.
-    = link_to @document.filename, download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }
+    %p Download file to view.
+    = link_to download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }, class: "d-inline-block" do
+      .d-flex.bg-white.border.rounded.flex-column.flex-md-row.breakword.border-primary
+        .pl-3.py-3.d-none.d-md-block
+          = render "ae_module/documents/icon", document: @document
+        .p-3
+          = @document.filename
+        .p-3.bg-light.rounded-right
+          .d-inline.d-md-none= render "ae_module/documents/icon", document: @document
+          = number_to_human_size @document.byte_size
