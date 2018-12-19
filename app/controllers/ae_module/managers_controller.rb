@@ -3,17 +3,13 @@
 # Managers can view adverse events, make assignments, and finalize reviews.
 class AeModule::ManagersController < AeModule::BaseController
   before_action :find_manager_project_or_redirect
-  before_action :find_team_or_redirect, except: [:dashboard, :inbox]
-  before_action :find_adverse_event_review_team, except: [:dashboard, :inbox]
+  before_action :find_team_or_redirect, except: [:inbox]
+  before_action :find_adverse_event_review_team, except: [:inbox]
   before_action :find_review_group_or_redirect, only: [
     :review_group, :review, :review_save, :sheet
   ]
   before_action :set_sheet, only: [:review, :review_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
-
-  # # GET /projects/:project_id/ae-module/managers/dashboard
-  # def dashboard
-  # end
 
   # GET /projects/:project_id/ae-module/managers/inbox
   def inbox

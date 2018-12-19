@@ -12,20 +12,18 @@
 .dashboard-container
   .row
     .col
-      %strong Reporters
+      %strong Reporters and Review Admins
       %ul
-        %li= link_to "Report adverse event", ae_module_reporters_report_path(@project)
-        %li= link_to "Reporter inbox", ae_module_reporters_inbox_path(@project)
+        %li= link_to "Report adverse event", new_ae_module_adverse_event_path(@project)
+        %li= link_to "Adverse Events", ae_module_adverse_events_path(@project)
     .col
       %strong Administrative
       %ul
         %li= link_to "Setup designs", ae_module_admins_setup_designs_path(@project)
-        %li= link_to "Admin inbox", ae_module_admins_inbox_path(@project)
     .col
       %strong Managers
       %ul
         %li= link_to "Manager inbox", ae_module_managers_inbox_path(@project)
-        %li= link_to "Manager dashboard", ae_module_managers_dashboard_path(@project), class: "text-muted"
     .col
       %strong Reviewers
       %ul
@@ -97,14 +95,6 @@
 
   = @project.ae_notifications.inspect
 
-
-.dashboard-container
-  %h2 AE Log
-
-  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject) # :ae_adverse_event_info_request, )
-  - if log_entries.present?
-    - log_entries.each do |log_entry|
-      = render "ae_module/log_entries/show", log_entry: log_entry
 
 .dashboard-container
   %h2 Adverse Events

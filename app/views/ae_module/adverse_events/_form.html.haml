@@ -1,4 +1,4 @@
-= form_with model: adverse_event, url: ae_module_reporters_submit_report_path(adverse_event.project, adverse_event), method: :post, local: true do |form|
+= form_with model: adverse_event, url: ae_module_adverse_events_path(adverse_event.project), method: :post, local: true do |form|
   .form-group.row
     = form.label :subject_id, "Subject code", class: "col-md-2 col-form-label"
     .col-md-10

@@ -5,7 +5,9 @@ class AeAdverseEvent < ApplicationRecord
   DOCS_PER_PAGE = 20
 
   # Concerns
+  include Blindable
   include Deletable
+  include Siteable
   include Squishable
 
   squish :description

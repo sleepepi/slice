@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   namespace :ae_module, path: "projects/:project_id/ae-module" do
     get :dashboard
 
+    resources :adverse_events, path: "adverse-events" do
+      member do
+        get :log
+      end
+    end
+
     resources :documents, path: "adverse-events/:adverse_event_id/documents", except: [:edit, :update] do
       collection do
         post :upload_files, path: "upload-files"
@@ -33,7 +39,6 @@ Rails.application.routes.draw do
       get :report
       post :submit_report, path: "report"
       get :adverse_event, path: "adverse-events/:id"
-      get :adverse_event_log, path: "adverse-events/:id/log"
       get :adverse_event_files, path: "adverse-events/:id/files"
 
       post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
@@ -47,7 +52,6 @@ Rails.application.routes.draw do
     namespace :admins do
       get :inbox
       get :adverse_event, path: "adverse-events/:id"
-      get :adverse_event_log, path: "adverse-events/:id/log"
       get :adverse_event_files, path: "adverse-events/:id/files"
       get :request_additional_details, path: "adverse-events/:id/request-additional-details"
       get :setup_designs, path: "setup-designs"
@@ -65,7 +69,6 @@ Rails.application.routes.draw do
     end
 
     namespace :managers do
-      get :dashboard
       get :inbox
       get :adverse_event, path: "teams/:team_id/adverse-events/:id"
       get :adverse_event_log, path: "teams/:team_id/adverse-events/:id/log"

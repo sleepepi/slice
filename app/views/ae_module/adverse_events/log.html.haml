@@ -1,0 +1,46 @@
+- @title = @adverse_event.name
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
+    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
+    %li.breadcrumb-muted log
+
+.dashboard-container
+  - current_date = nil
+  - last_time = nil
+  - last_user = nil
+  - @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: nil).each do |log_entry|
+    - if log_entry.entry_type == "ae_opened"
+      .mb-3.bg-light.rounded-top.p-3.text-center.border-top.border-left.border-right
+        %strong OPENED
+
+
+    - if log_entry.entry_type == "ae_reopened"
+      .my-3.bg-light.rounded-top.p-3.text-center.border-top.border-left.border-right
+        %strong REOPENED
+
+    - if current_date != log_entry.created_at.to_date
+      - current_date = log_entry.created_at.to_date
+      - last_time = nil
+      .mt-4.mb-2.text-center.border-top{ style: "position: relative;" }
+        %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
+          .d-inline-block.bg-white.px-3{ style: "font-weight: bolder;" }
+            - if current_date == Time.zone.today
+              TODAY
+            - else
+              = current_date.strftime("%b %-d, %Y")
+
+    = render "ae_module/log_entries/show", log_entry: log_entry, last_time: last_time, last_user: last_user
+
+    - if log_entry.entry_type == "ae_closed"
+      .mt-3.bg-light.rounded-bottom.p-3.text-center.border-bottom.border-left.border-right
+        %strong CLOSED
+
+    - last_time = log_entry.created_at
+    - last_user = log_entry.user

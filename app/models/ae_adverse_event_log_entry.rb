@@ -1,20 +1,20 @@
 class AeAdverseEventLogEntry < ApplicationRecord
   # Constants
   ENTRY_TYPES = [
-    ["Adverse event opened.", "ae_opened"],
-    ["Adverse event sheet created.", "ae_sheet_created"],
-    ["Adverse event sheet updated.", "ae_sheet_updated"],
-    ["Adverse event sent for review.", "ae_sent_for_review"],
-    ["Adverse event info request created.", "ae_info_request_created"],
-    ["Adverse event info request resolved.", "ae_info_request_resolved"],
-    ["Adverse event document uploaded.", "ae_document_uploaded"],
-    ["Adverse event document removed.", "ae_document_removed"],
-    ["Adverse event team assigned.", "ae_team_assigned"],
-    ["Adverse event reviewers assigned.", "ae_reviewers_assigned"],
-    ["Adverse event review completed.", "ae_review_completed"],
-    ["Adverse event final review completed.", "ae_final_review_completed"],
-    ["Adverse event closed.", "ae_closed"],
-    ["Adverse event reopened.", "ae_reopened"],
+    ["Opened.", "ae_opened"],
+    ["Sheet created.", "ae_sheet_created"],
+    ["Sheet updated.", "ae_sheet_updated"],
+    ["Sent for review.", "ae_sent_for_review"],
+    ["Info request created.", "ae_info_request_created"],
+    ["Info request resolved.", "ae_info_request_resolved"],
+    ["Document uploaded.", "ae_document_uploaded"],
+    ["Document removed.", "ae_document_removed"],
+    ["Team assigned.", "ae_team_assigned"],
+    ["Reviewers assigned.", "ae_reviewers_assigned"],
+    ["Review completed.", "ae_review_completed"],
+    ["Final review completed.", "ae_final_review_completed"],
+    ["Closed.", "ae_closed"],
+    ["Reopened.", "ae_reopened"],
   ]
 
   # Validations
@@ -31,4 +31,9 @@ class AeAdverseEventLogEntry < ApplicationRecord
   has_many :info_requests, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAdverseEventInfoRequest"
   has_many :reviewer_assignments, -> { order(:id) }, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAdverseEventReviewerAssignment"
   has_many :documents, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeDocument"
+
+  # Methods
+  def entry_type_text
+    ENTRY_TYPES.find { |_name, value| value == entry_type }&.first
+  end
 end

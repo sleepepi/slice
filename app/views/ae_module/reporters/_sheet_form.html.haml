@@ -19,5 +19,5 @@
 
     .form-group
       = link_to "Save", "#", class: "btn btn-primary", data: { target: "##{form_name}", object: "variable-check-before-submit" }
-      = link_to "Cancel", ae_module_reporters_adverse_event_url(project, adverse_event), class: "btn btn-light"
+      = link_to "Cancel", ae_module_adverse_event_url(project, adverse_event), class: "btn btn-light"
       %span#validation-messages.text-danger.span-link{ data: { object: "scroll-to-first-error" } }

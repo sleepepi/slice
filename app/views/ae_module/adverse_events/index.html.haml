@@ -1,14 +1,15 @@
 - @title = "Adverse Events"
 
-- content_for :header, @title
+- content_for :header do
+  .float-right
+    - if @project.ae_reporter?(current_user)
+      = link_to plus_or("Open adverse event"), new_ae_module_adverse_event_path(@project), class: "btn btn-accent btn-shadow"
+  = @title
 
-- content_for :breadcrumbs do
-  %ol
-    %li
-      = link_to ae_module_dashboard_path(@project) do
-        = icon("fas", "caret-left")
-        ae dashboard
-    %li.breadcrumb-muted admin inbox
+- if false
+  - content_for :breadcrumbs do
+    %ol
+      %li.breadcrumb-muted adverse events
 
 - if @adverse_events.present?
   .dashboard-container.dashboard-table
@@ -16,6 +17,7 @@
       %col{ width: "2px" }
       %col{ width: "1px" }
       %col.d-none.d-sm-table-column
+      %col
       %col
       %col
       %col{ width: "1px" }
@@ -26,6 +28,7 @@
           %th.d-none.d-sm-table-cell Description
           %th Reported
           %th Team
+          %th (reporter status)
           %th Last update
       %tbody
         - @adverse_events.each do |adverse_event|
@@ -40,6 +43,11 @@
                 = adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).pluck(:name).to_sentence
               - else
                 %span.text-muted Not assigned.
+            %td
+              - if adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+                %span.badge.badge-primary Additional info required
+              - else
+                %span.badge.badge-secondary Reported
             %td.nowrap
               = adverse_event.ae_adverse_event_log_entries.last&.entry_type_text
 

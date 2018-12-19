@@ -6,9 +6,9 @@
 = render "ae_module/reporters/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li= link_to "reporters inbox", ae_module_reporters_inbox_path(@project)
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
-    %li= link_to @adverse_event.name.downcase, ae_module_reporters_adverse_event_path(@project, @adverse_event)
+    %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted documents
 
 .file-upload.mb-4{ data: { object: "generic-dropfile", upload_url: upload_files_ae_module_documents_path(@project, @adverse_event, format: "js", authenticity_token: true), fallback_url: new_ae_module_document_path(@project, @adverse_event) } }

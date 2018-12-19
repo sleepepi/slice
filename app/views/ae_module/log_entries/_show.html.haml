@@ -1,98 +1,82 @@
-- if log_entry.entry_type == "ae_reopened"
-  .mt-5.my-3.text-center.border-top.text-muted{ style: "position: relative;" }
-    %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
-      .d-inline-block.bg-white.px-3 REOPENED
+- display_classes = []
+- display_classes << "text-right" if current_user == log_entry.user
+- display_classes << "mt-3" if last_time.present? && (last_user != log_entry.user || log_entry.created_at - last_time > 5.minutes)
 
-%div
-  .float-right
-    .d-none.d-md-block= log_entry.created_at.strftime("%a, %b %-d, %Y")
-    .d-block.d-md-none.strftime= log_entry.created_at.strftime("%b %-d, %Y")
-  %span.text-muted.border-right.pr-2.mr-2= log_entry.ae_adverse_event.name
-  - case log_entry.entry_type when "ae_opened"
-    = log_entry.user.nickname
-    reported
-    adverse event for
-    = succeed "." do
-      = log_entry.ae_adverse_event.subject.subject_code
-  - when "ae_sheet_created"
-    = log_entry.user.nickname
-    created
-    = succeed "." do
-      = log_entry.sheets.includes(:design).pluck("designs.name").to_sentence
-  - when "ae_sent_for_review"
-    = log_entry.user.nickname
-    sent adverse event for review.
-  - when "ae_info_request_created"
-    = log_entry.user.nickname
-    requested
-    - info_request = log_entry.info_requests.first
-    - if info_request
-      %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } } additional information
+%div{ class: display_classes }
+  - if last_time.nil? || last_user != log_entry.user || log_entry.created_at - last_time > 5.minutes || log_entry.entry_type.in?(%w(ae_reopened))
+    - if current_user == log_entry.user
+      %small.text-muted= log_entry.created_at.strftime("%-l:%M%P")
+      %strong= log_entry.user.full_name
     - else
-      %span.badge.badge-light deleted
-    from
-    - if log_entry.ae_review_team
-      admins.
-    - else
-      reporters.
-  - when "ae_info_request_resolved"
-    = log_entry.user.nickname
-    resolved
-    = succeed "." do
+      %strong= log_entry.user.full_name
+      %small.text-muted= log_entry.created_at.strftime("%-l:%M%P")
+  - elsif false
+    %span.text-muted= log_entry.created_at.strftime("(%-l:%M%P)")
+
+  %div
+    - case log_entry.entry_type when "ae_opened"
+      Reported
+      adverse event for
+      = succeed "." do
+        = log_entry.ae_adverse_event.subject.subject_code
+    - when "ae_sheet_created"
+      Created
+      = succeed "." do
+        = log_entry.sheets.includes(:design).pluck("designs.name").to_sentence
+    - when "ae_sent_for_review"
+      Sent adverse event for review.
+    - when "ae_info_request_created"
+      Requested
       - info_request = log_entry.info_requests.first
       - if info_request
-        %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } }<
-          = "request from #{log_entry.info_requests.first.user.nickname}"
+        %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } } additional information
       - else
         %span.badge.badge-light deleted
-        request
-  - when "ae_team_assigned"
-    = log_entry.user.nickname
-    assigned
-    adverse event to
-    = succeed "." do
-      = log_entry.ae_review_team.name
-  - when "ae_reviewers_assigned"
-    = log_entry.user.nickname
-    = succeed "." do
-      assigned
-      = "review".pluralize(log_entry.reviewer_assignments.count)
-      - if log_entry.reviewer_assignments.present?
-        to
-        = log_entry.reviewer_assignments.collect { |assignment| assignment.reviewer.nickname }.to_sentence
-  - when "ae_review_completed"
-    = log_entry.user.nickname
-    completed adverse event review.
-  - when "ae_final_review_completed"
-    = log_entry.user.nickname
-    submitted final adverse event review.
-  - when "ae_closed"
-    = log_entry.user.nickname
-    closed
-    adverse event for
-    = succeed "." do
-      = log_entry.ae_adverse_event.subject.subject_code
-  - when "ae_reopened"
-    = log_entry.user.nickname
-    reopened
-    adverse event for
-    = succeed "." do
-      = log_entry.ae_adverse_event.subject.subject_code
-  - when "ae_document_uploaded"
-    = log_entry.user.nickname
-    attached
-    = log_entry.documents.collect { |d| content_tag(:span, d.filename, class: "text-monospace border rounded small px-1") }.to_sentence.html_safe
-    = succeed "." do
-      = "supporting document".pluralize(log_entry.documents.count)
-  - when "ae_document_removed"
-    = log_entry.user.nickname
-    removed supporting documents.
-  - else
-    = log_entry.user.nickname
-    = succeed "." do
-      %code.text-primary.bg-light= log_entry.entry_type
-
-- if log_entry.entry_type == "ae_closed"
-  .my-3.text-center.border-top.text-muted{ style: "position: relative;" }
-    %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
-      .d-inline-block.bg-white.px-3 CLOSED
+      from
+      - if log_entry.ae_review_team
+        admins.
+      - else
+        reporters.
+    - when "ae_info_request_resolved"
+      Resolved
+      = succeed "." do
+        - info_request = log_entry.info_requests.first
+        - if info_request
+          %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } }<
+            = "request from #{log_entry.info_requests.first.user.nickname}"
+        - else
+          %span.badge.badge-light deleted
+          request
+    - when "ae_team_assigned"
+      Assigned adverse event to
+      = succeed "." do
+        = log_entry.ae_review_team.name
+    - when "ae_reviewers_assigned"
+      = succeed "." do
+        Assigned
+        = "review".pluralize(log_entry.reviewer_assignments.count)
+        - if log_entry.reviewer_assignments.present?
+          to
+          = log_entry.reviewer_assignments.collect { |assignment| assignment.reviewer.nickname }.to_sentence
+    - when "ae_review_completed"
+      Completed adverse event review.
+    - when "ae_final_review_completed"
+      Submitted final adverse event review.
+    - when "ae_closed"
+      Closed adverse event for
+      = succeed "." do
+        = log_entry.ae_adverse_event.subject.subject_code
+    - when "ae_reopened"
+      Reopened adverse event for
+      = succeed "." do
+        = log_entry.ae_adverse_event.subject.subject_code
+    - when "ae_document_uploaded"
+      Attached
+      = log_entry.documents.collect { |document| link_to(document.filename, ae_module_document_path(document.project, document.ae_adverse_event, document)) }.to_sentence.html_safe
+      = succeed "." do
+        = "supporting document".pluralize(log_entry.documents.count)
+    - when "ae_document_removed"
+      Removed supporting documents.
+    - else
+      = succeed "." do
+        %code.text-primary.bg-light= log_entry.entry_type

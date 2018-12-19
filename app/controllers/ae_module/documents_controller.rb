@@ -1,5 +1,8 @@
-class AeModule::DocumentsController < ApplicationController
-  before_action :find_editable_project_or_editable_site_or_redirect
+# frozen_string_literal: true
+
+# Allows reporters and review admins to manage and view supporting documents.
+class AeModule::DocumentsController < AeModule::BaseController
+  before_action :find_review_admin_project_or_reporter_project_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect
   before_action :find_ae_document_or_redirect, only: [
@@ -63,15 +66,20 @@ class AeModule::DocumentsController < ApplicationController
 
   private
 
-  def find_adverse_event_or_redirect
-    @adverse_event = @project.ae_adverse_events.where(user: current_user).find_by(id: params[:adverse_event_id])
-    @subject = @adverse_event&.subject
-    empty_response_or_root_path(ae_module_reporters_inbox_path(@project)) unless @adverse_event
+  def find_review_admin_project_or_reporter_project_or_redirect
+    project = Project.current.find_by_param(params[:project_id])
+    if project.ae_admin?(current_user)
+      @project = project
+    elsif project.ae_reporter?(current_user)
+      @project = project
+    else
+      redirect_without_project
+    end
   end
 
   def find_ae_document_or_redirect
     @document = @adverse_event.ae_documents.find_by(id: params[:id])
-    empty_response_or_root_path(ae_module_reporters_adverse_event_path(@project, @adverse_event)) unless @adverse_event
+    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @adverse_event
   end
 
   def ae_document_params

@@ -2,7 +2,7 @@
   .ml-3
     %strong{ style: "font-size: 80%;" }
       = info_request.resolver.full_name
-      %small= info_request.resolved_at.strftime("%-d %b %Y, %-l:%M %p")
+      %small= info_request.resolved_at.strftime("%b %-d, %Y at %-l:%M%P")
     %div
       = icon("fas", "check-square")
       Marked as resolved.

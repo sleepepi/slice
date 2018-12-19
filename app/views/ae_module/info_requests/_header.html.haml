@@ -1,7 +1,7 @@
 %strong{ style: "font-size: 80%;", class: info_request.resolved? ? "text-muted" : nil }
   = info_request.user.full_name
   %small
-    = info_request.created_at.strftime("%-d %b %Y, %-l:%M %p")
+    = info_request.created_at.strftime("%b %-d, %Y at %-l:%M%P")
     - if @project.ae_admin?(current_user)
       = link_to icon("fas", "trash"), ae_module_admins_destroy_info_request_path(project, adverse_event, info_request), method: :delete, class: "text-danger", data: { confirm: "Delete information request?" }
 .mb-1{ class: info_request.resolved? ? "text-muted" : nil }= info_request.comment

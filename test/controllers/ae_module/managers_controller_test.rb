@@ -12,12 +12,6 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
     # @pathway = ae_team_pathways(:heart_failure)
   end
 
-  test "should get dashboard" do
-    login(@team_manager)
-    get ae_module_managers_dashboard_url(@project)
-    assert_response :success
-  end
-
   test "should get inbox" do
     login(@team_manager)
     get ae_module_managers_inbox_url(@project)

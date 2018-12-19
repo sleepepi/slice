@@ -25,7 +25,7 @@ class AeModule::AdminsController < AeModule::BaseController
     @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.where(project: @project, user: current_user).new(info_request_params)
     if @adverse_event_info_request.save
       @adverse_event_info_request.open!(current_user)
-      redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request successfully submitted."
+      redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Request successfully submitted."
     else
       render :request_additional_details
     end
@@ -34,14 +34,14 @@ class AeModule::AdminsController < AeModule::BaseController
   # POST /projects/:project_id/ae-module/admins/adverse-event/:id/info-requests/:info_request_id
   def resolve_info_request
     @info_request.resolve!(current_user)
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
   end
 
   # DELETE /projects/:project_id/ae-module/admins/adverse-events/:id/info-requests/:info_request_id
   def destroy_info_request
     @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.find_by(id: params[:info_request_id])
     @adverse_event_info_request.destroy
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Request successfully deleted."
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Request successfully deleted."
   end
 
 
@@ -54,7 +54,7 @@ class AeModule::AdminsController < AeModule::BaseController
     else
       notice = "Unable to assign team."
     end
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: notice
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: notice
   end
 
   # # GET /projects/:project_id/ae-module/admins/setup-designs
@@ -119,38 +119,33 @@ class AeModule::AdminsController < AeModule::BaseController
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/close
   def close_adverse_event
     @adverse_event.close!(current_user)
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully closed."
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully closed."
   end
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/reopen
   def reopen_adverse_event
     @adverse_event.reopen!(current_user)
-    redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully reopened."
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully reopened."
   end
 
   private
 
   def find_review_admin_project_or_redirect
     @project = Project.current.where(id: AeReviewAdmin.where(user: current_user).select(:project_id)).find_by_param(params[:project_id])
-    @project = current_user.all_viewable_and_site_projects.find_by_param(params[:project_id]) unless @project # TODO: Remove
     redirect_without_project
   end
 
   def find_adverse_event_or_redirect
-    @adverse_event = @project.ae_adverse_events.find_by(id: params[:id])
-    @subject = @adverse_event&.subject
-    empty_response_or_root_path(ae_module_admins_inbox_path(@project)) unless @adverse_event
+    super(:id)
   end
 
   def info_request_params
-    params.require(:ae_adverse_event_info_request).permit(
-      :comment
-    )
+    params.require(:ae_adverse_event_info_request).permit(:comment)
   end
 
   def find_sheet_or_redirect
     @sheet =  @adverse_event.sheets.find_by(id: params[:sheet_id])
-    empty_response_or_root_path(ae_module_admins_adverse_event_path(@project, @adverse_event)) unless @sheet
+    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @sheet
   end
 
   def set_sheet
@@ -171,7 +166,7 @@ class AeModule::AdminsController < AeModule::BaseController
     if design
       redirect_to ae_module_admins_form_path(@project, @adverse_event, design)
     else
-      redirect_to ae_module_admins_adverse_event_path(@project, @adverse_event)
+      redirect_to ae_module_adverse_event_path(@project, @adverse_event)
     end
   end
 end

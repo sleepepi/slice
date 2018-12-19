@@ -1,0 +1,11 @@
+- @title = "Report Adverse Event"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
+    %li.breadcrumb-muted report adverse event
+
+.dashboard-container
+  = render "ae_module/adverse_events/form", adverse_event: @adverse_event

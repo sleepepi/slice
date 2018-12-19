@@ -185,6 +185,13 @@ class User < ApplicationRecord
       .blinding_scope(self)
   end
 
+  def all_ae_adverse_events
+    AeAdverseEvent
+      .current
+      .with_site(all_editable_sites.select(:id))
+      .blinding_scope(self)
+  end
+
   # Project Editors and Viewers and Site Members can view adverse event
   def all_viewable_adverse_events
     AdverseEvent

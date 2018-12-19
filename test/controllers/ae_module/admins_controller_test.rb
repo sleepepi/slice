@@ -17,13 +17,13 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get inbox as review admin" do
     login(@review_admin)
-    get ae_module_admins_inbox_url(@project)
+    get ae_module_adverse_events_url(@project)
     assert_response :success
   end
 
   test "should get adverse event as review admin" do
     login(@review_admin)
-    get ae_module_admins_adverse_event_url(@project, @adverse_event)
+    get ae_module_adverse_event_url(@project, @adverse_event)
     assert_response :success
   end
 
@@ -40,7 +40,7 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
         ae_adverse_event_info_request: ae_adverse_event_info_request_params
       }
     end
-    assert_redirected_to ae_module_admins_adverse_event_url(@project, @adverse_event)
+    assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
   end
 
   test "should not create info request without comment as review admin" do
@@ -60,7 +60,7 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
         review_team_id: ae_review_teams(:clinical).id
       }
     end
-    assert_redirected_to ae_module_admins_adverse_event_url(@project, @adverse_event)
+    assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
   end
 
   test "should not assign blank team as review admin" do
@@ -70,6 +70,6 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
         review_team_id: ""
       }
     end
-    assert_redirected_to ae_module_admins_adverse_event_url(@project, @adverse_event)
+    assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
   end
 end

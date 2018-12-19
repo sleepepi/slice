@@ -6,7 +6,7 @@
 = render "ae_module/admins/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li= link_to "admin inbox", ae_module_admins_inbox_path(@project)
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li.breadcrumb-muted= @subject.name.downcase
     %li.breadcrumb-muted= @adverse_event.name.downcase
 
@@ -32,8 +32,29 @@
     %p
       %strong Documents
     .mb-3
-      = icon("fas", "file")
-      file.pdf
+      - documents = @adverse_event.ae_documents.order(created_at: :desc).limit(10)
+      - if documents.present?
+        - if @adverse_event.ae_documents.count > 10
+          %p
+            Showing most recent
+            %strong 10
+            documents.
+
+            = link_to ae_module_documents_path(@project, @adverse_event) do
+              View all documents
+              = icon("fas", "caret-right")
+        - documents.each do |document|
+          .mb-3
+            = render "ae_module/documents/icon", document: document
+            - if document.pdf? || document.image?
+              = link_to document.filename, ae_module_document_path(@project, @adverse_event, document)
+            - else
+              = link_to document.filename, download_ae_module_document_path(@project, @adverse_event, document), data: { turbolinks: false }
+      - else
+        = link_to ae_module_documents_path(@project, @adverse_event) do
+          = icon("fas", "paperclip")
+          Attach supporting documents
+          = icon("fas", "caret-right")
 
     - designments = @project.ae_designments.where(role: "admin").order(Arel.sql("position nulls last"))
     - if designments.present?
