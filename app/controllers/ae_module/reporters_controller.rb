@@ -2,7 +2,6 @@ class AeModule::ReportersController < AeModule::BaseController
   before_action :find_editable_project_or_editable_site_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [
-    :adverse_event, :adverse_event_files, :adverse_event_log,
     :resolve_info_request, :form, :form_save, :send_for_review
   ]
   before_action :find_info_request_or_redirect, only: [:resolve_info_request]
@@ -28,18 +27,6 @@ class AeModule::ReportersController < AeModule::BaseController
       render :report
     end
   end
-
-  # # GET /projects/:project_id/ae-module/reporters/adverse-event/:id
-  # def adverse_event
-  # end
-
-  # # GET /projects/:project_id/ae-module/reporters/adverse-event/:id/log
-  # def adverse_event_log
-  # end
-
-  # # GET /projects/:project_id/ae-module/reporters/adverse-event/:id/files
-  # def adverse_event_files
-  # end
 
   # POST /projects/:project_id/ae-module/reporters/adverse-event/:id/info-requests/:info_request_id
   def resolve_info_request

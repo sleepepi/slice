@@ -73,16 +73,14 @@
 
   .aer-footer
     - if @project.ae_reporter?(current_user)
-      %strong --Reporter--
       - if @adverse_event.closed?
-        %div
-          %span.text-primary= icon("fas", "lock")
-          Adverse event closed.
       - elsif @adverse_event.sent_for_review?
+        %strong --Reporter--
         %div
           %span.text-primary= icon("fas", "check-square")
           Sent for review!
       - else
+        %strong --Reporter--
         - design = @adverse_event.next_design_to_complete("reporter")
         - if design
           .mb-3
@@ -112,13 +110,8 @@
               = icon("fas", "caret-right")
             .small All sheets entered.
     - if @project.ae_admin?(current_user)
-      %strong --Admin--
-      - if @adverse_event.closed?
-        %div
-          %span.text-primary= icon("fas", "lock")
-          Adverse event closed.
-          = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event?" }
-      - else
+      - if @adverse_event.open?
+        %strong --Admin--
         .mb-3
           %span.text-primary= icon("fas", "question-circle")
           = link_to ae_module_admins_request_additional_details_path(@project, @adverse_event) do
@@ -144,6 +137,13 @@
               = icon("fas", "caret-right")
             .small Finalize adverse event report.
 
+    - if @adverse_event.closed?
+      %div
+        %span.text-primary= icon("fas", "lock")
+        Adverse event closed.
+        = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event?" } if @project.ae_admin?(current_user)
+    - else
+      - if @project.ae_admin?(current_user)
         %div
           %span.text-danger= icon("fas", "lock")
           = link_to ae_module_admins_close_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger" do

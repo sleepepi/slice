@@ -52,10 +52,10 @@ class DocumentsTest < ApplicationSystemTestCase
     visit_login(@reporter)
     visit ae_module_documents_url(@project, @adverse_event)
     screenshot("destroy-ae-document")
-    # page.accept_confirm do
+    page.accept_confirm do
       # click_on "Destroy", match: :third
       page.all("[data-method=delete]")[2].click
-    # end
+    end
     screenshot("destroy-ae-document")
     assert_text "Document was successfully destroyed"
   end

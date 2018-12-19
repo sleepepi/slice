@@ -36,11 +36,6 @@ Rails.application.routes.draw do
 
     namespace :reporters do
       get :inbox
-      get :report
-      post :submit_report, path: "report"
-      get :adverse_event, path: "adverse-events/:id"
-      get :adverse_event_files, path: "adverse-events/:id/files"
-
       post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
 
       get :form, path: "adverse-events/:id/form/:design_id"
@@ -51,8 +46,6 @@ Rails.application.routes.draw do
 
     namespace :admins do
       get :inbox
-      get :adverse_event, path: "adverse-events/:id"
-      get :adverse_event_files, path: "adverse-events/:id/files"
       get :request_additional_details, path: "adverse-events/:id/request-additional-details"
       get :setup_designs, path: "setup-designs"
       post :submit_designs, path: "submit-designs"

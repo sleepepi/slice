@@ -23,14 +23,14 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get report adverse event as reporter" do
     login(@reporter)
-    get ae_module_reporters_report_url(@project)
+    get new_ae_module_adverse_event_url(@project)
     assert_response :success
   end
 
   test "should create adverse event as reporter" do
     login(@reporter)
     assert_difference("AeAdverseEvent.count") do
-      post ae_module_reporters_submit_report_url(@project), params: {
+      post ae_module_adverse_events_url(@project), params: {
         ae_adverse_event: adverse_event_params
       }
     end
@@ -40,7 +40,7 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
   test "should not create adverse event without description as reporter" do
     login(@reporter)
     assert_difference("AeAdverseEvent.count", 0) do
-      post ae_module_reporters_submit_report_url(@project), params: {
+      post ae_module_adverse_events_url(@project), params: {
         ae_adverse_event: adverse_event_params.merge(description: "")
       }
     end

@@ -11,10 +11,6 @@ class AeModule::AdminsController < AeModule::BaseController
     @adverse_events = @project.ae_adverse_events.order(reported_at: :desc).page(params[:page]).per(20)
   end
 
-  # # GET /projects/:project_id/ae-module/admins/adverse-events/:id
-  # def adverse_event
-  # end
-
   # GET /projects/:project_id/ae-module/admins/adverse-events/:id/request-additional-details
   def request_additional_details
     @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.new

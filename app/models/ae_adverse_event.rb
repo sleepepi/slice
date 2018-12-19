@@ -49,6 +49,10 @@ class AeAdverseEvent < ApplicationRecord
     !closed_at.nil?
   end
 
+  def open?
+    !closed?
+  end
+
   def subject_code
     subject&.subject_code
   end

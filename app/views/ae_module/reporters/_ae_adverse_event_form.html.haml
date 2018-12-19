@@ -1,9 +1,0 @@
-= form_with model: adverse_event, url: ae_module_reporters_submit_report_path(adverse_event.project, adverse_event), method: :post, local: true do |form|
-  .form-group.row
-    = form.label :subject_id, "Subject code", class: "col-md-2 col-form-label"
-    .col-md-10
-      = form.text_field :subject_id, autocomplete: "off", id: "subject-search", class: "form-control#{" is-invalid" if adverse_event.errors[:subject].present?}", data: { project_slug: adverse_event.project.to_param }, name: "ae_adverse_event[subject_code]", value: adverse_event.subject_code
-      = render "forms/invalid_feedback", object: adverse_event, key: :subject
-
-  = render "forms/horizontal/text_field", form: form, object: adverse_event, key: :description
-  = render "forms/horizontal/submit", form: form, object: adverse_event, submit_text: "Submit report", cancel: ae_module_adverse_events_path(adverse_event.project)

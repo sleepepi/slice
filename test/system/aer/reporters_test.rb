@@ -19,7 +19,7 @@ class ReportersTest < ApplicationSystemTestCase
 
   test "visit report adverse event as reporter" do
     visit_login(@reporter)
-    visit ae_module_reporters_report_url(@project)
+    visit new_ae_module_adverse_event_url(@project)
     assert_selector "h1", text: "Report Adverse Event"
     fill_in "ae_adverse_event[subject_code]", with: "AE01"
     fill_in "ae_adverse_event[description]", with: "Complication after surgery."
