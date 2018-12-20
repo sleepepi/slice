@@ -15,11 +15,12 @@ class AeModule::ReportersController < AeModule::BaseController
   def form_save
     update_type = (@sheet.new_record? ? "sheet_create" : "sheet_update")
     if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, update_type)
-      @project.ae_sheets.where(
+      @ae_sheet = @project.ae_sheets.where(
         ae_adverse_event: @adverse_event,
         sheet: @sheet,
         role: "reporter"
       ).first_or_create
+      @ae_sheet.sheet_saved!(current_user, update_type)
       proceed_to_next_design
     else
       render :form

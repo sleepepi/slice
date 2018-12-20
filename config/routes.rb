@@ -40,6 +40,10 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :sheets, path: "adverse-events/:adverse_event_id/sheets", only: [:show] do
+
+    end
+
     namespace :reporters do
       get :form, path: "adverse-events/:id/form/:design_id"
       post :form_save, path: "adverse-events/:id/form/:design_id"

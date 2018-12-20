@@ -20,7 +20,6 @@
       .mb-3.bg-light.rounded-top.p-3.text-center.border-top.border-left.border-right
         %strong OPENED
 
-
     - if log_entry.entry_type == "ae_reopened"
       .my-3.bg-light.rounded-top.p-3.text-center.border-top.border-left.border-right
         %strong REOPENED
@@ -32,7 +31,11 @@
         %div{ style: "line-height: 1rem;position: absolute;top: -.5rem;left: 0; right: 0;" }
           .d-inline-block.bg-white.px-3{ style: "font-weight: bolder;" }
             - if current_date == Time.zone.today
-              TODAY
+              Today
+            - elsif current_date == Time.zone.today - 1.day
+              Yesterday
+            - elsif current_date.year == Time.zone.today.year
+              = current_date.strftime("%B %-d")
             - else
               = current_date.strftime("%b %-d, %Y")
 

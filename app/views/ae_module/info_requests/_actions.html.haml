@@ -7,20 +7,13 @@
       = icon("fas", "check-square")
       Marked as resolved.
 - elsif project.ae_reporter?(current_user) && info_request.ae_review_team.blank?
-  .ml-3
-    %strong.text-muted{ style: "font-size: 80%;" }
-      = current_user.full_name
-    %div
-      = icon("far", "square")
-      = link_to resolve_ae_module_info_request_path(project, adverse_event, info_request), method: :post do
-        Mark as resolved
-        = icon("fas", "caret-right")
+  %div
+    = link_to resolve_ae_module_info_request_path(project, adverse_event, info_request), method: :post do
+      Mark as resolved
+      = icon("fas", "caret-right")
 - elsif project.ae_admin?(current_user) && info_request.ae_review_team.present?
-  .ml-3
-    %strong.text-muted{ style: "font-size: 80%;" }
-      = current_user.full_name
-    %div
-      = icon("far", "square")
-      = link_to resolve_ae_module_info_request_path(project, adverse_event, info_request), method: :post do
-        Mark as resolved
-        = icon("fas", "caret-right")
+  %div
+    = icon("far", "square")
+    = link_to resolve_ae_module_info_request_path(project, adverse_event, info_request), method: :post do
+      Mark as resolved
+      = icon("fas", "caret-right")

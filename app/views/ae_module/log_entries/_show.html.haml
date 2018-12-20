@@ -15,17 +15,21 @@
       = succeed "." do
         = log_entry.ae_adverse_event.subject.subject_code
     - when "ae_sheet_created"
-      Created
+      Added
       = succeed "." do
-        = log_entry.sheets.includes(:design).pluck("designs.name").to_sentence
+        = log_entry.sheets.collect { |s| link_to(s.name, ae_module_sheet_path(s.project, log_entry.ae_adverse_event, s)) }.to_sentence.html_safe
+    - when "ae_sheet_updated"
+      Updated
+      = succeed "." do
+        = log_entry.sheets.collect { |s| link_to(s.name, ae_module_sheet_path(s.project, log_entry.ae_adverse_event, s)) }.to_sentence.html_safe
     - when "ae_sent_for_review"
       Sent adverse event for review.
     - when "ae_info_request_created"
-      Requested
       - info_request = log_entry.info_requests.first
       - if info_request
-        %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } } additional information
+        %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } } Requested information
       - else
+        Requested
         %span.badge.badge-light deleted
       from
       - if log_entry.ae_review_team
@@ -38,7 +42,9 @@
         - info_request = log_entry.info_requests.first
         - if info_request
           %span.border-bottom.border-dark{ style: "border-bottom-style: dotted !important;", data: { toggle: "tooltip", title: info_request.comment, container: "body", placement: "top" } }<
-            = "request from #{log_entry.info_requests.first.user.nickname}"
+            information request
+          from
+          = log_entry.info_requests.first.user.full_name
         - else
           %span.badge.badge-light deleted
           request
@@ -52,7 +58,7 @@
         = "review".pluralize(log_entry.reviewer_assignments.count)
         - if log_entry.reviewer_assignments.present?
           to
-          = log_entry.reviewer_assignments.collect { |assignment| assignment.reviewer.nickname }.to_sentence
+          = log_entry.reviewer_assignments.collect { |assignment| assignment.reviewer.full_name }.to_sentence
     - when "ae_review_completed"
       Completed adverse event review.
     - when "ae_final_review_completed"

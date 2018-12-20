@@ -81,45 +81,23 @@
       - if @adverse_event.sent_for_review?
         - if @project.ae_admin?(current_user)
           .mb-3
-            %span.text-primary= icon("fas", "question-circle")
-            = link_to new_ae_module_info_request_path(@project, @adverse_event) do
-              Request information
-              = icon("fas", "caret-right")
-            .small Have questions? Get answers!
-
-          .mb-3
-            %span.text-primary= icon("fas", "paper-plane")
-            = link_to "#", data: { toggle: "dropdown" } do
-              Send to team
-              = icon("fas", "caret-right")
-            .dropdown-menu
-              - @project.ae_review_teams.each do |team|
-                = link_to team.name, ae_module_admins_assign_team_path(@project, @adverse_event, review_team_id: team), method: :post, class: "dropdown-item"
-            .small Assign a team to adverse event.
-
-          - design = @project.first_design("admin")
-          - if design
-            .mb-3
-              %span.text-primary= icon("far", "copy")
-              = link_to ae_module_admins_form_path(@project, @adverse_event, design) do
-                Enter closing forms
-                = icon("fas", "caret-right")
-              .small Finalize adverse event.
-
+            %span.text-primary= icon("fas", "check-square")
+            Ready for review!
         - else
           %div
             %span.text-primary= icon("fas", "check-square")
             Sent for review!
-      - else
-        - design = @adverse_event.next_design_to_complete("reporter")
-        - if design
-          .mb-3
-            %span.text-primary= icon("far", "copy")
-            = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
-              Enter opening forms
-              = icon("fas", "caret-right")
-            .small Provide adverse event overview.
 
+      - design = @adverse_event.next_design_to_complete("reporter")
+      - if design
+        .mb-3
+          %span.text-primary= icon("far", "copy")
+          = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
+            Enter report forms
+            = icon("fas", "caret-right")
+          .small Fill out adverse event report.
+
+      - unless @adverse_event.sent_for_review?
         %div{ class: @project.ae_admin?(current_user) ? "mb-3" : nil }
           - if design.present? || @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
             %span.text-muted= icon("fas", "paper-plane")
@@ -148,6 +126,37 @@
               - else
                 Ready to send for review.
 
+      - if @project.ae_admin?(current_user)
+        .mb-3
+          %strong Administrative
+
+        .mb-3
+          %span.text-primary= icon("fas", "question-circle")
+          = link_to new_ae_module_info_request_path(@project, @adverse_event) do
+            Request information
+            = icon("fas", "caret-right")
+          .small Have questions? Get answers!
+
+      - if @project.ae_admin?(current_user)
+        .mb-3
+          %span{ class: @adverse_event.sent_for_review? ? "text-primary" : "text-muted" }= icon("fas", "paper-plane")
+          = link_to "#", data: { toggle: "dropdown" }, class: @adverse_event.sent_for_review? ? nil : "text-muted" do
+            Send to team
+            = icon("fas", "caret-right")
+          .dropdown-menu
+            - @project.ae_review_teams.each do |team|
+              = link_to team.name, ae_module_admins_assign_team_path(@project, @adverse_event, review_team_id: team), method: :post, class: "dropdown-item", data: { confirm: @adverse_event.sent_for_review? ? nil : "Adverse event has not yet been sent for review. Assign team anyways?" }
+          .small Assign a team to adverse event.
+
+      - if @project.ae_admin?(current_user)
+        - design = @project.first_design("admin")
+        - if design
+          .mb-3
+            %span{ class: @adverse_event.sent_for_review? ? "text-primary" : "text-muted" }= icon("far", "copy")
+            = link_to ae_module_admins_form_path(@project, @adverse_event, design), class: @adverse_event.sent_for_review? ? nil : "text-muted" do
+              Enter administrative forms
+              = icon("fas", "caret-right")
+            .small Finalize adverse event.
 
       - if @project.ae_admin?(current_user)
         %div
