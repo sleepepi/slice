@@ -4,7 +4,7 @@
 class AeModule::AdverseEventsController < AeModule::BaseController
   before_action :find_review_admin_project_or_reporter_project_or_redirect
   before_action :redirect_blinded_users
-  before_action :find_adverse_event_or_redirect, only: [:show, :log]
+  before_action :find_adverse_event_or_redirect, only: [:show, :edit, :update, :log]
 
   # GET /projects/:project_id/ae-module/adverse-events
   def index
@@ -28,6 +28,18 @@ class AeModule::AdverseEventsController < AeModule::BaseController
       redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully opened."
     else
       render :new
+    end
+  end
+
+  # # GET /projects/:project_id/ae-module/adverse-events/:id/edit
+  # def edit
+  # end
+
+  def update
+    if @adverse_event.update(ae_adverse_event_params)
+      redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully updated."
+    else
+      render :edit
     end
   end
 

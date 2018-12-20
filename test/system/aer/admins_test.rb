@@ -51,11 +51,25 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-02-teamdone")
   end
 
+  test "visit teamdone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:teamdone))
+    assert_selector "h1", text: "AE#2"
+    screenshot("visit-admin-adverse-event-02-teamdone-log")
+  end
+
   test "visit pathdone adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:pathdone))
     assert_selector "h1", text: "AE#3"
     screenshot("visit-admin-adverse-event-03-pathdone")
+  end
+
+  test "visit pathdone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:pathdone))
+    assert_selector "h1", text: "AE#3"
+    screenshot("visit-admin-adverse-event-03-pathdone-log")
   end
 
   test "visit rvwsdone adverse event as admin" do
@@ -65,11 +79,25 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-04-rvwsdone")
   end
 
+  test "visit rvwsdone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:rvwsdone))
+    assert_selector "h1", text: "AE#4"
+    screenshot("visit-admin-adverse-event-04-rvwsdone-log")
+  end
+
   test "visit pathset adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:pathset))
     assert_selector "h1", text: "AE#5"
     screenshot("visit-admin-adverse-event-05-pathset")
+  end
+
+  test "visit pathset adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:pathset))
+    assert_selector "h1", text: "AE#5"
+    screenshot("visit-admin-adverse-event-05-pathset-log")
   end
 
   test "visit teamindone adverse event as admin" do
@@ -79,11 +107,25 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-06-teamindone")
   end
 
+  test "visit teamindone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:teamindone))
+    assert_selector "h1", text: "AE#6"
+    screenshot("visit-admin-adverse-event-06-teamindone-log")
+  end
+
   test "visit teaminfo adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:teaminfo))
     assert_selector "h1", text: "AE#7"
     screenshot("visit-admin-adverse-event-07-teaminfo")
+  end
+
+  test "visit teaminfo adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:teaminfo))
+    assert_selector "h1", text: "AE#7"
+    screenshot("visit-admin-adverse-event-07-teaminfo-log")
   end
 
   test "visit teamset adverse event as admin" do
@@ -93,11 +135,25 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-08-teamset")
   end
 
+  test "visit teamset adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:teamset))
+    assert_selector "h1", text: "AE#8"
+    screenshot("visit-admin-adverse-event-08-teamset-log")
+  end
+
   test "visit repindone adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:repindone))
     assert_selector "h1", text: "AE#9"
     screenshot("visit-admin-adverse-event-09-repindone")
+  end
+
+  test "visit repindone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:repindone))
+    assert_selector "h1", text: "AE#9"
+    screenshot("visit-admin-adverse-event-09-repindone-log")
   end
 
   test "visit repinfo adverse event as admin" do
@@ -107,6 +163,13 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-10-repinfo")
   end
 
+  test "visit repinfo adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:repinfo))
+    assert_selector "h1", text: "AE#10"
+    screenshot("visit-admin-adverse-event-10-repinfo-log")
+  end
+
   test "visit sheetdone adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:sheetdone))
@@ -114,10 +177,24 @@ class AdminsTest < ApplicationSystemTestCase
     screenshot("visit-admin-adverse-event-11-sheetdone")
   end
 
+  test "visit sheetdone adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:sheetdone))
+    assert_selector "h1", text: "AE#11"
+    screenshot("visit-admin-adverse-event-11-sheetdone-log")
+  end
+
   test "visit reported adverse event as admin" do
     visit_login(@review_admin)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:reported))
     assert_selector "h1", text: "AE#12"
     screenshot("visit-admin-adverse-event-12-reported")
+  end
+
+  test "visit reported adverse event log as admin" do
+    visit_login(@review_admin)
+    visit log_ae_module_adverse_event_url(@project, ae_adverse_events(:reported))
+    assert_selector "h1", text: "AE#12"
+    screenshot("visit-admin-adverse-event-12-reported-log")
   end
 end

@@ -26,6 +26,7 @@ class AeModule::SheetsController < AeModule::BaseController
 
   def find_sheet_or_redirect
     @sheet = @adverse_event.sheets.find_by(id: params[:id])
-    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @sheet
+    @ae_sheet = @adverse_event.ae_sheets.find_by(sheet: @sheet)
+    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @sheet && @ae_sheet
   end
 end

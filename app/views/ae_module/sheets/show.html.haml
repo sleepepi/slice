@@ -1,13 +1,23 @@
 - @title = @adverse_event.name
 
 - content_for :header do
+  - if @adverse_event.open?
+    .float-right
+      - if @ae_sheet.role == "reporter" && @project.ae_reporter?(current_user)
+        = link_to ae_module_reporters_form_path(@project, @adverse_event, @sheet.design), class: "btn btn-light" do
+          = icon("fas", "pencil-alt")
+          Edit
+      - elsif @ae_sheet.role == "admin" && @project.ae_admin?(current_user)
+        = link_to ae_module_admins_form_path(@project, @adverse_event, @sheet.design), class: "btn btn-light" do
+          = icon("fas", "pencil-alt")
+          Edit
   = @title
   %small= @adverse_event.description
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li.breadcrumb-muted= @subject.name.downcase
+    %li= link_to @subject.name.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted= @sheet.name.downcase
 

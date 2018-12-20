@@ -1,5 +1,5 @@
 - content_for :tabs do
-  - current_page = current_page?(ae_module_adverse_event_path(project, adverse_event)) || (params[:controller] == "ae_module/info_requests") || (params[:controller] == "ae_module/sheets")
+  - current_page = current_page?(ae_module_adverse_event_path(project, adverse_event)) || (params[:controller] == "ae_module/info_requests") || (params[:controller] == "ae_module/sheets") || params[:action].in?(%w(form form_save)) || (params[:controller] == "ae_module/adverse_events" && params[:action].in?(%w(edit update)))
   = link_to ae_module_adverse_event_path(project, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
     = icon("fas", "inbox")
     - if current_page

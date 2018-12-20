@@ -1,14 +1,15 @@
-- @title = @adverse_event.name
+- @title = "Edit Adverse Event"
 
 - content_for :header do
-  = @title
-  %small= @adverse_event.description
+  = @adverse_event.name
+  Edit
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
-    %li.breadcrumb-muted= @sheet.name.downcase
+    %li.breadcrumb-muted edit
 
-= render "ae_module/admins/sheet_form", project: @project, adverse_event: @adverse_event, design: @design, sheet: @sheet
+.dashboard-container
+  = render "ae_module/adverse_events/form", adverse_event: @adverse_event

@@ -2,7 +2,7 @@
 
 - content_for :header do
   = @title
-  %small= @adverse_event.description
+  %small= link_to_if (@adverse_event.open? && !@adverse_event.sent_for_review?), @adverse_event.description, edit_ae_module_adverse_event_path(@project, @adverse_event), style: "color: inherit;"
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
@@ -22,12 +22,23 @@
           - sheets.each do |sheet|
             .mb-3
               = render "sheets/coverage", sheet: sheet
-              = link_to sheet.name, ae_module_reporters_form_path(@project, @adverse_event, sheet.design)
-          - next
+              = link_to sheet.name, ae_module_sheet_path(@project, @adverse_event, sheet)
         - else
           .mb-3
             %span.badge.badge-coverage.coverage-0 0%
             = link_to designment.design.name, ae_module_reporters_form_path(@project, @adverse_event, designment.design)
+
+    - admin_ae_sheets = @project.ae_sheets.where(role: "admin").includes(:sheet)
+
+    - if designments.blank? && admin_ae_sheets.present?
+      %p
+        %strong Forms
+
+    - admin_ae_sheets.each do |ae_sheet|
+      .mb-3
+        = render "sheets/coverage", sheet: ae_sheet.sheet
+        = link_to ae_sheet.sheet.name, ae_module_sheet_path(@project, @adverse_event, ae_sheet.sheet)
+
     %p
       %strong Documents
     .mb-3
@@ -93,9 +104,13 @@
         .mb-3
           %span.text-primary= icon("far", "copy")
           = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
-            Enter report forms
+            - if @project.ae_designs("reporter").count == 1
+              Enter
+              = design.name
+            - else
+              Enter forms
             = icon("fas", "caret-right")
-          .small Fill out adverse event report.
+          .small Provide information about the adverse event.
 
       - unless @adverse_event.sent_for_review?
         %div{ class: @project.ae_admin?(current_user) ? "mb-3" : nil }
@@ -156,7 +171,7 @@
             = link_to ae_module_admins_form_path(@project, @adverse_event, design), class: @adverse_event.sent_for_review? ? nil : "text-muted" do
               Enter administrative forms
               = icon("fas", "caret-right")
-            .small Finalize adverse event.
+            .small Provide information about the adverse event.
 
       - if @project.ae_admin?(current_user)
         %div
