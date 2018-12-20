@@ -102,7 +102,7 @@
             .mb-3
               %span.text-primary= icon("far", "copy")
               = link_to ae_module_admins_form_path(@project, @adverse_event, design) do
-                Enter closing sheets
+                Enter closing forms
                 = icon("fas", "caret-right")
               .small Finalize adverse event.
 
@@ -116,7 +116,7 @@
           .mb-3
             %span.text-primary= icon("far", "copy")
             = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
-              Enter opening sheets
+              Enter opening forms
               = icon("fas", "caret-right")
             .small Provide adverse event overview.
 
@@ -128,9 +128,9 @@
               = icon("fas", "caret-right")
             .small
               - if design.present? && @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
-                Enter all sheets and resolve all information request before sending for review.
+                Enter all forms and resolve all information request before sending for review.
               - elsif design.present?
-                Enter all sheets before sending for review.
+                Enter all forms before sending for review.
               - else
                 Resolve all information requests before sending for review.
           - else
@@ -140,11 +140,11 @@
               = icon("fas", "caret-right")
             .small
               - if @project.ae_designs("reporter").count.positive? && @adverse_event.ae_info_requests.where(ae_review_team_id: nil).present?
-                All sheets entered and info requests resolved.
+                All forms entered and info requests resolved.
               - elsif @adverse_event.ae_info_requests.where(ae_review_team_id: nil).present?
                 All info requests resolved.
               - elsif @project.ae_designs("reporter").count.positive?
-                All sheets entered.
+                All forms entered.
               - else
                 Ready to send for review.
 
