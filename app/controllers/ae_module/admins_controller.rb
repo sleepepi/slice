@@ -1,45 +1,10 @@
 class AeModule::AdminsController < AeModule::BaseController
   before_action :find_review_admin_project_or_redirect
   before_action :find_adverse_event_or_redirect, except: [
-    :inbox, :setup_designs, :submit_designs, :remove_designment
+    :setup_designs, :submit_designs, :remove_designment
   ]
   before_action :set_sheet, only: [:form, :form_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
-
-  # GET /projects/:project_id/ae-module/admins/inbox
-  def inbox
-    @adverse_events = @project.ae_adverse_events.order(reported_at: :desc).page(params[:page]).per(20)
-  end
-
-  # GET /projects/:project_id/ae-module/admins/adverse-events/:id/request-additional-details
-  def request_additional_details
-    @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.new
-  end
-
-  # POST /projects/:project_id/ae-module/admins/adverse-events/:id/request-additional-details
-  def submit_request_additional_details
-    @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.where(project: @project, user: current_user).new(info_request_params)
-    if @adverse_event_info_request.save
-      @adverse_event_info_request.open!(current_user)
-      redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Request successfully submitted."
-    else
-      render :request_additional_details
-    end
-  end
-
-  # POST /projects/:project_id/ae-module/admins/adverse-event/:id/info-requests/:info_request_id
-  def resolve_info_request
-    @info_request.resolve!(current_user)
-    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
-  end
-
-  # DELETE /projects/:project_id/ae-module/admins/adverse-events/:id/info-requests/:info_request_id
-  def destroy_info_request
-    @adverse_event_info_request = @adverse_event.ae_adverse_event_info_requests.find_by(id: params[:info_request_id])
-    @adverse_event_info_request.destroy
-    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Request successfully deleted."
-  end
-
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/assign-team
   def assign_team
@@ -133,10 +98,6 @@ class AeModule::AdminsController < AeModule::BaseController
 
   def find_adverse_event_or_redirect
     super(:id)
-  end
-
-  def info_request_params
-    params.require(:ae_adverse_event_info_request).permit(:comment)
   end
 
   def find_sheet_or_redirect

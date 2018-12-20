@@ -34,24 +34,21 @@ Rails.application.routes.draw do
       end
     end
 
-    namespace :reporters do
-      get :inbox
-      post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
+    resources :info_requests, path: "adverse-events/:adverse_event_id/info-requests", except: [:edit, :update] do
+      member do
+        post :resolve
+      end
+    end
 
+    namespace :reporters do
       get :form, path: "adverse-events/:id/form/:design_id"
       post :form_save, path: "adverse-events/:id/form/:design_id"
-
       post :send_for_review, path: "adverse-events/:id/send-for-review"
     end
 
     namespace :admins do
-      get :inbox
-      get :request_additional_details, path: "adverse-events/:id/request-additional-details"
       get :setup_designs, path: "setup-designs"
       post :submit_designs, path: "submit-designs"
-      post :submit_request_additional_details, path: "adverse-events/:id/request-additional-details"
-      post :resolve_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
-      delete :destroy_info_request, path: "adverse-events/:id/info-requests/:info_request_id"
       post :assign_team, path: "adverse-events/:id/assign-team"
       delete :remove_designment, path: "remove-designment"
       get :form, path: "adverse-events/:id/form/:design_id"

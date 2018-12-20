@@ -5,7 +5,7 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
     @project = projects(:aes)
     @reporter = users(:aes_project_editor)
     @adverse_event = ae_adverse_events(:repinfo)
-    @info_request = ae_adverse_event_info_requests(:repinfo_admin_info_request_for_reporter)
+    @info_request = ae_info_requests(:repinfo_admin_info_request_for_reporter)
   end
 
   def adverse_event_params
@@ -51,14 +51,5 @@ class AeModule::ReportersControllerTest < ActionDispatch::IntegrationTest
     login(@reporter)
     get ae_module_adverse_event_url(@project, @adverse_event)
     assert_response :success
-  end
-
-  test "should mark info request resolved as reporter" do
-    login(@reporter)
-    post ae_module_reporters_resolve_info_request_url(@project, @adverse_event, @info_request)
-    @info_request.reload
-    assert_not_nil @info_request.resolved_at
-    assert_equal @reporter, @info_request.resolver
-    assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
   end
 end

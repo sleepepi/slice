@@ -1,6 +1,6 @@
-class CreateAeAdverseEventInfoRequests < ActiveRecord::Migration[5.2]
+class CreateAeInfoRequests < ActiveRecord::Migration[5.2]
   def change
-    create_table :ae_adverse_event_info_requests do |t|
+    create_table :ae_info_requests do |t|
       t.bigint :project_id
       t.bigint :ae_adverse_event_id
       t.bigint :user_id

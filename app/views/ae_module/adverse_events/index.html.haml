@@ -44,7 +44,7 @@
               - else
                 %span.text-muted Not assigned.
             %td
-              - if adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+              - if adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
                 %span.badge.badge-primary Additional info required
               - elsif adverse_event.sent_for_review?
                 %span.badge.badge-secondary Reported

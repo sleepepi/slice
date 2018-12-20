@@ -21,7 +21,7 @@ class AeAdverseEvent < ApplicationRecord
   belongs_to :subject
   belongs_to :closer, class_name: "User", foreign_key: "closer_id", optional: true
   has_many :ae_adverse_event_log_entries, -> { order(:created_at) }
-  has_many :ae_adverse_event_info_requests
+  has_many :ae_info_requests
   has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
   has_many :ae_adverse_event_reviewer_assignments
   has_many :ae_documents

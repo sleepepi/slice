@@ -2,37 +2,10 @@ class AeModule::ReportersController < AeModule::BaseController
   before_action :find_editable_project_or_editable_site_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [
-    :resolve_info_request, :form, :form_save, :send_for_review
+    :form, :form_save, :send_for_review
   ]
   before_action :find_info_request_or_redirect, only: [:resolve_info_request]
   before_action :set_sheet, only: [:form, :form_save]
-
-  # GET /projects/:project_id/ae-module/reporters/inbox
-  def inbox
-    @adverse_events = adverse_events.order(reported_at: :desc).page(params[:page]).per(20)
-  end
-
-  # GET /projects/:project_id/ae-module/reporters/report
-  def report
-    @adverse_event = @project.ae_adverse_events.new
-  end
-
-  # POST /projects/:project_id/ae-module/reporters/report
-  def submit_report
-    @adverse_event = @project.ae_adverse_events.where(user: current_user).new(ae_adverse_event_params)
-    if @adverse_event.save
-      @adverse_event.opened!(current_user)
-      redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event was successfully reported."
-    else
-      render :report
-    end
-  end
-
-  # POST /projects/:project_id/ae-module/reporters/adverse-event/:id/info-requests/:info_request_id
-  def resolve_info_request
-    @info_request.resolve!(current_user)
-    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Info request was marked as resolved."
-  end
 
   # GET /projects/:project_id/ae-module/reporters/adverse-events/:id/form/:design_id
   def form
@@ -55,7 +28,7 @@ class AeModule::ReportersController < AeModule::BaseController
 
   # POST /projects/:project_id/ae-module/reporters/adverse-events/:id/send-for-review
   def send_for_review
-    if @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+    if @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
       redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "All information requests must be resolved before sending for review."
     else
       @adverse_event.sent_for_review!(current_user)
@@ -78,13 +51,11 @@ class AeModule::ReportersController < AeModule::BaseController
   end
 
   def find_adverse_event_or_redirect
-    @adverse_event = adverse_events.find_by(id: params[:id])
-    @subject = @adverse_event&.subject
-    empty_response_or_root_path(ae_module_adverse_events_path(@project)) unless @adverse_event
+    super(:id)
   end
 
   def find_info_request_or_redirect
-    @info_request = @adverse_event.ae_adverse_event_info_requests.find_by(id: params[:info_request_id])
+    @info_request = @adverse_event.ae_info_requests.find_by(id: params[:info_request_id])
     empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @info_request
   end
 

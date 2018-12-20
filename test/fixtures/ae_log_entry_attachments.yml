@@ -121,12 +121,12 @@ teamindone_report_form:
 teamindone_info_request:
   ae_adverse_event_log_entry: teamindone_manager_info_request_created
   attachment: teamindone_info_request_for_admin
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 teamindone_info_resolve:
   ae_adverse_event_log_entry: teamindone_manager_info_request_resolved
   attachment: teamindone_info_request_for_admin
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 teaminfo_report_form:
   ae_adverse_event_log_entry: teaminfo_sheet_created
@@ -136,7 +136,7 @@ teaminfo_report_form:
 teaminfo_info_request:
   ae_adverse_event_log_entry: teaminfo_manager_info_request_created
   attachment: teaminfo_info_request_for_admin
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 teamset_report_form:
   ae_adverse_event_log_entry: teamset_sheet_created
@@ -151,12 +151,12 @@ repindone_report_form:
 repindone_admin_info_request:
   ae_adverse_event_log_entry: repindone_admin_info_request_created
   attachment: repindone_admin_info_request_for_reporter
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 repindone_admin_info_resolve:
   ae_adverse_event_log_entry: repindone_admin_info_request_resolved
   attachment: repindone_admin_info_request_for_reporter
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 repinfo_report_form:
   ae_adverse_event_log_entry: repinfo_sheet_created
@@ -166,7 +166,7 @@ repinfo_report_form:
 repinfo_admin_info_request:
   ae_adverse_event_log_entry: repinfo_admin_info_request_created
   attachment: repinfo_admin_info_request_for_reporter
-  attachment_type: AeAdverseEventInfoRequest
+  attachment_type: AeInfoRequest
 
 sheetdone_report_form:
   ae_adverse_event_log_entry: sheetdone_sheet_created

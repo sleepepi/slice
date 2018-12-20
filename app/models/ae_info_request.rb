@@ -2,7 +2,7 @@
 
 # Represents a request for more information made by an Adverse Event Admin to
 # the Adverse Event Reporter(s).
-class AeAdverseEventInfoRequest < ApplicationRecord
+class AeInfoRequest < ApplicationRecord
   # Validations
   validates :comment, presence: true
 
@@ -31,7 +31,7 @@ class AeAdverseEventInfoRequest < ApplicationRecord
       info_requests: [self]
     )
     # TODO: Generate in app notifications and LOG notifications to AENotificationsLog for Info Request (to "reporters of AE")
-    # @adverse_event_info_request.log_info # TODO: Generate notifications and log entries
+    # @info_request.log_info # TODO: Generate notifications and log entries
   end
 
   def resolved?

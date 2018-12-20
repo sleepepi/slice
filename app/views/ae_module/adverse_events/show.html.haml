@@ -59,11 +59,11 @@
       %strong Information requests
 
     - if @project.ae_admin?(current_user)
-      - info_requests = @adverse_event.ae_adverse_event_info_requests
+      - info_requests = @adverse_event.ae_info_requests
     - elsif @project.ae_reporter?(current_user)
-      - info_requests = @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil)
+      - info_requests = @adverse_event.ae_info_requests.where(ae_review_team_id: nil)
     - else
-      - info_requests = AeAdverseEventInfoRequest.none
+      - info_requests = AeInfoRequest.none
 
     - if info_requests.present?
       - info_requests.order("resolved_at desc NULLS FIRST, created_at").each do |info_request|
@@ -82,7 +82,7 @@
         - if @project.ae_admin?(current_user)
           .mb-3
             %span.text-primary= icon("fas", "question-circle")
-            = link_to ae_module_admins_request_additional_details_path(@project, @adverse_event) do
+            = link_to new_ae_module_info_request_path(@project, @adverse_event) do
               Request information
               = icon("fas", "caret-right")
             .small Have questions? Get answers!
@@ -121,13 +121,13 @@
             .small Provide adverse event overview.
 
         %div{ class: @project.ae_admin?(current_user) ? "mb-3" : nil }
-          - if design.present? || @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+          - if design.present? || @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
             %span.text-muted= icon("fas", "paper-plane")
             = link_to "#", disabled: true, class: "text-muted", data: { object: "suppress-click" } do
               Send for admin review
               = icon("fas", "caret-right")
             .small
-              - if design.present? && @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+              - if design.present? && @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
                 Enter all sheets and resolve all information request before sending for review.
               - elsif design.present?
                 Enter all sheets before sending for review.
@@ -139,9 +139,9 @@
               Send for admin review
               = icon("fas", "caret-right")
             .small
-              - if @project.ae_designs("reporter").count.positive? && @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil).present?
+              - if @project.ae_designs("reporter").count.positive? && @adverse_event.ae_info_requests.where(ae_review_team_id: nil).present?
                 All sheets entered and info requests resolved.
-              - elsif @adverse_event.ae_adverse_event_info_requests.where(ae_review_team_id: nil).present?
+              - elsif @adverse_event.ae_info_requests.where(ae_review_team_id: nil).present?
                 All info requests resolved.
               - elsif @project.ae_designs("reporter").count.positive?
                 All sheets entered.
