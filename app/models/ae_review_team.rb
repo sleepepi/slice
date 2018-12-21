@@ -5,6 +5,7 @@ class AeReviewTeam < ApplicationRecord
   include Deletable
   include Sluggable
   include Squishable
+  include ShortNameable
 
   squish :name
 

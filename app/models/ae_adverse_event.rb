@@ -23,6 +23,7 @@ class AeAdverseEvent < ApplicationRecord
   has_many :ae_adverse_event_log_entries, -> { order(:created_at) }
   has_many :ae_info_requests
   has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
+  has_many :ae_review_teams, through: :ae_adverse_event_review_teams
   has_many :ae_adverse_event_reviewer_assignments
   has_many :ae_documents
   has_many :ae_sheets
@@ -133,4 +134,16 @@ class AeAdverseEvent < ApplicationRecord
     nil
   end
 
+  def roles(current_user)
+    all_roles = []
+    all_roles << ["reporter", nil] if project.site_or_project_editor?(current_user)
+    all_roles << ["admin", nil] if project.ae_admin?(current_user)
+    ae_review_teams.each do |team|
+      all_roles << ["manager", team] if project.ae_team_manager?(current_user, team: team)
+      all_roles << ["principal reviewer", team] if project.ae_team_principal_reviewer?(current_user, team: team)
+      all_roles << ["reviewer", team] if project.ae_team_reviewer?(current_user, team: team)
+      all_roles << ["viewer", team] if project.ae_team_viewer?(current_user, team: team)
+    end
+    all_roles
+  end
 end

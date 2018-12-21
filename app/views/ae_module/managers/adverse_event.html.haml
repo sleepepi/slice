@@ -72,34 +72,3 @@
         Reviewers assigned for
         = review_group.ae_team_pathway.name
         = icon("fas", "caret-right")
-
-- if false
-  .bg-white.p-5
-    .mb-5
-      .mb-3.float-right
-        .p-2.d-inline-block.small
-          = icon("far", "circle")
-          = link_to "Mark as resolved", "#"
-
-        .p-2.d-inline-block.rounded{ style: "background-color: #fce4ec;" }
-          .small.text-right{ style: "color: #f48fb1;font-weight: bold;" } Me
-          This is a comment that was added.
-      .clearfix
-
-      .mb-3
-        .d-flex
-          .p-2.d-inline-block.rounded.bg-light
-            .small{ style: "color: #f48fb1;font-weight: bold;" } Reporter
-            I replied to your comment that you left.
-
-      .mb-3.float-right
-        .p-2.d-inline-block.small
-          = icon("fas", "check-circle", class: "text-success")
-          Resolved
-
-        .p-2.d-inline-block.rounded{ style: "background-color: #fce4ec;"}
-          .small.text-right{ style: "color: #f48fb1;font-weight: bold;" } Me
-          Yes, probably a great idea!
-      .clearfix
-
-    = text_field_tag "comment", "", class: "form-control form-control-lg", placeholder: "Write a comment", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"

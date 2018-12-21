@@ -117,6 +117,10 @@ aes_team_manager:
   full_name: AES Team Manager
   email: aes_team_manager@example.com
 
+aes_team_principal_reviewer:
+  full_name: AES Team Principal Reviewer
+  email: aes_team_principal_reviewer@example.com
+
 aes_team_reviewer:
   full_name: AES Team Reviewer
   email: aes_team_reviewer@example.com

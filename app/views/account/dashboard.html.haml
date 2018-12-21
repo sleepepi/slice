@@ -5,6 +5,9 @@
     = link_to "New Project", new_project_path, class: "btn btn-primary btn-shadow"
   = @title
 
+= current_user.id
+= current_user.all_dashboard_projects.pluck(:name)
+
 - if @projects.present?
   .dashboard-container.dashboard-table
     %h3.px-2.py-1 Active Projects

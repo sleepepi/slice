@@ -43,7 +43,12 @@ class ApplicationController < ActionController::Base
 
   def find_viewable_project_or_redirect(id = :project_id)
     @project = current_user.all_viewable_and_site_projects.find_by_param(params[id])
-    redirect_without_project
+    project = Project.current.find_by_param(params[id])
+    if project&.ae_admin?(current_user) || project&.ae_team?(current_user)
+      redirect_to ae_module_adverse_events_path(project) unless @project
+    else
+      redirect_without_project
+    end
   end
 
   def find_editable_project_or_redirect(id = :project_id)

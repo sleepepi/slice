@@ -11,7 +11,7 @@
         = icon("fas", "caret-left")
         ae dashboard
     %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
-    %li= link_to @adverse_event.name.downcase, ae_module_managers_adverse_event_path(@project, @team, @adverse_event)
+    %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted log
 
 .dashboard-container

@@ -7,6 +7,7 @@ module AeReviews
     # Relationships
     has_many :ae_review_admins
     has_many :ae_review_teams, -> { current }
+    has_many :ae_review_team_members
     has_many :ae_adverse_event_review_teams
     has_many :ae_adverse_events, -> { current }
     has_many :ae_adverse_event_log_entries, -> { order(:id) }
@@ -39,10 +40,46 @@ module AeReviews
   end
 
   def ae_admin?(current_user)
-    ae_review_admins.where(user: current_user).count == 1
+    ae_review_admins.where(user: current_user).count.positive?
   end
 
   def ae_reporter?(current_user)
     site_or_project_editor?(current_user)
+  end
+
+  def ae_team?(current_user)
+    ae_review_team_members.where(user: current_user).count.positive?
+  end
+
+  def ae_team_manager?(current_user, team: nil)
+    if team
+      ae_review_team_members.where(user: current_user, manager: true, ae_review_team: team).count.positive?
+    else
+      ae_review_team_members.where(user: current_user, manager: true).count.positive?
+    end
+  end
+
+  def ae_team_principal_reviewer?(current_user, team: nil)
+    if team
+      ae_review_team_members.where(user: current_user, principal_reviewer: true, ae_review_team: team).count.positive?
+    else
+      ae_review_team_members.where(user: current_user, principal_reviewer: true).count.positive?
+    end
+  end
+
+  def ae_team_reviewer?(current_user, team: nil)
+    if team
+      ae_review_team_members.where(user: current_user, reviewer: true, ae_review_team: team).count.positive?
+    else
+      ae_review_team_members.where(user: current_user, reviewer: true).count.positive?
+    end
+  end
+
+  def ae_team_viewer?(current_user, team: nil)
+    if team
+      ae_review_team_members.where(user: current_user, viewer: true, ae_review_team: team).count.positive?
+    else
+      ae_review_team_members.where(user: current_user, viewer: true).count.positive?
+    end
   end
 end

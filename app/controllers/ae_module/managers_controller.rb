@@ -111,7 +111,7 @@ class AeModule::ManagersController < AeModule::BaseController
 
   def find_review_group_or_redirect
     @review_group = @team.ae_review_groups.where(ae_adverse_event: @adverse_event).find_by(id: params[:review_group_id])
-    empty_response_or_root_path(ae_module_managers_adverse_event_path(@project, @team, @adverse_event)) unless @review_group
+    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @review_group
   end
 
   def set_sheet

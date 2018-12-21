@@ -82,7 +82,7 @@
             .mb-3
               %strong Unassigned role
               - users.each do |user|
-                %div= user.user.full_name
+                %div= user.full_name
         %strong Pathways
         = team.ae_team_pathways.pluck(:name).to_sentence
   - else

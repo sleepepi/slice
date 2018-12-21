@@ -92,6 +92,18 @@ class User < ApplicationRecord
     Project.current.viewable_by_user(self)
   end
 
+  # Projects visible on dashboard, including projects on which user is one of:
+  # a project member
+  # a site member
+  # a review admin or review team member
+  def all_dashboard_projects
+    project_ids = []
+    project_ids += all_viewable_and_site_projects.pluck(:id)
+    project_ids += AeReviewAdmin.where(user_id: id).pluck(:project_id)
+    project_ids += AeReviewTeamMember.where(user_id: id).pluck(:project_id)
+    Project.current.where(id: project_ids.uniq)
+  end
+
   # Project Owners, Project Editors, and Site Editors
   def all_sheet_editable_projects
     Project.current.editable_by_user(self)

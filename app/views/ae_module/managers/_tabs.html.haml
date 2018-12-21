@@ -1,6 +1,6 @@
 - content_for :tabs do
-  - current_page = current_page?(ae_module_managers_adverse_event_path(project, team, adverse_event))
-  = link_to ae_module_managers_adverse_event_path(project, team, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
+  - current_page = current_page?(ae_module_adverse_event_path(project, team, adverse_event))
+  = link_to ae_module_adverse_event_path(project, team, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
     = icon("fas", "inbox")
     - if current_page
       Overview
@@ -15,10 +15,9 @@
     - else
       .d-none.d-sm-inline Documents
 
-  - current_page = current_page?(ae_module_managers_adverse_event_log_path(project, team, adverse_event))
-  = link_to ae_module_managers_adverse_event_log_path(project, team, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
-    =# icon("fas", "clipboard-list")
-    = icon("fas", "list-alt")
+  - current_page = current_page?(log_ae_module_adverse_event_path(project, adverse_event))
+  = link_to log_ae_module_adverse_event_path(project, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
+    = icon("fas", "file-alt")
     - if current_page
       Log
     - else
