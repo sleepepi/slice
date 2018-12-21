@@ -1,6 +1,10 @@
 - @title = @adverse_event.name
 
 - content_for :header do
+  .float-right
+    = link_to new_ae_module_document_path(@project, @adverse_event), class: "btn btn-accent btn-shadow" do
+      = icon("fas", "cloud-upload-alt")
+      .d-none.d-md-inline Upload document
   = @title
   %small= @adverse_event.description
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
