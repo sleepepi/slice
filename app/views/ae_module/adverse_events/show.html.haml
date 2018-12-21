@@ -28,7 +28,7 @@
             %span.badge.badge-coverage.coverage-0 0%
             = link_to designment.design.name, ae_module_reporters_form_path(@project, @adverse_event, designment.design)
 
-    - admin_ae_sheets = @project.ae_sheets.where(role: "admin").includes(:sheet)
+    - admin_ae_sheets = @adverse_event.ae_sheets.where(role: "admin").includes(:sheet)
 
     - if designments.blank? && admin_ae_sheets.present?
       %p
