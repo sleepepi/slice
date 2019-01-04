@@ -2,6 +2,7 @@
 
 ### Enhancements
 - **Gem Changes**
+  - Update to ruby 2.6.0
   - Update to rails 5.2.2
 
 ## 68.0.1 (November 14, 2018)

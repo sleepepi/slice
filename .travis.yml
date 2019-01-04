@@ -1,10 +1,8 @@
-sudo: false
 language: ruby
 rvm:
-- 2.5.3
+- 2.6.0
 - ruby-head
 gemfile: "gems.rb"
-before_install: gem install bundler --no-document # Fixes ruby 2.5.3 tests
 before_script:
 - "ruby lib/initial_setup.rb ../.travis_setup"
 - "psql -c 'create database slice_test;' -U postgres"
