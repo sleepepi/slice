@@ -1,5 +1,9 @@
 ## 68.1.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to rails 5.2.2
+
 ## 68.0.1 (November 14, 2018)
 
 ### Bug Fix
