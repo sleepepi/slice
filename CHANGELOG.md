@@ -1,6 +1,8 @@
 ## 68.1.0
 
 ### Enhancements
+- **General Changes**
+  - Improved speed of project copy task
 - **Gem Changes**
   - Update to ruby 2.6.0
   - Update to rails 5.2.2

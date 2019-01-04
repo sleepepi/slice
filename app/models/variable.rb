@@ -63,7 +63,7 @@ class Variable < ApplicationRecord
   ]
 
   # Callbacks
-  after_save :update_domain_values!
+  after_update :update_domain_values!
 
   attr_accessor :questions, :grid_tokens
 
