@@ -1,23 +1,69 @@
 # frozen_string_literal: true
 
+# rails projects:copy RAILS_ENV=production -- -pPROJECT --no-schemes --no-events
+# TODO: Translations should be copied.
+# TODO: Conditional design logic for events not copied.
+
 namespace :projects do
   desc "Copy a project to a new blank project"
   task copy: :environment do
-    project_id = ARGV[1].to_s.gsub("PROJECT=", "")
-    original = Project.current.find_by_param(project_id)
+    args = ARGV.split("--").last
+
+    options = {
+      verbose: false,
+      schemes: true,
+      events: true
+    }
+
+    OptionParser.new do |opts|
+      opts.banner = "Usage: rake projects:copy -- [options]"
+
+      opts.on("-p", "--project PROJECT", "Specify PROJECT to copy") do |p|
+        options[:project] = p
+      end
+
+      opts.on("--[no-]schemes", "Randomization schemes") do |s|
+        options[:schemes] = s
+      end
+
+      opts.on("--[no-]events", "Events") do |e|
+        options[:events] = e
+      end
+
+      opts.on("-v", "--verbose", "Run verbosely") do |v|
+        puts "GETS v"
+        options[:verbose] = v
+      end
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+    end.parse!(args)
+
+    print "\nConfiguration".underline
+    puts " -h for additional options\n"
+    puts " Designs: #{"YES".green}"
+    puts "  Events: #{options[:events] ? "YES".green : "no".red}"
+    puts " Schemes: #{options[:schemes] ? "YES".green : "no".red}"
+    puts
+
+    original = Project.current.find_by_param(options[:project]) if options[:project].present?
     if original
       copy = copy_project(original)
-      copy_project_sites(original, copy)
-      copy_project_users(original, copy)
-      variable_map = copy_variables(original, copy)
-      design_map = copy_designs(original, copy, variable_map)
-      copy_schemes(original, copy, variable_map)
-      copy_events(original, copy, design_map)
+      site_map = copy_project_sites(original, copy, options)
+      copy_project_users(original, copy, options)
+      variable_map = copy_variables(original, copy, site_map, options)
+      design_map = copy_designs(original, copy, variable_map, options)
+      copy_events(original, copy, design_map, options)
+      copy_schemes(original, copy, variable_map, options)
       initialize_counters(copy)
-      puts "Project ID: #{copy.id}"
+      puts "#{ENV["website_url"]}/projects/#{copy.id}".white.underline
     else
-      puts "Project Not Found"
+      puts "Project Not Found: --project #{options[:project].presence || "PROJECT"}"
     end
+
+    exit 0
   end
 end
 
@@ -37,38 +83,66 @@ def copy_project(original)
   )
 end
 
-def copy_project_sites(original, copy)
+def copy_project_sites(original, copy, options)
+  site_map = {}
   copy.sites.destroy_all
-  puts "Sites: #{original.sites.count}"
-  original.sites.each do |s|
+  sites_count = original.sites.count
+  if options[:verbose]
+    puts "Sites: #{sites_count}"
+  else
+    print "Sites: 0 of 0"
+  end
+  original.sites.each_with_index do |s, index|
     sc = copy.sites.create(
       name: s.name,
       description: s.description,
       user_id: s.user_id,
       subject_code_format: s.subject_code_format
     )
-    puts "Added #{sc.name.white} site"
+    site_map[s.id.to_s] = sc.id
+    if options[:verbose]
+      puts "Added #{sc.name.white} site"
+    else
+      print "\rSites: #{counter(index, sites_count)}"
+    end
   end
+  puts "" unless options[:verbose]
+  site_map
 end
 
-def copy_project_users(original, copy)
-  puts "Project Users: #{original.project_users.count}"
-  original.project_users.where.not(user_id: nil).each do |pu|
+def copy_project_users(original, copy, options)
+  members_count = original.project_users.count
+  if options[:verbose]
+    puts "Team members: #{members_count}"
+  else
+    print "Team members: 0 of 0"
+  end
+  original.project_users.where.not(user_id: nil).each_with_index do |pu, index|
     copy.project_users.create(
       user_id: pu.user_id,
       editor: pu.editor,
       creator_id: pu.creator_id,
       unblinded: pu.unblinded
     )
-    puts "Added #{pu.user.full_name.white} as project #{pu.editor ? 'editor' : 'viewer'}"
+    if options[:verbose]
+      puts "Added #{pu.user.full_name.white} as project #{pu.editor ? "editor" : "viewer"}"
+    else
+      print "\rTeam members: #{counter(index, members_count)}"
+    end
   end
+  puts "" unless options[:verbose]
 end
 
-def copy_variables(original, copy)
+def copy_variables(original, copy, site_map, options)
   domain_map = {}
   variable_map = {}
-  puts "Domains: #{original.domains.count}"
-  original.domains.each do |d|
+  domains_count = original.domains.count
+  if options[:verbose]
+    puts "Domains: #{domains_count}"
+  else
+    print "Domains: 0 of 0"
+  end
+  original.domains.each_with_index do |d, index|
     dc = copy.domains.create(
       name: d.name,
       display_name: d.display_name,
@@ -80,17 +154,30 @@ def copy_variables(original, copy)
         name: domain_option.name,
         value: domain_option.value,
         description: domain_option.description,
-        site_id: domain_option.site_id,
+        site_id: site_map[domain_option.site_id.to_s],
         missing_code: domain_option.missing_code,
         archived: domain_option.archived,
         position: domain_option.position
       )
     end
     domain_map[d.id.to_s] = dc.id
-    puts "Added #{dc.name.white} domain"
+    if options[:verbose]
+      puts "Added #{dc.name.white} domain"
+    else
+      print "\rDomains: #{counter(index, domains_count)}"
+    end
   end
-  puts "Variables: #{original.variables.count}"
-  original.variables.where.not(variable_type: "grid").each do |v|
+  puts "" unless options[:verbose]
+
+  variables_count = original.variables.count
+  if options[:verbose]
+    puts "Variables: #{variables_count}"
+  else
+    print "Variables: 0 of 0"
+  end
+  non_grid_variables_count = original.variables.where.not(variable_type: "grid").count
+
+  original.variables.where.not(variable_type: "grid").each_with_index do |v, index|
     vc = copy.variables.create(
       display_name: v.display_name,
       description: v.description,
@@ -126,9 +213,14 @@ def copy_variables(original, copy)
     )
     vc.update_column :calculation, v.readable_calculation
     variable_map[v.id.to_s] = vc.id
-    puts "Added #{vc.name.white} variable"
+    if options[:verbose]
+      puts "Added #{vc.name.white} variable"
+    else
+      print "\rVariables: #{counter(index, variables_count)}"
+    end
   end
-  original.variables.where(variable_type: "grid").each do |v|
+
+  original.variables.where(variable_type: "grid").each_with_index do |v, index|
     vc = copy.variables.create(
       display_name: v.display_name,
       description: v.description,
@@ -171,17 +263,23 @@ def copy_variables(original, copy)
       )
     end
     variable_map[v.id.to_s] = vc.id
-    puts "Added #{vc.name.white} variable"
+    if options[:verbose]
+      puts "Added #{vc.name.white} variable"
+    else
+      print "\rVariables: #{counter(index + non_grid_variables_count, variables_count)}"
+    end
   end
+  puts "" unless options[:verbose]
+
   copy.variables.find_each { |v| v.update calculation: v.readable_calculation }
   variable_map
 end
 
-def copy_sections(d, dc)
+def copy_sections(d, dc, options)
   section_map = {}
-  puts "Sections: #{d.sections.count}"
+  sections_count = d.sections.count
+  puts "Sections: #{sections_count}" if options[:verbose]
   d.sections.each do |s|
-    puts
     sc = dc.sections.create(
       project_id: dc.project_id,
       name: s.name,
@@ -191,16 +289,21 @@ def copy_sections(d, dc)
       user_id: s.user_id
     )
     section_map[s.id.to_s] = sc.id
-    puts "Added #{sc.name.to_s.white} section"
+    puts "Added #{(sc.name.presence || sc.description).to_s.white} section" if options[:verbose]
   end
   section_map
 end
 
-def copy_categories(original, copy)
+def copy_categories(original, copy, options)
   category_map = {}
   copy.categories.destroy_all
-  puts "Categories: #{original.categories.count}"
-  original.categories.each do |c|
+  categories_count = original.categories.count
+  if options[:verbose]
+    puts "Categories: #{categories_count}"
+  else
+    print "Categories: 0 of 0"
+  end
+  original.categories.each_with_index do |c, index|
     cc = copy.categories.create(
       use_for_adverse_events: c.use_for_adverse_events,
       name: c.name,
@@ -210,16 +313,26 @@ def copy_categories(original, copy)
       user_id: c.user_id
     )
     category_map[c.id.to_s] = cc.id
-    puts "Added #{cc.name.white} category"
+    if options[:verbose]
+      puts "Added #{cc.name.white} category"
+    else
+      print "\rCategories: #{counter(index, categories_count)}"
+    end
   end
+  puts "" unless options[:verbose]
   category_map
 end
 
-def copy_designs(original, copy, variable_map)
+def copy_designs(original, copy, variable_map, options)
   design_map = {}
-  category_map = copy_categories(original, copy)
-  puts "Designs: #{original.designs.count}"
-  original.designs.each do |d|
+  category_map = copy_categories(original, copy, options)
+  designs_count = original.designs.count
+  if options[:verbose]
+    puts "Designs: #{designs_count}"
+  else
+    print "Designs: 0 of 0"
+  end
+  original.designs.each_with_index do |d, index|
     dc = copy.designs.create(
       name: d.name,
       slug: d.slug,
@@ -230,7 +343,7 @@ def copy_designs(original, copy, variable_map)
       only_unblinded: d.only_unblinded,
       user_id: d.user_id
     )
-    section_map = copy_sections(d, dc)
+    section_map = copy_sections(d, dc, options)
     d.design_options.each do |design_option|
       doc = dc.design_options.create(
         variable_id: variable_map[design_option.variable_id.to_s],
@@ -241,14 +354,26 @@ def copy_designs(original, copy, variable_map)
       doc.update(branching_logic: design_option.readable_branching_logic)
     end
     design_map[d.id.to_s] = dc.id
-    puts "Added #{dc.name.white} design"
+    if options[:verbose]
+      puts "Added #{dc.name.white} design"
+    else
+      print "\rDesigns: #{counter(index, designs_count)}"
+    end
   end
+  puts "" unless options[:verbose]
   design_map
 end
 
-def copy_schemes(original, copy, variable_map)
-  puts "Schemes: #{original.randomization_schemes.count}"
-  original.randomization_schemes.each do |rs|
+def copy_schemes(original, copy, variable_map, options)
+  return unless options[:schemes]
+
+  schemes_count = original.randomization_schemes.count
+  if options[:verbose]
+    puts "Schemes: #{schemes_count}"
+  else
+    print "Schemes: 0 of 0"
+  end
+  original.randomization_schemes.each_with_index do |rs, index|
     rsc = copy.randomization_schemes.create(
       name: rs.name,
       description: rs.description,
@@ -259,17 +384,22 @@ def copy_schemes(original, copy, variable_map)
       variable_id: variable_map[rs.variable_id.to_s],
       variable_value: rs.variable_value
     )
-    copy_block_size_multipliers(rs, rsc)
-    copy_stratification_factors(rs, rsc)
-    copy_treatment_arms(rs, rsc)
+    copy_block_size_multipliers(rs, rsc, options)
+    copy_stratification_factors(rs, rsc, options)
+    copy_treatment_arms(rs, rsc, options)
     rsc.generate_lists!(rsc.user)
     rsc.update(published: rs.published)
-    puts "Added #{rsc.name.white} randomization scheme"
+    if options[:verbose]
+      puts "Added #{rsc.name.white} randomization scheme"
+    else
+      print "\rSchemes: #{counter(index, schemes_count)}"
+    end
   end
+  puts "" unless options[:verbose]
 end
 
-def copy_block_size_multipliers(rs, rsc)
-  puts "Block Size Multipliers: #{rs.block_size_multipliers.count}"
+def copy_block_size_multipliers(rs, rsc, options)
+  puts "Block Size Multipliers: #{rs.block_size_multipliers.count}" if options[:verbose]
   rs.block_size_multipliers.each do |bsm|
     bsmc = rsc.block_size_multipliers.create(
       project_id: rsc.project_id,
@@ -277,12 +407,12 @@ def copy_block_size_multipliers(rs, rsc)
       value: bsm.value,
       allocation: bsm.allocation
     )
-    puts "Added #{bsmc.name.white} block size multiplier"
+    puts "Added #{bsmc.name.white} block size multiplier" if options[:verbose]
   end
 end
 
-def copy_stratification_factors(rs, rsc)
-  puts "Stratification Factors: #{rs.stratification_factors.count}"
+def copy_stratification_factors(rs, rsc, options)
+  puts "Stratification Factors: #{rs.stratification_factors.count}" if options[:verbose]
   rs.stratification_factors.each do |sf|
     sfc = rsc.stratification_factors.create(
       project_id: rsc.project_id,
@@ -291,13 +421,13 @@ def copy_stratification_factors(rs, rsc)
       stratifies_by_site: sf.stratifies_by_site,
       calculation: sf.readable_calculation
     )
-    copy_stratification_factor_options(sf, sfc)
-    puts "Added #{sfc.name.white} stratification factor"
+    copy_stratification_factor_options(sf, sfc, options)
+    puts "Added #{sfc.name.white} stratification factor" if options[:verbose]
   end
 end
 
-def copy_stratification_factor_options(sf, sfc)
-  puts "Stratification Factor Options: #{sf.stratification_factor_options.count}"
+def copy_stratification_factor_options(sf, sfc, options)
+  puts "Stratification Factor Options: #{sf.stratification_factor_options.count}" if options[:verbose]
   sf.stratification_factor_options.each do |sfo|
     sfoc = sfc.stratification_factor_options.create(
       project_id: sfc.project_id,
@@ -306,12 +436,12 @@ def copy_stratification_factor_options(sf, sfc)
       label: sfo.label,
       value: sfo.value
     )
-    puts "Added #{sfoc.name.white} stratification factor option"
+    puts "Added #{sfoc.name.white} stratification factor option" if options[:verbose]
   end
 end
 
-def copy_treatment_arms(rs, rsc)
-  puts "Treatment Arms: #{rs.treatment_arms.count}"
+def copy_treatment_arms(rs, rsc, options)
+  puts "Treatment Arms: #{rs.treatment_arms.count}" if options[:verbose]
   rs.treatment_arms.each do |ta|
     tac = rsc.treatment_arms.create(
       project_id: rsc.project_id,
@@ -319,13 +449,20 @@ def copy_treatment_arms(rs, rsc)
       allocation: ta.allocation,
       user_id: ta.user_id
     )
-    puts "Added #{tac.name.white} treatment arms"
+    puts "Added #{tac.name.white} treatment arms" if options[:verbose]
   end
 end
 
-def copy_events(original, copy, design_map)
-  puts "Events: #{original.events.count}"
-  original.events.each do |e|
+def copy_events(original, copy, design_map, options)
+  return unless options[:events]
+
+  events_count = original.events.count
+  if options[:verbose]
+    puts "Events: #{events_count}"
+  else
+    print "Events: 0 of 0"
+  end
+  original.events.each_with_index do |e, index|
     ec = copy.events.create(
       name: e.name,
       description: e.description,
@@ -334,20 +471,25 @@ def copy_events(original, copy, design_map)
       position: e.position,
       slug: e.slug
     )
-    copy_event_designs(e, ec, design_map)
-    puts "Added #{ec.name.white} event"
+    copy_event_designs(e, ec, design_map, options)
+    if options[:verbose]
+      puts "Added #{ec.name.white} event"
+    else
+      print "\rEvents: #{counter(index, events_count)}"
+    end
   end
+  puts "" unless options[:verbose]
 end
 
-def copy_event_designs(e, ec, design_map)
-  puts "Event Designs: #{e.event_designs.count}"
+def copy_event_designs(e, ec, design_map, options)
+  puts "Event Designs: #{e.event_designs.count}" if options[:verbose]
   e.event_designs.each do |ed|
     edc = ec.event_designs.create(
       design_id: design_map[ed.design_id.to_s],
       position: ed.position,
       handoff_enabled: ed.handoff_enabled
     )
-    puts "Added #{edc.design.name.white} event design"
+    puts "Added #{edc.design.name.white} event design" if options[:verbose]
   end
 end
 
@@ -355,4 +497,18 @@ def initialize_counters(copy)
   copy.domains.find_each { |domain| Domain.reset_counters(domain.id, :variables) }
   copy.subjects.find_each { |subject| Subject.reset_counters(subject.id, :randomizations) }
   copy.designs.find_each(&:recompute_variables_count!)
+end
+
+def counter(index, total)
+  "#{counter_string(index, total)} #{percent_string(index, total)}"
+end
+
+def counter_string(index, total)
+  "#{index + 1} of #{total}"
+end
+
+def percent_string(index, total)
+  return "(100%)  " if total.zero? || (index + 1 == total)
+
+  format("(%0.1f%%)", ((index + 1) * 100.0 / total))
 end
