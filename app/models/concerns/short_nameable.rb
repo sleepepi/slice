@@ -6,6 +6,7 @@ module ShortNameable
 
   def short_name
     return self[:short_name] if self[:short_name].present?
+
     computed_short_name
   end
 
