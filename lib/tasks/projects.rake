@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # rails projects:copy RAILS_ENV=production -- -pPROJECT --no-schemes --no-events
-# TODO: Conditional design logic for events not copied.
 
 namespace :projects do
   desc "Copy a project to a new blank project"
@@ -54,7 +53,7 @@ namespace :projects do
       copy_project_users(original, copy, options)
       variable_map = copy_variables(original, copy, site_map, options)
       design_map = copy_designs(original, copy, variable_map, options)
-      copy_events(original, copy, design_map, options)
+      copy_events(original, copy, design_map, variable_map, options)
       copy_schemes(original, copy, variable_map, options)
       initialize_counters(copy)
       puts "#{ENV["website_url"]}/projects/#{copy.id}".white.underline
@@ -464,16 +463,18 @@ def copy_treatment_arms(rs, rsc, options)
   end
 end
 
-def copy_events(original, copy, design_map, options)
+def copy_events(original, copy, design_map, variable_map, options)
   return unless options[:events]
 
+  event_map = {}
+  event_copies = {}
   events_count = original.events.count
   if options[:verbose]
     puts "Events: #{events_count}"
   else
     print "Events: 0 of 0"
   end
-  original.events.each_with_index do |event, index|
+  original.events.each do |event|
     event_copy = copy.events.create(
       name: event.name,
       description: event.description,
@@ -482,26 +483,41 @@ def copy_events(original, copy, design_map, options)
       position: event.position,
       slug: event.slug
     )
-    copy_event_designs(event, event_copy, design_map, options)
+    event_map[event.id.to_s] = event_copy.id
+    event_copies[event.id.to_s] = event_copy
     copy_translations(event, event_copy)
+  end
+
+  original.events.each_with_index do |event, index|
+    event_copy = event_copies[event.id.to_s]
+    copy_event_designs(event, event_copy, event_map, design_map, variable_map, options)
+
     if options[:verbose]
       puts "Added #{event_copy.name.white} event"
     else
       print "\rEvents: #{counter(index, events_count)}"
     end
   end
+
   puts "" unless options[:verbose]
 end
 
-def copy_event_designs(e, ec, design_map, options)
-  puts "Event Designs: #{e.event_designs.count}" if options[:verbose]
-  e.event_designs.each do |ed|
-    edc = ec.event_designs.create(
-      design_id: design_map[ed.design_id.to_s],
-      position: ed.position,
-      handoff_enabled: ed.handoff_enabled
+def copy_event_designs(event, event_copy, event_map, design_map, variable_map, options)
+  puts "Event Designs: #{event.event_designs.count}" if options[:verbose]
+  event.event_designs.each do |event_design|
+    event_design_copy = event_copy.event_designs.create(
+      design_id: design_map[event_design.design_id.to_s],
+      position: event_design.position,
+      handoff_enabled: event_design.handoff_enabled,
+      requirement: event_design.requirement,
+      conditional_event_id: event_map[event_design.conditional_event_id.to_s],
+      conditional_design_id: design_map[event_design.conditional_design_id.to_s],
+      conditional_variable_id: variable_map[event_design.conditional_variable_id.to_s],
+      conditional_value: event_design.conditional_value,
+      conditional_operator: event_design.conditional_operator,
+      duplicates: event_design.duplicates
     )
-    puts "Added #{edc.design.name.white} event design" if options[:verbose]
+    puts "Added #{event_design_copy.design.name.white} event design" if options[:verbose]
   end
 end
 
