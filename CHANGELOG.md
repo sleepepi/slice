@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved speed of project copy task
+- **Sheet Changes**
+  - Public surveys now list creator as "Anonymous" on sheets index
 - **Gem Changes**
   - Update to ruby 2.6.0
   - Update to rails 5.2.2
