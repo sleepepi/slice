@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # rails projects:copy RAILS_ENV=production -- -pPROJECT --no-schemes --no-events
-# TODO: Translations should be copied.
 # TODO: Conditional design logic for events not copied.
 
 namespace :projects do
@@ -73,13 +72,16 @@ def copy_project(original)
     user_id: original.user_id,
     description: original.description,
     logo: original.logo,
+    logo_uploaded_at: Time.zone.now,
     subject_code_name: original.subject_code_name,
     disable_all_emails: original.disable_all_emails,
     hide_values_on_pdfs: original.hide_values_on_pdfs,
     randomizations_enabled: original.randomizations_enabled,
     adverse_events_enabled: original.adverse_events_enabled,
     blinding_enabled: original.blinding_enabled,
-    handoffs_enabled: original.handoffs_enabled
+    handoffs_enabled: original.handoffs_enabled,
+    auto_lock_sheets: original.auto_lock_sheets,
+    translations_enabled: original.translations_enabled
   )
 end
 
@@ -150,7 +152,7 @@ def copy_variables(original, copy, site_map, options)
       user_id: d.user_id
     )
     d.domain_options.each do |domain_option|
-      dc.domain_options.create(
+      domain_option_copy = dc.domain_options.create(
         name: domain_option.name,
         value: domain_option.value,
         description: domain_option.description,
@@ -159,8 +161,10 @@ def copy_variables(original, copy, site_map, options)
         archived: domain_option.archived,
         position: domain_option.position
       )
+      copy_translations(domain_option, domain_option_copy)
     end
     domain_map[d.id.to_s] = dc.id
+    copy_translations(d, dc)
     if options[:verbose]
       puts "Added #{dc.name.white} domain"
     else
@@ -213,6 +217,7 @@ def copy_variables(original, copy, site_map, options)
     )
     vc.update_column :calculation, v.readable_calculation
     variable_map[v.id.to_s] = vc.id
+    copy_translations(v, vc)
     if options[:verbose]
       puts "Added #{vc.name.white} variable"
     else
@@ -263,6 +268,7 @@ def copy_variables(original, copy, site_map, options)
       )
     end
     variable_map[v.id.to_s] = vc.id
+    copy_translations(v, vc)
     if options[:verbose]
       puts "Added #{vc.name.white} variable"
     else
@@ -275,21 +281,22 @@ def copy_variables(original, copy, site_map, options)
   variable_map
 end
 
-def copy_sections(d, dc, options)
+def copy_sections(design, design_copy, options)
   section_map = {}
-  sections_count = d.sections.count
+  sections_count = design.sections.count
   puts "Sections: #{sections_count}" if options[:verbose]
-  d.sections.each do |s|
-    sc = dc.sections.create(
-      project_id: dc.project_id,
-      name: s.name,
-      description: s.description,
-      level: s.level,
-      image: s.image,
-      user_id: s.user_id
+  design.sections.each do |section|
+    section_copy = design_copy.sections.create(
+      project_id: design_copy.project_id,
+      name: section.name,
+      description: section.description,
+      level: section.level,
+      image: section.image,
+      user_id: section.user_id
     )
-    section_map[s.id.to_s] = sc.id
-    puts "Added #{(sc.name.presence || sc.description).to_s.white} section" if options[:verbose]
+    section_map[section.id.to_s] = section_copy.id
+    copy_translations(section, section_copy)
+    puts "Added #{(section_copy.name.presence || section_copy.description).to_s.white} section" if options[:verbose]
   end
   section_map
 end
@@ -345,15 +352,19 @@ def copy_designs(original, copy, variable_map, options)
     )
     section_map = copy_sections(d, dc, options)
     d.design_options.each do |design_option|
-      doc = dc.design_options.create(
+      design_option_copy = dc.design_options.create(
         variable_id: variable_map[design_option.variable_id.to_s],
         section_id: section_map[design_option.section_id.to_s],
         position: design_option.position,
         requirement: design_option.requirement
       )
-      doc.update(branching_logic: design_option.readable_branching_logic)
+      design_option_copy.update(branching_logic: design_option.readable_branching_logic)
+      copy_translations(design_option, design_option_copy)
     end
     design_map[d.id.to_s] = dc.id
+
+    copy_translations(d, dc)
+
     if options[:verbose]
       puts "Added #{dc.name.white} design"
     else
@@ -462,18 +473,19 @@ def copy_events(original, copy, design_map, options)
   else
     print "Events: 0 of 0"
   end
-  original.events.each_with_index do |e, index|
-    ec = copy.events.create(
-      name: e.name,
-      description: e.description,
-      user_id: e.user_id,
-      archived: e.archived,
-      position: e.position,
-      slug: e.slug
+  original.events.each_with_index do |event, index|
+    event_copy = copy.events.create(
+      name: event.name,
+      description: event.description,
+      user_id: event.user_id,
+      archived: event.archived,
+      position: event.position,
+      slug: event.slug
     )
-    copy_event_designs(e, ec, design_map, options)
+    copy_event_designs(event, event_copy, design_map, options)
+    copy_translations(event, event_copy)
     if options[:verbose]
-      puts "Added #{ec.name.white} event"
+      puts "Added #{event_copy.name.white} event"
     else
       print "\rEvents: #{counter(index, events_count)}"
     end
@@ -511,4 +523,16 @@ def percent_string(index, total)
   return "(100%)  " if total.zero? || (index + 1 == total)
 
   format("(%0.1f%%)", ((index + 1) * 100.0 / total))
+end
+
+def copy_translations(original, copy)
+  original.translations.each do |translation|
+    Translation.create(
+      translatable_id: copy.id,
+      translatable_type: translation.translatable_type,
+      translatable_attribute: translation.translatable_attribute,
+      language_code: translation.language_code,
+      translation: translation.translation
+    )
+  end
 end
