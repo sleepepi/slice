@@ -5,10 +5,7 @@
 
 - content_for :sidebar, render("projects/sidebar")
 
-- content_for :header do
-  .float-right
-    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_editor_project_check_check_filter_path(@project, @check, @check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, @check_filter), delete_confirmation: "Delete \"#{@check_filter.name}\" filter?"
-  = @title
+- content_for :header, @title
 
 .dashboard-container
   %table.table.table-borderless

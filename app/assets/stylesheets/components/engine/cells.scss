@@ -1,13 +1,8 @@
 .cell-values {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .cell-value {
   display: inline;
-
-  + .cell-value {
-    &::before {
-      content: ", ";
-    }
-  }
 }

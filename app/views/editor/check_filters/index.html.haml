@@ -7,7 +7,6 @@
 
 - content_for :header do
   .float-right
-    = link_to plus_or("New Filter"), new_editor_project_check_check_filter_path(@project, @check), class: "btn btn-accent btn-shadow"
     .per-page= render "layouts/per_page", per_page: 40, object_count: @check_filters.total_count
   = @title
 
@@ -17,14 +16,12 @@
     %col.d-none.d-sm-table-column
     %col
     %col.d-none.d-sm-table-column
-    %col{ width: "1px" }
     %thead
       %tr
         %th Name
         %th.d-none.d-sm-table-cell Filter
         %th Operator
         %th.d-none.d-sm-table-cell Creator
-        %th.text-center Actions
 
     %tbody
       - @check_filters.each do |check_filter|
@@ -38,5 +35,3 @@
               = check_filter.variable_id
           %td= check_filter.operator
           %td.d-none.d-sm-table-cell= check_filter.user.full_name
-          %td.text-center
-            = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_check_check_filter_path(@project, @check, check_filter), delete_url: editor_project_check_check_filter_path(@project, @check, check_filter), delete_confirmation: "Delete \"#{check_filter.name}\" filter?"

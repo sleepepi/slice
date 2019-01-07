@@ -2,17 +2,17 @@
 - (sobject_key, first_sobject) = @sobjects.first
 
 - if @sobjects.present?
-  %table.table.table-striped.table-borderless
+  %table.table.table-striped.table-borderless.bg-dashboard
     %thead
       %tr
         %th Subject
         - first_sobject.cells.each do |key, _|
           - if key.first(3) == "_v_"
-            %th= key.gsub(/^\_v\_/, "")
+            %th= key.gsub(/^\_v\_/, "").gsub("@", " <span style=\"font-weight: normal;\">at</span> ").html_safe
           - elsif key.first(3) == "_d_"
-            %th= key.gsub(/^\_d\_/, "")
+            %th= key.gsub(/^\_d\_/, "").gsub("@", " <span style=\"font-weight: normal;\">at</span> ").html_safe
           - elsif key.first(3) == "_e_"
-            %th= key.gsub(/^\_e\_/, "")
+            %th= key.gsub(/^\_e\_/, "").gsub("@", " <span style=\"font-weight: normal;\">at</span> ").html_safe
           - elsif key == engine.interpreter.final && /\_boolop\_/ !~ key && /\_comparison\_/ !~ key
             %th Result
     %tbody
@@ -71,7 +71,7 @@
                               = link_to [@project, sheet], class: "text-danger" do
                                 %span.badge.badge-default{ rel: "tooltip", title: "Marked as Missing", data: { container: "body", placement: "right" } } M
                             - elsif cell.value == true
-                              = link_to coverage_helper_static(sheet), [@project, sheet]
+                              .px-1= link_to coverage_helper_static(sheet), [@project, sheet]
                             - else
                               = link_to cell.value, [@project, sheet]
                             - if false

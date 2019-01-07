@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Improved speed of project copy task
+- **Check Changes**
+  - Checks now use Slice Engine expressions to identify sheets
 - **Sheet Changes**
   - Public surveys now list creator as "Anonymous" on sheets index
 - **Gem Changes**

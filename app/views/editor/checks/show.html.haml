@@ -9,17 +9,21 @@
   = @title
 
 .dashboard-container
-  = render "forms/horizontal/show/text", object: @check.user, key: :full_name, key_name: "Creator"
-  = render "forms/horizontal/show/markdown", object: @check, key: :description if @check.description.present?
-  = render "forms/horizontal/show/markdown", object: @check, key: :message if @check.message.present?
-  = render "forms/horizontal/show/check_box", object: @check, key: :archived if @check.archived?
-  = render "editor/checks/filters", check: @check
-
   - if @check.expression.present?
     - engine = ::Engine::Engine.new(@project, current_user)
     - engine.lexer.lexer(@check.expression)
     - engine.parser.parse(engine.lexer.tokens)
     = render "forms/horizontal/show/generic", title: "Expression", content: render("engine/tokens", engine: engine)
+  = render "forms/horizontal/show/markdown", object: @check, key: :message if @check.message.present?
+  = render "forms/horizontal/show/markdown", object: @check, key: :description if @check.description.present?
+  = render "forms/horizontal/show/text", object: @check.user, key: :full_name, key_name: "Creator"
+
+  = render "forms/horizontal/show/check_box", object: @check, key: :archived if @check.archived?
+
+  - if @check.check_filters.present?
+    .bg-light.p-3
+      %strong Deprecated
+      = render "editor/checks/filters", check: @check
 
 - unless @check.archived?
   .dashboard-container
@@ -32,46 +36,6 @@
 
     Checks are run hourly.
     = link_to "Request update.", request_run_editor_project_check_path(@project, @check), method: :post if @check.last_run_at.present?
-
-
-  - sheets = current_user.all_viewable_sheets.where(id: @check.status_checks.where(failed: true).select(:sheet_id))
-  - if sheets.present?
-    .dashboard-container.dashboard-table
-      %table.table.table-striped.table-borderless.table-hover
-        %col{ width: "1px" }
-        %thead
-          %th Subject
-          %th Sheets
-          - @check.check_filters.each do |check_filter|
-            %th.text-center
-              %code= check_filter.name
-
-        - sheets.includes(:subject, :design).order("subjects.subject_code").limit(40).group_by(&:subject).each do |subject, sheets|
-          %tr
-            %td= link_to subject.subject_code, [@project, subject]
-            %td.nowrap
-              - sheets.sort_by { |s| s.design.short_name }.each do |sheet|
-                = link_to sheet.design.short_name, [sheet.project, sheet], class: "badge badge-light"
-            - @check.check_filters.each do |check_filter|
-              %td.text-center
-                - if check_filter.filter_type == "randomized"
-                  = simple_check true
-                - elsif check_filter.variable
-                  - sheet_variables = SheetVariable.where(sheet_id: sheets, variable: check_filter.variable)
-                  - if sheet_variables.present?
-                    %ul.list-unstyled
-                      - sheet_variables.each do |sheet_variable|
-                        %li= sheet_variable.get_response(:raw)
-    - if @check.message.present? && !@check.archived?
-      .center-horizontally
-        .docs-learn-more
-          Filter
-          = succeed "." do
-            = link_to "all sheets", project_sheets_path(@project, search: "checks:#{@check.slug}")
-
-  - else
-    .jumbotron.jumbotron-custom-text
-      No invalid sheets found.
 
 - if @check.expression.present?
   = hidden_field_tag :expressions, @check.expression, data: { object: "expressions-input", url: expressions_engine_project_path(@project, format: "js") }

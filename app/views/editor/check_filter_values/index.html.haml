@@ -10,7 +10,6 @@
 
 - content_for :header do
   .float-right
-    = link_to plus_or("New Value"), new_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter), class: "btn btn-accent btn-shadow"
     .per-page= render "layouts/per_page", per_page: 40, object_count: @check_filter_values.total_count
   = @title
 
@@ -18,17 +17,13 @@
   %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col
     %col.d-none.d-sm-table-column
-    %col{ width: "1px" }
     %thead
       %tr
         %th Value
         %th.d-none.d-sm-table-cell Creator
-        %th.text-center Actions
 
     %tbody
       - @check_filter_values.each do |check_filter_value|
         %tr
           %td= link_to check_filter_value.value, editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value)
           %td.d-none.d-sm-table-cell= check_filter_value.user.full_name
-          %td.text-center
-            = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_url: editor_project_check_check_filter_check_filter_value_path(@project, @check, @check_filter, check_filter_value), delete_confirmation: "Delete \"#{check_filter_value.value}\" filter value?"

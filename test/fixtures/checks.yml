@@ -1,21 +1,10 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   project: one
   user: regular
-  name: Check One
+  name: Gender entered
   slug: check-one
-  description: MyText
-  message: MyText
-  archived: false
-  deleted: false
-
-two:
-  project: one
-  user: regular
-  name: Check Two
-  slug: check-two
-  description: MyText
+  expression: var_gender is present
+  description: Check if gender is present
   message: MyText
   archived: false
   deleted: false
