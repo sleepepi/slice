@@ -7,6 +7,9 @@
   - Update to ruby 2.6.0
   - Update to rails 5.2.2
 
+### Bug Fix
+- Design computed short name no longer uses dynamic translation of design name
+
 ## 68.0.1 (November 14, 2018)
 
 ### Bug Fix

@@ -10,8 +10,9 @@ module ShortNameable
   end
 
   def computed_short_name
-    return name if name.to_s.split(/\s/).count <= 1
-    s = name.gsub(/(\b\w)([\w']*)/) { Regexp.last_match[1] }
+    return self[:name] if self[:name].to_s.split(/\s/).count <= 1
+
+    s = self[:name].gsub(/(\b\w)([\w']*)/) { Regexp.last_match[1] }
     s.to_s.gsub(/\s/, "")
   end
 end
