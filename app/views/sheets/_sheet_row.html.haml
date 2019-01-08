@@ -19,7 +19,11 @@
         = sheet.last_edited_at.strftime("%b %-d, %Y")
 - if viewable_sites.count > 1
   %td.d-none.d-sm-table-cell.nowrap= sheet.subject.site.short_name if sheet.subject && sheet.subject.site
-%td.d-none.d-md-table-cell.nowrap= sheet.user.nickname if sheet.user
+%td.d-none.d-md-table-cell.nowrap
+  - if sheet.user
+    = sheet.user.nickname
+  - else
+    .text-muted Anonymous
 - if site_or_project_editor
   %td
     .dropdown

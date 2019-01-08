@@ -4,11 +4,25 @@
 - **Adverse Event Reviews Added**
   - A new team-based review process for adverse event is now available
 - **Gem Changes**
-  - Update to ruby 2.6.0
-  - Update to rails 5.2.2
   - Update to bootstrap 4.2.1
   - Update to carrierwave 1.3.1
   - Update to font-awesome-sass 5.6.1
+
+## 68.1.0 (January 8, 2019)
+
+### Enhancements
+- **General Changes**
+  - Improved speed of project copy task
+- **Check Changes**
+  - Checks now use Slice Engine expressions to identify sheets
+- **Sheet Changes**
+  - Public surveys now list creator as "Anonymous" on sheets index
+- **Gem Changes**
+  - Update to ruby 2.6.0
+  - Update to rails 5.2.2
+
+### Bug Fix
+- Design computed short name no longer uses dynamic translation of design name
 
 ## 68.0.1 (November 14, 2018)
 

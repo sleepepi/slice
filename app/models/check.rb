@@ -27,31 +27,9 @@ class Check < ApplicationRecord
 
   # Methods
 
-  def sheets
-    sheet_scope = project.sheets
-    check_filters.each_with_index do |check_filter, index|
-      if index.zero?
-        sheet_scope = sheet_scope.where(id: check_filter.sheets.select(:id))
-      else
-        sheet_scope = Sheet.where(id: sheet_scope.select(:id)).or(Sheet.where(id: check_filter.sheets.select(:id)))
-      end
-    end
-    design_ids = DesignOption.where(variable_id: check_filters.select(:variable_id)).select(:design_id)
-    sheet_scope = sheet_scope.where(design_id: design_ids)
-    project.sheets.where(id: sheet_scope.select(:id), subject_id: subjects.select(:id))
-  end
-
-  def subjects
-    subject_scope = project.subjects
-    check_filters.each do |check_filter|
-      subject_scope = subject_scope.where(id: check_filter.subjects.select(:id))
-    end
-    subject_scope
-  end
-
   def run!
     status_checks.destroy_all
-    sheets.pluck(:id).each do |sheet_id|
+    interpreter.sheets.pluck(:id).each do |sheet_id|
       status_checks.create(sheet_id: sheet_id, failed: true)
     end
     update last_run_at: Time.zone.now
@@ -61,5 +39,13 @@ class Check < ApplicationRecord
     update slug: nil
     status_checks.destroy_all
     super
+  end
+
+  private
+
+  def interpreter
+    engine = ::Engine::Engine.new(project, project.user)
+    engine.run(expression.to_s)
+    engine.interpreter
   end
 end

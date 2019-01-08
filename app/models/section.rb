@@ -18,9 +18,6 @@ class Section < ApplicationRecord
   # Uploaders
   mount_uploader :image, ImageUploader
 
-  # Validations
-  validates :project_id, :design_id, :user_id, presence: true
-
   # Relationships
   belongs_to :project
   belongs_to :design

@@ -1,12 +1,7 @@
-%table.table.table-striped.table-borderless.table-hover
+%table.table.table-striped.table-borderless.table-hover.mb-0
   %thead
     %tr
       %th{ colspan: 3 }= link_to "Filters", editor_project_check_check_filters_path(@project, @check)
-  %tfoot
-    %tr
-      %th
-      %th
-      %th
   - check.check_filters.each do |check_filter|
     %tr
       %td

@@ -63,7 +63,7 @@ class Variable < ApplicationRecord
   ]
 
   # Callbacks
-  after_save :update_domain_values!
+  after_update :update_domain_values!
 
   attr_accessor :questions, :grid_tokens
 
@@ -450,8 +450,8 @@ class Variable < ApplicationRecord
     (old_domain_id, new_domain_id) = saved_changes[:domain_id]
     old_domain = project.domains.find_by(id: old_domain_id)
     new_domain = project.domains.find_by(id: new_domain_id)
-    old_domain.remove_domain_values! if old_domain
-    new_domain.add_domain_values! if new_domain
+    old_domain.remove_domain_values!(self) if old_domain
+    new_domain.add_domain_values!(self) if new_domain
   end
 
   def save_translation!(variable_params)

@@ -28,7 +28,8 @@ class Design < ApplicationRecord
   ]
 
   # Callbacks
-  after_save :reset_sheet_total_response_count, :set_survey_slug
+  after_save :set_survey_slug
+  after_update :reset_sheet_total_response_count
 
   # Concerns
   include Blindable
@@ -364,6 +365,7 @@ class Design < ApplicationRecord
 
   def set_survey_slug
     return unless survey_slug.blank? && publicly_available?
+
     self.survey_slug = name.parameterize
     self.survey_slug += "-#{SecureRandom.hex(8)}" unless valid?
     save

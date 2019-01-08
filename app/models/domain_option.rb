@@ -32,16 +32,20 @@ class DomainOption < ApplicationRecord
     end
   end
 
-  def add_domain_option!
-    domain.sheet_variables.where(value: value).update_all(domain_option_id: id, value: nil)
-    domain.grids.where(value: value).update_all(domain_option_id: id, value: nil)
-    domain.responses.where(value: value).update_all(domain_option_id: id, value: nil)
+  def add_domain_option!(variable: nil)
+    filters = { value: value }
+    filters[:variable] = variable if variable.present?
+    domain.sheet_variables.where(filters).update_all(domain_option_id: id, value: nil)
+    domain.grids.where(filters).update_all(domain_option_id: id, value: nil)
+    domain.responses.where(filters).update_all(domain_option_id: id, value: nil)
   end
 
-  def remove_domain_option!
-    sheet_variables.update_all(domain_option_id: nil, value: value)
-    grids.update_all(domain_option_id: nil, value: value)
-    responses.update_all(domain_option_id: nil, value: value)
+  def remove_domain_option!(variable: nil)
+    filters = {}
+    filters[:variable] = variable if variable.present?
+    sheet_variables.where(filters).update_all(domain_option_id: nil, value: value)
+    grids.where(filters).update_all(domain_option_id: nil, value: value)
+    responses.where(filters).update_all(domain_option_id: nil, value: value)
   end
 
   def destroy

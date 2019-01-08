@@ -36,6 +36,10 @@
                 %h1.page-heading
                   = yield :header
           = render "layouts/breadcrumbs" # Slice extra
+          - if content_for?(:breadcrumbs)
+            .breadcrumb-container
+              .container-fluid
+                .px-1= yield :breadcrumbs
           .theme-custom-spacing
             %main.p-3.remove-last-margin{ role: "main" }= yield
           = yield :footer

@@ -115,11 +115,11 @@ class Domain < ApplicationRecord
     hash
   end
 
-  def add_domain_values!
-    domain_options.each(&:add_domain_option!)
+  def add_domain_values!(variable)
+    domain_options.each { |opt| opt.add_domain_option!(variable: variable) }
   end
 
-  def remove_domain_values!
-    domain_options.each(&:remove_domain_option!)
+  def remove_domain_values!(variable)
+    domain_options.each { |opt| opt.remove_domain_option!(variable: variable) }
   end
 end
