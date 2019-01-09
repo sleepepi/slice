@@ -342,6 +342,7 @@ def copy_designs(original, copy, variable_map, options)
     dc = copy.designs.create(
       name: d.name,
       slug: d.slug,
+      short_name: d[:short_name].presence,
       publicly_available: d.publicly_available,
       redirect_url: d.redirect_url,
       show_site: d.show_site,
