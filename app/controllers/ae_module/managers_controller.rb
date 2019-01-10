@@ -5,11 +5,6 @@ class AeModule::ManagersController < AeModule::BaseController
   before_action :find_manager_project_or_redirect
   before_action :find_team_or_redirect, except: [:inbox]
   before_action :find_adverse_event_review_team, except: [:inbox]
-  before_action :find_review_group_or_redirect, only: [
-    :review_group, :review, :review_save, :sheet
-  ]
-  before_action :set_sheet, only: [:review, :review_save]
-  before_action :find_sheet_or_redirect, only: [:sheet]
 
   # GET /projects/:project_id/ae-module/managers/inbox
   def inbox
@@ -24,57 +19,103 @@ class AeModule::ManagersController < AeModule::BaseController
   # def determine_pathway
   # end
 
-  # Same URL as above
-  # POST  /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/assignments
-  def assign_pathway
-    pathway = @team.ae_team_pathways.find_by(id: params[:pathway_id])
-    if pathway
-      @review_group = @team.assign_pathway!(current_user, @adverse_event, pathway)
-      redirect_to ae_module_managers_review_group_path(@project, @team, @adverse_event, @review_group)
-    else
-      redirect_to ae_module_managers_determine_pathway_path(@project, @team, @adverse_event)
+  # POST  /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/assign-reviewers
+  def assign_reviewers
+    pathway_ids = (params[:pathway_ids].presence || {}).keys
+    reviewer_ids = (params[:reviewer_ids].presence || {}).keys
+    @pathways = @team.ae_team_pathways.where(id: pathway_ids)
+    @reviewers = @team.reviewers.where(id: reviewer_ids)
+    @principal_reviewer = @team.principal_reviewers.find_by(id: params[:principal_reviewer_id])
+
+    original_assignment_ids = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_review_team: @team).pluck(:id)
+
+    assignments = []
+
+    @pathways.each do |pathway|
+      if @principal_reviewer
+        assignment = @adverse_event.current_and_deleted_assignments.where(
+          project: @project,
+          ae_review_team: @team,
+          manager: current_user,
+          reviewer: @principal_reviewer,
+          ae_team_pathway: pathway,
+          principal: true
+        ).first_or_create
+        assignment.update deleted: false
+        assignments << assignment
+      end
+
+      @reviewers.each do |reviewer|
+        assignment = @adverse_event.current_and_deleted_assignments.where(
+          project: @project,
+          ae_review_team: @team,
+          manager: current_user,
+          reviewer: reviewer,
+          ae_team_pathway: pathway,
+          principal: false
+        ).first_or_create
+        assignment.update deleted: false
+        assignments << assignment
+      end
     end
-  end
 
-  # GET /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/review-group/:review_group_id
-  def review_group
-    @assignments = @review_group.ae_adverse_event_reviewer_assignments.includes(:reviewer).to_a
-  end
+    added_assignments = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_review_team: @team).where.not(id: original_assignment_ids)
+    removed_assignments = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_review_team: @team).where.not(id: assignments.collect(&:id)).destroy_all
 
-  # # GET /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/final-review
-  # def final_review
-  # end
+    # TODO: Generate in app notifications, email, and LOG notificiations to AENotificationsLog for Info Request (to "reviewer")
 
-  # # GET /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/final-review/submitted
-  # def final_review_submitted
-  # end
-
-
-  # # GET /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id
-  # def review
-  # end
-
-  # POST /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id
-  def review_save
-    update_type = (@sheet.new_record? ? "sheet_create" : "sheet_update")
-    if SheetTransaction.save_sheet!(@sheet, sheet_params, variables_params, current_user, request.remote_ip, update_type)
-      @project.ae_sheets.where(
-        ae_adverse_event: @adverse_event,
-        sheet: @sheet,
-        role: "manager",
+    if removed_assignments.present?
+      @adverse_event.ae_adverse_event_log_entries.create(
+        project: @project,
+        user: current_user,
+        entry_type: "ae_reviewers_unassigned",
         ae_review_team: @team,
-        ae_review_group: @review_group
-      ).first_or_create
-      proceed_to_next_design
-    else
-      render :review
+        reviewer_assignments: removed_assignments
+      )
     end
+
+    if added_assignments.present?
+      @adverse_event.ae_adverse_event_log_entries.create(
+        project: @project,
+        user: current_user,
+        entry_type: "ae_reviewers_assigned",
+        ae_review_team: @team,
+        reviewer_assignments: added_assignments
+      )
+    end
+
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Reviewers were successfully assigned."
   end
 
-  # GET /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/review-group/:review_group_id/sheets/:sheet_id
-  def sheet
+  # POST /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/team-review-completed
+  def team_review_completed
+    if @adverse_event_review_team.team_review_uncompleted?
+      @adverse_event_review_team.update(team_review_completed_at: Time.zone.now)
+      @adverse_event.ae_adverse_event_log_entries.create(
+        project: @project,
+        user: current_user,
+        entry_type: "ae_team_review_completed",
+        ae_review_team: @team
+      )
+      flash[:notice] = "Team review was successfully marked as completed."
+    end
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event)
   end
 
+  # POST /projects/:project_id/ae-module/managers/teams/:team_id/adverse-events/:id/team-review-uncompleted
+  def team_review_uncompleted
+    if @adverse_event_review_team.team_review_completed?
+      @adverse_event_review_team.update(team_review_completed_at: nil)
+      @adverse_event.ae_adverse_event_log_entries.create(
+        project: @project,
+        user: current_user,
+        entry_type: "ae_team_review_uncompleted",
+        ae_review_team: @team
+      )
+      flash[:notice] = "Team review was successfully reopened."
+    end
+    redirect_to ae_module_adverse_event_path(@project, @adverse_event)
+  end
 
   private
 
@@ -107,38 +148,5 @@ class AeModule::ManagersController < AeModule::BaseController
     else
       empty_response_or_root_path(ae_module_managers_inbox_path(@project))
     end
-  end
-
-  def find_review_group_or_redirect
-    @review_group = @team.ae_review_groups.where(ae_adverse_event: @adverse_event).find_by(id: params[:review_group_id])
-    empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event)) unless @review_group
-  end
-
-  def set_sheet
-    @subject = @adverse_event.subject
-    @design = @review_group.ae_team_pathway.designs.find_by_param(params[:design_id])
-    @sheet = @review_group.sheets.find_by(design: @design)
-
-    @sheet = @review_group.sheets.where(
-      project: @project,
-      design: @design,
-      subject: @subject,
-      ae_adverse_event: @adverse_event
-    ).new(sheet_params) unless @sheet
-  end
-
-  def proceed_to_next_design
-    design = @review_group.next_design(@design)
-    if design
-      redirect_to ae_module_managers_review_path(@project, @team, @review_group, design)
-    else
-      @review_group.complete!(current_user)
-      redirect_to ae_module_managers_review_group_path(@project, @team, @review_group)
-    end
-  end
-
-  def find_sheet_or_redirect
-    @sheet =  @review_group.sheets.find_by(id: params[:sheet_id])
-    empty_response_or_root_path(ae_module_managers_review_group_path(@project, @team, @adverse_event, @review_group)) unless @sheet
   end
 end

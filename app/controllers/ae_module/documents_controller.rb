@@ -2,7 +2,8 @@
 
 # Allows reporters and review admins to manage and view supporting documents.
 class AeModule::DocumentsController < AeModule::BaseController
-  before_action :find_review_admin_project_or_reporter_project_or_redirect
+  before_action :find_project_as_reporter_or_admin_or_team_member_or_redirect, only: [:index, :show, :download]
+  before_action :find_review_admin_project_or_reporter_project_or_redirect, except: [:index, :show, :download]
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect
   before_action :find_ae_document_or_redirect, only: [

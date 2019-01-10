@@ -40,4 +40,20 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
   end
+
+  test "should close adverse event as review admin" do
+    login(@review_admin)
+    assert_difference("AeAdverseEvent.where.not(closed_at: nil).count", 1) do
+      post ae_module_admins_close_adverse_event_url(@project, @adverse_event)
+    end
+    assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
+  end
+
+  test "should reopen adverse event as review admin" do
+    login(@review_admin)
+    assert_difference("AeAdverseEvent.where(closed_at: nil).count", 1) do
+      post ae_module_admins_reopen_adverse_event_url(@project, ae_adverse_events(:closed))
+    end
+    assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:closed))
+  end
 end

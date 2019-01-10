@@ -6,7 +6,7 @@ class AeSheet < ApplicationRecord
   ROLES = [
     ["Reporter", "reporter"],
     ["Admin", "admin"],
-    ["Manager", "manager"],
+    ["Principal reviewer", "principal_reviewer"],
     ["Reviewer", "reviewer"]
   ]
 
@@ -19,16 +19,17 @@ class AeSheet < ApplicationRecord
   belongs_to :ae_adverse_event
   belongs_to :sheet
   belongs_to :ae_review_team, optional: true
-  belongs_to :ae_review_group, optional: true
   belongs_to :ae_adverse_event_reviewer_assignment, optional: true
 
   # Methods
   def sheet_saved!(current_user, update_type)
-    if update_type.in?(%w(sheet_create public_sheet_create api_sheet_create))
-      entry_type = "ae_sheet_created"
-    else
-      entry_type = "ae_sheet_updated"
-    end
-    ae_adverse_event.ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: entry_type, sheets: [sheet])
+    entry_type = if update_type.in?(%w(sheet_create public_sheet_create api_sheet_create))
+                   "ae_sheet_created"
+                 else
+                   "ae_sheet_updated"
+                 end
+    ae_adverse_event.ae_adverse_event_log_entries.create(
+      project: project, user: current_user, entry_type: entry_type, sheets: [sheet]
+    )
   end
 end

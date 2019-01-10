@@ -54,15 +54,32 @@
         = log_entry.ae_review_team.name
     - when "ae_reviewers_assigned"
       = succeed "." do
+        - reviewers = log_entry.reviewer_assignments.includes(:reviewer).collect(&:reviewer).uniq
         Assigned
-        = "review".pluralize(log_entry.reviewer_assignments.count)
-        - if log_entry.reviewer_assignments.present?
+        = "review".pluralize(reviewers.count)
+        - if reviewers.present?
           to
-          = log_entry.reviewer_assignments.collect { |assignment| assignment.reviewer.full_name }.to_sentence
+          = reviewers.collect(&:full_name).to_sentence
+    - when "ae_reviewers_unassigned"
+      = succeed "." do
+        - reviewers = log_entry.reviewer_assignments.includes(:reviewer).collect(&:reviewer).uniq
+        Unassigned
+        = "review".pluralize(reviewers.count)
+        - if reviewers.present?
+          from
+          = reviewers.collect(&:full_name).to_sentence
     - when "ae_review_completed"
       Completed adverse event review.
     - when "ae_final_review_completed"
       Submitted final adverse event review.
+    - when "ae_team_review_completed"
+      Marked
+      = log_entry.ae_review_team.short_name
+      team review as complete.
+    - when "ae_team_review_uncompleted"
+      Reopened
+      = log_entry.ae_review_team.short_name
+      team review.
     - when "ae_closed"
       Closed adverse event for
       = succeed "." do

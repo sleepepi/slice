@@ -40,7 +40,7 @@
             %td= adverse_event.created_at.strftime("%b %-d, %Y")
             %td
               - if adverse_event.ae_adverse_event_review_teams.present?
-                = adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).pluck(:name).to_sentence
+                = adverse_event.ae_review_teams.collect(&:short_name).to_sentence
               - else
                 %span.text-muted Not assigned.
             %td

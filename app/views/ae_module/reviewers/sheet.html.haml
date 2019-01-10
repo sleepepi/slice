@@ -1,11 +1,11 @@
 - content_for :header do
   = @title
   %small= @assignment.ae_adverse_event.description
-- render "ae_module/reviewers/tabs"
+= render "ae_module/adverse_events/tabs", project: @project, adverse_event: @assignment.ae_adverse_event
 - content_for :breadcrumbs do
   %ol
-    %li= link_to "reviewers inbox", ae_module_reviewers_inbox_path(@project)
-    %li= link_to @assignment.ae_adverse_event.name.downcase, ae_module_reviewers_assignment_path(@project, @assignment)
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
+    %li= link_to @assignment.ae_adverse_event.name.downcase, ae_module_adverse_event_path(@project, @assignment.ae_adverse_event)
     %li.breadcrumb-muted= @sheet.name.downcase
 
 .dashboard-container.mb-0

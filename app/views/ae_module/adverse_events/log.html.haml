@@ -5,17 +5,23 @@
   %small= @adverse_event.description
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
+  .float-right= render "ae_module/adverse_events/roles", roles: @roles
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted log
 
+- if @role_admin
+  - log_entries = @adverse_event.ae_adverse_event_log_entries
+- else
+  - log_entries = @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: @roles.collect { |role, team| team.id } + [nil])
+
 .dashboard-container
   - current_date = nil
   - last_time = nil
   - last_user = nil
-  - @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: nil).each do |log_entry|
+  - log_entries.each do |log_entry|
     - if log_entry.entry_type == "ae_opened"
       .mb-3.bg-light.rounded-top.p-3.text-center.border-top.border-left.border-right
         %strong OPENED

@@ -1,0 +1,7 @@
+- @roles.each do |role, team|
+  .d-inline-block
+    - if team
+      .d-inline-block.px-1.rounded-left.bg-primary.text-white>= role.tr("_", " ")
+      .d-inline-block.px-1.rounded-right.bg-dark.text-white= team.short_name
+    - else
+      .d-inline-block.px-1.rounded.bg-primary.text-white= role.tr("_", " ")

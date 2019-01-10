@@ -35,7 +35,7 @@
             %td.p-0{ class: assignment.completed? ? "bg-light" : assignment.overdue? ? "bg-danger" : "bg-primary" }
             %td.text-center= assignment.ae_adverse_event.name
             %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
-              .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_reviewers_assignment_path(@project, assignment), class: assignment.completed? ? "link-blend-muted" : assignment.overdue? ? "text-danger" : nil
+              .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_adverse_event_path(@project, assignment.ae_adverse_event), class: assignment.completed? ? "link-blend-muted" : assignment.overdue? ? "text-danger" : nil
             %td= assignment.ae_team_pathway.name
             %td= assignment.ae_review_team.name
             %td.nowrap{ class: assignment.overdue? ? "text-danger" : nil }= assignment.created_at.strftime("%a, %b %-d, %Y")

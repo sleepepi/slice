@@ -8,7 +8,6 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
     @team_manager = users(:aes_team_manager)
     @team = ae_review_teams(:clinical)
     @adverse_event = ae_adverse_events(:closed)
-    @review_group = ae_review_groups(:closed_heart_failure)
     # @pathway = ae_team_pathways(:heart_failure)
   end
 
@@ -24,21 +23,37 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get pathway assignments" do
+  test "should assign reviewers" do
     login(@team_manager)
-    get ae_module_managers_review_group_url(@project, @team, @adverse_event, @review_group)
-    assert_response :success
+    assert_difference("AeAdverseEventReviewerAssignment.count", 2) do
+      post ae_module_managers_assign_reviewers_url(@project, @team, ae_adverse_events(:teamset)), params: {
+        principal_reviewer_id: users(:aes_team_principal_reviewer).id,
+        reviewer_ids: {
+          "0" => 1,
+          users(:aes_team_reviewer).id.to_s => 1
+        },
+        pathway_ids: {
+          "0" => 1,
+          ae_team_pathways(:heart_failure).id.to_s => 1
+        }
+      }
+    end
+    assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:teamset))
   end
 
-  test "should get final review" do
+  test "should mark team review as complete as manager" do
     login(@team_manager)
-    get ae_module_managers_final_review_url(@project, @team, @adverse_event, @review_group)
-    assert_response :success
+    assert_difference("AeAdverseEventReviewTeam.where.not(team_review_completed_at: nil).count", 1) do
+      post ae_module_managers_team_review_completed_url(@project, @team, ae_adverse_events(:pathdone))
+    end
+    assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:pathdone))
   end
 
-  test "should get final review submitted" do
+  test "should mark team review as incomplete as manager" do
     login(@team_manager)
-    get ae_module_managers_final_review_submitted_url(@project, @team, @adverse_event, @review_group)
-    assert_response :success
+    assert_difference("AeAdverseEventReviewTeam.where(team_review_completed_at: nil).count", 1) do
+      post ae_module_managers_team_review_uncompleted_url(@project, @team, ae_adverse_events(:teamdone))
+    end
+    assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:teamdone))
   end
 end

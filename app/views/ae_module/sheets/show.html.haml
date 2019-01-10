@@ -15,6 +15,16 @@
   %small= @adverse_event.description
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
+  .float-right
+    .d-inline-block
+      - if @ae_sheet.role == "reporter"
+        .d-inline-block.px-1.rounded-left.bg-primary.text-white>= @ae_sheet.role.tr("_", " ")
+        .d-inline-block.px-1.rounded-left.bg-primary.text-white>= @ae_sheet.ae_adverse_event_reviewer_assignment.reviewer.full_name
+        .d-inline-block.px-1.rounded-right.bg-dark.text-white=# team.short_name
+      - else
+        .d-inline-block.px-1.rounded-left.bg-dark.text-white>= @ae_sheet.ae_adverse_event_reviewer_assignment.reviewer.full_name
+        .d-inline-block.px-1.bg-primary.text-white>= @ae_sheet.role.tr("_", " ")
+        .d-inline-block.px-1.rounded-right.bg-dark.text-white= @ae_sheet.ae_adverse_event_reviewer_assignment.ae_review_team.short_name
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]

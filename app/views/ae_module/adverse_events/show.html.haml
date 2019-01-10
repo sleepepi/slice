@@ -5,21 +5,11 @@
   %small= link_to_if (@adverse_event.open? && !@adverse_event.sent_for_review?), @adverse_event.description, edit_ae_module_adverse_event_path(@project, @adverse_event), style: "color: inherit;"
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
 - content_for :breadcrumbs do
-  .float-right
-    - @roles.each do |role, team|
-      .d-inline-block
-        - if team
-          .d-inline-block.px-1.rounded-left.bg-primary.text-white>= role
-          .d-inline-block.px-1.rounded-right.bg-dark.text-white= team.short_name
-        - else
-          .d-inline-block.px-1.rounded.bg-primary.text-white= role
+  .float-right= render "ae_module/adverse_events/roles", roles: @roles
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
     %li= link_to @subject.name.downcase, [@project, @subject]
     %li.breadcrumb-muted= @adverse_event.name.downcase
-
-- @role_admin = @roles.count { |role, _| role == "admin" }.positive?
-- @role_reporter = @roles.count { |role, _| role == "reporter" }.positive?
 
 .aer-container
   .aer-body
@@ -72,10 +62,13 @@
             - else
               = link_to document.filename, download_ae_module_document_path(@project, @adverse_event, document), data: { turbolinks: false }
       - else
-        = link_to ae_module_documents_path(@project, @adverse_event) do
-          = icon("fas", "paperclip")
-          Attach supporting documents
-          = icon("fas", "caret-right")
+        - if @role_admin || @role_reporter
+          = link_to ae_module_documents_path(@project, @adverse_event) do
+            = icon("fas", "paperclip")
+            Attach supporting documents
+            = icon("fas", "caret-right")
+        - else
+          .text-muted.small No documents found.
 
     - info_ids = []
     - info_ids += @adverse_event.ae_info_requests.pluck(:id) if @role_admin
@@ -93,12 +86,15 @@
       - info_requests.order("resolved_at desc NULLS FIRST, created_at").each do |info_request|
         = render "ae_module/info_requests/show", project: @project, adverse_event: @adverse_event, info_request: info_request
 
+    = render "ae_module/adverse_events/assignments", adverse_event: @adverse_event
+
   .aer-footer
     - if @adverse_event.closed?
       %div
         %span.text-primary= icon("fas", "lock")
         Adverse event closed.
-        = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event?" } if @role_admin
+        - if @role_admin
+          = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event?" }
     - else
       - if @adverse_event.sent_for_review?
         - if @role_admin
@@ -108,20 +104,21 @@
         - elsif @role_reporter
           %div
             %span.text-primary= icon("fas", "check-square")
-            Sent for review!
-
-      - design = @adverse_event.next_design_to_complete("reporter")
-      - if design
-        .mb-3
-          %span.text-primary= icon("far", "copy")
-          = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
-            - if @project.ae_designs("reporter").count == 1
-              Enter
-              = design.name
-            - else
-              Enter forms
-            = icon("fas", "caret-right")
-          .small Provide information about the adverse event.
+            Sent for review.
+      - else
+        - if @role_reporter
+          - design = @adverse_event.next_design_to_complete("reporter")
+          - if design
+            .mb-3
+              %span.text-primary= icon("far", "copy")
+              = link_to ae_module_reporters_form_path(@project, @adverse_event, design) do
+                - if @project.ae_designs("reporter").count == 1
+                  Enter
+                  = design.name
+                - else
+                  Enter forms
+                = icon("fas", "caret-right")
+              .small Provide information about the adverse event.
 
       - unless @adverse_event.sent_for_review?
         - if @role_admin || @role_reporter
@@ -189,19 +186,37 @@
               Team Manager
               = team.short_name
 
-          .mb-3
-            %span.text-primary= icon("fas", "question-circle")
-            = link_to new_ae_module_info_request_path(@project, @adverse_event) do
-              Request information
-              = icon("fas", "caret-right")
-            .small Have questions? Get answers!
+          - adverse_event_review_team = @adverse_event.ae_adverse_event_review_teams.find_by(ae_review_team: team)
+          - if adverse_event_review_team.team_review_completed?
+            %div
+              %span.text-primary= icon("fas", "check-square")
+              Team review complete.
+              .small
+                Not yet complete?
+                = link_to "Reopen for review.", ae_module_managers_team_review_uncompleted_path(@project, team, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event for team review?" }
+          - else
 
-          %div
-            = link_to ae_module_managers_determine_pathway_path(@project, team, @adverse_event) do
-              = icon("fas", "users")
-              Assign reviewers
-              = icon("fas", "caret-right")
-            .small Select a pathway for reviewers to complete.
+            .mb-3
+              %span.text-primary= icon("fas", "question-circle")
+              = link_to new_ae_module_info_request_path(@project, @adverse_event) do
+                Request information
+                = icon("fas", "caret-right")
+              .small Have questions? Get answers!
+
+            .mb-3
+              = link_to ae_module_managers_determine_pathway_path(@project, team, @adverse_event), class: @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true).present? ? "text-muted" : nil do
+                = icon("fas", "users")
+                Assign reviewers
+                = icon("fas", "caret-right")
+              .small Select forms for reviewers to complete.
+
+            - final_review_ready = @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true).count.positive? && @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true, review_completed_at: nil).count.zero?
+            %div
+              = link_to ae_module_managers_team_review_completed_path(@project, team, @adverse_event), method: :post, class: final_review_ready ? nil : "text-muted", data: { confirm: "Marking team review as completed will notify the admin to close the adverse event. Do you want to proceed?" } do
+                = icon("fas", "check-square")
+                Team review completed
+                = icon("fas", "caret-right")
+              .small Mark the team review as complete.
 
       - @adverse_event.ae_review_teams.each do |team|
         - @role_reviewer = @roles.count { |role, t| role == "reviewer" && t == team }.positive?
@@ -210,7 +225,7 @@
         - if assignment
           - if assignment.completed?
             %span.text-primary= icon("fas", "check-square")
-            Assignment complete!
+            Assignment complete.
           - else
             - design = assignment.first_design
             - if design
@@ -244,36 +259,22 @@
 - @adverse_event.ae_review_teams.each do |team|
   - @role_manager = @roles.count { |role, t| role == "manager" && t == team }.positive?
   - if @role_manager || @role_admin
-    - review_groups = team.ae_review_groups.where(ae_adverse_event: @adverse_event)
-    - if review_groups.present?
+    - team_assignments = team.ae_adverse_event_reviewer_assignments.order(principal: :desc)
+    - if team_assignments.present?
       .dashboard-container
-        - review_groups.each do |review_group|
-          %p
-            %strong= review_group.ae_team_pathway.name
-
-          - assignments = review_group.ae_adverse_event_reviewer_assignments.includes(:reviewer).to_a
-          - assignments.each do |assignment|
-            .mb-3
-              = status_badge(assignment)
-              = assignment.reviewer.full_name
-              - if assignment.sheets.present?
-                %ul
-                  - assignment.sheets.each do |sheet|
-                    %li
-                      = render "sheets/coverage", sheet: sheet
-                      = sheet.name
-              - else
-                .text-muted.small No forms completed.
-
-          - if review_group.sheets.present?
-            %p
-              %strong Final review
-            - review_group.sheets.each do |sheet|
-              .mb-3
-                = render "sheets/coverage", sheet: sheet
-                = link_to sheet.name, ae_module_managers_sheet_path(@project, team, @adverse_event, review_group, sheet)
-          - else
-            %p
-              %strong Final review
-              %br
-              %span.text-muted.small No forms completed.
+        - team_assignments.group_by(&:reviewer).each do |reviewer, assignments|
+          .mb-3
+            = reviewer.full_name
+            - assignments.each do |assignment|
+              %div
+                = icon("fas", "user-md") if assignment.principal?
+                = status_badge(assignment)
+                %strong{ style: "font-size: 0.8;" }= assignment.ae_team_pathway.name
+                - if assignment.sheets.present?
+                  %ul
+                    - assignment.sheets.each do |sheet|
+                      %li
+                        = render "sheets/coverage", sheet: sheet
+                        = sheet.name
+                - else
+                  .text-muted.small No forms completed.

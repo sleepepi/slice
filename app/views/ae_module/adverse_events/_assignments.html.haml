@@ -1,0 +1,76 @@
+- if @role_admin || @role_manager
+  - adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).each do |adverse_event_review_team|
+    - assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(ae_review_team: adverse_event_review_team.ae_review_team).order(principal: :desc)
+    - if assignments.present?
+      .my-3
+        %strong
+          = adverse_event_review_team.ae_review_team.short_name
+          Reviews
+        .small
+          - if adverse_event_review_team.team_review_completed?
+            = icon("fas", "check-square")
+            Team review completed!
+          - else
+            = icon("far", "square")
+            Team review ongoing.
+      .card-group
+        - assignments.group_by(&:reviewer).each do |reviewer, assignments|
+          .card
+            .card-body
+              %h5.card-title= reviewer.full_name
+              .card-body
+                - assignments.each do |assignment|
+                  - assignment.ae_team_pathway.designs.each do |design|
+                    - sheets = assignment.sheets.where(design: design)
+                    - if sheets.present?
+                      - sheets.each do |sheet|
+                        .mb-3
+                          = render "sheets/coverage", sheet: sheet
+                          = link_to sheet.name, ae_module_sheet_path(@project, @adverse_event, sheet)
+                    - else
+                      .mb-3
+                        %span.badge.badge-coverage.coverage-0 0%
+                        %span.text-muted= design.name
+- elsif @role_principal_reviewer
+  - assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(principal: false) # .where.not(reviewer: current_user)
+  - if assignments.present?
+    .my-3
+      %strong Reviews
+    .card-group
+      - assignments.group_by(&:reviewer).each do |reviewer, assignments|
+        .card
+          .card-body
+            %h5.card-title= reviewer.full_name
+            .card-body
+              - assignments.each do |assignment|
+                - assignment.ae_team_pathway.designs.each do |design|
+                  - sheets = assignment.sheets.where(design: design)
+                  - if sheets.present?
+                    - sheets.each do |sheet|
+                      .mb-3
+                        = render "sheets/coverage", sheet: sheet
+                        = link_to sheet.name, ae_module_sheet_path(@project, @adverse_event, sheet)
+                  - else
+                    .mb-3
+                      %span.badge.badge-coverage.coverage-0 0%
+                      %span.text-muted= design.name
+
+
+- if @role_reviewer || @role_principal_reviewer
+  - my_assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(reviewer: current_user)
+  - if my_assignments.present?
+    .my-3
+      %strong My review forms
+    - my_assignments.each do |assignment|
+      - assignment.ae_team_pathway.designs.each do |design|
+        - sheets = assignment.sheets.where(design: design)
+        - if sheets.present?
+          - sheets.each do |sheet|
+            .mb-3
+              = render "sheets/coverage", sheet: sheet
+              = link_to sheet.name, ae_module_reviewers_sheet_path(@project, assignment, sheet)
+              =# link_to sheet.name, ae_module_reviewers_review_path(@project, assignment, design)
+        - else
+          .mb-3
+            %span.badge.badge-coverage.coverage-0 0%
+            = link_to design.name, ae_module_reviewers_review_path(@project, assignment, design)

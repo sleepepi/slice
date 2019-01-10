@@ -1,25 +1,60 @@
-- @title = "AeModule::Managers#determine_pathway"
+- @title = @adverse_event.name
+- @menu_title = "Assign Reviewers - #{@title}"
 
-- content_for :header, @title
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
 = render "ae_module/managers/tabs", project: @project, team: @team, adverse_event: @adverse_event
 - content_for :breadcrumbs do
   %ol
     %li= link_to "managers inbox", ae_module_managers_inbox_path(@project)
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
-    %li.breadcrumb-muted launch assignments
+    %li.breadcrumb-muted assign reviewers
+
+- assignments = @team.ae_adverse_event_reviewer_assignments
 
 .dashboard-container
+  = form_with url: ae_module_managers_assign_reviewers_path(@project, @team, @adverse_event), method: :post, local: true do |form|
+    .mb-3
+      %strong Assign principal reviewer
+      %div
+        = hidden_field_tag "principal_reviewer_id", 0
+        - if @team.principal_reviewers.present?
+          - @team.principal_reviewers.order(:full_name).each do |user|
+            - selected = assignments.select { |a| a.reviewer == user && a.principal? }.present?
+            .custom-control.custom-radio
+              = radio_button_tag "principal_reviewer_id", user.id, selected, class: "custom-control-input", id: "principal_reviewer_id_#{user.id}"
+              = label_tag "principal_reviewer_id_#{user.id}", user.full_name, class: "custom-control-label"
+        - else
+          .small.text-muted No principal reviewers found.
 
-  .mb-3= @adverse_event.name
-  .mb-3= @adverse_event.description
-  .mb-3.text-muted= @adverse_event.subject.name
+    .mb-3
+      %strong Assign reviewers
+      %div
+        = hidden_field_tag "reviewer_ids[0]", "1"
+        - if @team.reviewers.present?
+          - @team.reviewers.order(:full_name).each do |user|
+            - selected = assignments.select { |a| a.reviewer == user && !a.principal? }.present?
+            .custom-control.custom-checkbox
+              = check_box_tag "reviewer_ids[#{user.id}]", "1", selected, class: "custom-control-input"
+              = label "reviewer_ids", user.id, class: "custom-control-label" do
+                = user.full_name
+        - else
+          .small.text-muted No reviewers found.
 
-  %strong Assign to Pathway
+    .mb-3
+      %strong Assignment
+      %div
+        = hidden_field_tag "pathway_ids[0]", "1"
+        - if @team.ae_team_pathways.present?
+          - @team.ae_team_pathways.order(:name).each do |pathway|
+            - selected = assignments.select { |a| a.ae_team_pathway == pathway }.present?
+            .custom-control.custom-checkbox
+              = check_box_tag "pathway_ids[#{pathway.id}]", "1", selected, class: "custom-control-input"
+              = label "pathway_ids", pathway.id, class: "custom-control-label" do
+                = pathway.name
+        - else
+          .small.text-muted No pathways found.
 
-  - if @team.ae_team_pathways.present?
-    %ul
-      - @team.ae_team_pathways.each do |pathway|
-        %li= link_to pathway.name, ae_module_managers_assign_pathway_path(@project, @team, @adverse_event, pathway_id: pathway.id), method: :post
-  - else
-    %ul
-      %li.text-muted No team pathways setup.
+    = form.submit assignments.present? ? "Update reviewers" : "Assign reviewers", class: "btn btn-primary"
+    = link_to "Cancel", ae_module_adverse_event_path(@project, @adverse_event), class: "btn btn-light"

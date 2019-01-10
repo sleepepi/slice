@@ -28,8 +28,6 @@
       %strong Reviewers
       %ul
         %li= link_to "Reviewer inbox", ae_module_reviewers_inbox_path(@project)
-        %li= link_to "Reviewer face sheet", ae_module_reviewers_face_sheet_path(@project), class: "text-muted"
-        %li= link_to "Reviewer dashboard", ae_module_reviewers_dashboard_path(@project), class: "text-muted"
 
 .dashboard-container
   %h2 Admins
@@ -56,6 +54,16 @@
                 %div= user.full_name
             - else
               %div.text-muted No managers.
+
+          - principal_reviewers = team.principal_reviewers
+          .mb-3
+            %strong Principal Reviewers
+
+            - if principal_reviewers.present?
+              - principal_reviewers.each do |user|
+                %div= user.full_name
+            - else
+              %div.text-muted No principal reviewers.
 
           - reviewers = team.reviewers
           .mb-3

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   namespace :ae_module, path: "projects/:project_id/ae-module" do
+    root action: :dashboard
     get :dashboard
 
     resources :adverse_events, path: "adverse-events" do
@@ -64,26 +65,15 @@ Rails.application.routes.draw do
 
     namespace :managers do
       get :inbox
-      get :adverse_event, path: "teams/:team_id/adverse-events/:id"
-      get :adverse_event_log, path: "teams/:team_id/adverse-events/:id/log"
       get :determine_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
-      post :assign_pathway, path: "teams/:team_id/adverse-events/:id/assignments"
-      get :review_group, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id"
-      get :review, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id"
-      post :review_save, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/reviews/:design_id"
-      get :sheet, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/sheets/:sheet_id"
-
-      get :final_review, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/final-review"
-      get :final_review_submitted, path: "teams/:team_id/adverse-events/:id/review-group/:review_group_id/final-review/submitted"
-
+      post :assign_reviewers, path: "teams/:team_id/adverse-events/:id/assign-reviewers"
+      post :team_review_completed, path: "teams/:team_id/adverse-events/:id/team-review-completed"
+      post :team_review_uncompleted, path: "teams/:team_id/adverse-events/:id/team-review-uncompleted"
     end
 
     namespace :reviewers do
       get :dashboard
       get :inbox
-      get :face_sheet
-      get :assignment, path: "assignments/:assignment_id"
-
       get :review, path: "assignments/:assignment_id/reviews/:design_id"
       post :review_save, path: "assignments/:assignment_id/reviews/:design_id"
       # get :sheet_new, path: "assignments/:assignment_id/reviews/:design_id"

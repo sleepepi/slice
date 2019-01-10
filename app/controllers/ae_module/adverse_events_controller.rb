@@ -2,7 +2,7 @@
 
 # Allows reporters and review admins to manage adverse events.
 class AeModule::AdverseEventsController < AeModule::BaseController
-  before_action :find_review_admin_or_review_team_or_reporter_project_or_redirect
+  before_action :find_project_as_reporter_or_admin_or_team_member_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [:show, :edit, :update, :log]
 
@@ -13,6 +13,10 @@ class AeModule::AdverseEventsController < AeModule::BaseController
 
   # # GET /projects/:project_id/ae-module/adverse-events/:id
   # def show
+  # end
+
+  # # GET /projects/:project_id/ae-module/adverse-events/:id/log
+  # def log
   # end
 
   # GET /projects/:project_id/ae-module/adverse-events/new
@@ -51,19 +55,6 @@ class AeModule::AdverseEventsController < AeModule::BaseController
       # Attribute Accessor
       :subject_code
     )
-  end
-
-  def find_review_admin_or_review_team_or_reporter_project_or_redirect
-    project = Project.current.find_by_param(params[:project_id])
-    if project.ae_admin?(current_user)
-      @project = project
-    elsif project.ae_reporter?(current_user)
-      @project = project
-    elsif project.ae_team?(current_user)
-      @project = project
-    else
-      redirect_without_project
-    end
   end
 
   def find_adverse_event_or_redirect

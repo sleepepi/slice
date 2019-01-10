@@ -9,4 +9,13 @@ class AeAdverseEventReviewTeam < ApplicationRecord
   belongs_to :project
   belongs_to :ae_adverse_event
   belongs_to :ae_review_team
+
+  # Methods
+  def team_review_completed?
+    !team_review_completed_at.nil?
+  end
+
+  def team_review_uncompleted?
+    !team_review_completed?
+  end
 end

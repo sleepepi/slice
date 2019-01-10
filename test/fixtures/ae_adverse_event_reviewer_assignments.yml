@@ -3,7 +3,6 @@ aes_closed_reviewer_one:
   project: aes
   ae_adverse_event: closed
   ae_review_team: clinical
-  ae_review_group: closed_heart_failure
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer
@@ -15,7 +14,6 @@ aes_closed_reviewer_two:
   project: aes
   ae_adverse_event: closed
   ae_review_team: clinical
-  ae_review_group: closed_heart_failure
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
@@ -27,7 +25,6 @@ aes_teamdone_reviewer_one:
   project: aes
   ae_adverse_event: teamdone
   ae_review_team: clinical
-  ae_review_group: teamdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
@@ -39,7 +36,6 @@ aes_teamdone_reviewer_two:
   project: aes
   ae_adverse_event: teamdo
   ae_review_team: clinical
-  ae_review_group: teamdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
@@ -51,7 +47,6 @@ aes_pathdone_reviewer_one:
   project: aes
   ae_adverse_event: pathdone
   ae_review_team: clinical
-  ae_review_group: pathdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
@@ -63,7 +58,6 @@ aes_pathdone_reviewer_two:
   project: aes
   ae_adverse_event: pathdo
   ae_review_team: clinical
-  ae_review_group: pathdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
@@ -75,7 +69,6 @@ aes_rvwsdone_reviewer_one:
   project: aes
   ae_adverse_event: rvwsdone
   ae_review_team: clinical
-  ae_review_group: rvwsdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
@@ -87,7 +80,6 @@ aes_rvwsdone_reviewer_two:
   project: aes
   ae_adverse_event: rvwsdo
   ae_review_team: clinical
-  ae_review_group: rvwsdone_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
@@ -99,7 +91,6 @@ aes_pathset_reviewer_one:
   project: aes
   ae_adverse_event: pathset
   ae_review_team: clinical
-  ae_review_group: pathset_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
@@ -111,7 +102,6 @@ aes_pathset_reviewer_two:
   project: aes
   ae_adverse_event: pathset
   ae_review_team: clinical
-  ae_review_group: pathset_mild
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two

@@ -11,8 +11,11 @@ class AeAdverseEventLogEntry < ApplicationRecord
     ["Document removed.", "ae_document_removed"],
     ["Team assigned.", "ae_team_assigned"],
     ["Reviewers assigned.", "ae_reviewers_assigned"],
+    ["Reviewers unassigned.", "ae_reviewers_unassigned"],
     ["Review completed.", "ae_review_completed"],
     ["Final review completed.", "ae_final_review_completed"],
+    ["Team review completed.", "ae_team_review_completed"],
+    ["Team review uncompleted.", "ae_team_review_uncompleted"],
     ["Closed.", "ae_closed"],
     ["Reopened.", "ae_reopened"],
   ]
