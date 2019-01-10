@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AeAdverseEventReviewerAssignmentTest < ActiveSupport::TestCase
+class AeAssignmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

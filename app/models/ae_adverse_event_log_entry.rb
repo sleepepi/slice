@@ -32,7 +32,7 @@ class AeAdverseEventLogEntry < ApplicationRecord
   has_many :ae_log_entry_attachments
   has_many :sheets, through: :ae_log_entry_attachments, source: :attachment, source_type: "Sheet"
   has_many :info_requests, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeInfoRequest"
-  has_many :reviewer_assignments, -> { order(:id) }, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAdverseEventReviewerAssignment"
+  has_many :assignments, -> { order(:id) }, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeAssignment"
   has_many :documents, through: :ae_log_entry_attachments, source: :attachment, source_type: "AeDocument"
 
   # Methods

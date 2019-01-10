@@ -1,6 +1,6 @@
-class CreateAeAdverseEventReviewerAssignments < ActiveRecord::Migration[5.2]
+class CreateAeAssignments < ActiveRecord::Migration[5.2]
   def change
-    create_table :ae_adverse_event_reviewer_assignments do |t|
+    create_table :ae_assignments do |t|
       t.bigint :project_id
       t.bigint :ae_adverse_event_id
       t.bigint :ae_team_id
@@ -11,8 +11,8 @@ class CreateAeAdverseEventReviewerAssignments < ActiveRecord::Migration[5.2]
       t.timestamps
       t.index :project_id
       t.index :manager_id
-      t.index :review_completed_at, name: "ae_review_completed_idx"
-      t.index :review_unassigned_at, name: "ae_review_unassigned_idx"
+      t.index :review_completed_at
+      t.index :review_unassigned_at
     end
   end
 end

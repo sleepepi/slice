@@ -24,7 +24,7 @@ class AeModule::ReviewersController < AeModule::BaseController
         sheet: @sheet,
         role: @assignment.principal? ? "principal_reviewer" : "reviewer",
         ae_team: @assignment.ae_team,
-        ae_adverse_event_reviewer_assignment: @assignment
+        ae_assignment: @assignment
       ).first_or_create
       proceed_to_next_design
     else
@@ -39,7 +39,7 @@ class AeModule::ReviewersController < AeModule::BaseController
   private
 
   def assignments
-    @project.ae_adverse_event_reviewer_assignments.where(reviewer: current_user)
+    @project.ae_assignments.where(reviewer: current_user)
   end
 
   def find_reviewer_project_or_redirect

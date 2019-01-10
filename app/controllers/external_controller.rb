@@ -86,7 +86,7 @@ class ExternalController < ApplicationController
   end
 
   def set_assignment_design
-    @assignment = AeAdverseEventReviewerAssignment.where(reviewer: current_user).find_by(id: params[:assignment_id])
+    @assignment = AeAssignment.where(reviewer: current_user).find_by(id: params[:assignment_id])
     @design = @assignment.ae_team_pathway.designs.find_by_param(params[:design_id]) if @assignment
   end
 

@@ -24,13 +24,13 @@ class AeAdverseEvent < ApplicationRecord
   has_many :ae_info_requests
   has_many :ae_adverse_event_teams, -> { order(:ae_team_id) }
   has_many :ae_teams, through: :ae_adverse_event_teams
-  has_many :ae_adverse_event_reviewer_assignments, -> { current }
+  has_many :ae_assignments, -> { current }
   has_many :ae_documents
   has_many :ae_sheets
   has_many :sheets
 
   def current_and_deleted_assignments
-    ae_adverse_event_reviewer_assignments.unscope(where: :deleted)
+    ae_assignments.unscope(where: :deleted)
   end
 
   # Methods

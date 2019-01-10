@@ -175,13 +175,13 @@
               .small Have questions? Get answers!
 
             .mb-3
-              = link_to ae_module_managers_determine_pathway_path(@project, team, @adverse_event), class: @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true).present? ? "text-muted" : nil do
+              = link_to ae_module_managers_determine_pathway_path(@project, team, @adverse_event), class: @adverse_event.ae_assignments.where(principal: true).present? ? "text-muted" : nil do
                 = icon("fas", "users")
                 Assign reviewers
                 = icon("fas", "caret-right")
               .small Select forms for reviewers to complete.
 
-            - final_review_ready = @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true).count.positive? && @adverse_event.ae_adverse_event_reviewer_assignments.where(principal: true, review_completed_at: nil).count.zero?
+            - final_review_ready = @adverse_event.ae_assignments.where(principal: true).count.positive? && @adverse_event.ae_assignments.where(principal: true, review_completed_at: nil).count.zero?
             .mb-3
               = link_to ae_module_managers_team_review_completed_path(@project, team, @adverse_event), method: :post, class: final_review_ready ? nil : "text-muted", data: { confirm: "Marking team review as completed will notify the admin to close the adverse event. Do you want to proceed?" } do
                 = icon("fas", "check-square")
@@ -192,7 +192,7 @@
       - assignment_found = nil
       - @adverse_event.ae_teams.each do |team|
         - @role_reviewer = @roles.count { |role, t| role == "reviewer" && t == team }.positive?
-        - assignment = @adverse_event.ae_adverse_event_reviewer_assignments.find_by(ae_team: team, reviewer: current_user)
+        - assignment = @adverse_event.ae_assignments.find_by(ae_team: team, reviewer: current_user)
 
         - if assignment
           - if assignment.completed?
@@ -267,7 +267,7 @@
   - @adverse_event.ae_teams.each do |team|
     - role_manager = @roles.count { |role, t| role == "manager" && t == team }.positive?
     - if role_manager || @role_admin
-      - team_assignments = team.ae_adverse_event_reviewer_assignments.order(principal: :desc)
+      - team_assignments = team.ae_assignments.order(principal: :desc)
       - if team_assignments.present?
         .dashboard-container
           - team_assignments.group_by(&:reviewer).each do |reviewer, assignments|

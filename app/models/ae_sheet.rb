@@ -19,7 +19,7 @@ class AeSheet < ApplicationRecord
   belongs_to :ae_adverse_event
   belongs_to :sheet
   belongs_to :ae_team, optional: true
-  belongs_to :ae_adverse_event_reviewer_assignment, optional: true
+  belongs_to :ae_assignment, optional: true
 
   # Methods
   def sheet_saved!(current_user, update_type)

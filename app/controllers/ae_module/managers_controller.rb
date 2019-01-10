@@ -27,7 +27,7 @@ class AeModule::ManagersController < AeModule::BaseController
     @reviewers = @team.reviewers.where(id: reviewer_ids)
     @principal_reviewer = @team.principal_reviewers.find_by(id: params[:principal_reviewer_id])
 
-    original_assignment_ids = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_team: @team).pluck(:id)
+    original_assignment_ids = @adverse_event.ae_assignments.where(ae_team: @team).pluck(:id)
 
     assignments = []
 
@@ -59,8 +59,8 @@ class AeModule::ManagersController < AeModule::BaseController
       end
     end
 
-    added_assignments = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_team: @team).where.not(id: original_assignment_ids)
-    removed_assignments = @adverse_event.ae_adverse_event_reviewer_assignments.where(ae_team: @team).where.not(id: assignments.collect(&:id)).destroy_all
+    added_assignments = @adverse_event.ae_assignments.where(ae_team: @team).where.not(id: original_assignment_ids)
+    removed_assignments = @adverse_event.ae_assignments.where(ae_team: @team).where.not(id: assignments.collect(&:id)).destroy_all
 
     # TODO: Generate in app notifications, email, and LOG notificiations to AENotificationsLog for Info Request (to "reviewer")
 
@@ -70,7 +70,7 @@ class AeModule::ManagersController < AeModule::BaseController
         user: current_user,
         entry_type: "ae_reviewers_unassigned",
         ae_team: @team,
-        reviewer_assignments: removed_assignments
+        assignments: removed_assignments
       )
     end
 
@@ -80,7 +80,7 @@ class AeModule::ManagersController < AeModule::BaseController
         user: current_user,
         entry_type: "ae_reviewers_assigned",
         ae_team: @team,
-        reviewer_assignments: added_assignments
+        assignments: added_assignments
       )
     end
 

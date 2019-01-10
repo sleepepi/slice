@@ -2,7 +2,7 @@
   - adverse_event.ae_adverse_event_teams.includes(:ae_team).each do |adverse_event_team|
     - role_manager = @roles.count { |role, t| role == "manager" && t == adverse_event_team.ae_team }.positive?
     - if @role_admin || role_manager
-      - assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(ae_team: adverse_event_team.ae_team)
+      - assignments = adverse_event.ae_assignments.where(ae_team: adverse_event_team.ae_team)
       - if assignments.present?
         .my-3
           %strong
@@ -42,7 +42,7 @@
                     = render "ae_module/adverse_events/assignment", assignment: assignment
 
 - elsif @role_principal_reviewer
-  - assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(principal: false) # .where.not(reviewer: current_user)
+  - assignments = adverse_event.ae_assignments.where(principal: false) # .where.not(reviewer: current_user)
   - if assignments.present?
     .my-3
       %strong Reviews
@@ -67,7 +67,7 @@
 
 
 - if @role_reviewer || @role_principal_reviewer
-  - my_assignments = adverse_event.ae_adverse_event_reviewer_assignments.where(reviewer: current_user)
+  - my_assignments = adverse_event.ae_assignments.where(reviewer: current_user)
   - if my_assignments.present?
     .my-3
       %strong My review forms

@@ -25,7 +25,7 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
 
   test "should assign reviewers" do
     login(@team_manager)
-    assert_difference("AeAdverseEventReviewerAssignment.count", 2) do
+    assert_difference("AeAssignment.count", 2) do
       post ae_module_managers_assign_reviewers_url(@project, @team, ae_adverse_events(:teamset)), params: {
         principal_reviewer_id: users(:aes_team_principal_reviewer).id,
         reviewer_ids: {

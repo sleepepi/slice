@@ -11,7 +11,7 @@
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted assign reviewers
 
-- assignments = @team.ae_adverse_event_reviewer_assignments
+- assignments = @team.ae_assignments
 
 .dashboard-container
   = form_with url: ae_module_managers_assign_reviewers_path(@project, @team, @adverse_event), method: :post, local: true do |form|

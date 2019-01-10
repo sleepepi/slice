@@ -28,10 +28,10 @@ class AeTeam < ApplicationRecord
   has_many :no_role_users, -> { current.where(ae_team_members: { manager: false, principal_reviewer: false, reviewer: false, viewer: false }) }, through: :ae_team_members, source: :user
 
   has_many :ae_team_pathways, -> { current }
-  has_many :ae_adverse_event_reviewer_assignments, -> { current }
+  has_many :ae_assignments, -> { current }
 
   def current_and_deleted_assignments
-    ae_adverse_event_reviewer_assignments.unscope(where: :deleted)
+    ae_assignments.unscope(where: :deleted)
   end
 
   # Methods
