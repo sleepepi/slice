@@ -18,7 +18,7 @@ class AeSheet < ApplicationRecord
   belongs_to :project
   belongs_to :ae_adverse_event
   belongs_to :sheet
-  belongs_to :ae_review_team, optional: true
+  belongs_to :ae_team, optional: true
   belongs_to :ae_adverse_event_reviewer_assignment, optional: true
 
   # Methods

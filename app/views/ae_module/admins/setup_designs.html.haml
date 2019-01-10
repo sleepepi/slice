@@ -28,7 +28,7 @@
         - designments = @project.ae_designments.where(ae_team_pathway_id: nil, role: "reporter").order(Arel.sql("position nulls last")).includes(:design)
         = render "ae_module/admins/designments", project: @project, designments: designments
 
-    - @project.ae_review_teams.each do |team|
+    - @project.ae_teams.each do |team|
       .mb-5
         %h2= team.name
         - if team.ae_team_pathways.present?

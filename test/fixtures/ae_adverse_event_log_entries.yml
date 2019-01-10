@@ -4,7 +4,7 @@ closed_opened:
   project: aes
   ae_adverse_event: closed
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 closed_sheet_created:
@@ -12,7 +12,7 @@ closed_sheet_created:
   project: aes
   ae_adverse_event: closed
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 closed_team_assigned:
@@ -20,7 +20,7 @@ closed_team_assigned:
   project: aes
   ae_adverse_event: closed
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 closed_reviewers_assigned:
@@ -28,7 +28,7 @@ closed_reviewers_assigned:
   project: aes
   ae_adverse_event: closed
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_reviewers_assigned
 
 closed_reviewer_one_completed:
@@ -36,7 +36,7 @@ closed_reviewer_one_completed:
   project: aes
   ae_adverse_event: closed
   user: aes_team_reviewer
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 closed_reviewer_two_completed:
@@ -44,7 +44,7 @@ closed_reviewer_two_completed:
   project: aes
   ae_adverse_event: closed
   user: aes_team_reviewer_two
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 closed_pathway_completed:
@@ -52,7 +52,7 @@ closed_pathway_completed:
   project: aes
   ae_adverse_event: closed
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_final_review_completed
 
 closed_adverse_event_closed:
@@ -60,7 +60,7 @@ closed_adverse_event_closed:
   project: aes
   ae_adverse_event: closed
   user: aes_review_admin
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_closed
 
 # Adverse Event "teamdone" entries.
@@ -69,7 +69,7 @@ teamdone_opened:
   project: aes
   ae_adverse_event: teamdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 teamdone_sheet_created:
@@ -77,7 +77,7 @@ teamdone_sheet_created:
   project: aes
   ae_adverse_event: teamdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 teamdone_team_assigned:
@@ -85,7 +85,7 @@ teamdone_team_assigned:
   project: aes
   ae_adverse_event: teamdone
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 teamdone_reviewers_assigned:
@@ -93,7 +93,7 @@ teamdone_reviewers_assigned:
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_reviewers_assigned
 
 teamdone_reviewer_one_completed:
@@ -101,7 +101,7 @@ teamdone_reviewer_one_completed:
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_reviewer
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 teamdone_reviewer_two_completed:
@@ -109,7 +109,7 @@ teamdone_reviewer_two_completed:
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_reviewer_two
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 teamdone_pathway_completed:
@@ -117,7 +117,7 @@ teamdone_pathway_completed:
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_final_review_completed
 
 
@@ -127,7 +127,7 @@ pathdone_opened:
   project: aes
   ae_adverse_event: pathdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 pathdone_sheet_created:
@@ -135,7 +135,7 @@ pathdone_sheet_created:
   project: aes
   ae_adverse_event: pathdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 pathdone_team_assigned:
@@ -143,7 +143,7 @@ pathdone_team_assigned:
   project: aes
   ae_adverse_event: pathdone
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 pathdone_reviewers_assigned:
@@ -151,7 +151,7 @@ pathdone_reviewers_assigned:
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_reviewers_assigned
 
 pathdone_reviewer_one_completed:
@@ -159,7 +159,7 @@ pathdone_reviewer_one_completed:
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_reviewer
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 pathdone_reviewer_two_completed:
@@ -167,7 +167,7 @@ pathdone_reviewer_two_completed:
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_reviewer_two
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 pathdone_pathway_completed:
@@ -175,7 +175,7 @@ pathdone_pathway_completed:
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_final_review_completed
 
 
@@ -185,7 +185,7 @@ rvwsdone_opened:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 rvwsdone_sheet_created:
@@ -193,7 +193,7 @@ rvwsdone_sheet_created:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 rvwsdone_team_assigned:
@@ -201,7 +201,7 @@ rvwsdone_team_assigned:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 rvwsdone_reviewers_assigned:
@@ -209,7 +209,7 @@ rvwsdone_reviewers_assigned:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_reviewers_assigned
 
 rvwsdone_reviewer_one_completed:
@@ -217,7 +217,7 @@ rvwsdone_reviewer_one_completed:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_reviewer
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 rvwsdone_reviewer_two_completed:
@@ -225,7 +225,7 @@ rvwsdone_reviewer_two_completed:
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_reviewer_two
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_review_completed
 
 
@@ -235,7 +235,7 @@ pathset_opened:
   project: aes
   ae_adverse_event: pathset
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 pathset_sheet_created:
@@ -243,7 +243,7 @@ pathset_sheet_created:
   project: aes
   ae_adverse_event: pathset
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 pathset_team_assigned:
@@ -251,7 +251,7 @@ pathset_team_assigned:
   project: aes
   ae_adverse_event: pathset
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 pathset_reviewers_assigned:
@@ -259,7 +259,7 @@ pathset_reviewers_assigned:
   project: aes
   ae_adverse_event: pathset
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_reviewers_assigned
 
 
@@ -269,7 +269,7 @@ teamindone_opened:
   project: aes
   ae_adverse_event: teamindone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 teamindone_sheet_created:
@@ -277,7 +277,7 @@ teamindone_sheet_created:
   project: aes
   ae_adverse_event: teamindone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 teamindone_team_assigned:
@@ -285,7 +285,7 @@ teamindone_team_assigned:
   project: aes
   ae_adverse_event: teamindone
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 teamindone_manager_info_request_created:
@@ -293,7 +293,7 @@ teamindone_manager_info_request_created:
   project: aes
   ae_adverse_event: teamindone
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_info_request_created
 
 teamindone_manager_info_request_resolved:
@@ -301,7 +301,7 @@ teamindone_manager_info_request_resolved:
   project: aes
   ae_adverse_event: teamindone
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_info_request_resolved
 
 
@@ -311,7 +311,7 @@ teaminfo_opened:
   project: aes
   ae_adverse_event: teaminfo
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 teaminfo_sheet_created:
@@ -319,7 +319,7 @@ teaminfo_sheet_created:
   project: aes
   ae_adverse_event: teaminfo
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 teaminfo_team_assigned:
@@ -327,7 +327,7 @@ teaminfo_team_assigned:
   project: aes
   ae_adverse_event: teaminfo
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 teaminfo_manager_info_request_created:
@@ -335,7 +335,7 @@ teaminfo_manager_info_request_created:
   project: aes
   ae_adverse_event: teaminfo
   user: aes_team_manager
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_info_request_created
 
 
@@ -345,7 +345,7 @@ teamset_opened:
   project: aes
   ae_adverse_event: teamset
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 teamset_sheet_created:
@@ -353,7 +353,7 @@ teamset_sheet_created:
   project: aes
   ae_adverse_event: teamset
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 teamset_team_assigned:
@@ -361,7 +361,7 @@ teamset_team_assigned:
   project: aes
   ae_adverse_event: teamset
   user: aes_review_admin
-  ae_review_team: clinical
+  ae_team: clinical
   entry_type: ae_team_assigned
 
 # Adverse Event "repindone" entries.
@@ -370,7 +370,7 @@ repindone_opened:
   project: aes
   ae_adverse_event: repindone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 repindone_sheet_created:
@@ -378,7 +378,7 @@ repindone_sheet_created:
   project: aes
   ae_adverse_event: repindone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 repindone_admin_info_request_created:
@@ -386,7 +386,7 @@ repindone_admin_info_request_created:
   project: aes
   ae_adverse_event: repindone
   user: aes_review_admin
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_info_request_created
 
 repindone_admin_info_request_resolved:
@@ -394,7 +394,7 @@ repindone_admin_info_request_resolved:
   project: aes
   ae_adverse_event: repindone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_info_request_resolved
 
 # Adverse Event "repinfo" entries.
@@ -403,7 +403,7 @@ repinfo_opened:
   project: aes
   ae_adverse_event: repinfo
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 repinfo_sheet_created:
@@ -411,7 +411,7 @@ repinfo_sheet_created:
   project: aes
   ae_adverse_event: repinfo
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 repinfo_admin_info_request_created:
@@ -419,7 +419,7 @@ repinfo_admin_info_request_created:
   project: aes
   ae_adverse_event: repinfo
   user: aes_review_admin
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_info_request_created
 
 # Adverse Event "sheetdone" entries.
@@ -428,7 +428,7 @@ sheetdone_opened:
   project: aes
   ae_adverse_event: sheetdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened
 
 sheetdone_sheet_created:
@@ -436,7 +436,7 @@ sheetdone_sheet_created:
   project: aes
   ae_adverse_event: sheetdone
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_sheet_created
 
 
@@ -446,5 +446,5 @@ reported_opened:
   project: aes
   ae_adverse_event: reported
   user: aes_project_editor
-  # ae_review_team:
+  # ae_team:
   entry_type: ae_opened

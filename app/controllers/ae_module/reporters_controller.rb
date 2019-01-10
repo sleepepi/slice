@@ -29,7 +29,7 @@ class AeModule::ReportersController < AeModule::BaseController
 
   # POST /projects/:project_id/ae-module/reporters/adverse-events/:id/send-for-review
   def send_for_review
-    if @adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+    if @adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
       redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "All information requests must be resolved before sending for review."
     else
       @adverse_event.sent_for_review!(current_user)
@@ -69,7 +69,8 @@ class AeModule::ReportersController < AeModule::BaseController
       project: @project,
       design: @design,
       subject: @subject,
-      ae_adverse_event: @adverse_event
+      ae_adverse_event: @adverse_event,
+      user: current_user
     ).new(sheet_params) unless @sheet
   end
 

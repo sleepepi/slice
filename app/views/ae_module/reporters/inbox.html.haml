@@ -44,7 +44,7 @@
             %td= adverse_event.created_at.strftime("%a, %b %-d, %Y")
             %td.text-center= icon("far", "square")
             %td
-              - if adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+              - if adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
                 %span.badge.badge-primary Additional info required
               - else
                 %span.badge.badge-secondary Reported

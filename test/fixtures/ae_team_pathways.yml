@@ -1,17 +1,17 @@
 death:
   project: aes
-  ae_review_team: clinical
+  ae_team: clinical
   name: Death
   number_of_reviewers: 2
 
 heart_failure:
   project: aes
-  ae_review_team: clinical
+  ae_team: clinical
   name: Heart Failure
   number_of_reviewers: 2
 
 mild:
   project: aes
-  ae_review_team: clinical
+  ae_team: clinical
   name: Mild Adverse Event
   number_of_reviewers: 2

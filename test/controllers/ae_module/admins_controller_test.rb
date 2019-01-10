@@ -23,9 +23,9 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
 
   test "should assign team as review admin" do
     login(@review_admin)
-    assert_difference("AeAdverseEventReviewTeam.count") do
+    assert_difference("AeAdverseEventTeam.count") do
       post ae_module_admins_assign_team_url(@project, @adverse_event), params: {
-        review_team_id: ae_review_teams(:clinical).id
+        team_id: ae_teams(:clinical).id
       }
     end
     assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)
@@ -33,9 +33,9 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not assign blank team as review admin" do
     login(@review_admin)
-    assert_difference("AeAdverseEventReviewTeam.count", 0) do
+    assert_difference("AeAdverseEventTeam.count", 0) do
       post ae_module_admins_assign_team_url(@project, @adverse_event), params: {
-        review_team_id: ""
+        team_id: ""
       }
     end
     assert_redirected_to ae_module_adverse_event_url(@project, @adverse_event)

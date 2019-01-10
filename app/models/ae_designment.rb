@@ -16,6 +16,6 @@ class AeDesignment < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :design
-  belongs_to :ae_review_team, optional: true
+  belongs_to :ae_team, optional: true
   belongs_to :ae_team_pathway, optional: true
 end

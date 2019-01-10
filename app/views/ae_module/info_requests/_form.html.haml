@@ -5,5 +5,6 @@
   - url = ae_module_info_request_path(project, adverse_event, info_request)
   - method = :patch
 = form_with model: info_request, url: url, method: method, local: true do |form|
+  = form.hidden_field :ae_team_id
   = render "forms/vertical/text_field", form: form, object: info_request, key: :comment, key_name: "Request information", help_text: "Specify the information required to complete the review process."
   = render "forms/vertical/submit", form: form, object: info_request, submit_text: "Submit request", cancel: ae_module_adverse_event_path(project, adverse_event)

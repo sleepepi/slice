@@ -11,7 +11,7 @@ class AeInfoRequest < ApplicationRecord
   belongs_to :ae_adverse_event
   belongs_to :user
   belongs_to :resolver, class_name: "User", foreign_key: "resolver_id", optional: true
-  belongs_to :ae_review_team, optional: true
+  belongs_to :ae_team, optional: true
 
   # Methods
   def destroy
@@ -23,9 +23,10 @@ class AeInfoRequest < ApplicationRecord
   end
 
   def open!(current_user)
-    ae_adverse_event.update sent_for_review_at: nil
+    ae_adverse_event.update sent_for_review_at: nil unless ae_team
     ae_adverse_event.ae_adverse_event_log_entries.create(
       project: project,
+      ae_team: ae_team,
       user: current_user,
       entry_type: "ae_info_request_created",
       info_requests: [self]

@@ -8,7 +8,7 @@ class AeModule::AdminsController < AeModule::BaseController
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/assign-team
   def assign_team
-    team = @project.ae_review_teams.find_by_param(params[:review_team_id])
+    team = @project.ae_teams.find_by_param(params[:team_id])
     if team
       @adverse_event.assign_team!(current_user, team)
       notice = "Team successfully assigned."
@@ -38,7 +38,7 @@ class AeModule::AdminsController < AeModule::BaseController
           design: design,
           position: index,
           role: params[:role],
-          ae_review_team: @pathway&.ae_review_team,
+          ae_team: @pathway&.ae_team,
           ae_team_pathway: @pathway
         )
         index += 1
@@ -114,7 +114,8 @@ class AeModule::AdminsController < AeModule::BaseController
       project: @project,
       design: @design,
       subject: @subject,
-      ae_adverse_event: @adverse_event
+      ae_adverse_event: @adverse_event,
+      user: current_user
     ).new(sheet_params) unless @sheet
   end
 

@@ -14,5 +14,5 @@
 .dashboard-container
   .mb-3
     %strong Log
-  - @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: nil).each do |log_entry|
+  - @adverse_event.ae_adverse_event_log_entries.where(ae_team_id: nil).each do |log_entry|
     = render "ae_module/log_entries/show", log_entry: log_entry

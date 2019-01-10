@@ -22,8 +22,8 @@ class AeAdverseEvent < ApplicationRecord
   belongs_to :closer, class_name: "User", foreign_key: "closer_id", optional: true
   has_many :ae_adverse_event_log_entries, -> { order(:created_at) }
   has_many :ae_info_requests
-  has_many :ae_adverse_event_review_teams, -> { order(:ae_review_team_id) }
-  has_many :ae_review_teams, through: :ae_adverse_event_review_teams
+  has_many :ae_adverse_event_teams, -> { order(:ae_team_id) }
+  has_many :ae_teams, through: :ae_adverse_event_teams
   has_many :ae_adverse_event_reviewer_assignments, -> { current }
   has_many :ae_documents
   has_many :ae_sheets
@@ -113,8 +113,8 @@ class AeAdverseEvent < ApplicationRecord
   end
 
   def assign_team!(current_user, team)
-    ae_adverse_event_review_teams.where(project: project, ae_review_team: team).first_or_create
-    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_review_team: team)
+    ae_adverse_event_teams.where(project: project, ae_team: team).first_or_create
+    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_team: team)
     # TODO: Generate in app notifications and LOG notifications for assignment to team (notify team managers, in this case team managers)
   end
 
@@ -142,7 +142,7 @@ class AeAdverseEvent < ApplicationRecord
     all_roles = []
     all_roles << ["reporter", nil] if project.site_or_project_editor?(current_user)
     all_roles << ["admin", nil] if project.ae_admin?(current_user)
-    ae_review_teams.each do |team|
+    ae_teams.each do |team|
       all_roles << ["manager", team] if project.ae_team_manager?(current_user, team: team)
       all_roles << ["principal_reviewer", team] if project.ae_team_principal_reviewer?(current_user, team: team)
       all_roles << ["reviewer", team] if project.ae_team_reviewer?(current_user, team: team)

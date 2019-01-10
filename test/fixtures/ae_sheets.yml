@@ -5,7 +5,7 @@ one:
   ae_adverse_event:
   sheet:
   role: MyString # reporter | admin | principal_reviewer | reviewer
-  ae_review_team:
+  ae_team:
   ae_adverse_event_reviewer_assignment:
 
 two:
@@ -13,5 +13,5 @@ two:
   ae_adverse_event:
   sheet:
   role: MyString # reporter | admin | principal_reviewer | reviewer
-  ae_review_team:
+  ae_team:
   ae_adverse_event_reviewer_assignment:

@@ -100,7 +100,7 @@ class User < ApplicationRecord
     project_ids = []
     project_ids += all_viewable_and_site_projects.pluck(:id)
     project_ids += AeReviewAdmin.where(user_id: id).pluck(:project_id)
-    project_ids += AeReviewTeamMember.where(user_id: id).pluck(:project_id)
+    project_ids += AeTeamMember.where(user_id: id).pluck(:project_id)
     Project.current.where(id: project_ids.uniq)
   end
 

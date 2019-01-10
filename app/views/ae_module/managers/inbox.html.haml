@@ -10,7 +10,7 @@
         ae dashboard
     %li.breadcrumb-muted managers inbox
 
-- if @adverse_event_review_teams.present?
+- if @adverse_event_teams.present?
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %col{ width: "2px" }
@@ -30,9 +30,9 @@
           %th Team
           %th Status
       %tbody
-        - @adverse_event_review_teams.each do |adverse_event_review_team|
-          - adverse_event = adverse_event_review_team.ae_adverse_event
-          - team = adverse_event_review_team.ae_review_team
+        - @adverse_event_teams.each do |adverse_event_team|
+          - adverse_event = adverse_event_team.ae_adverse_event
+          - team = adverse_event_team.ae_team
           %tr
             %td.p-0.bg-primary
             %td.text-center= link_to adverse_event.name, ae_module_adverse_event_path(@project, adverse_event)
@@ -41,8 +41,8 @@
             %td= adverse_event.created_at.strftime("%a, %b %-d, %Y")
             %td.text-center= icon("far", "square")
             %td
-              - if adverse_event.ae_adverse_event_review_teams.present?
-                = adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).pluck(:name).to_sentence
+              - if adverse_event.ae_adverse_event_teams.present?
+                = adverse_event.ae_adverse_event_teams.includes(:ae_team).pluck(:name).to_sentence
               - else
                 %span.text-muted Not assigned.
             %td

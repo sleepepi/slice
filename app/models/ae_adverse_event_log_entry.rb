@@ -27,7 +27,7 @@ class AeAdverseEventLogEntry < ApplicationRecord
   belongs_to :project
   belongs_to :ae_adverse_event
   belongs_to :user
-  belongs_to :ae_review_team, optional: true
+  belongs_to :ae_team, optional: true
 
   has_many :ae_log_entry_attachments
   has_many :sheets, through: :ae_log_entry_attachments, source: :attachment, source_type: "Sheet"

@@ -32,7 +32,7 @@
         Requested
         %span.badge.badge-light deleted
       from
-      - if log_entry.ae_review_team
+      - if log_entry.ae_team
         admins.
       - else
         reporters.
@@ -51,7 +51,7 @@
     - when "ae_team_assigned"
       Assigned adverse event to
       = succeed "." do
-        = log_entry.ae_review_team.name
+        = log_entry.ae_team.name
     - when "ae_reviewers_assigned"
       = succeed "." do
         - reviewers = log_entry.reviewer_assignments.includes(:reviewer).collect(&:reviewer).uniq
@@ -74,11 +74,11 @@
       Submitted final adverse event review.
     - when "ae_team_review_completed"
       Marked
-      = log_entry.ae_review_team.short_name
+      = log_entry.ae_team.short_name
       team review as complete.
     - when "ae_team_review_uncompleted"
       Reopened
-      = log_entry.ae_review_team.short_name
+      = log_entry.ae_team.short_name
       team review.
     - when "ae_closed"
       Closed adverse event for

@@ -2,7 +2,7 @@
 
 # Allows creation and resolution of information requests.
 class AeModule::InfoRequestsController < AeModule::BaseController
-  before_action :find_review_admin_or_review_team_or_reporter_project_or_redirect
+  before_action :find_review_admin_or_team_member_or_reporter_project_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect
   before_action :find_info_request_or_redirect, only: [
@@ -12,6 +12,7 @@ class AeModule::InfoRequestsController < AeModule::BaseController
   # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/info-requests/new
   def new
     @info_request = @adverse_event.ae_info_requests.new
+    @info_request.ae_team_id = @project.ae_teams.find_by_param(params[:team])&.id
   end
 
   # POST /projects/:project_id/ae-module/adverse-events/:adverse_event_id/info-requests
@@ -40,7 +41,7 @@ class AeModule::InfoRequestsController < AeModule::BaseController
 
   private
 
-  def find_review_admin_or_review_team_or_reporter_project_or_redirect
+  def find_review_admin_or_team_member_or_reporter_project_or_redirect
     project = Project.current.find_by_param(params[:project_id])
     if project.ae_admin?(current_user)
       @project = project
@@ -57,14 +58,14 @@ class AeModule::InfoRequestsController < AeModule::BaseController
     if @project.ae_admin?(current_user)
       @adverse_event.ae_info_requests
     elsif @project.ae_reporter?(current_user)
-      @adverse_event.ae_info_requests.where(ae_review_team_id: nil)
+      @adverse_event.ae_info_requests.where(ae_team_id: nil)
     else
       AeInfoRequest.none
     end
   end
 
   def info_request_params
-    params.require(:ae_info_request).permit(:comment)
+    params.require(:ae_info_request).permit(:comment, :ae_team_id)
   end
 
   def find_info_request_or_redirect

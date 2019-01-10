@@ -18,7 +18,7 @@
   %p
     %strong Log
 
-  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject).where(ae_adverse_event: @adverse_event, ae_review_team: @team)
+  - log_entries = @project.ae_adverse_event_log_entries.includes(:ae_log_entry_attachments, ae_adverse_event: :subject).where(ae_adverse_event: @adverse_event, ae_team: @team)
   - if log_entries.present?
     - log_entries.each do |log_entry|
       = render "ae_module/log_entries/show", log_entry: log_entry

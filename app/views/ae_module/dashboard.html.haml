@@ -38,7 +38,7 @@
 
 .dashboard-container
   %h2 Teams
-  - teams = @project.ae_review_teams
+  - teams = @project.ae_teams
   - if teams.present?
     - teams.each do |team|
       .border-left.pl-3.mb-3.border-primary.border-top.pt-3.pb-3

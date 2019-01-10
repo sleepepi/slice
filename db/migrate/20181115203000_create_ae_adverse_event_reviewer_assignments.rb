@@ -3,7 +3,7 @@ class CreateAeAdverseEventReviewerAssignments < ActiveRecord::Migration[5.2]
     create_table :ae_adverse_event_reviewer_assignments do |t|
       t.bigint :project_id
       t.bigint :ae_adverse_event_id
-      t.bigint :ae_review_team_id
+      t.bigint :ae_team_id
       t.bigint :manager_id
       t.bigint :reviewer_id
       t.datetime :review_completed_at

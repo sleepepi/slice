@@ -6,9 +6,9 @@ module AeReviews
   included do
     # Relationships
     has_many :ae_review_admins
-    has_many :ae_review_teams, -> { current }
-    has_many :ae_review_team_members
-    has_many :ae_adverse_event_review_teams
+    has_many :ae_teams, -> { current }
+    has_many :ae_team_members
+    has_many :ae_adverse_event_teams
     has_many :ae_adverse_events, -> { current }
     has_many :ae_adverse_event_log_entries, -> { order(:id) }
     has_many :ae_team_pathways, -> { current }
@@ -48,38 +48,38 @@ module AeReviews
   end
 
   def ae_team?(current_user)
-    ae_review_team_members.where(user: current_user).count.positive?
+    ae_team_members.where(user: current_user).count.positive?
   end
 
   def ae_team_manager?(current_user, team: nil)
     if team
-      ae_review_team_members.where(user: current_user, manager: true, ae_review_team: team).count.positive?
+      ae_team_members.where(user: current_user, manager: true, ae_team: team).count.positive?
     else
-      ae_review_team_members.where(user: current_user, manager: true).count.positive?
+      ae_team_members.where(user: current_user, manager: true).count.positive?
     end
   end
 
   def ae_team_principal_reviewer?(current_user, team: nil)
     if team
-      ae_review_team_members.where(user: current_user, principal_reviewer: true, ae_review_team: team).count.positive?
+      ae_team_members.where(user: current_user, principal_reviewer: true, ae_team: team).count.positive?
     else
-      ae_review_team_members.where(user: current_user, principal_reviewer: true).count.positive?
+      ae_team_members.where(user: current_user, principal_reviewer: true).count.positive?
     end
   end
 
   def ae_team_reviewer?(current_user, team: nil)
     if team
-      ae_review_team_members.where(user: current_user, reviewer: true, ae_review_team: team).count.positive?
+      ae_team_members.where(user: current_user, reviewer: true, ae_team: team).count.positive?
     else
-      ae_review_team_members.where(user: current_user, reviewer: true).count.positive?
+      ae_team_members.where(user: current_user, reviewer: true).count.positive?
     end
   end
 
   def ae_team_viewer?(current_user, team: nil)
     if team
-      ae_review_team_members.where(user: current_user, viewer: true, ae_review_team: team).count.positive?
+      ae_team_members.where(user: current_user, viewer: true, ae_team: team).count.positive?
     else
-      ae_review_team_members.where(user: current_user, viewer: true).count.positive?
+      ae_team_members.where(user: current_user, viewer: true).count.positive?
     end
   end
 end

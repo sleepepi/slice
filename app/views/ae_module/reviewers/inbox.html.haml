@@ -37,7 +37,7 @@
             %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
               .overflow-hidden.nowrap= link_to assignment.ae_adverse_event.description.truncate(40), ae_module_adverse_event_path(@project, assignment.ae_adverse_event), class: assignment.completed? ? "link-blend-muted" : assignment.overdue? ? "text-danger" : nil
             %td= assignment.ae_team_pathway.name
-            %td= assignment.ae_review_team.name
+            %td= assignment.ae_team.name
             %td.nowrap{ class: assignment.overdue? ? "text-danger" : nil }= assignment.created_at.strftime("%a, %b %-d, %Y")
             %td.text-center.nowrap.text-muted
               - if assignment.completed?

@@ -39,12 +39,12 @@
               .overflow-hidden.nowrap= link_to adverse_event.description.truncate(40), ae_module_adverse_event_path(@project, adverse_event)
             %td= adverse_event.created_at.strftime("%b %-d, %Y")
             %td
-              - if adverse_event.ae_adverse_event_review_teams.present?
-                = adverse_event.ae_review_teams.collect(&:short_name).to_sentence
+              - if adverse_event.ae_adverse_event_teams.present?
+                = adverse_event.ae_teams.collect(&:short_name).to_sentence
               - else
                 %span.text-muted Not assigned.
             %td
-              - if adverse_event.ae_info_requests.where(ae_review_team_id: nil, resolved_at: nil).present?
+              - if adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
                 %span.badge.badge-primary Additional info required
               - elsif adverse_event.sent_for_review?
                 %span.badge.badge-secondary Reported

@@ -23,7 +23,7 @@ class AeModule::ReviewersController < AeModule::BaseController
         ae_adverse_event: @assignment.ae_adverse_event,
         sheet: @sheet,
         role: @assignment.principal? ? "principal_reviewer" : "reviewer",
-        ae_review_team: @assignment.ae_review_team,
+        ae_team: @assignment.ae_team,
         ae_adverse_event_reviewer_assignment: @assignment
       ).first_or_create
       proceed_to_next_design
@@ -44,8 +44,8 @@ class AeModule::ReviewersController < AeModule::BaseController
 
   def find_reviewer_project_or_redirect
     @project = Project.current.where(
-      id: AeReviewTeamMember.where(user: current_user, reviewer: true).or(
-        AeReviewTeamMember.where(user: current_user, principal_reviewer: true)
+      id: AeTeamMember.where(user: current_user, reviewer: true).or(
+        AeTeamMember.where(user: current_user, principal_reviewer: true)
       ).select(:project_id)
     ).find_by_param(params[:project_id])
     redirect_without_project
@@ -74,7 +74,8 @@ class AeModule::ReviewersController < AeModule::BaseController
         project: @project,
         design: @design,
         subject: @subject,
-        ae_adverse_event: @assignment.ae_adverse_event
+        ae_adverse_event: @assignment.ae_adverse_event,
+        user: current_user
       ).new(sheet_params) unless @sheet
     else
       empty_response_or_root_path(ae_module_adverse_event_path(@project, @adverse_event))

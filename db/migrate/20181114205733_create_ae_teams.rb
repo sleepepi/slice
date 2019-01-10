@@ -1,6 +1,6 @@
-class CreateAeReviewTeams < ActiveRecord::Migration[5.2]
+class CreateAeTeams < ActiveRecord::Migration[5.2]
   def change
-    create_table :ae_review_teams do |t|
+    create_table :ae_teams do |t|
       t.bigint :project_id
       t.string :name
       t.string :slug

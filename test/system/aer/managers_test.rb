@@ -6,7 +6,7 @@ require "application_system_test_case"
 class ManagersTest < ApplicationSystemTestCase
   setup do
     @project = projects(:aes)
-    # @team = ae_review_teams(:clinical)
+    # @team = ae_teams(:clinical)
     @manager = users(:aes_team_manager)
   end
 

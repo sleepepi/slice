@@ -1,0 +1,11 @@
+- assignment.ae_team_pathway.designs.each do |design|
+  - sheets = assignment.sheets.where(design: design)
+  - if sheets.present?
+    - sheets.each do |sheet|
+      .mb-3
+        = render "sheets/coverage", sheet: sheet
+        = link_to sheet.name, ae_module_sheet_path(@project, @adverse_event, sheet)
+  - else
+    .mb-3
+      %span.badge.badge-coverage.coverage-0 0%
+      %span.text-muted= design.name

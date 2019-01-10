@@ -36,8 +36,8 @@
               .overflow-hidden.nowrap= link_to adverse_event.description.truncate(40), ae_module_adverse_event_path(@project, adverse_event)
             %td= adverse_event.created_at.strftime("%a, %b %-d, %Y")
             %td
-              - if adverse_event.ae_adverse_event_review_teams.present?
-                = adverse_event.ae_adverse_event_review_teams.includes(:ae_review_team).pluck(:name).to_sentence
+              - if adverse_event.ae_adverse_event_teams.present?
+                = adverse_event.ae_adverse_event_teams.includes(:ae_team).pluck(:name).to_sentence
               - else
                 %span.text-muted Not assigned.
             %td.nowrap

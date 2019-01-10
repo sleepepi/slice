@@ -15,7 +15,7 @@
 - if @role_admin
   - log_entries = @adverse_event.ae_adverse_event_log_entries
 - else
-  - log_entries = @adverse_event.ae_adverse_event_log_entries.where(ae_review_team_id: @roles.collect { |role, team| team.id } + [nil])
+  - log_entries = @adverse_event.ae_adverse_event_log_entries.where(ae_team_id: @roles.collect { |role, team| team&.id } + [nil])
 
 .dashboard-container
   - current_date = nil

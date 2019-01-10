@@ -2,7 +2,7 @@ reporter_design:
   project: aes
   design: aes_ae_case_report_form
   role: reporter
-  # ae_review_team:
+  # ae_team:
   # ae_team_pathway:
   position: 0
 
@@ -10,7 +10,7 @@ clinical_death:
   project: aes
   design: aes_death_adjudication
   role: team
-  ae_review_team: clinical
+  ae_team: clinical
   ae_team_pathway: death
   position: 0
 
@@ -18,7 +18,7 @@ clinical_heart_failure:
   project: aes
   design: aes_heart_failure_adjudication
   role: team
-  ae_review_team: clinical
+  ae_team: clinical
   ae_team_pathway: heart_failure
   position: 0
 
@@ -26,7 +26,7 @@ clinical_mild:
   project: aes
   design: aes_mild_adjudication
   role: team
-  ae_review_team: clinical
+  ae_team: clinical
   ae_team_pathway: mild
   position: 0
 
@@ -34,6 +34,6 @@ admin_design:
   project: aes
   design: aes_ae_adjudication
   role: admin
-  # ae_review_team:
+  # ae_team:
   # ae_team_pathway:
   position: 0

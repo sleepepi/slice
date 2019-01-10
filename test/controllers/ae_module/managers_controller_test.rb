@@ -6,7 +6,7 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project = projects(:aes)
     @team_manager = users(:aes_team_manager)
-    @team = ae_review_teams(:clinical)
+    @team = ae_teams(:clinical)
     @adverse_event = ae_adverse_events(:closed)
     # @pathway = ae_team_pathways(:heart_failure)
   end
@@ -43,7 +43,7 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
 
   test "should mark team review as complete as manager" do
     login(@team_manager)
-    assert_difference("AeAdverseEventReviewTeam.where.not(team_review_completed_at: nil).count", 1) do
+    assert_difference("AeAdverseEventTeam.where.not(team_review_completed_at: nil).count", 1) do
       post ae_module_managers_team_review_completed_url(@project, @team, ae_adverse_events(:pathdone))
     end
     assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:pathdone))
@@ -51,7 +51,7 @@ class AeModule::ManagersControllerTest < ActionDispatch::IntegrationTest
 
   test "should mark team review as incomplete as manager" do
     login(@team_manager)
-    assert_difference("AeAdverseEventReviewTeam.where(team_review_completed_at: nil).count", 1) do
+    assert_difference("AeAdverseEventTeam.where(team_review_completed_at: nil).count", 1) do
       post ae_module_managers_team_review_uncompleted_url(@project, @team, ae_adverse_events(:teamdone))
     end
     assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:teamdone))
