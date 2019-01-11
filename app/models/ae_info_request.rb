@@ -43,6 +43,7 @@ class AeInfoRequest < ApplicationRecord
     update(resolved_at: Time.zone.now, resolver: current_user)
     ae_adverse_event.ae_adverse_event_log_entries.create(
       project: project,
+      ae_team: ae_team,
       user: current_user,
       entry_type: "ae_info_request_resolved",
       info_requests: [self]
