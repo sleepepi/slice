@@ -33,7 +33,7 @@
             - if domain.domain_options.present?
               = select_tag "#{domain.id}_options", options_for_select(domain.domain_options.collect(&:value_and_name)), style: "width: 200px;", class: "form-control"
           %td.d-none.d-md-table-cell.text-center= domain.variables_count
-          %td.text-center
+          %td.nowrap.text-center
             = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_path(@project, domain), delete_url: [@project, domain], delete_confirmation: "Delete \"#{domain.name}\" domain?"
 
   .center-horizontally= paginate @domains, theme: "bootstrap"

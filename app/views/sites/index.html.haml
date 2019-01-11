@@ -32,7 +32,7 @@
         %td.d-none.d-sm-table-cell
           - if site.subject_code_format.present?
             %code= site.subject_code_format
-        %td
+        %td.nowrap
           - if current_user.all_sites.pluck(:id).include?(site.id)
             = render "layouts/edit_delete_dropdown", edit_url: edit_project_site_path(@project, site), delete_url: [@project, site], delete_confirmation: "Delete #{site.name}?"
 

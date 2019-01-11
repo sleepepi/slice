@@ -20,7 +20,7 @@
         - @trays.each do |tray|
           %tr
             %td= link_to "#{tray.profile.username} / #{tray.slug}", library_tray_path(tray.profile, tray)
-            %td.text-center
+            %td.nowrap.text-center
               = render "layouts/edit_delete_dropdown", edit_url: edit_tray_path(tray.profile, tray), delete_url: tray_path(tray.profile, tray), delete_confirmation: "Delete #{tray.name}?"
 - else
   .jumbotron.jumbotron-custom-text

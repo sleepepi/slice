@@ -102,7 +102,7 @@
               - else
                 %span.badge.badge-success Open
             - if site_or_project_editor
-              %td.text-center
+              %td.nowrap.text-center
                 = render "layouts/edit_delete_dropdown", edit_url: edit_project_adverse_event_path(@project, adverse_event), delete_url: [@project, adverse_event], delete_confirmation: "Delete #{adverse_event.name}?"
 
   .center-horizontally= paginate @adverse_events, theme: "bootstrap"

@@ -28,7 +28,7 @@
         %tr
           %td.text-center= link_to block_size_multiplier.name, [@project, @randomization_scheme, block_size_multiplier]
           %td.text-center= block_size_multiplier.allocation
-          %td.text-center
+          %td.nowrap.text-center
             - if @randomization_scheme.published?
               = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-sm btn-primary", disabled: true
             - else

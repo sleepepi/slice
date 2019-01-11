@@ -28,7 +28,7 @@
         %tr
           %td= link_to stratification_factor.name, [@project, @randomization_scheme, stratification_factor]
           %td.d-none.d-sm-table-cell= link_to stratification_factor.user.full_name, stratification_factor.user if stratification_factor.user
-          %td.text-center
+          %td.nowrap.text-center
             - if @randomization_scheme.published?
               = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-sm btn-primary", disabled: true
             - else

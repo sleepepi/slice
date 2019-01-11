@@ -23,7 +23,7 @@
         - @organizations.each do |organization|
           %tr
             %td= link_to organization.name, organization
-            %td
+            %td.nowrap.text-center
               = render "layouts/edit_delete_dropdown", edit_url: edit_organization_path(organization), delete_url: organization, delete_confirmation: "Delete \"#{organization.name}\"?"
 - else
   .jumbotron.jumbotron-custom-text

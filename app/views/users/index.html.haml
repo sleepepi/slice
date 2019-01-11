@@ -48,7 +48,7 @@
         %td.text-center= recent_activity user.current_sign_in_at
         %td.text-center.d-none.d-md-table-cell= number_with_delimiter user.sign_in_count
         %td.text-center.d-none.d-sm-table-cell= simple_check user.admin?
-        %td.text-center
+        %td.nowrap.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               .d-inline-block.d-sm-none
