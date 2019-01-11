@@ -66,7 +66,7 @@
   params.design = $(element).data("design")
   params.variable_id = $(element).data("variable-id")
   params.handoff = $(element).data("handoff")
-  params.assignment_id = $(element).data("assignment_id")
+  params.assignment_id = $(element).data("assignment-id")
   return params
 
 @updateCalculatedVariables = ->
@@ -155,10 +155,10 @@ $(document)
     $.post("#{root_url}projects/#{$(this).data('project-id')}/variables/add_grid_variable", null, null, 'script')
     false
   )
-  .on('click', '[data-object~="grid-row-add"]', ->
+  .on("click", "[data-object~=grid-row-add]", ->
     params = getDesignVariableAuthenticationParams(this)
-    params.design_option_id = $(this).data('design-option-id')
-    params.header = $(this).data('header')
+    params.design_option_id = $(this).data("design-option-id")
+    params.header = $(this).data("header")
     params.language = $("[name=language]").val()
     $.post("#{root_url}external/add_grid_row", params, null, "script")
     false

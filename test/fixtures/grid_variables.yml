@@ -57,3 +57,9 @@ external_grid_external_autocomplete:
   parent_variable: external_grid
   child_variable: external_autocomplete
   position: 0
+
+aes_grid_integer:
+  project: aes
+  parent_variable: aes_grid
+  child_variable: aes_grid_integer
+  position: 0

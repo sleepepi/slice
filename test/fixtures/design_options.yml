@@ -633,3 +633,9 @@ aes_date_ae_occurred:
   design: aes_ae_case_report_form
   variable: aes_date_ae_occurred
   position: 0
+
+aes_grid:
+  design: aes_mild_adjudication
+  variable: aes_grid
+  position: 0
+

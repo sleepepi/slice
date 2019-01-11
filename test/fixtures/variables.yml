@@ -631,3 +631,16 @@ aes_date_ae_occurred:
   user: aes_project_editor
   project: aes
 
+aes_grid:
+  name: aes_grid
+  display_name: Grid with many rows
+  variable_type: grid
+  user: aes_project_editor
+  project: aes
+  multiple_rows: true
+
+aes_grid_integer:
+  name: aes_grid_integer
+  variable_type: integer
+  user: aes_project_editor
+  project: aes

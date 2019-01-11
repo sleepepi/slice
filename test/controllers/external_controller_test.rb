@@ -80,13 +80,26 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should add grid for handoff" do
+  test "should add grid row for handoff" do
     post external_add_grid_row_url(format: "js"), params: {
       project_id: projects(:one).id,
       design: designs(:has_grid).to_param,
       variable_id: variables(:grid).id,
       design_option_id: design_options(:has_grid_grid).id,
       handoff: handoffs(:grid).to_param
+    }
+    assert_template "add_grid_row"
+    assert_response :success
+  end
+
+  test "should add grid row for assignment" do
+    login(users(:aes_team_reviewer))
+    post external_add_grid_row_url(format: "js"), params: {
+      project_id: projects(:aes).id,
+      design: designs(:aes_mild_adjudication).to_param,
+      variable_id: variables(:aes_grid).id,
+      design_option_id: design_options(:aes_grid).id,
+      assignment_id: ae_assignments(:aes_pathset_reviewer_one).id
     }
     assert_template "add_grid_row"
     assert_response :success
