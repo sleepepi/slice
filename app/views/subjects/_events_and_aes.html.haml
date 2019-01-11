@@ -1,6 +1,8 @@
 - events = @subject.blinded_subject_events(current_user).to_a
 - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
   - aes = @subject.adverse_events
+- elsif @project.ae_teams_enabled? && @project.unblinded?(current_user)
+  - aes = @subject.ae_adverse_events
 - else
   - aes = []
 
@@ -13,3 +15,6 @@
   - elsif event.is_a?(AdverseEvent)
     - adverse_event = event
     %div{ id: "adverse_event_#{adverse_event.id}" }= render adverse_event
+  - elsif event.is_a?(AeAdverseEvent)
+    - adverse_event = event
+    %div{ id: "ae_adverse_event_#{adverse_event.id}" }= render "ae_module/adverse_events/adverse_event", adverse_event: adverse_event

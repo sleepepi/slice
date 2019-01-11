@@ -1,0 +1,34 @@
+.card.box-shadow.mb-3
+  .card-header.p-2
+    .float-right
+      .d-none.d-sm-inline= adverse_event.event_date_to_s
+      .d-inline.d-sm-none= adverse_event.event_date_to_s_xs
+
+    %span{ id: "ae-adverse-event-#{adverse_event.id}-title" }
+      - if adverse_event.closed?
+        = icon("fas", "check-circle", class: "text-muted")
+      - else
+        = icon("fas", "exclamation-circle", class: "text-danger")
+
+      = link_to adverse_event.description, ae_module_adverse_event_path(@project, adverse_event)
+
+    - if adverse_event.closed?
+      - percent = 100
+      %span.badge.badge-light Closed
+    - else
+      - percent = 50
+      %span.badge.badge-success Open
+
+    - if @project.blinding_enabled?
+      %small
+        = icon("far", "eye", class: "text-muted", rel: "tooltip", data: { title: "Unblinded only", placement: "top", container: "body" })
+
+  .card-body.p-0
+    .progress.progress-simple
+      .progress-bar.bg-danger{ id: "ae-adverse-event-#{adverse_event.id}-progress-bar-width", style: "width: #{percent}%;" }
+
+    %table.table.table-striped.table-borderless.table-fixed.table-sm.mb-0
+      %col{ width: "60px" }
+      %col
+      - adverse_event.sheets.includes(:design).order("sheets.created_at").each do |sheet|
+        = render "subjects/sheet", sheet: sheet

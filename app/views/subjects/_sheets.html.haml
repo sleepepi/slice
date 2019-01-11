@@ -34,7 +34,7 @@
   .jumbotron.jumbotron-custom-text
     No data have been entered for this subject.
 - else
-  - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil, adverse_event_id: nil).includes(:design).order("designs.name, sheets.created_at")
+  - uncategorized_sheets = @subject.blinded_sheets(current_user).where(subject_event_id: nil, adverse_event_id: nil, ae_adverse_event_id: nil).includes(:design).order("designs.name, sheets.created_at")
   - categorized_sheets = @subject.blinded_sheets(current_user).where.not(subject_event_id: nil).includes(:design).order("designs.name, sheets.created_at")
   = render "subjects/uncategorized_sheets", uncategorized_sheets: uncategorized_sheets, categorized_sheets: categorized_sheets
   = render "subjects/events_and_aes"

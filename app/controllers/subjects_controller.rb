@@ -5,8 +5,9 @@ class SubjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
     :index, :show, :timeline, :comments, :files, :adverse_events,
-    :events, :sheets, :event, :report, :search, :choose_site, :autocomplete,
-    :designs_search, :events_search, :event_coverage
+    :ae_adverse_events, :events, :sheets, :event, :report, :search,
+    :choose_site, :autocomplete, :designs_search, :events_search,
+    :event_coverage
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
@@ -15,8 +16,8 @@ class SubjectsController < ApplicationController
     :launch_subject_event, :edit_event, :update_event, :destroy_event
   ]
   before_action :find_viewable_subject_or_redirect, only: [
-    :show, :timeline, :comments, :files, :adverse_events, :events,
-    :sheets, :event, :event_coverage
+    :show, :timeline, :comments, :files, :adverse_events, :ae_adverse_events,
+    :events, :sheets, :event, :event_coverage
   ]
   before_action :find_editable_subject_or_redirect, only: [
     :edit, :update, :destroy, :choose_date, :data_entry, :send_url,

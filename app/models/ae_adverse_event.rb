@@ -27,13 +27,25 @@ class AeAdverseEvent < ApplicationRecord
   has_many :ae_assignments, -> { current }
   has_many :ae_documents
   has_many :ae_sheets
-  has_many :sheets
+  has_many :sheets, -> { current }
 
   def current_and_deleted_assignments
     ae_assignments.unscope(where: :deleted)
   end
 
   # Methods
+  def sort_event_date
+    created_at
+  end
+
+  def event_date_to_s
+    sort_event_date ? sort_event_date.strftime("%a, %b %-d, %Y") : "No Date"
+  end
+
+  def event_date_to_s_xs
+    sort_event_date ? sort_event_date.strftime("%b %-d, %Y") : "No Date"
+  end
+
   def name
     "AE##{number || "???"}"
   end

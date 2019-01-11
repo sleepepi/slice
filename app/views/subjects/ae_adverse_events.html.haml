@@ -6,16 +6,16 @@
 - content_for :header do
   - if @subject.editable_by?(current_user)
     .float-right
-      = link_to plus_or("Report Adverse Event"), new_project_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-accent btn-shadow"
+      = link_to plus_or("Report Adverse Event"), new_ae_module_adverse_event_path(@project, subject_code: @subject.subject_code), class: "btn btn-accent btn-shadow"
   = link_to @subject.name, [@project, @subject]
   = @title
 
-- if @subject.adverse_events.present?
+- if @subject.ae_adverse_events.present?
   .dashboard-container
     %ul
-      - @subject.adverse_events.each do |adverse_event|
+      - @subject.ae_adverse_events.each do |adverse_event|
         %li{ style: "line-height:30px" }
-          = link_to adverse_event.name, [@project, adverse_event]
+          = link_to adverse_event.name, ae_module_adverse_event_path(@project, adverse_event)
           - if adverse_event.closed?
             %span.badge.badge-light Closed
           - else

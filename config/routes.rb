@@ -417,6 +417,7 @@ Rails.application.routes.draw do
         get :comments
         get :files
         get :adverse_events, path: "adverse-events"
+        get :ae_adverse_events, path: "ae-adverse-events"
         get :sheets
         get :data_entry, path: "data-entry"
         get "data-entry/:design_id", action: :new_data_entry, as: :new_data_entry

@@ -33,6 +33,7 @@ class Subject < ApplicationRecord
   belongs_to :site
   belongs_to :user, optional: true
   has_many :adverse_events, -> { current }
+  has_many :ae_adverse_events, -> { current }
   has_many :randomizations, -> { current }
   has_many :sheets, -> { current }
   has_many :subject_events, -> { joins(:event).order(:event_date, "events.position") }

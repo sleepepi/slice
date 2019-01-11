@@ -45,9 +45,7 @@
           - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
             %li.sidebar-menu-header-link
               = link_to "Adverse Events", adverse_events_project_subject_path(@project, @subject)
-            - if @subject.adverse_events.count.zero?
-              %li= link_to "None", adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(adverse_events_project_subject_path(@project, @subject))}"
-            - else
+            - if @subject.adverse_events.present?
               - @subject.adverse_events.order(:id).each do |adverse_event|
                 %li
                   = link_to [@project, adverse_event], class: "#{"active" if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}" do
@@ -56,6 +54,23 @@
                     - else
                       = icon("fas", "exclamation-circle", class: "text-danger")
                     = adverse_event.name
+            - else
+              %li= link_to "None", adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(adverse_events_project_subject_path(@project, @subject))}"
+
+          - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
+            %li.sidebar-menu-header-link
+              = link_to "Adverse Events", ae_adverse_events_project_subject_path(@project, @subject)
+            - if @subject.ae_adverse_events.present?
+              - @subject.ae_adverse_events.order(:id).each do |adverse_event|
+                %li
+                  = link_to ae_module_adverse_event_path(@project, adverse_event), class: "#{"active" if (@sheet&.ae_adverse_event == adverse_event)}" do
+                    - if adverse_event.closed?
+                      = icon("fas", "check-circle", class: "text-muted")
+                    - else
+                      = icon("fas", "exclamation-circle", class: "text-danger")
+                    = adverse_event.name
+            - else
+              %li= link_to "None", ae_adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(ae_adverse_events_project_subject_path(@project, @subject))}"
 
           %li.sidebar-menu-header-link
             = link_to "Extra", timeline_project_subject_path(@project, @subject)
