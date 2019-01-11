@@ -34,7 +34,7 @@
           %td.d-none.d-md-table-cell
             - if variable.domain_options.present?
               = select_tag "variable_#{variable.id}_options", options_for_select(variable.domain_options.collect(&:value_and_name)), style: "width:200px", class: "form-control"
-          %td.text-center
+          %td.nowrap.text-center
             .dropdown
               = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
                 .d-inline-block.d-sm-none

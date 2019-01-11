@@ -16,7 +16,7 @@
         = icon("far", "eye-slash", class: "text-danger")
   %td.d-none.d-sm-table-cell
     = member.creator.nickname if member.creator
-  %td.text-center
+  %td.nowrap.text-center
     - if member.is_a?(ProjectUser)
       - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
         .dropdown

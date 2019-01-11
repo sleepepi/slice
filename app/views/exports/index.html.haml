@@ -65,13 +65,13 @@
         %td.d-none.d-md-table-cell
           - if export.file_size.positive?
             %small.nowrap= number_to_human_size(export.file_size)
-        %td.d-none.d-sm-table-cell.text-center
+        %td.nowrap.d-none.d-sm-table-cell.text-center
           - if export.file_size.positive?
             - full_url = file_project_export_path(@project, export)
             = link_to full_url, target: "_blank", class: "btn btn-light btn-sm" do
               zip
               = icon("fas", "download")
-        %td.text-center
+        %td.nowrap.text-center
           .dropdown
             = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
               .d-inline-block.d-sm-none
