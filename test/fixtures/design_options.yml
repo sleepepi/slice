@@ -85,7 +85,7 @@ all_variable_types_radio_no_domain:
   design: all_variable_types
   variable: radio_no_domain
   # section:
-  position: 2
+  position: 3
   # requirement:
   # branching_logic:
 
@@ -93,7 +93,7 @@ all_variable_types_string:
   design: all_variable_types
   variable: string
   # section:
-  position: 3
+  position: 4
   # requirement:
   branching_logic: "#{<%= ActiveRecord::FixtureSet.identify(:radio) %>} == 1 || overlap(#{<%= ActiveRecord::FixtureSet.identify(:checkbox) %>}, ['acct101', 'econ101'], 1)"
 
@@ -101,7 +101,7 @@ all_variable_types_text:
   design: all_variable_types
   variable: text
   # section:
-  position: 4
+  position: 5
   # requirement:
   # branching_logic:
 
@@ -109,7 +109,7 @@ all_variable_types_integer:
   design: all_variable_types
   variable: integer
   # section:
-  position: 5
+  position: 6
   # requirement:
   # branching_logic:
 
@@ -117,7 +117,7 @@ all_variable_types_numeric:
   design: all_variable_types
   variable: numeric
   # section:
-  position: 6
+  position: 7
   # requirement:
   # branching_logic:
 
@@ -125,7 +125,7 @@ all_variable_types_date:
   design: all_variable_types
   variable: date
   # section:
-  position: 7
+  position: 8
   # requirement:
   # branching_logic:
 
@@ -133,7 +133,7 @@ all_variable_types_file:
   design: all_variable_types
   variable: file
   # section:
-  position: 8
+  position: 9
   # requirement:
   # branching_logic:
 
@@ -141,7 +141,7 @@ all_variable_types_time:
   design: all_variable_types
   variable: time_of_day
   # section:
-  position: 9
+  position: 10
   # requirement:
   # branching_logic:
 
@@ -149,7 +149,7 @@ all_variable_types_calculated:
   design: all_variable_types
   variable: calculated
   # section:
-  position: 10
+  position: 11
   # requirement:
   # branching_logic:
 
@@ -157,7 +157,7 @@ all_variable_types_calculated_without_format:
   design: all_variable_types
   variable: calculated_without_format
   # section:
-  position: 11
+  position: 12
   # requirement:
   # branching_logic:
 
@@ -165,7 +165,7 @@ all_variable_types_autocomplete:
   design: all_variable_types
   variable: autocomplete
   # section:
-  position: 12
+  position: 13
   # requirement:
   # branching_logic:
 
@@ -173,7 +173,7 @@ all_variable_types_time_duration:
   design: all_variable_types
   variable: time_duration
   # section:
-  position: 13
+  position: 14
   # requirement:
   # branching_logic:
 
@@ -181,7 +181,7 @@ all_variable_types_imperial_height:
   design: all_variable_types
   variable: imperial_height
   # section:
-  position: 14
+  position: 15
   # requirement:
   # branching_logic:
 
@@ -189,7 +189,7 @@ all_variable_types_imperial_weight:
   design: all_variable_types
   variable: imperial_weight
   # section:
-  position: 15
+  position: 16
   # requirement:
   # branching_logic:
 
@@ -197,7 +197,7 @@ all_variable_types_signature:
   design: all_variable_types
   variable: signature
   # section:
-  position: 16
+  position: 17
   # requirement:
   # branching_logic:
 
