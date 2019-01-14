@@ -1,4 +1,14 @@
 - content_for :header do
+  .float-right
+    - adverse_event_team = @adverse_event.ae_adverse_event_teams.find_by(ae_team: @assignment.ae_team)
+    - if @adverse_event.closed?
+      %span.badge.badge-primary{ style: "font-size: initial;" } Adverse event closed.
+    - elsif adverse_event_team.team_review_completed?
+      %span.badge.badge-primary{ style: "font-size: initial;" } Team review completed.
+    - else
+      = link_to ae_module_reviewers_review_path(@project, @assignment, @sheet.design), class: "btn btn-light" do
+        = icon("fas", "pencil-alt")
+        Edit
   = @title
   %small= @assignment.ae_adverse_event.description
 = render "ae_module/adverse_events/tabs", project: @project, adverse_event: @assignment.ae_adverse_event
