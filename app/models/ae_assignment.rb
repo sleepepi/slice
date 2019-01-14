@@ -40,7 +40,7 @@ class AeAssignment < ApplicationRecord
 
     update(review_completed_at: Time.zone.now)
     entry_type = principal ? "ae_final_review_completed" : "ae_review_completed"
-    log_entry = ae_adverse_event.ae_adverse_event_log_entries.create(project: project, user: reviewer, entry_type: entry_type, ae_team: ae_team, assignments: [self])
+    ae_adverse_event.ae_log_entries.create(project: project, user: reviewer, entry_type: entry_type, ae_team: ae_team, assignments: [self])
     # TODO: Generate in app notifications, email, and LOG notifications to AENotificationsLog (for team manager)
     # TODO: Check if all assignments are completed...if so, a "FINAL" adjudicated review is required by the manager (team).
   end

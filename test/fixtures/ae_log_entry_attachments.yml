@@ -1,174 +1,174 @@
 closed_report_form:
-  ae_adverse_event_log_entry: closed_sheet_created
+  ae_log_entry: closed_sheet_created
   attachment: aes_closed_report_form
   attachment_type: Sheet
 
 closed_reviewer_one:
-  ae_adverse_event_log_entry: closed_reviewers_assigned
+  ae_log_entry: closed_reviewers_assigned
   attachment: aes_closed_reviewer_one
   attachment_type: AeAssignment
 
 closed_reviewer_two:
-  ae_adverse_event_log_entry: closed_reviewers_assigned
+  ae_log_entry: closed_reviewers_assigned
   attachment: aes_closed_reviewer_two
   attachment_type: AeAssignment
 
 closed_reviewer_one_complete:
-  ae_adverse_event_log_entry: closed_reviewers_one_completed
+  ae_log_entry: closed_reviewers_one_completed
   attachment: aes_closed_reviewer_one
   attachment_type: AeAssignment
 
 closed_reviewer_two_complete:
-  ae_adverse_event_log_entry: closed_reviewers_two_completed
+  ae_log_entry: closed_reviewers_two_completed
   attachment: aes_closed_reviewer_two
   attachment_type: AeAssignment
 
 teamdone_report_form:
-  ae_adverse_event_log_entry: teamdone_sheet_created
+  ae_log_entry: teamdone_sheet_created
   attachment: aes_teamdone_report_form
   attachment_type: Sheet
 
 teamdone_reviewer_one:
-  ae_adverse_event_log_entry: teamdone_reviewers_assigned
+  ae_log_entry: teamdone_reviewers_assigned
   attachment: aes_teamdone_reviewer_one
   attachment_type: AeAssignment
 
 teamdone_reviewer_two:
-  ae_adverse_event_log_entry: teamdone_reviewers_assigned
+  ae_log_entry: teamdone_reviewers_assigned
   attachment: aes_teamdone_reviewer_two
   attachment_type: AeAssignment
 
 teamdone_reviewer_one_complete:
-  ae_adverse_event_log_entry: teamdone_reviewers_one_completed
+  ae_log_entry: teamdone_reviewers_one_completed
   attachment: aes_teamdone_reviewer_one
   attachment_type: AeAssignment
 
 teamdone_reviewer_two_complete:
-  ae_adverse_event_log_entry: teamdone_reviewers_two_completed
+  ae_log_entry: teamdone_reviewers_two_completed
   attachment: aes_teamdone_reviewer_two
   attachment_type: AeAssignment
 
 pathdone_report_form:
-  ae_adverse_event_log_entry: pathdone_sheet_created
+  ae_log_entry: pathdone_sheet_created
   attachment: aes_pathdone_report_form
   attachment_type: Sheet
 
 pathdone_reviewer_one:
-  ae_adverse_event_log_entry: pathdone_reviewers_assigned
+  ae_log_entry: pathdone_reviewers_assigned
   attachment: aes_pathdone_reviewer_one
   attachment_type: AeAssignment
 
 pathdone_reviewer_two:
-  ae_adverse_event_log_entry: pathdone_reviewers_assigned
+  ae_log_entry: pathdone_reviewers_assigned
   attachment: aes_pathdone_reviewer_two
   attachment_type: AeAssignment
 
 pathdone_reviewer_one_complete:
-  ae_adverse_event_log_entry: pathdone_reviewers_one_completed
+  ae_log_entry: pathdone_reviewers_one_completed
   attachment: aes_pathdone_reviewer_one
   attachment_type: AeAssignment
 
 pathdone_reviewer_two_complete:
-  ae_adverse_event_log_entry: pathdone_reviewers_two_completed
+  ae_log_entry: pathdone_reviewers_two_completed
   attachment: aes_pathdone_reviewer_two
   attachment_type: AeAssignment
 
 rvwsdone_report_form:
-  ae_adverse_event_log_entry: rvwsdone_sheet_created
+  ae_log_entry: rvwsdone_sheet_created
   attachment: aes_rvwsdone_report_form
   attachment_type: Sheet
 
 rvwsdone_reviewer_one:
-  ae_adverse_event_log_entry: rvwsdone_reviewers_assigned
+  ae_log_entry: rvwsdone_reviewers_assigned
   attachment: aes_rvwsdone_reviewer_one
   attachment_type: AeAssignment
 
 rvwsdone_reviewer_two:
-  ae_adverse_event_log_entry: rvwsdone_reviewers_assigned
+  ae_log_entry: rvwsdone_reviewers_assigned
   attachment: aes_rvwsdone_reviewer_two
   attachment_type: AeAssignment
 
 rvwsdone_reviewer_one_complete:
-  ae_adverse_event_log_entry: rvwsdone_reviewers_one_completed
+  ae_log_entry: rvwsdone_reviewers_one_completed
   attachment: aes_rvwsdone_reviewer_one
   attachment_type: AeAssignment
 
 rvwsdone_reviewer_two_complete:
-  ae_adverse_event_log_entry: rvwsdone_reviewers_two_completed
+  ae_log_entry: rvwsdone_reviewers_two_completed
   attachment: aes_rvwsdone_reviewer_two
   attachment_type: AeAssignment
 
 pathset_report_form:
-  ae_adverse_event_log_entry: pathset_sheet_created
+  ae_log_entry: pathset_sheet_created
   attachment: aes_pathset_report_form
   attachment_type: Sheet
 
 pathset_reviewer_one:
-  ae_adverse_event_log_entry: pathset_reviewers_assigned
+  ae_log_entry: pathset_reviewers_assigned
   attachment: aes_pathset_reviewer_one
   attachment_type: AeAssignment
 
 pathset_reviewer_two:
-  ae_adverse_event_log_entry: pathset_reviewers_assigned
+  ae_log_entry: pathset_reviewers_assigned
   attachment: aes_pathset_reviewer_two
   attachment_type: AeAssignment
 
 teamindone_report_form:
-  ae_adverse_event_log_entry: teamindone_sheet_created
+  ae_log_entry: teamindone_sheet_created
   attachment: aes_teamindone_report_form
   attachment_type: Sheet
 
 teamindone_info_request:
-  ae_adverse_event_log_entry: teamindone_manager_info_request_created
+  ae_log_entry: teamindone_manager_info_request_created
   attachment: teamindone_info_request_for_admin
   attachment_type: AeInfoRequest
 
 teamindone_info_resolve:
-  ae_adverse_event_log_entry: teamindone_manager_info_request_resolved
+  ae_log_entry: teamindone_manager_info_request_resolved
   attachment: teamindone_info_request_for_admin
   attachment_type: AeInfoRequest
 
 teaminfo_report_form:
-  ae_adverse_event_log_entry: teaminfo_sheet_created
+  ae_log_entry: teaminfo_sheet_created
   attachment: aes_teaminfo_report_form
   attachment_type: Sheet
 
 teaminfo_info_request:
-  ae_adverse_event_log_entry: teaminfo_manager_info_request_created
+  ae_log_entry: teaminfo_manager_info_request_created
   attachment: teaminfo_info_request_for_admin
   attachment_type: AeInfoRequest
 
 teamset_report_form:
-  ae_adverse_event_log_entry: teamset_sheet_created
+  ae_log_entry: teamset_sheet_created
   attachment: aes_teamset_report_form
   attachment_type: Sheet
 
 repindone_report_form:
-  ae_adverse_event_log_entry: repindone_sheet_created
+  ae_log_entry: repindone_sheet_created
   attachment: aes_repindone_report_form
   attachment_type: Sheet
 
 repindone_admin_info_request:
-  ae_adverse_event_log_entry: repindone_admin_info_request_created
+  ae_log_entry: repindone_admin_info_request_created
   attachment: repindone_admin_info_request_for_reporter
   attachment_type: AeInfoRequest
 
 repindone_admin_info_resolve:
-  ae_adverse_event_log_entry: repindone_admin_info_request_resolved
+  ae_log_entry: repindone_admin_info_request_resolved
   attachment: repindone_admin_info_request_for_reporter
   attachment_type: AeInfoRequest
 
 repinfo_report_form:
-  ae_adverse_event_log_entry: repinfo_sheet_created
+  ae_log_entry: repinfo_sheet_created
   attachment: aes_repinfo_report_form
   attachment_type: Sheet
 
 repinfo_admin_info_request:
-  ae_adverse_event_log_entry: repinfo_admin_info_request_created
+  ae_log_entry: repinfo_admin_info_request_created
   attachment: repinfo_admin_info_request_for_reporter
   attachment_type: AeInfoRequest
 
 sheetdone_report_form:
-  ae_adverse_event_log_entry: sheetdone_sheet_created
+  ae_log_entry: sheetdone_sheet_created
   attachment: aes_sheetdone_report_form
   attachment_type: Sheet

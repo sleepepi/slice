@@ -42,7 +42,7 @@ class AeDocument < ApplicationRecord
   end
 
   def uploaded!(current_user)
-    ae_adverse_event.ae_adverse_event_log_entries.create(
+    ae_adverse_event.ae_log_entries.create(
       project: project,
       user: current_user,
       entry_type: "ae_document_uploaded",
@@ -51,7 +51,7 @@ class AeDocument < ApplicationRecord
   end
 
   def removed!(current_user)
-    ae_adverse_event.ae_adverse_event_log_entries.create(
+    ae_adverse_event.ae_log_entries.create(
       project: project,
       user: current_user,
       entry_type: "ae_document_removed"

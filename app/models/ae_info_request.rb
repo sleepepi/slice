@@ -24,7 +24,7 @@ class AeInfoRequest < ApplicationRecord
 
   def open!(current_user)
     ae_adverse_event.update sent_for_review_at: nil unless ae_team
-    ae_adverse_event.ae_adverse_event_log_entries.create(
+    ae_adverse_event.ae_log_entries.create(
       project: project,
       ae_team: ae_team,
       user: current_user,
@@ -41,7 +41,7 @@ class AeInfoRequest < ApplicationRecord
 
   def resolve!(current_user)
     update(resolved_at: Time.zone.now, resolver: current_user)
-    ae_adverse_event.ae_adverse_event_log_entries.create(
+    ae_adverse_event.ae_log_entries.create(
       project: project,
       ae_team: ae_team,
       user: current_user,

@@ -41,7 +41,7 @@
               - else
                 %span.text-muted Not assigned.
             %td.nowrap
-              = adverse_event.ae_adverse_event_log_entries.last&.entry_type_text
+              = adverse_event.ae_log_entries.last&.entry_type_text
 
   .center-horizontally= paginate @adverse_events, theme: "bootstrap"
 - else

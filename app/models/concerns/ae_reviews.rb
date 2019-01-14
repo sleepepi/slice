@@ -10,7 +10,7 @@ module AeReviews
     has_many :ae_team_members
     has_many :ae_adverse_event_teams
     has_many :ae_adverse_events, -> { current }
-    has_many :ae_adverse_event_log_entries, -> { order(:id) }
+    has_many :ae_log_entries, -> { order(:id) }
     has_many :ae_team_pathways, -> { current }
     has_many :ae_assignments, -> { current }
     has_many :ae_designments, -> { order(Arel.sql("position nulls last")) }

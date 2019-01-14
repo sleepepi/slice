@@ -20,7 +20,7 @@ class AeAdverseEvent < ApplicationRecord
   belongs_to :user
   belongs_to :subject
   belongs_to :closer, class_name: "User", foreign_key: "closer_id", optional: true
-  has_many :ae_adverse_event_log_entries, -> { order(:created_at) }
+  has_many :ae_log_entries, -> { order(:created_at) }
   has_many :ae_info_requests
   has_many :ae_adverse_event_teams, -> { order(:ae_team_id) }
   has_many :ae_teams, through: :ae_adverse_event_teams
@@ -82,7 +82,7 @@ class AeAdverseEvent < ApplicationRecord
   # Logs and notifications
   def opened!(current_user)
     update(number: adverse_event_number, reported_at: created_at)
-    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
+    ae_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
     # TODO: AE Notifications
     #   @adverse_event.create_notifications
     #   @adverse_event.send_email_in_background
@@ -107,7 +107,7 @@ class AeAdverseEvent < ApplicationRecord
 
     return if documents.blank?
 
-    ae_adverse_event_log_entries.create(
+    ae_log_entries.create(
       project: project,
       user: current_user,
       entry_type: "ae_document_uploaded",
@@ -117,7 +117,7 @@ class AeAdverseEvent < ApplicationRecord
 
   def sent_for_review!(current_user)
     update sent_for_review_at: Time.zone.now
-    ae_adverse_event_log_entries.create(
+    ae_log_entries.create(
       project: project,
       user: current_user,
       entry_type: "ae_sent_for_review"
@@ -126,20 +126,19 @@ class AeAdverseEvent < ApplicationRecord
 
   def assign_team!(current_user, team)
     ae_adverse_event_teams.where(project: project, ae_team: team).first_or_create
-    ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_team: team)
+    ae_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_team: team)
     # TODO: Generate in app notifications and LOG notifications for assignment to team (notify team managers, in this case team managers)
   end
 
   def close!(current_user)
     update(closed_at: Time.zone.now, closer: current_user)
-    log_entry = ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_closed")
+    ae_log_entries.create(project: project, user: current_user, entry_type: "ae_closed")
   end
 
   def reopen!(current_user)
     update(closed_at: nil, closer: nil)
-    log_entry = ae_adverse_event_log_entries.create(project: project, user: current_user, entry_type: "ae_reopened")
+    ae_log_entries.create(project: project, user: current_user, entry_type: "ae_reopened")
   end
-
 
   def next_design_to_complete(role)
     roles_sheets = ae_sheets.where(role: role)

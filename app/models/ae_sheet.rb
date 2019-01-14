@@ -28,7 +28,7 @@ class AeSheet < ApplicationRecord
                  else
                    "ae_sheet_updated"
                  end
-    ae_adverse_event.ae_adverse_event_log_entries.create(
+    ae_adverse_event.ae_log_entries.create(
       project: project, user: current_user, entry_type: entry_type, sheets: [sheet]
     )
   end

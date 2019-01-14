@@ -1,4 +1,4 @@
-class AeAdverseEventLogEntry < ApplicationRecord
+class AeLogEntry < ApplicationRecord
   # Constants
   ENTRY_TYPES = [
     ["Opened.", "ae_opened"],
@@ -17,7 +17,7 @@ class AeAdverseEventLogEntry < ApplicationRecord
     ["Team review completed.", "ae_team_review_completed"],
     ["Team review uncompleted.", "ae_team_review_uncompleted"],
     ["Closed.", "ae_closed"],
-    ["Reopened.", "ae_reopened"],
+    ["Reopened.", "ae_reopened"]
   ]
 
   # Validations

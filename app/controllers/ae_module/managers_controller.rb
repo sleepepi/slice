@@ -65,7 +65,7 @@ class AeModule::ManagersController < AeModule::BaseController
     # TODO: Generate in app notifications, email, and LOG notificiations to AENotificationsLog for Info Request (to "reviewer")
 
     if removed_assignments.present?
-      @adverse_event.ae_adverse_event_log_entries.create(
+      @adverse_event.ae_log_entries.create(
         project: @project,
         user: current_user,
         entry_type: "ae_reviewers_unassigned",
@@ -75,7 +75,7 @@ class AeModule::ManagersController < AeModule::BaseController
     end
 
     if added_assignments.present?
-      @adverse_event.ae_adverse_event_log_entries.create(
+      @adverse_event.ae_log_entries.create(
         project: @project,
         user: current_user,
         entry_type: "ae_reviewers_assigned",
@@ -98,7 +98,7 @@ class AeModule::ManagersController < AeModule::BaseController
   def team_review_completed
     if @adverse_event_team.team_review_uncompleted?
       @adverse_event_team.update(team_review_completed_at: Time.zone.now)
-      @adverse_event.ae_adverse_event_log_entries.create(
+      @adverse_event.ae_log_entries.create(
         project: @project,
         user: current_user,
         entry_type: "ae_team_review_completed",
@@ -113,7 +113,7 @@ class AeModule::ManagersController < AeModule::BaseController
   def team_review_uncompleted
     if @adverse_event_team.team_review_completed?
       @adverse_event_team.update(team_review_completed_at: nil)
-      @adverse_event.ae_adverse_event_log_entries.create(
+      @adverse_event.ae_log_entries.create(
         project: @project,
         user: current_user,
         entry_type: "ae_team_review_uncompleted",
