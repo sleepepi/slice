@@ -13,8 +13,11 @@
 .d-flex
   .flex-fill.p-3
     %h2 Designs
+    .mb-3.small.text-muted
+      Set "Adverse Events" category on
+      = link_to "designs", project_designs_path(@project)
+      to see them listed here.
     - designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true }).order(:name)
-    - designs = @project.designs.order(:name) # TODO: Remove?
     .aer-designs
       - designs.each do |design|
         .aer-design{ data: { object: "aer-designs-draggable", design_id: design.id } }
@@ -34,9 +37,7 @@
         - if team.ae_team_pathways.present?
           - team.ae_team_pathways.each do |pathway|
             .mb-3
-              %strong
-                = pathway.name
-              %small.text-muted= pluralize pathway.number_of_reviewers, "reviewers"
+              %strong= pathway.name
               .aer-designs{ data: { object: "aer-designs-sortable", url: ae_module_admins_submit_designs_path(@project, pathway_id: pathway.id, role: "team"), pathway_id: pathway.id } }
                 - designments = pathway.ae_designments.includes(:design)
                 = render "ae_module/admins/designments", project: @project, designments: designments
