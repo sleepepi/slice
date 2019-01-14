@@ -4,89 +4,109 @@
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-.row
-  .col-sm-6
+- if @project.ae_teams_enabled?
+  .card.mb-3
+    %h5.card-header
+      Adverse events
+      .btn.btn-success.btn-sm.btn-shadow.disabled{ disabled: true } Enabled
+    .card-body
+      .mb-3.d-flex.align-items-center
+        .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "users", class: "fa-2x")
+        .p-3
+          = link_to "Manage teams", "#", data: { object: "suppress-click" }
+          .small.text-muted
+            Setup adverse event review teams.
+      .mb-3.d-flex.align-items-center
+        .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "copy", class: "fa-2x")
+        .p-3
+          = link_to "Setup designs", ae_module_admins_setup_designs_path(@project)
+          .small.text-muted Specify designs to be completed by adverse event reporters and reviewers.
 
-    .dashboard-container
-      %h2.mb-3 Adverse Events
-      - if @project.ae_teams_enabled?
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            .btn.btn-success.btn-block.btn-lg.btn-shadow.disabled{ disabled: true } ON
-          .col-sm-6
-            = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
+      .d-flex.align-items-center
+        .p-3{ style: "min-width: 4.5rem;" }
+        .p-3
+          = link_to docs_adverse_events_path, class: "text-muted" do
+            = icon("fas", "info-circle")
+            Learn more...
+- else
+  .card.mb-3
+    %h5.card-header
+      Adverse events
+      - if @project.adverse_events_enabled?
+        = link_to "ON", editor_project_path(@project, project: { adverse_events_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow"
       - else
-        - if @project.adverse_events_enabled?
-          .row
-            .col-sm-6.col-buffer-visible-xs
-              = link_to editor_project_path(@project, project: { adverse_events_enabled: "0" }), method: :patch, class: "btn btn-success btn-block btn-lg btn-shadow" do
-                ON
-            .col-sm-6
-              = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
-        - else
-          .row
-            .col-sm-6.col-buffer-visible-xs
-              = link_to editor_project_path(@project, project: { adverse_events_enabled: "1" }), method: :patch, class: "btn btn-light btn-block btn-lg btn-shadow" do
-                OFF
-            .col-sm-6
-              = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
-  .col-sm-6
-    .dashboard-container
-      %h2.mb-3 Blinding
-      - if @project.blinding_enabled?
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            - if @project.unblinded?(current_user)
-              = link_to editor_project_path(@project, project: { blinding_enabled: "0" }), method: :patch, class: "btn btn-success btn-block btn-lg btn-shadow" do
-                ON
-            - else
-              .btn.btn-success.btn-block.btn-lg.disabled
-                ON
-          .col-sm-6
-            = link_to "Learn more...", docs_blinding_path, class: "btn btn-lg btn-block btn-link"
-      - else
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { blinding_enabled: "1" }), method: :patch, class: "btn btn-light btn-block btn-lg btn-shadow" do
-              OFF
-          .col-sm-6
-            = link_to "Learn more...", docs_blinding_path, class: "btn btn-lg btn-block btn-link"
-.row
-  .col-sm-6
-    .dashboard-container
-      %h2.mb-3 Randomizations
-      - if @project.randomizations_enabled?
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { randomizations_enabled: "0" }), method: :patch, class: "btn btn-success btn-block btn-lg btn-shadow" do
-              ON
-          .col-sm-6
-            = link_to project_randomization_schemes_path(@project), class: "btn btn-light btn-block btn-lg" do
-              = icon("fas", "wrench")
-              .d-inline.d-sm-none.d-md-inline Configure
-      - else
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { randomizations_enabled: "1" }), method: :patch, class: "btn btn-light btn-block btn-lg btn-shadow" do
-              OFF
-          .col-sm-6
-            = link_to "Learn more...", docs_randomization_schemes_path, class: "btn btn-lg btn-block btn-link"
-  .col-sm-6
-    .dashboard-container
-      %h2.mb-3 Configuration
-      .row
-        .col-sm-6.col-buffer-visible-xs
-          = link_to edit_editor_project_path(@project), class: "btn btn-light btn-block btn-lg" do
-            Settings
-        .col-sm-6
-          = link_to @project, class: "btn btn-lg btn-block btn-link" do
-            .d-inline.d-sm-none.d-md-inline Go To Project
-            .d-none.d-sm-inline.d-md-none Continue
-            = icon("fas", "caret-right")
+        = link_to "OFF", editor_project_path(@project, project: { adverse_events_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow"
+
+    .card-body
+      .d-flex.align-items-center
+        .p-3{ style: "min-width: 4.5rem;" }
+        .p-3
+          = link_to docs_adverse_events_path, class: "text-muted" do
+            = icon("fas", "info-circle")
+            Learn more...
 
 .card.mb-3
-  .card-header
-    Project Emails
+  %h5.card-header
+    Blinding
+    - if @project.blinding_enabled?
+      - if @project.unblinded?(current_user)
+        = link_to "ON", editor_project_path(@project, project: { blinding_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow"
+      - else
+        .btn.btn-success.btn-sm.btn-shadow.disabled{ disabled: true }
+          ON
+    - else
+      = link_to "OFF", editor_project_path(@project, project: { blinding_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow"
+
+  .card-body
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "blind", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if @project.blinding_enabled?
+            Set member blinding on the
+            = succeed "." do
+              = link_to "team page", team_project_path(@project)
+            Check the "Only unblinded" setting on
+            = link_to "events", project_events_path(@project)
+            and
+            = link_to "designs", project_designs_path(@project)
+            to hide them from blinded team members.
+          - else
+            Blinding is disabled for this project.
+
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_blinding_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...
+
+.card.mb-3
+  %h5.card-header
+    Randomizations
+    - if @project.randomizations_enabled?
+      = link_to "ON", editor_project_path(@project, project: { randomizations_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow"
+    - else
+      = link_to "OFF", editor_project_path(@project, project: { randomizations_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow"
+
+  .card-body
+    - if @project.randomizations_enabled?
+      .mb-3.d-flex.align-items-center
+        .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "random", class: "fa-2x")
+        .p-3
+          = link_to "Manage randomizations", project_randomization_schemes_path(@project)
+          .small.text-muted
+            Setup randomization schemes.
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_randomization_schemes_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...
+
+.card.mb-3
+  %h5.card-header
+    Project emails
     - if @project.disable_all_emails?
       = link_to editor_project_path(@project, project: { disable_all_emails: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
         Disabled
@@ -94,44 +114,27 @@
       = link_to editor_project_path(@project, project: { disable_all_emails: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
         Enabled
   .card-body
-    - if @project.disable_all_emails?
-      %p
-        Daily digest emails are
-        %strong disabled
-        for this project.
-    - else
-      %p
-        Daily digest emails are enabled for this project.
-        = link_to "Learn more...", docs_notifications_path, class: "alert-link"
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "envelope", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if @project.disable_all_emails?
+            Daily digest emails are
+            %strong disabled
+            for this project.
+          - else
+            Daily digest emails are enabled for this project.
+
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_notifications_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...
 
 .card.mb-3
-  .card-header
-    PDF Option Values
-    - if @project.hide_values_on_pdfs?
-      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
-        Hidden
-    - else
-      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
-        Visible
-  .card-body
-    - if @project.hide_values_on_pdfs?
-      %p
-        Answer choice values are hidden on printed sheet PDFs.
-      %p
-        Ex: "What is your favorite animal?"
-        %code Dog
-        %code Cat
-    - else
-      %p
-        Answer choice values are visible on printed sheet PDFs.
-      %p
-        Ex: "What is your favorite animal?"
-        %code 1: Dog
-        %code 2: Cat
-
-.card.mb-3
-  .card-header
-    Tablet Handoff
+  %h5.card-header
+    Tablet handoff
     - if @project.handoffs_enabled?
       = link_to editor_project_path(@project, project: { handoffs_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
         Enabled
@@ -139,42 +142,131 @@
       = link_to editor_project_path(@project, project: { handoffs_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
         Disabled
   .card-body
-    - if @project.handoffs_enabled?
-      %p
-        Make a design part of a tablet handoff by
-        setting the design as "Handoff Enabled" on an
-        = succeed "." do
-          = link_to "event", project_events_path(@project)
-        = link_to "Learn more...", docs_tablet_handoff_path
-    - else
-      %p
-        The tablet handoff module is not enabled.
-        = link_to "Learn more...", docs_tablet_handoff_path
 
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right{ style: "min-width: 4.5rem;" }= icon("fas", "tablet-alt", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if @project.handoffs_enabled?
+            Add designs to tablet handoffs by
+            checking "Handoff Enabled" on
+            = succeed "." do
+              = link_to "events", project_events_path(@project)
+          - else
+            Tablet handoffs are not enabled.
 
-.card{ class: @project.owner?(current_user) ? "mb-3" : nil }
-  .card-header
-    Sheet Locking
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_notifications_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...
+
+.card.mb-3
+  %h5.card-header
+    Sheet locking
     - if @project.auto_locking_enabled?
-      %span.badge.badge-success= @project.auto_lock_name
+      .btn.btn-success.btn-sm.btn-shadow.disabled{ disabled: true } ON
     - else
-      %span.badge.badge-default Disabled
-    = link_to edit_editor_project_path(@project), class: "btn btn-light btn-sm btn-shadow" do
-      = icon("fas", "cog")
+      .btn.btn-light.btn-sm.btn-shadow.disabled{ disabled: true } OFF
   .card-body
-    - if @project.auto_locking_enabled?
-      %p
+    .mb-3.small.text-muted
+      - if @project.auto_lock_sheets == "never"
+        Sheets do not automatically lock.
+      - else
         Sheets automatically lock after
         = succeed "." do
           = @project.auto_lock_name.downcase
-      %p
         After this time, a request must be made and approved to make
         additional changes to the sheet.
-        = link_to "Learn more...", docs_locking_path
+
+    - Project::AUTO_LOCK_SHEETS.each do |label, value|
+      .d-flex.align-items-center
+        .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }
+          - case value when "after24hours"
+            = icon("fas", "calendar-day", class: "fa-2x")
+          - when "after1week"
+            = icon("fas", "calendar-week", class: "fa-2x")
+          - when "after1month"
+            = icon("fas", "calendar-alt", class: "fa-2x")
+          - else
+            = icon("fas", "calendar", class: "fa-2x")
+        .p-3
+          - selected = (value == @project.auto_lock_sheets)
+          = link_to editor_project_path(@project, project: { auto_lock_sheets: value }), method: :patch, class: "btn #{selected ? "btn-primary" : "btn-light"}" do
+            - if selected
+              = icon("fas", "check-square")
+            - else
+              = icon("far", "square")
+            = label
+
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_locking_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...
+
+.card.mb-3
+  %h5.card-header
+    Translations
+    - if @project.translations_enabled?
+      = link_to editor_project_path(@project, project: { translations_enabled: "0" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
+        Enabled
     - else
-      %p
-        Sheets do not automatically lock.
-        = link_to "Learn more...", docs_locking_path
+      = link_to editor_project_path(@project, project: { translations_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
+        Disabled
+  .card-body
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "globe-americas", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if @project.translations_enabled?
+            Add translations to
+            = link_to "designs", project_designs_path(@project)
+            by selecting "Language" before editing the design.
+          - else
+            Enable to allow editors to add translations to designs.
+
+.card.mb-3
+  %h5.card-header
+    Domain values on PDFs
+    - if @project.hide_values_on_pdfs?
+      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "0" }), method: :patch, class: "btn btn-light btn-sm btn-shadow" do
+        Hidden
+    - else
+      = link_to editor_project_path(@project, project: { hide_values_on_pdfs: "1" }), method: :patch, class: "btn btn-success btn-sm btn-shadow" do
+        Visible
+  .card-body
+    .mb-3.d-flex.align-items-center
+      .p-3.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "print", class: "fa-2x")
+      .p-3.border-left
+
+        - if @project.hide_values_on_pdfs?
+          .small.text-muted
+            Domain values are hidden on printed sheet PDFs.
+          %div.bg-light.p-3
+            .mb-1
+              "What is your favorite animal?"
+            .mb-1.d-inline-block.bg-primary.p-2.text-white.rounded Dog
+            .mb-1.d-inline-block.bg-primary.p-2.text-white.rounded Cat
+        - else
+
+          .small.text-muted
+            Domain values are visible on printed sheet PDFs.
+          %div.bg-light.p-3
+            .mb-1
+              "What is your favorite animal?"
+            .mb-1.d-inline-block.bg-primary.p-2.text-white.rounded
+              %span.border-bottom 1:
+              Dog
+            .mb-1.d-inline-block.bg-primary.p-2.text-white.rounded
+              %span.border-bottom 2:
+              Cat
+
+.card{ class: @project.owner?(current_user) ? "mb-3" : nil }
+  %h5.card-header Configuration
+  .card-body= render "projects/form", project: @project
 
 - if @project.owner?(current_user) && Rails.env.development?
   .card.mb-3

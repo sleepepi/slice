@@ -5,11 +5,11 @@
   - url = editor_project_path(project)
   - method = :patch
 = form_with model: project, url: url, method: method, local: true do |form|
-  = render "forms/horizontal/text_field", form: form, object: project, key: :name, slug: "slug"
-  = render "forms/horizontal/slug_field", form: form, object: project, key: :slug, key_name: "URL Slug"
-  = render "forms/horizontal/text_area", form: form, object: project, key: :description, rows: 7
+  = render "forms/vertical/text_field", form: form, object: project, key: :name, slug: "slug"
+  = render "forms/vertical/slug_field", form: form, object: project, key: :slug, key_name: "URL Slug"
+  = render "forms/vertical/text_area", form: form, object: project, key: :description, rows: 7 if false
 
-  - if project.sites.size.zero?
+  - if project.sites.count.zero?
     .form-group.row
       = form.label :site_name, nil, class: "col-md-2 col-form-label"
       .col-md-10
@@ -30,7 +30,5 @@
             need more than one, you can add additional sites after the project has
             been created.
 
-  = render "forms/horizontal/select", form: form, object: project, key: :auto_lock_sheets, options: Project::AUTO_LOCK_SHEETS
-  = render "forms/horizontal/check_box", form: form, object: project, key: :translations_enabled, key_name: "Enable translations", help_text: "Allows designs to be translated."
-  - cancel = project.new_record? ? projects_path : settings_editor_project_path(project)
-  = render "forms/horizontal/submit", form: form, object: project, cancel: cancel
+  - cancel = project.new_record? ? projects_path : (params[:action] == "settings" ? false : settings_editor_project_path(project))
+  = render "forms/vertical/submit", form: form, object: project, cancel: cancel

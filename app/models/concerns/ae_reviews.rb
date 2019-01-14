@@ -21,10 +21,6 @@ module AeReviews
     adverse_event_reviews_enabled?
   end
 
-  def ae_notifications
-    []
-  end
-
   def ae_designs(role)
     designs.joins(:ae_designments).merge(AeDesignment.where(role: role))
   end

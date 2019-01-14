@@ -16,8 +16,7 @@ Rails.application.routes.draw do
   end
 
   namespace :ae_module, path: "projects/:project_id/ae-module" do
-    root action: :dashboard
-    get :dashboard
+    root to: redirect("projects/%{project_id}/ae-module/adverse-events")
 
     resources :adverse_events, path: "adverse-events" do
       member do

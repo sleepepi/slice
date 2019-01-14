@@ -3,6 +3,8 @@
 ### Enhancements
 - **Adverse Event Reviews Added**
   - A new team-based review process for adverse event is now available
+- **Project Changes**
+  - Improved display of project modules on the project settings page
 - **Gem Changes**
   - Update to bootstrap 4.2.1
   - Update to carrierwave 1.3.1
