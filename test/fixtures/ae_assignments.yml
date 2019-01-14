@@ -1,23 +1,37 @@
 aes_closed_reviewer_one:
-  created_at: 2018-10-01 15:45:00
+  created_at: 2018-10-01 15:50:00
   project: aes
   ae_adverse_event: closed
   ae_team: clinical
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer
-  review_completed_at: 2018-10-01 15:50:00
+  # principal: false
+  review_completed_at: 2018-10-01 15:55:00
   # review_unassigned_at:
 
 aes_closed_reviewer_two:
-  created_at: 2018-10-01 15:45:00
+  created_at: 2018-10-01 15:50:00
   project: aes
   ae_adverse_event: closed
   ae_team: clinical
   ae_team_pathway: heart_failure
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
-  review_completed_at: 2018-10-01 15:55:00
+  # principal: false
+  review_completed_at: 2018-10-01 16:00:00
+  # review_unassigned_at:
+
+aes_closed_principal_reviewer:
+  created_at: 2018-10-01 15:50:00
+  project: aes
+  ae_adverse_event: closed
+  ae_team: clinical
+  ae_team_pathway: heart_failure
+  manager: aes_team_manager
+  reviewer: aes_team_principal_reviewer
+  principal: true
+  review_completed_at: 2018-10-01 16:05:00
   # review_unassigned_at:
 
 aes_teamdone_reviewer_one:
@@ -28,82 +42,138 @@ aes_teamdone_reviewer_one:
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
+  # principal: false
   review_completed_at: 2018-10-02 15:50:00
   # review_unassigned_at:
 
 aes_teamdone_reviewer_two:
   created_at: 2018-10-02 15:45:00
   project: aes
-  ae_adverse_event: teamdo
+  ae_adverse_event: teamdone
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
+  # principal: false
   review_completed_at: 2018-10-02 15:55:00
   # review_unassigned_at:
 
+aes_teamdone_principal_reviewer:
+  created_at: 2018-10-02 15:45:00
+  project: aes
+  ae_adverse_event: teamdone
+  ae_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_principal_reviewer
+  principal: true
+  review_completed_at: 2018-10-02 16:05:00
+  # review_unassigned_at:
+
 aes_pathdone_reviewer_one:
-  created_at: 2018-10-03 15:45:00
+  created_at: 2018-10-03 15:50:00
   project: aes
   ae_adverse_event: pathdone
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
-  review_completed_at: 2018-10-03 15:50:00
+  # principal: false
+  review_completed_at: 2018-10-03 15:55:00
   # review_unassigned_at:
 
 aes_pathdone_reviewer_two:
-  created_at: 2018-10-03 15:45:00
+  created_at: 2018-10-03 15:50:00
   project: aes
-  ae_adverse_event: pathdo
+  ae_adverse_event: pathdone
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
-  review_completed_at: 2018-10-03 15:55:00
+  # principal: false
+  review_completed_at: 2018-10-03 16:00:00
+  # review_unassigned_at:
+
+aes_pathdone_principal_reviewer:
+  created_at: 2018-10-03 15:50:00
+  project: aes
+  ae_adverse_event: pathdone
+  ae_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_principal_reviewer
+  principal: true
+  review_completed_at: 2018-10-03 16:05:00
   # review_unassigned_at:
 
 aes_rvwsdone_reviewer_one:
-  created_at: 2018-10-04 15:45:00
+  created_at: 2018-10-04 15:50:00
   project: aes
   ae_adverse_event: rvwsdone
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
-  review_completed_at: 2018-10-04 15:50:00
+  # principal: false
+  review_completed_at: 2018-10-04 15:55:00
   # review_unassigned_at:
 
 aes_rvwsdone_reviewer_two:
-  created_at: 2018-10-04 15:45:00
+  created_at: 2018-10-04 15:50:00
   project: aes
-  ae_adverse_event: rvwsdo
+  ae_adverse_event: rvwsdone
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
-  review_completed_at: 2018-10-04 15:55:00
+  # principal: false
+  review_completed_at: 2018-10-04 16:00:00
+  # review_unassigned_at:
+
+aes_rvwsdone_principal_reviewer:
+  created_at: 2018-10-04 15:50:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  ae_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_principal_reviewer
+  principal: true
+  # review_completed_at:
   # review_unassigned_at:
 
 aes_pathset_reviewer_one:
-  created_at: 2018-10-05 15:45:00
+  created_at: 2018-10-05 15:50:00
   project: aes
   ae_adverse_event: pathset
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer
+  # principal: false
   # review_completed_at:
   # review_unassigned_at:
 
 aes_pathset_reviewer_two:
-  created_at: 2018-10-05 15:45:00
+  created_at: 2018-10-05 15:50:00
   project: aes
   ae_adverse_event: pathset
   ae_team: clinical
   ae_team_pathway: mild
   manager: aes_team_manager
   reviewer: aes_team_reviewer_two
+  # principal: false
+  # review_completed_at:
+  # review_unassigned_at:
+
+aes_pathset_principal_reviewer:
+  created_at: 2018-10-05 15:50:00
+  project: aes
+  ae_adverse_event: pathset
+  ae_team: clinical
+  ae_team_pathway: mild
+  manager: aes_team_manager
+  reviewer: aes_team_principal_reviewer
+  principal: true
   # review_completed_at:
   # review_unassigned_at:

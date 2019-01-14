@@ -5,41 +5,23 @@
         = render "layouts/sidebar_logo"
 
         %ul.sidebar-menu
-          %li.sidebar-menu-header-link-unstyled
-            = link_to @project.name, project_subjects_path(@project)
+          %li.sidebar-menu-header-link-unstyled= link_to @project.name, project_subjects_path(@project)
+          %li= link_to "Subjects", project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil)
+          %li= link_to "Sheets", project_sheets_path(@project), class: (params[:controller] == "sheets" ? "active" : nil)
+
+          - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
+            %li= link_to "Randomizations", project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil)
 
           - if @project.ae_teams_enabled?
-            %li= link_to "AE Module", ae_module_dashboard_path(@project)
+            %li= link_to "Adverse Events", ae_module_adverse_events_path(@project)
 
-          %li
-            = link_to project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil) do
-              Subjects
-          %li
-            = link_to project_sheets_path(@project), class: (params[:controller] == "sheets" ? "active" : nil) do
-              Sheets
-          - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
-            %li
-              = link_to project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil) do
-                Randomizations
           - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
-            %li
-              = link_to project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? "active" : nil) do
-                Adverse Events
-          %li
-            = link_to project_exports_path(@project), class: (params[:controller] == "exports" ? "active" : nil) do
-              Exports
-          %li
-            = link_to project_tasks_path(@project), class: (params[:controller] == "tasks" ? "active" : nil) do
-              Tasks
-          %li
-            = link_to team_project_path(@project), class: (current_page?(team_project_path(@project)) ? "active" : nil) do
-              Team
-          %li
-            = link_to activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? "active" : nil) do
-              Activity
-          %li
-            = link_to calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? "active" : nil) do
-              Calendar
+            %li= link_to "Adverse Events", project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? "active" : nil)
+          %li= link_to "Exports", project_exports_path(@project), class: (params[:controller] == "exports" ? "active" : nil)
+          %li= link_to "Tasks", project_tasks_path(@project), class: (params[:controller] == "tasks" ? "active" : nil)
+          %li= link_to "Team", team_project_path(@project), class: (current_page?(team_project_path(@project)) ? "active" : nil)
+          %li= link_to "Activity", activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? "active" : nil)
+          %li= link_to "Calendar", calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? "active" : nil)
 
         %ul.sidebar-menu
           %li.sidebar-menu-header

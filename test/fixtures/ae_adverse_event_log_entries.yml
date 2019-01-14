@@ -15,8 +15,16 @@ closed_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-closed_team_assigned:
+closed_sent_for_review:
   created_at: 2018-10-01 15:40:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+closed_team_assigned:
+  created_at: 2018-10-01 15:45:00
   project: aes
   ae_adverse_event: closed
   user: aes_review_admin
@@ -24,7 +32,7 @@ closed_team_assigned:
   entry_type: ae_team_assigned
 
 closed_reviewers_assigned:
-  created_at: 2018-10-01 15:45:00
+  created_at: 2018-10-01 15:50:00
   project: aes
   ae_adverse_event: closed
   user: aes_team_manager
@@ -32,7 +40,7 @@ closed_reviewers_assigned:
   entry_type: ae_reviewers_assigned
 
 closed_reviewer_one_completed:
-  created_at: 2018-10-01 15:50:00
+  created_at: 2018-10-01 15:55:00
   project: aes
   ae_adverse_event: closed
   user: aes_team_reviewer
@@ -40,23 +48,31 @@ closed_reviewer_one_completed:
   entry_type: ae_review_completed
 
 closed_reviewer_two_completed:
-  created_at: 2018-10-01 15:55:00
+  created_at: 2018-10-01 16:00:00
   project: aes
   ae_adverse_event: closed
   user: aes_team_reviewer_two
   ae_team: clinical
   entry_type: ae_review_completed
 
-closed_pathway_completed:
-  created_at: 2018-10-01 16:00:00
+closed_principal_reviewer_completed:
+  created_at: 2018-10-01 16:05:00
+  project: aes
+  ae_adverse_event: closed
+  user: aes_team_principal_reviewer
+  ae_team: clinical
+  entry_type: ae_final_review_completed
+
+closed_team_review_completed:
+  created_at: 2018-10-01 16:10:00
   project: aes
   ae_adverse_event: closed
   user: aes_team_manager
   ae_team: clinical
-  entry_type: ae_final_review_completed
+  entry_type: ae_team_review_completed
 
 closed_adverse_event_closed:
-  created_at: 2018-10-01 16:05:00
+  created_at: 2018-10-01 16:15:00
   project: aes
   ae_adverse_event: closed
   user: aes_review_admin
@@ -80,8 +96,16 @@ teamdone_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-teamdone_team_assigned:
+teamdone_sent_for_review:
   created_at: 2018-10-02 15:40:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+teamdone_team_assigned:
+  created_at: 2018-10-02 15:45:00
   project: aes
   ae_adverse_event: teamdone
   user: aes_review_admin
@@ -89,7 +113,7 @@ teamdone_team_assigned:
   entry_type: ae_team_assigned
 
 teamdone_reviewers_assigned:
-  created_at: 2018-10-02 15:45:00
+  created_at: 2018-10-02 15:50:00
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_manager
@@ -97,7 +121,7 @@ teamdone_reviewers_assigned:
   entry_type: ae_reviewers_assigned
 
 teamdone_reviewer_one_completed:
-  created_at: 2018-10-02 15:50:00
+  created_at: 2018-10-02 15:55:00
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_reviewer
@@ -105,20 +129,28 @@ teamdone_reviewer_one_completed:
   entry_type: ae_review_completed
 
 teamdone_reviewer_two_completed:
-  created_at: 2018-10-02 15:55:00
+  created_at: 2018-10-02 16:00:00
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_reviewer_two
   ae_team: clinical
   entry_type: ae_review_completed
 
-teamdone_pathway_completed:
-  created_at: 2018-10-02 16:00:00
+teamdone_principal_reviewer_completed:
+  created_at: 2018-10-02 16:05:00
+  project: aes
+  ae_adverse_event: teamdone
+  user: aes_team_principal_reviewer
+  ae_team: clinical
+  entry_type: ae_final_review_completed
+
+teamdone_team_review_completed:
+  created_at: 2018-10-02 16:10:00
   project: aes
   ae_adverse_event: teamdone
   user: aes_team_manager
   ae_team: clinical
-  entry_type: ae_final_review_completed
+  entry_type: ae_team_review_completed
 
 
 # Adverse Event "pathdone" entries.
@@ -138,8 +170,16 @@ pathdone_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-pathdone_team_assigned:
+pathdone_sent_for_review:
   created_at: 2018-10-03 15:40:00
+  project: aes
+  ae_adverse_event: pathdone
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+pathdone_team_assigned:
+  created_at: 2018-10-03 15:45:00
   project: aes
   ae_adverse_event: pathdone
   user: aes_review_admin
@@ -147,7 +187,7 @@ pathdone_team_assigned:
   entry_type: ae_team_assigned
 
 pathdone_reviewers_assigned:
-  created_at: 2018-10-03 15:45:00
+  created_at: 2018-10-03 15:50:00
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_manager
@@ -155,7 +195,7 @@ pathdone_reviewers_assigned:
   entry_type: ae_reviewers_assigned
 
 pathdone_reviewer_one_completed:
-  created_at: 2018-10-03 15:50:00
+  created_at: 2018-10-03 15:55:00
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_reviewer
@@ -163,18 +203,18 @@ pathdone_reviewer_one_completed:
   entry_type: ae_review_completed
 
 pathdone_reviewer_two_completed:
-  created_at: 2018-10-03 15:55:00
+  created_at: 2018-10-03 16:00:00
   project: aes
   ae_adverse_event: pathdone
   user: aes_team_reviewer_two
   ae_team: clinical
   entry_type: ae_review_completed
 
-pathdone_pathway_completed:
-  created_at: 2018-10-03 16:00:00
+pathdone_principal_reviewer_completed:
+  created_at: 2018-10-03 16:05:00
   project: aes
   ae_adverse_event: pathdone
-  user: aes_team_manager
+  user: aes_team_principal_reviewer
   ae_team: clinical
   entry_type: ae_final_review_completed
 
@@ -196,8 +236,16 @@ rvwsdone_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-rvwsdone_team_assigned:
+rvwsdone_sent_for_review:
   created_at: 2018-10-04 15:40:00
+  project: aes
+  ae_adverse_event: rvwsdone
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+rvwsdone_team_assigned:
+  created_at: 2018-10-04 15:45:00
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_review_admin
@@ -205,7 +253,7 @@ rvwsdone_team_assigned:
   entry_type: ae_team_assigned
 
 rvwsdone_reviewers_assigned:
-  created_at: 2018-10-04 15:45:00
+  created_at: 2018-10-04 15:50:00
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_manager
@@ -213,7 +261,7 @@ rvwsdone_reviewers_assigned:
   entry_type: ae_reviewers_assigned
 
 rvwsdone_reviewer_one_completed:
-  created_at: 2018-10-04 15:50:00
+  created_at: 2018-10-04 15:55:00
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_reviewer
@@ -221,7 +269,7 @@ rvwsdone_reviewer_one_completed:
   entry_type: ae_review_completed
 
 rvwsdone_reviewer_two_completed:
-  created_at: 2018-10-04 15:55:00
+  created_at: 2018-10-04 16:00:00
   project: aes
   ae_adverse_event: rvwsdone
   user: aes_team_reviewer_two
@@ -246,8 +294,16 @@ pathset_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-pathset_team_assigned:
+pathset_sent_for_review:
   created_at: 2018-10-05 15:40:00
+  project: aes
+  ae_adverse_event: pathset
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+pathset_team_assigned:
+  created_at: 2018-10-05 15:45:00
   project: aes
   ae_adverse_event: pathset
   user: aes_review_admin
@@ -255,7 +311,7 @@ pathset_team_assigned:
   entry_type: ae_team_assigned
 
 pathset_reviewers_assigned:
-  created_at: 2018-10-05 15:45:00
+  created_at: 2018-10-05 15:50:00
   project: aes
   ae_adverse_event: pathset
   user: aes_team_manager
@@ -280,8 +336,16 @@ teamindone_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-teamindone_team_assigned:
+teamindone_sent_for_review:
   created_at: 2018-10-06 15:40:00
+  project: aes
+  ae_adverse_event: teamindone
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+teamindone_team_assigned:
+  created_at: 2018-10-06 15:45:00
   project: aes
   ae_adverse_event: teamindone
   user: aes_review_admin
@@ -289,7 +353,7 @@ teamindone_team_assigned:
   entry_type: ae_team_assigned
 
 teamindone_manager_info_request_created:
-  created_at: 2018-10-06 15:45:00
+  created_at: 2018-10-06 15:50:00
   project: aes
   ae_adverse_event: teamindone
   user: aes_team_manager
@@ -297,7 +361,7 @@ teamindone_manager_info_request_created:
   entry_type: ae_info_request_created
 
 teamindone_manager_info_request_resolved:
-  created_at: 2018-10-06 15:50:00
+  created_at: 2018-10-06 15:55:00
   project: aes
   ae_adverse_event: teamindone
   user: aes_review_admin
@@ -322,8 +386,16 @@ teaminfo_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-teaminfo_team_assigned:
+teaminfo_sent_for_review:
   created_at: 2018-10-07 15:40:00
+  project: aes
+  ae_adverse_event: teaminfo
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+teaminfo_team_assigned:
+  created_at: 2018-10-07 15:45:00
   project: aes
   ae_adverse_event: teaminfo
   user: aes_review_admin
@@ -331,7 +403,7 @@ teaminfo_team_assigned:
   entry_type: ae_team_assigned
 
 teaminfo_manager_info_request_created:
-  created_at: 2018-10-07 15:45:00
+  created_at: 2018-10-07 15:50:00
   project: aes
   ae_adverse_event: teaminfo
   user: aes_team_manager
@@ -356,8 +428,16 @@ teamset_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-teamset_team_assigned:
+teamset_sent_for_review:
   created_at: 2018-10-08 15:40:00
+  project: aes
+  ae_adverse_event: teamset
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+teamset_team_assigned:
+  created_at: 2018-10-08 15:45:00
   project: aes
   ae_adverse_event: teamset
   user: aes_review_admin
@@ -381,8 +461,16 @@ repindone_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-repindone_admin_info_request_created:
+repindone_sent_for_review:
   created_at: 2018-10-09 15:40:00
+  project: aes
+  ae_adverse_event: repindone
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+repindone_admin_info_request_created:
+  created_at: 2018-10-09 15:45:00
   project: aes
   ae_adverse_event: repindone
   user: aes_review_admin
@@ -390,7 +478,7 @@ repindone_admin_info_request_created:
   entry_type: ae_info_request_created
 
 repindone_admin_info_request_resolved:
-  created_at: 2018-10-09 15:45:00
+  created_at: 2018-10-09 15:50:00
   project: aes
   ae_adverse_event: repindone
   user: aes_project_editor
@@ -414,8 +502,16 @@ repinfo_sheet_created:
   # ae_team:
   entry_type: ae_sheet_created
 
-repinfo_admin_info_request_created:
+repinfo_sent_for_review:
   created_at: 2018-10-10 15:40:00
+  project: aes
+  ae_adverse_event: repinfo
+  user: aes_project_editor
+  # ae_team:
+  entry_type: ae_sent_for_review
+
+repinfo_admin_info_request_created:
+  created_at: 2018-10-10 15:45:00
   project: aes
   ae_adverse_event: repinfo
   user: aes_review_admin

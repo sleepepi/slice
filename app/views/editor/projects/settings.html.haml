@@ -9,20 +9,27 @@
 
     .dashboard-container
       %h2.mb-3 Adverse Events
-      - if @project.adverse_events_enabled?
+      - if @project.ae_teams_enabled?
         .row
           .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { adverse_events_enabled: "0" }), method: :patch, class: "btn btn-success btn-block btn-lg btn-shadow" do
-              ON
+            .btn.btn-success.btn-block.btn-lg.btn-shadow.disabled{ disabled: true } ON
           .col-sm-6
             = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
       - else
-        .row
-          .col-sm-6.col-buffer-visible-xs
-            = link_to editor_project_path(@project, project: { adverse_events_enabled: "1" }), method: :patch, class: "btn btn-light btn-block btn-lg btn-shadow" do
-              OFF
-          .col-sm-6
-            = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
+        - if @project.adverse_events_enabled?
+          .row
+            .col-sm-6.col-buffer-visible-xs
+              = link_to editor_project_path(@project, project: { adverse_events_enabled: "0" }), method: :patch, class: "btn btn-success btn-block btn-lg btn-shadow" do
+                ON
+            .col-sm-6
+              = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
+        - else
+          .row
+            .col-sm-6.col-buffer-visible-xs
+              = link_to editor_project_path(@project, project: { adverse_events_enabled: "1" }), method: :patch, class: "btn btn-light btn-block btn-lg btn-shadow" do
+                OFF
+            .col-sm-6
+              = link_to "Learn more...", docs_adverse_events_path, class: "btn btn-lg btn-block btn-link"
   .col-sm-6
     .dashboard-container
       %h2.mb-3 Blinding

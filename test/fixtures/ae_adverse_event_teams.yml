@@ -2,13 +2,13 @@ aes_closed_clinical:
   project: aes
   ae_adverse_event: closed
   ae_team: clinical
-  team_review_completed_at: 2018-11-20 15:30:00 # TODO: Fix time to make sense with other events
+  team_review_completed_at: 2018-10-01 16:10:00
 
 aes_teamdone_clinical:
   project: aes
   ae_adverse_event: teamdone
   ae_team: clinical
-  team_review_completed_at: 2018-10-02 15:30:00 # TODO: Fix time to make sense with other events
+  team_review_completed_at: 2018-10-02 16:10:00
 
 aes_pathdone_clinical:
   project: aes

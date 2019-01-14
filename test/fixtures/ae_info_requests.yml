@@ -4,7 +4,7 @@ teamindone_info_request_for_admin:
   user: aes_team_manager
   ae_team: clinical
   comment: Looks like the team needs additional information.
-  resolved_at: 2018-10-06 15:50:00
+  resolved_at: 2018-10-06 15:55:00
   resolver: aes_review_admin
 
 teaminfo_info_request_for_admin:

@@ -121,8 +121,8 @@
               .small Provide information about the adverse event.
 
       - unless @adverse_event.sent_for_review?
-        - if @role_admin || @role_reporter
-          %div{ class: @role_admin ? "mb-3" : nil }
+        - if @role_reporter
+          %div
             - if design.present? || @adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
               %span.text-muted= icon("fas", "paper-plane")
               = link_to "#", disabled: true, class: "text-muted", data: { object: "suppress-click" } do
@@ -149,6 +149,9 @@
                   All forms entered.
                 - else
                   Ready to send for review.
+        - elsif @role_admin
+          .mb-3
+            .small.text-muted Reporter still gathering information.
 
       - @adverse_event.ae_teams.each do |team|
         - role_manager = @roles.count { |role, t| role == "manager" && t == team }.positive?
