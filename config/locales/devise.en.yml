@@ -15,18 +15,18 @@ en:
       not_found_in_database: "Wrong email or password. Did you <a href=\"password/new\">forget your password?</a>"
       timeout: "" # "Your session expired. Please sign in again to continue."
       unauthenticated: "" # "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to <a href=\"confirmation\">confirm your email address</a> before continuing."
+      unconfirmed: "You have to <a href=\"confirmation/new\">confirm your email address</a> before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
+        subject: "Confirm your Slice email address"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Reset password for your Slice account"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "Unlock your Slice account"
       email_changed:
-        subject: "Email Changed"
+        subject: "Your Slice email changed"
       password_change:
-        subject: "Password Changed"
+        subject: "Your Slice password changed"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."

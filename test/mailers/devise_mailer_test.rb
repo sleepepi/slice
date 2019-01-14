@@ -9,7 +9,7 @@ class DeviseMailerTest < ActionMailer::TestCase
     email = Devise::Mailer.reset_password_instructions(regular, "faketoken").deliver_now
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal [regular.email], email.to
-    assert_equal "Reset password instructions", email.subject
+    assert_equal "Reset password for your Slice account", email.subject
     assert_match(%r{#{ENV["website_url"]}/password/edit\?reset_password_token=faketoken}, email.encoded)
   end
 
@@ -18,7 +18,7 @@ class DeviseMailerTest < ActionMailer::TestCase
     email = Devise::Mailer.unlock_instructions(regular, "faketoken").deliver_now
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal [regular.email], email.to
-    assert_equal "Unlock instructions", email.subject
+    assert_equal "Unlock your Slice account", email.subject
     assert_match(%r{#{ENV["website_url"]}/unlock\?unlock_token=faketoken}, email.encoded)
   end
 end
