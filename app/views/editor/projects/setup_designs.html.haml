@@ -6,7 +6,8 @@
 
 - content_for :breadcrumbs do
   %ol
-    %li.breadcrumb-muted setup designs
+    %li= link_to "ae module", settings_editor_project_path(@project, anchor: "adverse-events")
+    %li.breadcrumb-muted designs
 
 .d-flex
   .flex-fill.p-3

@@ -1,0 +1,10 @@
+- @title = "#{@team.name_was} Edit"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header do
+  = link_to @team.name_was, editor_project_ae_team_path(@project, @team)
+  Edit
+
+.dashboard-container= render "form", project: @project, team: @team

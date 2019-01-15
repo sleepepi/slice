@@ -5,6 +5,7 @@
 - content_for :header, @title
 
 - if @project.ae_teams_enabled?
+  %a.anchor-top{ name: "adverse-events", id: "adverse-events" }
   .card.mb-3
     %h5.card-header
       Adverse events
@@ -13,7 +14,7 @@
       .mb-3.d-flex.align-items-center
         .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "users", class: "fa-2x")
         .p-3
-          = link_to "Manage teams", "#", data: { object: "suppress-click" }
+          = link_to "Manage teams", editor_project_ae_teams_path(@project)
           .small.text-muted
             Setup adverse event review teams.
       .mb-3.d-flex.align-items-center
@@ -29,6 +30,7 @@
             = icon("fas", "info-circle")
             Learn more...
 - else
+  %a.anchor-top{ name: "adverse-events", id: "adverse-events" }
   .card.mb-3
     %h5.card-header
       Adverse events
@@ -45,6 +47,7 @@
             = icon("fas", "info-circle")
             Learn more...
 
+%a.anchor-top{ name: "blinding", id: "blinding" }
 .card.mb-3
   %h5.card-header
     Blinding
@@ -81,6 +84,7 @@
           = icon("fas", "info-circle")
           Learn more...
 
+%a.anchor-top{ name: "randomizations", id: "randomizations" }
 .card.mb-3
   %h5.card-header
     Randomizations
@@ -104,6 +108,7 @@
           = icon("fas", "info-circle")
           Learn more...
 
+%a.anchor-top{ name: "emails", id: "emails" }
 .card.mb-3
   %h5.card-header
     Project emails
@@ -132,6 +137,7 @@
           = icon("fas", "info-circle")
           Learn more...
 
+%a.anchor-top{ name: "tablet-handoff", id: "tablet-handoff" }
 .card.mb-3
   %h5.card-header
     Tablet handoff
@@ -162,6 +168,7 @@
           = icon("fas", "info-circle")
           Learn more...
 
+%a.anchor-top{ name: "sheet-locking", id: "sheet-locking" }
 .card.mb-3
   %h5.card-header
     Sheet locking
@@ -207,6 +214,7 @@
           = icon("fas", "info-circle")
           Learn more...
 
+%a.anchor-top{ name: "translations", id: "translations" }
 .card.mb-3
   %h5.card-header
     Translations
@@ -228,6 +236,7 @@
           - else
             Enable to allow editors to add translations to designs.
 
+%a.anchor-top{ name: "pdf-values", id: "pdf-values" }
 .card.mb-3
   %h5.card-header
     Domain values on PDFs
@@ -264,6 +273,7 @@
               %span.border-bottom 2:
               Cat
 
+%a.anchor-top{ name: "naming", id: "naming" }
 .card{ class: @project.owner?(current_user) ? "mb-3" : nil }
   %h5.card-header Configuration
   .card-body= render "projects/form", project: @project

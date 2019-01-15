@@ -205,6 +205,8 @@ Rails.application.routes.draw do
         delete :remove_designment, path: "remove-designment"
       end
 
+      resources :ae_teams, path: "ae-module/teams"
+
       resources :checks do
         member do
           post :request_run, path: "request-run"

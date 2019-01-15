@@ -1,0 +1,17 @@
+%td.d-none.d-sm-table-cell.text-center= team.short_name
+%td= link_to team.name, editor_project_ae_team_path(project, team)
+%td.nowrap.text-center
+  .dropdown
+    = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
+      .d-inline-block.d-sm-none
+        = icon("fas", "cog")
+      .d-none.d-sm-inline-block Actions
+
+    .dropdown-menu.dropdown-menu-right
+      = link_to edit_editor_project_ae_team_path(project, team), class: "dropdown-item" do
+        = icon("fas", "pencil-alt")
+        Edit
+      .dropdown-divider
+      = link_to editor_project_ae_team_path(project, team), method: :delete, remote: true, data: { confirm: "Delete #{team.name}?" }, class: "dropdown-item text-danger" do
+        = icon("fas", "trash-alt")
+        Delete

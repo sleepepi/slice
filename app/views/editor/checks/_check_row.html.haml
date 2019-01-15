@@ -1,7 +1,7 @@
 %td= link_to check.name, editor_project_check_path(@project, check)
 %td.d-none.d-sm-table-cell.text-center= simple_check check.expression.present?
 %td.d-none.d-sm-table-cell.text-center= simple_check check.archived?
-%td.text-center
+%td.nowrap.text-center
   .dropdown
     = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
       .d-inline-block.d-sm-none

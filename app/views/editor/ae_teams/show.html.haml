@@ -1,0 +1,25 @@
+- @title = @team.name
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header do
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_editor_project_ae_team_path(@project, @team), delete_url: editor_project_ae_team_path(@project, @team), delete_confirmation: "Delete #{@team.name}?"
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "ae module", settings_editor_project_path(@project, anchor: "adverse-events")
+    %li= link_to "teams", editor_project_ae_teams_path(@project)
+    %li.breadcrumb-muted= @team.name.downcase
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @team, key: :short_name
+
+  = render "forms/horizontal/show/generic", title: "Managers", content: render("editor/ae_teams/members", role: "managers", members: @team.managers)
+  = render "forms/horizontal/show/generic", title: "Principal Reviewers", content: render("editor/ae_teams/members", role: "principal reviewers", members: @team.principal_reviewers)
+  = render "forms/horizontal/show/generic", title: "Reviewers", content: render("editor/ae_teams/members", role: "reviewers", members: @team.reviewers)
+  = render "forms/horizontal/show/generic", title: "Viewers", content: render("editor/ae_teams/members", role: "viewers", members: @team.viewers)
+  = render "forms/horizontal/show/generic", title: "Unassigned role", content: render("editor/ae_teams/members", role: nil, members: @team.no_role_users) if @team.no_role_users.present?
+  = render "forms/horizontal/show/generic", title: "Pathways", content: render("editor/ae_teams/pathways", team: @team)

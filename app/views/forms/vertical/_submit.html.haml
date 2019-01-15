@@ -1,7 +1,11 @@
 - text = if defined?(submit_text)
   - submit_text
 - elsif defined?(object_name)
-  - object.new_record? ? "Create #{object_name.titleize}" : "Update #{object_name.titleize}"
+  - if object.is_a?(Array)
+    - o = object.last
+  - else
+    - o = object
+  - o.new_record? ? "Create #{object_name.titleize}" : "Update #{object_name.titleize}"
 .form-group.mt-4.mb-0
   = form.submit text, class: "btn btn-primary"
   - if defined?(cancel) && cancel == false

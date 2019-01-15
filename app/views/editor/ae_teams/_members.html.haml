@@ -1,0 +1,8 @@
+- if members.present?
+  - members.each do |user|
+    %div= user.full_name
+- elsif role.present?
+  %div.text-muted
+    No
+    = succeed "." do
+      = role

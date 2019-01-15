@@ -1,0 +1,7 @@
+- url = team.new_record? ? editor_project_ae_teams_path(project) : editor_project_ae_team_path(project, team)
+- method = team.new_record? ? :post : :patch
+= form_with model: [project, team], url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: team, key: :name, slug: "slug"
+  = render "forms/horizontal/slug_field", form: form, object: team, key: :slug, key_name: "URL Slug"
+  = render "forms/horizontal/text_field", form: form, object: team, key: :short_name
+  = render "forms/horizontal/submit", form: form, object: [project, team], object_name: "Team", cancel: url
