@@ -55,26 +55,8 @@ class Editor::ProjectsController < ApplicationController
 
   # POST /editor/projects/:project_id/submit-designs
   def submit_designs
-    # Pathway may be nil.
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
-
-    ActiveRecord::Base.transaction do
-      @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role]).destroy_all
-      index = 0
-      (params[:design_ids] || []).uniq.each do |design_id|
-        design = @project.designs.find_by(id: design_id)
-        next unless design
-
-        @project.ae_designments.create(
-          design: design,
-          position: index,
-          role: params[:role],
-          ae_team: @pathway&.ae_team,
-          ae_team_pathway: @pathway
-        )
-        index += 1
-      end
-    end
+    @project.update_designments(@pathway, params[:role], params[:design_ids])
     @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
     render :designments
   end

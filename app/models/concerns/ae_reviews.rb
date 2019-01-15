@@ -78,4 +78,24 @@ module AeReviews
       ae_team_members.where(user: current_user, viewer: true).count.positive?
     end
   end
+
+  def update_designments(pathway, role, design_ids)
+    ActiveRecord::Base.transaction do
+      ae_designments.where(ae_team_pathway: pathway, role: role).destroy_all
+      index = 0
+      (design_ids || []).uniq.each do |design_id|
+        design = designs.find_by(id: design_id)
+        next unless design
+
+        ae_designments.create(
+          design: design,
+          position: index,
+          role: role,
+          ae_team: pathway&.ae_team,
+          ae_team_pathway: pathway
+        )
+        index += 1
+      end
+    end
+  end
 end
