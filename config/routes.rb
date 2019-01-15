@@ -51,10 +51,7 @@ Rails.application.routes.draw do
     end
 
     namespace :admins do
-      get :setup_designs, path: "setup-designs"
-      post :submit_designs, path: "submit-designs"
       post :assign_team, path: "adverse-events/:id/assign-team"
-      delete :remove_designment, path: "remove-designment"
       get :form, path: "adverse-events/:id/form/:design_id"
       post :form_save, path: "adverse-events/:id/form/:design_id"
       get :sheet, path: "adverse-events/:id/sheets/:sheet_id"
@@ -203,6 +200,9 @@ Rails.application.routes.draw do
         post :add_invite_row, path: "add-site-row"
         post :send_invites, path: "send-invites"
         get :advanced
+        get :setup_designs, path: "setup-designs"
+        post :submit_designs, path: "submit-designs"
+        delete :remove_designment, path: "remove-designment"
       end
 
       resources :checks do

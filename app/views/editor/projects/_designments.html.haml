@@ -1,0 +1,8 @@
+- if designments.present?
+  - designments.each do |designment|
+    .aer-design{ data: { design_id: designment.design_id } }
+      .float-right= link_to icon("fas", "times", class: "text-danger"), remove_designment_editor_project_path(project, designment_id: designment.id, pathway_id: designment.ae_team_pathway_id, role: designment.role), method: :delete, remote: true
+      = icon("fas", "arrows-alt-v")
+      = designment.design.name
+- else
+  .aer-design-empty No designs found.

@@ -1,8 +1,6 @@
 class AeModule::AdminsController < AeModule::BaseController
   before_action :find_review_admin_project_or_redirect
-  before_action :find_adverse_event_or_redirect, except: [
-    :setup_designs, :submit_designs, :remove_designment
-  ]
+  before_action :find_adverse_event_or_redirect
   before_action :set_sheet, only: [:form, :form_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
 
@@ -16,45 +14,6 @@ class AeModule::AdminsController < AeModule::BaseController
       notice = "Unable to assign team."
     end
     redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: notice
-  end
-
-  # # GET /projects/:project_id/ae-module/admins/setup-designs
-  # def setup_designs
-  # end
-
-  # POST /projects/:project_id/ae-module/admins/submit-designs
-  def submit_designs
-    # Pathway may be nil.
-    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
-
-    ActiveRecord::Base.transaction do
-      @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role]).destroy_all
-      index = 0
-      (params[:design_ids] || []).uniq.each do |design_id|
-        design = @project.designs.find_by(id: design_id)
-        next unless design
-
-        @project.ae_designments.create(
-          design: design,
-          position: index,
-          role: params[:role],
-          ae_team: @pathway&.ae_team,
-          ae_team_pathway: @pathway
-        )
-        index += 1
-      end
-    end
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
-    render :designments
-  end
-
-  # DELETE /projects/:project_id/ae-module/admins/remove-designment
-  def remove_designment
-    designment = @project.ae_designments.find_by(id: params[:designment_id])
-    designment.destroy
-    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
-    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
-    render :designments
   end
 
   # GET /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id

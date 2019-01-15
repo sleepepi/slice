@@ -36,9 +36,9 @@ class Editor::ProjectsController < ApplicationController
     create_member_invite
   end
 
-  # GET /editor/projects/1/edit
-  def edit
-  end
+  # # GET /editor/projects/1/edit
+  # def edit
+  # end
 
   # PATCH /editor/projects/1
   def update
@@ -47,6 +47,45 @@ class Editor::ProjectsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  # # GET /editor/projects/:project_id/setup-designs
+  # def setup_designs
+  # end
+
+  # POST /editor/projects/:project_id/submit-designs
+  def submit_designs
+    # Pathway may be nil.
+    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
+
+    ActiveRecord::Base.transaction do
+      @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role]).destroy_all
+      index = 0
+      (params[:design_ids] || []).uniq.each do |design_id|
+        design = @project.designs.find_by(id: design_id)
+        next unless design
+
+        @project.ae_designments.create(
+          design: design,
+          position: index,
+          role: params[:role],
+          ae_team: @pathway&.ae_team,
+          ae_team_pathway: @pathway
+        )
+        index += 1
+      end
+    end
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
+    render :designments
+  end
+
+  # DELETE /editor/projects/:project_id/remove-designment
+  def remove_designment
+    designment = @project.ae_designments.find_by(id: params[:designment_id])
+    designment.destroy
+    @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])
+    @designments = @project.ae_designments.where(ae_team_pathway: @pathway, role: params[:role])
+    render :designments
   end
 
   private

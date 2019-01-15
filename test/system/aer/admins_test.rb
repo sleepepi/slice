@@ -10,8 +10,9 @@ class AdminsTest < ApplicationSystemTestCase
   end
 
   test "visit adverse event setup designs as admin" do
+    skip # TODO: Move to project editor system test.
     visit_login(@review_admin)
-    visit ae_module_admins_setup_designs_url(@project)
+    visit setup_designs_editor_project_url(@project)
     assert_selector "h1", text: "Setup Designs"
     screenshot("visit-adverse-event-admins-setup-designs")
   end

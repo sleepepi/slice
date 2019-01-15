@@ -19,7 +19,7 @@
       .mb-3.d-flex.align-items-center
         .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "copy", class: "fa-2x")
         .p-3
-          = link_to "Setup designs", ae_module_admins_setup_designs_path(@project)
+          = link_to "Setup designs", setup_designs_editor_project_path(@project)
           .small.text-muted Specify designs to be completed by adverse event reporters and reviewers.
 
       .d-flex.align-items-center
