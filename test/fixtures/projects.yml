@@ -88,3 +88,4 @@ aes:
   slug: aes
   user: aes_owner
   adverse_event_reviews_enabled: true
+  blinding_enabled: true

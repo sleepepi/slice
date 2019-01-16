@@ -133,6 +133,7 @@ class Project < ApplicationRecord
       user_id == current_user.id ||
       project_users.where(user_id: current_user.id, unblinded: true).count.positive? ||
       site_users.where(user_id: current_user.id, unblinded: true).count.positive? ||
+      ae_admin?(current_user) ||
       ae_team?(current_user)
   end
 
