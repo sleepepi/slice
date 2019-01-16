@@ -21,34 +21,34 @@ class ReviewersTest < ApplicationSystemTestCase
     visit_login(@reviewer)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:closed))
     assert_selector "h1", text: "AE#1"
-    screenshot("visit-adverse-event-reviewers-assignemnt-closed")
+    screenshot("visit-adverse-event-reviewers-assignment-closed")
   end
 
   test "visit adverse event reviewers assignment teamdone" do
     visit_login(@reviewer)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:teamdone))
     assert_selector "h1", text: "AE#2"
-    screenshot("visit-adverse-event-reviewers-assignemnt-teamdone")
+    screenshot("visit-adverse-event-reviewers-assignment-teamdone")
   end
 
   test "visit adverse event reviewers assignment pathdone" do
     visit_login(@reviewer)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:pathdone))
     assert_selector "h1", text: "AE#3"
-    screenshot("visit-adverse-event-reviewers-assignemnt-pathdone")
+    screenshot("visit-adverse-event-reviewers-assignment-pathdone")
   end
 
   test "visit adverse event reviewers assignment rvwsdone" do
     visit_login(@reviewer)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:rvwsdone))
     assert_selector "h1", text: "AE#4"
-    screenshot("visit-adverse-event-reviewers-assignemnt-rvwsdone")
+    screenshot("visit-adverse-event-reviewers-assignment-rvwsdone")
   end
 
   test "visit adverse event reviewers assignment pathset" do
     visit_login(@reviewer)
     visit ae_module_adverse_event_url(@project, ae_adverse_events(:pathset))
     assert_selector "h1", text: "AE#5"
-    screenshot("visit-adverse-event-reviewers-assignemnt-pathset")
+    screenshot("visit-adverse-event-reviewers-assignment-pathset")
   end
 end
