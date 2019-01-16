@@ -129,7 +129,11 @@ class Project < ApplicationRecord
   end
 
   def unblinded?(current_user)
-    !blinding_enabled? || user_id == current_user.id || project_users.where(user_id: current_user.id, unblinded: true).count > 0 || site_users.where(user_id: current_user.id, unblinded: true).count > 0
+    !blinding_enabled? ||
+      user_id == current_user.id ||
+      project_users.where(user_id: current_user.id, unblinded: true).count.positive? ||
+      site_users.where(user_id: current_user.id, unblinded: true).count.positive? ||
+      ae_team?(current_user)
   end
 
   def show_type
