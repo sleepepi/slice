@@ -1,5 +1,7 @@
 - @title = "Adverse Events"
 
+- content_for :sidebar, render("projects/sidebar") if @project_member
+
 - content_for :header do
   .float-right
     - if @project.ae_reporter?(current_user)
@@ -19,7 +21,6 @@
       %col.d-none.d-sm-table-column
       %col
       %col
-      %col
       %col{ width: "1px" }
       %thead
         %tr
@@ -28,7 +29,6 @@
           %th.d-none.d-sm-table-cell Description
           %th Reported
           %th Team
-          %th.nowrap (reporter status)
           %th.nowrap Last update
       %tbody
         - @adverse_events.each do |adverse_event|
@@ -43,15 +43,6 @@
                 = adverse_event.ae_teams.collect(&:short_name).to_sentence
               - else
                 %span.text-muted Not assigned.
-            %td
-              - if adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
-                %span.badge.badge-primary Additional info required
-              - elsif adverse_event.sent_for_review?
-                %span.badge.badge-secondary Reported
-              - elsif adverse_event.open?
-                %span.badge.badge-primary Open
-              - else
-                %span.badge.badge-secondary Closed
             %td.nowrap
               = adverse_event.ae_log_entries.last&.entry_type_text
 

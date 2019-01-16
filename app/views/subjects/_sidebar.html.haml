@@ -63,7 +63,7 @@
             - if @subject.ae_adverse_events.present?
               - @subject.ae_adverse_events.order(:id).each do |adverse_event|
                 %li
-                  = link_to ae_module_adverse_event_path(@project, adverse_event), class: "#{"active" if (@sheet&.ae_adverse_event == adverse_event)}" do
+                  = link_to ae_module_adverse_event_path(@project, adverse_event), class: "#{"active" if @adverse_event == adverse_event}" do
                     - if adverse_event.closed?
                       = icon("fas", "check-circle", class: "text-muted")
                     - else

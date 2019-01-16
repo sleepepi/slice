@@ -1,5 +1,7 @@
 - @title = "Edit Adverse Event"
 
+- content_for :sidebar, render("subjects/sidebar") if @project_member
+
 - content_for :header do
   = @adverse_event.name
   Edit

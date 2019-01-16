@@ -9,6 +9,8 @@ class AeModule::DocumentsController < AeModule::BaseController
   before_action :find_ae_document_or_redirect, only: [
     :show, :edit, :update, :destroy, :download
   ]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/documents
   def index

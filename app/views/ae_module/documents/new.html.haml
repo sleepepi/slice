@@ -1,6 +1,8 @@
 - @title = "New Document"
 - @menu_title = "#{@title} - #{@adverse_event.name}"
 
+- content_for :sidebar, render("subjects/sidebar") if @project_member
+
 - content_for :header do
   = @title
   %small= @adverse_event.description

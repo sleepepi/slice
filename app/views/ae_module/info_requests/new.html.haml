@@ -1,5 +1,7 @@
 - @title = @adverse_event.name
 
+- content_for :sidebar, render("subjects/sidebar") if @project_member
+
 - content_for :header do
   = @title
   %small= @adverse_event.description
@@ -7,7 +9,7 @@
 - content_for :breadcrumbs do
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li.breadcrumb-muted= @subject.name.downcase
+    %li= link_to_if @project_member, @subject.name.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted request information
 

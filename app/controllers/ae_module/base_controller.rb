@@ -71,4 +71,12 @@ class AeModule::BaseController < ApplicationController
   def variables_params
     (params[:variables].blank? ? {} : params.require(:variables).permit!)
   end
+
+  def set_project_member
+    @project_member = @project.members.where(id: current_user.id).count.positive?
+  end
+
+  def sidebar_layout
+    "layouts/full_page_sidebar_dark" if @project_member
+  end
 end

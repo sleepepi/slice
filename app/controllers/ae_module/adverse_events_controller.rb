@@ -5,6 +5,8 @@ class AeModule::AdverseEventsController < AeModule::BaseController
   before_action :find_project_as_reporter_or_admin_or_team_member_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [:show, :edit, :update, :log]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # GET /projects/:project_id/ae-module/adverse-events
   def index

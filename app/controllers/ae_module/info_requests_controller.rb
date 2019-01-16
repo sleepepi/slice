@@ -8,6 +8,8 @@ class AeModule::InfoRequestsController < AeModule::BaseController
   before_action :find_info_request_or_redirect, only: [
     :show, :destroy, :resolve
   ]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/info-requests/new
   def new

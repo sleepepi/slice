@@ -1,5 +1,7 @@
 - @title = "Report Adverse Event"
 
+- content_for :sidebar, render("projects/sidebar") if @project_member
+
 - content_for :header, @title
 
 - content_for :breadcrumbs do

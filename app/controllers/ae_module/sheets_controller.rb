@@ -6,10 +6,12 @@ class AeModule::SheetsController < AeModule::BaseController
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect
   before_action :find_sheet_or_redirect, only: [:show]
+  before_action :set_project_member
+  layout :sidebar_layout
 
-  # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/sheets/:id
-  def show
-  end
+  # # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/sheets/:id
+  # def show
+  # end
 
   private
 
