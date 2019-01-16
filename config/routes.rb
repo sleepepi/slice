@@ -205,7 +205,9 @@ Rails.application.routes.draw do
         delete :remove_designment, path: "remove-designment"
       end
 
-      resources :ae_teams, path: "ae-module/teams"
+      resources :ae_teams, path: "ae-module/teams" do
+        resources :ae_pathways, path: "pathways"
+      end
 
       resources :checks do
         member do

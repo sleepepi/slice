@@ -6,31 +6,37 @@
 - content_for :header do
   .float-right
     = link_to plus_or("New Team"), new_editor_project_ae_team_path(@project), class: "btn btn-accent btn-shadow"
-    .per-page= render "layouts/per_page", per_page: 40, object_count: @teams.total_count
   = @title
 
 - content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @teams.total_count
   %ol
     %li= link_to "ae module", settings_editor_project_path(@project, anchor: "adverse-events")
     %li.breadcrumb-muted teams
 
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col.d-none.d-sm-table-column{ width: "1px" }
-    %col
-    %col{ width: "1px" }
-    %thead
-      %tr
-        %th.d-none.d-sm-table-cell.text-center Abbr
-        %th Name
-        %th.text-center Actions
+- if @teams.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col.d-none.d-sm-table-column{ width: "1px" }
+      %col
+      %col{ width: "1px" }
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th.d-none.d-sm-table-cell.text-center= order_to "Abbr", primary: "abbr"
+          %th= order_to "Name", primary: "name"
+          %th.text-center= order_to "Pathways", primary: "pathways"
+          %th.text-center Actions
 
-    %tbody
-      - @teams.each do |team|
-        %tr{ id: "team-#{team.id}-container" }
-          = render "editor/ae_teams/row", project: @project, team: team
+      %tbody
+        - @teams.each do |team|
+          %tr{ id: "team-#{team.id}-container" }
+            = render "editor/ae_teams/row", project: @project, team: team
 
-.center-horizontally= paginate @teams, theme: "bootstrap"
+  .center-horizontally= paginate @teams, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No teams found.
 
 .center-horizontally
   .docs-learn-more

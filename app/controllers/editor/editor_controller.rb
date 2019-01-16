@@ -16,6 +16,15 @@ class Editor::EditorController < ApplicationController
     empty_response_or_root_path(editor_project_checks_path(@project)) unless @check
   end
 
+  def find_team_or_redirect(id = :ae_team_id)
+    @team = @project.ae_teams.find_by_param(params[id])
+    redirect_without_team
+  end
+
+  def redirect_without_team
+    empty_response_or_root_path(editor_project_ae_teams_path(@project)) unless @team
+  end
+
   def find_filter_or_redirect(id = :check_filter_id)
     @check_filter = @check.check_filters.find_by(id: params[id])
     redirect_without_filter

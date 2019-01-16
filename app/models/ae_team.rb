@@ -1,8 +1,20 @@
 # frozen_string_literal: true
 
 class AeTeam < ApplicationRecord
+  # Constants
+  ORDERS = {
+    "abbr desc" => "ae_teams.short_name desc",
+    "abbr" => "ae_teams.short_name",
+    "name desc" => "ae_teams.name desc",
+    "name" => "ae_teams.name",
+    "pathways desc" => "ae_teams.pathways_count desc",
+    "pathways" => "ae_teams.pathways_count"
+  }
+  DEFAULT_ORDER = "ae_teams.name"
+
   # Concerns
   include Deletable
+  include Searchable
   include Sluggable
   include Squishable
   include ShortNameable
@@ -35,4 +47,8 @@ class AeTeam < ApplicationRecord
   end
 
   # Methods
+
+  def self.searchable_attributes
+    %w(name short_name)
+  end
 end

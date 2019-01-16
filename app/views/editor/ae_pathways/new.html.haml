@@ -1,4 +1,4 @@
-- @title = "New Team"
+- @title = "New Pathway"
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
@@ -7,6 +7,8 @@
   %ol
     %li= link_to "ae module", settings_editor_project_path(@project, anchor: "adverse-events")
     %li= link_to "teams", editor_project_ae_teams_path(@project)
+    %li= link_to @team.name.downcase, editor_project_ae_team_path(@project, @team)
+    %li= link_to "pathways", editor_project_ae_team_ae_pathways_path(@project, @team)
     %li.breadcrumb-muted new
 
-.dashboard-container= render "form", project: @project, team: @team
+.dashboard-container= render "form", project: @project, team: @team, pathway: @pathway

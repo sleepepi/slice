@@ -4,7 +4,6 @@ class CreateAeTeamPathways < ActiveRecord::Migration[5.2]
       t.bigint :project_id
       t.bigint :ae_team_id
       t.string :name
-      t.integer :number_of_reviewers, null: false, default: 0
       t.boolean :deleted, null: false, default: false
       t.timestamps
       t.index :project_id

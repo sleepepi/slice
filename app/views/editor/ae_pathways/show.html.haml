@@ -1,0 +1,20 @@
+- @title = @pathway.name
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header do
+  .float-right
+    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_editor_project_ae_team_ae_pathway_path(@project, @team, @pathway), delete_url: editor_project_ae_team_ae_pathway_path(@project, @team, @pathway), delete_confirmation: "Delete #{@pathway.name}?"
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "ae module", settings_editor_project_path(@project, anchor: "adverse-events")
+    %li= link_to "teams", editor_project_ae_teams_path(@project)
+    %li= link_to @team.name.downcase, editor_project_ae_team_path(@project, @team)
+    %li= link_to "pathways", editor_project_ae_team_ae_pathways_path(@project, @team)
+    %li.breadcrumb-muted= @pathway.name.downcase
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @pathway, key: :name

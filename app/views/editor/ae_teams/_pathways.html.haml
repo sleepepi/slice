@@ -1,1 +1,8 @@
-= team.ae_team_pathways.pluck(:name).to_sentence
+- if team.ae_team_pathways.present?
+  %ul.list-unstyled
+    - team.ae_team_pathways.each do |pathway|
+      %li= link_to pathway.name, editor_project_ae_team_ae_pathway_path(project, team, pathway)
+- else
+  .text-muted No pathways.
+
+

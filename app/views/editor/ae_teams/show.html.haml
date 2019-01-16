@@ -22,4 +22,4 @@
   = render "forms/horizontal/show/generic", title: "Reviewers", content: render("editor/ae_teams/members", role: "reviewers", members: @team.reviewers)
   = render "forms/horizontal/show/generic", title: "Viewers", content: render("editor/ae_teams/members", role: "viewers", members: @team.viewers)
   = render "forms/horizontal/show/generic", title: "Unassigned role", content: render("editor/ae_teams/members", role: nil, members: @team.no_role_users) if @team.no_role_users.present?
-  = render "forms/horizontal/show/generic", title: "Pathways", content: render("editor/ae_teams/pathways", team: @team)
+  = render "forms/horizontal/show/generic", title: link_to("Pathways", editor_project_ae_team_ae_pathways_path(@project, @team)), content: render("editor/ae_teams/pathways", project: @project, team: @team)

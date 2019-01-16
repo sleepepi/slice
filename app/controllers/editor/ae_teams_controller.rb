@@ -10,7 +10,8 @@ class Editor::AeTeamsController < Editor::EditorController
 
   # GET /editor/projects/:project_id/ae-modules/teams
   def index
-    @teams = @project.ae_teams.order(:name).page(params[:page]).per(40)
+    scope = @project.ae_teams.search_any_order(params[:search])
+    @teams = scope_order(scope).page(params[:page]).per(20)
   end
 
   # # GET /editor/projects/:project_id/ae-modules/teams/:id
@@ -64,17 +65,17 @@ class Editor::AeTeamsController < Editor::EditorController
   private
 
   def find_team_or_redirect
-    @team = @project.ae_teams.find_by_param(params[:id])
-    redirect_without_team
-  end
-
-  def redirect_without_team
-    empty_response_or_root_path(editor_project_ae_teams_path(@project)) unless @team
+    super(:id)
   end
 
   def team_params
     params.require(:ae_team).permit(
       :name, :slug, :short_name
     )
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(Arel.sql(AeTeam::ORDERS[params[:order]] || AeTeam::DEFAULT_ORDER))
   end
 end

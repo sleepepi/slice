@@ -1,0 +1,5 @@
+- url = pathway.new_record? ? editor_project_ae_team_ae_pathways_path(project, team) : editor_project_ae_team_ae_pathway_path(project, team, pathway)
+- method = pathway.new_record? ? :post : :patch
+= form_with model: [project, team, pathway], url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: pathway, key: :name
+  = render "forms/horizontal/submit", form: form, object: [project, team, pathway], object_name: "Pathway", cancel: url
