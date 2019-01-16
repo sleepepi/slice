@@ -280,14 +280,14 @@
 
 - if @project.owner?(current_user) && Rails.env.development?
   .card.mb-3
-    .card-header
+    %h5.card-header
       API
     .card-body
       = link_to "API", api_owner_project_path(@project)
 
 - if @project.owner?(current_user) && @project.users.size.positive?
   .card.mb-3.border-danger
-    .card-header.bg-danger.text-white
+    %h5.card-header.bg-danger.text-white
       Transfer Ownership
     .card-body
       %p
@@ -317,7 +317,7 @@
 
 - if @project.owner?(current_user)
   .card.border-danger
-    .card-header.bg-danger.text-white
+    %h5.card-header.bg-danger.text-white
       Delete Project
     .card-body
       %p
