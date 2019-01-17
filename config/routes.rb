@@ -220,6 +220,8 @@ Rails.application.routes.draw do
       end
 
       resources :grid_variables, path: "grid-variables"
+
+      resources :invites
     end
   end
 

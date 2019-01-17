@@ -1,0 +1,131 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+project_editor:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  # subgroup_type:
+  # subgroup_id:
+  # claimed_at:
+
+project_viewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+blinded_project_editor:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+blinded_project_viewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+site_editor:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+site_viewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+blinded_site_editor:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+blinded_site_viewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+review_admin:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+review_team_manager:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+review_team_principal_reviewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+review_team_reviewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:
+
+review_team_viewer:
+  project_id:
+  inviter_id:
+  email:
+  invite_token:
+  role:
+  subgroup_type:
+  subgroup_id:
+  # claimed_at:

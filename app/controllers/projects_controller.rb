@@ -4,8 +4,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [
-    :settings, :show, :collect, :team, :activity, :logo, :archive, :calendar,
-    :reports, :expressions, :expressions_engine, :expressions_search
+    :settings, :show, :collect, :team, :activity, :logo, :archive,
+    :calendar, :reports, :expressions, :expressions_engine, :expressions_search
   ]
 
   # GET /projects/1/expressions

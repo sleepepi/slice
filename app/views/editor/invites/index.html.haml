@@ -1,0 +1,45 @@
+- @title = "Invites"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header do
+  .float-right
+    = link_to plus_or("New Invite"), new_editor_project_invite_path(@project), class: "btn btn-accent btn-shadow"
+  = @title
+
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @invites.total_count
+  %ol
+    %li= link_to "team", team_project_path(@project)
+    %li.breadcrumb-muted invites
+
+- if @invites.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col
+      %col
+      %col{ width: "1px" }
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th Role
+          %th Subgroup
+          %th Email
+          %th.text-center Claimed
+          %th.text-center Actions
+
+      %tbody
+        - @invites.each do |invite|
+          %tr
+            %td= link_to invite.role_name, editor_project_invite_path(@project, invite)
+            %td= invite.subgroup&.name
+            %td= invite.email
+            %td.text-center= simple_check invite.claimed?
+            %td= link_to "delete", editor_project_invite_path(@project, invite), method: :delete, data: { confirm: "Delete invite for #{invite.email}?"}
+
+  .center-horizontally= paginate @invites, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No invites found.

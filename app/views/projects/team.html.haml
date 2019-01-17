@@ -2,7 +2,10 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-- content_for :header, @title
+- content_for :header do
+  - if @project.editable_by?(current_user)
+    .float-right= link_to "New invite", new_editor_project_invite_path(@project), class: "btn btn-accent btn-shadow"
+  = @title
 
 - if @project.editable_by?(current_user)
   #invite-container.dashboard-container

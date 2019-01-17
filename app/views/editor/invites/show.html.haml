@@ -1,0 +1,25 @@
+- @title = @invite.email
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "team", team_project_path(@project)
+    %li= link_to "invites", editor_project_invites_path(@project)
+    %li.breadcrumb-muted= @invite.email.downcase
+
+.dashboard-container
+  = render "forms/horizontal/show/text", object: @invite, key: :email
+  = render "forms/horizontal/show/generic", title: "Invited by", content: @invite.inviter.full_name
+  = render "forms/horizontal/show/text", object: @invite, key: :invite_token
+  = render "forms/horizontal/show/text", object: @invite, key: :role
+  = render "forms/horizontal/show/text", object: @invite, key: :subgroup
+  = render "forms/horizontal/show/check_box", object: @invite, key: :claimed?
+
+  = render "forms/horizontal/show/text", object: @invite, key: :subgroup_type
+  = render "forms/horizontal/show/text", object: @invite, key: :subgroup_id
+
+

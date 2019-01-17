@@ -73,6 +73,7 @@ class Project < ApplicationRecord
   has_many :tasks, -> { current }
   has_many :treatment_arms, -> { current.joins(:randomization_scheme).merge(RandomizationScheme.current) }
   has_many :grid_variables
+  has_many :invites
 
   # Methods
 

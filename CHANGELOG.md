@@ -5,6 +5,7 @@
   - A new team-based review process for adverse event is now available
 - **Project Changes**
   - Improved display of project modules on the project settings page
+  - Improved and unified project invites to incorporate AE review team invites
 - **Gem Changes**
   - Update to bootstrap 4.2.1
   - Update to carrierwave 1.3.1

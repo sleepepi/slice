@@ -1,0 +1,58 @@
+- url = invite.new_record? ? editor_project_invites_path(project) : editor_project_invite_path(project, invite)
+- method = invite.new_record? ? :post : :patch
+= form_with model: [project, invite], url: url, method: method, local: true do |form|
+  = form.hidden_field :subgroup_type
+  = form.hidden_field :subgroup_id
+
+  = render "forms/horizontal/email_field", form: form, object: invite, key: :email
+
+  .form-group.row
+    = label_tag "Role level", nil, class: "col-md-2 col-form-label"
+    .col-md-10
+      .btn-group.btn-group-toggle{ data: { toggle: "buttons" } }
+        - [["Project", "project"], ["Site", "site"], ["AE Team", "ae_review"]].each do |label, value|
+          = form.label :role_level, value: value, class: "btn btn-primary#{" active" if invite.role_level == value}", data: { object: "role-level" } do
+            = form.radio_button :role_level, value
+            = label
+
+  .form-group.row
+    = label_tag "On", nil, class: "col-md-2 col-form-label"
+    .col-md-10
+      %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
+        = project.name
+
+      %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
+        - project.sites.each do |site|
+          .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "Site" } }
+            = form.radio_button :site_id, site.id, class: "custom-control-input"
+            = form.label :site_id, site.name, value: site.id, class: "custom-control-label"
+
+      %div{ style: invite.role_level == "ae_review" ? nil : "display: none", data: { roles: "ae_review" } }
+        - project.ae_teams.each do |team|
+          .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "AeTeam" } }
+            = form.radio_button :team_id, team.id, class: "custom-control-input"
+            = form.label :team_id, team.name, value: team.id, class: "custom-control-label"
+
+  .form-group.row
+    = label_tag "Role", nil, class: "col-md-2 col-form-label"
+    .col-md-10
+      %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
+        - Invite::PROJECT_ROLES.each do |label, value|
+          .custom-control.custom-radio
+            = form.radio_button :role, value, class: "custom-control-input"
+            = form.label :role, label, value: value, class: "custom-control-label"
+
+      %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
+        - Invite::SITE_ROLES.each do |label, value|
+          .custom-control.custom-radio
+            = form.radio_button :role, value, class: "custom-control-input"
+            = form.label :role, label, value: value, class: "custom-control-label"
+
+      %div{ style: invite.role_level == "ae_review" ? nil : "display: none", data: { roles: "ae_review" } }
+        - Invite::AE_TEAM_ROLES.each do |label, value|
+          .custom-control.custom-radio
+            = form.radio_button :role, value, class: "custom-control-input"
+            = form.label :role, label, value: value, class: "custom-control-label"
+
+  = render "forms/horizontal/submit", form: form, object: invite, submit_text: "Send invite", cancel: false
+

@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+# Allows project editors to invite users to project, sites, and AE teams.
+class Editor::InvitesController < Editor::EditorController
+  before_action :find_invite_or_redirect, only: [:show, :edit, :update, :destroy]
+
+  layout "layouts/full_page_sidebar_dark"
+
+  # GET /editor/projects/:project_id/invites
+  def index
+    @invites = @project.invites.page(params[:page]).per(20)
+  end
+
+  # GET /editor/projects/:project_id/invites/new
+  def new
+    @invite = @project.invites.new(role_level: "project")
+  end
+
+  # POST /editor/projects/:project_id/invites
+  def create
+    @invite = @project.invites.where(inviter: current_user).new(invite_params)
+    if @invite.save
+      redirect_to editor_project_invites_path(@project), notice: "Invite was successfully sent."
+    else
+      render :new
+    end
+  end
+
+  # # GET /editor/projects/:project_id/invites/:id/edit
+  # def edit
+  # end
+
+  # PATCH /editor/projects/:project_id/invites/:id
+  def update
+    if @invite.update(category_params)
+      redirect_to editor_project_invite_path(@project, @invite), notice: "Invite was successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  # DELETE /editor/projects/:project_id/invites/:id
+  def destroy
+    @invite.destroy
+    redirect_to editor_project_invites_path(@project), notice: "Invite was successfully deleted."
+  end
+
+  private
+
+  def find_invite_or_redirect
+    @invite = @project.invites.find_by(id: params[:id])
+    empty_response_or_root_path(editor_project_invites_path(@project)) unless @invite
+  end
+
+  def invite_params
+    params.require(:invite).permit(
+      :email, :role, :subgroup_type, :subgroup_id,
+      # For selection and filtering of roles.
+      :role_level
+    )
+  end
+end
