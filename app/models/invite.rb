@@ -37,6 +37,7 @@ class Invite < ApplicationRecord
   validates :email, :role, presence: true
   validates :invite_token, uniqueness: true, allow_nil: true
   validates :role, inclusion: { in: ROLES.collect(&:second) }
+  validate :roles_with_subgroups
 
   # Relationships
   belongs_to :project
@@ -54,6 +55,19 @@ class Invite < ApplicationRecord
   end
 
   private
+
+  def roles_with_subgroups
+    errors.add(:site, "must be selected") if requires_site?
+    errors.add(:team, "must be selected") if requires_team?
+  end
+
+  def requires_site?
+    (role.in?(SITE_ROLES.collect(&:second)) || role_level == "site") && subgroup.class != Site
+  end
+
+  def requires_team?
+    (role.in?(AE_TEAM_ROLES.collect(&:second)) || role_level == "ae_team") && subgroup.class != AeTeam
+  end
 
   def set_invite_token
     return if invite_token.present?

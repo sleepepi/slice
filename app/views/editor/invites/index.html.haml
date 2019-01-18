@@ -34,7 +34,7 @@
         - @invites.each do |invite|
           %tr
             %td= link_to invite.role_name, editor_project_invite_path(@project, invite)
-            %td= invite.subgroup&.name
+            %td= invite.subgroup&.short_name
             %td= invite.email
             %td.text-center= simple_check invite.claimed?
             %td= link_to "delete", editor_project_invite_path(@project, invite), method: :delete, data: { confirm: "Delete invite for #{invite.email}?"}

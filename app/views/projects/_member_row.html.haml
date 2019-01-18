@@ -13,7 +13,7 @@
       - if member.unblinded?
         = icon("far", "eye", class: "text-muted")
       - else
-        = icon("far", "eye-slash", class: "text-danger")
+        = icon("fas", "blind", class: "text-danger")
   %td.d-none.d-sm-table-cell
     = member.creator.nickname if member.creator
   %td.nowrap.text-center
@@ -33,7 +33,7 @@
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("far", "eye-slash")
+                    = icon("fas", "blind")
                     Set as blinded
                 - else
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
@@ -62,7 +62,7 @@
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("far", "eye-slash")
+                    = icon("fas", "blind")
                     Set as blinded
                 - else
                   = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do

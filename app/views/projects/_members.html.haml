@@ -1,8 +1,4 @@
-.dashboard-container.dashboard-table
-  - if @project.editable_by?(current_user)
-    .float-right.px-2.py-1
-      = link_to "Create Site", new_project_site_path(@project), class: "btn btn-sm btn-primary btn-shadow"
-
+.dashboard-container
   %h3.px-2.py-1 Project Members
 
   %table.table.table-borderless.table-hover.table-sticky
@@ -38,7 +34,7 @@
         = render "projects/member_row", member: project_user
 
 - @project.sites.order(:name).each do |site|
-  .dashboard-container.dashboard-table
+  .dashboard-container
     %h3.px-2.py-1
       .d-none.d-sm-inline= site.name
       .d-inline.d-sm-none= site.short_name

@@ -32,7 +32,7 @@ class Editor::InvitesController < Editor::EditorController
 
   # PATCH /editor/projects/:project_id/invites/:id
   def update
-    if @invite.update(category_params)
+    if @invite.update(invite_params)
       redirect_to editor_project_invite_path(@project, @invite), notice: "Invite was successfully updated."
     else
       render :edit

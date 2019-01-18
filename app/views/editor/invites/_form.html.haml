@@ -3,14 +3,15 @@
 = form_with model: [project, invite], url: url, method: method, local: true do |form|
   = form.hidden_field :subgroup_type
   = form.hidden_field :subgroup_id
-
   = render "forms/horizontal/email_field", form: form, object: invite, key: :email
 
   .form-group.row
     = label_tag "Role level", nil, class: "col-md-2 col-form-label"
     .col-md-10
       .btn-group.btn-group-toggle{ data: { toggle: "buttons" } }
-        - [["Project", "project"], ["Site", "site"], ["AE Team", "ae_review"]].each do |label, value|
+        - role_levels = [["Project", "project"], ["Site", "site"]]
+        - role_levels << ["AE Team", "ae_team"] if @project.ae_teams_enabled?
+        - role_levels.each do |label, value|
           = form.label :role_level, value: value, class: "btn btn-primary#{" active" if invite.role_level == value}", data: { object: "role-level" } do
             = form.radio_button :role_level, value
             = label
@@ -24,14 +25,23 @@
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
         - project.sites.each do |site|
           .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "Site" } }
-            = form.radio_button :site_id, site.id, class: "custom-control-input"
+            = form.radio_button :site_id, site.id, checked: (invite.subgroup_type == "Site" && invite.subgroup_id == site.id), class: "custom-control-input"
             = form.label :site_id, site.name, value: site.id, class: "custom-control-label"
 
-      %div{ style: invite.role_level == "ae_review" ? nil : "display: none", data: { roles: "ae_review" } }
-        - project.ae_teams.each do |team|
-          .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "AeTeam" } }
-            = form.radio_button :team_id, team.id, class: "custom-control-input"
-            = form.label :team_id, team.name, value: team.id, class: "custom-control-label"
+        - if invite.errors[:site].present?
+          %small.text-danger
+            Site must be selected.
+
+      - if @project.ae_teams_enabled?
+        %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
+          - project.ae_teams.each do |team|
+            .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "AeTeam" } }
+              = form.radio_button :team_id, team.id, checked: (invite.subgroup_type == "AeTeam" && invite.subgroup_id == team.id), class: "custom-control-input"
+              = form.label :team_id, team.name, value: team.id, class: "custom-control-label"
+
+          - if invite.errors[:team].present?
+            %small.text-danger
+              Team must be selected.
 
   .form-group.row
     = label_tag "Role", nil, class: "col-md-2 col-form-label"
@@ -48,11 +58,16 @@
             = form.radio_button :role, value, class: "custom-control-input"
             = form.label :role, label, value: value, class: "custom-control-label"
 
-      %div{ style: invite.role_level == "ae_review" ? nil : "display: none", data: { roles: "ae_review" } }
-        - Invite::AE_TEAM_ROLES.each do |label, value|
-          .custom-control.custom-radio
-            = form.radio_button :role, value, class: "custom-control-input"
-            = form.label :role, label, value: value, class: "custom-control-label"
+      - if @project.ae_teams_enabled?
+        %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
+          - Invite::AE_TEAM_ROLES.each do |label, value|
+            .custom-control.custom-radio
+              = form.radio_button :role, value, class: "custom-control-input"
+              = form.label :role, label, value: value, class: "custom-control-label"
+
+      - if invite.errors[:role].present?
+        %small.text-danger
+          Role must be selected.
 
   = render "forms/horizontal/submit", form: form, object: invite, submit_text: "Send invite", cancel: false
 
