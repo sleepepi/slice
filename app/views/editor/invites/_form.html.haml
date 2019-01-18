@@ -1,3 +1,4 @@
+- min_number_for_dropdown = 5
 - url = invite.new_record? ? editor_project_invites_path(project) : editor_project_invite_path(project, invite)
 - method = invite.new_record? ? :post : :patch
 = form_with model: [project, invite], url: url, method: method, local: true do |form|
@@ -23,10 +24,13 @@
         = project.name
 
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
-        - project.sites.each do |site|
-          .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "Site" } }
-            = form.radio_button :site_id, site.id, checked: (invite.subgroup_type == "Site" && invite.subgroup_id == site.id), class: "custom-control-input"
-            = form.label :site_id, site.name, value: site.id, class: "custom-control-label"
+        - if project.sites.count >= min_number_for_dropdown
+          = form.select :site_id, project.sites.order(:name).pluck(:name, :id), { selected: invite.subgroup_type == "Site" ? invite.subgroup_id : nil, include_blank: "Select Site" }, class: "custom-select#{" is-invalid" if invite.errors[:site].present?}", data: { object: "role-selection-dropdown", subgroup_type: "Site" }
+        - else
+          - project.sites.each do |site|
+            .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "Site" } }
+              = form.radio_button :site_id, site.id, checked: (invite.subgroup_type == "Site" && invite.subgroup_id == site.id), class: "custom-control-input"
+              = form.label :site_id, site.name, value: site.id, class: "custom-control-label"
 
         - if invite.errors[:site].present?
           %small.text-danger
@@ -34,10 +38,13 @@
 
       - if @project.ae_teams_enabled?
         %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
-          - project.ae_teams.each do |team|
-            .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "AeTeam" } }
-              = form.radio_button :team_id, team.id, checked: (invite.subgroup_type == "AeTeam" && invite.subgroup_id == team.id), class: "custom-control-input"
-              = form.label :team_id, team.name, value: team.id, class: "custom-control-label"
+          - if project.ae_teams.count >= min_number_for_dropdown
+            = form.select :team_id, project.ae_teams.order(:name).pluck(:name, :id), { selected: invite.subgroup_type == "AeTeam" ? invite.subgroup_id : nil, include_blank: "Select Team" }, class: "custom-select#{" is-invalid" if invite.errors[:team].present?}", data: { object: "role-selection-dropdown", subgroup_type: "AeTeam" }
+          - else
+            - project.ae_teams.each do |team|
+              .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "AeTeam" } }
+                = form.radio_button :team_id, team.id, checked: (invite.subgroup_type == "AeTeam" && invite.subgroup_id == team.id), class: "custom-control-input"
+                = form.label :team_id, team.name, value: team.id, class: "custom-control-label"
 
           - if invite.errors[:team].present?
             %small.text-danger

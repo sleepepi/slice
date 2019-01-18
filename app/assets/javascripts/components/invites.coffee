@@ -7,6 +7,7 @@ $(document)
 
     $("#invite_subgroup_type").val("")
     $("#invite_subgroup_id").val("")
+    $("[data-object~=role-selection-dropdown]").val("")
     $("[name=\"invite[team_id]\"]").prop("checked", false)
     $("[name=\"invite[site_id]\"]").prop("checked", false)
 
@@ -20,6 +21,14 @@ $(document)
     if $(this).find("input").prop("checked") == true
       $("#invite_subgroup_type").val($(this).data("subgroup-type"))
       $("#invite_subgroup_id").val($(this).find("input").val())
+    else
+      $("#invite_subgroup_type").val("")
+      $("#invite_subgroup_id").val("")
+  )
+  .on("change", "[data-object~=role-selection-dropdown]", ->
+    if !!$(this).val()
+      $("#invite_subgroup_type").val($(this).data("subgroup-type"))
+      $("#invite_subgroup_id").val($(this).val())
     else
       $("#invite_subgroup_type").val("")
       $("#invite_subgroup_id").val("")
