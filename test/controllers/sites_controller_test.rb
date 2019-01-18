@@ -45,7 +45,7 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
     end
     sites(:default_site).reload
     assert_equal "Default Site", sites(:default_site).short_name
-    assert_redirected_to invite_editor_project_url(projects(:default))
+    assert_redirected_to settings_editor_project_url(projects(:default))
   end
 
   test "should get create site and remove default site short name" do
@@ -59,7 +59,7 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
     end
     sites(:default_site).reload
     assert_equal "NN", sites(:default_site).short_name
-    assert_redirected_to invite_editor_project_url(projects(:default))
+    assert_redirected_to settings_editor_project_url(projects(:default))
   end
 
   test "should get create sites" do
@@ -72,7 +72,7 @@ class SitesControllerTest < ActionDispatch::IntegrationTest
         ]
       }
     end
-    assert_redirected_to invite_editor_project_url(@project)
+    assert_redirected_to settings_editor_project_url(@project)
   end
 
   test "should get index" do

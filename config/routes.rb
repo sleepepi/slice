@@ -194,11 +194,7 @@ Rails.application.routes.draw do
   namespace :editor do
     resources :projects, only: [:edit, :update] do
       member do
-        post :invite_user
         get :settings
-        get :invite
-        post :add_invite_row, path: "add-site-row"
-        post :send_invites, path: "send-invites"
         get :advanced
         get :setup_designs, path: "setup-designs"
         post :submit_designs, path: "submit-designs"

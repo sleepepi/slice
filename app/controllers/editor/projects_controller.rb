@@ -15,27 +15,6 @@ class Editor::ProjectsController < ApplicationController
   # def advanced
   # end
 
-  # # GET /editor/projects/1/invite
-  # def invite
-  # end
-
-  # # POST /add-invite-row.js
-  # def add_invite_row
-  # end
-
-  # POST /send-invites.js
-  def send_invites
-    params[:invites].select { |hash| hash[:email].to_s.strip.present? }.each do |hash|
-      create_member_invite_from_hash(hash)
-    end
-    redirect_to settings_editor_project_path(@project)
-  end
-
-  # POST /editor/projects/1/invite_user.js
-  def invite_user
-    create_member_invite
-  end
-
   # # GET /editor/projects/1/edit
   # def edit
   # end
@@ -108,14 +87,6 @@ class Editor::ProjectsController < ApplicationController
     site_id = params[:site_id]
     editor = editor_generic(params[:editor])
     unblinded = unblinded_generic(params[:unblinded])
-    add_or_invite_member(email, editor, unblinded, site_id)
-  end
-
-  def create_member_invite_from_hash(hash)
-    email = hash[:email].to_s.strip
-    site_id = hash[:site_id]
-    editor = editor_generic(hash[:editor])
-    unblinded = unblinded_generic(hash[:unblinded])
     add_or_invite_member(email, editor, unblinded, site_id)
   end
 

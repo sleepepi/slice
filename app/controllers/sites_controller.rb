@@ -37,7 +37,7 @@ class SitesController < ApplicationController
         @project.sites.create name: hash[:name], user_id: current_user.id
       end
     end
-    redirect_to invite_editor_project_path(@project)
+    redirect_to settings_editor_project_path(@project)
   end
 
   # GET /sites
