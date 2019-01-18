@@ -4,7 +4,13 @@
 = form_with model: [project, invite], url: url, method: method, local: true do |form|
   = form.hidden_field :subgroup_type
   = form.hidden_field :subgroup_id
-  = render "forms/horizontal/email_field", form: form, object: invite, key: :email
+  - if invite.new_record?
+    = render "forms/horizontal/email_field", form: form, object: invite, key: :email
+  - else
+    .form-group.row
+      .col-md-2.col-form-label Email
+      .col-md-10
+        .form-control-plaintext= invite.email
 
   .form-group.row
     = label_tag "Role level", nil, class: "col-md-2 col-form-label"
@@ -21,6 +27,7 @@
     = label_tag "On", nil, class: "col-md-2 col-form-label"
     .col-md-10
       %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
+        = icon("fas", "dot-circle", class: "text-primary mr-1")
         = project.name
 
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
@@ -54,27 +61,34 @@
     = label_tag "Role", nil, class: "col-md-2 col-form-label"
     .col-md-10
       %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
-        - Invite::PROJECT_ROLES.each do |label, value|
+        - roles = Invite::PROJECT_ROLES.dup
+        - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
+        - roles.reject! { |h| h[:adverse_events] } unless @project.ae_teams_enabled?
+        - roles.each do |hash|
+          - name = @project.blinding_enabled? ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded" if hash[:adverse_events] == false}" : hash[:name]
           .custom-control.custom-radio
-            = form.radio_button :role, value, class: "custom-control-input"
-            = form.label :role, label, value: value, class: "custom-control-label"
+            = form.radio_button :role, hash[:role], class: "custom-control-input"
+            = form.label :role, name, value: hash[:role], class: "custom-control-label"
 
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
-        - Invite::SITE_ROLES.each do |label, value|
+        - roles = Invite::SITE_ROLES.dup
+        - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
+        - roles.each do |hash|
+          - name = @project.blinding_enabled? ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded"}" : hash[:name]
           .custom-control.custom-radio
-            = form.radio_button :role, value, class: "custom-control-input"
-            = form.label :role, label, value: value, class: "custom-control-label"
+            = form.radio_button :role, hash[:role], class: "custom-control-input"
+            = form.label :role, name, value: hash[:role], class: "custom-control-label"
 
       - if @project.ae_teams_enabled?
         %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
-          - Invite::AE_TEAM_ROLES.each do |label, value|
+          - Invite::AE_TEAM_ROLES.each do |hash|
             .custom-control.custom-radio
-              = form.radio_button :role, value, class: "custom-control-input"
-              = form.label :role, label, value: value, class: "custom-control-label"
+              = form.radio_button :role, hash[:role], class: "custom-control-input"
+              = form.label :role, hash[:name], value: hash[:role], class: "custom-control-label"
 
       - if invite.errors[:role].present?
         %small.text-danger
           Role must be selected.
 
-  = render "forms/horizontal/submit", form: form, object: invite, submit_text: "Send invite", cancel: false
+  = render "forms/horizontal/submit", form: form, object: invite, submit_text: invite.new_record? ? "Send invite" : "Update invite", cancel: invite.new_record? ? false : editor_project_invite_path(project, invite)
 

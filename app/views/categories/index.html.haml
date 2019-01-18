@@ -24,7 +24,7 @@
           = th_sort_field @order, "categories.position", "Position", extra_class: "text-center"
           = th_sort_field @order, "categories.name", "Name"
           %th.d-none.d-md-table-cell.text-center Use for adverse events
-          %th Actions
+          %th.text-center Actions
 
       %tbody
         - @categories.each do |category|
@@ -32,7 +32,7 @@
             %td.text-center= category.position
             %td= link_to category.name, [@project, category]
             %td.d-none.d-md-table-cell.text-center= simple_check category.use_for_adverse_events
-            %td.nowrap
+            %td.nowrap.text-center
               = render "layouts/edit_delete_dropdown", edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Delete \"#{category.name}\" category?"
 - else
   .jumbotron.jumbotron-custom-text

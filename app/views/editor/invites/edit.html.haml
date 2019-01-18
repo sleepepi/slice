@@ -1,0 +1,9 @@
+- @title = "Edit Invite"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+
+- content_for :header do
+  Edit Invite
+
+.dashboard-container= render "form", project: @project, invite: @invite

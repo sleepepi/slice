@@ -5,38 +5,49 @@
 class Invite < ApplicationRecord
   # Constants
   PROJECT_ROLES = [
-    ["Project Editor - Unblinded", "project_editor_unblinded"],
-    ["Project Viewer - Unblinded", "project_viewer_unblinded"],
-    ["Project Editor - Blinded", "project_editor_blinded"],
-    ["Project Viewer - Blinded", "project_viewer_blinded"],
-    ["AE Review Admin", "ae_admin"]
+    { name: "Project Editor", role: "project_editor_unblinded", blinded: false, adverse_events: false },
+    { name: "Project Viewer", role: "project_viewer_unblinded", blinded: false, adverse_events: false },
+    { name: "Project Editor", role: "project_editor_blinded", blinded: true, adverse_events: false },
+    { name: "Project Viewer", role: "project_viewer_blinded", blinded: true, adverse_events: false },
+    { name: "AE Review Admin", role: "ae_admin", blinded: false, adverse_events: true }
   ]
 
   SITE_ROLES = [
-    ["Site Editor - Unblinded", "site_editor_unblinded"],
-    ["Site Viewer - Unblinded", "site_viewer_unblinded"],
-    ["Site Editor - Blinded", "site_editor_blinded"],
-    ["Site Viewer - Blinded", "site_viewer_blinded"]
+    { name: "Site Editor", role: "site_editor_unblinded", blinded: false, adverse_events: false },
+    { name: "Site Viewer", role: "site_viewer_unblinded", blinded: false, adverse_events: false },
+    { name: "Site Editor", role: "site_editor_blinded", blinded: true, adverse_events: false },
+    { name: "Site Viewer", role: "site_viewer_blinded", blinded: true, adverse_events: false }
   ]
 
   AE_TEAM_ROLES = [
-    ["AE Team Manager", "ae_team_manager"],
-    ["AE Team Principal Reviewer", "ae_team_principal_reviewer"],
-    ["AE Team Reviewer", "ae_team_reviewer"],
-    ["AE Team Viewer", "ae_team_viewer"]
+    { name: "AE Team Manager", role: "ae_team_manager", blinded: false, adverse_events: true },
+    { name: "AE Team Principal Reviewer", role: "ae_team_principal_reviewer", blinded: false, adverse_events: true },
+    { name: "AE Team Reviewer", role: "ae_team_reviewer", blinded: false, adverse_events: true },
+    { name: "AE Team Viewer", role: "ae_team_viewer", blinded: false, adverse_events: true }
   ]
 
   ROLES = PROJECT_ROLES + SITE_ROLES + AE_TEAM_ROLES
 
-  attr_accessor :role_level
+  ORDERS = {
+    "subgroup desc" => "invites.subgroup_type desc, invites.subgroup_id desc",
+    "subgroup" => "invites.subgroup_type, invites.subgroup_id",
+    "email desc" => "invites.email desc",
+    "email" => "invites.email",
+    "role desc" => "invites.role desc",
+    "role" => "invites.role",
+    "status desc" => "invites.accepted_at desc nulls last, invites.declined_at desc nulls last",
+    "status" => "invites.accepted_at nulls first, invites.declined_at nulls first"
+  }
+  DEFAULT_ORDER = "invites.role"
 
-  # Callbacks
-  after_create_commit :set_invite_token
+  # Concerns
+  include Searchable
+
+  attr_writer :role_level
 
   # Validations
   validates :email, :role, presence: true
-  validates :invite_token, uniqueness: true, allow_nil: true
-  validates :role, inclusion: { in: ROLES.collect(&:second) }
+  validates :role, inclusion: { in: ROLES.collect { |h| h[:role] } }
   validate :roles_with_subgroups
 
   # Relationships
@@ -46,12 +57,42 @@ class Invite < ApplicationRecord
 
   # Methods
 
-  def claimed?
-    !claimed_at.nil?
+  def self.searchable_attributes
+    %w(email role)
+  end
+
+  def accepted?
+    !accepted_at.nil?
+  end
+
+  def declined?
+    !declined_at.nil?
   end
 
   def role_name
-    ROLES.find { |_name, value| value == role }&.first
+    hash = ROLES.find { |h| h[:role] == role }
+    if hash && project.blinding_enabled? && hash[:adverse_events] == false
+      "#{hash[:name]} #{hash[:blinded] ? " - Blinded" : " - Unblinded"}"
+    elsif hash
+      hash[:name]
+    end
+  end
+
+  def role_level
+    return @role_level if new_record?
+
+    case subgroup.class.to_s
+    when "Site"
+      "site"
+    when "AeTeam"
+      "ae_team"
+    else
+      "project"
+    end
+  end
+
+  def email=(email)
+    super(email.try(:downcase).try(:squish))
   end
 
   private
@@ -62,18 +103,10 @@ class Invite < ApplicationRecord
   end
 
   def requires_site?
-    (role.in?(SITE_ROLES.collect(&:second)) || role_level == "site") && subgroup.class != Site
+    (role.in?(SITE_ROLES.collect { |h| h[:role] }) || role_level == "site") && subgroup.class != Site
   end
 
   def requires_team?
-    (role.in?(AE_TEAM_ROLES.collect(&:second)) || role_level == "ae_team") && subgroup.class != AeTeam
-  end
-
-  def set_invite_token
-    return if invite_token.present?
-
-    update invite_token: SecureRandom.hex(12)
-  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
-    retry
+    (role.in?(AE_TEAM_ROLES.collect { |h| h[:role] }) || role_level == "ae_team") && subgroup.class != AeTeam
   end
 end

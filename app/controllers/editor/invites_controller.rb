@@ -8,7 +8,8 @@ class Editor::InvitesController < Editor::EditorController
 
   # GET /editor/projects/:project_id/invites
   def index
-    @invites = @project.invites.page(params[:page]).per(20)
+    scope = @project.invites.search_any_order(params[:search])
+    @invites = scope_order(scope).page(params[:page]).per(20)
   end
 
   # GET /editor/projects/:project_id/invites/new
@@ -33,7 +34,7 @@ class Editor::InvitesController < Editor::EditorController
   # PATCH /editor/projects/:project_id/invites/:id
   def update
     if @invite.update(invite_params)
-      redirect_to editor_project_invite_path(@project, @invite), notice: "Invite was successfully updated."
+      redirect_to editor_project_invites_path(@project), notice: "Invite was successfully updated."
     else
       render :edit
     end
@@ -58,5 +59,10 @@ class Editor::InvitesController < Editor::EditorController
       # For selection and filtering of roles.
       :role_level
     )
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(Arel.sql(Invite::ORDERS[params[:order]] || Invite::DEFAULT_ORDER))
   end
 end
