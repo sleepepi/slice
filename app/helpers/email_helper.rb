@@ -3,7 +3,7 @@
 # Helper functions for application emails
 module EmailHelper
   def emphasis_color
-    "#4bbf74"
+    "#424242"
   end
 
   def muted_color
@@ -15,7 +15,7 @@ module EmailHelper
   end
 
   def background_color
-    "#439fe0"
+    "#2196f3"
   end
 
   def banner_color
@@ -23,7 +23,7 @@ module EmailHelper
   end
 
   def link_color
-    "#439fe0"
+    "#2196f3"
   end
 
   def center_style

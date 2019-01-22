@@ -62,7 +62,6 @@
       %col
       - if @project.blinding_enabled?
         %col
-      %col.d-none.d-sm-table-column
       %col{ width: "1px" }
       %thead
         %tr
@@ -70,7 +69,6 @@
           %th Role
           - if @project.blinding_enabled?
             %th.text-center Blinding
-          %th.d-none.d-sm-table-cell Invited By
           %th.text-center Actions
       - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
         = render "projects/member_row", member: member

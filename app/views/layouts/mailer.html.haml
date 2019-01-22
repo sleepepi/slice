@@ -5,42 +5,38 @@
     :css
       -# Email styles need to be inline
   %body
-    %div{ style: "background:#{background_color};color:#373737;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;line-height:24px;max-width:100%;width:100%!important;margin:0 auto;padding:0" }
-      %table{ border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse:collapse;line-height:24px;margin:0;padding:0;width:100%;font-size:17px;color:#373737;background:#{background_color}", width: "100%" }
+    %div{ style: "background: #{background_color};color: #373737;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 17px;line-height: 24px;max-width: 100%;width: 100% !important;margin: 0 auto;padding: 0;" }
+      %table{ border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse: collapse;line-height: 24px;margin: 0;padding: 0;width: 100%;font-size: 17px;color: #373737;background: #{background_color};", width: "100%" }
         %tbody
           %tr
-            %td{ style: "border-collapse:collapse", valign: "top" }
-              %table{ border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse:collapse", width: "100%" }
+            %td{ style: "border-collapse: collapse;", valign: "top" }
+              %table{ border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse: collapse;", width: "100%" }
                 %tbody
                   %tr
-                    %td{ style: "border-collapse:collapse;padding:20px 16px 12px", valign: "bottom" }
-                      %div{ style: "text-align:center;color:white;word-break:break-word;line-height:28px;font-size:24px;" }
-                        = ENV["website_name"]
+                    %td{ style: "border-collapse: collapse;padding: 20px 16px 12px;", valign: "bottom" }
+                      %div{ style: "text-align: center;color: white;word-break: break-word;line-height: 28px;font-size: 24px;" }
+                        = image_tag attachments.inline["slice-logo.png"].url, alt: ENV["website_name"], border: 0, width: 300, height: 100, style: "outline: none;text-decoration: none;border: none;width: 300px;min-height: 36px;max-width: 100%;" if attachments.inline["slice-logo.png"]
           %tr
-            %td{ style: "border-collapse:collapse", valign: "top" }
+            %td{ style: "border-collapse: collapse;padding: 0 0 32px;", valign: "top" }
               -# Table can be repeated for multiple sections
-              %table{ align: "center", border: "0", cellpadding: "32", cellspacing: "0", style: "border-collapse:collapse;background:white;" }
+              %table{ align: "center", border: "0", cellpadding: "32", cellspacing: "0", style: "border-collapse: collapse;background: white;" }
                 %tbody
                   %tr
-                    %td{ style: "border-collapse:collapse", valign: "top", width: "546" }
-                      %div{ style: "max-width:600px;margin:0 auto;" }
+                    %td{ style: "border-collapse: collapse;", valign: "top", width: "546" }
+                      %div{ style: "max-width: 600px;margin: 0 auto;" }
                         = yield
               = yield :extra_blocks
           %tr
-            %td{ style: "border-collapse:collapse" }
-              %table{ align: "center", border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse:collapse;background:white;color:#999999", width: "100%" }
+            %td{ style: "border-collapse: collapse;" }
+              %table{ align: "center", border: "0", cellpadding: "0", cellspacing: "0", style: "border-collapse: collapse;background: white;color: #989ea6;", width: "100%" }
                 %tbody
                   %tr
-                    %td{ style: "border-collapse:collapse;background-color:#{background_color}" }
-                      %div{ style: "height:32px;line-height:32px;font-size:1px;" } &nbsp;
+                    %td{ style: "border-collapse: collapse;background-color: #{banner_color};height: 5px;line-height: 5px;font-size: 5px;" } &nbsp;
                   %tr
-                    %td{ style: "border-collapse:collapse;background-color:#{banner_color};" }
-                      %div{ style: "height:5px;line-height:5px;font-size:1px;" } &nbsp;
-                  %tr
-                    %td{ align: "center", style: "border-collapse:collapse;padding:16px 8px 24px", valign: "top" }
-                      %div{ style: "max-width:600px;margin:0 auto" }
-                        %p{ style: "font-size:12px;line-height:20px;margin:0;padding:16px 0;" }
-                          %span{ style: "max-width:380px;display:block;" }
+                    %td{ align: "center", style: "border-collapse: collapse;padding: 16px 8px 24px;", valign: "top" }
+                      %div{ style: "max-width: 600px;margin: 0 auto;" }
+                        %p{ style: "font-size: 12px;line-height: 20px;margin: 0 0 16px;margin-top: 16px;" }
+                          %span{ style: "max-width: 380px;display: block;" }
                             This email was sent to
                             = succeed "." do
                               %a{ href: "http://#{@email_to}", style: link_style, target: "_blank" }= @email_to
@@ -48,13 +44,11 @@
                             You may
                             = succeed "." do
                               %a{ href: "#{ENV["website_url"]}/settings", style: link_style, target: "_blank" } change your email preferences here
-                        %div{ style: image_style }
-                          = image_tag attachments.inline["slice-logo.png"].url, alt: ENV["website_name"], border: 0, width: 64, height: 64, style: "outline:none;text-decoration:none;border:none;width:64px;min-height:32px;max-width:100%" if attachments.inline["slice-logo.png"]
-                        %p{ style: "font-size:12px;line-height:20px;margin:0 0 16px;margin-top:16px" }
+                        %p{ style: "font-size: 12px;line-height: 20px;margin: 0 0 16px;margin-top: 16px;" }
                           %a{ href: ENV["website_url"], style: link_style, target: "_blank" }= ENV["website_name"]
                           \&nbsp;&bull;&nbsp;
-                          %a{ href: "#{ENV["website_url"]}/contact", style: link_style, target: "_blank" } Sleep and Circadian Disorders
+                          %a{ href: "#{ENV["website_url"]}", style: link_style, target: "_blank" } Sleep and Circadian Disorders
                           %br
-                            %a{ href: ENV["website_url"], style: "color:#989ea6;font-weight:normal;text-decoration:none;word-break:break-word" }
+                            %a{ href: "#{ENV["website_url"]}", style: "color: #989ea6;font-weight: normal;text-decoration: none;word-break: break-word;" }
                               221 Longwood Avenue, BLI 225 &nbsp;&bull;&nbsp; Boston, MA
                               \&nbsp;&bull;&nbsp; 02115

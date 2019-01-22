@@ -221,6 +221,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :invites, only: [:index, :show] do
+    member do
+      post :accept
+      post :decline
+    end
+  end
+
   namespace :project_preferences, path: "preferences" do
     patch :update
   end
@@ -396,14 +403,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :site_users do
-      member do
-        post :resend
-      end
-      collection do
-        get :accept
-      end
-    end
+    resources :site_users, only: [:update, :destroy]
 
     resources :subjects do
       member do
@@ -455,17 +455,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :project_users do
-    member do
-      post :resend
-    end
-    collection do
-      get :accept
-    end
-  end
-
-  get "invite/:invite_token" => "project_users#invite", as: :invite
-  get "site-invite/:site_invite_token" => "site_users#invite", as: :site_invite
+  resources :project_users, only: [:update, :destroy]
 
   devise_for :users,
              controllers: {

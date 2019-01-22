@@ -41,6 +41,7 @@ class Invite < ApplicationRecord
   DEFAULT_ORDER = "invites.role"
 
   # Concerns
+  include Forkable
   include Searchable
 
   attr_writer :role_level
@@ -56,9 +57,17 @@ class Invite < ApplicationRecord
   belongs_to :subgroup, polymorphic: true, optional: true
 
   # Methods
-
   def self.searchable_attributes
     %w(email role)
+  end
+
+  def accept!(current_user)
+    update accepted_at: Time.zone.now, declined_at: nil
+    generate_role!(current_user)
+  end
+
+  def decline!
+    update declined_at: Time.zone.now, accepted_at: nil
   end
 
   def accepted?
@@ -67,6 +76,10 @@ class Invite < ApplicationRecord
 
   def declined?
     !declined_at.nil?
+  end
+
+  def editable?
+    !accepted? && !declined?
   end
 
   def role_name
@@ -95,6 +108,10 @@ class Invite < ApplicationRecord
     super(email.try(:downcase).try(:squish))
   end
 
+  def send_email_in_background!
+    fork_process(:send_email!)
+  end
+
   private
 
   def roles_with_subgroups
@@ -108,5 +125,50 @@ class Invite < ApplicationRecord
 
   def requires_team?
     (role.in?(AE_TEAM_ROLES.collect { |h| h[:role] }) || role_level == "ae_team") && subgroup.class != AeTeam
+  end
+
+  def generate_role!(current_user)
+    case role
+    when "project_editor_unblinded"
+      project_user = project.project_users.where(user: current_user).first_or_create
+      project_user.update(editor: true, unblinded: true)
+    when "project_viewer_unblinded"
+      project_user = project.project_users.where(user: current_user).first_or_create
+      project_user.update(editor: false, unblinded: true)
+    when "project_editor_blinded"
+      project_user = project.project_users.where(user: current_user).first_or_create
+      project_user.update(editor: true, unblinded: false)
+    when "project_viewer_blinded"
+      project_user = project.project_users.where(user: current_user).first_or_create
+      project_user.update(editor: false, unblinded: false)
+    when "site_editor_unblinded"
+      site_user = project.site_users.where(site: subgroup, user: current_user).first_or_create
+      site_user.update(editor: true, unblinded: true)
+    when "site_viewer_unblinded"
+      site_user = project.site_users.where(site: subgroup, user: current_user).first_or_create
+      site_user.update(editor: false, unblinded: true)
+    when "site_editor_blinded"
+      site_user = project.site_users.where(site: subgroup, user: current_user).first_or_create
+      site_user.update(editor: true, unblinded: false)
+    when "site_viewer_blinded"
+      site_user = project.site_users.where(site: subgroup, user: current_user).first_or_create
+      site_user.update(editor: false, unblinded: false)
+    when "ae_admin"
+      project.ae_review_admins.where(user: current_user).first_or_create
+    when "ae_team_manager"
+      project.ae_team_members.where(ae_team: subgroup, user: current_user, manager: true).first_or_create
+    when "ae_team_principal_reviewer"
+      project.ae_team_members.where(ae_team: subgroup, user: current_user, principal_reviewer: true).first_or_create
+    when "ae_team_reviewer"
+      project.ae_team_members.where(ae_team: subgroup, user: current_user, reviewer: true).first_or_create
+    when "ae_team_viewer"
+      project.ae_team_members.where(ae_team: subgroup, user: current_user, viewer: true).first_or_create
+    end
+  end
+
+  def send_email!
+    return unless EMAILS_ENABLED
+
+    InviteMailer.invite(self).deliver_now
   end
 end

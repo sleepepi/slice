@@ -1,0 +1,21 @@
+%p{ style: p_style }
+  = @invite.inviter.full_name
+  invited you to join
+  = succeed "." do
+    %span{ style: emphasis_style }= @invite.project.name
+  Visit
+  = link_to "your dashboard", ENV["website_url"], style: link_style
+  to accept the invitation.
+
+%p{ style: p_style }
+  This invite is linked to the email
+  = succeed "." do
+    %span{ style: emphasis_style }= @invite.email
+  If you do not use this email for Slice, notify
+  = @invite.inviter.full_name
+  by replying to this email and include your preferred email address.
+
+%p{ style: p_style }
+  If you do not have a Slice account, you may
+  = link_to "register a new account", "#{ENV["website_url"]}/join", style: link_style
+  for free.

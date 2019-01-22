@@ -2,7 +2,8 @@
 
 # Allows project editors to invite users to project, sites, and AE teams.
 class Editor::InvitesController < Editor::EditorController
-  before_action :find_invite_or_redirect, only: [:show, :edit, :update, :destroy]
+  before_action :find_invite_or_redirect, only: [:show, :destroy]
+  before_action :find_editable_invite_or_redirect, only: [:edit, :update]
 
   layout "layouts/full_page_sidebar_dark"
 
@@ -21,6 +22,7 @@ class Editor::InvitesController < Editor::EditorController
   def create
     @invite = @project.invites.where(inviter: current_user).new(invite_params)
     if @invite.save
+      @invite.send_email_in_background!
       redirect_to editor_project_invites_path(@project), notice: "Invite was successfully sent."
     else
       render :new
@@ -50,6 +52,11 @@ class Editor::InvitesController < Editor::EditorController
 
   def find_invite_or_redirect
     @invite = @project.invites.find_by(id: params[:id])
+    empty_response_or_root_path(editor_project_invites_path(@project)) unless @invite
+  end
+
+  def find_editable_invite_or_redirect
+    @invite = @project.invites.where(accepted_at: nil, declined_at: nil).find_by(id: params[:id])
     empty_response_or_root_path(editor_project_invites_path(@project)) unless @invite
   end
 

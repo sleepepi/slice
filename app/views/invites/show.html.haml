@@ -1,0 +1,10 @@
+- @title = "Invite"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "invites", invites_path
+    %li.breadcrumb-muted= @invite.role_name.downcase
+
+.dashboard-container

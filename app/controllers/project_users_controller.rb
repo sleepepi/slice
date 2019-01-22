@@ -1,47 +1,8 @@
 # frozen_string_literal: true
 
-# Allows project members to invite others to collaborate on project.
-# Others can accept invite tokens to be added to projects.
+# Allows project editors to edit team roles.
 class ProjectUsersController < ApplicationController
-  before_action :authenticate_user!, except: [:invite]
-
-  # GET /invite/:invite_token
-  def invite
-    session[:invite_token] = params[:invite_token]
-    if current_user
-      redirect_to accept_project_users_path
-    else
-      redirect_to new_user_session_path
-    end
-  end
-
-  # POST /project_users/1.js
-  def resend
-    @project_user = ProjectUser.find_by(id: params[:id])
-    @project = current_user.all_projects.find_by(id: @project_user.project_id) if @project_user
-    if @project && @project_user
-      @project_user.send_user_invited_email_in_background!
-      render :update
-    else
-      head :ok
-    end
-  end
-
-  # GET /project_users/accept
-  def accept
-    invite_token = session.delete(:invite_token)
-    @project_user = ProjectUser.find_by(invite_token: invite_token)
-    if @project_user && @project_user.user == current_user
-      redirect_to @project_user.project, notice: "You have already been added to #{@project_user.project.name}."
-    elsif @project_user && @project_user.user
-      redirect_to root_path, alert: "This invite has already been claimed."
-    elsif @project_user
-      @project_user.update user_id: current_user.id
-      redirect_to @project_user.project, notice: "You have been successfully added to the project."
-    else
-      redirect_to root_path, alert: "Invalid invitation token."
-    end
-  end
+  before_action :authenticate_user!
 
   # PATCH /project_users/1
   # PATCH /project_users/1.js
@@ -50,7 +11,7 @@ class ProjectUsersController < ApplicationController
     @project_user = @project.project_users.find_by(id: params[:id]) if @project
     if @project && @project.editable_by?(current_user) && @project.blinding_enabled? && @project.unblinded?(current_user) && @project_user
       @project_user.update unblinded: (params[:unblinded] == "1")
-      flash_notice = "Set member as #{@project_user.unblinded? ? 'un' : ''}blinded."
+      flash_notice = "Set member as #{"un" if @project_user.unblinded?}blinded."
     end
     respond_to do |format|
       format.html { redirect_to @project ? team_project_path(@project) : root_path, notice: flash_notice }

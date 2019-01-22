@@ -2,26 +2,6 @@
 
 # Allows emails to be viewed at /rails/mailers
 class UserMailerPreview < ActionMailer::Preview
-  def user_invited_to_project
-    project_user = ProjectUser.where.not(invite_email: nil).first
-    UserMailer.user_invited_to_project(project_user)
-  end
-
-  def user_added_to_project
-    project_user = ProjectUser.where.not(invite_email: nil).first
-    UserMailer.user_added_to_project(project_user)
-  end
-
-  def user_invited_to_site
-    site_user = SiteUser.where.not(invite_email: nil).first
-    UserMailer.user_invited_to_site(site_user)
-  end
-
-  def user_added_to_site
-    site_user = SiteUser.where.not(invite_email: nil).first
-    UserMailer.user_added_to_site(site_user)
-  end
-
   def survey_completed
     sheet = Sheet.current.first
     UserMailer.survey_completed(sheet)

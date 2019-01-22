@@ -1,5 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 project_one_editor:
   project: one
   user: project_one_editor
@@ -28,13 +26,6 @@ project_one_viewer:
   editor: false
   creator: regular
   invite_token: project_one_viewer
-
-pending_editor_invite:
-  project: one
-  creator: regular
-  editor: true
-  invite_token: pending_editor_invite
-  invite_email: invited_user@example.com
 
 accepted_editor_invite:
   project: one

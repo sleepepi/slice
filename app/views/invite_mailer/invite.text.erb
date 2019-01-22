@@ -1,0 +1,12 @@
+<%= @invite.inviter.full_name %> invited you to join <%= @invite.project.name %>.
+Visit your dashboard to accept the invitation.
+
+<%= ENV["website_url"] %>
+
+This invite is linked to the email <%= @invite.email %>.
+If you do not use this email for Slice, notify <%= @invite.inviter.full_name %>
+by replying to this email and include your preferred email address.
+
+If you do not have a Slice account, you may register a new account for free.
+
+<%= "#{ENV["website_url"]}/join" %>

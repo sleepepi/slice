@@ -5,38 +5,6 @@ require "test_helper"
 # Tests that mail views are rendered corretly, sent to correct user, and have a
 # correct subject line
 class UserMailerTest < ActionMailer::TestCase
-  test "user added to site email" do
-    site_user = site_users(:accepted_viewer_invite)
-    mail = UserMailer.user_added_to_site(site_user)
-    assert_equal [site_user.user.email], mail.to
-    assert_equal "#{site_user.creator.full_name} Allows You to View #{site_user.site.name} on #{site_user.project.name}", mail.subject
-    assert_match(/#{site_user.creator.full_name} added you as a viewer to #{site_user.site.name} on #{site_user.project.name}/, mail.body.encoded)
-  end
-
-  test "user invited to site email" do
-    site_user = site_users(:invited)
-    mail = UserMailer.user_invited_to_site(site_user)
-    assert_equal [site_user.invite_email], mail.to
-    assert_equal "#{site_user.creator.full_name} Invites You to View #{site_user.site.name} on #{site_user.project.name}", mail.subject
-    assert_match(/#{site_user.creator.full_name} invited you to #{site_user.site.name} on #{site_user.project.name}/, mail.body.encoded)
-  end
-
-  test "user added to project email" do
-    project_user = project_users(:accepted_viewer_invite)
-    mail = UserMailer.user_added_to_project(project_user)
-    assert_equal [project_user.user.email], mail.to
-    assert_equal "#{project_user.creator.full_name} Allows You to View #{project_user.project.name}", mail.subject
-    assert_match(/#{project_user.creator.full_name} added you as a viewer to #{project_user.project.name}/, mail.body.encoded)
-  end
-
-  test "user invited to project email" do
-    project_user = project_users(:pending_editor_invite)
-    mail = UserMailer.user_invited_to_project(project_user)
-    assert_equal [project_user.invite_email], mail.to
-    assert_equal "#{project_user.creator.full_name} Invites You to Edit #{project_user.project.name}", mail.subject
-    assert_match(/#{project_user.creator.full_name} invited you to #{project_user.project.name}/, mail.body.encoded)
-  end
-
   test "survey completed email" do
     sheet = sheets(:external)
     mail = UserMailer.survey_completed(sheet)

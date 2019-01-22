@@ -57,6 +57,14 @@ class User < ApplicationRecord
 
   # Methods
 
+  def invites
+    Invite.where(email: email.to_s.squish.downcase).order(id: :desc)
+  end
+
+  def current_invites
+    invites.where(accepted_at: nil, declined_at: nil)
+  end
+
   def profiles
     Profile.where(user_id: id).or(Profile.where(organization: organizations))
   end

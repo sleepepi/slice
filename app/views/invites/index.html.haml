@@ -1,0 +1,14 @@
+- @title = "Invites"
+
+- content_for :header, @title
+
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @invites.total_count
+  %ol
+    %li.breadcrumb-muted invites
+
+- if current_user.invites.present?
+  #invites= render "invites/index", invites: current_user.invites
+- else
+  .jumbotron.jumbotron-custom-text
+    No invites found.

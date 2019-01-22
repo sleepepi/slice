@@ -1,0 +1,21 @@
+- if invites.present?
+  .mb-3
+    - invites.each do |invite|
+      .mb-2.bg-dark.d-flex.p-2.text-white.rounded
+        %div
+          = invite.inviter.full_name
+          invited you to join
+          = invite.project.name
+          as a
+          = succeed "." do
+            = invite.role_name
+        .nowrap.text-right.flex-fill
+          - if invite.accepted?
+            %span.bg-success.p-1.rounded-left.text-white> Accepted
+            %span.bg-white.p-1.rounded-right.text-dark= invite.accepted_at.strftime("%b %d, %Y")
+          - elsif invite.declined?
+            %span.bg-danger.p-1.rounded-left.text-white> Declined
+            %span.bg-white.p-1.rounded-right.text-dark= invite.declined_at.strftime("%b %d, %Y")
+          - else
+            = link_to "Accept", accept_invite_path(invite), method: :post, remote: current_user.all_dashboard_projects.present?, class: "text-success"
+            = link_to "Decline", decline_invite_path(invite), method: :post, remote: current_user.all_dashboard_projects.present?, class: "text-danger"

@@ -1,10 +1,7 @@
 %tr{ class: "#{"success" if @member == member}" }
   %td
-    - if member.user
-      .d-none.d-lg-inline= member.user.full_name
-      .d-inline.d-lg-none= member.user.nickname
-    - else
-      %span.text-muted{ style: "word-break: break-word;" }= member.invite_email
+    .d-none.d-lg-inline= member.user.full_name
+    .d-inline.d-lg-none= member.user.nickname
   %td
     %span.d-none.d-lg-inline= member.is_a?(ProjectUser) ? "Project" : "Site"
     = member.editor? ? "Editor" : "Viewer"
@@ -14,11 +11,9 @@
         = icon("far", "eye", class: "text-muted")
       - else
         = icon("fas", "blind", class: "text-danger")
-  %td.d-none.d-sm-table-cell
-    = member.creator.nickname if member.creator
   %td.nowrap.text-center
     - if member.is_a?(ProjectUser)
-      - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
+      - if @project.editable_by?(current_user) && (@project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             .d-inline-block.d-sm-none
@@ -26,10 +21,6 @@
             .d-none.d-sm-inline-block Actions
           .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)
-              - if member.user.nil?
-                = link_to resend_project_user_path(member), method: :post, remote: true, class: "dropdown-item" do
-                  = icon("fas", "paper-plane")
-                  Resend invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
@@ -41,13 +32,13 @@
                     Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
               - if @project.editable_by?(current_user)
-                - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
+                - if @project.blinding_enabled? && @project.unblinded?(current_user)
                   .dropdown-divider
               = link_to member, method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.full_name : member.invite_email}?" }, class: "dropdown-item text-danger" do
                 = icon("fas", "trash-alt")
                 Remove
     - else
-      - if @project.editable_by?(current_user) && (member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
+      - if @project.editable_by?(current_user) && (@project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
         .dropdown
           = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
             .d-inline-block.d-sm-none
@@ -55,10 +46,6 @@
             .d-none.d-sm-inline-block Actions
           .dropdown-menu.dropdown-menu-right
             - if @project.editable_by?(current_user)
-              - if member.user.nil?
-                = link_to resend_project_site_user_path(member.project, member), method: :post, remote: true, class: "dropdown-item" do
-                  = icon("fas", "paper-plane")
-                  Resend invitation
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
@@ -70,21 +57,8 @@
                     Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
               - if @project.editable_by?(current_user)
-                - if member.user.nil? || @project.blinding_enabled? && @project.unblinded?(current_user)
+                - if @project.blinding_enabled? && @project.unblinded?(current_user)
                   .dropdown-divider
               = link_to [member.project, member], method: :delete, remote: true, data: { confirm: "Remove #{member.user ? member.user.full_name : member.invite_email}?" }, class: "dropdown-item text-danger" do
                 = icon("fas", "trash-alt")
                 Remove
-
-- if member.user.nil? && member.creator == current_user
-  %tr{ class: "#{"success" if @member == member}" }
-    %td{ colspan: @project.blinding_enabled? ? 5 : 4 }
-      - if member.is_a?(ProjectUser)
-        - clipboard_text = "#{ENV["website_url"]}/invite/#{member.invite_token}"
-      - else
-        - clipboard_text = "#{ENV["website_url"]}/site-invite/#{member.invite_token}"
-      .input-group{ style: "width: 100%;" }
-        = text_field_tag "member_invite", clipboard_text, class: "form-control"
-        .input-group-append
-          = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, style: "text-decoration: none", class: "btn btn-accent" do
-            = icon("fas", "paste")

@@ -5,6 +5,8 @@
     = link_to "New Project", new_project_path, class: "btn btn-primary btn-shadow"
   = @title
 
+#invites= render "invites/index", invites: current_user.current_invites
+
 - if @projects.present?
   .dashboard-container.dashboard-table
     %h3.px-2.py-1 Active Projects

@@ -6,7 +6,6 @@
     %col
     - if @project.blinding_enabled?
       %col
-    %col.d-none.d-sm-table-column
     %col{ width: "1px" }
     %thead
       %tr
@@ -14,7 +13,6 @@
         %th Role
         - if @project.blinding_enabled?
           %th.text-center Blinding
-        %th.d-none.d-sm-table-cell Invited By
         %th.text-center Actions
     %tr
       %td
@@ -27,7 +25,6 @@
       - if @project.blinding_enabled?
         %td.text-center
           = icon("far", "eye", class: "text-muted")
-      %td.d-none.d-sm-table-cell
       %td
     - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
       %tbody{ id: "project-user-#{project_user.id}-container" }
@@ -43,7 +40,6 @@
       %col
       - if @project.blinding_enabled?
         %col
-      %col.d-none.d-sm-table-column
       %col{ width: "1px" }
       %thead
         %tr
@@ -51,7 +47,6 @@
           %th Role
           - if @project.blinding_enabled?
             %th.text-center Blinding
-          %th.d-none.d-sm-table-cell Invited By
           %th.text-center Actions
       - if site.site_users.size == 0
         %tr.active
