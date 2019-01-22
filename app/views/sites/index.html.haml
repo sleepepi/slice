@@ -10,30 +10,34 @@
     .per-page= render "layouts/per_page", per_page: 40, object_count: @sites.total_count
   = @title
 
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col.d-none.d-sm-table-column{ width: "1px" }
-    %col
-    %col.d-none.d-sm-table-column
-    %col{ width: "1px" }
-    %thead
-      %tr
-        = th_sort_field @order, "sites.name", "Number", extra_class: "d-none d-sm-table-cell text-center"
-        = th_sort_field @order, "sites.name", "Name"
-        %th.d-none.d-sm-table-cell
-          = @project.subject_code_name_full
-          Format
-        %th.text-center Actions
+- if @sites.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col.d-none.d-sm-table-column{ width: "1px" }
+      %col
+      %col.d-none.d-sm-table-column
+      %col{ width: "1px" }
+      %thead
+        %tr
+          = th_sort_field @order, "sites.name", "Number", extra_class: "d-none d-sm-table-cell text-center"
+          = th_sort_field @order, "sites.name", "Name"
+          %th.d-none.d-sm-table-cell
+            = @project.subject_code_name_full
+            Format
+          %th.text-center Actions
 
-    - @sites.each do |site|
-      %tr{ id: "site_#{site.id}" }
-        %td.d-none.d-sm-table-cell.text-center= site.number
-        %td= link_to site.name, [@project, site]
-        %td.d-none.d-sm-table-cell
-          - if site.subject_code_format.present?
-            %code= site.subject_code_format
-        %td.nowrap
-          - if current_user.all_sites.pluck(:id).include?(site.id)
-            = render "layouts/edit_delete_dropdown", edit_url: edit_project_site_path(@project, site), delete_url: [@project, site], delete_confirmation: "Delete #{site.name}?"
+      - @sites.each do |site|
+        %tr{ id: "site_#{site.id}" }
+          %td.d-none.d-sm-table-cell.text-center= site.number
+          %td= link_to site.name, [@project, site]
+          %td.d-none.d-sm-table-cell
+            - if site.subject_code_format.present?
+              %code= site.subject_code_format
+          %td.nowrap
+            - if current_user.all_sites.pluck(:id).include?(site.id)
+              = render "layouts/edit_delete_dropdown", edit_url: edit_project_site_path(@project, site), delete_url: [@project, site], delete_confirmation: "Delete #{site.name}?"
 
-.center-horizontally= paginate @sites, theme: "bootstrap"
+  .center-horizontally= paginate @sites, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No sites found.
