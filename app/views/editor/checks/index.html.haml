@@ -9,25 +9,29 @@
     .per-page= render "layouts/per_page", per_page: 40, object_count: @checks.total_count
   = @title
 
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col
-    %col.d-none.d-sm-table-column
-    %col.d-none.d-sm-table-column
-    %col{ width: "1px" }
-    %thead
-      %tr
-        %th Name
-        %th.d-none.d-sm-table-cell.text-center Slice Engine
-        %th.d-none.d-sm-table-cell.text-center Archived
-        %th.text-center Actions
+- if @checks.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col.d-none.d-sm-table-column
+      %col.d-none.d-sm-table-column
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th Name
+          %th.d-none.d-sm-table-cell.text-center Slice Engine
+          %th.d-none.d-sm-table-cell.text-center Archived
+          %th.text-center Actions
 
-    %tbody
-      - @checks.each do |check|
-        %tr{ id: "check-#{check.id}-container" }
-          = render "editor/checks/check_row", check: check
+      %tbody
+        - @checks.each do |check|
+          %tr{ id: "check-#{check.id}-container" }
+            = render "editor/checks/check_row", check: check
 
-.center-horizontally= paginate @checks, theme: "bootstrap"
+  .center-horizontally= paginate @checks, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No checks found.
 
 .center-horizontally
   .docs-learn-more
