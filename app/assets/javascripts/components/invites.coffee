@@ -12,10 +12,17 @@ $(document)
     $("[name=\"invite[site_id]\"]").prop("checked", false)
 
     if role_level == "site" and $("[name=\"invite[site_id]\"]").length == 1
-      $("[name=\"invite[site_id]\"]").click()
+      input = $("[name=\"invite[site_id]\"]")
+      parent = $(input).closest("[data-object~=role-selection]")
+      $(input).prop("checked", true)
+      $("#invite_subgroup_type").val($(parent).data("subgroup-type"))
+      $("#invite_subgroup_id").val($(parent).find("input").val())
     else if role_level == "ae_team" and $("[name=\"invite[team_id]\"]").length == 1
-      $("[name=\"invite[team_id]\"]").click()
-
+      input = $("[name=\"invite[team_id]\"]")
+      parent = $(input).closest("[data-object~=role-selection]")
+      $(input).prop("checked", true)
+      $("#invite_subgroup_type").val($(parent).data("subgroup-type"))
+      $("#invite_subgroup_id").val($(parent).find("input").val())
   )
   .on("click", "[data-object~=role-selection]", ->
     if $(this).find("input").prop("checked") == true
