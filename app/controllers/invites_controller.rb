@@ -7,7 +7,7 @@ class InvitesController < ApplicationController
 
   # GET /invites
   def index
-    @invites = current_user.invites.page(params[:page]).per(20)
+    @invites = current_user.current_invites.page(params[:page]).per(20)
   end
 
   # # GET /invites/:id

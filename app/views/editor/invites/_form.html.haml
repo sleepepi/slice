@@ -63,7 +63,7 @@
       %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
         - roles = Invite::PROJECT_ROLES.dup
         - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
-        - roles.reject! { |h| h[:adverse_events] } unless @project.ae_teams_enabled?
+        - roles += Invite::AE_ADMIN_ROLES if @project.ae_teams_enabled?
         - roles.each do |hash|
           - name = @project.blinding_enabled? ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded" if hash[:adverse_events] == false}" : hash[:name]
           .custom-control.custom-radio

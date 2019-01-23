@@ -8,8 +8,7 @@ class Invite < ApplicationRecord
     { name: "Project Editor", role: "project_editor_unblinded", blinded: false, adverse_events: false },
     { name: "Project Viewer", role: "project_viewer_unblinded", blinded: false, adverse_events: false },
     { name: "Project Editor", role: "project_editor_blinded", blinded: true, adverse_events: false },
-    { name: "Project Viewer", role: "project_viewer_blinded", blinded: true, adverse_events: false },
-    { name: "AE Review Admin", role: "ae_admin", blinded: false, adverse_events: true }
+    { name: "Project Viewer", role: "project_viewer_blinded", blinded: true, adverse_events: false }
   ]
 
   SITE_ROLES = [
@@ -19,6 +18,10 @@ class Invite < ApplicationRecord
     { name: "Site Viewer", role: "site_viewer_blinded", blinded: true, adverse_events: false }
   ]
 
+  AE_ADMIN_ROLES = [
+    { name: "AE Review Admin", role: "ae_admin", blinded: false, adverse_events: true }
+  ]
+
   AE_TEAM_ROLES = [
     { name: "AE Team Manager", role: "ae_team_manager", blinded: false, adverse_events: true },
     { name: "AE Team Principal Reviewer", role: "ae_team_principal_reviewer", blinded: false, adverse_events: true },
@@ -26,7 +29,7 @@ class Invite < ApplicationRecord
     { name: "AE Team Viewer", role: "ae_team_viewer", blinded: false, adverse_events: true }
   ]
 
-  ROLES = PROJECT_ROLES + SITE_ROLES + AE_TEAM_ROLES
+  ROLES = PROJECT_ROLES + SITE_ROLES + AE_ADMIN_ROLES + AE_TEAM_ROLES
 
   ORDERS = {
     "subgroup desc" => "invites.subgroup_type desc, invites.subgroup_id desc",
@@ -110,6 +113,23 @@ class Invite < ApplicationRecord
 
   def send_email_in_background!
     fork_process(:send_email!)
+  end
+
+  # IF invite is for project (editor/viewer/blinded/unblinded)
+  # then clear pending invites for site-level or project level
+
+  # IF invite is for site (editor/viewer/blinded/unblinded)
+  # then clear pending invites for project or site level
+  def clear_incompatible_invites!
+    project_and_site_roles = (PROJECT_ROLES + SITE_ROLES).collect { |h| h[:role] }
+    return unless role.in?(project_and_site_roles)
+
+    project.invites.where.not(id: id).where(
+      email: email,
+      role: project_and_site_roles,
+      accepted_at: nil,
+      declined_at: nil
+    ).destroy_all
   end
 
   private

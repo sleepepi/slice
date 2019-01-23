@@ -52,6 +52,8 @@
             %td.nowrap.text-center
               - if invite.editable?
                 = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_invite_path(@project, invite), delete_url: editor_project_invite_path(@project, invite), delete_confirmation: "Delete invite for #{invite.email}?"
+              - else
+                = link_to "Delete", editor_project_invite_path(@project, invite), method: :delete, class: "btn btn-sm btn-outline-danger"
 
   .center-horizontally= paginate @invites, theme: "bootstrap"
 - else

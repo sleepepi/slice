@@ -132,3 +132,7 @@ aes_team_reviewer_two:
 aes_team_viewer:
   full_name: AES Team Reviewer
   email: aes_team_viewer@example.com
+
+aes_invited_user:
+  full_name: Invited User
+  email: invite@example.com

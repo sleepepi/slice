@@ -40,7 +40,7 @@ class Editor::InvitesControllerTest < ActionDispatch::IntegrationTest
     login(@editor)
     assert_difference("Invite.count") do
       post editor_project_invites_url(@project), params: {
-        invite: invite_params
+        invite: invite_params.merge(email: "newinvite@example.com")
       }
     end
     assert_redirected_to editor_project_invites_url(@project)
