@@ -8,10 +8,10 @@ class InvitesControllerTest < ActionDispatch::IntegrationTest
     @user = users(:aes_invited_user)
   end
 
-  test "should get index" do
+  test "should get index and redirect to dashboard" do
     login(@user)
     get invites_url
-    assert_response :success
+    assert_redirected_to dashboard_url
   end
 
   test "should accept unblinded project editor invite" do

@@ -11,12 +11,6 @@ class AccountController < ApplicationController
                             .order(Arel.sql("position, name"))
                             .page(params[:page]).per(Project::PER_PAGE)
     @invites = current_user.current_invites
-    if current_user.all_dashboard_projects.count == 1
-      if @invites.present?
-        redirect_to invites_path
-      else
-        redirect_to @projects.first
-      end
-    end
+    redirect_to @projects.first if current_user.all_dashboard_projects.count == 1 && @invites.blank?
   end
 end

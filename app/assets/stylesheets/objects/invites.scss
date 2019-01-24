@@ -1,0 +1,67 @@
+.invite-project-name {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  font-size: 1.5rem;
+  font-weight: 200;
+  padding: map-get($spacers, 5);
+  text-align: center;
+
+  @include media-breakpoint-up(md) {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: $border-radius;
+  }
+}
+
+.invite-details {
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  padding: map-get($spacers, 3);
+
+  @include media-breakpoint-up(md) {
+
+    border-bottom: 2px solid transparent;
+    border-left: 0 solid transparent;
+    border-right: 0 solid transparent;
+    border-top: 2px solid transparent;
+    padding: map-get($spacers, 5);
+  }
+}
+
+@keyframes show-invite {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.invite-accepted,
+.invite-declined {
+  animation: show-invite 750ms ease-out;
+  border: 2px solid transparent;
+  border-radius: $border-radius;
+  padding: map-get($spacers, 3);
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .invite-project-name {
+      background-color: map-get($theme, primary);
+      color: map-get($theme, brand-white);
+    }
+
+    .invite-details {
+      background-color: map-get($theme, dashboard-bg);
+      border-color: map-get($theme, primary);
+    }
+
+    .invite-accepted,
+    .invite-declined {
+      background-color: map-get($theme, dashboard-bg);
+      border-color: map-get($theme, primary);
+      box-shadow: 0 1px 5px map-get($theme, box-shadow-color);
+    }
+  }
+}

@@ -1,0 +1,35 @@
+- if invite.accepted?
+  .mb-3.invite-accepted
+    .float-right
+      = link_to icon("fas", "times"), dashboard_path
+    %span.text-success
+      = icon("fas", "check")
+      Accepted
+    invite to
+    = succeed "." do
+      %strong= link_to invite.project.name, invite.project
+- elsif invite.declined?
+  .mb-3.invite-declined
+    .float-right
+      = link_to icon("fas", "times"), dashboard_path
+    %span.text-danger
+      = icon("fas", "thumbs-down")
+      Declined
+    invite to
+    = succeed "." do
+      %strong= invite.project.name
+- else
+  .mb-3.d-flex.flex-column.flex-md-row
+    .invite-project-name.d-flex.align-items-center
+      .flex-fill= image_tag "logos/slice-v5-transparent-icon-128.png", class: "img-ignore-selection", size: "64x64"
+    .invite-details.d-flex.flex-column.flex-fill.justify-content-center
+      .text-primary{ style: "font-size: 1.5rem;line-height: 1.25;" }= invite.project.name
+      %div= invite.role_name
+      .small.text-muted
+        Invited by
+        = invite.inviter.full_name
+    .d-flex.bg-white.flex-row.flex-md-column
+      .flex-fill.bg-success.d-flex.flex-column.justify-content-center
+        .px-5.text-center.py-3= link_to "Accept", accept_invite_path(invite), method: :post, remote: true, class: "text-white"
+      .flex-fill.bg-danger.d-flex.flex-column.justify-content-center
+        .px-5.text-center.py-3= link_to "Decline", decline_invite_path(invite), method: :post, remote: true, class: "text-white"

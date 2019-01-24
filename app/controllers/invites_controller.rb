@@ -7,7 +7,8 @@ class InvitesController < ApplicationController
 
   # GET /invites
   def index
-    @invites = current_user.current_invites.page(params[:page]).per(20)
+    # @invites = current_user.current_invites.page(params[:page]).per(20)
+    redirect_to dashboard_path
   end
 
   # # GET /invites/:id
@@ -19,7 +20,7 @@ class InvitesController < ApplicationController
     @invite.accept!(current_user)
     respond_to do |format|
       format.html { redirect_to @invite.project }
-      format.js { render :index }
+      format.js { render :show }
     end
   end
 
@@ -27,8 +28,8 @@ class InvitesController < ApplicationController
   def decline
     @invite.decline!
     respond_to do |format|
-      format.html { redirect_to invites_path }
-      format.js { render :index }
+      format.html { redirect_to dashboard_path }
+      format.js { render :show }
     end
   end
 
@@ -36,6 +37,6 @@ class InvitesController < ApplicationController
 
   def find_invite_or_redirect
     @invite = current_user.invites.find_by(id: params[:id])
-    empty_response_or_root_path(invites_path) unless @invite
+    empty_response_or_root_path(dashboard_path) unless @invite
   end
 end

@@ -7,7 +7,7 @@
   %ol
     %li.breadcrumb-muted invites
 
-- if current_user.invites.present?
+- if current_user.current_invites.present?
   #invites= render "invites/index", invites: current_user.current_invites
 - else
   .jumbotron.jumbotron-custom-text

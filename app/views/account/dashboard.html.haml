@@ -21,6 +21,28 @@
       = link_to projects_path do
         All projects
         = icon("fas", "caret-right")
+- elsif current_user.all_dashboard_projects.count.positive?
+  .jumbotron.jumbotron-custom-text
+    .mb-3 All your projects are archived.
+    %div{ style: "font-size: 80%;" }
+      = icon("fas", "thumbtack")
+      Pin an
+      = link_to "existing project", projects_path
+      to your dashboard or start a
+      = succeed "." do
+        = link_to "new project", new_project_path
+    .mt-5.text-center= render "themes/icon_128_force_theme"
+- else
+  .jumbotron.jumbotron-custom-text
+    .mb-3 Welcome to Slice!
+    %div{ style: "font-size: 80%;" }
+      Join existing projects by being invited by fellow team members.
+    %div{ style: "font-size: 80%;" }
+      If you're adventurous, you may also
+      = succeed "." do
+        = link_to "start your own project", new_project_path
+    .mt-5.text-center= render "themes/icon_128_force_theme"
+
 
 - @sheets = current_user.all_viewable_sheets.where.not(last_edited_at: nil).includes(:project, :subject, :design).order(last_edited_at: :desc).limit(15)
 - if @sheets.present?

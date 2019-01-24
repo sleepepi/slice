@@ -1,0 +1,19 @@
+- render "themes/theme"
+
+- case @theme
+- when "night"
+  = image_tag("logos/slice-v5-black-icon-128.png", class: "img-ignore-selection")
+- when "underwater"
+  = image_tag("logos/slice-v5-teal-icon-128.png", class: "img-ignore-selection")
+- when "love"
+  = image_tag("logos/slice-v5-pink-icon-128.png", class: "img-ignore-selection")
+- when "royal"
+  = image_tag("logos/slice-v5-purple-icon-128.png", class: "img-ignore-selection")
+- when "spring"
+  = image_tag("logos/slice-v5-blue-icon-128.png", class: "img-ignore-selection")
+- when "fall"
+  = image_tag("logos/slice-v5-amber-icon-128.png", class: "img-ignore-selection")
+- when "winter"
+  = image_tag("logos/slice-v5-blue-icon-128.png", class: "img-ignore-selection")
+- else
+  = image_tag("logos/slice-v5-blue-icon-128.png", class: "img-ignore-selection")

@@ -100,7 +100,8 @@ class User < ApplicationRecord
     Project.current.viewable_by_user(self)
   end
 
-  # Projects visible on dashboard, including projects on which user is one of:
+  # Projects available to be shown on dashboard, including projects on which
+  # user is one of:
   # a project member
   # a site member
   # a review admin or review team member
