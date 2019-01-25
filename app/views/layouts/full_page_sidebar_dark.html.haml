@@ -38,7 +38,7 @@
           = render "layouts/breadcrumbs" # Slice extra
           - if content_for?(:tabs)
             .header-tabs{ class: "#{"header-tabs-no-breadcrumbs" unless content_for?(:breadcrumbs)}" }
-              .container
+              .container-fluid
                 = yield :tabs
           - if content_for?(:breadcrumbs)
             .breadcrumb-container

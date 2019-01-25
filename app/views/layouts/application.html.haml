@@ -32,11 +32,11 @@
     .container= render "layouts/breadcrumbs" # Slice extra
     - if content_for?(:tabs)
       .header-tabs{ class: "#{"header-tabs-no-breadcrumbs" unless content_for?(:breadcrumbs)}" }
-        .container
+        %div{ class: @container.presence || "container" }
           = yield :tabs
     - if content_for?(:breadcrumbs)
       .breadcrumb-container
-        %div{ class: defined?(container) && container.present? ? container : "container" }
+        %div{ class: @container.presence || "container" }
           = yield :breadcrumbs
     .theme-custom-spacing
       .py-3
