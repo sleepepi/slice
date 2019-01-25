@@ -124,7 +124,7 @@
 
       - unless @adverse_event.sent_for_review?
         - if @role_reporter
-          %div
+          %div{ class: @role_admin ? "mb-3" : nil }
             - if design.present? || @adverse_event.ae_info_requests.where(ae_team_id: nil, resolved_at: nil).present?
               %span.text-muted= icon("fas", "paper-plane")
               = link_to "#", disabled: true, class: "text-muted", data: { object: "suppress-click" } do
