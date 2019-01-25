@@ -17,7 +17,7 @@
     .col-md-10
       .btn-group.btn-group-toggle{ data: { toggle: "buttons" } }
         - role_levels = [["Project", "project"], ["Site", "site"]]
-        - role_levels << ["AE Team", "ae_team"] if @project.ae_teams_enabled?
+        - role_levels << ["AE Team", "ae_team"] if @project.ae_teams_enabled? && @project.unblinded?(current_user)
         - role_levels.each do |label, value|
           = form.label :role_level, value: value, class: "btn btn-primary#{" active" if invite.role_level == value}", data: { object: "role-level" } do
             = form.radio_button :role_level, value
@@ -43,7 +43,7 @@
           %small.text-danger
             Site must be selected.
 
-      - if @project.ae_teams_enabled?
+      - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
         %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
           - if project.ae_teams.count >= min_number_for_dropdown
             = form.select :team_id, project.ae_teams.order(:name).pluck(:name, :id), { selected: invite.subgroup_type == "AeTeam" ? invite.subgroup_id : nil, include_blank: "Select Team" }, class: "custom-select#{" is-invalid" if invite.errors[:team].present?}", data: { object: "role-selection-dropdown", subgroup_type: "AeTeam" }
@@ -63,9 +63,10 @@
       %div{ style: invite.role_level == "project" ? nil : "display: none", data: { roles: "project" } }
         - roles = Invite::PROJECT_ROLES.dup
         - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
-        - roles += Invite::AE_ADMIN_ROLES if @project.ae_teams_enabled?
+        - roles.select! { |h| h[:blinded] } unless @project.unblinded?(current_user)
+        - roles += Invite::AE_ADMIN_ROLES if @project.ae_teams_enabled? && @project.unblinded?(current_user)
         - roles.each do |hash|
-          - name = @project.blinding_enabled? ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded" if hash[:adverse_events] == false}" : hash[:name]
+          - name = @project.blinding_enabled? && @project.unblinded?(current_user) ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded" if hash[:adverse_events] == false}" : hash[:name]
           .custom-control.custom-radio
             = form.radio_button :role, hash[:role], class: "custom-control-input"
             = form.label :role, name, value: hash[:role], class: "custom-control-label"
@@ -73,13 +74,14 @@
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
         - roles = Invite::SITE_ROLES.dup
         - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
+        - roles.select! { |h| h[:blinded] } unless @project.unblinded?(current_user)
         - roles.each do |hash|
-          - name = @project.blinding_enabled? ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded"}" : hash[:name]
+          - name = @project.blinding_enabled? && @project.unblinded?(current_user) ? "#{hash[:name]}#{hash[:blinded] ? " - Blinded" : " - Unblinded"}" : hash[:name]
           .custom-control.custom-radio
             = form.radio_button :role, hash[:role], class: "custom-control-input"
             = form.label :role, name, value: hash[:role], class: "custom-control-label"
 
-      - if @project.ae_teams_enabled?
+      - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
         %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
           - Invite::AE_TEAM_ROLES.each do |hash|
             .custom-control.custom-radio

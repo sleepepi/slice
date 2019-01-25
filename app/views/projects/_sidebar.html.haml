@@ -12,7 +12,7 @@
           - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
             %li= link_to "Randomizations", project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil)
 
-          - if @project.ae_teams_enabled?
+          - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
             %li= link_to "Adverse Events", ae_module_adverse_events_path(@project), class: %w(ae_module/adverse_events).include?(params[:controller]) ? "active" : nil
 
           - if @project.adverse_events_enabled? && @project.unblinded?(current_user)

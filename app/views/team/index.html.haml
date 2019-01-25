@@ -59,7 +59,7 @@
                 - if @project.editable_by?(current_user)
                   .dropdown-divider
                   = link_to project_team_member_path(@project, user), method: :delete, data: { confirm: "Remove #{user.full_name} from project?" }, class: "dropdown-item text-danger" do
-                    = icon("fas", "trash-alt")
+                    = icon("fas", "user-slash")
                     Remove from project
 
 .center-horizontally
