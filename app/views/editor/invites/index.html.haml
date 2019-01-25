@@ -11,7 +11,7 @@
 - content_for :breadcrumbs do
   = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @invites.total_count
   %ol
-    %li= link_to "team", team_project_path(@project)
+    %li= link_to "team", project_team_path(@project)
     %li.breadcrumb-muted invites
 
 - if @invites.present?

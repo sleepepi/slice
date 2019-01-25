@@ -226,6 +226,24 @@ class Project < ApplicationRecord
     retry
   end
 
+  # A ActiveRecord assocation of all users with a role on the project. Does not
+  # include the role of the member.
+  def team_users
+    User.current.where(id: user_id)
+    .or(
+      User.current.where(id: project_users.select(:user_id))
+    )
+    .or(
+      User.current.where(id: site_users.select(:user_id))
+    )
+    .or(
+      User.current.where(id: ae_review_admins.select(:user_id))
+    )
+    .or(
+      User.current.where(id: ae_team_members.select(:user_id))
+    )
+  end
+
   private
 
   # Creates a default site if the project has no site associated with it

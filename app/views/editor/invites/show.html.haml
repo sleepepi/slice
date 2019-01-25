@@ -10,7 +10,7 @@
 
 - content_for :breadcrumbs do
   %ol
-    %li= link_to "team", team_project_path(@project)
+    %li= link_to "team", project_team_path(@project)
     %li= link_to "invites", editor_project_invites_path(@project)
     %li.breadcrumb-muted= @invite.email.downcase
 

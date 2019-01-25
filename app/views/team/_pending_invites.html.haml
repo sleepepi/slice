@@ -1,0 +1,6 @@
+- user.pending_invites(project).each do |invite|
+  .mb-3.p-3.bg-light.border.text-muted
+    = invite.role_name
+    (pending)
+    - if project.editable_by?(current_user)
+      = link_to icon("fas", "trash"), editor_project_invite_path(project, invite), method: :delete, remote: true, class: "text-danger", data: { confirm: "Remove #{invite.role_name} invite?" }

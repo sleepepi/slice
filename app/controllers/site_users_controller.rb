@@ -14,7 +14,7 @@ class SiteUsersController < ApplicationController
       flash_notice = "Set member as #{"un" if @site_user.unblinded?}blinded."
     end
     respond_to do |format|
-      format.html { redirect_to @project ? team_project_path(@project) : root_path, notice: flash_notice }
+      format.html { redirect_to @project ? project_team_path(@project) : root_path, notice: flash_notice }
       format.js
     end
   end

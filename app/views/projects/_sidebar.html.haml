@@ -19,7 +19,7 @@
             %li= link_to "Adverse Events", project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? "active" : nil)
           %li= link_to "Exports", project_exports_path(@project), class: (params[:controller] == "exports" ? "active" : nil)
           %li= link_to "Tasks", project_tasks_path(@project), class: (params[:controller] == "tasks" ? "active" : nil)
-          %li= link_to "Team", team_project_path(@project), class: (current_page?(team_project_path(@project)) ? "active" : nil)
+          %li= link_to "Team", project_team_path(@project), class: (current_page?(project_team_path(@project)) ? "active" : nil)
           %li= link_to "Activity", activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? "active" : nil)
           %li= link_to "Calendar", calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? "active" : nil)
 

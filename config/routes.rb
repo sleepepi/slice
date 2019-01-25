@@ -243,7 +243,6 @@ Rails.application.routes.draw do
       get :calendar
       get :logo
       get :reports
-      get :team
       get :expressions
       post :expressions_engine, path: "expressions/engine"
       get :expressions_search, path: "expressions/search"
@@ -456,6 +455,13 @@ Rails.application.routes.draw do
   end
 
   resources :project_users, only: [:update, :destroy]
+
+  scope module: :team do
+    get :project_team, action: :index, path: "projects/:project_id/team"
+    get :project_team_member, action: :show, path: "projects/:project_id/team/:id"
+    patch :project_team_member, action: :update, path: "projects/:project_id/team/:id"
+    delete :project_team_member, action: :destroy, path: "projects/:project_id/team/:id"
+  end
 
   devise_for :users,
              controllers: {

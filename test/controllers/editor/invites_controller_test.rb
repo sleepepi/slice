@@ -43,7 +43,7 @@ class Editor::InvitesControllerTest < ActionDispatch::IntegrationTest
         invite: invite_params.merge(email: "newinvite@example.com")
       }
     end
-    assert_redirected_to editor_project_invites_url(@project)
+    assert_redirected_to project_team_url(@project)
   end
 
   test "should not create invite without email" do
@@ -116,7 +116,7 @@ class Editor::InvitesControllerTest < ActionDispatch::IntegrationTest
     patch editor_project_invite_url(@project, @invite), params: {
       invite: invite_params.merge(role: "site_editor_unblinded")
     }
-    assert_redirected_to editor_project_invites_url(@project)
+    assert_redirected_to project_team_url(@project)
   end
 
   test "should not update invite without role" do
@@ -133,6 +133,6 @@ class Editor::InvitesControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Invite.count", -1) do
       delete editor_project_invite_url(@project, @invite)
     end
-    assert_redirected_to editor_project_invites_url(@project)
+    assert_redirected_to project_team_url(@project)
   end
 end

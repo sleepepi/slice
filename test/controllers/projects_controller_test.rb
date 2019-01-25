@@ -27,13 +27,13 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get team as project editor" do
     login(@project_editor)
-    get team_project_url(@project)
+    get project_team_url(@project)
     assert_response :success
   end
 
   test "should get team as project viewer" do
     login(@project_viewer)
-    get team_project_url(@project)
+    get project_team_url(@project)
     assert_response :success
   end
 

@@ -68,7 +68,7 @@
           - if @project.blinding_enabled?
             Set member blinding on the
             = succeed "." do
-              = link_to "team page", team_project_path(@project)
+              = link_to "team page", project_team_path(@project)
             Check the "Only unblinded" setting on
             = link_to "events", project_events_path(@project)
             and
@@ -333,7 +333,7 @@
           to another user on the project and then
           %strong
             (2)
-            = link_to "remove yourself as an editor", team_project_path(@project)
+            = link_to "remove yourself as an editor", project_team_path(@project)
           from the Team page.
       %div
         = link_to "Delete Project", owner_project_path(@project), method: :delete, class: "btn btn-danger", data: { confirm: "Delete #{@project.name}?" }

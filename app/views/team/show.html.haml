@@ -1,0 +1,68 @@
+- @title = "#{@user.full_name}"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header do
+  - if @project.editable_by?(current_user)
+    .float-right= link_to "New Role", new_editor_project_invite_path(@project, email: @user.email), class: "btn btn-accent btn-shadow"
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "team", project_team_path(@project)
+    %li.breadcrumb-muted= @user.email.downcase
+
+.dashboard-container
+  - if @project.user_id == @user.id
+    .mb-3.p-3.bg-light Owner
+
+  - project_user = @project.project_users.find_by(user: @user)
+  - if project_user
+    .mb-3.p-3.bg-light
+      = project_user.unblinded? ? "Unblinded" : "Blinded" if @project.blinding_enabled?
+      Project
+      = project_user.editor? ? "Editor" : "Viewer"
+      - if @project.editable_by?(current_user)
+        = link_to icon("fas", "trash"), project_team_member_path(@project, @user, role: "project", role_id: project_user.id), method: :patch, class: "text-danger", data: { confirm: "Remove role from #{@user.full_name}?" }
+
+  - @project.sites.each do |site|
+    - site_user = site.site_users.find_by(user: @user)
+    - if site_user
+      .mb-3.p-3.bg-light
+        %div.small.text-muted= site.name
+        = site_user.unblinded? ? "Unblinded" : "Blinded" if @project.blinding_enabled?
+        Project
+        = site_user.editor? ? "Editor" : "Viewer"
+        - if @project.editable_by?(current_user)
+          = link_to icon("fas", "trash"), project_team_member_path(@project, @user, role: "site", role_id: site_user.id), method: :patch, class: "text-danger", data: { confirm: "Remove role from #{@user.full_name}?" }
+
+  - if @project.ae_teams_enabled?
+    - review_admin = @project.ae_review_admins.find_by(user: @user)
+    - if review_admin
+      .mb-3.p-3.bg-light
+        Review Admin
+        - if @project.editable_by?(current_user)
+          = link_to icon("fas", "trash"), project_team_member_path(@project, @user, role: "admin", role_id: review_admin.id), method: :patch, class: "text-danger", data: { confirm: "Remove Review Admin role from #{@user.full_name}?" }
+
+    - @project.ae_teams.each do |team|
+      - team_roles = team.ae_team_members.where(user: @user)
+      - if team_roles.present?
+        .mb-3.p-3.bg-light
+          %div.small.text-muted= team.name
+          - team_roles.each do |team_role|
+            - role_name = if team_role.manager?
+              - "Manager"
+            - elsif team_role.principal_reviewer?
+              - "Principal Reviewer"
+            - elsif team_role.reviewer?
+              - "Reviewer"
+            - elsif team_role.viewer?
+              - "Viewer"
+            - else
+              - "Role"
+            = role_name
+            - if @project.editable_by?(current_user)
+              = link_to icon("fas", "trash"), project_team_member_path(@project, @user, role: "team", role_id: team_role.id), method: :patch, class: "text-danger", data: { confirm: "Remove #{role_name} role from #{@user.full_name}?" }
+
+  #pending-invites
+    = render "team/pending_invites", project: @project, user: @user

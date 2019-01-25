@@ -49,6 +49,9 @@ class Invite < ApplicationRecord
 
   attr_writer :role_level
 
+  # Scopes
+  scope :pending, -> { where(accepted_at: nil, declined_at: nil) }
+
   # Validations
   validates :email, :role, presence: true
   validates :role, inclusion: { in: ROLES.collect { |h| h[:role] } }

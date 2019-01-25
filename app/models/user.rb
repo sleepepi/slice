@@ -62,7 +62,7 @@ class User < ApplicationRecord
   end
 
   def current_invites
-    invites.where(accepted_at: nil, declined_at: nil)
+    invites.pending
   end
 
   def profiles
@@ -365,5 +365,16 @@ class User < ApplicationRecord
   def last_business_day
     days = Time.zone.now.monday? ? 3.days : 1.day
     Time.zone.now - days
+  end
+
+  def remove_from_project!(project)
+    project.project_users.where(user: self).destroy_all
+    project.site_users.where(user: self).destroy_all
+    project.ae_review_admins.where(user: self).destroy_all
+    project.ae_team_members.where(user: self).destroy_all
+  end
+
+  def pending_invites(project)
+    current_invites.where(project: project)
   end
 end

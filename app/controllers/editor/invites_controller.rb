@@ -15,7 +15,7 @@ class Editor::InvitesController < Editor::EditorController
 
   # GET /editor/projects/:project_id/invites/new
   def new
-    @invite = @project.invites.new(role_level: "project")
+    @invite = @project.invites.new(role_level: "project", email: params[:email])
   end
 
   # POST /editor/projects/:project_id/invites
@@ -24,7 +24,7 @@ class Editor::InvitesController < Editor::EditorController
     if @invite.save
       @invite.clear_incompatible_invites!
       @invite.send_email_in_background!
-      redirect_to editor_project_invites_path(@project), notice: "Invite was successfully sent."
+      redirect_to project_team_path(@project), notice: "Invite was successfully sent."
     else
       render :new
     end
@@ -38,7 +38,7 @@ class Editor::InvitesController < Editor::EditorController
   def update
     if @invite.update(invite_params)
       @invite.clear_incompatible_invites!
-      redirect_to editor_project_invites_path(@project), notice: "Invite was successfully updated."
+      redirect_to project_team_path(@project), notice: "Invite was successfully updated."
     else
       render :edit
     end
@@ -46,20 +46,30 @@ class Editor::InvitesController < Editor::EditorController
 
   # DELETE /editor/projects/:project_id/invites/:id
   def destroy
+    email = @invite.email
+    @project = @invite.project
+
     @invite.destroy
-    redirect_to editor_project_invites_path(@project), notice: "Invite was successfully deleted."
+
+    respond_to do |format|
+      format.html { redirect_to project_team_path(@project), notice: "Invite was successfully deleted." }
+      format.js do
+        @user = User.current.find_by(email: email)
+        render "team/pending_invites"
+      end
+    end
   end
 
   private
 
   def find_invite_or_redirect
     @invite = @project.invites.find_by(id: params[:id])
-    empty_response_or_root_path(editor_project_invites_path(@project)) unless @invite
+    empty_response_or_root_path(project_team_path(@project)) unless @invite
   end
 
   def find_editable_invite_or_redirect
     @invite = @project.invites.where(accepted_at: nil, declined_at: nil).find_by(id: params[:id])
-    empty_response_or_root_path(editor_project_invites_path(@project)) unless @invite
+    empty_response_or_root_path(project_team_path(@project)) unless @invite
   end
 
   def invite_params
