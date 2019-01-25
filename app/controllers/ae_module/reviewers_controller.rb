@@ -5,6 +5,8 @@ class AeModule::ReviewersController < AeModule::BaseController
   ]
   before_action :set_sheet, only: [:review, :review_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # GET /projects/:project_id/ae-module/reviewers/inbox
   def inbox

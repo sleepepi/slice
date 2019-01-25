@@ -6,6 +6,8 @@ class AeModule::ReportersController < AeModule::BaseController
   ]
   before_action :find_info_request_or_redirect, only: [:resolve_info_request]
   before_action :set_sheet, only: [:form, :form_save]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # GET /projects/:project_id/ae-module/reporters/adverse-events/:id/form/:design_id
   def form

@@ -3,6 +3,8 @@ class AeModule::AdminsController < AeModule::BaseController
   before_action :find_adverse_event_or_redirect
   before_action :set_sheet, only: [:form, :form_save]
   before_action :find_sheet_or_redirect, only: [:sheet]
+  before_action :set_project_member
+  layout :sidebar_layout
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/assign-team
   def assign_team
