@@ -118,7 +118,7 @@ module Engine
       klass = (variable.variable_type == "checkbox" ? Response : SheetVariable)
       values = klass
         .left_outer_joins(:domain_option).joins(:sheet).merge(
-          Sheet.current.left_outer_joins(:adverse_event).where("sheets.adverse_event_id IS NULL or adverse_events.deleted = ?", false)
+          Sheet.current.left_outer_joins(:adverse_event).where("(sheets.adverse_event_id IS NULL and sheets.ae_adverse_event_id IS NULL) or adverse_events.deleted = ?", false)
         ).where(hash).order(:sheet_id)
         .pluck("sheets.subject_id", :sheet_id, :design_id, domain_option_value_or_value(table: klass.table_name), :missing_code)
       formatter = Formatters.for(variable)
