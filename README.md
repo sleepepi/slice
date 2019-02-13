@@ -61,10 +61,10 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/daily_digest.rake`
 
 ```
 SHELL=/bin/bash
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.0 && rails daily_digest RAILS_ENV=production
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.0 && rails passwords:expire RAILS_ENV=production
-0 2 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.0 && rails sitemap:refresh RAILS_ENV=production
-*/5 * * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.0 && rails checks:run_job RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.1 && rails daily_digest RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.1 && rails passwords:expire RAILS_ENV=production
+0 2 * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.1 && rails sitemap:refresh RAILS_ENV=production
+*/5 * * * * source /etc/profile.d/rvm.sh && cd /var/www/slice && rvm 2.6.1 && rails checks:run_job RAILS_ENV=production
 ```
 
 ## Contributing to Slice

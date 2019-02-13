@@ -1,5 +1,9 @@
 ## 70.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to ruby 2.6.1
+
 ## 69.0.0 (January 28, 2019)
 
 ### Enhancements
