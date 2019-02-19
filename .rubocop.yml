@@ -12,6 +12,8 @@ Rails:
 #   Enabled: false
 Metrics/ClassLength:
   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 Metrics/LineLength:
   Max: 120
 Metrics/MethodLength:
@@ -66,3 +68,7 @@ Style/PercentLiteralDelimiters:
 # Don't require formatted string tokens.
 Style/FormatStringToken:
   Enabled: false
+
+# Prefer consistent use of lambda literal syntax in single- and multi-line.
+Style/Lambda:
+  EnforcedStyle: literal
