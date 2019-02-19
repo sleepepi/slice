@@ -70,19 +70,34 @@
   return params
 
 @updateCalculatedVariables = ->
-  $.each($('[data-object~="calculated"]'), ->
-    calculation = $(this).data('calculation')
-    grid_position = $(this).data('grid-position')
+  $.each($("[data-object~=calculated]"), ->
+    calculation = $(this).data("calculation")
+    grid_position = $(this).data("grid-position")
+
+    # TODO: Do full calculation server-side
     if calculation
-      grid_string = ''
-      if grid_position != '' and grid_position != null and grid_position != undefined
+      grid_string = ""
+      if grid_position != "" and grid_position != null and grid_position != undefined
         grid_string = '[data-grid-position="' + grid_position + '"]'
       calculation = calculation.replace(/\#{(\d+)}/g, "parseValueByID('$1', 'float', '#{grid_string}')")
       calculation_result = eval(calculation)
-      calculation_result = '' unless isNumber(calculation_result)
-      target_name = $(this).data('target-name')
+      calculation_result = "" unless isNumber(calculation_result)
+      target_name = $(this).data("target-name")
       $("##{target_name}").val(calculation_result)
-      $("##{target_name}_calculation_result").val(calculation_result)
+
+      params = {}
+      params.value = calculation_result
+
+      $.ajax(
+        url: $(this).data("format-url")
+        type: "POST"
+        dataType: "json"
+        data: params
+      ).done( (data) ->
+        $("##{target_name}_calculation_result").val(data["value"]["formatted"])
+      ).fail( (jqXHR, textStatus, errorThrown) ->
+        console.log("FAIL: #{textStatus} #{errorThrown}")
+      )
   )
 
 @calculationTextcompleteReady = ->
