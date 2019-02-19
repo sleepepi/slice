@@ -1,6 +1,9 @@
 ## 70.0.0
 
 ### Enhancements
+- **Translation Changes**
+  - French Canadian language added
+  - Project editors can now specify the languages available to the project
 - **Gem Changes**
   - Update to ruby 2.6.1
   - Update to rails 6.0.0.beta1

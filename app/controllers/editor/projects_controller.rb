@@ -49,6 +49,18 @@ class Editor::ProjectsController < ApplicationController
     render :designments
   end
 
+  # POST /editor/projects/:project_id/add-language
+  def add_language
+    @project.project_languages.where(language_code: params[:language_code]).first_or_create
+    render "languages"
+  end
+
+  # DELETE /editor/projects/:project_id/remove-language
+  def remove_language
+    @project.project_languages.where(language_code: params[:language_code]).destroy_all
+    render "languages"
+  end
+
   private
 
   # Overwriting application_controller

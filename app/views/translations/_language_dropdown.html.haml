@@ -1,4 +1,4 @@
-- if @project.translations_enabled?
+- if @project.translations_enabled? && @project.project_languages.present?
   .dropdown.d-inline-block
     = link_to "#", class: "btn btn-light #{button_class} dropdown-toggle", data: { toggle: "dropdown" } do
       .d-inline-block.d-sm-none
@@ -9,7 +9,9 @@
         .d-inline-block= "(#{World.language})"
 
     .dropdown-menu.dropdown-menu-right
+      - language_codes = @project.project_languages.pluck(:language_code).collect(&:to_sym) + [World.default_language]
       - World.available_languages.each do |language|
+        - next unless language_codes.include?(language.code.to_sym)
         - hash = { language: World.default_language == language.code ? nil : language.code }
         - hash[:sheet] = { subject_event_id: params.dig(:sheet, :subject_event_id) } if params.dig(:sheet, :subject_event_id).present?
         - hash[:adverse_event_id] = params[:adverse_event_id] if params[:adverse_event_id].present?

@@ -228,13 +228,7 @@
     .mb-3.d-flex.align-items-center
       .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "globe-americas", class: "fa-2x")
       .p-3
-        .small.text-muted
-          - if @project.translations_enabled?
-            Add translations to
-            = link_to "designs", project_designs_path(@project)
-            by selecting "Language" before editing the design.
-          - else
-            Enable to allow editors to add translations to designs.
+        #languages= render "editor/projects/languages", project: @project
 
 %a.anchor-top{ name: "pdf-values", id: "pdf-values" }
 .card.mb-3

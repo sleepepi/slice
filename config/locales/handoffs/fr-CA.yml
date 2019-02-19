@@ -1,0 +1,15 @@
+fr-CA:
+  handoffs:
+    start: "Commencer"
+    forms: "Formulaires"
+    instructions: "Cher participant,\n\nOn vous présentera une série de formulaires.\n\nVeuillez compléter chaque formulaire avec soin et précision.\n\nSi vous avez des questions, vous pouvez demander des éclaircissements à notre personnel."
+    get_started: "Commencer"
+    filling_out_forms: "Remplir des formulaires"
+    instructions_continue: "Vous avez atteint la fin de ce formulaire. Veuillez revoir vos réponses pour vous assurer qu'elles sont exactes. Une fois que vous êtes prêt, passez au formulaire suivant en cliquant sur «Sauvegarder et continuer» ci-dessous."
+    save_and_continue: "Sauvegarder et continuer"
+    outro: "Presque fini! Cliquez sur «Sauvegarder et continuer» pour soumettre vos réponses."
+    progress_complete: "Formulaires complets"
+    all_set: "Terminé!"
+    return_tablet: "Merci de remplir tous les formulaires.\n\nVeuillez rendre la tablette à un membre du personnel."
+    review_forms: "Revoir tous les formulaires"
+    resume_forms: "Reprendre"

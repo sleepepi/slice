@@ -7,7 +7,8 @@ module World
         @code = :es
         @names = {
           en: "Spanish",
-          es: "Español"
+          es: "Español",
+          :"fr-CA" => "Espagnol"
         }
         @special_characters = [
           { "á" => { simple: "a", latex: "\\\\'a" } },

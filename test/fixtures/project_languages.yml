@@ -1,0 +1,7 @@
+one:
+  project: one
+  language_code: es
+
+two:
+  project: one
+  language_code: fr-CA

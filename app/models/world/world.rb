@@ -5,7 +5,8 @@ module World
   DEFAULT_LANGUAGE = World::Languages::English
   LANGUAGES = {
     en: World::Languages::English,
-    es: World::Languages::Spanish
+    es: World::Languages::Spanish,
+    :"fr-CA" => World::Languages::FrenchCanadian
   }
 
   mattr_accessor :default_language

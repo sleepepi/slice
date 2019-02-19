@@ -199,6 +199,8 @@ Rails.application.routes.draw do
         get :setup_designs, path: "setup-designs"
         post :submit_designs, path: "submit-designs"
         delete :remove_designment, path: "remove-designment"
+        post :add_language, path: "add-language"
+        delete :remove_language, path: "remove-language"
       end
 
       resources :ae_teams, path: "ae-module/teams" do

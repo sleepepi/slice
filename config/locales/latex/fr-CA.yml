@@ -1,0 +1,8 @@
+fr-CA:
+  latex:
+    subject: "Sujet"
+    page: "Page"
+    page_of: "de"
+    printed_on: "Imprimé"
+    entered: "Rempli"
+    updated: "Mis à jour"

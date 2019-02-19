@@ -1,0 +1,37 @@
+fr-CA:
+  validators:
+    default_invalid: "Pas une valeur valide."
+    default_out_of_range: "Valeur hors limites."
+    default_in_hard_range: "Valeur hors gamme soft."
+
+    date_invalid: "Date non valide."
+    date_out_of_range: "Date hors limites."
+    date_in_hard_range: "Date hors gamme soft."
+
+    file_invalid: "Fichier non valide."
+
+    imperial_height_invalid: "Pas une hauteur valide."
+    imperial_height_out_of_range: "Hauteur hors limites."
+    imperial_height_in_hard_range: "Hauteur hors gamme soft."
+
+    imperial_weight_invalid: "Pas un poids valide."
+    imperial_weight_out_of_range: "Poids hors limites."
+    imperial_weight_in_hard_range: "Poids hors gamme soft."
+
+    integer_invalid: "Pas un entier valide."
+    integer_out_of_range: "Entier hors limites."
+    integer_in_hard_range: "Entier hors gamme soft."
+
+    numeric_invalid: "Pas un numéro valide."
+    numeric_out_of_range: "Numéro hors limites."
+    numeric_in_hard_range: "Numéro hors gamme soft."
+
+    signature_invalid: "Pas une signature valide."
+
+    time_of_day_invalid: "Pas une heure valide de la journée."
+    time_of_day_out_of_range: "Heure de la journée hors limites."
+    time_of_day_in_hard_range: "Heure de la journée hors gamme soft."
+
+    time_duration_invalid: "Durée non valide"
+    time_duration_out_of_range: "Durée hors limites."
+    time_duration_in_hard_range: "Durée hors gamme soft."

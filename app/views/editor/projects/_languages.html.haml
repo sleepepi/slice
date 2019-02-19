@@ -1,0 +1,40 @@
+- if project.translations_enabled?
+  - language_codes = project.project_languages.pluck(:language_code)
+
+  .dropdown.mb-3
+    = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+      .d-inline-block.d-sm-none
+        = icon("fas", "cog")
+      .d-none.d-sm-inline-block Add a language
+
+    .dropdown-menu
+      = link_to "#", class: "dropdown-item disabled text-muted", data: { object: "suppress-click" }, tabindex: "-1", aria: { disabled: "true" }, disabled: true do
+        = simple_check true
+        = "(#{World.default_language})"
+        = World.for(World.default_language).name(I18n.locale)
+      - World.available_languages.reject { |language| World.default_language == language.code }.each do |language|
+        = link_to add_language_editor_project_path(project, language_code: language.code), method: :post, remote: true, class: "dropdown-item" do
+          = simple_check language_codes.include?(language.code.to_s)
+          = "(#{language.code})"
+          = language.name(I18n.locale)
+
+  %ul.list-unstyled.ml-3
+    %li.text-muted
+      = "(#{World.default_language})"
+      = World.for(World.default_language).name(I18n.locale)
+      %span.badge.badge-pill.badge-primary default
+
+    - project.project_languages.order(:language_code).each do |project_language|
+      - language = World.for(project_language.language_code)
+      %li
+        = "(#{project_language.language_code})"
+        = language.name(I18n.locale)
+        = link_to icon("fas", "trash"), remove_language_editor_project_path(project, language_code: language.code), method: :delete, remote: true, data: { confirm: "Remove #{language.name(I18n.locale)}?" }, class: "text-danger"
+
+  .small.text-muted
+    Add translations to
+    = link_to "designs", project_designs_path(project)
+    by selecting "Language" before editing the design.
+- else
+  .small.text-muted
+    Enable to allow editors to add translations to designs.
