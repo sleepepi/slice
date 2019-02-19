@@ -62,24 +62,28 @@ class SurveyController < ApplicationController
 
   def redirect_without_design
     return if @design
+
     flash[:alert] = "This survey no longer exists."
     empty_response_or_root_path(about_survey_path)
   end
 
   def find_sheet_or_redirect
     return if params[:sheet_authentication_token].blank?
+
     @sheet = @design.sheets.find_by(authentication_token: params[:sheet_authentication_token])
     redirect_without_sheet
   end
 
   def redirect_without_sheet
     return if @sheet
+
     flash[:alert] = "This survey no longer exists."
     empty_response_or_root_path(about_survey_path(survey: @design.survey_slug))
   end
 
   def redirect_on_auto_locked_sheet
     return unless @sheet.auto_locked?
+
     flash[:alert] = "This survey has been locked."
     empty_response_or_root_path(about_survey_path(survey: @design.survey_slug))
   end
@@ -97,16 +101,13 @@ class SurveyController < ApplicationController
   end
 
   def survey_redirect_page
-    if @design.redirect_url.blank?
-      about_survey_path(survey: @design.survey_slug, a: @sheet.authentication_token)
-    else
-      @design.redirect_url
-    end
+    @design.redirect_url.presence || about_survey_path(survey: @design.survey_slug, a: @sheet.authentication_token)
   end
 
   # TODO: Survey completion emails should be sent differently or done as in-app notifications to project editors
   def send_survey_completion_emails
     return unless EMAILS_ENABLED
+
     UserMailer.survey_completed(@sheet).deliver_now
   end
 end
