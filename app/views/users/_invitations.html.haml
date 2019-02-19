@@ -1,9 +1,0 @@
-%ul.list-unstyled
-  - site_invitations.each do |site_user|
-    %li
-      = user.full_name
-      was invited to
-      = link_to site_user.project.name, site_user.project
-      = succeed "." do
-        = simple_time site_user.created_at
-        = " by #{site_user.creator.full_name}" if site_user.creator

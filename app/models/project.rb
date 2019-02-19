@@ -190,7 +190,7 @@ class Project < ApplicationRecord
 
   def transfer_to_user(new_owner, current_user)
     update user_id: new_owner.id
-    project_user = project_users.where(user_id: current_user.id).first_or_create(creator_id: new_owner.id)
+    project_user = project_users.where(user: current_user).first_or_create
     project_user.update editor: true
   end
 

@@ -20,9 +20,8 @@
   = render "forms/horizontal/show/generic", title: "Theme", content: render("users/theme", user: @user)
   = render "forms/horizontal/show/generic", title: "Joined", content: @user.created_at.strftime("%-m/%-d/%Y") if @user.created_at.present?
   = render "forms/horizontal/show/generic", title: "Most Recent Session", content: @user.current_sign_in_at.strftime("%-m/%-d/%Y") if @user.current_sign_in_at.present?
+  - invites = @user.invites.includes(:project, :inviter).pending
+  - if current_user.admin? && invites.present?
+    = render "forms/horizontal/show/generic", title: "Invites", content: render("users/invites", user: @user, invites: invites)
   = render "forms/horizontal/show/generic", title: "Projects", content: render("users/projects", user: @user)
-  = render "forms/horizontal/show/generic", title: "Sites", content: render("users/sites", user: @user)
-  - site_invitations = SiteUser.where(invite_email: @user.email).where(user_id: nil)
-  - if current_user.admin? && site_invitations.count > 0
-    = render "forms/horizontal/show/generic", title: "Invitations", content: render("users/invitations", user: @user, site_invitations: site_invitations)
   = render "forms/horizontal/show/generic", title: "Profile picture", content: render("users/profile_picture", user: @user) if @user[:profile_picture]

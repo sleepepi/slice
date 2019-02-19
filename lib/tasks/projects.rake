@@ -122,7 +122,6 @@ def copy_project_users(original, copy, options)
     copy.project_users.create(
       user_id: pu.user_id,
       editor: pu.editor,
-      creator_id: pu.creator_id,
       unblinded: pu.unblinded
     )
     if options[:verbose]

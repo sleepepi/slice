@@ -1,0 +1,8 @@
+%ul.list-unstyled
+  - invites.each do |invite|
+    %li
+      Invited to
+      = link_to invite.project.name, invite.project
+      = succeed "." do
+        = simple_time(invite.created_at).gsub("Today", "today")
+        = " by #{invite.inviter.full_name}"

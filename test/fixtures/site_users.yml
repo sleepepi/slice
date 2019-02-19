@@ -2,70 +2,47 @@ one:
   site: one
   project: one
   user: regular
-  creator: regular
-  invite_token: validintwo
-  invite_email: one@example.com
   editor: false
 
 accepted_viewer_invite:
   site: one
   project: one
   user: regular
-  creator: regular
-  invite_token: accepted_viewer_invite
   editor: false
 
 site_viewer:
   project: one
   site: one
-  creator: regular
   user: site_one_viewer
-  invite_token: site1usertoken
-  invite_email: site_one_viewer@example.com
   editor: false
 
 site_editor:
   project: one
   site: one
-  creator: regular
   user: site_one_editor
-  invite_token: site_editor
-  invite_email: site_one_editor@example.com
   editor: true
 
 site_editor_blinded:
   project: one
   site: one
-  creator: regular
   user: site_one_editor_blinded
-  invite_token: site_editor_blinded
-  invite_email: site_one_editor@example.com
   editor: true
   unblinded: false
 
 project_two_site_viewer:
   project: two
   site: two
-  creator: regular
   user: site_two_viewer
-  invite_token: eeff
-  invite_email: site_two_viewer@example.com
   editor: false
 
 project_two_site_editor:
   project: two
   site: two
-  creator: regular
   user: site_two_editor
-  invite_token: ggff
-  invite_email: site_two_editor@example.com
   editor: true
 
 auto_lock_site_one_editor:
   project: auto_lock
   site: auto_lock_site_one
-  creator: regular
   user: auto_lock_site_one_editor
-  invite_token: auto_lock_site_one_editor
-  invite_email: auto_lock_site_one_editor@example.com
   editor: true

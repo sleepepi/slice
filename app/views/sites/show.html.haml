@@ -70,5 +70,5 @@
           - if @project.blinding_enabled?
             %th.text-center Blinding
           %th.text-center Actions
-      - @site.site_users.includes(:user, :creator).order(editor: :desc, id: :asc).each do |member|
+      - @site.site_users.includes(:user).order(editor: :desc, id: :asc).each do |member|
         = render "projects/member_row", member: member

@@ -9,6 +9,9 @@
   - Update to devise 4.6.1
   - Update to sitemap_generator 6.0.2
 
+### Refactoring
+- Remove invite columns from project_users and site_users
+
 ## 69.0.0 (January 28, 2019)
 
 ### Enhancements
