@@ -6,7 +6,7 @@
 A clinical research interface geared at collecting robust and consistent data by
 providing a strong framework for designing data dictionaries and collection
 forms. Slice also provides exports of the data and the data dictionaries created
-as well as providing a simple reporting interface. Using Rails 5.2+ and
+as well as providing a simple reporting interface. Using Rails 6.0+ and
 Ruby 2.6+.
 
 ## Installation

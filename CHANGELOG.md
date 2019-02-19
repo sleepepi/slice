@@ -3,6 +3,11 @@
 ### Enhancements
 - **Gem Changes**
   - Update to ruby 2.6.1
+  - Update to rails 6.0.0.beta1
+  - Update to pg 1.1.4
+  - Update to bootstrap 4.3.1
+  - Update to devise 4.6.1
+  - Update to sitemap_generator 6.0.2
 
 ## 69.0.0 (January 28, 2019)
 
