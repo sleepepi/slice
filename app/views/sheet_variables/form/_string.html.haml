@@ -1,7 +1,7 @@
 - is_grid = defined?(grid)
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = response
-%div{ class: "#{"input-group" if variable.prepend.present? || variable.append.present?}", data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "string", status: variable.validator.status(value) } }
+%div{ class: "#{"input-group" if variable.prepend.present? || variable.append.present?}", data: { object: "validate", validate_url: process_variable_validate_path(@project, variable), target_name: target_name, components: "string", status: variable.validator.status(value) } }
   - if variable.prepend.present?
     .input-group-prepend
       = render "sheet_variables/form/addon", addon: variable.prepend

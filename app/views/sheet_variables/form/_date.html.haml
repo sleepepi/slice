@@ -2,7 +2,7 @@
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = variable.response_to_value(response)
 
-.date-input{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "date", status: variable.validator.status(value) } }
+.date-input{ data: { object: "validate", validate_url: process_variable_validate_path(@project, variable), target_name: target_name, components: "date", status: variable.validator.status(value) } }
   - case variable.date_format
   - when "dd-mmm-yyyy"
     = render "sheet_variables/form/parts/day", disabled: disabled, field_name: field_name, target_name: target_name, value: value

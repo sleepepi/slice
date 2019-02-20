@@ -14,7 +14,6 @@ class ProcessController < ApplicationController
   # POST /process/:project_id/:variable_id/validate.json
   def variable_validate
     I18n.locale = World.language
-    render json: @variable.value_in_range?(params[:value])
   end
 
   private

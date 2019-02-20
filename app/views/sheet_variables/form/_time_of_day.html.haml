@@ -2,7 +2,7 @@
 - target_name = field_name.gsub("[", "_").gsub("]", "")
 - value = variable.response_to_value(response)
 - raw_value = variable.response_to_raw_value(response)
-.time-of-day-input{ data: { object: "validate", project_id: @project.to_param, variable_id: variable.id, target_name: target_name, components: "time_of_day", status: variable.validator.status(value) } }
+.time-of-day-input{ data: { object: "validate", validate_url: process_variable_validate_path(@project, variable), target_name: target_name, components: "time_of_day", status: variable.validator.status(value) } }
   = hidden_field_tag "#{field_name}", raw_value, name: nil, data: { object: "condition", calculation_id: variable.id, name: variable.name, raw_value_for: target_name }
   - if variable.twelve_hour_clock?
     = render "sheet_variables/form/parts/hour", disabled: disabled, field_name: field_name, target_name: target_name, value: value, placeholder: "hh"

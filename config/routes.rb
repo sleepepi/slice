@@ -543,11 +543,6 @@ Rails.application.routes.draw do
     get :check
   end
 
-  # TODO: Move this to process namespace.
-  namespace :validate do
-    post :variable
-  end
-
   namespace :process do
     post :variable_format, path: ":project_id/:variable_id/format"
     post :variable_validate, path: ":project_id/:variable_id/validate"
