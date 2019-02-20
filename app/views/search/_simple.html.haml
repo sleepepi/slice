@@ -1,6 +1,6 @@
 .search-container-relative
   .search-container{ class: params[:search].present? ? "search-container-visible" : nil }
-    = form_with url: url, method: :get, enforce_utf8: false, local: true do |form|
+    = form_with url: url, method: :get, local: true do |form|
       = form.hidden_field :order, value: params[:order] if params[:order].present?
       .input-group
         = form.text_field :search, value: params[:search], autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "form-control", placeholder: "Search #{@title}", id: "search"

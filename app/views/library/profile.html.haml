@@ -6,7 +6,7 @@
   = render "library/profile_header", profile: @profile
 
   .container.py-4
-    = form_tag library_profile_path(@profile), method: :get, enforce_utf8: false, id: "search-form", class: "mb-4" do
+    = form_tag library_profile_path(@profile), method: :get, id: "search-form", class: "mb-4" do
       .input-group
         = text_field_tag :search, params[:search], class: "form-control form-control", placeholder: "Search forms...", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
         .input-group-append

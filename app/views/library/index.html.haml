@@ -5,7 +5,7 @@
     %h1
       .text-white{ style: "font-variant: small-caps;font-weight: 300;" } Library
 
-    = form_tag library_root_path, method: :get, enforce_utf8: false, id: "search-form", class: "mb-5" do
+    = form_tag library_root_path, method: :get, id: "search-form", class: "mb-5" do
       .input-group
         = text_field_tag :search, params[:search], class: "form-control form-control-lg", placeholder: "Start your search", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", autofocus: params[:search].blank?
         .input-group-append

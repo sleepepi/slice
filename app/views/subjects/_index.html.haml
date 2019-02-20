@@ -9,7 +9,7 @@
 .search-container-relative
   .search-container{ class: params[:search].present? ? "search-container-visible" : nil }
     - url = project_subjects_path(@project)
-    = form_with url: url, method: :get, enforce_utf8: false, local: true, id: "search-form" do |form|
+    = form_with url: url, method: :get, local: true, id: "search-form" do |form|
       = form.hidden_field :order, value: params[:order] if params[:order].present?
       = form.hidden_field :site_id, value: params[:site_id] if params[:site_id].present?
       .input-group

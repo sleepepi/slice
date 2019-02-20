@@ -1,5 +1,8 @@
 ## 71.0.0
 
+### Refactoring
+- Remove skipping_utf8 in search forms as Rails 6 no longer enforces utf8
+
 ## 70.0.0 (February 20, 2019)
 
 ### Enhancements
