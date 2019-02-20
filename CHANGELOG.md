@@ -1,4 +1,4 @@
-## 70.0.0
+## 70.0.0 (February 20, 2019)
 
 ### Enhancements
 - **Translation Changes**
