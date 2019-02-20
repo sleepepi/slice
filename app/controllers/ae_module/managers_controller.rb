@@ -135,7 +135,6 @@ class AeModule::ManagersController < AeModule::BaseController
 
   def find_manager_project_or_redirect
     @project = Project.current.where(id: AeTeamMember.where(user: current_user, manager: true).select(:project_id)).find_by_param(params[:project_id])
-    @project = current_user.all_viewable_and_site_projects.find_by_param(params[:project_id]) unless @project # TODO: Remove
     redirect_without_project
   end
 
