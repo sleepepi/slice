@@ -4,7 +4,7 @@ require "test_helper"
 
 SimpleCov.command_name "test:integration"
 
-# Tests to assure that user navigation is working as intended
+# Tests to assure that user navigation is working as intended.
 class NavigationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
