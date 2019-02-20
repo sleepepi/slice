@@ -22,7 +22,6 @@ class Check < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :user
-  has_many :check_filters
   has_many :status_checks
 
   # Methods

@@ -40,7 +40,7 @@
               = link_to project_categories_path(@project), class: (params[:controller] == "categories" ? "active" : nil) do
                 Categories
             %li
-              = link_to editor_project_checks_path(@project), class: (%w(editor/checks editor/check_filters editor/check_filter_values).include?(params[:controller]) ? "active" : nil) do
+              = link_to editor_project_checks_path(@project), class: (params[:controller] == "editor/checks" ? "active" : nil) do
                 Checks
             %li
               = link_to project_designs_path(@project), class: (params[:controller] == "designs" ? "active" : nil) do

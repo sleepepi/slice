@@ -20,11 +20,6 @@
 
   = render "forms/horizontal/show/check_box", object: @check, key: :archived if @check.archived?
 
-  - if @check.check_filters.present?
-    .bg-light.p-3
-      %strong Deprecated
-      = render "editor/checks/filters", check: @check
-
 - unless @check.archived?
   .dashboard-container
     .float-right.text-muted

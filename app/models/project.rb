@@ -57,7 +57,6 @@ class Project < ApplicationRecord
   has_many :adverse_events, -> { current.joins(:subject).merge(Subject.current) }
   has_many :categories, -> { current.order(:position) }
   has_many :checks, -> { current }
-  has_many :check_filters, -> { current.joins(:check).merge(Check.current) }
   has_many :designs, -> { current }
   has_many :variables, -> { current }
   has_many :sections

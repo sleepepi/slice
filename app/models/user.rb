@@ -28,8 +28,6 @@ class User < ApplicationRecord
   has_many :adverse_event_users
   has_many :categories, -> { current }
   has_many :checks, -> { current }
-  has_many :check_filters
-  has_many :check_filter_values
   has_many :comments, -> { current }
   has_many :designs, -> { current }
   has_many :domains, -> { current }

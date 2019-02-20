@@ -16,6 +16,7 @@
 
 ### Refactoring
 - Remove invite columns from project_users and site_users
+- Remove deprecated `check_filters` and `check_filter_values`
 
 ## 69.0.0 (January 28, 2019)
 
