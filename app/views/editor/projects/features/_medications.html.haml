@@ -1,0 +1,25 @@
+.card.mb-3
+  %h5.card-header
+    Medications
+    - if project.medications_enabled?
+      = link_to "ON", toggle_editor_project_path(project, feature: "medications", enabled: "0"), method: :patch, remote: true, class: "btn btn-success btn-sm btn-shadow"
+    - else
+      = link_to "OFF", toggle_editor_project_path(project, feature: "medications", enabled: "1"), method: :patch, remote: true, class: "btn btn-light btn-sm btn-shadow"
+
+  .card-body
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "pills", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if project.medications_enabled?
+            Medications are enabled for this project.
+          - else
+            Medications are disabled for this project.
+
+    - if false
+      .d-flex.align-items-center
+        .p-3{ style: "min-width: 4.5rem;" }
+        .p-3
+          = link_to docs_medications_path, class: "text-muted" do
+            = icon("fas", "info-circle")
+            Learn more...

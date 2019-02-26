@@ -1,5 +1,3 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
 one:
   name: Project One
   description: MyText
@@ -89,3 +87,10 @@ aes:
   user: aes_owner
   adverse_event_reviews_enabled: true
   blinding_enabled: true
+
+# To test Medications Module
+medications:
+  name: Medications Tracking
+  slug: meds
+  user: meds_owner
+  medications_enabled: true

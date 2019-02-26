@@ -1,0 +1,35 @@
+.card.mb-3
+  %h5.card-header
+    Blinding
+    - if project.blinding_enabled?
+      - if project.unblinded?(current_user)
+        = link_to "ON", toggle_editor_project_path(project, feature: "blinding", enabled: "0"), method: :patch, remote: true, class: "btn btn-success btn-sm btn-shadow"
+      - else
+        .btn.btn-success.btn-sm.btn-shadow.disabled{ disabled: true }
+          ON
+    - else
+      = link_to "OFF", toggle_editor_project_path(project, feature: "blinding", enabled: "1"), method: :patch, remote: true, class: "btn btn-light btn-sm btn-shadow"
+
+  .card-body
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "blind", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if project.blinding_enabled?
+            Set member blinding on the
+            = succeed "." do
+              = link_to "team page", project_team_path(project)
+            Check the "Only unblinded" setting on
+            = link_to "events", project_events_path(project)
+            and
+            = link_to "designs", project_designs_path(project)
+            to hide them from blinded team members.
+          - else
+            Blinding is disabled for this project.
+
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_blinding_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...

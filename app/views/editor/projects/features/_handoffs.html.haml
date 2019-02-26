@@ -1,0 +1,27 @@
+.card.mb-3
+  %h5.card-header
+    Tablet handoff
+    - if project.handoffs_enabled?
+      = link_to "ON", toggle_editor_project_path(project, feature: "handoffs", enabled: "0"), method: :patch, remote: true, class: "btn btn-success btn-sm btn-shadow"
+    - else
+      = link_to "OFF", toggle_editor_project_path(project, feature: "handoffs", enabled: "1"), method: :patch, remote: true, class: "btn btn-light btn-sm btn-shadow"
+  .card-body
+
+    .mb-3.d-flex.align-items-center
+      .p-3.border-right{ style: "min-width: 4.5rem;" }= icon("fas", "tablet-alt", class: "fa-2x")
+      .p-3
+        .small.text-muted
+          - if project.handoffs_enabled?
+            Add designs to tablet handoffs by
+            checking "Handoff Enabled" on
+            = succeed "." do
+              = link_to "events", project_events_path(project)
+          - else
+            Tablet handoffs are not enabled.
+
+    .d-flex.align-items-center
+      .p-3{ style: "min-width: 4.5rem;" }
+      .p-3
+        = link_to docs_notifications_path, class: "text-muted" do
+          = icon("fas", "info-circle")
+          Learn more...

@@ -17,10 +17,7 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
       description: "Project Description\n Line two",
       disable_all_emails: "1",
       hide_values_on_pdfs: "1",
-      randomizations_enabled: "1",
       adverse_events_enabled: "1",
-      blinding_enabled: "1",
-      handoffs_enabled: "1",
       auto_lock_sheets: "after24hours"
     }
   end
@@ -57,10 +54,7 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Project Description\n Line two", assigns(:project).description
     assert_equal true, assigns(:project).disable_all_emails?
     assert_equal true, assigns(:project).hide_values_on_pdfs?
-    assert_equal true, assigns(:project).randomizations_enabled?
     assert_equal true, assigns(:project).adverse_events_enabled?
-    assert_equal true, assigns(:project).blinding_enabled?
-    assert_equal true, assigns(:project).handoffs_enabled?
     assert_equal "after24hours", assigns(:project).auto_lock_sheets
     assert_redirected_to settings_editor_project_path(assigns(:project))
   end
@@ -71,13 +65,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_equal ["can't be blank"], assigns(:project).errors[:name]
     assert_template "edit"
     assert_response :success
-  end
-
-  test "should not update project blinding as blinded editor" do
-    login(@blinded_editor)
-    patch editor_project_url(@project), params: { project: project_params.merge(blinding_enabled: "0") }
-    assert_equal true, assigns(:project).blinding_enabled?
-    assert_redirected_to settings_editor_project_path(assigns(:project))
   end
 
   test "should not update invalid project" do
@@ -106,5 +93,53 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
     patch editor_project_url(@project), params: { project: { remove_logo: "1" } }
     assert_not_equal 0, @project.logo.size
     assert_redirected_to projects_path
+  end
+
+  test "should toggle project blinding" do
+    login(users(:regular))
+    patch toggle_editor_project_url(projects(:default), feature: "blinding", enabled: "1", format: "js")
+    projects(:default).reload
+    assert_equal true, projects(:default).blinding_enabled?
+    assert_response :success
+  end
+
+  test "should not toggle project blinding as blinded editor" do
+    login(@blinded_editor)
+    patch toggle_editor_project_url(projects(:one), feature: "blinding", enabled: "0", format: "js")
+    projects(:one).reload
+    assert_equal true, projects(:one).blinding_enabled?
+    assert_response :success
+  end
+
+  test "should toggle project handoffs" do
+    login(users(:regular))
+    patch toggle_editor_project_url(projects(:default), feature: "handoffs", enabled: "1", format: "js")
+    projects(:default).reload
+    assert_equal true, projects(:default).handoffs_enabled?
+    assert_response :success
+  end
+
+  test "should toggle project medications" do
+    login(users(:regular))
+    patch toggle_editor_project_url(projects(:default), feature: "medications", enabled: "1", format: "js")
+    projects(:default).reload
+    assert_equal true, projects(:default).medications_enabled?
+    assert_response :success
+  end
+
+  test "should toggle project randomizations" do
+    login(users(:regular))
+    patch toggle_editor_project_url(projects(:default), feature: "randomizations", enabled: "1", format: "js")
+    projects(:default).reload
+    assert_equal true, projects(:default).randomizations_enabled?
+    assert_response :success
+  end
+
+  test "should toggle project translations" do
+    login(users(:regular))
+    patch toggle_editor_project_url(projects(:default), feature: "translations", enabled: "1", format: "js")
+    projects(:default).reload
+    assert_equal true, projects(:default).translations_enabled?
+    assert_response :success
   end
 end

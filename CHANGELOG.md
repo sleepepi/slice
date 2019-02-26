@@ -1,5 +1,9 @@
 ## 71.0.0
 
+### Enhancements
+- **Medications Added**
+  - Added a project level module to track subject medications
+
 ### Refactoring
 - Remove skipping_utf8 in search forms as Rails 6 no longer enforces utf8
 

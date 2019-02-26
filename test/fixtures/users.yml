@@ -136,3 +136,7 @@ aes_team_viewer:
 aes_invited_user:
   full_name: Invited User
   email: invite@example.com
+
+meds_owner:
+  full_name: Meds Project Owner
+  email: meds_owner@example.com

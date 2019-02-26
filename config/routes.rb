@@ -201,6 +201,7 @@ Rails.application.routes.draw do
         delete :remove_designment, path: "remove-designment"
         post :add_language, path: "add-language"
         delete :remove_language, path: "remove-language"
+        patch :toggle
       end
 
       resources :ae_teams, path: "ae-module/teams" do

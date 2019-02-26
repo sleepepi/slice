@@ -28,6 +28,18 @@ class Editor::ProjectsController < ApplicationController
     end
   end
 
+  # PATCH /editor/projects/1/toggle.js
+  def toggle
+    @feature = params[:feature]
+    if @feature.in?(%w(handoffs medications randomizations translations)) ||
+       (@feature == "blinding" && @project.unblinded?(current_user))
+      key = "#{@feature}_enabled"
+      @project.update(key => (params[:enabled] == "1"))
+    else
+      head :ok
+    end
+  end
+
   # # GET /editor/projects/:project_id/setup-designs
   # def setup_designs
   # end
@@ -73,24 +85,13 @@ class Editor::ProjectsController < ApplicationController
   end
 
   def project_params
-    if @project.unblinded?(current_user)
-      params.require(:project).permit(
-        :name, :slug, :description, :disable_all_emails,
-        :hide_values_on_pdfs,
-        :randomizations_enabled, :adverse_events_enabled, :blinding_enabled,
-        :handoffs_enabled, :auto_lock_sheets, :translations_enabled,
-        # Uploaded Logo
-        :logo, :logo_uploaded_at, :logo_cache, :remove_logo
-      )
-    else
-      params.require(:project).permit(
-        :name, :slug, :description, :disable_all_emails,
-        :hide_values_on_pdfs,
-        :randomizations_enabled, :adverse_events_enabled,
-        :handoffs_enabled, :auto_lock_sheets, :translations_enabled,
-        # Uploaded Logo
-        :logo, :logo_uploaded_at, :logo_cache, :remove_logo
-      )
-    end
+    params.require(:project).permit(
+      :name, :slug, :description, :disable_all_emails,
+      :hide_values_on_pdfs,
+      :adverse_events_enabled,
+      :auto_lock_sheets,
+      # Uploaded Logo
+      :logo, :logo_uploaded_at, :logo_cache, :remove_logo
+    )
   end
 end
