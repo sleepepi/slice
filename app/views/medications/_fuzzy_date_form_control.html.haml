@@ -1,0 +1,18 @@
+%div
+  = form.hidden_field :"#{key}_edit", value: "1"
+  = form.text_field :"#{key}_mo_1", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off", autofocus: defined?(autofocus) ? autofocus : nil
+  = form.text_field :"#{key}_mo_2", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  \/
+  = form.text_field :"#{key}_dy_1", maxlength: 1, size: 1, placeholder: "D", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  = form.text_field :"#{key}_dy_2", maxlength: 1, size: 1, placeholder: "D", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  \/
+  = form.text_field :"#{key}_yr_1", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  = form.text_field :"#{key}_yr_2", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  = form.text_field :"#{key}_yr_3", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+  = form.text_field :"#{key}_yr_4", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+- if object.errors[key].present?
+  %small.text-danger
+    = succeed "." do
+      = object.errors[key].collect { |e| "#{defined?(key_name) ? key_name : key.to_s.humanize} #{e}" }.join(", ")
+- else
+  %small.text-muted Enter 99 for unknown values.

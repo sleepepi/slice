@@ -65,6 +65,20 @@ class ApplicationController < ActionController::Base
     empty_response_or_root_path(path) unless @project
   end
 
+  def find_viewable_subject_or_redirect(id = :subject_id)
+    @subject = current_user.all_viewable_subjects.includes(:project).where(project: @project).find_by(id: params[id])
+    redirect_without_subject
+  end
+
+  def find_editable_subject_or_redirect(id = :subject_id)
+    @subject = current_user.all_subjects.includes(:project).where(project: @project).find_by(id: params[id])
+    redirect_without_subject
+  end
+
+  def redirect_without_subject
+    empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+  end
+
   def redirect_blinded_users
     empty_response_or_root_path(@project) unless @project.unblinded?(current_user)
   end

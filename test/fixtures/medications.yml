@@ -1,0 +1,15 @@
+one:
+  project: medications
+  subject: meds_01
+  # position:
+  name: Acetaminophen
+  start_date_fuzzy: 20180699
+  stop_date_fuzzy: 20199999
+
+two:
+  project: medications
+  subject: meds_01
+  # position:
+  name: Diphenhydramine
+  start_date_fuzzy: 20180531
+  # stop_date_fuzzy:

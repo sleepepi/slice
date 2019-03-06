@@ -154,14 +154,6 @@ class SubjectsController < ApplicationController
   # def sheets
   # end
 
-  # # GET /projects/:project_id/subjects/1/medications
-  # def medications
-  # end
-
-  # # GET /projects/:project_id/subjects/1/medications/edit
-  # def edit_medications
-  # end
-
   # # GET /projects/:project_id/subjects/1/timeline
   # def timeline
   # end
@@ -323,17 +315,11 @@ class SubjectsController < ApplicationController
   private
 
   def find_viewable_subject_or_redirect
-    @subject = current_user.all_viewable_subjects.includes(:project).where(project: @project).find_by(id: params[:id])
-    redirect_without_subject
+    super(:id)
   end
 
   def find_editable_subject_or_redirect
-    @subject = current_user.all_subjects.includes(:project).where(project: @project).find_by(id: params[:id])
-    redirect_without_subject
-  end
-
-  def redirect_without_subject
-    empty_response_or_root_path(project_subjects_path(@project)) unless @subject
+    super(:id)
   end
 
   def check_for_randomizations

@@ -93,3 +93,8 @@ aes_site:
   name: AE Site
   project: aes
   user: aes_owner
+
+meds_site:
+  name: Meds Site
+  project: medications
+  user: meds_owner

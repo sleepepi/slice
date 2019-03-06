@@ -140,3 +140,7 @@ aes_invited_user:
 meds_owner:
   full_name: Meds Project Owner
   email: meds_owner@example.com
+
+meds_project_editor:
+  full_name: Meds Project Editor
+  email: meds_project_editor@example.com

@@ -1,0 +1,18 @@
+= form_with model: [medication.project, medication.subject, medication], local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: medication, key: :name
+  =# render "forms/horizontal/text_field", form: form, object: medication, key: :indication
+  =# render "forms/horizontal/text_field", form: form, object: medication, key: :dose
+  =# render "forms/horizontal/text_field", form: form, object: medication, key: :units
+  =# render "forms/horizontal/text_field", form: form, object: medication, key: :frequency
+
+  .form-group.row
+    = form.label :start_date, "Start date", class: "col-md-2 col-form-label"
+    .col-md-10
+      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :start_date_fuzzy, key_name: "Start date"
+
+  .form-group.row
+    = form.label :stop_date, "Stop date", class: "col-md-2 col-form-label"
+    .col-md-10
+      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :stop_date_fuzzy, key_name: "Stop date"
+
+  = render "forms/horizontal/submit", form: form, object: [medication.project, medication.subject, medication]

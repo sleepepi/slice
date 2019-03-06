@@ -3,6 +3,9 @@
 ### Enhancements
 - **Medications Added**
   - Added a project level module to track subject medications
+  - Medication start and stop dates allow for fuzzy dates
+    - Dates where only the year is known: 1990
+    - Dates where only the year and month are known: Jan 1990
 
 ### Refactoring
 - Remove skipping_utf8 in search forms as Rails 6 no longer enforces utf8

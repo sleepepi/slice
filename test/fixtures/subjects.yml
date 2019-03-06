@@ -270,3 +270,9 @@ aes_12:
   subject_code: AE12
   user: aes_project_editor
   site: aes_site
+
+meds_01:
+  project: medications
+  subject_code: M01
+  user: meds_project_editor
+  site: meds_site

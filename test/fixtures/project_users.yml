@@ -48,3 +48,8 @@ aes_editor:
   project: aes
   user: aes_project_editor
   editor: true
+
+meds_editor:
+  project: medications
+  user: meds_project_editor
+  editor: true

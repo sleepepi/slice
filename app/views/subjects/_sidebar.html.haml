@@ -72,7 +72,7 @@
               %li= link_to "None", ae_adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(ae_adverse_events_project_subject_path(@project, @subject))}"
           - if @project.medications_enabled?
             %li.sidebar-menu-header-link
-              = link_to "Medications", medications_project_subject_path(@project, @subject)
+              = link_to "Medications", project_subject_medications_path(@project, @subject)
           %li.sidebar-menu-header-link
             = link_to "Extra", timeline_project_subject_path(@project, @subject)
 

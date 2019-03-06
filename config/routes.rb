@@ -405,6 +405,8 @@ Rails.application.routes.draw do
     resources :site_users, only: [:update, :destroy]
 
     resources :subjects do
+      resources :medications
+
       member do
         get "choose-date/:event_id", action: :choose_date, as: :choose_date
         post :launch_subject_event

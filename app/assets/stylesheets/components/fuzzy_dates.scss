@@ -1,0 +1,15 @@
+.fuzzy-date-control {
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  text-align: center;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .fuzzy-date-control {
+      background-color: map-get($theme, dashboard-bg);
+      border-color: theme-color($theme, input-border-color, $input-border-color);
+      color: map-get($theme, body-color);
+    }
+  }
+}
