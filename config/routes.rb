@@ -423,7 +423,6 @@ Rails.application.routes.draw do
 
         get :medications, path: "meds"
         get :review_medications, path: "meds/review"
-        get :add_medication, path: "meds/add"
         get :medication_added, path: "meds/:number/added"
         get :review_medication, path: "meds/:number"
         get :review_medication_stop_date, path: "meds/:number/stop-date"

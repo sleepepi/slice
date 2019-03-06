@@ -6,7 +6,7 @@
 - content_for :header do
   - if @subject.editable_by?(current_user)
     .float-right
-      = link_to plus_or("Add Medication"), add_medication_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
+      = link_to plus_or("Add Medication"), new_project_subject_medication_path(@project, @subject), class: "btn btn-accent btn-shadow"
       = link_to plus_or("Start Medication Review"), review_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow #{"disabled" if @subject.medications.blank?}"
       =# link_to plus_or("Edit Medications"), edit_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
   = @title

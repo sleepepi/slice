@@ -19,7 +19,6 @@
   Update Medication Details
 
 .dashboard-container
-  - @medication = Medication2.new
   = form_with do |form|
     = render "forms/horizontal/text_field", form: form, object: @medication, key: :name
     = render "forms/horizontal/text_field", form: form, object: @medication, key: :indication

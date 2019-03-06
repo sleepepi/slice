@@ -1,5 +1,5 @@
 = form_with model: [medication.project, medication.subject, medication], local: true do |form|
-  = render "forms/horizontal/text_field", form: form, object: medication, key: :name
+  = render "forms/horizontal/text_field", form: form, object: medication, key: :name, autocomplete: "off"
   =# render "forms/horizontal/text_field", form: form, object: medication, key: :indication
   =# render "forms/horizontal/text_field", form: form, object: medication, key: :dose
   =# render "forms/horizontal/text_field", form: form, object: medication, key: :units

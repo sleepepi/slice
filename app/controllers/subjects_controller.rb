@@ -14,7 +14,7 @@ class SubjectsController < ApplicationController
     :data_entry, :send_url, :set_sheet_as_missing,
     :set_sheet_as_shareable, :new_data_entry, :choose_event,
     :launch_subject_event, :edit_event, :update_event, :destroy_event,
-    :edit_medications, :add_medication, :review_medications,
+    :edit_medications, :review_medications,
     :review_medication, :review_medication_stop_date, :review_medication_something_changed,
     :review_medication_when_did_change_occur, :medication_added
   ]
@@ -26,7 +26,7 @@ class SubjectsController < ApplicationController
     :edit, :update, :destroy, :choose_date, :data_entry, :send_url,
     :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry,
     :choose_event, :launch_subject_event, :edit_event, :update_event,
-    :destroy_event, :edit_medications, :add_medication, :review_medications,
+    :destroy_event, :edit_medications, :review_medications,
     :review_medication, :review_medication_stop_date, :review_medication_something_changed,
     :review_medication_when_did_change_occur, :medication_added
   ]

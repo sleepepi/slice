@@ -7,20 +7,19 @@
   - if @subject.editable_by?(current_user)
     .float-right
       = link_to plus_or("Add Medication"), new_project_subject_medication_path(@project, @subject), class: "btn btn-accent btn-shadow"
-      = link_to plus_or("Add Medication"), add_medication_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
       = link_to plus_or("Start Medication Review"), review_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow #{"disabled" if @subject.medications.blank?}"
       =# link_to plus_or("Edit Medications"), edit_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
   = @title
 
 - content_for :breadcrumbs do
-  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: -5 # @subject.medications.total_count # TODO:
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @medications.total_count
   %ol
     %li= link_to @subject.subject_code, [@project, @subject]
     %li.breadcrumb-muted medications
 
 .mb-3.alert.alert-info Display medications as cards
 
-- if @subject.medications.present?
+- if @medications.present?
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
       %thead
