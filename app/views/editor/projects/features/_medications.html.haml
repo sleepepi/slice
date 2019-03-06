@@ -8,11 +8,13 @@
 
   .card-body
     .mb-3.d-flex.align-items-center
-      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "pills", class: "fa-2x")
+      .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "file-prescription", class: "fa-2x")
       .p-3
         .small.text-muted
           - if project.medications_enabled?
             Medications are enabled for this project.
+            = succeed "." do
+              = link_to "Setup medications", setup_medications_editor_project_path(@project)
           - else
             Medications are disabled for this project.
 

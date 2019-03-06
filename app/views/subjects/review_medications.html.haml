@@ -1,0 +1,15 @@
+- @title = "Review Medications"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+
+- content_for :header do
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", medications_project_subject_path(@project, @subject)
+    %li.breadcrumb-muted review
+
+= link_to plus_or("Medication 1"), review_medication_project_subject_path(@project, @subject, number: 1), class: "btn btn-accent btn-shadow"

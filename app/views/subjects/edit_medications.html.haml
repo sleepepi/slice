@@ -1,0 +1,56 @@
+- @title = "Medications"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+
+- content_for :header do
+  - if @subject.editable_by?(current_user)
+    .float-right
+      = link_to plus_or("Edit Medications"), "#", class: "btn btn-accent btn-shadow"
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", medications_project_subject_path(@project, @subject)
+    %li.breadcrumb-muted edit
+
+%table.table.table-striped.table-borderless.table-hover.table-sticky
+  %thead
+    %tr
+      %th.text-center #
+      %th.text-center.nowrap Medication Name
+      %th.text-center Indication
+      %th.text-center Dose
+      %th.text-center Unit
+      %th.text-center Frequency
+      %th.text-center Route
+      %th.text-center.nowrap Start Date
+      %th.text-center.nowrap Stop Date
+
+  %tbody
+    %tr
+      %td.text-center.text-muted 0
+      %td Medication Name
+      %td Indication
+      %td Dose
+      %td Unit
+      %td Frequency
+      %td Route
+      %td.text-center MM/DD/YYYY
+      %td.text-center
+        %span.text-primary Review now
+        / %span.text-success Ongoing?
+        / %span.text-danger Stopped?
+
+    - (1..5).each do |number|
+      %tr
+        %td.text-center.text-muted= number
+        %td Medication Name
+        %td Indication
+        %td Dose
+        %td Unit
+        %td Frequency
+        %td Route
+        %td.text-center MM/DD/YYYY
+        %td.text-center MM/DD/YYYY

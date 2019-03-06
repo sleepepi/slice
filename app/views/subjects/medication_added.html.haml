@@ -1,0 +1,22 @@
+- @title = "Medication #{params[:number]} - Review Medications"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+
+- content_for :header do
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", medications_project_subject_path(@project, @subject)
+    %li.breadcrumb-muted= "added #{params[:number]}"
+
+.jumbotron.jumbotron-custom-text
+  %p Medication added!
+
+  %p Albuterol 500mg 1x per day pill
+
+= link_to "Back to medications", medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
+
+= link_to plus_or("ADD ANOTHER"), add_medication_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"

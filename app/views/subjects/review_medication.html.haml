@@ -1,0 +1,28 @@
+- @title = "Medication #{params[:number]} - Review Medications"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+
+- content_for :header do
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", medications_project_subject_path(@project, @subject)
+    %li.breadcrumb-muted review
+    %li.breadcrumb-muted
+      medication
+      = params[:number]
+
+.jumbotron.jumbotron-custom-text
+  Is participant still taking...
+  .display-1
+    = "ALBUTEROL"
+  500mg 1x per day pill
+
+= link_to plus_or("YES"), review_medication_project_subject_path(@project, @subject, number: params[:number].to_i + 1), class: "btn btn-accent btn-shadow"
+
+= link_to plus_or("NO SOMETHING CHANGED"), review_medication_something_changed_project_subject_path(@project, @subject, number: params[:number].to_i), class: "btn btn-accent btn-shadow"
+
+= link_to plus_or("NO STOPPED COMPLETELY"), review_medication_stop_date_project_subject_path(@project, @subject, number: params[:number].to_i), class: "btn btn-accent btn-shadow"

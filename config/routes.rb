@@ -202,6 +202,7 @@ Rails.application.routes.draw do
         post :add_language, path: "add-language"
         delete :remove_language, path: "remove-language"
         patch :toggle
+        get :setup_medications, path: "setup-medications"
       end
 
       resources :ae_teams, path: "ae-module/teams" do
@@ -417,6 +418,17 @@ Rails.application.routes.draw do
         get :files
         get :adverse_events, path: "adverse-events"
         get :ae_adverse_events, path: "ae-adverse-events"
+
+        get :medications, path: "meds"
+        get :review_medications, path: "meds/review"
+        get :add_medication, path: "meds/add"
+        get :medication_added, path: "meds/:number/added"
+        get :review_medication, path: "meds/:number"
+        get :review_medication_stop_date, path: "meds/:number/stop-date"
+        get :review_medication_something_changed, path: "meds/:number/something-changed"
+        get :review_medication_when_did_change_occur, path: "meds/:number/when-did-change-occur"
+
+        get :edit_medications, path: "medications/edit"
         get :sheets
         get :data_entry, path: "data-entry"
         get "data-entry/:design_id", action: :new_data_entry, as: :new_data_entry

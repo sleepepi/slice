@@ -40,6 +40,10 @@ class Subject < ApplicationRecord
 
   # Methods
 
+  def medications
+    []
+  end
+
   def self.searchable_attributes
     %w(subject_code)
   end

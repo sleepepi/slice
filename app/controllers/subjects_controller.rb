@@ -7,23 +7,28 @@ class SubjectsController < ApplicationController
     :index, :show, :timeline, :comments, :files, :adverse_events,
     :ae_adverse_events, :events, :sheets, :event, :report, :search,
     :choose_site, :autocomplete, :designs_search, :events_search,
-    :event_coverage
+    :event_coverage, :medications
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
     :data_entry, :send_url, :set_sheet_as_missing,
     :set_sheet_as_shareable, :new_data_entry, :choose_event,
-    :launch_subject_event, :edit_event, :update_event, :destroy_event
+    :launch_subject_event, :edit_event, :update_event, :destroy_event,
+    :edit_medications, :add_medication, :review_medications,
+    :review_medication, :review_medication_stop_date, :review_medication_something_changed,
+    :review_medication_when_did_change_occur, :medication_added
   ]
   before_action :find_viewable_subject_or_redirect, only: [
     :show, :timeline, :comments, :files, :adverse_events, :ae_adverse_events,
-    :events, :sheets, :event, :event_coverage
+    :events, :sheets, :event, :event_coverage, :medications
   ]
   before_action :find_editable_subject_or_redirect, only: [
     :edit, :update, :destroy, :choose_date, :data_entry, :send_url,
     :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry,
     :choose_event, :launch_subject_event, :edit_event, :update_event,
-    :destroy_event
+    :destroy_event, :edit_medications, :add_medication, :review_medications,
+    :review_medication, :review_medication_stop_date, :review_medication_something_changed,
+    :review_medication_when_did_change_occur, :medication_added
   ]
   before_action :set_design, only: [
     :new_data_entry, :set_sheet_as_missing, :set_sheet_as_shareable
@@ -147,6 +152,14 @@ class SubjectsController < ApplicationController
 
   # # GET /projects/:project_id/subjects/1/sheets
   # def sheets
+  # end
+
+  # # GET /projects/:project_id/subjects/1/medications
+  # def medications
+  # end
+
+  # # GET /projects/:project_id/subjects/1/medications/edit
+  # def edit_medications
   # end
 
   # # GET /projects/:project_id/subjects/1/timeline

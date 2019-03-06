@@ -44,6 +44,10 @@ class Editor::ProjectsController < ApplicationController
   # def setup_designs
   # end
 
+  # # GET /editor/projects/:project_id/setup-medications
+  # def setup_medications
+  # end
+
   # POST /editor/projects/:project_id/submit-designs
   def submit_designs
     @pathway = @project.ae_team_pathways.find_by(id: params[:pathway_id])

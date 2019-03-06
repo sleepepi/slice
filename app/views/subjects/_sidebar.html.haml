@@ -56,7 +56,6 @@
                     = adverse_event.name
             - else
               %li= link_to "None", adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(adverse_events_project_subject_path(@project, @subject))}"
-
           - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
             %li.sidebar-menu-header-link
               = link_to "Adverse Events", ae_adverse_events_project_subject_path(@project, @subject)
@@ -71,7 +70,9 @@
                     = adverse_event.name
             - else
               %li= link_to "None", ae_adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(ae_adverse_events_project_subject_path(@project, @subject))}"
-
+          - if @project.medications_enabled?
+            %li.sidebar-menu-header-link
+              = link_to "Medications", medications_project_subject_path(@project, @subject)
           %li.sidebar-menu-header-link
             = link_to "Extra", timeline_project_subject_path(@project, @subject)
 
