@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
+# Tests to assure project editors can create and update subject medications.
 class MedicationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @project_editor = users(:meds_project_editor)
@@ -12,7 +15,13 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
     {
       name: @medication.name,
       start_date_fuzzy: @medication.start_date_fuzzy,
-      stop_date_fuzzy: @medication.stop_date_fuzzy
+      stop_date_fuzzy: @medication.stop_date_fuzzy,
+      medication_variables: {
+        medication_variables(:indication).id.to_s => "Some reason",
+        medication_variables(:unit).id.to_s => "tablespoon",
+        medication_variables(:frequency).id.to_s => "1X per day",
+        medication_variables(:route).id.to_s => "S.C. - subcutaneous"
+      }
     }
   end
 
@@ -31,7 +40,9 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
   test "should create medication" do
     login(@project_editor)
     assert_difference("Medication.count") do
-      post project_subject_medications_url(@project, @subject), params: { medication: medication_params }
+      assert_difference("MedicationValue.count", 4) do
+        post project_subject_medications_url(@project, @subject), params: { medication: medication_params }
+      end
     end
     assert_redirected_to [@project, @subject, Medication.last]
   end

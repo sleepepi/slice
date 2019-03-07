@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Allows editors to track subject medications.
 class MedicationsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:index, :show]
@@ -36,6 +39,7 @@ class MedicationsController < ApplicationController
   def create
     @medication = @subject.medications.where(project: @project).new(medication_params)
     if @medication.save
+      @medication.save_medication_variables!
       redirect_to [@project, @subject, @medication], notice: "Medication was successfully created."
     else
       render :new
@@ -45,6 +49,7 @@ class MedicationsController < ApplicationController
   # PATCH /medications/1
   def update
     if @medication.update(medication_params)
+      @medication.save_medication_variables!
       redirect_to [@project, @subject, @medication], notice: "Medication was successfully updated."
     else
       render :edit
@@ -66,7 +71,8 @@ class MedicationsController < ApplicationController
 
   def medication_params
     params.require(:medication).permit(
-      :position, :name, :start_date_fuzzy_edit, :stop_date_fuzzy_edit,
+      :position, :name,
+      :start_date_fuzzy_edit, :stop_date_fuzzy_edit,
       :start_date_fuzzy_mo_1, :start_date_fuzzy_mo_2,
       :start_date_fuzzy_dy_1, :start_date_fuzzy_dy_2,
       :start_date_fuzzy_yr_1, :start_date_fuzzy_yr_2,
@@ -74,7 +80,8 @@ class MedicationsController < ApplicationController
       :stop_date_fuzzy_mo_1, :stop_date_fuzzy_mo_2,
       :stop_date_fuzzy_dy_1, :stop_date_fuzzy_dy_2,
       :stop_date_fuzzy_yr_1, :stop_date_fuzzy_yr_2,
-      :stop_date_fuzzy_yr_3, :stop_date_fuzzy_yr_4
+      :stop_date_fuzzy_yr_3, :stop_date_fuzzy_yr_4,
+      medication_variables: {}
     )
   end
 end

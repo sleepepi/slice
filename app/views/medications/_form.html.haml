@@ -1,9 +1,13 @@
 = form_with model: [medication.project, medication.subject, medication], local: true do |form|
   = render "forms/horizontal/text_field", form: form, object: medication, key: :name, autocomplete: "off"
-  =# render "forms/horizontal/text_field", form: form, object: medication, key: :indication
-  =# render "forms/horizontal/text_field", form: form, object: medication, key: :dose
-  =# render "forms/horizontal/text_field", form: form, object: medication, key: :units
-  =# render "forms/horizontal/text_field", form: form, object: medication, key: :frequency
+
+  - @project.medication_variables.each do |medication_variable|
+    .form-group.row
+      = form.label medication_variable.name, nil, class: "col-md-2 col-form-label"
+      .col-md-10
+        - medication_value = medication.medication_values.find_by(medication_variable: medication_variable)
+        - value = params.dig(:medication, :medication_variables, medication_variable.id.to_s.to_sym) || medication_value&.value
+        = text_field_tag "medication[medication_variables][#{medication_variable.id}]", value, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
 
   .form-group.row
     = form.label :start_date, "Start date", class: "col-md-2 col-form-label"

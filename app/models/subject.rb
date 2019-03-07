@@ -36,6 +36,7 @@ class Subject < ApplicationRecord
   has_many :ae_adverse_events, -> { current }
   has_many :randomizations, -> { current }
   has_many :medications, -> { current }
+  has_many :medication_values, -> { current }
   has_many :sheets, -> { current }
   has_many :subject_events, -> { joins(:event).order(:event_date, "events.position") }
 

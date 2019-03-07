@@ -14,6 +14,7 @@ class Medication < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :subject
+  has_many :medication_values
 
   attr_writer :start_date_fuzzy_mo_1, :start_date_fuzzy_mo_2,
               :start_date_fuzzy_dy_1, :start_date_fuzzy_dy_2,
@@ -24,7 +25,7 @@ class Medication < ApplicationRecord
               :stop_date_fuzzy_yr_1, :stop_date_fuzzy_yr_2,
               :stop_date_fuzzy_yr_3, :stop_date_fuzzy_yr_4
 
-  attr_accessor :start_date_fuzzy_edit, :stop_date_fuzzy_edit
+  attr_accessor :start_date_fuzzy_edit, :stop_date_fuzzy_edit, :medication_variables
 
   # Methods
 
@@ -206,14 +207,14 @@ class Medication < ApplicationRecord
       errors.add(key, "day should be 99 if month is unknown")
     elsif yr.present? && mo == 99 && dy == 99
       if yr <= Time.zone.today.year
-        date_string  = "#{yrs}#{mos}#{dys}"
+        date_string = "#{yrs}#{mos}#{dys}"
       else
         errors.add(:"#{key}_yr", "can't be in future")
         errors.add(key, "can't be in future")
       end
     elsif yr.present? && mo.present? && dy == 99
       if yr < Time.zone.today.year && mo.in?(1..12) || yr == Time.zone.today.year && mo.in?(1..Time.zone.today.month)
-        date_string  = "#{yrs}#{mos}#{dys}"
+        date_string = "#{yrs}#{mos}#{dys}"
       else
         errors.add(:"#{key}_yr", "can't be in future")
         errors.add(:"#{key}_mo", "can't be in future")
@@ -228,7 +229,7 @@ class Medication < ApplicationRecord
           errors.add(:"#{key}_dy", "can't be in future")
           errors.add(key, "can't be in future")
         else
-          date_string  = "#{yrs}#{mos}#{dys}"
+          date_string = "#{yrs}#{mos}#{dys}"
         end
       else
         errors.add(:"#{key}_yr", "invalid date")
@@ -247,6 +248,20 @@ class Medication < ApplicationRecord
   end
 
   def digit?(value)
-    return !(/^\d$/ =~ value).nil?
+    !(/^\d$/ =~ value).nil?
+  end
+
+  def save_medication_variables!
+    return if medication_variables.blank?
+
+    medication_variables.each do |key, value|
+      medication_variable = project.medication_variables.find_by(id: key)
+      next unless medication_variable
+
+      medication_value = medication_values.where(
+        project: project, subject: subject, medication_variable: medication_variable
+      ).first_or_create
+      medication_value.update(value: value)
+    end
   end
 end

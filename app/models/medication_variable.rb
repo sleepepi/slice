@@ -12,4 +12,5 @@ class MedicationVariable < ApplicationRecord
 
   # Relationships
   belongs_to :project
+  has_many :medication_values
 end

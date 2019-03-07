@@ -1,0 +1,13 @@
+one:
+  project: medications
+  medication_variable: indication
+  subject: meds_01
+  medication: one
+  value: This is the reason.
+
+two:
+  project: medications
+  medication_variable: unit
+  subject: meds_01
+  medication: one
+  value: tablespoon

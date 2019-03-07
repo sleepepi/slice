@@ -7,5 +7,6 @@ module Medications
     # Relationships
     has_many :medication_variables, -> { current }
     has_many :medications
+    has_many :medication_values
   end
 end

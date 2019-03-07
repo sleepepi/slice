@@ -15,6 +15,10 @@
 .dashboard-container
   = render "forms/horizontal/show/text", object: @medication, key: :position
   = render "forms/horizontal/show/text", object: @medication, key: :name
+  - @project.medication_variables.each do |medication_variable|
+    - medication_value = @medication.medication_values.find_by(medication_variable: medication_variable)
+    = render "forms/horizontal/show/generic", title: medication_variable.name, content: medication_value&.value
+
   = render "forms/horizontal/show/generic", title: "Start date", content: @medication.fuzzy_pretty(:start_date_fuzzy)
   = render "forms/horizontal/show/generic", title: "Stop date", content: @medication.fuzzy_pretty(:stop_date_fuzzy)
 
