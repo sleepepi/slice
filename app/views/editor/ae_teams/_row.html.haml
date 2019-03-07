@@ -1,7 +1,7 @@
 %td.d-none.d-sm-table-cell.text-center= team.short_name
 %td= link_to team.name, editor_project_ae_team_path(project, team)
 %td.text-center= team.pathways_count
-%td.nowrap.text-center
+%td.text-center
   .dropdown
     = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
       .d-inline-block.d-sm-none

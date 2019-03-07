@@ -45,7 +45,7 @@
             = render "layouts/unblinded_only", project: @project, object: design, placement: "right"
           %td.d-none.d-sm-table-cell.text-center= design.variables_count
           %td.d-none.d-sm-table-cell= design.category.name if design.category
-          %td.nowrap.text-center
+          %td.text-center
             = render "layouts/edit_delete_dropdown", edit_url: edit_project_design_path(@project, design), delete_url: [@project, design], delete_confirmation: "Delete #{design.name}?"
   .center-horizontally= paginate @designs, theme: "bootstrap"
 - else

@@ -31,7 +31,7 @@
             = render "project_preferences/status", project: project
           %td.text-center{ id: "project_#{project.id}_emails" }
             = render "project_preferences/emails", project: project
-          %td.nowrap.text-center{ id: "project_#{project.id}_actions" }
+          %td.text-center{ id: "project_#{project.id}_actions" }
             = render "project_preferences/actions", project: project
 
   .center-horizontally= paginate @projects, theme: "bootstrap"

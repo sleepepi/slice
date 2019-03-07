@@ -53,5 +53,5 @@
               %span.text-muted All Sites
         - if show_archived_options
           %td.d-none.d-md-table-cell.text-center= simple_check domain_option.archived?
-        %td.nowrap.text-center
+        %td.text-center
           = render "layouts/edit_delete_dropdown", edit_url: edit_project_domain_domain_option_path(@project, domain, domain_option), delete_url: [@project, domain, domain_option], delete_confirmation: "Delete #{domain_option.name}?"

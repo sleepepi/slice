@@ -31,7 +31,7 @@
           %td= link_to treatment_arm.name, [@project, @randomization_scheme, treatment_arm]
           %td.text-center= treatment_arm.allocation
           %td.d-none.d-sm-table-cell= link_to treatment_arm.user.full_name, treatment_arm.user if treatment_arm.user
-          %td.nowrap.text-center
+          %td.text-center
             - if @randomization_scheme.published?
               = link_to label_or("Scheme Published", "Published"), "#", data: { object: "suppress-click" }, class: "btn btn-sm btn-primary", disabled: true
             - else

@@ -27,7 +27,7 @@
           %td= grid_variable.parent_variable.name
           %td= grid_variable.child_variable.name
           %td= grid_variable.position
-          %td.nowrap.text-center
+          %td.text-center
             = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_grid_variable_path(@project, grid_variable), delete_url: editor_project_grid_variable_path(@project, grid_variable), delete_confirmation: "Delete #{grid_variable.child_variable.name} from #{grid_variable.parent_variable.name}?"
 
 .center-horizontally= paginate @grid_variables, theme: "bootstrap"

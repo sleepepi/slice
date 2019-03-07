@@ -49,7 +49,7 @@
                 %span.badge.badge-light
                   = icon("fas", "sync")
                   pending
-            %td.nowrap.text-center
+            %td.text-center
               - if invite.editable?
                 = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_invite_path(@project, invite), delete_url: editor_project_invite_path(@project, invite), delete_confirmation: "Delete invite for #{invite.email}?"
               - else

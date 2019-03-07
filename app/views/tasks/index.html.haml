@@ -49,7 +49,7 @@
             %td.d-none.d-md-table-cell.text-center.nowrap= task.window_start_date
             %td.d-none.d-md-table-cell.text-center.nowrap= task.window_end_date
             - if @project.site_or_project_editor?(current_user)
-              %td.nowrap.text-center
+              %td.text-center
                 - if task.editable_by?(current_user)
                   = render "layouts/edit_delete_dropdown", edit_url: edit_project_task_path(@project, task), delete_url: [@project, task], delete_confirmation: "Delete \"#{task.description}\" task?"
 
