@@ -409,6 +409,20 @@ Rails.application.routes.draw do
       resources :medications do
         collection do
           get :autocomplete
+          get :review_complete, path: "review-complete"
+          post :start_review, path: "start-review"
+          post :continue_review, path: "continue-review"
+        end
+
+        member do
+          get :review
+          get :stopped_completely, path: "stopped-completely"
+          get :something_changed, path: "something-changed"
+          get :change_occurred, path: "change-occurred"
+          post :submit_stopped_completely, path: "stopped-completely"
+          post :submit_something_changed, path: "something-changed"
+          post :submit_change_occurred, path: "change-occurred"
+          post :still_taking, path: "still-taking"
         end
       end
 

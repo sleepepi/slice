@@ -1,0 +1,25 @@
+- @title = "Medication Review Complete"
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+
+- content_for :header do
+  = @title
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", project_subject_medications_path(@project, @subject)
+    %li.breadcrumb-muted review complete
+
+.jumbotron.jumbotron-custom-text
+  .mb-3
+    Medication review complete.
+
+  = link_to project_subject_medications_path(@project, @subject), class: "btn btn-outline-primary mr-3" do
+    = icon("fas", "caret-left")
+    Back to medications
+
+  = link_to new_project_subject_medication_path(@project, @subject), class: "btn btn-primary" do
+    = icon("fas", "plus")
+    Add a new medication

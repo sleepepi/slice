@@ -9,7 +9,7 @@
 - content_for :breadcrumbs do
   %ol
     %li= link_to @subject.subject_code, [@project, @subject]
-    %li= link_to "medications", medications_project_subject_path(@project, @subject)
+    %li= link_to "medications", project_subject_medications_path(@project, @subject)
     %li.breadcrumb-muted= "added #{params[:number]}"
 
 .jumbotron.jumbotron-custom-text

@@ -1,0 +1,30 @@
+- @title = @medication.name
+- @menu_title = "#{@project.name} #{@subject.name} #{@title}"
+
+- content_for :sidebar, render("subjects/sidebar")
+- content_for :header, @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "medications", project_subject_medications_path(@project, @subject)
+    %li= link_to @medication.name.to_s.downcase, [@project, @subject, @medication]
+    %li.breadcrumb-muted something changed
+
+.dashboard-container
+  .alert.alert-primary
+    What changed for
+    = succeed "?" do
+      %strong= @medication.name_was
+
+  = form_with model: @medication, url: submit_something_changed_project_subject_medication_path(@project, @subject, @medication), method: :post, local: true do |form|
+    = render "forms/horizontal/text_field", form: form, object: @medication, key: :name, autocomplete: "off"
+
+    - @project.medication_variables.each do |medication_variable|
+      .form-group.row
+        = form.label medication_variable.name, nil, class: "col-md-2 col-form-label"
+        .col-md-10
+          - medication_value = @medication.medication_values.find_by(medication_variable: medication_variable)
+          - value = params.dig(:medication, :medication_variables, medication_variable.id.to_s.to_sym) || medication_value&.value
+          = text_field_tag "medication[medication_variables][#{medication_variable.id}]", value, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "textcomplete", textcomplete_url: autocomplete_project_subject_medications_path(medication_variable_id: medication_variable.id, format: "json") }
+
+    = render "forms/vertical/submit", form: form, object: @medication, cancel: false, submit_text: "Submit change and continue review"
