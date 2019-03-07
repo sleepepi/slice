@@ -7,7 +7,7 @@
       .col-md-10
         - medication_value = medication.medication_values.find_by(medication_variable: medication_variable)
         - value = params.dig(:medication, :medication_variables, medication_variable.id.to_s.to_sym) || medication_value&.value
-        = text_field_tag "medication[medication_variables][#{medication_variable.id}]", value, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false"
+        = text_field_tag "medication[medication_variables][#{medication_variable.id}]", value, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "textcomplete", textcomplete_url: autocomplete_project_subject_medications_path(medication_variable_id: medication_variable.id, format: "json") }
 
   .form-group.row
     = form.label :start_date, "Start date", class: "col-md-2 col-form-label"

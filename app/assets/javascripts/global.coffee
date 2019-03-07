@@ -16,7 +16,8 @@
   clipboardReady()
   datepickerReady()
   tooltipsReady()
-  typeaheadReady()
+  textcompleteReady()
+  typeaheadReady() # TODO: Deprecate/remove use of typeahead
 
 @globalReady = ->
   window.$isDirty = false

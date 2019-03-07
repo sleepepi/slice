@@ -5,11 +5,11 @@ class MedicationsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_viewable_project_or_redirect, only: [:index, :show]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
-    :new, :edit, :create, :update, :destroy
+    :new, :edit, :create, :update, :destroy, :autocomplete
   ]
   before_action :find_viewable_subject_or_redirect, only: [:index, :show]
   before_action :find_editable_subject_or_redirect, only: [
-    :new, :edit, :create, :update, :destroy
+    :new, :edit, :create, :update, :destroy, :autocomplete
   ]
   before_action :find_medication_or_redirect, only: [
     :show, :edit, :update, :destroy
@@ -25,6 +25,11 @@ class MedicationsController < ApplicationController
   # # GET /medications/1
   # def show
   # end
+
+  # GET /medications/autocomplete.json?medication_variable_id=:medication_variable_id
+  def autocomplete
+    @medication_variable = @project.medication_variables.find_by(id: params[:medication_variable_id])
+  end
 
   # GET /medications/new
   def new

@@ -406,7 +406,11 @@ Rails.application.routes.draw do
     resources :site_users, only: [:update, :destroy]
 
     resources :subjects do
-      resources :medications
+      resources :medications do
+        collection do
+          get :autocomplete
+        end
+      end
 
       member do
         get "choose-date/:event_id", action: :choose_date, as: :choose_date

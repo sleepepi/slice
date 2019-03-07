@@ -1,3 +1,5 @@
+# TODO: Deprecate/reduce use of typeahead
+
 @typeaheadReady = ->
   $('[data-object~="typeahead"]').typeahead('destroy')
   $('[data-object~="typeahead"]').each( ->
