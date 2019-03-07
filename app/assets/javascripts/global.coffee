@@ -37,7 +37,6 @@
   projectsReady()
   eventsReady()
   randomizationsReady()
-  usersReady()
   fileDragReady()
   randomizationSchemesReady()
   signaturesReady()
