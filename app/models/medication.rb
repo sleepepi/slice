@@ -232,10 +232,10 @@ class Medication < ApplicationRecord
           date_string = "#{yrs}#{mos}#{dys}"
         end
       else
-        errors.add(:"#{key}_yr", "invalid date")
-        errors.add(:"#{key}_mo", "invalid date")
-        errors.add(:"#{key}_dy", "invalid date")
-        errors.add(key, "invalid date")
+        errors.add(:"#{key}_yr", "is invalid")
+        errors.add(:"#{key}_mo", "is invalid")
+        errors.add(:"#{key}_dy", "is invalid")
+        errors.add(key, "is invalid")
       end
     elsif yr.nil? || mo.nil? || dy.nil?
       errors.add(:"#{key}_yr", "can't be blank") if yr.nil?

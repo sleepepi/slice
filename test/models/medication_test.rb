@@ -93,10 +93,10 @@ class MedicationTest < ActiveSupport::TestCase
       start_date_fuzzy_yr_4: "0",
     )
     assert !medication.valid?
-    assert_equal ["invalid date"], medication.errors[:start_date_fuzzy_yr]
-    assert_equal ["invalid date"], medication.errors[:start_date_fuzzy_mo]
-    assert_equal ["invalid date"], medication.errors[:start_date_fuzzy_dy]
-    assert_equal ["invalid date"], medication.errors[:start_date_fuzzy]
+    assert_equal ["is invalid"], medication.errors[:start_date_fuzzy_yr]
+    assert_equal ["is invalid"], medication.errors[:start_date_fuzzy_mo]
+    assert_equal ["is invalid"], medication.errors[:start_date_fuzzy_dy]
+    assert_equal ["is invalid"], medication.errors[:start_date_fuzzy]
     assert_nil medication.fuzzy_pretty(:start_date_fuzzy)
   end
 
