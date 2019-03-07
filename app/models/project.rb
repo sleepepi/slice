@@ -21,6 +21,7 @@ class Project < ApplicationRecord
   include Sluggable
   include Squishable
   include AeReviews
+  include Medications
 
   squish :name
 

@@ -8,7 +8,6 @@
     .float-right
       = link_to plus_or("Add Medication"), new_project_subject_medication_path(@project, @subject), class: "btn btn-accent btn-shadow"
       = link_to plus_or("Start Medication Review"), review_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow #{"disabled" if @subject.medications.blank?}"
-      =# link_to plus_or("Edit Medications"), edit_medications_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
   = @title
 
 - content_for :breadcrumbs do
@@ -22,32 +21,28 @@
 - if @medications.present?
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col{ width: "1px" }
+      %col
+      %col{ width: "1px" }
+      %col{ width: "1px" }
+      %col{ width: "1px" }
       %thead
         %tr
-          %th Project
-          %th Subject
           %th Position
           %th Name
-          %th Start date fuzzy
-          %th Stop date fuzzy
-          %th{ colspan: 3 }
+          %th.text-center.nowrap Start date
+          %th.text-center.nowrap Stop date
+          %th.text-center Actions
 
       %tbody
-        - @medications.each do |medication|
+        - @medications.includes(:project, :subject).each do |medication|
           %tr
-            %td= medication.project_id
-            %td= medication.subject_id
             %td= medication.position
-            %td= medication.name
-            %td
-              = medication.start_date_fuzzy
-              = medication.fuzzy_pretty(:start_date_fuzzy)
-            %td
-              = medication.stop_date_fuzzy
-              = medication.fuzzy_pretty(:stop_date_fuzzy)
-            %td= link_to "Show", [medication.project, medication.subject, medication]
-            %td= link_to "Edit", edit_project_subject_medication_path(medication.project, medication.subject, medication)
-            %td= link_to "Destroy", [medication.project, medication.subject, medication], method: :delete, data: { confirm: "Delete #{medication.name}?" }
+            %td= link_to medication.name, [medication.project, medication.subject, medication]
+            %td.text-center.nowrap= medication.fuzzy_pretty(:start_date_fuzzy)
+            %td.text-center.nowrap= medication.fuzzy_pretty(:stop_date_fuzzy)
+            %td.text-center
+              = render "layouts/edit_delete_dropdown", edit_url: edit_project_subject_medication_path(medication.project, medication.subject, medication), delete_url: [medication.project, medication.subject, medication], delete_confirmation: "Delete #{medication.name}?"
   .center-horizontally= paginate @medications, theme: "bootstrap"
 - else
   .jumbotron.jumbotron-custom-text

@@ -202,7 +202,6 @@ Rails.application.routes.draw do
         post :add_language, path: "add-language"
         delete :remove_language, path: "remove-language"
         patch :toggle
-        get :setup_medications, path: "setup-medications"
       end
 
       resources :ae_teams, path: "ae-module/teams" do
@@ -218,6 +217,8 @@ Rails.application.routes.draw do
       resources :grid_variables, path: "grid-variables"
 
       resources :invites
+
+      resources :medication_variables, path: "medication-variables"
     end
   end
 

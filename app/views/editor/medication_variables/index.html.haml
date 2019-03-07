@@ -1,0 +1,36 @@
+- @title = "Medication Variables"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header do
+  .float-right
+    = link_to plus_or("New Medication Variable"), new_editor_project_medication_variable_path(@project), class: "btn btn-accent btn-shadow"
+  = @title
+
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @medication_variables.total_count
+  %ol
+    %li= link_to "medications module", settings_editor_project_path(@project, anchor: "medications")
+    %li.breadcrumb-muted medication variables
+
+- if @medication_variables.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th Name
+          %th.text-center Actions
+
+      %tbody
+        - @medication_variables.each do |medication_variable|
+          %tr
+            %td= link_to medication_variable.name, editor_project_medication_variable_path(@project, medication_variable)
+            %td.text-center
+              = render "layouts/edit_delete_dropdown", edit_url: edit_editor_project_medication_variable_path(@project, medication_variable), delete_url: editor_project_medication_variable_path(@project, medication_variable), delete_confirmation: "Delete #{medication_variable.name}?"
+
+  .center-horizontally= paginate @medication_variables, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No medication variables found.

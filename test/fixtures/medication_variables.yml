@@ -1,0 +1,19 @@
+indication:
+  project: medications
+  name: Indication/Reason
+  autocomplete_values: ""
+
+unit:
+  project: medications
+  name: Unit
+  autocomplete_values: "tablespoon\nteaspoon\nounce\ngram\nmilligram (mg)\nmicrogram (mcg)\nmilliliter (ml)\nmicroliter (mcl)\nmillicure (mlc)\nmicrocurie (mcc)\ngrain\nunits\nunknown unit\nother"
+
+frequency:
+  project: medications
+  name: Frequency
+  autocomplete_values: "1X per day\n2X per day\n3X per day\n4X per day\nas needed\nunknown\nother"
+
+route:
+  project: medications
+  name: Route
+  autocomplete_values: "S.C. - subcutaneous\nI.V. - intravenous\neye drops\nI.M. - intramuscular\nP.O. - by mouth\nP.R. - by rectum\ntopical\nvaginal\noral inhalation\nnasal\nsublingual\nintravitreal\nperibulbar\nintra-articular\ntransdermal\nby ear\nunknown\nother"

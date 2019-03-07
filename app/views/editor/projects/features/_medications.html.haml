@@ -14,7 +14,7 @@
           - if project.medications_enabled?
             Medications are enabled for this project.
             = succeed "." do
-              = link_to "Setup medications", setup_medications_editor_project_path(@project)
+              = link_to "Setup medications", editor_project_medication_variables_path(@project)
           - else
             Medications are disabled for this project.
 

@@ -1,0 +1,13 @@
+- @title = "Edit Medication Variable - #{@medication_variable.name_was}"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @medication_variable.name_was
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "medications module", settings_editor_project_path(@project, anchor: "medications")
+    %li= link_to "medication variables", editor_project_medication_variables_path(@project)
+    %li= link_to @medication_variable.name_was.to_s.downcase, editor_project_medication_variable_path(@project, @medication_variable)
+    %li.breadcrumb-muted edit
+
+.dashboard-container= render "form", project: @project, medication_variable: @medication_variable

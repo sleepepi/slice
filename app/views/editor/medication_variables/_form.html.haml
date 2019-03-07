@@ -1,0 +1,6 @@
+- url = medication_variable.new_record? ? editor_project_medication_variables_path(medication_variable.project) : editor_project_medication_variable_path(medication_variable.project, medication_variable)
+- method = medication_variable.new_record? ? :post : :patch
+= form_with model: [medication_variable.project, medication_variable], url: url, method: method, local: true do |form|
+  = render "forms/horizontal/text_field", form: form, object: medication_variable, key: :name, autocomplete: "off"
+  = render "forms/horizontal/text_area", form: form, object: medication_variable, key: :autocomplete_values, rows: 7, help_text: "Place values on separate lines"
+  = render "forms/horizontal/submit", form: form, object: [medication_variable.project, medication_variable], cancel: url
