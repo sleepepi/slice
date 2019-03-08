@@ -14,6 +14,7 @@ class Medication < ApplicationRecord
   # Relationships
   belongs_to :project
   belongs_to :subject
+  belongs_to :parent_medication, class_name: "Medication", optional: true
   has_many :medication_values
 
   attr_writer :start_date_fuzzy_mo_1, :start_date_fuzzy_mo_2,

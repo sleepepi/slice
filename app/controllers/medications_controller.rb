@@ -68,10 +68,12 @@ class MedicationsController < ApplicationController
 
   # POST /medications/1/something-changed
   def submit_something_changed
-    # TODO: Should create medication (and split) based of the date that this change occurred.
-    if @medication.update(medication_params)
+    split_medication = @subject.medications.where(project: @project, parent_medication: @medication).new(medication_params)
+
+    if split_medication.save
+      split_medication.save_medication_variables!
       @medication.update position: nil
-      redirect_to change_occurred_project_subject_medication_url(@project, @subject, @medication)
+      redirect_to change_occurred_project_subject_medication_url(@project, @subject, split_medication)
     else
       render :something_changed
     end
@@ -83,9 +85,8 @@ class MedicationsController < ApplicationController
 
   # POST /medications/1/change-occurred
   def submit_change_occurred
-    # TODO: Update "prior" medication stop date as well
     if @medication.update(medication_params)
-      @medication.update position: nil
+      @medication.parent_medication.update(stop_date_fuzzy: @medication.start_date_fuzzy)
       redirect_to next_medication_url, notice: "Medication was successfully updated."
     else
       render :change_occurred

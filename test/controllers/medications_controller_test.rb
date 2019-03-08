@@ -41,6 +41,14 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
+  def create_split_medication
+    @subject.medications.where(
+      project: @project,
+      name: medications(:two).name,
+      parent_medication: medications(:two)
+    ).create
+  end
+
   test "should get index" do
     login(@project_editor)
     get project_subject_medications_url(@project, @subject)
@@ -143,22 +151,34 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should submit medication something changed" do
     login(@project_editor)
-    post submit_something_changed_project_subject_medication_path(@project, @subject, medications(:two)), params: {
-      medication: {
-        medication_variables: {
-          medication_variables(:indication).id.to_s => "Some other reason",
-          medication_variables(:unit).id.to_s => "teaspoon",
-          medication_variables(:frequency).id.to_s => "2X per day",
-          medication_variables(:route).id.to_s => "P.O. - by mouth"
+    assert_difference("Medication.where.not(parent_medication_id: nil).count") do
+      assert_difference("MedicationValue.count", 4) do
+        post submit_something_changed_project_subject_medication_path(
+          @project, @subject, medications(:two)
+        ), params: {
+          medication: {
+            name: medications(:two).name,
+            medication_variables: {
+              medication_variables(:indication).id.to_s => "Some other reason",
+              medication_variables(:unit).id.to_s => "teaspoon",
+              medication_variables(:frequency).id.to_s => "2X per day",
+              medication_variables(:route).id.to_s => "P.O. - by mouth"
+            }
+          }
         }
-      }
-    }
-    assert_redirected_to change_occurred_project_subject_medication_path(@project, @subject, medications(:two))
+      end
+    end
+    assert_redirected_to change_occurred_project_subject_medication_path(
+      @project, @subject, Medication.where.not(parent_medication_id: nil).last
+    )
   end
 
   test "should not submit medication something changed with blank medication name" do
     login(@project_editor)
-    post submit_something_changed_project_subject_medication_path(@project, @subject, medications(:two)), params: {
+    split_medication = create_split_medication
+    post submit_something_changed_project_subject_medication_path(
+      @project, @subject, split_medication
+    ), params: {
       medication: {
         name: "",
         medication_variables: {
@@ -174,13 +194,13 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get medication change occurred" do
     login(@project_editor)
-    get change_occurred_project_subject_medication_path(@project, @subject, medications(:two))
+    get change_occurred_project_subject_medication_path(@project, @subject, create_split_medication)
     assert_response :success
   end
 
   test "should submit medication change occurred" do
     login(@project_editor)
-    post submit_change_occurred_project_subject_medication_path(@project, @subject, medications(:two)), params: {
+    post submit_change_occurred_project_subject_medication_path(@project, @subject, create_split_medication), params: {
       medication: {
         start_date_fuzzy_edit: "1",
         start_date_fuzzy_mo_1: "0",
@@ -198,7 +218,7 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not submit medication change occurred with invalid date" do
     login(@project_editor)
-    post submit_change_occurred_project_subject_medication_path(@project, @subject, medications(:two)), params: {
+    post submit_change_occurred_project_subject_medication_path(@project, @subject, create_split_medication), params: {
       medication: {
         start_date_fuzzy_edit: "1",
         start_date_fuzzy_mo_1: "0",
