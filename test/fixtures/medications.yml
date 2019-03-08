@@ -13,3 +13,27 @@ two:
   name: Diphenhydramine
   start_date_fuzzy: 20180531
   # stop_date_fuzzy:
+
+three:
+  project: medications
+  subject: meds_01
+  # position:
+  name: Fish Oil
+  start_date_fuzzy: 20180399
+  # stop_date_fuzzy:
+
+four:
+  project: medications
+  subject: meds_01
+  # position:
+  name: Feelbetteryl
+  start_date_fuzzy: 20180420
+  # stop_date_fuzzy:
+
+five:
+  project: medications
+  subject: meds_01
+  # position:
+  name: Snooznomoradil
+  start_date_fuzzy: 20181220
+  # stop_date_fuzzy:

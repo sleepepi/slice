@@ -91,4 +91,76 @@ class MedicationsTest < ApplicationSystemTestCase
     assert_text "Medication was successfully deleted"
     screenshot("destroy-medication")
   end
+
+  test "review medications" do
+    visit_login(@project_editor)
+    visit project_subject_medications_url(@project, @subject)
+    screenshot("review-medications")
+    click_on "Start Medication Review"
+    find(".btn-primary").hover
+    screenshot("review-medications")
+    click_on "YES"
+    screenshot("review-medications")
+    click_on "NO SOMETHING CHANGED"
+    screenshot("review-medications")
+
+    fill_in "medication[medication_variables][#{medication_variables(:frequency).id}]", with: "2X per day"
+
+    screenshot("review-medications")
+    click_on "Submit change and continue review"
+    screenshot("review-medications")
+
+    fill_in "medication[start_date_fuzzy_mo_1]", with: "0"
+    fill_in "medication[start_date_fuzzy_mo_2]", with: "1"
+    fill_in "medication[start_date_fuzzy_dy_1]", with: "3"
+    fill_in "medication[start_date_fuzzy_dy_2]", with: "1"
+    fill_in "medication[start_date_fuzzy_yr_1]", with: "2"
+    fill_in "medication[start_date_fuzzy_yr_2]", with: "0"
+    fill_in "medication[start_date_fuzzy_yr_3]", with: "1"
+    fill_in "medication[start_date_fuzzy_yr_4]", with: "9"
+
+    screenshot("review-medications")
+    click_on "Submit change and continue review"
+
+    screenshot("review-medications")
+    click_on "NO STOPPED COMPLETELY"
+
+    screenshot("review-medications")
+    fill_in "medication[stop_date_fuzzy_mo_1]", with: "0"
+    fill_in "medication[stop_date_fuzzy_mo_2]", with: "3"
+    fill_in "medication[stop_date_fuzzy_dy_1]", with: "0"
+    fill_in "medication[stop_date_fuzzy_dy_2]", with: "8"
+    fill_in "medication[stop_date_fuzzy_yr_1]", with: "2"
+    fill_in "medication[stop_date_fuzzy_yr_2]", with: "0"
+    fill_in "medication[stop_date_fuzzy_yr_3]", with: "1"
+    fill_in "medication[stop_date_fuzzy_yr_4]", with: "9"
+
+    screenshot("review-medications")
+    click_on "Submit change and continue review"
+    screenshot("review-medications")
+
+    click_on "YES"
+    screenshot("review-medications")
+
+    click_on "Add a new medication"
+    screenshot("review-medications")
+    fill_in "medication[name]", with: "Ouchieawaylenol"
+    fill_in "medication[medication_variables][#{medication_variables(:indication).id}]", with: "Arm pain"
+    fill_in "medication[medication_variables][#{medication_variables(:unit).id}]", with: "tablet"
+    fill_in "medication[medication_variables][#{medication_variables(:frequency).id}]", with: "1X per day"
+    fill_in "medication[medication_variables][#{medication_variables(:route).id}]", with: "P.O. - by mouth"
+    fill_in "medication[start_date_fuzzy_mo_1]", with: "0"
+    fill_in "medication[start_date_fuzzy_mo_2]", with: "3"
+    fill_in "medication[start_date_fuzzy_dy_1]", with: "0"
+    fill_in "medication[start_date_fuzzy_dy_2]", with: "8"
+    fill_in "medication[start_date_fuzzy_yr_1]", with: "2"
+    fill_in "medication[start_date_fuzzy_yr_2]", with: "0"
+    fill_in "medication[start_date_fuzzy_yr_3]", with: "1"
+    fill_in "medication[start_date_fuzzy_yr_4]", with: "9"
+    screenshot("review-medications")
+    click_on "Create Medication"
+    screenshot("review-medications")
+    click_on "medications"
+    screenshot("review-medications")
+  end
 end
