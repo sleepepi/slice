@@ -30,6 +30,10 @@ class Medication < ApplicationRecord
 
   # Methods
 
+  def stopped?
+    stop_date_fuzzy.present?
+  end
+
   def fuzzy_pretty(key)
     return nil if self[key].blank?
 

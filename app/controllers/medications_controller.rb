@@ -27,7 +27,9 @@ class MedicationsController < ApplicationController
 
   # GET /medications
   def index
-    @medications = @subject.medications.page(params[:page]).per(20)
+    @medications = @subject.medications.order(
+      "stop_date_fuzzy DESC NULLS FIRST", "start_date_fuzzy DESC NULLS LAST"
+    ).page(params[:page]).per(20)
   end
 
   # # GET /medications/review-complete

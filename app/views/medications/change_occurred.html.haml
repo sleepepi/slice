@@ -10,12 +10,13 @@
     %li= link_to @medication.name.to_s.downcase, [@project, @subject, @medication]
     %li.breadcrumb-muted change occurred
 
-.dashboard-container
-  .alert.alert-primary
-    When did the change occur for
-    = succeed "?" do
-      %strong= @medication.name
+.medication-review-question
+  = icon("fas", "question-circle", class: "mr-1")
+  When did the change occur for
+  = succeed "?" do
+    %strong= @medication.name
 
+.dashboard-container
   .text-center{ style: "font-size: 1.5rem;" }
     = form_with model: @medication, url: submit_change_occurred_project_subject_medication_path(@project, @subject, @medication), method: :post, local: true do |form|
       = render "medications/fuzzy_date_form_control", form: form, object: @medication, key: :start_date_fuzzy, key_name: "Change date"

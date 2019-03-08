@@ -1,0 +1,45 @@
+.card.box-shadow.mb-3
+  .card-header
+    .float-right
+      - if actions
+        .dropdown
+          = link_to "Actions", "#", class: "dropdown-toggle small link-blend", data: { toggle: "dropdown" }
+
+          .dropdown-menu.dropdown-menu-right
+            = link_to edit_project_subject_medication_path(medication.project, medication.subject, medication), class: "dropdown-item" do
+              = icon("fas", "pencil-alt")
+              Edit
+            .dropdown-divider
+            = link_to [medication.project, medication.subject, medication], method: :delete, data: { confirm: "Delete #{medication.name}?" }, class: "dropdown-item text-danger" do
+              = icon("fas", "trash-alt")
+              Delete
+    %h4
+      %span{ style: "vertical-align: middle;font-size: 1rem;" }
+        = medication.stopped? ? icon("far", "stop-circle", class: "text-muted") : icon("fas", "circle", class: "text-success")
+      = link_to_if actions, medication.name, [medication.project, medication.subject, medication], class: medication.stopped? ? "link-blend-muted" : "link-blend"
+  .card-body
+    .d-flex.flex-column.flex-sm-row.flex-wrap
+      .flex-fill.text-center.bg-light.border.border-white.rounded.p-3{ style: "flex-basis: 0% !important;"}
+        .small.text-muted.mb-2 Start date
+        %div
+          %strong
+            - if medication.start_date_fuzzy.present?
+              = medication.fuzzy_pretty(:start_date_fuzzy)
+            - else
+              .text-muted
+                Unknown
+      .flex-fill.text-center.bg-light.border.border-white.rounded.p-3{ style: "flex-basis: 0% !important;"}
+        .small.text-muted.mb-2 Stop date
+        %div
+          %strong
+            - if medication.stop_date_fuzzy.present?
+              = medication.fuzzy_pretty(:stop_date_fuzzy)
+            - else
+              .text-success Ongoing
+    .d-flex.flex-column.flex-sm-row.flex-wrap
+      - medication.project.medication_variables.each do |medication_variable|
+        - medication_value = medication.medication_values.find_by(medication_variable: medication_variable)
+        .flex-fill.text-center.bg-light.border.border-white.rounded.p-3{ style: "flex-basis: 0% !important;"}
+          .small.text-muted.mb-2= medication_variable.name
+          %div
+            %strong= medication_value&.value

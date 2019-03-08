@@ -1,0 +1,16 @@
+.medication-review-question {
+  border-radius: $border-radius;
+  font-size: 2rem;
+  margin-bottom: $spacer;
+  padding: $spacer;
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .medication-review-question {
+      background-color: map-get($theme, primary);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, brand-white);
+    }
+  }
+}

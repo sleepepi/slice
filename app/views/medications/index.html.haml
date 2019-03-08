@@ -21,34 +21,43 @@
     %li= link_to @subject.subject_code, [@project, @subject]
     %li.breadcrumb-muted medications
 
-.mb-3.alert.alert-info Display medications as cards
-
 - if @medications.present?
-  .dashboard-container.dashboard-table
-    %table.table.table-striped.table-borderless.table-hover.table-sticky
-      %col{ width: "1px" }
-      %col
-      %col{ width: "1px" }
-      %col{ width: "1px" }
-      %col{ width: "1px" }
-      %thead
-        %tr
-          %th Position
-          %th Name
-          %th.text-center.nowrap Start date
-          %th.text-center.nowrap Stop date
-          %th.text-center Actions
+  - separator_found = false
+  - @medications.each_with_index do |medication, index|
+    - if medication.stopped? && index.positive? && !separator_found
+      - separator_found = true
+      .mt-5.mb-3
+        %h2 Stopped Medications
+    = render "medications/card", medication: medication, actions: true
 
-      %tbody
-        - @medications.includes(:project, :subject).each do |medication|
-          %tr
-            %td= medication.position
-            %td= link_to medication.name, [medication.project, medication.subject, medication]
-            %td.text-center.nowrap= medication.fuzzy_pretty(:start_date_fuzzy)
-            %td.text-center.nowrap= medication.fuzzy_pretty(:stop_date_fuzzy)
-            %td.text-center
-              = render "layouts/edit_delete_dropdown", edit_url: edit_project_subject_medication_path(medication.project, medication.subject, medication), delete_url: [medication.project, medication.subject, medication], delete_confirmation: "Delete #{medication.name}?"
   .center-horizontally= paginate @medications, theme: "bootstrap"
+
+  - if false
+    .dashboard-container.dashboard-table
+      %table.table.table-striped.table-borderless.table-hover.table-sticky
+        %col{ width: "1px" }
+        %col
+        %col{ width: "1px" }
+        %col{ width: "1px" }
+        %col{ width: "1px" }
+        %thead
+          %tr
+            %th Position
+            %th Name
+            %th.text-center.nowrap Start date
+            %th.text-center.nowrap Stop date
+            %th.text-center Actions
+
+        %tbody
+          - @medications.includes(:project, :subject).each do |medication|
+            %tr
+              %td= medication.position
+              %td= link_to medication.name, [medication.project, medication.subject, medication]
+              %td.text-center.nowrap= medication.fuzzy_pretty(:start_date_fuzzy)
+              %td.text-center.nowrap= medication.fuzzy_pretty(:stop_date_fuzzy)
+              %td.text-center
+                = render "layouts/edit_delete_dropdown", edit_url: edit_project_subject_medication_path(medication.project, medication.subject, medication), delete_url: [medication.project, medication.subject, medication], delete_confirmation: "Delete #{medication.name}?"
+    .center-horizontally= paginate @medications, theme: "bootstrap"
 - else
   .jumbotron.jumbotron-custom-text
     = icon("fas", "file-prescription")

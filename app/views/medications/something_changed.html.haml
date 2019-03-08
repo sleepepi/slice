@@ -10,12 +10,14 @@
     %li= link_to @medication.name.to_s.downcase, [@project, @subject, @medication]
     %li.breadcrumb-muted something changed
 
-.dashboard-container
-  .alert.alert-primary
-    What changed for
-    = succeed "?" do
-      %strong= @medication.name_was
+.medication-review-question
+  = icon("fas", "question-circle", class: "mr-1")
+  What changed for
+  = succeed "?" do
+    %strong= @medication.name_was
 
+
+.dashboard-container
   = form_with model: @medication, url: submit_something_changed_project_subject_medication_path(@project, @subject, @medication), method: :post, local: true do |form|
     = render "forms/horizontal/text_field", form: form, object: @medication, key: :name, autocomplete: "off"
 
