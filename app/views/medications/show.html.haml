@@ -13,7 +13,6 @@
     %li.breadcrumb-muted= @medication.name.to_s.downcase
 
 .dashboard-container
-  = render "forms/horizontal/show/text", object: @medication, key: :position
   = render "forms/horizontal/show/text", object: @medication, key: :name
   - @project.medication_variables.each do |medication_variable|
     - medication_value = @medication.medication_values.find_by(medication_variable: medication_variable)

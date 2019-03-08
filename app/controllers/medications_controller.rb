@@ -144,7 +144,7 @@ class MedicationsController < ApplicationController
   # DELETE /medications/1
   def destroy
     @medication.destroy
-    redirect_to project_subject_medications_path(@project, @subject), notice: "Medication was successfully destroyed."
+    redirect_to project_subject_medications_path(@project, @subject), notice: "Medication was successfully deleted."
   end
 
   private

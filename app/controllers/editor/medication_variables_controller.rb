@@ -29,7 +29,8 @@ class Editor::MedicationVariablesController < Editor::EditorController
   def create
     @medication_variable = @project.medication_variables.new(medication_variable_params)
     if @medication_variable.save
-      redirect_to editor_project_medication_variable_path(@project, @medication_variable), notice: "Medication variable was successfully created."
+      redirect_to editor_project_medication_variable_path(@project, @medication_variable),
+                  notice: "Medication variable was successfully created."
     else
       render :new
     end
@@ -38,7 +39,8 @@ class Editor::MedicationVariablesController < Editor::EditorController
   # PATCH /editor/projects/:project_id/medication_variables/:id
   def update
     if @medication_variable.update(medication_variable_params)
-      redirect_to editor_project_medication_variable_path(@project, @medication_variable), notice: "Medication variable was successfully updated."
+      redirect_to editor_project_medication_variable_path(@project, @medication_variable),
+                  notice: "Medication variable was successfully updated."
     else
       render :edit
     end
@@ -47,7 +49,8 @@ class Editor::MedicationVariablesController < Editor::EditorController
   # DELETE /editor/projects/:project_id/medication_variables/:id
   def destroy
     @medication_variable.destroy
-    redirect_to editor_project_medication_variables_path(@project), notice: "Medication variable was successfully destroyed."
+    redirect_to editor_project_medication_variables_path(@project),
+                notice: "Medication variable was successfully deleted."
   end
 
   private

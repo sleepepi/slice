@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
+# Test document access for adverse events.
 class DocumentsTest < ApplicationSystemTestCase
   setup do
     @project = projects(:aes)
