@@ -1,4 +1,5 @@
 one:
+  id: 1
   project: medications
   subject: meds_01
   # position:
@@ -7,6 +8,7 @@ one:
   stop_date_fuzzy: 20199999
 
 two:
+  id: 2
   project: medications
   subject: meds_01
   # position:
@@ -15,6 +17,7 @@ two:
   # stop_date_fuzzy:
 
 three:
+  id: 3
   project: medications
   subject: meds_01
   # position:
@@ -23,6 +26,7 @@ three:
   # stop_date_fuzzy:
 
 four:
+  id: 4
   project: medications
   subject: meds_01
   # position:
@@ -31,6 +35,7 @@ four:
   # stop_date_fuzzy:
 
 five:
+  id: 5
   project: medications
   subject: meds_01
   # position:
