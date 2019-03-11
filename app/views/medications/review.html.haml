@@ -17,18 +17,17 @@
     %strong= @medication.name
 
 .mb-3
-  .float-right
-    = link_to still_taking_project_subject_medication_path(@project, @subject, @medication), method: :post, class: "btn btn-primary btn-shadow" do
-      = icon("fas", "check-circle")
-      Yes
-      = icon("fas", "caret-right")
+  = link_to still_taking_project_subject_medication_path(@project, @subject, @medication), method: :post, class: "btn btn-primary btn-shadow mr-3" do
+    = icon("fas", "check-circle")
+    Yes
+    = icon("fas", "caret-right")
 
   = link_to something_changed_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link" do
     = icon("fas", "exclamation-circle")
-    No something changed
+    No, something changed
 
   = link_to stopped_completely_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link" do
     = icon("fas", "stop-circle")
-    No stopped completely
+    No, stopped completely
 
 = render "medications/card", medication: @medication, actions: false
