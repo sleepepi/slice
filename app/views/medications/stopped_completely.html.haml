@@ -19,5 +19,5 @@
 .dashboard-container
   .text-center{ style: "font-size: 1.5rem;" }
     = form_with model: @medication, url: submit_stopped_completely_project_subject_medication_path(@project, @subject, @medication), method: :post, local: true do |form|
-      = render "medications/fuzzy_date_form_control", form: form, object: @medication, key: :stop_date_fuzzy, key_name: "Stop date"
+      = render "medications/fuzzy_date_form_control", form: form, object: @medication, key: :stop_date_fuzzy, key_name: "Stop date", inline_buttons: false
       = render "forms/vertical/submit", form: form, object: @medication, cancel: false, submit_text: "Submit change and continue review"

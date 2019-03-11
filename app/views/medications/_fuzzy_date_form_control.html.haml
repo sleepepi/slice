@@ -1,4 +1,15 @@
-%div
+%div{ style: "position: relative;" }
+  - unless inline_buttons
+    .d-none.d-md-block{ style: "position: absolute;right: 0; top: 0;" }
+      .d-block.d-lg-inline-block.ml-lg-3
+        = link_to "#", tabindex: "-1", class: "btn btn-sm btn-light", data: { object: "fuzzy-date-today", key: key } do
+          = icon("fas", "calendar-alt")
+          today
+      .d-block.d-lg-inline-block.ml-lg-1
+        = link_to "#", tabindex: "-1", class: "btn btn-sm btn-light", data: { object: "fuzzy-date-clear", key: key } do
+          = icon("fas", "calendar-times")
+          clear
+
   = form.hidden_field :"#{key}_edit", value: "1"
   = form.text_field :"#{key}_mo_1", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off", autofocus: defined?(autofocus) ? autofocus : nil
   = form.text_field :"#{key}_mo_2", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
@@ -10,9 +21,22 @@
   = form.text_field :"#{key}_yr_2", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
   = form.text_field :"#{key}_yr_3", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
   = form.text_field :"#{key}_yr_4", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+
+  - if inline_buttons
+    .d-inline-block.ml-3
+      = link_to "#", tabindex: "-1", class: "btn btn-sm btn-light", data: { object: "fuzzy-date-today", key: key } do
+        = icon("fas", "calendar-alt")
+        .d-none.d-sm-inline today
+    .d-inline-block.ml-1
+      = link_to "#", tabindex: "-1", class: "btn btn-sm btn-light", data: { object: "fuzzy-date-clear", key: key } do
+        = icon("fas", "calendar-times")
+        .d-none.d-sm-inline clear
+
 - if object.errors[key].present?
   %small.text-danger
     = succeed "." do
       = object.errors[key].collect { |e| "#{defined?(key_name) ? key_name : key.to_s.humanize} #{e}" }.join(", ")
+  - if object.errors[key].include?("can't have blank fields")
+    %small.text-danger Enter 99 for unknown values.
 - else
   %small.text-muted Enter 99 for unknown values.

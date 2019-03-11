@@ -29,3 +29,31 @@ $(document)
     else
       $(this).val("")
   )
+  .on("click", "[data-object~=fuzzy-date-today]", ->
+    date = new Date()
+    dy = date.getDate()
+    mo = date.getMonth() + 1
+    yr = date.getFullYear()
+    key = $(this).data("key")
+    $("#medication_#{key}_mo_1").val(parseInt(mo / 10))
+    $("#medication_#{key}_mo_2").val(mo % 10)
+    $("#medication_#{key}_dy_1").val(parseInt(dy / 10))
+    $("#medication_#{key}_dy_2").val(dy % 10)
+    $("#medication_#{key}_yr_1").val(parseInt(yr / 1000))
+    $("#medication_#{key}_yr_2").val((parseInt(yr / 100)) % 10)
+    $("#medication_#{key}_yr_3").val((parseInt(yr / 10)) % 10)
+    $("#medication_#{key}_yr_4").val(yr % 10)
+    false
+  )
+  .on("click", "[data-object~=fuzzy-date-clear]", ->
+    key = $(this).data("key")
+    $("#medication_#{key}_mo_1").val("")
+    $("#medication_#{key}_mo_2").val("")
+    $("#medication_#{key}_dy_1").val("")
+    $("#medication_#{key}_dy_2").val("")
+    $("#medication_#{key}_yr_1").val("")
+    $("#medication_#{key}_yr_2").val("")
+    $("#medication_#{key}_yr_3").val("")
+    $("#medication_#{key}_yr_4").val("")
+    false
+  )

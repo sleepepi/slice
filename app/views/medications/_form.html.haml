@@ -12,11 +12,11 @@
   .form-group.row
     = form.label :start_date, "Start date", class: "col-md-2 col-form-label"
     .col-md-10
-      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :start_date_fuzzy, key_name: "Start date"
+      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :start_date_fuzzy, key_name: "Start date", inline_buttons: true
 
   .form-group.row
     = form.label :stop_date, "Stop date", class: "col-md-2 col-form-label"
     .col-md-10
-      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :stop_date_fuzzy, key_name: "Stop date"
+      = render "medications/fuzzy_date_form_control", form: form, object: medication, key: :stop_date_fuzzy, key_name: "Stop date", inline_buttons: true
 
   = render "forms/horizontal/submit", form: form, object: [medication.project, medication.subject, medication]
