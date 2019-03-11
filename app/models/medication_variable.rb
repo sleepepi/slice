@@ -8,7 +8,7 @@ class MedicationVariable < ApplicationRecord
 
   # Validations
   validates :name, presence: true,
-                   uniqueness: { case_sensitive: false, scope: :project_id }
+                   uniqueness: { case_sensitive: false, scope: [:project_id, :deleted] }
 
   # Relationships
   belongs_to :project
