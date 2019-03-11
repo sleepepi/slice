@@ -145,6 +145,7 @@ class Export < ApplicationRecord
     all_files << generate_csv_adverse_events(temp_dir, filename)                     if include_adverse_events?
     all_files << generate_csv_adverse_events_master_list(temp_dir, filename)         if include_adverse_events?
     all_files << generate_csv_randomizations(temp_dir, filename)                     if include_randomizations?
+    all_files << generate_medications(temp_dir, filename)                            if include_medications?
 
     if include_files?
       sheet_scope.each do |sheet|
@@ -480,5 +481,35 @@ class Export < ApplicationRecord
     Variable.current.joins(:design_options)
             .where(design_options: { design_id: design_ids })
             .order("design_options.design_id", "design_options.position")
+  end
+
+  def generate_medications(temp_dir, filename)
+    export_file = Rails.root.join(temp_dir, "#{filename}_medications.csv")
+    medication_variable_names_and_ids = project.medication_variables.order(:id).pluck(:name, :id) # .order(:position)
+    CSV.open(export_file, "wb") do |csv|
+      column_headers = ["Medication ID", "Subject", "Name", "Start Date", "Stop Date"]
+
+      medication_variable_names_and_ids.each do |name, _|
+        column_headers << name
+      end
+
+      csv << column_headers
+      project.medications.includes(:subject).find_each do |medication|
+        row = [
+          medication.id,
+          medication.subject.name,
+          medication.name,
+          medication.start_date_fuzzy,
+          medication.stop_date_fuzzy
+        ]
+        medication_variable_names_and_ids.each do |name, medication_variable_id|
+          medication_value = medication.medication_values.find_by(medication_variable_id: medication_variable_id)
+          row << medication_value&.value
+        end
+
+        csv << row
+      end
+    end
+    ["csvs/#{filename}_medications.csv", export_file]
   end
 end

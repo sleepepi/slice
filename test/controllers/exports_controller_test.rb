@@ -36,7 +36,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
         export: { include_csv_raw: "1" }
       }
     end
-    assert_redirected_to [assigns(:project), assigns(:export)]
+    assert_redirected_to [@project, Export.last]
   end
 
   test "should create export with labeled csv" do
@@ -46,7 +46,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
         export: { include_csv_labeled: "1" }
       }
     end
-    assert_redirected_to [assigns(:project), assigns(:export)]
+    assert_redirected_to [@project, Export.last]
   end
 
   test "should create export with pdf collation" do
@@ -56,7 +56,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
         export: { include_pdf: "1" }
       }
     end
-    assert_redirected_to [assigns(:project), assigns(:export)]
+    assert_redirected_to [@project, Export.last]
   end
 
   test "should create export with data dictionary" do
@@ -66,14 +66,24 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
         export: { include_data_dictionary: "1" }
       }
     end
-    assert_redirected_to [assigns(:project), assigns(:export)]
+    assert_redirected_to [@project, Export.last]
+  end
+
+  test "should create export with medications" do
+    login(users(:meds_project_editor))
+    assert_difference("Export.count") do
+      post project_exports_url(projects(:medications)), params: {
+        export: { include_medications: "1" }
+      }
+    end
+    assert_redirected_to [projects(:medications), Export.last]
   end
 
   test "should download export file" do
     login(@regular_user)
     assert_not_equal 0, @export.file.size
     get file_project_export_url(@project, @export)
-    assert_equal File.binread(assigns(:export).file.path), response.body
+    assert_equal File.binread(@export.file.path), response.body
   end
 
   test "should not download empty export file" do
@@ -87,7 +97,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     login(users(:site_one_viewer))
     assert_not_equal 0, @export.file.size
     get file_project_export_url(@project, @export)
-    assert_redirected_to project_exports_url(assigns(:project))
+    assert_redirected_to project_exports_url(@project)
   end
 
   test "should show export" do
@@ -99,7 +109,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
   test "should not show invalid export" do
     login(@regular_user)
     get project_export_url(@project, -1)
-    assert_redirected_to project_exports_url(assigns(:project))
+    assert_redirected_to project_exports_url(@project)
   end
 
   test "should destroy export" do
@@ -107,7 +117,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Export.current.count", -1) do
       delete project_export_url(@project, @export)
     end
-    assert_redirected_to project_exports_url(assigns(:project))
+    assert_redirected_to project_exports_url(@project)
   end
 
   test "should not destroy invalid export" do
@@ -115,6 +125,6 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Export.current.count", 0) do
       delete project_export_url(@project, -1)
     end
-    assert_redirected_to project_exports_url(assigns(:project))
+    assert_redirected_to project_exports_url(@project)
   end
 end

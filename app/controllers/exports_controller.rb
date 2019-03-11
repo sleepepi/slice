@@ -74,7 +74,8 @@ class ExportsController < ApplicationController
     params.require(:export).permit(
       :include_csv_labeled, :include_csv_raw, :include_pdf, :include_files,
       :include_data_dictionary, :include_sas, :include_r,
-      :include_adverse_events, :include_randomizations, :filters
+      :include_adverse_events, :include_randomizations, :include_medications,
+      :filters
     )
   end
 
@@ -86,7 +87,7 @@ class ExportsController < ApplicationController
     default_columns = %w(
       include_csv_labeled include_csv_raw include_sas include_r include_pdf
       include_files include_data_dictionary include_adverse_events
-      include_randomizations filters
+      include_randomizations include_medications filters
     )
     default_columns.each do |default_column|
       if params[default_column].present?
