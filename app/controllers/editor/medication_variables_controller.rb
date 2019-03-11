@@ -60,6 +60,6 @@ class Editor::MedicationVariablesController < Editor::EditorController
   end
 
   def medication_variable_params
-    params.require(:medication_variable).permit(:name, :autocomplete_values)
+    params.require(:medication_variable).permit(:name, :autocomplete_values, :position)
   end
 end

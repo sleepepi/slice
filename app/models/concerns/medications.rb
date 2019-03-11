@@ -5,7 +5,7 @@ module Medications
 
   included do
     # Relationships
-    has_many :medication_variables, -> { current }
+    has_many :medication_variables, -> { current.order("position nulls last") }
     has_many :medications
     has_many :medication_values
   end
