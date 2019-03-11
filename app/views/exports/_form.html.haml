@@ -14,9 +14,9 @@
       .dashboard-container.p-3
         %h5.mb-3 Comma-Separated Values
         %div
-          .d-inline-block{ rel: "tooltip", data: { html: "true", title: "<table style=\"background-color: transparent;\"><tr><th style=\"text-align: left;\">Subject&nbsp;</th><th style=\"text-align: center;\">Gender</th><th style=\"text-align: center;\">Age</th></tr><tr><td style=\"text-align: left;\">T325</td><td style=\"text-align: left;\">1: male</td><td style=\"text-align: left;\">25 years</td></tr><tr><td style=\"text-align: left;\">T349</td><td style=\"text-align: left;\">2: female</td><td style=\"text-align: left;\">30 years</td></tr></table>", container: "body", placement: "top" } }
+          .d-inline-block
             = render "forms/vertical/check_box", form: form, object: export, key: :include_csv_labeled, key_name: "CSV Labeled"
-        .d-inline-block{ rel: "tooltip", data: { html: "true", title: "<table style=\"background-color: transparent;\"><tr><th style=\"text-align: left;\">Subject&nbsp;</th><th style=\"text-align: center;\">Gender</th><th style=\"text-align: center;\">Age</th></tr><tr><td style=\"text-align: left;\">T325</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">25</td></tr><tr><td style=\"text-align: left;\">T349</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">30</td></tr></table>", container: "body", placement: "top" } }
+        .d-inline-block
           = render "forms/vertical/check_box", form: form, object: export, key: :include_csv_raw, key_name: "CSV Raw"
 
     .col-lg-4
