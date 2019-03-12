@@ -73,6 +73,7 @@
           - if @project.medications_enabled?
             %li.sidebar-menu-header-link
               = link_to "Medications", project_subject_medications_path(@project, @subject)
+            %li= link_to "Log", project_subject_medications_path(@project, @subject), class: "#{"active" if params[:controller] == "medications"}"
           %li.sidebar-menu-header-link
             = link_to "Extra", timeline_project_subject_path(@project, @subject)
 
