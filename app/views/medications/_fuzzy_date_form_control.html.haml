@@ -13,16 +13,16 @@
               clear
 
     = form.hidden_field :"#{key}_edit", value: "1"
-    = form.text_field :"#{key}_mo_1", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off", autofocus: defined?(autofocus) ? autofocus : nil
-    = form.text_field :"#{key}_mo_2", maxlength: 1, size: 1, placeholder: "M", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_mo_1", maxlength: 1, placeholder: "M", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off", autofocus: defined?(autofocus) ? autofocus : nil
+    = form.text_field :"#{key}_mo_2", maxlength: 1, placeholder: "M", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_mo"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
     \/
-    = form.text_field :"#{key}_dy_1", maxlength: 1, size: 1, placeholder: "D", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
-    = form.text_field :"#{key}_dy_2", maxlength: 1, size: 1, placeholder: "D", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_dy_1", maxlength: 1, placeholder: "D", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_dy_2", maxlength: 1, placeholder: "D", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_dy"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
     \/
-    = form.text_field :"#{key}_yr_1", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
-    = form.text_field :"#{key}_yr_2", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
-    = form.text_field :"#{key}_yr_3", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
-    = form.text_field :"#{key}_yr_4", maxlength: 1, size: 1, placeholder: "Y", class: "fuzzy-date-control #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_yr_1", maxlength: 1, placeholder: "Y", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_yr_2", maxlength: 1, placeholder: "Y", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_yr_3", maxlength: 1, placeholder: "Y", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
+    = form.text_field :"#{key}_yr_4", maxlength: 1, placeholder: "Y", class: "fuzzy-date-control #{inline_buttons ? "fuzzy-date-control-sm" : "fuzzy-date-control-lg"} #{"border-danger" if object.errors[:"#{key}_yr"].present?}", data: { object: "fuzzy-date" }, pattern: "[0-9]{1}", autocomplete: "off"
 
   - if inline_buttons
     .d-inline-block.ml-3

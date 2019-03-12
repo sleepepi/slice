@@ -4,6 +4,16 @@
   text-align: center;
 }
 
+.fuzzy-date-control-sm {
+  min-width: 20px;
+  width: 20px;
+}
+
+.fuzzy-date-control-lg {
+  min-width: 30px;
+  width: 30px;
+}
+
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
     .fuzzy-date-control {
