@@ -8,10 +8,10 @@
 
 $(document)
   .on("keyup", "[data-object~=fuzzy-date]", (e) ->
-    if e.which >= 48 && e.which <= 57
-      $(this).val(String.fromCharCode(e.keyCode))
-      # e.stopPropagation()
-      # e.preventDefault()
+    if (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)
+      # Normalize numpad keys to work as well.
+      keyValue = if e.which >= 96 then e.which - 48 else e.which
+      $(this).val(String.fromCharCode(keyValue))
       fuzzyDateNext(this)
     else if e.which == 37
       fuzzyDatePrevious(this)
