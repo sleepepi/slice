@@ -94,7 +94,7 @@
               = link_to event_project_subject_path(@project, subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param) do
                 = subject_event.name
             - else
-              %span.text-muted Subject Created
+              %span.text-muted Subject created
           - if @project.randomizations_enabled? && unblinded_user
             %td.d-none.d-sm-table-cell.text-center
               - if subject.randomizations_count.positive?
