@@ -24,9 +24,9 @@
 - if @medications.present?
   - separator_found = false
   - @medications.each_with_index do |medication, index|
-    - if medication.stopped? && index.positive? && !separator_found
+    - if medication.stopped? && !separator_found
       - separator_found = true
-      .mt-5.mb-3
+      .mb-3{ class: index.positive? ? "mt-5" : nil }
         %h2 Stopped Medications
     = render "medications/card", medication: medication, actions: true
 
