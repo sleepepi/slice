@@ -20,5 +20,3 @@
 
   = render "forms/horizontal/show/generic", title: "Start date", content: @medication.fuzzy_pretty(:start_date_fuzzy)
   = render "forms/horizontal/show/generic", title: "Stop date", content: @medication.fuzzy_pretty(:stop_date_fuzzy)
-
-= link_to plus_or("MEDICATION CREATED PROTOTYPE"), medication_added_project_subject_path(@project, @subject, number: 1), class: "btn btn-accent btn-shadow"
