@@ -52,6 +52,21 @@ class Medication < ApplicationRecord
     end
   end
 
+  def fuzzy_pretty_short(key)
+    return nil if self[key].blank?
+
+    yr = self[key][0..3]
+    mo = self[key][4..5]
+
+    if yr == "9999" && mo == "99"
+      nil
+    elsif mo == "99"
+      yr
+    else
+      "#{Date::ABBR_MONTHNAMES[mo.to_i]} #{yr}"
+    end
+  end
+
   # def indication
   #   "indication"
   # end
