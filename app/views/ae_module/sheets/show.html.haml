@@ -28,7 +28,7 @@
         .d-inline-block.px-1.rounded-right.bg-dark.text-white= @ae_sheet.role.tr("_", " ")
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li.breadcrumb-muted= @sheet.name.downcase
 

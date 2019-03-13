@@ -1,4 +1,4 @@
-- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject)) || (@sheet && !@sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event && @project.events.where(archived: false).count > 0)
+- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject)) || (@sheet && !@sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event && !@sheet.ae_adverse_event && @project.events.where(archived: false).count > 0)
 
 .col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
   .sidebar

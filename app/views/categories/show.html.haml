@@ -2,11 +2,14 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_category_path(@project, @category), delete_url: [@project, @category], delete_confirmation: "Delete \"#{@category.name}\" category?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "categories", project_categories_path(@project)
+    %li.breadcrumb-muted= @category.name.downcase
 
 .dashboard-container
   %table.table.table-borderless

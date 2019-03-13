@@ -2,12 +2,15 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_event_path(@event.project, @event), delete_url: [@project, @event], delete_confirmation: "Delete \"#{@event.name}\" event?"
   = @title
   = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "events", project_events_path(@project)
+    %li.breadcrumb-muted= (@event.slug.presence || @event.name).downcase
 
 .dashboard-container
   %table.table.table-borderless

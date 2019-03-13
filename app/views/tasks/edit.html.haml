@@ -3,8 +3,11 @@
 
 - content_for :sidebar, render("projects/sidebar")
 
-- content_for :header do
-  = link_to @task.name, [@project, @task]
-  Edit
+- content_for :header, @task.name
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "tasks", project_tasks_path(@project)
+    %li= link_to @task.name.downcase, [@project, @task]
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "form", task: @task

@@ -1,13 +1,26 @@
 - @title = "Report Adverse Event"
 
-- content_for :sidebar, render("projects/sidebar") if @project_member
+- if @project_member
+  - if @adverse_event.subject
+    - @subject = @adverse_event.subject
+    - content_for :sidebar, render("subjects/sidebar")
+  - else
+    - content_for :sidebar, render("projects/sidebar")
 
 - content_for :header, @title
 
 - content_for :breadcrumbs do
-  %ol
-    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li.breadcrumb-muted report adverse event
+  - if @adverse_event.subject
+    - @subject = @adverse_event.subject
+    %ol
+      %li= link_to "subjects", project_subjects_path(@project)
+      %li= link_to @subject.subject_code, [@project, @subject]
+      %li= link_to "adverse events", ae_adverse_events_project_subject_path(@project, @subject)
+      %li.breadcrumb-muted new
+  - else
+    %ol
+      %li= link_to "adverse events", ae_module_adverse_events_path(@project)
+      %li.breadcrumb-muted new
 
 .dashboard-container
   = render "ae_module/adverse_events/form", adverse_event: @adverse_event

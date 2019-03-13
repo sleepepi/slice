@@ -6,8 +6,11 @@
 - content_for :header do
   .float-right
     = link_to plus_or("New Export"), new_project_export_path(@project), class: "btn btn-accent btn-shadow"
-    .per-page= render "layouts/per_page", per_page: 20, object_count: @exports.total_count
   = @title
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @exports.total_count
+  %ol
+    %li.breadcrumb-muted exports
 
 .dashboard-container.dashboard-table
   %table.table.table-striped.table-borderless.table-hover.table-sticky

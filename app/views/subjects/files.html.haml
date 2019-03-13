@@ -3,6 +3,11 @@
 
 - content_for :sidebar, render("subjects/sidebar")
 - content_for :header, @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li.breadcrumb-muted files
 
 .dashboard-container.dashboard-table
   %table.table.table-striped.table-borderless.table-hover.table-sticky

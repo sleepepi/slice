@@ -2,7 +2,6 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     .d-none.d-sm-block.btn-toolbar
@@ -11,8 +10,12 @@
         = link_to "Edit Mode".html_safe, "#", class: "btn btn-sm btn-light active", data: { object: "edit-mode" }
         = link_to "Preview Mode".html_safe, "#", class: "btn btn-sm btn-light", data: { object: "preview-mode" }
       = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
-  = link_to @design.short_name, [@project, @design]
-  Edit
+  = @design.name
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "designs", project_designs_path(@project)
+    %li= link_to (@design.slug_was.presence || @design.name_was).downcase, [@project, @design]
+    %li.breadcrumb-muted edit
 
 #interactive_design_modal.modal
   .modal-dialog.modal-lg

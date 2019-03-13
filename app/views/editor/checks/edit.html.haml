@@ -3,8 +3,11 @@
 
 - content_for :sidebar, render("projects/sidebar")
 
-- content_for :header do
-  = link_to @check.name_was, editor_project_check_path(@project, @check)
-  Edit
+- content_for :header, @check.name_was
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "checks", editor_project_checks_path(@project)
+    %li= link_to (@check.slug_was.presence || @check.name_was).downcase, editor_project_check_path(@project, @check)
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "form", check: @check

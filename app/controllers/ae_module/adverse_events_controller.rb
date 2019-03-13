@@ -23,7 +23,7 @@ class AeModule::AdverseEventsController < AeModule::BaseController
 
   # GET /projects/:project_id/ae-module/adverse-events/new
   def new
-    @adverse_event = @project.ae_adverse_events.new
+    @adverse_event = @project.ae_adverse_events.new(project: @project, subject_code: params[:subject_code])
   end
 
   # POST /projects/:project_id/ae-module/adverse-events

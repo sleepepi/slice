@@ -9,5 +9,10 @@
       = link_to plus_or("New Sheet"), data_entry_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
   = link_to @subject.name, [@project, @subject]
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
+    %li.breadcrumb-muted sheets
 
 #subject-sheets= render "subjects/sheets"

@@ -10,7 +10,7 @@
   .float-right= render "ae_module/adverse_events/roles", roles: @roles
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
     %li.breadcrumb-muted= @adverse_event.name.downcase
 
 .aer-container

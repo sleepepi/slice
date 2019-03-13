@@ -7,6 +7,10 @@
   .float-right
     = render "layouts/edit_delete_dropdown_lg", edit_url: edit_editor_project_check_path(@project, @check), delete_url: editor_project_check_path(@project, @check), delete_confirmation: "Delete \"#{@check.name}\" check?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "checks", editor_project_checks_path(@project)
+    %li.breadcrumb-muted= (@check.slug.presence || @check.name).downcase
 
 .dashboard-container
   - if @check.expression.present?

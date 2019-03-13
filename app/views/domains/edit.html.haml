@@ -2,9 +2,11 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
-- content_for :header do
-  = link_to @domain.name_was, [@project, @domain]
-  Edit
+- content_for :header, @domain.name_was
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "domains", project_domains_path(@project)
+    %li= link_to @domain.name_was.downcase, [@project, @domain]
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "form", domain: @domain

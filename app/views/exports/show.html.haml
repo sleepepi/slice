@@ -2,7 +2,6 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     .dropdown
@@ -15,6 +14,10 @@
           = icon("fas", "trash-alt")
           Delete
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "exports", project_exports_path(@project)
+    %li.breadcrumb-muted= @export.name.to_s.downcase
 
 .dashboard-container
   #progress{ data: { object: "#{"ajax-timer" if @export.total_steps != @export.steps_completed}", path: progress_project_export_path(@project, @export) } }

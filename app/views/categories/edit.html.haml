@@ -2,9 +2,11 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
-- content_for :header do
-  = link_to @category.name_was, [@project, @category]
-  Edit
+- content_for :header, @category.name_was
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "categories", project_categories_path(@project)
+    %li= link_to @category.name_was.downcase, [@project, @category]
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "form", category: @category

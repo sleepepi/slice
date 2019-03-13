@@ -8,6 +8,7 @@
 
 - content_for :breadcrumbs do
   %ol
+    %li= link_to "subjects", project_subjects_path(@project)
     %li= link_to @subject.subject_code, [@project, @subject]
     %li= link_to "medications", project_subject_medications_path(@project, @subject)
     %li.breadcrumb-muted review complete

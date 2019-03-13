@@ -1,3 +1,5 @@
+- from_subject_page = (params[:subject_code].present? && @adverse_event.subject && params[:subject_code].to_s == @adverse_event.subject.subject_code)
+
 - if adverse_event.new_record?
   - url = ae_module_adverse_events_path(adverse_event.project)
   - method = :post
@@ -10,11 +12,16 @@
     .form-group.row
       = form.label :subject_id, "Subject code", class: "col-md-2 col-form-label"
       .col-md-10
-        = form.text_field :subject_id, autocomplete: "off", id: "subject-search", class: "form-control#{" is-invalid" if adverse_event.errors[:subject].present?}", data: { project_slug: adverse_event.project.to_param }, name: "ae_adverse_event[subject_code]", value: adverse_event.subject_code
-        - if adverse_event.errors[:subject].present?
-          %small.text-danger
-            Subject
-            = adverse_event.errors[:subject].to_sentence
+        - if from_subject_page
+          .form-control-plaintext
+            = form.hidden_field :subject_code
+            = link_to @adverse_event.subject.subject_code, [@project, @subject]
+        - else
+          = form.text_field :subject_id, autocomplete: "off", id: "subject-search", class: "form-control#{" is-invalid" if adverse_event.errors[:subject].present?}", data: { project_slug: adverse_event.project.to_param }, name: "ae_adverse_event[subject_code]", value: adverse_event.subject_code
+          - if adverse_event.errors[:subject].present?
+            %small.text-danger
+              Subject
+              = adverse_event.errors[:subject].to_sentence
 
   = render "forms/horizontal/text_field", form: form, object: adverse_event, key: :description
   = render "forms/horizontal/submit", form: form, object: adverse_event, submit_text: adverse_event.new_record? ? "Open report" : "Save changes", cancel: url

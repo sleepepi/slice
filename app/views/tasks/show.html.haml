@@ -22,6 +22,10 @@
             Delete
   = @title
   = render "layouts/unblinded_only", project: @project, object: @task, placement: "top"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "tasks", project_tasks_path(@project)
+    %li.breadcrumb-muted= @task.name.downcase
 
 .dashboard-container
   %table.table.table-borderless

@@ -1,6 +1,8 @@
 ## 71.0.0
 
 ### Enhancements
+- **General Changes**
+  - Breadcrumbs have been added across several pages to improve navigation
 - **Medications Added**
   - Added a project level module to track subject medications
   - Medication start and stop dates allow for fuzzy dates

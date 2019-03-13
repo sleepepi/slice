@@ -14,6 +14,18 @@
         = link_to "Undo", undo_project_randomization_path(@project, @randomization), method: :patch, class: "btn btn-danger", data: { confirm: "Undo randomization for subject #{@randomization.subject.name}?" }
   = @title
 
+- content_for :breadcrumbs do
+  - if @randomization.subject
+    - @subject = @randomization.subject
+    %ol
+      %li= link_to "subjects", project_subjects_path(@project)
+      %li= link_to @subject.subject_code, [@project, @subject]
+      %li.breadcrumb-muted= "randomization ##{@randomization.name.to_s.downcase}"
+  - else
+    %ol
+      %li= link_to "randomizations", project_randomizations_path(@project)
+      %li.breadcrumb-muted= "randomization ##{@randomization.name.to_s.downcase}"
+
 - if @randomization.subject && @randomization.randomized_by && (@randomization.custom_list? || @randomization.treatment_arm)
   .jumbotron
     %h2.text-center{ style: "margin: 0;" }

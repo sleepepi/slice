@@ -17,8 +17,11 @@
 
 - content_for :breadcrumbs do
   = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @medications.total_count
+
+- content_for :breadcrumbs do
   %ol
-    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
     %li.breadcrumb-muted medications
 
 - if @medications.present?

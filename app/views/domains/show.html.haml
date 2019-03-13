@@ -24,6 +24,10 @@
           = icon("fas", "trash-alt")
           Delete
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "domains", project_domains_path(@project)
+    %li.breadcrumb-muted= @domain.name.downcase
 
 .dashboard-container
   %table.table.table-borderless
@@ -33,9 +37,6 @@
       %tr
         %th Description
         %td= simple_format @domain.description
-    %tr
-      %th Creator
-      %td= link_to @domain.user.full_name, @domain.user if @domain.user
   %table.table.table-borderless
     %col{ width: "1px" }
     %col

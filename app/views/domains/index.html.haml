@@ -6,9 +6,12 @@
 - content_for :header do
   .float-right
     = link_to plus_or("New Domain"), new_project_domain_path(@project), class: "btn btn-accent btn-shadow"
-    .per-page= render "layouts/per_page", per_page: 40, object_count: @domains.total_count
   = @title
-  = render "search/toggle"
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 40, object_count: @domains.total_count
+  %ol
+    %li.breadcrumb-muted domains
+    %li= link_to icon("fas", "search"), "#", data: { object: "toggle-search-container", target: "#search" }
 
 = render "search/simple", url: project_domains_path(@project)
 

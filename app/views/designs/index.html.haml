@@ -6,9 +6,12 @@
 - content_for :header do
   .float-right
     = link_to plus_or("New Design"), new_project_design_path(@project), class: "btn btn-accent btn-shadow"
-    .per-page= render "layouts/per_page", per_page: 40, object_count: @designs.total_count
   = @title
-  = render "search/toggle"
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 40, object_count: @designs.total_count
+  %ol
+    %li.breadcrumb-muted designs
+    %li= link_to icon("fas", "search"), "#", data: { object: "toggle-search-container", target: "#search" }
 
 = render "search/simple", url: project_designs_path(@project)
 

@@ -40,6 +40,11 @@
 
   = @title
 
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li.breadcrumb-muted= @subject.name.downcase
+
 - if @project.events.where(archived: false).count > 0
   - if @subject.subject_events.count == 0 && @subject.editable_by?(current_user)
     = render "subjects/choose_event"

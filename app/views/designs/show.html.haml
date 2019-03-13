@@ -31,6 +31,11 @@
           Delete
   = @title
   = render "layouts/unblinded_only", project: @project, object: @design, placement: "top"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "designs", project_designs_path(@project)
+    %li.breadcrumb-muted= (@design.slug.presence || @design.name).downcase
+
 
 - if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated? || @design.notifications_enabled?
   .dashboard-container

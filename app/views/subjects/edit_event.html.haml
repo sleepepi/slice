@@ -4,8 +4,13 @@
 - content_for :sidebar, render("subjects/sidebar")
 
 - content_for :header do
-  = link_to @subject.name, [@project, @subject]
-  = link_to @subject_event.name, event_project_subject_path(@project, @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param)
-  Edit
+  = @subject_event.name
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to @subject_event.name.downcase, event_project_subject_path(@project, @subject, event_id: @subject_event.event, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param)
+    %li.breadcrumb-muted edit
 
 = render "subject_events/form", subject_event: @subject_event, event: @subject_event.event

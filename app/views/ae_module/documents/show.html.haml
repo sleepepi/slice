@@ -11,7 +11,7 @@
     = link_to icon("fas", "download"), download_ae_module_document_path(@project, @adverse_event, @document), data: { turbolinks: false }, class: "btn btn-sm btn-light"
   %ol
     %li= link_to "adverse events", ae_module_adverse_events_path(@project)
-    %li= link_to @subject.name.downcase, [@project, @subject]
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
     %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
     %li= link_to "documents", ae_module_documents_path(@project, @adverse_event)
     %li.breadcrumb-muted= @document.filename.downcase

@@ -2,7 +2,6 @@
 - @menu_title = "#{@project.name} #{@subject.name} #{@title}"
 
 - content_for :sidebar, render("subjects/sidebar")
-
 - content_for :header do
   - if @subject.editable_by?(current_user)
     .float-right
@@ -20,8 +19,12 @@
           = link_to destroy_event_project_subject_path(@project, @subject, event_id: @subject_event.event.id, subject_event_id: @subject_event.id, event_date: @subject_event.event_date_to_param), method: :delete, data: { confirm: "Remove \"#{@subject_event.event.name}\" event from subject? Sheets will not be deleted." }, class: "dropdown-item text-danger" do
             = icon("fas", "trash-alt")
             Delete
-  = link_to @subject.name, [@project, @subject]
   = @title
   = render "layouts/unblinded_only", project: @project, object: @event, placement: "top"
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li.breadcrumb-muted= @subject_event.name.downcase
 
 %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event
