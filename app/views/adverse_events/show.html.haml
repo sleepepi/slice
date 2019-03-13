@@ -1,16 +1,23 @@
 - @title = @adverse_event.name
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
 - @subject = @adverse_event.subject
 - content_for :sidebar, render("subjects/sidebar")
-
 - content_for :header do
   .float-right
     = render "adverse_events/actions", adverse_event: @adverse_event
   = @title
   = render "adverse_events/shareable_link", adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  - if @subject
+    %ol
+      %li= link_to "subjects", project_subjects_path(@project)
+      %li= link_to @subject.subject_code, [@project, @subject]
+      %li.breadcrumb-muted= @adverse_event.name.to_s.downcase
+  - else
+    %ol
+      %li= link_to "adverse events", project_adverse_events_path(@project)
+      %li.breadcrumb-muted= @adverse_event.name.to_s.downcase
 
 = render "adverse_events/menu"
 .dashboard-container

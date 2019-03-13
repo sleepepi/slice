@@ -7,6 +7,10 @@
   .float-right
     = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_path(@project, @randomization_scheme), delete_url: [@project, @randomization_scheme], delete_confirmation: "Delete \"#{@randomization_scheme.name}\" randomization scheme?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li.breadcrumb-muted= @randomization_scheme.name.downcase
 
 .dashboard-container
   = render "forms/horizontal/show/generic", title: "Randomized", content: render("randomization_schemes/progress", randomization_scheme: @randomization_scheme) if @randomization_scheme.published?

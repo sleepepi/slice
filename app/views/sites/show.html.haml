@@ -24,6 +24,10 @@
             = icon("fas", "trash-alt")
             Delete
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "sites", project_sites_path(@project)
+    %li.breadcrumb-muted= @site.name_was.to_s.downcase
 
 .dashboard-container
   %table.table.table-borderless

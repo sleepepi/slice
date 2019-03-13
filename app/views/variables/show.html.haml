@@ -25,6 +25,10 @@
             = icon("fas", "trash-alt")
             Delete
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "variables", project_variables_path(@project)
+    %li.breadcrumb-muted= @variable.name.downcase
 
 - default_row_number = @variable.default_row_number
 - @variable.default_row_number = 1

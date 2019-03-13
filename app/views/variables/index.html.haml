@@ -2,13 +2,15 @@
 - @menu_title = "#{@project.name} #{@title}"
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     = link_to plus_or("New Variable"), new_project_variable_path(@project), class: "btn btn-accent btn-shadow"
-    .per-page= render "layouts/per_page", per_page: 20, object_count: @variables.total_count
   = @title
-  = render "search/toggle"
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @variables.total_count
+  %ol
+    %li.breadcrumb-muted variables
+    %li= link_to icon("fas", "search"), "#", data: { object: "toggle-search-container", target: "#search" }
 
 = render "search/simple", url: project_variables_path(@project)
 = render "variables/variables"

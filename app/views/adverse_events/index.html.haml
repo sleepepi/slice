@@ -12,9 +12,12 @@
         = link_to export_project_adverse_events_path, class: "btn btn-light d-none d-sm-inline-block" do
           = icon("fas", "download")
           Export
-    .per-page= render "layouts/per_page", per_page: 40, object_count: @adverse_events.total_count
   = @title
-  = render "search/toggle"
+- content_for :breadcrumbs do
+  = render "layouts/per_page_breadcrumbs", per_page: 40, object_count: @adverse_events.total_count
+  %ol
+    %li.breadcrumb-muted adverse events
+    %li= link_to icon("fas", "search"), "#", data: { object: "toggle-search-container", target: "#search" }
 
 = render "search/simple", url: project_adverse_events_path(@project)
 

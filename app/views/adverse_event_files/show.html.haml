@@ -1,7 +1,5 @@
 - @title = "#{@adverse_event.name} Files"
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@adverse_event.subject.subject_code, [@project, @adverse_event.subject]] if @adverse_event.subject
 
 - @subject = @adverse_event.subject
 - content_for :sidebar, render("subjects/sidebar")
@@ -12,6 +10,14 @@
   = link_to @adverse_event.name, [@project, @adverse_event]
   Files
   = render "adverse_events/shareable_link", adverse_event: @adverse_event
+
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to @adverse_event.name.to_s.downcase, [@project, @adverse_event]
+    %li= link_to "files", project_adverse_event_adverse_event_files_path(@project, @adverse_event)
+    %li.breadcrumb-muted= @adverse_event_file.name.to_s.downcase
 
 = render "adverse_events/menu"
 .dashboard-container
