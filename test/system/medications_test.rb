@@ -101,7 +101,7 @@ class MedicationsTest < ApplicationSystemTestCase
     screenshot("review-medications")
     click_on "Yes"
     screenshot("review-medications")
-    click_on "No something changed"
+    click_on "No, something changed"
     screenshot("review-medications")
 
     fill_in "medication[medication_variables][#{medication_variables(:frequency).id}]", with: "2X per day"
@@ -123,7 +123,7 @@ class MedicationsTest < ApplicationSystemTestCase
     click_on "Submit change and continue review"
 
     screenshot("review-medications")
-    click_on "No stopped completely"
+    click_on "No, stopped completely"
 
     screenshot("review-medications")
     fill_in "medication[stop_date_fuzzy_mo_1]", with: "0"
