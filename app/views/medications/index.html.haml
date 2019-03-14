@@ -29,8 +29,7 @@
   - @medications.each_with_index do |medication, index|
     - if medication.stopped? && !separator_found
       - separator_found = true
-      .mb-3{ class: index.positive? ? "mt-5" : nil }
-        %h2 Stopped Medications
+      .dashboard-heading.text-center.text-sm-left Stopped Medications
     = render "medications/card", medication: medication, actions: true
 
   .center-horizontally= paginate @medications, theme: "bootstrap"

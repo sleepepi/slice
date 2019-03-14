@@ -192,3 +192,33 @@
     }
   }
 }
+
+.dashboard-heading {
+  border-radius: $border-radius;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: $spacer;
+  padding: $spacer;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 1.75rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: 1.75rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 2rem;
+  }
+}
+
+@each $name, $theme in $themes {
+  .theme-#{$name}-bg {
+    .dashboard-heading {
+      background-color: map-get($theme, dashboard-bg);
+      box-shadow: 0 0 5px map-get($theme, box-shadow-color);
+      color: map-get($theme, body-color);
+    }
+  }
+}

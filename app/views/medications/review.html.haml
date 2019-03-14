@@ -23,11 +23,11 @@
     Yes
     = icon("fas", "caret-right")
 
-  = link_to something_changed_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link" do
+  = link_to something_changed_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link bg-dashboard mr-3" do
     = icon("fas", "exclamation-circle")
     No, something changed
 
-  = link_to stopped_completely_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link" do
+  = link_to stopped_completely_project_subject_medication_path(@project, @subject, @medication), class: "btn btn-link bg-dashboard" do
     = icon("fas", "stop-circle")
     No, stopped completely
 
