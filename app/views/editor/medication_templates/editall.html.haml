@@ -1,0 +1,17 @@
+- @title = "Medications"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "medications module", settings_editor_project_path(@project, anchor: "medications")
+    %li= link_to "medications", showall_editor_project_medication_templates_path(@project)
+    %li.breadcrumb-muted edit
+
+.dashboard-container
+  = form_with url: updateall_editor_project_medication_templates_path(@project), method: :post, local: true do |form|
+    = form.text_area "medication_names", value: @medication_templates.pluck(:name).join("\n"), rows: 20, class: "form-control"
+
+    .form-group.mt-4.mb-0
+      = form.submit "Update Medications", class: "btn btn-primary"

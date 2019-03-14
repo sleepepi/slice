@@ -283,4 +283,12 @@ class MedicationsControllerTest < ActionDispatch::IntegrationTest
     }
     assert_response :success
   end
+
+  test "should get autocomplete meds for medicine template names" do
+    login(@project_editor)
+    get autocomplete_meds_project_subject_medications_url(@project, @subject, format: "json"), params: {
+      search: "better"
+    }
+    assert_response :success
+  end
 end

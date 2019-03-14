@@ -219,6 +219,14 @@ Rails.application.routes.draw do
       resources :invites
 
       resources :medication_variables, path: "medication-variables"
+
+      resources :medication_templates, path: "medications" do
+        collection do
+          get :showall
+          get :editall
+          post :updateall, path: "editall"
+        end
+      end
     end
   end
 
@@ -409,6 +417,7 @@ Rails.application.routes.draw do
       resources :medications do
         collection do
           get :autocomplete
+          get :autocomplete_meds, path: "autocomplete-meds"
           get :review_complete, path: "review-complete"
           post :start_review, path: "start-review"
           post :continue_review, path: "continue-review"

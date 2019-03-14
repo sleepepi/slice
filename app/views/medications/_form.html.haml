@@ -1,5 +1,5 @@
 = form_with model: [medication.project, medication.subject, medication], local: true do |form|
-  = render "forms/horizontal/text_field", form: form, object: medication, key: :name, autocomplete: "off"
+  = render "forms/horizontal/text_field", form: form, object: medication, key: :name, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "textcomplete", textcomplete_url: autocomplete_meds_project_subject_medications_path(format: "json") }
 
   - @project.medication_variables.each do |medication_variable|
     .form-group.row

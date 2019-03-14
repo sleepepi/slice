@@ -5,6 +5,7 @@
 - content_for :header do
   .float-right
     = link_to plus_or("New Medication Variable"), new_editor_project_medication_variable_path(@project), class: "btn btn-accent btn-shadow"
+    = link_to "Show Medications", showall_editor_project_medication_templates_path(@project), class: "btn btn-accent btn-shadow"
   = @title
 
 - content_for :breadcrumbs do

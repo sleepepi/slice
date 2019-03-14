@@ -1,0 +1,21 @@
+- @title = "Medications"
+- @menu_title = "#{@project.name} #{@title}"
+
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header do
+  .float-right
+    = link_to "Edit Medications", editall_editor_project_medication_templates_path(@project), class: "btn btn-accent btn-shadow"
+  = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "medications module", settings_editor_project_path(@project, anchor: "medications")
+    %li.breadcrumb-muted medications
+
+- if @medication_templates.present?
+  .dashboard-container
+    - @medication_templates.each do |medication_template|
+      %div
+        %span.badge.badge-light= medication_template.name
+- else
+  .jumbotron.jumbotron-custom-text
+    No medications found.

@@ -1,5 +1,6 @@
-- data = {}
-- data = { object: "create-slug", target: "##{object.class.to_s.underscore}_#{slug}" } if defined?(slug) && object.new_record?
+- unless defined?(data)
+  - data = {}
+  - data = { object: "create-slug", target: "##{object.class.to_s.underscore}_#{slug}" } if defined?(slug) && object.new_record?
 - id = (defined?(id) && id == true ? "#{object.class.to_s.underscore}_#{key}" : (defined?(id) ? id : nil))
 - autocomplete = defined?(autocomplete) ? autocomplete : nil
 - autocorrect = defined?(autocorrect) ? autocorrect : nil

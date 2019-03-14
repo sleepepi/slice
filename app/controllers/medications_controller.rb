@@ -8,14 +8,16 @@ class MedicationsController < ApplicationController
     :new, :edit, :create, :update, :destroy, :review, :still_taking,
     :something_changed, :stopped_completely, :submit_something_changed,
     :change_occurred, :submit_change_occurred, :submit_stopped_completely,
-    :autocomplete, :start_review, :continue_review, :review_complete
+    :autocomplete, :autocomplete_meds, :start_review, :continue_review,
+    :review_complete
   ]
   before_action :find_viewable_subject_or_redirect, only: [:index, :show]
   before_action :find_editable_subject_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :review, :still_taking,
     :something_changed, :stopped_completely, :submit_something_changed,
     :change_occurred, :submit_change_occurred, :submit_stopped_completely,
-    :autocomplete, :start_review, :continue_review, :review_complete
+    :autocomplete, :autocomplete_meds, :start_review, :continue_review,
+    :review_complete
   ]
   before_action :find_medication_or_redirect, only: [
     :show, :edit, :update, :destroy, :review, :still_taking,
@@ -113,6 +115,10 @@ class MedicationsController < ApplicationController
   def autocomplete
     @medication_variable = @project.medication_variables.find_by(id: params[:medication_variable_id])
   end
+
+  # # GET /medications/autocomplete-meds.json
+  # def autocomplete_meds
+  # end
 
   # GET /medications/new
   def new
