@@ -116,6 +116,6 @@
             Public user
         %span.badge.badge-success created
         subject
-        = link_to @subject.name, [@project, @subject]
+        = link_to @subject.subject_code, [@project, @subject]
         on
         = @subject.created_at.strftime("%a, %B %-d, %Y at %-l:%M %p.")

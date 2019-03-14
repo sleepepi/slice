@@ -7,7 +7,7 @@
   - if @subject.editable_by?(current_user)
     .float-right
       = link_to plus_or("New Sheet"), data_entry_project_subject_path(@project, @subject), class: "btn btn-accent btn-shadow"
-  = link_to @subject.name, [@project, @subject]
+  = link_to @subject.subject_code, [@project, @subject]
   = @title
 - content_for :breadcrumbs do
   %ol
