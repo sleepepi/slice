@@ -1,15 +1,18 @@
 - @title = @treatment_arm.name
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     - unless @randomization_scheme.published?
       = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_treatment_arm_path(@project, @randomization_scheme, @treatment_arm), delete_url: [@project, @randomization_scheme, @treatment_arm], delete_confirmation: "Delete \"#{@treatment_arm.name}\" arm?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li= link_to @randomization_scheme.name_was.downcase, [@project, @randomization_scheme]
+    %li= link_to "treatment arms", project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
+    %li.breadcrumb-muted= @treatment_arm.name.downcase
 
 .dashboard-container
   %table.table.table-borderless

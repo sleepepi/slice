@@ -1,11 +1,15 @@
 - @title = @randomization.custom_treatment_name_was
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header do
   = @randomization.custom_treatment_name_was
   Edit
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li= link_to @randomization_scheme.name.downcase, [@project, @randomization_scheme]
+    %li.breadcrumb-muted= @randomization.custom_treatment_name_was.to_s.downcase
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "randomization_schemes/randomization_form", randomization: @randomization

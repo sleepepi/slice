@@ -25,6 +25,6 @@
   %ol
     %li= link_to "subjects", project_subjects_path(@project)
     %li= link_to @subject.subject_code, [@project, @subject]
-    %li.breadcrumb-muted= @subject_event.name.downcase
+    %li.breadcrumb-muted= (@subject_event.event.slug.presence || @subject_event.event.name).to_s.downcase
 
 %div{ id: "subject_event_#{@subject_event.id}" }= render @subject_event

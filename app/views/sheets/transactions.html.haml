@@ -1,16 +1,19 @@
 - @title = "#{@sheet.name} Transactions"
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@sheet.subject.subject_code, [@project, @sheet.subject]]
-- @breadcrumbs << [@sheet.adverse_event.name, [@project, @sheet.adverse_event]] if @sheet.adverse_event
-- @breadcrumbs << [@sheet.subject_event.name, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)] if @sheet.subject_event
 
 - @subject = @sheet.subject
 - content_for :sidebar, render("subjects/sidebar")
-
-- content_for :header do
-  = link_to @sheet.name, [@project, @sheet]
-  Transactions
+- content_for :header, @sheet.name
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "subjects", project_subjects_path(@project)
+    %li= link_to @subject.subject_code, [@project, @subject]
+    - if @sheet.adverse_event
+      %li= link_to @sheet.adverse_event.name.downcase, [@project, @sheet.adverse_event]
+    - if @sheet.subject_event
+      %li= link_to (@sheet.subject_event.event.slug.presence || @sheet.subject_event.event.name).to_s.downcase, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
+    %li= link_to @sheet.name.to_s.downcase, [@project, @sheet]
+    %li.breadcrumb-muted transactions
 
 - @sheet_transactions = @sheet.sheet_transactions
 - variable = @project.variables.find_by(name: params[:variable])

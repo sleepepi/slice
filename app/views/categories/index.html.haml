@@ -37,6 +37,8 @@
             %td.d-none.d-md-table-cell.text-center= simple_check category.use_for_adverse_events
             %td.text-center
               = render "layouts/edit_delete_dropdown", edit_url: edit_project_category_path(@project, category), delete_url: [@project, category], delete_confirmation: "Delete \"#{category.name}\" category?"
+
+  .center-horizontally= paginate @categories, theme: "bootstrap"
 - else
   .jumbotron.jumbotron-custom-text
     No categories found.

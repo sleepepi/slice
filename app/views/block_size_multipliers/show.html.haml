@@ -1,15 +1,18 @@
 - @title = @block_size_multiplier.name
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     - unless @randomization_scheme.published?
       = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_block_size_multiplier_path(@project, @randomization_scheme, @block_size_multiplier), delete_url: [@project, @randomization_scheme, @block_size_multiplier], delete_confirmation: "Delete \"#{@block_size_multiplier.name}\" block size multiplier?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li= link_to @randomization_scheme.name.downcase, [@project, @randomization_scheme]
+    %li= link_to "block size multipliers", project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)
+    %li.breadcrumb-muted= @block_size_multiplier.name.downcase
 
 .dashboard-container
   %table.table.table-borderless

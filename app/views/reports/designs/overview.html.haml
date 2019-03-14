@@ -1,30 +1,30 @@
 - @title = "#{@design.name} Overview"
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << ["Reports", reports_project_path(@project)]
 
 - content_for :sidebar, render("projects/sidebar")
+- content_for :header do
+  - if @design.events.count > 1
+    .float-right
+      %span.dropdown
+        = link_to "#", class: "btn btn-sm dropdown-toggle btn-primary", data: { toggle: "dropdown" } do
+          - if @event
+            = @event.name
+          - else
+            All Events
 
-- content_for :header, @title
+        .dropdown-menu.dropdown-menu-right
+          = link_to "All Events", project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
+          .dropdown-divider
+          - NaturalSort.sort(@design.events.pluck(:name, :id)).each do |event_name, event_id|
+            = link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+
+  = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "reports", reports_project_path(@project)
+    %li.breadcrumb-muted= @title.downcase
 
 - @colors = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#66aa00", "#dd4477", "#0099c6", "#990099"]
-
-- if @design.events.count > 1
-  .dashboard-container
-    %span.dropdown
-      = link_to "#", class: "btn btn-sm dropdown-toggle #{@event ? "btn-primary": "btn-light"}", data: { toggle: "dropdown" } do
-        - if @event
-          = @event.name
-        - else
-          All Events
-
-      .dropdown-menu
-        = link_to "All Events", project_reports_design_overview_path(@project, @design, event_id: nil), style: params[:event_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
-        .dropdown-divider
-        - NaturalSort.sort(@design.events.pluck(:name, :id)).each do |event_name, event_id|
-          = link_to event_name, project_reports_design_overview_path(@project, @design, event_id: event_id), style: params[:event_id].to_s == event_id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
-
-    = link_to "Reset Filters", project_reports_design_overview_path(@project, @design), class: "btn btn-sm btn-link" if params[:event_id].present?
 
 - @design.design_options.includes(:variable, :section).each do |design_option|
   - section = design_option.section

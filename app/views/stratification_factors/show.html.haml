@@ -1,15 +1,18 @@
 - @title = @stratification_factor.name
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 - content_for :sidebar, render("projects/sidebar")
-
 - content_for :header do
   .float-right
     - unless @randomization_scheme.published?
       = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_stratification_factor_path(@project, @randomization_scheme, @stratification_factor), delete_url: [@project, @randomization_scheme, @stratification_factor], delete_confirmation: "Delete \"#{@stratification_factor.name}\" stratification factor?"
   = @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li= link_to @randomization_scheme.name.downcase, [@project, @randomization_scheme]
+    %li= link_to "stratification factors", project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)
+    %li.breadcrumb-muted= @stratification_factor.name.downcase
 
 .dashboard-container
   %table.table.table-borderless

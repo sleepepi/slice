@@ -1,12 +1,14 @@
 - @title = "#{@treatment_arm.name_was} Edit"
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@randomization_scheme.name, [@project, @randomization_scheme]]
 
 - content_for :sidebar, render("projects/sidebar")
-
-- content_for :header do
-  = link_to @treatment_arm.name_was, [@project, @randomization_scheme, @treatment_arm]
-  Edit
+- content_for :header, @treatment_arm.name_was
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "randomization schemes", project_randomization_schemes_path(@project)
+    %li= link_to @randomization_scheme.name_was.downcase, [@project, @randomization_scheme]
+    %li= link_to "treatment arms", project_randomization_scheme_treatment_arms_path(@project, @randomization_scheme)
+    %li= link_to @treatment_arm.name_was.to_s.downcase, [@project, @randomization_scheme, @treatment_arm]
+    %li.breadcrumb-muted edit
 
 .dashboard-container= render "form", treatment_arm: @treatment_arm

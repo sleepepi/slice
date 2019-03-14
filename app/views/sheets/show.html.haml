@@ -18,7 +18,7 @@
     - if @sheet.adverse_event
       %li= link_to @sheet.adverse_event.name.downcase, [@project, @sheet.adverse_event]
     - if @sheet.subject_event
-      %li= link_to @sheet.subject_event.name.downcase, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
+      %li= link_to (@sheet.subject_event.event.slug.presence || @sheet.subject_event.event.name).to_s.downcase, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
     %li.breadcrumb-muted= @sheet.name.to_s.downcase
 
 #sheet_unlocks_container= render "sheet_unlock_requests/index", project: @project, sheet: @sheet

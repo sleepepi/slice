@@ -1,9 +1,13 @@
 - @title = "New Domain Option"
 - @menu_title = "#{@project.name} #{@title}"
-- @breadcrumbs = []
-- @breadcrumbs << [@domain.name, [@project, @domain]]
 
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "domains", project_domains_path(@project)
+    %li= link_to @domain.name.downcase, [@project, @domain]
+    %li= link_to "options", project_domain_domain_options_path(@project, @domain)
+    %li.breadcrumb-muted new
 
 .dashboard-container= render "form", domain_option: @domain_option

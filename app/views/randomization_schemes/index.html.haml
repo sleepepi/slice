@@ -11,29 +11,34 @@
   %ol
     %li.breadcrumb-muted randomization schemes
 
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col.d-none.d-sm-table-column
-    %col
-    %col
-    %col
-    %thead
-      %tr
-        %th.d-none.d-sm-table-cell
-        = th_sort_field @order, "randomization_schemes.name", "Name"
-        %th.text-center Published
-        %th Goal
-
-    %tbody
-      - @randomization_schemes.each do |randomization_scheme|
+- if @randomization_schemes.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col.d-none.d-sm-table-column
+      %col
+      %col
+      %col
+      %thead
         %tr
-          %td.d-none.d-sm-table-cell= render "randomization_schemes/progress", randomization_scheme: randomization_scheme
-          %td= link_to randomization_scheme.name, [@project, randomization_scheme]
-          %td.text-center= simple_check randomization_scheme.published
-          %td.nowrap
-            = randomization_scheme.randomizations.where.not(subject_id: nil).count
-            of
-            = randomization_scheme.randomization_goal
+          %th.d-none.d-sm-table-cell
+          = th_sort_field @order, "randomization_schemes.name", "Name"
+          %th.text-center Published
+          %th Goal
+
+      %tbody
+        - @randomization_schemes.each do |randomization_scheme|
+          %tr
+            %td.d-none.d-sm-table-cell= render "randomization_schemes/progress", randomization_scheme: randomization_scheme
+            %td= link_to randomization_scheme.name, [@project, randomization_scheme]
+            %td.text-center= simple_check randomization_scheme.published
+            %td.nowrap
+              = randomization_scheme.randomizations.where.not(subject_id: nil).count
+              of
+              = randomization_scheme.randomization_goal
+  .center-horizontally= paginate @randomization_schemes, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No randomization schemes found.
 
 .center-horizontally
   .docs-learn-more

@@ -3,6 +3,9 @@
 
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
+- content_for :breadcrumbs do
+  %ol
+    %li.breadcrumb-muted reports
 
 - randomization_schemes = @project.randomization_schemes.where(published: true)
 
