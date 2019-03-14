@@ -8,7 +8,7 @@ module World
         @names = {
           en: "English",
           es: "Inglés",
-          :"fr-CA" => "Anglais"
+          "fr-CA": "Anglais"
         }
       end
     end

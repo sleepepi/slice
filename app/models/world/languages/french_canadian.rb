@@ -8,7 +8,7 @@ module World
         @names = {
           en: "French Canadian",
           es: "Francés canadiense",
-          :"fr-CA" => "Français Canadien"
+          "fr-CA": "Français Canadien"
         }
         @special_characters = [
           { "â" => { simple: "a", latex: "\\\\^a" } },

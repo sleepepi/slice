@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+require "world/languages/all"
+
 # Helps set language for translated slice forms.
 module World
   DEFAULT_LANGUAGE = World::Languages::English
   LANGUAGES = {
     en: World::Languages::English,
     es: World::Languages::Spanish,
-    :"fr-CA" => World::Languages::FrenchCanadian
+    "fr-CA": World::Languages::FrenchCanadian
   }
 
   mattr_accessor :default_language
