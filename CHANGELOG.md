@@ -11,6 +11,8 @@
   - Project editors can configure additional variables to be collected alongside
     medication name and start and stop dates
   - Medications can be exported to CSV
+- **Gem Changes**
+  - Update to rails 6.0.0.beta3
 
 ### Refactoring
 - Remove skipping_utf8 in search forms as Rails 6 no longer enforces utf8
