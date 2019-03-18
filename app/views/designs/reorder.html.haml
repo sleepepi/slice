@@ -3,21 +3,13 @@
 
 - content_for :sidebar, render("projects/sidebar")
 
-- content_for :header do
-  .float-right
-    .d-none.d-sm-block
-      = link_to "Back to edit", edit_project_design_path(@project, @design), class: "btn btn-sm btn-light"
-  = @design.short_name
+- content_for :header, @design.name
 - content_for :breadcrumbs do
   %ol
     %li= link_to "designs", project_designs_path(@project)
     %li= link_to (@design.slug.presence || @design.name).downcase, [@project, @design]
     %li= link_to "edit", edit_project_design_path(@project, @design)
     %li.breadcrumb-muted reorder
-
-#interactive_design_modal.modal
-  .modal-dialog.modal-lg
-    #interactive-design-container.modal-content
 
 .dashboard-container
   .btn-toolbar.mb-5
@@ -30,7 +22,7 @@
         Variables
         %span.badge.badge-light= @design.variables.count
 
-    = link_to "Save order", "#", class: "btn btn-primary nowrap", data: { object: "reorder-save", reorder: "variables" }
+    = link_to "Save order", "#", class: "btn btn-primary nowrap mr-2", data: { object: "reorder-save", reorder: "variables" }
 
   %div{ data: { object: "reorder-container", reorder: "sections" }, style: "display: none;" }
     = render "design_options/reorder_sections"

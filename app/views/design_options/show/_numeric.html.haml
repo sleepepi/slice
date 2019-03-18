@@ -12,9 +12,9 @@
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }
-    = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "ranges", language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
-    = link_to "Edit Prefix", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "prepend", language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
-    = link_to "Edit Units", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "units", language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
-    = link_to "Edit Suffix", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "append", language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
+    = link_to "Edit Ranges", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "ranges", language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow"
+    = link_to "Edit Prefix", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "prepend", language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow"
+    = link_to "Edit Units", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "units", language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow"
+    = link_to "Edit Suffix", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "append", language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow"
 
   = render "design_options/show/ranges", variable: variable

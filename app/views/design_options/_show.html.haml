@@ -2,9 +2,9 @@
 - variable = design_option.variable
 - if section
   .row
-    .col-sm-6{ data: { object: "design-preview-expand" } }
+    .col-sm-6
       = render "sections/show", design_option: design_option, section: section
-    .col-sm-6.design-preview-hide
+    .col-sm-6
       .design-edit-box
         %h4
           .float-right
@@ -33,7 +33,7 @@
 
 - elsif variable
   .row
-    .col-sm-6{ style: "overflow: hidden;", data: { object: "design-preview-expand" } }
+    .col-sm-6{ style: "overflow: hidden;" }
       - if variable.deleted?
         .form-group.row.error
           %label.col-md-3.col-form-label= simple_style variable.display_name
@@ -67,7 +67,7 @@
             - if Variable::TYPE.flatten.uniq.include?(variable.variable_type)
               = render "design_options/show/#{variable.variable_type}", design: @design, design_option: design_option, variable: variable
               = render "variables/field_note", variable: variable
-    .col-sm-6.design-preview-hide
+    .col-sm-6
       .design-edit-box
         %h4
           .float-right

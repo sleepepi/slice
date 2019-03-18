@@ -9,4 +9,4 @@
         = render "design_options/show/grid_variables", design: design, design_option: design_option, disabled: true, position: 0, variable: variable
     = link_to I18n.t("sheets.add_row", locale: World.language), "#", class: "btn btn-outline-dark btn-sm disabled", disabled: "disabled", data: { object: "suppress-click" }, tabindex: "-1" if variable.multiple_rows?
 
-= link_to "Edit Grid Questions", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "grid_variables"), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow"
+= link_to "Edit Grid Questions", edit_variable_project_design_design_option_path(@project, @design, design_option, attribute: "grid_variables"), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow"

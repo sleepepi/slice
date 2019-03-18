@@ -5,8 +5,8 @@
 - content_for :header do
   .float-right
     .d-none.d-sm-block.btn-toolbar
-      = render "translations/language_dropdown", button_class: "btn-sm"
-      = link_to "Reorder", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
+      = render "translations/language_dropdown", button_class: ""
+      = link_to "Reorder", reorder_project_design_path(@project, @design), class: "btn btn-light"
   = @design.name
 - content_for :breadcrumbs do
   %ol

@@ -24,15 +24,15 @@
           %td.text-center
             = render "design_options/show/checkbox_or_radio_input", domain_option: domain_option, variable: variable, is_grid: is_grid
       - unless is_grid
-        %tr.design-preview-hide
+        %tr
           %td.text-center{ colspan: "#{unarchived_domain_options.count + 1}" }
-            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow" do
+            = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow" do
               = unarchived_domain_options.present? ? "Edit" : "Add"
               Choices
 - else
   - unarchived_domain_options.each do |domain_option|
     = render "design_options/show/checkbox_or_radio_input", domain_option: domain_option, variable: variable, is_grid: is_grid
   - unless is_grid
-    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow" do
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow" do
       = unarchived_domain_options.present? ? "Edit" : "Add"
       Choices

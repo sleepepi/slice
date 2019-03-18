@@ -6,6 +6,6 @@
 
 - unless is_grid
   %div{ style: "margin-top: 10px; margin-bottom: 20px;" }
-    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "design-preview-hide btn btn-sm btn-primary btn-shadow" do
+    = link_to edit_domain_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, method: :get, class: "btn btn-sm btn-primary btn-shadow" do
       = variable.domain_options.present? ? "Edit" : "Add"
       Choices

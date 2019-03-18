@@ -3,6 +3,9 @@
 ### Enhancements
 - **General Changes**
   - Breadcrumbs have been added across several pages to improve navigation
+- **Design Changes**
+  - Design editing menu items have been simplified, and preview mode has been
+    removed
 - **Medications Added**
   - Added a project level module to track subject medications
   - Medication start and stop dates allow for fuzzy dates

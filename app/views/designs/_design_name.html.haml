@@ -1,5 +1,5 @@
 .design-header
-  .float-right.design-preview-hide
+  .float-right
     = link_to edit_project_design_path(@project, @design, language: params[:language]), method: :get, remote: true, class: "btn btn-sm btn-outline-dark btn-shadow" do
       = icon("fas", "pencil-alt")
       .d-none.d-sm-inline Edit
