@@ -80,7 +80,7 @@ $(document)
     false
   )
   .on("click", "[data-object~=submit-and-disable]", ->
-    disablerWithSpinner($(this))
+    disableWithSpinner($(this))
     $($(this).data("target")).submit()
     false
   )
@@ -97,13 +97,6 @@ $(document)
   .keydown( (e) ->
     if $("#interactive_design_modal").is(":visible")
       hideInteractiveDesignModal()     if e.which == 27
-    if e.which == 77 and not $("input, textarea, select, a").is(":focus")
-      if $("#preview-mode").length == 1 and $("#edit-mode").length == 1 and $("#edit-mode").parent().hasClass("active")
-        $("#preview-mode").click()
-      else
-        $("#edit-mode").click()
-      e.preventDefault()
-      return
   )
   .on("click", "[data-object~=settings-save]", ->
     window.$isDirty = false

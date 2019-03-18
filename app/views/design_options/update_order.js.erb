@@ -1,9 +1,5 @@
-$('#reorder_options_container').html("<%=j render 'design_options/reorder_options' %>");
-$('#reorder_sections_container').html("<%=j render 'design_options/reorder_sections' %>");
+$("[data-object~=reorder-container][data-reorder=variables]").html("<%=j render "design_options/reorder_options" %>");
+$("[data-object~=reorder-container][data-reorder=sections]").html("<%=j render "design_options/reorder_sections" %>");
 
 initializeDesignReordering();
-
-$('#reorder_design_button').attr('disabled', 'disabled');
-$('#reorder_design_sections_button').attr('disabled', 'disabled');
-
-$('#saving_modal').modal('hide');
+renableSpinnerButton($("[data-object~=reorder-save]"))

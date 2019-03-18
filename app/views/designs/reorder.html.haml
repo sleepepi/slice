@@ -5,44 +5,35 @@
 
 - content_for :header do
   .float-right
-    .d-none.d-sm-block.btn-toolbar
-      .btn-group
-        = link_to "Edit Mode".html_safe, edit_project_design_path(@project, @design), class: "btn btn-sm btn-light"
-        = link_to "Preview Mode".html_safe, edit_project_design_path(@project, @design, mode: "preview"), class: "btn btn-sm btn-light"
-      = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light active"
-  = link_to @design.short_name, edit_project_design_path(@project, @design)
-  Reorder
+    .d-none.d-sm-block
+      = link_to "Back to edit", edit_project_design_path(@project, @design), class: "btn btn-sm btn-light"
+  = @design.short_name
+- content_for :breadcrumbs do
+  %ol
+    %li= link_to "designs", project_designs_path(@project)
+    %li= link_to (@design.slug.presence || @design.name).downcase, [@project, @design]
+    %li= link_to "edit", edit_project_design_path(@project, @design)
+    %li.breadcrumb-muted reorder
 
 #interactive_design_modal.modal
   .modal-dialog.modal-lg
     #interactive-design-container.modal-content
 
 .dashboard-container
-  %ul.pagination
-    %li.page-item
-      %a.page-link#sections_link{ href: "#" } Sections
-    %li.page-item.active
-      %a.page-link{ href: "#" }= @design.main_sections.count
+  .btn-toolbar.mb-5
+    .btn-group.mr-2
+      = link_to "#", class: "btn btn-light", data: { object: "reorder", reorder: "sections" } do
+        Sections
+        %span.badge.badge-light= @design.main_sections.count
 
-  %ul.pagination
-    %li.page-item.disabled
-      %a.page-link#variables_link{ href: "#" } Variables
-    %li.page-item.active
-      %a.page-link{ href: "#" }= @design.variables.count
+      = link_to "#", class: "btn btn-dark", data: { object: "reorder", reorder: "variables" } do
+        Variables
+        %span.badge.badge-light= @design.variables.count
 
-  = link_to "Save Order", "#", id: "reorder_design_button", class: "btn btn-primary btn-sm", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top"
-  = link_to "Save Order", "#", id: "reorder_design_sections_button", class: "btn btn-primary btn-sm", disabled: "disabled", style: "display:inline-block; margin:22px 0px;vertical-align:top;display:none"
+    = link_to "Save order", "#", class: "btn btn-primary nowrap", data: { object: "reorder-save", reorder: "variables" }
 
-  #saving_modal.modal
-    .modal-dialog
-      .modal-content
-        .modal-header
-          %h4.modal-title Reordering Design
-        .modal-body
-          %p Your changes to the design are being saved...this shouldn't take longer than a minute.
-
-  #reorder_options_container
-    = render "design_options/reorder_options"
-
-  #reorder_sections_container{ style: "display:none" }
+  %div{ data: { object: "reorder-container", reorder: "sections" }, style: "display: none;" }
     = render "design_options/reorder_sections"
+
+  %div{ data: { object: "reorder-container", reorder: "variables" } }
+    = render "design_options/reorder_options"

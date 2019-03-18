@@ -1,5 +1,5 @@
-= form_with url: update_option_order_project_design_design_options_path(@design.project, @design), method: :post, id: "reorder_design_form" do |form|
-  %ul#reorder_options.design-list{ data: { object: "sortable" } }
+= form_with url: update_option_order_project_design_design_options_path(@design.project, @design), method: :post, data: { object: "reorder-form", reorder: "variables" } do |form|
+  %ul#reorder_options.design-list{ data: { object: "reorder-list", reorder: "variables" } }
     - @design.design_options.each_with_index do |design_option, position|
       - section = design_option.section
       - variable = design_option.variable

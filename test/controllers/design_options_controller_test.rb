@@ -507,7 +507,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
   test "should reorder sections" do
     login(@project_editor)
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
-      sections: "1,0"
+      rows: "1,0"
     }
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
@@ -528,7 +528,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
   test "should reorder sections (keep same order)" do
     login(@project_editor)
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
-      sections: "0,1"
+      rows: "0,1"
     }
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
@@ -549,7 +549,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
   test "should not reorder sections with different section count" do
     login(@project_editor)
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
-      sections: "1"
+      rows: "1"
     }
     assert_equal [
       ActiveRecord::FixtureSet.identify(:date),
@@ -570,7 +570,7 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
   test "should not reorder for invalid design" do
     login(@site_viewer)
     post update_section_order_project_design_design_options_url(@project, designs(:sections_and_variables), format: "js"), params: {
-      sections: "0,1"
+      rows: "0,1"
     }
     assert_response :success
   end

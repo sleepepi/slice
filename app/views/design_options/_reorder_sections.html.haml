@@ -1,5 +1,5 @@
-= form_with url: update_section_order_project_design_design_options_path(@design.project, @design), method: :post, id: "reorder_sections_design_form" do |form|
-  %ul#reorder_sections_design.design-list{ data: { object: "sortable" } }
+= form_with url: update_section_order_project_design_design_options_path(@design.project, @design), method: :post, data: { object: "reorder-form", reorder: "sections" } do |form|
+  %ul.design-list{ data: { object: "reorder-list", reorder: "sections" } }
     - @design.main_sections.each_with_index do |design_option, index|
       - section = design_option.section
       %li.li-section.nowrap{ id: "section_#{index}", style: "margin-bottom: 5px;", data: { position: index } }

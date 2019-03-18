@@ -6,10 +6,7 @@
   .float-right
     .d-none.d-sm-block.btn-toolbar
       = render "translations/language_dropdown", button_class: "btn-sm"
-      .btn-group
-        = link_to "Edit Mode".html_safe, "#", class: "btn btn-sm btn-light active", data: { object: "edit-mode" }
-        = link_to "Preview Mode".html_safe, "#", class: "btn btn-sm btn-light", data: { object: "preview-mode" }
-      = link_to "Reorder Mode", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
+      = link_to "Reorder", reorder_project_design_path(@project, @design), class: "btn btn-sm btn-light"
   = @design.name
 - content_for :breadcrumbs do
   %ol

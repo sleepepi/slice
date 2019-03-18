@@ -130,8 +130,8 @@ class DesignOptionsController < ApplicationController
 
   # POST /designs/:design_id/design_options/update_section_order
   def update_section_order
-    section_order = params[:sections].to_s.split(",").collect(&:to_i)
-    @design.reorder_sections(section_order, current_user)
+    row_order = params[:rows].to_s.split(",").collect(&:to_i)
+    @design.reorder_sections(row_order, current_user)
     render :update_order
   end
 
