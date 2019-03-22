@@ -74,7 +74,7 @@ class Section < ApplicationRecord
 
   def description_with_images
     description.to_s.gsub(/\{img\:(\d+)\}/) do
-      image = design.design_images.find_by(id: $1)
+      image = design.design_images.find_by(number: $1)
       if image
         url = "#{ENV["website_url"]}/projects/#{project.to_param}/designs/#{design.to_param}/images/#{image.id}"
         "![](#{url})"
@@ -86,7 +86,7 @@ class Section < ApplicationRecord
 
   def description_for_latex
     latex_safe(description).to_s.gsub(/\\textbackslash\{\}\{img\:(\d+)\\textbackslash\{\}\}/) do
-      image = design.design_images.find_by(id: $1)
+      image = design.design_images.find_by(number: $1)
       if image
         <<~LATEX
           \\begin{figure}[!htpb]

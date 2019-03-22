@@ -73,7 +73,7 @@ class Design < ApplicationRecord
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
   has_many :ae_designments
-  has_many :design_images
+  has_many :design_images, -> { order :id }
 
   # Methods
 
@@ -365,7 +365,6 @@ class Design < ApplicationRecord
     end
     images
   end
-
 
   private
 

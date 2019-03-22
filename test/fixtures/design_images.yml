@@ -6,6 +6,7 @@ sections_and_variables_one:
   filename: rails.png
   content_type: image/png
   byte_size: 6646
+  number: 1
 
 two:
   project:
@@ -15,3 +16,4 @@ two:
   filename: MyString
   content_type: MyString
   byte_size: 0
+  number: 1
