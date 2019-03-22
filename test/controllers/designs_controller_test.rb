@@ -315,13 +315,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     assert_template "show"
   end
 
-  # test "should not update design with blank name" do
-  #   login(@project_editor)
-  #   patch :update, id: @design, project_id: @project, design: { name: "" }
-  #   assert_equal ["can't be blank"], assigns(:design).errors[:name]
-  #   assert_template "edit"
-  # end
-
   # test "should not update invalid design" do
   #   login(@project_editor)
   #   patch :update, id: -1, project_id: @project, design: { name: @design.name }
