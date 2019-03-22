@@ -1,0 +1,5 @@
+<% if params[:attribute].in?(%w(branching_logic position requirement)) %>
+  $("#design_option_<%= @design_option.id %>_<%= params[:attribute] %>").html("<%=j render "compose/designs/design_options/show/#{params[:attribute]}", design_option: @design_option %>");
+<% else %>
+  $("#design_option_<%= @design_option.id %>_container").html("<%=j render "compose/designs/design_options/show", design_option: @design_option %>");
+<% end %>

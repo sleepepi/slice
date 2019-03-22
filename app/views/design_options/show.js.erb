@@ -1,4 +1,4 @@
-$("#design_option_<%= @design_option.id %>_container").html("<%=j render 'design_options/show', design_option: @design_option %>");
+$("#design_option_<%= @design_option.id %>_container").html("<%=j render "design_options/show", design_option: @design_option %>");
 
 hideInteractiveDesignModal();
 chosenReady();

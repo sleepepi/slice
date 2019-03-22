@@ -1,36 +1,11 @@
 - section = design_option.section
 - variable = design_option.variable
 - if section
-  .row
-    .col-sm-6
-      = render "sections/show", design_option: design_option, section: section
-    .col-sm-6
-      .design-edit-box
-        %h4
-          .float-right
-            .dropdown
-              = link_to "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" } do
-                .d-inline-block.d-sm-none
-                  = icon("fas", "cog")
-                .d-none.d-sm-inline-block Actions
-
-              .dropdown-menu.dropdown-menu-right
-                = link_to edit_project_design_design_option_path(@project, @design, design_option, language: params[:language]), remote: true, class: "dropdown-item" do
-                  = icon("fas", "pencil-alt")
-                  Edit
-                .dropdown-divider
-                = link_to project_design_design_option_path(@project, @design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{section.level_name} from design?" }, class: "dropdown-item text-danger" do
-                  = icon("fas", "trash-alt")
-                  Remove
-
-          = section.level_name.titleize
-
-        - unless design_option.branching_logic.blank?
-          .design-option-lead
-            Show If
-          .design-option-body
-            = render "design_options/branching_logic_with_links", design_option: design_option
-
+  .bg-light.rounded.p-3
+    %div{ id: "design_option_#{design_option.id}_section_#{section.id}_container" }
+      = render "compose/designs/design_options/sections/show", design_option: design_option, section: section
+    .mt-3{ id: "design_option_#{design_option.id}_branching_logic" }
+      = render "compose/designs/design_options/show/branching_logic", design_option: design_option
 - elsif variable
   .row
     .col-sm-6{ style: "overflow: hidden;" }

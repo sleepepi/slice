@@ -14,9 +14,9 @@
 
 .dashboard-container
   = render "forms/horizontal/show/generic", title: "Randomized", content: render("randomization_schemes/progress", randomization_scheme: @randomization_scheme) if @randomization_scheme.published?
-  = render "forms/horizontal/show/generic", title: "Algorithm", content: simple_markdown(@randomization_scheme.algorithm_name)
+  = render "forms/horizontal/show/generic", title: "Algorithm", content: simple_markdown_old(@randomization_scheme.algorithm_name)
   - if false
-    = render "forms/horizontal/show/generic", title: "Description", content: simple_markdown(@randomization_scheme.description)
+    = render "forms/horizontal/show/generic", title: "Description", content: simple_markdown_old(@randomization_scheme.description)
     = render "forms/horizontal/show/generic", title: "Creator", content: link_to(@randomization_scheme.user.full_name, @randomization_scheme.user) if @randomization_scheme.user
   = render "forms/horizontal/show/generic", title: "Published", content: render("randomization_schemes/published", randomization_scheme: @randomization_scheme)
   = render "forms/horizontal/show/generic", title: "Randomization goal", content: render("randomization_schemes/randomization_goal", randomization_scheme: @randomization_scheme)

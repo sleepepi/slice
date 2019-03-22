@@ -6,7 +6,7 @@
   %tbody
     - randomization_scheme.randomization_scheme_tasks.each do |rst|
       %tr
-        %td= simple_markdown rst.description
+        %td= simple_markdown_old rst.description
         %td
           = rst.offset
           = rst.offset_units

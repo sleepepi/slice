@@ -5,7 +5,7 @@
   .overflow-hidden
     = link_to notification, class: (notification.read? ? "link-muted" : "link-unstyled"), data: { turbolinks: false } do
       %small.text-muted
-        = strip_tags(simple_markdown notification.comment.description).html_safe
+        = strip_tags(simple_markdown_old notification.comment.description).html_safe
 
 %td.d-none.d-md-table-cell
   = profile_picture_tag notification.comment.user, size: 18

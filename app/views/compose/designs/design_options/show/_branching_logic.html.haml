@@ -1,0 +1,6 @@
+= link_to edit_compose_design_design_option_path(design_option.design.project, design_option.design, design_option, language: params[:language], attribute: "branching_logic"), method: :get, remote: true, class: "link-unstyled", tabindex: "-1" do
+  - if design_option.branching_logic.present?
+    = design_option.branching_logic
+    = render "design_options/branching_logic_with_links", design_option: design_option
+  - else
+    %span.text-muted No branching logic.

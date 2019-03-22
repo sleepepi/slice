@@ -1,0 +1,17 @@
+sections_and_variables_one:
+  project: one
+  design: sections_and_variables
+  user: project_one_editor
+  file: rails.png
+  filename: rails.png
+  content_type: image/png
+  byte_size: 6646
+
+two:
+  project:
+  design:
+  user:
+  file: MyString
+  filename: MyString
+  content_type: MyString
+  byte_size: 0

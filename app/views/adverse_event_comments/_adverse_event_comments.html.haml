@@ -117,7 +117,7 @@
               ago
             %span.badge External Reviewer
           .comment-comment-body
-            = simple_markdown event.comment, "table table-bordered table-striped"
+            = simple_markdown_old event.comment, "table table-bordered table-striped"
 
 - ae_designs = @project.designs.includes(:category).where(categories: { use_for_adverse_events: true })
 - if ae_designs.count > 0 && !@adverse_event.closed?

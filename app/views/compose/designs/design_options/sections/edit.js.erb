@@ -1,0 +1,6 @@
+<% if params[:attribute].in?(%w(name description)) %>
+  $("#section_<%= @section.id %>_<%= params[:attribute] %>").html("<%=j render "compose/designs/design_options/sections/edit/#{params[:attribute]}", design_option: @design_option, section: @section %>");
+  fileDragReady();
+  setFocusEnd($("[data-object~=submit-on-blur]")[0]);
+  tooltipsReady();
+<% end %>

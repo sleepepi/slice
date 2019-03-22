@@ -6,7 +6,9 @@ class DesignsController < ApplicationController
   before_action :find_viewable_project_or_redirect, only: [:print]
   before_action :find_editable_project_or_redirect, except: [:print]
   before_action :find_viewable_design_or_redirect, only: [:print]
-  before_action :find_editable_design_or_redirect, only: [:show, :edit, :update, :destroy, :reorder]
+  before_action :find_editable_design_or_redirect, only: [
+    :show, :edit, :update, :destroy, :reorder, :upload_images
+  ]
 
   layout "layouts/full_page_sidebar_dark"
 
@@ -77,6 +79,11 @@ class DesignsController < ApplicationController
       format.html { redirect_to project_designs_path(@project) }
       format.js
     end
+  end
+
+  # POST /projects/:project_id/upload-images.js
+  def upload_images
+    @images = @design.attach_images!(params[:files], current_user)
   end
 
   private

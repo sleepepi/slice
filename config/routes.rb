@@ -135,6 +135,14 @@ Rails.application.routes.draw do
 
   resources :comments
 
+  namespace :compose do
+    resources :designs, path: "projects/:project_id/designs" do
+      resources :design_options, path: "options", controller: "designs/design_options" do
+        resources :sections, only: [:show, :edit, :update], controller: "designs/design_options/sections"
+      end
+    end
+  end
+
   get "docs", to: "docs#index", as: :docs
   namespace :docs do
     get :modules
@@ -230,6 +238,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :design_images, only: :show, path: "projects/:project_id/designs/:design_id/images"
+
   resources :invites, only: [:index, :show] do
     member do
       post :accept
@@ -322,6 +332,8 @@ Rails.application.routes.draw do
         post "imports/progress" => "imports/progress", as: :progress_import
         get "imports/edit" => "imports#edit", as: :edit_import
         patch "imports" => "imports#update", as: :update_import
+
+        post :upload_images, as: "upload-images"
       end
 
       collection do

@@ -16,19 +16,19 @@ two_copy:
   user: regular
   project: two
 
-# A Design with all types of variables used
+# Design with all types of variables used.
 all_variable_types:
   name: All Variable Types
   user: regular
   project: one
 
-# Design with no validations or ranges
+# Design with no validations or ranges.
 has_no_validations:
   name: Design with no validations or ranges
   user: regular
   project: one
 
-# Used to test section and variable reordering
+# Used to test section and variable reordering.
 sections_and_variables:
   name: Sections and Variables
   user: regular
@@ -41,13 +41,13 @@ section_and_file:
   user: regular
   project: one
 
-# Test for grid variable saving
+# Test for grid variable saving.
 has_grid:
   name: Includes a Grid Variable
   user: regular
   project: one
 
-# Regular user should be able to view and edit this design
+# Regular user should be able to view and edit this design.
 no_sites:
   name: This design is saved on a project with no sites
   user: regular

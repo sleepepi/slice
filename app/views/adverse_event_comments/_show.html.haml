@@ -37,7 +37,7 @@
                 = time_ago_in_words(adverse_event_comment.created_at)
                 ago
             .comment-comment-body
-              = simple_markdown adverse_event_comment.description, "table table-bordered table-striped"
+              = simple_markdown_old adverse_event_comment.description, "table table-bordered table-striped"
 - if adverse_event_comment.reopened?
   .comment-outer
     .comment-left-fixed

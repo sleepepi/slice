@@ -10,7 +10,7 @@
         = section.name
     - if section.description.present?
       .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }
-        = simple_markdown section.description
+        = simple_markdown_old section.description_with_images
 
     = render "sections/image", design_option: design_option, section: section
 - else
@@ -24,5 +24,6 @@
   .section-alert{ class: css_class }
     %strong{ class: section.translation_missing?(:name) ? "text-muted" : nil }= section.name
     - if section.description.present?
-      .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }= simple_markdown section.description
+      .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }
+        = simple_markdown_old section.description_with_images
     = render "sections/image", design_option: design_option, section: section

@@ -12,7 +12,7 @@
             - if section.name.present?
               = section.name
             - else
-              = strip_tags(simple_markdown section.description).truncate(50).html_safe
+              = strip_tags(simple_markdown_old section.description).truncate(50).html_safe
       - elsif variable
         %li.li-variable.nowrap{ id: "option_#{position}", style: "margin-bottom:5px", data: { position: position } }
           .nowrap{ style: "display: inline-block;overflow: hidden;width: 70%;#{"text-decoration: line-through;" if variable.deleted?}" }

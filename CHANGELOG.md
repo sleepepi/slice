@@ -6,6 +6,7 @@
 - **Design Changes**
   - Design editing menu items have been simplified, and preview mode has been
     removed
+  - Multiple images can now be added to section descriptions
 - **Medications Added**
   - Added a project level module to track subject medications
   - Medication start and stop dates allow for fuzzy dates
@@ -14,6 +15,8 @@
   - Project editors can configure additional variables to be collected alongside
     medication name and start and stop dates
   - Medications can be exported to CSV
+- **Translation Changes**
+  - Editing designs in different languages now highlights untranslated sections
 - **Gem Changes**
   - Update to ruby 2.6.2
   - Update to rails 6.0.0.beta3

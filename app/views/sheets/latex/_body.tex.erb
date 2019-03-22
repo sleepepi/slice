@@ -19,7 +19,7 @@
         <%= latex_safe section.name %>
         <% if section.description.present? %>
           \\
-          <%= latex_safe section.description %>
+          <%= section.description_for_latex %>
         <% end %>
       \end{warning}
     <% end %>

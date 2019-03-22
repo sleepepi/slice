@@ -1,0 +1,5 @@
+= form_with model: section, url: compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "name"), method: :patch, remote: true do |form|
+  .d-flex
+    .bg-primary.flex-fill= form.text_field :name, value: section.name(World.language), placeholder: World.translate_language? && section[:name].present? ? section[:name] : "Add section title...", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "border-0 p-0 w-100 composer-editable-control", data: { object: "submit-on-blur", cancel_url: compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "name"), cancel_method: "get" }
+    - if World.translate_language?
+      .bg-dashboard.bg-dark.text-white.px-1= World.language

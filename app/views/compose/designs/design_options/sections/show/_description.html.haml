@@ -1,0 +1,10 @@
+= link_to edit_compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "description"), method: :get, remote: true, class: "link-unstyled d-block composer-editable-field", tabindex: "-1" do
+  - if section.description.present?
+    %div{ class: section.translation_missing?(:description) ? "text-muted" : nil }
+      - if section.translation_missing?(:description)
+        .float-right.text-danger.pr-2{ data: { toggle: "tooltip", title: "Missing (#{World.language}) translation", container: "body", placement: "left" } }
+          = icon("fas", "globe")
+
+      = simple_markdown_new section.description_with_images, pretend_links: true
+  - else
+    %span.text-muted Add section description...

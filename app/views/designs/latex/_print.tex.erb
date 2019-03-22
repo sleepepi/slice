@@ -61,7 +61,7 @@
     <% end %>
 
     <% if section.level < 2 && section.name.present? %>
-      <%= latex_safe section.description %>
+      <%= section.description_for_latex %>
     <% end %>
 
   <% if section && section.image.url %>

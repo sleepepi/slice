@@ -1,0 +1,5 @@
+<% if params[:attribute].in?(%w(branching_logic position requirement)) %>
+  $("#design_option_<%= @design_option.id %>_<%= params[:attribute] %>").html("<%=j render "compose/designs/design_options/edit/#{params[:attribute]}", design_option: @design_option %>");
+<% else %>
+  console.log("edit.js.erb");
+<% end %>

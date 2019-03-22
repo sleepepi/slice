@@ -8,4 +8,4 @@
           - if section.name.present?
             = section.name
           - else
-            = strip_tags(simple_markdown section.description).truncate(50).html_safe
+            = strip_tags(simple_markdown_old section.description).truncate(50).html_safe

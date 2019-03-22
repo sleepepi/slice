@@ -3,7 +3,7 @@
 # Generic mailer class defines layout and email sender.
 class ApplicationMailer < ActionMailer::Base
   default from: "#{ENV["website_name"]} <#{ActionMailer::Base.smtp_settings[:email]}>"
-  add_template_helper(ApplicationHelper) # For `simple_markdown`
+  add_template_helper(ApplicationHelper) # For `simple_markdown_old`
   add_template_helper(EmailHelper)
   layout "mailer"
 

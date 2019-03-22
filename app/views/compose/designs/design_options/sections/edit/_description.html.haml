@@ -1,0 +1,13 @@
+%div{ style: "position: relative;", data: { object: "generic-dropfile", upload_url: upload_images_project_design_path(design_option.design.project, design_option.design, format: "js", authenticity_token: true) } }
+  .file-upload-bar{ data: { object: "generic-upload-bar" } }
+
+  .d-flex
+    .flex-fill
+      = form_with model: section, url: compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "description"), method: :patch, remote: true do |form|
+        = form.text_area :description, value: section.description(World.language), rows: [[4, section.description.to_s.count("\n") + 1].max, 25].min, placeholder: World.translate_language? ? section[:description] : nil, autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "w-100 composer-editable-control", data: { object: "submit-on-blur expandable-text-area", default_rows: 4, cancel_url: compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "description"), cancel_method: "get" }
+    - if World.translate_language?
+      .d-flex.flex-column.justify-content-center.bg-dark
+        .text-white.px-1= World.language
+  .text-muted.pl-1
+    = icon("fas", "images")
+    Drag images into the description above.

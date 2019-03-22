@@ -79,11 +79,7 @@ class DesignOption < ApplicationRecord
 
   def save_translation!(section_params, variable_params)
     if section
-      name_t = section_params.delete(:name)
-      desc_t = section_params.delete(:description)
-      save_object_translation!(section, "name", name_t)
-      save_object_translation!(section, "description", desc_t)
-      section.update(section_params)
+      section.save_translation!(section_params)
     else # variable
       variable.save_translation!(variable_params)
     end

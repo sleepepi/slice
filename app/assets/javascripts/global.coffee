@@ -84,6 +84,13 @@ $(document)
     $($(this).data("target")).submit()
     false
   )
+  .click((event) ->
+    # This handles pseudo-blur events that ignore clicks on desktop, and other
+    # more traditional changes that would cause an actual blur.
+    $target = $(event.target)
+    if !$target.closest("[data-object~=submit-on-blur]").length
+      $("[data-object~=submit-on-blur]").closest("form").submit()
+  )
   .on("mouseenter", "[data-object~=hover-show]", ->
     return false unless document.documentElement.ontouchstart == undefined
     $("[data-object~=hover-show]").each( (index, element) ->
@@ -94,9 +101,19 @@ $(document)
   .on("mouseleave", "[data-object~=hover-show]", ->
     $($(this).data("target")).hide()
   )
-  .keydown( (e) ->
-    if $("#interactive_design_modal").is(":visible")
-      hideInteractiveDesignModal()     if e.which == 27
+  .keydown((event) ->
+    if event.which == 27
+      if $("#interactive_design_modal").is(":visible")
+        hideInteractiveDesignModal()
+      $target = $(event.target)
+      if ($target.data("object") || "").includes("submit-on-blur")
+        $.ajax(
+          url: $target.data("cancel-url")
+          type: $target.data("cancel-method")
+          data: {}
+          success: null
+          dataType: "script"
+        )
   )
   .on("click", "[data-object~=settings-save]", ->
     window.$isDirty = false

@@ -1,0 +1,10 @@
+= link_to edit_compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], attribute: "name"), method: :get, remote: true, class: "link-unstyled d-block composer-editable-field", tabindex: "-1" do
+  - if section.name.present?
+    %span{ class: section.translation_missing?(:name) ? "text-muted" : nil }
+      - if section.translation_missing?(:name)
+        .float-right.text-danger.pr-2{ data: { toggle: "tooltip", title: "Missing (#{World.language}) translation", container: "body", placement: "left" } }
+          = icon("fas", "globe")
+      = section.name
+  - else
+    %span.text-muted
+      Add section title...

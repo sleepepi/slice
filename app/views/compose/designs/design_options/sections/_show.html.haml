@@ -1,0 +1,32 @@
+.dropdown.mb-2
+  = link_to "#", class: "btn btn-sm btn-light dropdown-toggle", data: { toggle: "dropdown" }, tabindex: "-1" do
+    Section
+    = icon("fas", "cog")
+
+  .dropdown-menu
+    - Section::LEVELS.each do |level_name, level_id|
+      - selected = section.level == level_id
+      = link_to compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], section: { level: level_id }), method: :patch, remote: true, class: "dropdown-item", style: selected ? "font-weight: bold;" : nil do
+        = simple_check selected
+        = level_name
+
+%div
+  - case section.level when 0
+    - outer_css_class = ""
+    - inner_css_class_name = "mt-0 section-header"
+  - when 1
+    - outer_css_class = ""
+    - inner_css_class_name = "mt-0 sub-section-header"
+  - when 2
+    - outer_css_class = "section-alert alert-info"
+    - inner_css_class_name = "font-weight-bolder"
+  - when 3
+    - outer_css_class = "section-alert alert-warning"
+    - inner_css_class_name = "font-weight-bolder"
+  - when 4
+    - outer_css_class = "section-alert alert-danger"
+    - inner_css_class_name = "font-weight-bolder"
+
+  %div{ class: outer_css_class }
+    %div{ id: "section_#{section.id}_name", class: inner_css_class_name }= render "compose/designs/design_options/sections/show/name", design_option: design_option, section: section
+    %div{ id: "section_#{section.id}_description" }= render "compose/designs/design_options/sections/show/description", design_option: design_option, section: section

@@ -5,7 +5,7 @@
         %strong My Unlock Request
         - sheet.recent_unlock_requests.where(user_id: current_user.id).each do |sheet_unlock_request|
           %div{ style: 'padding: 20px;' }
-            = simple_markdown sheet_unlock_request.reason
+            = simple_markdown_old sheet_unlock_request.reason
             %div{ style: 'margin-bottom: 20px;' }
               = sheet_unlock_request.user.full_name
               at
@@ -23,7 +23,7 @@
       %strong Unlock Requests
       - sheet.recent_unlock_requests.each do |sheet_unlock_request|
         %div{ style: 'padding: 20px;' }
-          = simple_markdown sheet_unlock_request.reason
+          = simple_markdown_old sheet_unlock_request.reason
           %div{ style: 'margin-bottom: 20px;' }
             = sheet_unlock_request.user.full_name
             at

@@ -73,6 +73,7 @@ class Design < ApplicationRecord
   has_many :design_options, -> { order :position }
   has_many :variables, through: :design_options
   has_many :ae_designments
+  has_many :design_images
 
   # Methods
 
@@ -346,6 +347,25 @@ class Design < ApplicationRecord
     update slug: nil, survey_slug: nil
     super
   end
+
+  def attach_images!(files, current_user)
+    images = []
+    files.each do |file|
+      next unless file
+
+      image = design_images.create(
+        project: project,
+        user: current_user,
+        file: file,
+        byte_size: file.size,
+        filename: file.original_filename,
+        content_type: DesignImage.content_type(file.original_filename)
+      )
+      images << image if image.persisted?
+    end
+    images
+  end
+
 
   private
 

@@ -1,4 +1,4 @@
-%td{ colspan: 2, style: 'padding-bottom:10px', valign: 'top' }= strip_tags(simple_markdown comment.description).html_safe
+%td{ colspan: 2, style: 'padding-bottom:10px', valign: 'top' }= strip_tags(simple_markdown_old comment.description).html_safe
 %td{ style: 'text-align:right', valign: 'top' }
   %div{ style: 'white-space:nowrap' }= comment.user.nickname
   %div{ style: 'font-size:10px;' }= comment.created_at.strftime('%l:%M %p')

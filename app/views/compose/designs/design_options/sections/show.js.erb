@@ -1,0 +1,6 @@
+<% if params[:attribute].in?(%w(name description)) %>
+  $("#section_<%= @section.id %>_<%= params[:attribute] %>").html("<%=j render "compose/designs/design_options/sections/show/#{params[:attribute]}", design_option: @design_option, section: @section %>");
+<% else %>
+  $("#design_option_<%= @design_option.id %>_section_<%= @section.id %>_container").html("<%=j render "compose/designs/design_options/sections/show", design_option: @design_option, section: @section %>");
+<% end %>
+tooltipsReady();

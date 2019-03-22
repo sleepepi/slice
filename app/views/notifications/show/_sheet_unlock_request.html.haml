@@ -6,7 +6,7 @@
     = link_to notification, class: "#{notification.read? ? "link-muted" : "link-unstyled" }" do
       %span.badge.badge-primary Unlock Request
       %small.text-muted
-        = strip_tags(simple_markdown notification.sheet_unlock_request.reason).html_safe
+        = strip_tags(simple_markdown_old notification.sheet_unlock_request.reason).html_safe
 
 %td.d-none.d-md-table-cell
   = profile_picture_tag notification.sheet_unlock_request.user, size: 18

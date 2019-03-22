@@ -81,7 +81,7 @@
         = label_tag :attested, "#{icon("fas", "leaf", style: "color: #5cb85c;")} Attestation".html_safe, class: "col-md-2 col-form-label"
         .col-md-10
           .custom-control.custom-checkbox
-            - text = (@randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown(@randomization_scheme.randomization_requirements))
+            - text = (@randomization_scheme.randomization_requirements.blank? ? "By checking this box I attest that I have personally entered all of the available data recorded and reviewed for completeness and accuracy. All information entered by me is correct to the best of my knowledge." : simple_markdown_old(@randomization_scheme.randomization_requirements))
             = check_box_tag :attested, "1", params[:attested] == "1", class: "custom-control-input", id: "attested"
             = label_tag "attested", text, class: "custom-control-label"
             = render "layouts/errors", object: @randomization, key: :attested

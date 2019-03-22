@@ -16,6 +16,6 @@
 
 - if responses_and_subjects.size <= 50
   - responses_and_subjects.each do |response, subject|
-    .report-quote= simple_markdown "#{response}\n\n[*#{subject.subject_code}*](#{project_subject_path(@project, subject)})"
+    .report-quote= simple_markdown_old "#{response}\n\n[*#{subject.subject_code}*](#{project_subject_path(@project, subject)})"
 - else
   .text-muted Individual responses suppressed since the total amount of responses exceeds 50.
