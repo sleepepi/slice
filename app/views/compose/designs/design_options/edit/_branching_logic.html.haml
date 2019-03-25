@@ -1,4 +1,2 @@
-_branching_logic.html.haml
-
-
-= link_to "Cancel", compose_design_design_option_path(design_option.design.project, design_option.design, design_option, language: params[:language], attribute: "branching_logic"), method: :get, remote: true, class: "btn btn-sm btn-link"
+= form_with model: design_option, url: compose_design_design_option_path(design_option.design.project, design_option.design, design_option, attribute: "branching_logic"), method: :patch, remote: true do |form|
+  = form.text_area :branching_logic, value: design_option.readable_branching_logic, rows: 7, placeholder: "type here...\n\nExamples:\nvariable == 1\nvariable > 5 || variable < 2\nvariable > 5 && variable < 10\noverlap(variable, [1,2,3,4])", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", class: "border-0 p-0 w-100 composer-editable-control text-monospace", data: { object: "submit-on-blur calculation-variable-name-textcomplete", cancel_url: compose_design_design_option_path(design_option.design.project, design_option.design, design_option, attribute: "branching_logic"), cancel_method: "get", project_id: @project.id }

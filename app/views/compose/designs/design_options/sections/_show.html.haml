@@ -1,14 +1,19 @@
-.dropdown.mb-2
-  = link_to "#", class: "btn btn-sm btn-light dropdown-toggle", data: { toggle: "dropdown" }, tabindex: "-1" do
-    Section
-    = icon("fas", "cog")
+.d-flex
+  .flex-fill
+    .dropdown.mb-2
+      = link_to "#", class: "btn btn-sm btn-light", data: { toggle: "dropdown" }, tabindex: "-1" do
+        = icon("fas", "paint-brush")
+        Section style
 
-  .dropdown-menu
-    - Section::LEVELS.each do |level_name, level_id|
-      - selected = section.level == level_id
-      = link_to compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], section: { level: level_id }), method: :patch, remote: true, class: "dropdown-item", style: selected ? "font-weight: bold;" : nil do
-        = simple_check selected
-        = level_name
+      .dropdown-menu
+        - Section::LEVELS.each do |level_name, level_id|
+          - selected = section.level == level_id
+          = link_to compose_design_design_option_section_path(section.project, section.design, design_option, section, language: params[:language], section: { level: level_id }), method: :patch, remote: true, class: "dropdown-item", style: selected ? "font-weight: bold;" : nil do
+            = simple_check selected
+            = level_name
+
+  %div
+    = link_to icon("fas", "trash"), project_design_design_option_path(section.project, section.design, design_option), method: :delete, remote: true, data: { confirm: "Delete #{section.level_name} from design?" }, class: "btn btn-sm btn-link text-danger"
 
 %div
   - case section.level when 0

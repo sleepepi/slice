@@ -101,7 +101,7 @@
   )
 
 @calculationTextcompleteReady = ->
-  $('[data-object~="calculation-variable-name-textcomplete"]').each(->
+  $("[data-object~=calculation-variable-name-textcomplete]").each(->
     $this = $(this)
     $this.textcomplete(
       [

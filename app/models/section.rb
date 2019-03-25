@@ -45,7 +45,7 @@ class Section < ApplicationRecord
     level.in?(0..1)
   end
 
-  # Check if keys changed that affect the design's cached PDFs
+  # Check if keys changed that affect the design's cached PDFs.
   def check_for_changes_affecting_cached_pdfs
     overlap = %w(name description level) & previous_changes.keys
     return if overlap.empty?

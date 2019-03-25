@@ -1,10 +1,11 @@
 - section = design_option.section
 - variable = design_option.variable
 - if section
-  .bg-light.rounded.p-3
+  .bg-light.rounded-top.p-3
     %div{ id: "design_option_#{design_option.id}_section_#{section.id}_container" }
       = render "compose/designs/design_options/sections/show", design_option: design_option, section: section
-    .mt-3{ id: "design_option_#{design_option.id}_branching_logic" }
+  .bg-light.border-top.rounded-bottom.p-3
+    %div{ id: "design_option_#{design_option.id}_branching_logic" }
       = render "compose/designs/design_options/show/branching_logic", design_option: design_option
 - elsif variable
   .row

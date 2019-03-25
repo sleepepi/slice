@@ -4,6 +4,9 @@
 # have associated branching logic, and can be set as required, recommended, or
 # optional.
 class DesignOption < ApplicationRecord
+  # Callbacks
+  after_save :check_for_changes_affecting_cache
+
   # Constants
   REQUIREMENTS = [
     ["Not Required", ""],
@@ -83,5 +86,31 @@ class DesignOption < ApplicationRecord
     else # variable
       variable.save_translation!(variable_params)
     end
+  end
+
+  private
+
+  def check_for_changes_affecting_cache
+    check_for_changes_affecting_cached_pdfs
+    check_for_changes_affecting_cached_coverage
+  end
+
+  # Check if keys changed that affect the design's cached PDFs.
+  def check_for_changes_affecting_cached_pdfs
+    overlap = %w(branching_logic position requirement) & previous_changes.keys
+    return if overlap.empty?
+
+    design.touch :pdf_cache_busted_at
+  end
+
+  # The position should not technically affect coverage computation, however
+  # since branching logic is position dependent, moving a design option above or
+  # below a referencing design option may affect whether it's included in the
+  # coverage computation or not.
+  def check_for_changes_affecting_cached_coverage
+    overlap = %w(branching_logic position) & previous_changes.keys
+    return if overlap.empty?
+
+    design.touch :coverage_cache_busted_at
   end
 end

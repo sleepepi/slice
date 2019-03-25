@@ -1,6 +1,17 @@
 = link_to edit_compose_design_design_option_path(design_option.design.project, design_option.design, design_option, language: params[:language], attribute: "branching_logic"), method: :get, remote: true, class: "link-unstyled", tabindex: "-1" do
   - if design_option.branching_logic.present?
-    = design_option.branching_logic
-    = render "design_options/branching_logic_with_links", design_option: design_option
+    .text-monospace
+      - (first, word, last) = design_option.branching_logic.to_s.partition(/\#{\d+}/)
+      - while word.present? do
+        %span>= first if first.present?
+        - variable = design_option.design.variables.find_by(id: word.gsub(/[^\d]/, ""))
+        - if variable
+          %span.text-primary>= variable.name
+        - else
+          %span>= word
+        - (first, word, last) = last.partition(/\#{(\d+)}/)
+      %span>= first if first.present?
   - else
-    %span.text-muted No branching logic.
+    %span.text-muted
+      = icon("fas", "code-branch")
+      No branching logic.
