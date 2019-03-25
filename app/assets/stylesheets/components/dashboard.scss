@@ -14,6 +14,10 @@
     }
   }
 
+  img {
+    @include ignore-selection;
+  }
+
   @include media-breakpoint-up(sm) {
     padding: 30px;
   }
