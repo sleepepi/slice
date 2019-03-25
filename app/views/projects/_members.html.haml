@@ -24,7 +24,7 @@
         Owner
       - if @project.blinding_enabled?
         %td.text-center
-          = icon("far", "eye", class: "text-muted")
+          = icon("fas", "flushed", class: "text-muted")
       %td
     - @project.project_users.order(editor: :desc, id: :asc).each do |project_user|
       %tbody{ id: "project-user-#{project_user.id}-container" }

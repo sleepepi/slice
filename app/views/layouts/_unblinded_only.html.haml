@@ -1,3 +1,1 @@
-- if project.blinding_enabled? && object.only_unblinded?
-  %small
-    = icon("far", "eye", class: "text-muted", rel: "tooltip", data: { title: "Unblinded only", placement: placement, container: "body" })
+= render "layouts/blinded_icon", placement: placement if project.blinding_enabled? && object.only_unblinded?

@@ -40,6 +40,15 @@
         = link_to "OFF", editor_project_path(@project, project: { adverse_events_enabled: "1" }), method: :patch, class: "btn btn-light btn-sm btn-shadow"
 
     .card-body
+      .mb-3.d-flex.align-items-center
+        .p-3.border-right.text-center{ style: "min-width: 4.5rem;" }= icon("fas", "ambulance", class: "fa-2x")
+
+        .p-3
+          .small.text-muted
+            The basic adverse event module is
+            = @project.adverse_events_enabled? ? "enabled" : "disabled"
+            for this project.
+
       .d-flex.align-items-center
         .p-3{ style: "min-width: 4.5rem;" }
         .p-3

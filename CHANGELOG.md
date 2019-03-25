@@ -3,6 +3,7 @@
 ### Enhancements
 - **General Changes**
   - Breadcrumbs have been added across several pages to improve navigation
+  - Blinding icons have been updated to be more distinct
 - **Design Changes**
   - Design editing menu items have been simplified, and preview mode has been
     removed

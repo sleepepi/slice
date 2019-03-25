@@ -19,9 +19,7 @@
       - percent = 50
       %span.badge.badge-success Open
 
-    - if @project.blinding_enabled?
-      %small
-        = icon("far", "eye", class: "text-muted", rel: "tooltip", data: { title: "Unblinded only", placement: "top", container: "body" })
+    = render "layouts/blinded_icon", placement: "top" if @project.blinding_enabled?
 
   .card-body.p-0
     .progress.progress-simple

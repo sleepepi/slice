@@ -8,9 +8,9 @@
   - if @project.blinding_enabled?
     %td.text-center
       - if member.unblinded?
-        = icon("far", "eye", class: "text-muted")
+        = icon("fas", "flushed", class: "text-muted")
       - else
-        = icon("fas", "blind", class: "text-danger")
+        = icon("fas", "user-ninja", class: "text-danger")
   %td.text-center
     - if member.is_a?(ProjectUser)
       - if @project.editable_by?(current_user) && (@project.blinding_enabled? && @project.unblinded?(current_user)) || @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
@@ -24,11 +24,11 @@
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("fas", "blind")
+                    = icon("fas", "user-ninja")
                     Set as blinded
                 - else
                   = link_to project_user_path(member, project_id: @project.id, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("far", "eye")
+                    = icon("fas", "flushed")
                     Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_projects.include?(@project) && current_user == member.user)
               - if @project.editable_by?(current_user)
@@ -49,11 +49,11 @@
               - if @project.blinding_enabled? && @project.unblinded?(current_user)
                 - if member.unblinded?
                   = link_to project_site_user_path(@project, member, unblinded: "0"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("fas", "blind")
+                    = icon("fas", "user-ninja")
                     Set as blinded
                 - else
                   = link_to project_site_user_path(@project, member, unblinded: "1"), method: :patch, remote: true, class: "dropdown-item" do
-                    = icon("far", "eye")
+                    = icon("fas", "flushed")
                     Set as unblinded
             - if @project.editable_by?(current_user) || (current_user.all_viewable_sites.include?(member.site) && current_user == member.user)
               - if @project.editable_by?(current_user)
