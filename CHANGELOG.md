@@ -1,4 +1,4 @@
-## 71.0.0
+## 71.0.0 (March 25, 2019)
 
 ### Enhancements
 - **General Changes**
