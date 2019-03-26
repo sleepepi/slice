@@ -13,26 +13,55 @@
 - if sheet.auto_locked?
   %span.dropdown
     = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
-      = icon("fas", "lock")
-      %span.d-none.d-md-inline Sheet Locked
+      .d-inline-block.d-sm-none
+        = icon("fas", "cog")
+      .d-none.d-sm-inline-block Actions
     .dropdown-menu.dropdown-menu-right
+      %span.dropdown-item-text.text-primary.nowrap
+        = icon("fas", "lock")
+        Sheet locked
       - if project.editable_by?(current_user)
-        = succeed " " do
-          = link_to unlock_project_sheet_path(project, sheet), method: :post, class: "dropdown-item" do
-            Unlock For
-            - case project.auto_lock_sheets when "after24hours"
-              24 Hours
-            - when "after1week"
-              1 Week
-            - when "after1month"
-              1 Month
+        .dropdown-divider
+        = link_to unlock_project_sheet_path(project, sheet), method: :post, class: "dropdown-item" do
+          = icon("fas", "unlock")
+          Unlock for
+          - case project.auto_lock_sheets when "after24hours"
+            24 hours
+          - when "after1week"
+            1 week
+          - when "after1month"
+            1 month
         - if sheet.recent_unlock_requests.count > 0
-          = link_to "View Requests", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requests" }, class: "dropdown-item"
+          = link_to "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requests" }, class: "dropdown-item" do
+            = icon("fas", "list-alt")
+            View requests
       - elsif sheet.editable_by?(current_user)
+        .dropdown-divider
         - if sheet.recent_unlock_requested?(current_user)
-          = link_to "Unlock Requested", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requested" }, class: "dropdown-item"
+          = link_to "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requested" }, class: "dropdown-item" do
+            = icon("fas", "unlock")
+            Unlock requested...
         - else
-          = link_to "Request Unlock", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_request" }, class: "dropdown-item"
+          = link_to "#", data: { object: "toggle-visibility", target: "#sheet_unlock_request" }, class: "dropdown-item" do
+            = icon("fas", "unlock")
+            Request unlock
+      - if sheet.editable_by?(current_user)
+        .dropdown-divider
+        = link_to "#", class: "dropdown-item disabled text-muted", tabindex: "-1" do
+          = icon("fas", "pencil-alt")
+          Edit
+        = link_to "#", class: "dropdown-item disabled text-muted", tabindex: "-1" do
+          = icon("fas", "exchange-alt")
+          Reassign
+      .dropdown-divider
+      = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
+        = icon("fas", "print")
+        Print
+      - if sheet.editable_by?(current_user)
+        .dropdown-divider
+        = link_to "#", class: "dropdown-item disabled text-muted", tabindex: "-1" do
+          = icon("fas", "trash-alt")
+          Delete
 - else
   - if sheet.editable_by?(current_user)
     %span.dropdown
@@ -49,11 +78,15 @@
           = icon("fas", "exchange-alt")
           Reassign
         .dropdown-divider
+        = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
+          = icon("fas", "print")
+          Print
+        .dropdown-divider
         = link_to [sheet.project, sheet], method: :delete, data: { confirm: "Delete #{sheet.name}?" }, class: "dropdown-item" do
           .text-danger
             = icon("fas", "trash-alt")
             Delete
-
-= link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
-  = icon("fas", "print")
-  %span.d-none.d-md-inline Print
+  - else
+    = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "btn btn-light" do
+      = icon("fas", "print")
+      %span.d-none.d-md-inline Print

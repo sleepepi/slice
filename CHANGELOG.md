@@ -1,5 +1,9 @@
 ## 72.0.0
 
+### Enhancements
+- **Sheet Changes**
+  - Simplified header on sheet show pages
+
 ### Refactoring
 - Remove image from sections model
 - Remove subject_code_name from projects, subject codes are now consistently

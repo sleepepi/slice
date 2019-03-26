@@ -30,7 +30,7 @@
 
 %div{ style: "margin-top: 0px" }
   - @adverse_event.sheets.each do |sheet|
-    = @sheet = sheet; render "sheets/show"
+    = @sheet = sheet; render "sheets/show", show_header: true
 
 .jumbotron
   = form_with model: @adverse_event_review, url: adverse_event_review_path(authentication_token: @adverse_event.id_and_token), id: "adverse_event_review_form", local: true do |form|

@@ -9,9 +9,17 @@
   .float-right
     #sheet_actions= render "sheets/actions", project: @project, sheet: @sheet
   = render "sheets/status/checks_bullet", sheet: @sheet
+
   = @title
   = render "layouts/unblinded_only", project: @project, object: @sheet.design, placement: "top"
 - content_for :breadcrumbs do
+  .float-right
+    %span.text-muted= @sheet.recently_created? ? "created" : "updated"
+    - date_string = if @sheet.recently_created?
+      - simple_date(@sheet.created_at)
+    - else
+      - simple_date(@sheet.last_edited_at)
+    = link_to date_string, transactions_project_sheet_path(@sheet.project, @sheet)
   %ol
     %li= link_to "subjects", project_subjects_path(@project)
     %li= link_to @subject.subject_code, [@project, @subject]
@@ -20,11 +28,25 @@
     - if @sheet.subject_event
       %li= link_to (@sheet.subject_event.event.slug.presence || @sheet.subject_event.event.name).to_s.downcase, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
     %li.breadcrumb-muted= @sheet.name.to_s.downcase
+    %li{ id: "sheet_#{@sheet.id}_coverage" }= render "sheets/coverage", sheet: @sheet
 
 #sheet_unlocks_container= render "sheet_unlock_requests/index", project: @project, sheet: @sheet
 
-.dashboard-container
-  = render "sheets/header_info_limited"
+- if @sheet.authentication_token.present? && !@sheet.auto_locked?
+  .dashboard-container
+    - clipboard_text = "#{ENV["website_url"]}/survey/#{@sheet.design.survey_slug}/#{@sheet.authentication_token}"
+    .row
+      .col-md-2
+        %label Share via this Link
+      .col-md-10
+        .input-group
+          = text_field_tag "shareable_link", clipboard_text, class: "form-control"
+
+          .input-group-append
+            = link_to "#", data: { object: "suppress-click", clipboard_text: clipboard_text, placement: "bottom", container: "body", title: "Copied!", trigger: "manual" }, class: "btn btn-light" do
+              = icon("fas", "paste")
+            = link_to remove_shareable_link_project_sheet_path(@project, @sheet), method: :post, class: "btn btn-outline-danger", rel: "tooltip", data: { confirm: "Remove link?", title: "Remove Link", container: "body", placement: "bottom" } do
+              = icon("fas", "trash-alt")
 
 - if @sheet.failed_checks.present?
   .dashboard-container
@@ -34,7 +56,7 @@
         %span.text-danger= check.message
 
 .dashboard-container.mb-0
-  = render "sheets/show"
+  = render "sheets/show", show_header: false
 
 - unless @sheet.adverse_event
   - content_for :footer do

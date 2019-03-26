@@ -1,9 +1,10 @@
-.jumbotron
+.dashboard-container
   = form_with model: [sheet_unlock_request.sheet.project, sheet_unlock_request.sheet, sheet_unlock_request] do |form|
     .form-group
       = form.label :reason, nil
-      = form.text_area :reason, rows: 7, class: "form-control", placeholder: "Type a reason here"
+      = form.text_area :reason, rows: 7, class: "form-control#{" is-invalid" if sheet_unlock_request.errors[:reason].present?}", placeholder: "Type a reason here"
+      = render "forms/invalid_feedback", object: sheet_unlock_request, key: :reason
 
-    .form-group
+    .form-group.mt-4.mb-0
       = form.submit "Submit unlock request", class: "btn btn-primary"
       = link_to "Cancel", "#", data: { object: "toggle-visibility", target: "#sheet_unlock_request" }, class: "btn btn-light"
