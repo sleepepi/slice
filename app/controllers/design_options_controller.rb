@@ -6,7 +6,7 @@ class DesignOptionsController < ApplicationController
   before_action :find_editable_project_or_redirect
   before_action :find_editable_design_or_redirect
   before_action :find_new_design_option, only: [
-    :new_section, :new_variable, :new_existing_variable, :create_section,
+    :new_variable, :new_existing_variable, :create_section,
     :create_variable, :create_existing_variable
   ]
   before_action :find_design_option_or_redirect, only: [
@@ -17,11 +17,6 @@ class DesignOptionsController < ApplicationController
   # # GET /designs/:design_id/design_options/new
   # def new
   # end
-
-  # GET /designs/:design_id/design_options/new_section
-  def new_section
-    @section = @design.sections.new
-  end
 
   # GET /designs/:design_id/design_options/new_variable
   def new_variable
@@ -47,18 +42,13 @@ class DesignOptionsController < ApplicationController
 
   # POST /designs/:design_id/design_options/create_section
   def create_section
-    @section = current_user.sections.where(project_id: @project.id, design_id: @design.id).new(section_params)
-    @design_option.branching_logic = params[:design_option][:branching_logic] if params[:design_option] && params[:design_option][:branching_logic].present?
+    @section = @design.sections.where(project: @project, user: current_user).new(section_params)
     if @section.save
       @design_option.section_id = @section.id
       @design_option.save
     end
-    if !@section.new_record? && !@design_option.new_record?
-      @design.insert_new_design_option!(@design_option)
-      render :index
-    else
-      render :new_section
-    end
+    @design.insert_new_design_option!(@design_option)
+    render :index
   end
 
   # POST /designs/:design_id/design_options/create_variable
@@ -180,7 +170,7 @@ class DesignOptionsController < ApplicationController
   def section_params
     params[:section] ||= { blank: "1" }
     params.require(:section).permit(
-      :name, :description, :level, :image, :image_cache, :remove_image
+      :name, :description, :level
     )
   end
 

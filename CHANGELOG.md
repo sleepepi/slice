@@ -1,5 +1,8 @@
 ## 72.0.0
 
+### Refactoring
+- Remove image from sections model
+
 ## 71.0.0 (March 25, 2019)
 
 ### Enhancements

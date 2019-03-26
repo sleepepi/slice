@@ -20,14 +20,6 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new section" do
-    login(@project_editor)
-    get new_section_project_design_design_options_url(@project, @design, format: "js"), params: {
-      design_option: { position: 0 }
-    }, xhr: true
-    assert_response :success
-  end
-
   test "should get new string variable" do
     login(@project_editor)
     get new_variable_project_design_design_options_url(@project, @design, format: "js"), params: {
@@ -280,16 +272,11 @@ class DesignOptionsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("DesignOption.count") do
       assert_difference("Section.count") do
         post create_section_project_design_design_options_url(@project, @design, format: "js"), params: {
-          design_option: { position: 0, branching_logic: "1 == 1" },
-          section: { name: "Section A", description: "Description", level: "1" }
+          design_option: { position: 0 }
         }
       end
     end
-    assert_equal "Section A", assigns(:design_option).section.name
-    assert_equal "Description", assigns(:design_option).section.description
-    assert_equal 1, assigns(:design_option).section.level
-    assert_equal "1 == 1", assigns(:design_option).branching_logic
-    assert_template "index"
+    assert_response :success
   end
 
   test "should create variable on design" do

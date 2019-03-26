@@ -1,4 +1,0 @@
-- design = design_option.design
-- if design && section && section.image.url && section.image.size > 0
-  - full_url = external_section_image_path(project_id: design.project_id, section_id: section.id, design: design, handoff: @handoff, ts: section.updated_at.usec)
-  = image_tag full_url, class: 'section-image', alt: ''

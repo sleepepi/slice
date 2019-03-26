@@ -1,13 +1,5 @@
 - if section = @design_option.section
-  .modal-header
-    %h4.modal-title Edit Section
-    %button.close{ type: "button", data: { dismiss: "modal" }, aria: { hidden: true } } &times;
-  .modal-body
-    = form_with url: project_design_design_option_path(@project, @design, @design_option, language: params[:language]), method: :patch, id: "design_option_form" do |form|
-      = render "design_options/form_section", form: form, design_option: @design_option, section: section
-  .modal-footer
-    = button_tag "Update Section", data: { object: "submit-section-form-with-file", target: "#design_option_form", method: :patch }, class: "btn btn-primary"
-    %button.btn.btn-light{ type: "button", data: { dismiss: "modal" } } Cancel
+  -# TODO: Remove this partial and make it only allowed to edit variable.
 - elsif variable = @design_option.variable
   .modal-header
     %h4.modal-title

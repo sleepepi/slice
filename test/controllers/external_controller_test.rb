@@ -2,8 +2,7 @@
 
 require "test_helper"
 
-# Tests to assure users can view section images and add grid rows on public
-# surveys, and public pages.
+# Assure users can add grid rows on public surveys, and view public pages.
 class ExternalControllerTest < ActionDispatch::IntegrationTest
   setup do
     @public_design = designs(:admin_public_design)
@@ -102,30 +101,6 @@ class ExternalControllerTest < ActionDispatch::IntegrationTest
       assignment_id: ae_assignments(:aes_pathset_reviewer_one).id
     }
     assert_template "add_grid_row"
-    assert_response :success
-  end
-
-  test "should get section image from public design as public viewer" do
-    get external_section_image_url(section_id: @public_section.id, project_id: projects(:three).id, design: @public_design)
-    assert_equal File.binread(assigns(:section).image.path), response.body
-  end
-
-  test "should get section image from handoff" do
-    @handoff = handoffs(:one)
-    @design = designs(:sections_and_variables)
-    @section = sections(:private)
-    get external_section_image_url(section_id: @section.id, project_id: projects(:one).id, design: @design, handoff: @handoff)
-    assert_equal File.binread(assigns(:section).image.path), response.body
-  end
-
-  test "should get section image from design as regular user" do
-    login(@regular)
-    get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
-    assert_equal File.binread(assigns(:section).image.path), response.body
-  end
-
-  test "should not get section image from private design without login" do
-    get external_section_image_url(section_id: @private_section.id, project_id: projects(:one).id, design: @private_design)
     assert_response :success
   end
 

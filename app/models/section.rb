@@ -23,9 +23,6 @@ class Section < ApplicationRecord
   include Translatable
   translates :name, :description
 
-  # Uploaders
-  mount_uploader :image, ImageUploader
-
   # Relationships
   belongs_to :project
   belongs_to :design

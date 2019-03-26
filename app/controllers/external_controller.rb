@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-# Grants access to public surveys for section images and adding grid rows.
+# Grants access to public surveys for and adding grid rows.
 class ExternalController < ApplicationController
   prepend_before_action { request.env["devise.skip_timeout"] = true }
   skip_before_action :verify_authenticity_token
-  before_action :set_design, only: [:add_grid_row, :section_image]
-  before_action :set_section, only: [:section_image]
+  before_action :set_design, only: [:add_grid_row]
   before_action :set_variable, only: [:add_grid_row]
 
   # # GET /about
@@ -29,14 +28,9 @@ class ExternalController < ApplicationController
   def add_grid_row
     I18n.locale = World.language
     return unless @design
+
     @design_option = @design.design_options.find_by(id: params[:design_option_id])
     @project = @design.project
-  end
-
-  # Image returned or blank
-  # GET /external/image/:section_id?design=REQUIRED&handoff=OPTIONAL
-  def section_image
-    send_file_if_present @section&.image
   end
 
   # GET /sitemap.xml.gz
@@ -88,10 +82,6 @@ class ExternalController < ApplicationController
   def set_assignment_design
     @assignment = AeAssignment.where(reviewer: current_user).find_by(id: params[:assignment_id])
     @design = @assignment.ae_team_pathway.designs.find_by_param(params[:design]) if @assignment
-  end
-
-  def set_section
-    @section = @design.sections.find_by(id: params[:section_id]) if @design
   end
 
   def set_variable

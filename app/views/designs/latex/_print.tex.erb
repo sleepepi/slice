@@ -64,12 +64,6 @@
       <%= section.description_for_latex %>
     <% end %>
 
-  <% if section && section.image.url %>
-    \begin{figure}[!htpb]
-      \includegraphics[max width=7.5in]{<%= section.image.path %>}
-    \end{figure}
-  <% end %>
-
   <% elsif variable = design_option.variable %>
     <% if variable.variable_type == 'grid' %>
 

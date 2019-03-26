@@ -289,7 +289,6 @@ def copy_sections(design, design_copy, options)
       name: section.name,
       description: section.description,
       level: section.level,
-      image: section.image,
       user_id: section.user_id
     )
     section_map[section.id.to_s] = section_copy.id

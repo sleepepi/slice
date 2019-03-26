@@ -11,8 +11,6 @@
     - if section.description.present?
       .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }
         = simple_markdown_old section.description_with_images
-
-    = render "sections/image", design_option: design_option, section: section
 - else
   - css_class = case section.level
   - when 2
@@ -26,4 +24,3 @@
     - if section.description.present?
       .section-description{ class: section.translation_missing?(:description) ? "text-muted" : nil }
         = simple_markdown_old section.description_with_images
-    = render "sections/image", design_option: design_option, section: section

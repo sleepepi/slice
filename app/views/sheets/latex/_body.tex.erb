@@ -23,12 +23,6 @@
         <% end %>
       \end{warning}
     <% end %>
-
-    <% if section && section.image.url %>
-      \begin{figure}[!htpb]
-        \includegraphics[max width=7.5in]{<%= section.image.path %>}
-      \end{figure}
-    <% end %>
   <% elsif variable && @sheet.show_design_option?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id } %>
     <% if variable.variable_type == "grid" && sheet_variable %>
