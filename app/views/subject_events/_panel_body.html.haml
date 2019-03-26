@@ -76,7 +76,7 @@
           = render "layouts/unblinded_only", project: @project, object: design, placement: "top"
 - non_design_sheets = subject_event.extra_sheets_on_subject_event(current_user)
 - if non_design_sheets && non_design_sheets.count > 0
-  %table.table.table-striped.table-borderless.table-hover{ style: "margin-bottom: 0;" }
+  %table.table.table-striped.table-borderless.table-hover.table-sm.mb-0
     %col{ width: "60px" }
     %col
     - non_design_sheets.each do |sheet|
