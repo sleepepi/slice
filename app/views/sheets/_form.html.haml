@@ -23,17 +23,10 @@
   -# TODO: REMOVE SUBJECT_ID IF NOT USED
   = hidden_field_tag :subject_id, @sheet.subject_id
 
+
   = form.hidden_field :adverse_event_id
   = form.hidden_field :ae_adverse_event_id
-
-  - if @sheet.new_record?
-    = form.hidden_field :subject_event_id if @sheet.subject_event
-  - elsif @sheet.subject && @sheet.subject.subject_events.size > 0
-    .dashboard-container
-      .form-group.row
-        = label_tag "sheet[subject_event_id]", "Event", class: "col-md-3 col-form-label"
-        .col-md-9
-          = form.select :subject_event_id, [["---", nil]] + @sheet.subject.subject_events.joins(:event).pluck("events.name", :event_date, :id).collect { |name, event_date, id| ["#{name} - #{event_date ? event_date.strftime("%a, %B %-d, %Y") : "No Date"}", id] }, {}, class: "form-control"
+  = form.hidden_field :subject_event_id if @sheet.new_record?
 
   .dashboard-container
     = render "designs/show", design: @sheet.design, form: form if @sheet.design

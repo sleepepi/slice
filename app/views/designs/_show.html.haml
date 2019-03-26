@@ -1,8 +1,5 @@
 - I18n.locale = World.language
 
-- unless params[:header] == "0"
-  .design-header= design.name
-
 - sheet_variables = @sheet ? @sheet.sheet_variables.includes(:domain_option, responses: :domain_option, variable: { domain: :domain_options }).to_a : []
 
 - design.design_options.includes(:design, :section, variable: { domain: :domain_options }).each do |design_option|

@@ -316,6 +316,8 @@ Rails.application.routes.draw do
         post :unlock
         get :reassign
         patch :reassign
+        get :change_event, path: "change-event"
+        post :submit_change_event, path: "change-event"
         patch :move_to_event
         post :remove_shareable_link
         post :unlock

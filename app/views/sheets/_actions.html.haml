@@ -53,6 +53,9 @@
         = link_to "#", class: "dropdown-item disabled text-muted", tabindex: "-1" do
           = icon("fas", "exchange-alt")
           Reassign
+        = link_to "#", class: "dropdown-item disabled text-muted", tabindex: "-1" do
+          = icon("fas", "calendar-day")
+          Change event
       .dropdown-divider
       = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
         = icon("fas", "print")
@@ -77,6 +80,9 @@
         = link_to reassign_project_sheet_path(project, sheet), class: "dropdown-item" do
           = icon("fas", "exchange-alt")
           Reassign
+        = link_to change_event_project_sheet_path(project, sheet), class: "dropdown-item" do
+          = icon("fas", "calendar-day")
+          Change event
         .dropdown-divider
         = link_to project_sheet_path(sheet.project, sheet, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
           = icon("fas", "print")

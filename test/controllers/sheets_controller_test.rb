@@ -809,6 +809,24 @@ d est laborum.",
     assert_redirected_to [projects(:three), sheets(:external)]
   end
 
+  test "should get change event sheet for editor" do
+    login(@project_editor)
+    get change_event_project_sheet_url(@project, @sheet)
+    assert_response :success
+  end
+
+  test "should change event sheet to new subject for editor" do
+    login(@project_editor)
+    post submit_change_event_project_sheet_url(@project, @sheet), params: {
+      sheet: {
+        subject_event_id: ""
+      }
+    }
+    @sheet.reload
+    assert_nil @sheet.subject_event_id
+    assert_redirected_to [@project, @sheet]
+  end
+
   test "should get reassign sheet for editor" do
     login(@project_editor)
     get reassign_project_sheet_url(@project, @sheet)

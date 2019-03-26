@@ -3,6 +3,8 @@
 ### Enhancements
 - **Sheet Changes**
   - Simplified header on sheet show pages
+  - Sheet events can no longer be changed while editing a sheet, but instead
+    can be changed by accessing "Change event" in the sheet dropdown menu
 
 ### Refactoring
 - Remove image from sections model

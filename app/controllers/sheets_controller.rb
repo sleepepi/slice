@@ -10,7 +10,8 @@ class SheetsController < ApplicationController
   before_action :find_editable_project_or_redirect, only: [:unlock]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :reassign, :move_to_event, :remove_shareable_link, :transactions,
-    :new, :create, :update, :destroy, :set_as_not_missing
+    :new, :create, :update, :destroy, :set_as_not_missing, :change_event,
+    :submit_change_event
   ]
   before_action :find_subject_or_redirect, only: [:create]
   before_action :find_viewable_sheet_or_redirect, only: [
@@ -18,10 +19,11 @@ class SheetsController < ApplicationController
   ]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :reassign, :move_to_event, :update, :destroy,
-    :remove_shareable_link, :transactions, :unlock, :set_as_not_missing
+    :remove_shareable_link, :transactions, :unlock, :set_as_not_missing,
+    :change_event, :submit_change_event
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
-    :edit, :reassign, :update, :destroy
+    :edit, :reassign, :update, :destroy, :change_event, :submit_change_event
   ]
 
   layout "layouts/full_page_sidebar_dark"
@@ -163,6 +165,24 @@ class SheetsController < ApplicationController
       SheetTransaction.save_sheet!(@sheet, { subject_id: subject.id, subject_event_id: nil, last_user_id: current_user.id, last_edited_at: Time.zone.now }, {}, current_user, request.remote_ip, "sheet_update", skip_validation: true)
       redirect_to [@project, @sheet], notice: notice
     end
+  end
+
+  # # GET /sheets/1/change-event
+  # def change_event
+  # end
+
+  # POST /sheets/1/change-event
+  def submit_change_event
+    @sheet.subject_event&.reset_coverage!
+    subject_event = @sheet.subject.subject_events.find_by(id: params[:sheet][:subject_event_id])
+    subject_event&.reset_coverage!
+    SheetTransaction.save_sheet!(
+      @sheet, {
+        subject_event_id: subject_event&.id,
+        last_user_id: current_user.id, last_edited_at: Time.zone.now
+      }, {}, current_user, request.remote_ip, "sheet_update", skip_validation: true
+    )
+    redirect_to [@project, @sheet], notice: "Event was successfully updated."
   end
 
   # PATCH /sheets/1/move_to_event

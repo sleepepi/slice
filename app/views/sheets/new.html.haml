@@ -1,4 +1,4 @@
-- @title = "New Sheet"
+- @title = @sheet.design&.name || "New Sheet"
 - @menu_title = "#{@project.name} &middot; #{@sheet.subject.subject_code} &middot; #{@title}"
 
 - @subject = @sheet.subject
@@ -18,6 +18,4 @@
     - if @sheet.design
       %li.breadcrumb-muted= @sheet.design.name.to_s.downcase
 
-
 = render "sheets/form"
-

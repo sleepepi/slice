@@ -1,4 +1,4 @@
-- @title = "#{@sheet.name} Reassign"
+- @title = "#{@sheet.name} Change Event"
 - @menu_title = "#{@project.name} #{@title}"
 
 - @subject = @sheet.subject
@@ -13,17 +13,17 @@
     - if @sheet.subject_event
       %li= link_to (@sheet.subject_event.event.slug.presence || @sheet.subject_event.event.name).to_s.downcase, event_project_subject_path(@project, @sheet.subject, event_id: @sheet.subject_event.event, subject_event_id: @sheet.subject_event.id, event_date: @sheet.subject_event.event_date_to_param)
     %li= link_to @sheet.name.to_s.downcase, [@project, @sheet]
-    %li.breadcrumb-muted reassign
+    %li.breadcrumb-muted change event
 
 .dashboard-container
-  = form_with url: reassign_project_sheet_path(@project, @sheet), method: :patch, local: true do |form|
+  = form_with model: @sheet, url: submit_change_event_project_sheet_path(@project, @sheet), method: :post, local: true do |form|
     .form-group.row
-      = label_tag :subject_id, "Reassign To Subject", class: "col-md-2 col-form-label"
+      = form.label :subject_event_id, "Event", class: "col-md-2 col-form-label"
       .col-md-10
-        = select_tag :subject_id, options_for_select(@project.subjects.order(:subject_code).pluck(:subject_code, :id), @sheet.subject_id), class: "form-control chosen-select"
+        = form.select :subject_event_id, [["---", nil]] + @sheet.subject.subject_events.joins(:event).pluck("events.name", :event_date, :id).collect { |name, event_date, id| ["#{name} - #{event_date ? event_date.strftime("%a, %B %-d, %Y") : "No Date"}", id] }, {}, class: "form-control"
 
     .form-group.row.mt-5.mb-0
       .col-md-2
       .col-md-10
-        = submit_tag "Reassign to Subject", class: "btn btn-primary", name: nil
+        = submit_tag "Update event", class: "btn btn-primary", name: nil
         = link_to "Cancel", [@project, @sheet], class: "btn btn-light"
