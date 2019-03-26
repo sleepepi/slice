@@ -11,10 +11,6 @@ class Editor::ProjectsController < ApplicationController
   # def settings
   # end
 
-  # # GET /editor/projects/1/advanced
-  # def advanced
-  # end
-
   # # GET /editor/projects/1/edit
   # def edit
   # end

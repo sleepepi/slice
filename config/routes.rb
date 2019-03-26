@@ -203,7 +203,6 @@ Rails.application.routes.draw do
     resources :projects, only: [:edit, :update] do
       member do
         get :settings
-        get :advanced
         get :setup_designs, path: "setup-designs"
         post :submit_designs, path: "submit-designs"
         delete :remove_designment, path: "remove-designment"
@@ -266,7 +265,6 @@ Rails.application.routes.draw do
       post :expressions_engine, path: "expressions/engine"
       get :expressions_search, path: "expressions/search"
       post :archive
-      get :advanced, to: redirect("editor/projects/%{id}/advanced")
       get :settings, to: redirect("editor/projects/%{id}/settings")
     end
 
@@ -331,18 +329,12 @@ Rails.application.routes.draw do
       member do
         get :print
         get :reorder
-        post "imports/progress" => "imports/progress", as: :progress_import
-        get "imports/edit" => "imports#edit", as: :edit_import
-        patch "imports" => "imports#update", as: :update_import
-
         post :upload_images, as: "upload-images"
       end
 
       collection do
         post :selection
         post :add_question
-        get "imports/new" => "imports#new", as: :new_import
-        post "imports" => "imports#create", as: :create_import
       end
 
       resources :design_options do

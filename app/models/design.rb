@@ -3,9 +3,6 @@
 # Provides a framework to layout a series of sections and variables that make
 # up a data collection form.
 class Design < ApplicationRecord
-  # Uploaders
-  mount_uploader :csv_file, SpreadsheetUploader
-
   # Constants
   ORDERS = {
     "category" => "categories.name, designs.name",
@@ -47,7 +44,6 @@ class Design < ApplicationRecord
   translates :name
 
   attr_writer :questions
-  attr_accessor :reimport
 
   # Validations
   validates :name, :user_id, :project_id, presence: true
@@ -57,8 +53,6 @@ class Design < ApplicationRecord
                    exclusion: { in: %w(new edit create update destroy) },
                    uniqueness: { scope: :project_id },
                    allow_nil: true
-
-  validates :csv_file, presence: true, if: :reimport?
 
   # Relationships
   belongs_to :user
@@ -187,107 +181,6 @@ class Design < ApplicationRecord
     reload
   end
 
-  def load_variables
-    @load_variables ||= begin
-      raw_variables = header_row
-      raw_variables.reject! { |i| %w(Subject Site).include?(i) }
-      variables = []
-      raw_variables.each do |variable_token|
-        (variable_name, variable_type) = variable_token.to_s.split(":")
-        variable_type = "string" unless Variable::TYPE_IMPORTABLE.flatten.include?(variable_type)
-        variables << { name: variable_name.gsub(/[^a-zA-Z_0-9]/, ""), display_name: variable_name.humanize, variable_type: variable_type, column_name: variable_token } unless variable_name.blank?
-      end
-      variables
-    end
-  end
-
-  def header_row
-    @header_row ||= begin
-      result = []
-      if csv_file.path
-        current_line = 0
-        CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read)) do |line|
-          break unless current_line == 0
-          result = line
-          current_line += 1
-        end
-      end
-      result
-    end
-  end
-
-  def create_variables!(variable_hashes)
-    new_variables = []
-    variable_hashes.each do |name, hash|
-      v = project.variables.find_by(name: name.to_s)
-      next if hash[:ignore] == "1" or (not v and not Variable::TYPE_IMPORTABLE.flatten.include?(hash[:variable_type]))
-      v = project.variables.create(name: name, display_name: hash[:display_name], variable_type: hash[:variable_type], updater_id: user_id, user_id: user_id) unless v
-      new_variables << v
-    end
-
-    build_design_options_from_variable_array(new_variables.compact.uniq)
-
-    set_total_rows
-  end
-
-  def build_design_options_from_variable_array(variables)
-    variables.each_with_index do |variable, position|
-      design_options.create variable_id: variable.id, position: position
-    end
-  end
-
-  def set_total_rows
-    counter = 0
-    CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read), headers: true) { counter += 1 } if csv_file.path
-    update total_rows: counter
-  end
-
-  def create_sheets!(default_site, current_user, remote_ip)
-    unless csv_file.path && default_site
-      update total_rows: 0
-      return
-    end
-
-    update import_started_at: Time.zone.now
-    set_total_rows
-    counter = 0
-
-    variables_and_column_names = load_variables.collect do |hash|
-      variable = project.variables.find_by(name: hash[:name])
-      column_name = hash[:column_name]
-      [variable, column_name]
-    end
-
-    CSV.parse(File.open(csv_file.path, "r:iso-8859-1:utf-8", &:read), headers: true) do |line|
-      row = line.to_hash.with_indifferent_access
-      subject = Subject.first_or_create_with_defaults(project, row["Subject"], row["Site"].to_s, current_user, default_site)
-      if subject
-        sheet = sheets.where(subject_id: subject.id).first_or_initialize(project_id: project_id, user_id: current_user.id)
-        sheet.last_user_id = current_user.id
-        sheet.last_edited_at = Time.zone.now
-        transaction_type = (sheet.new_record? ? "sheet_create" : "sheet_update")
-        variables_params = {}
-
-        variables_and_column_names.each do |variable, column_name|
-          if variable && Variable::TYPE_IMPORTABLE.flatten.include?(variable.variable_type)
-            variables_params[variable.id.to_s] = variable.response_to_value(row[column_name].to_s)
-          end
-        end
-
-        SheetTransaction.save_sheet!(sheet, {}, variables_params, current_user, remote_ip, transaction_type)
-      end
-      counter += 1
-      update(rows_imported: counter) if (counter % 25).zero? || counter == total_rows
-    end
-
-    update import_ended_at: Time.zone.now
-    notify_user! current_user
-  end
-
-  def notify_user!(current_user)
-    UserMailer.import_complete(self, current_user).deliver_now if EMAILS_ENABLED
-  end
-
   def insert_new_design_option!(design_option)
     design_options
       .where.not(id: design_option.id)
@@ -307,25 +200,6 @@ class Design < ApplicationRecord
 
   def recompute_variables_count!
     update variables_count: variables.count
-  end
-
-  def name_from_csv!
-    return unless name.blank? && csv_file.path && csv_file.path.split("/").last
-    self.name = csv_file.path.split("/").last.gsub(/csv|\./, "").humanize.capitalize
-  end
-
-  def generate_import_in_background(site_id, current_user, remote_ip)
-    update rows_imported: 0, total_rows: 1, import_started_at: Time.zone.now, import_ended_at: nil
-    fork_process(:generate_import, site_id, current_user, remote_ip)
-  end
-
-  def generate_import(site_id, current_user, remote_ip)
-    site = project.sites.find_by(id: site_id)
-    create_sheets!(site, current_user, remote_ip)
-  end
-
-  def reimport?
-    reimport == "1"
   end
 
   def export_value(raw_data)

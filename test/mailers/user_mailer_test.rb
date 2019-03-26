@@ -31,15 +31,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_editor.full_name} has unlocked a sheet for 24 hours on #{sheet_unlock_request.sheet.project.name}\. You can now edit the sheet here:/, mail.body.encoded)
   end
 
-  test "import complete email" do
-    design = designs(:one)
-    regular = users(:regular)
-    mail = UserMailer.import_complete(design, regular)
-    assert_equal [regular.email], mail.to
-    assert_equal "Your Design Data Import for #{design.project.name} is Complete", mail.subject
-    assert_match(/The design data import for #{design.project.name} is now complete\./, mail.body.encoded)
-  end
-
   test "daily digest email" do
     regular = users(:regular)
     mail = UserMailer.daily_digest(regular)

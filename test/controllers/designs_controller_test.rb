@@ -202,12 +202,6 @@ class DesignsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should show design that has imported data" do
-    login(@project_editor)
-    get project_design_url(@project, designs(:imported))
-    assert_response :success
-  end
-
   test "should show design for project with no sites" do
     login(@project_editor)
     get project_design_url(projects(:no_sites), designs(:no_sites))

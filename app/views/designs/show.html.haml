@@ -16,15 +16,9 @@
         = link_to edit_project_design_path(@design.project, @design, language: World.translate_language? ? World.language : nil), class: "dropdown-item" do
           = icon("fas", "pencil-alt")
           Edit
-        = link_to edit_import_project_design_path(@design.project, @design), class: "dropdown-item" do
-          = icon("fas", "upload")
-          Reimport
         = link_to print_project_design_path(@design.project, @design, format: "pdf", language: World.translate_language? ? World.language : nil), target: "_blank", class: "dropdown-item" do
           = icon("fas", "print")
           Print
-        = link_to project_sheets_path(@project, search: "designs:#{@design.to_param}"), class: "dropdown-item" do
-          = icon("far", "copy")
-          View Sheets
         .dropdown-divider
         = link_to [@design.project, @design], method: :delete, data: { confirm: "Delete #{@design.name}?" }, class: "dropdown-item text-danger" do
           = icon("fas", "trash-alt")
@@ -37,7 +31,7 @@
     %li.breadcrumb-muted= (@design.slug.presence || @design.name).downcase
 
 
-- if @design.category || @design.publicly_available? || @design.total_rows > 0 || @design.repeated? || @design.notifications_enabled?
+- if @design.category || @design.publicly_available? || @design.repeated? || @design.notifications_enabled?
   .dashboard-container
     %table.table.table-borderless
       %col.d-none.d-sm-table-column{ width: "30%" }
@@ -60,11 +54,6 @@
         %tr
           %th Notifications Enabled
           %td= simple_check @design.notifications_enabled?
-      - if @design.total_rows > 0
-        %tr
-          %th Import Progress
-          %td#progress{ data: { object: "#{"ajax-timer" if @design.total_rows != @design.rows_imported}", path: progress_import_project_design_path(@design.project, @design) } }
-            = render "imports/progress"
 
 = form_with do |form|
   = form.hidden_field :language, value: World.language, name: :language

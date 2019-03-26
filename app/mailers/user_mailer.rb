@@ -28,15 +28,6 @@ class UserMailer < ApplicationMailer
          subject: "#{project_editor.full_name} Unlocked a Sheet on #{sheet_unlock_request.sheet.project.name}")
   end
 
-  def import_complete(design, recipient)
-    setup_email
-    @design = design
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: "#{recipient.full_name} <#{recipient.email}>",
-         subject: "Your Design Data Import for #{design.project.name} is Complete")
-  end
-
   def daily_digest(recipient)
     setup_email
     @recipient = recipient

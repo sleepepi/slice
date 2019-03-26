@@ -139,12 +139,6 @@ api_design_two:
   project: api
   survey_slug: api-design-two
 
-imported:
-  name: Imported data
-  user: regular
-  project: one
-  total_rows: 10
-
 engine_anthropometry:
   name: Anthropometry
   slug: anthropometry

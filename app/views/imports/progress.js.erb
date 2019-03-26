@@ -1,5 +1,0 @@
-$("#progress").html("<%=j render 'imports/progress' %>");
-
-<% if @design.total_rows > 0 && @design.total_rows == @design.rows_imported %>
-clearInterval(<%= params[:interval] %>);
-<% end %>

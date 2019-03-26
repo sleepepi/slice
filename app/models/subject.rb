@@ -57,18 +57,6 @@ class Subject < ApplicationRecord
     current_user.all_subjects.where(id: id).count == 1
   end
 
-  def self.first_or_create_with_defaults(project, subject_code, site_name, user, default_site)
-    # (1) Find existing subject...
-    subject = project.subjects.find_by(subject_code: subject_code)
-    return subject if subject
-    # (2) if not found slot into site by subject code and set proper site or use fallback
-    site = project.sites.find_by(name: site_name)
-    default_site = site if site
-    subject = project.subjects.where(subject_code: subject_code)
-                     .first_or_create(user_id: user.id, site_id: default_site.id)
-    subject
-  end
-
   def new_digest_subject?(sheet_ids)
     sheets.where.not(id: sheet_ids).count.zero?
   end

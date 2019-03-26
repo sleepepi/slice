@@ -24,10 +24,6 @@ class Variable < ApplicationRecord
 
   TYPE = TYPE_ALL.sort.collect { |i| [i, i] }
 
-  TYPE_IMPORTABLE = %w(
-    string text integer numeric date time_of_day
-  ).sort.collect { |i| [i, i] }
-
   TYPE_SEARCHABLE = TYPE_ALL - %w(grid)
 
   TYPE_DOMAIN = %w(dropdown checkbox radio integer numeric)

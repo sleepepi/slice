@@ -1,6 +1,8 @@
 ## 72.0.0
 
 ### Enhancements
+- **Design Changes**
+  - The design importer has been removed
 - **Sheet Changes**
   - Simplified header on sheet show pages
   - Sheet events can no longer be changed while editing a sheet, but instead

@@ -19,12 +19,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.sheet_unlocked(sheet_unlock_request, project_editor)
   end
 
-  def import_complete
-    design = Design.current.first
-    recipient = User.current.first
-    UserMailer.import_complete(design, recipient)
-  end
-
   # Updated
   def daily_digest
     recipient = User.current.first

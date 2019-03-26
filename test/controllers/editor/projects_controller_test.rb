@@ -22,12 +22,6 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  test "should get advanced" do
-    login(@unblinded_editor)
-    get advanced_editor_project_url(@project)
-    assert_response :success
-  end
-
   test "should get settings as owner" do
     login(users(:regular))
     get settings_editor_project_url(@project)
