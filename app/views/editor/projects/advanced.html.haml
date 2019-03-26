@@ -7,4 +7,3 @@
 .dashboard-container
   %ul.list-unstyled
     %li= link_to "Create Design from Import", new_import_project_designs_path(@project)
-    %li= mail_to ENV["support_email"], "Set Subject Code Name", subject: "Set Subject Code Name for #{@project.name} ##{@project.id}", body: "Please set this project's subject code name to ___."
