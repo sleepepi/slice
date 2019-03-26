@@ -45,9 +45,7 @@
       %th Number
       %td= @site.number
     %tr
-      %th
-        = @site.project.subject_code_name_full
-        Format
+      %th Subject ID Format
       %td
         - if @site.subject_code_format.present?
           %code= @site.subject_code_format

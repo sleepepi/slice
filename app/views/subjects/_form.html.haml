@@ -17,5 +17,5 @@
           = link_to "add", new_project_site_path(subject.project)
           at least one site to this project.
 
-  = render "forms/horizontal/text_field", form: form, object: subject, key: :subject_code, key_name: subject.project.subject_code_name_full
+  = render "forms/horizontal/text_field", form: form, object: subject, key: :subject_code, key_name: "Subject ID"
   = render "forms/horizontal/submit", form: form, object: [subject.project, subject]

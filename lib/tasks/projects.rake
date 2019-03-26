@@ -72,7 +72,6 @@ def copy_project(original)
     description: original.description,
     logo: original.logo,
     logo_uploaded_at: Time.zone.now,
-    subject_code_name: original.subject_code_name,
     disable_all_emails: original.disable_all_emails,
     hide_values_on_pdfs: original.hide_values_on_pdfs,
     randomizations_enabled: original.randomizations_enabled,

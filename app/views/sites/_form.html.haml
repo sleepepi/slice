@@ -4,7 +4,7 @@
   = render "forms/horizontal/number_field", form: form, object: site, key: :number
 
   .form-group.row
-    = form.label :subject_code_format, (site.project ? site.project.subject_code_name_full + " " : "") + "Format", class: "col-md-2 col-form-label"
+    = form.label :subject_code_format, "Subject ID Format", class: "col-md-2 col-form-label"
     .col-md-10
       .input-group
         = form.text_field :subject_code_format, class: "form-control"

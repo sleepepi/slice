@@ -25,9 +25,7 @@
         %tr
           = th_sort_field @order, "sites.name", "Number", extra_class: "d-none d-sm-table-cell text-center"
           = th_sort_field @order, "sites.name", "Name"
-          %th.d-none.d-sm-table-cell
-            = @project.subject_code_name_full
-            Format
+          %th.d-none.d-sm-table-cell Subject ID Format
           %th.text-center Actions
 
       - @sites.each do |site|

@@ -104,10 +104,6 @@ class Project < ApplicationRecord
     current_user.all_sheet_editable_projects.where(id: id).count == 1
   end
 
-  def subject_code_name_full
-    subject_code_name.to_s.strip.blank? ? "Subject Code" : subject_code_name.to_s.strip
-  end
-
   def create_valid_subject(site_id)
     create_default_site if sites.count.zero?
     site = sites.find_by(id: site_id)

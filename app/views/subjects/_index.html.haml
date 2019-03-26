@@ -44,7 +44,7 @@
       %thead
         %tr
           - filtered_params = params.permit(:site_id, :search)
-          = th_sort_field @order, "subjects.subject_code", @project.subject_code_name_full, permit: [:site_id]
+          = th_sort_field @order, "subjects.subject_code", "Subject", permit: [:site_id]
           - if viewable_sites.count > 1
             %th.d-none.d-md-table-cell.nowrap{ class: ["subjects.site_id", "subjects.site_id desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Site", project_subjects_path(@project, filtered_params.merge(order: (params[:order] == "subjects.site_id desc" ? "subjects.site_id" : "subjects.site_id desc")))

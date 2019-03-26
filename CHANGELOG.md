@@ -2,6 +2,8 @@
 
 ### Refactoring
 - Remove image from sections model
+- Remove subject_code_name from projects, subject codes are now consistently
+  referenced as Subject ID
 
 ## 71.0.0 (March 25, 2019)
 
