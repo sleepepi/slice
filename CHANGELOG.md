@@ -15,6 +15,9 @@
 - Remove subject_code_name from projects, subject codes are now consistently
   referenced as Subject ID
 
+### Bug Fixes
+- Schemes menu is no longer set as active when failing to randomize subject
+
 ## 71.0.0 (March 25, 2019)
 
 ### Enhancements

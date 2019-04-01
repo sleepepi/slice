@@ -53,7 +53,7 @@
                 Events
             - if @project.randomizations_enabled? && @project.unblinded?(current_user)
               %li
-                = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) && params[:action] != "randomize_subject" ? "active" : nil) do
+                = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) && !params[:action].in?(%w(randomize_subject randomize_subject_to_list)) ? "active" : nil) do
                   Schemes
             %li
               = link_to project_sites_path(@project), class: (params[:controller] == "sites" ? "active" : nil) do
