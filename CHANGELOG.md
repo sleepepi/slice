@@ -6,6 +6,8 @@
 - **Randomization Scheme Changes**
   - Custom lists randomization scheme now creates lists per site based on
     stratification factors similar to permuted block algorithm
+  - Publishing a randomization scheme is now its own action in the randomization
+    scheme dropdown
 - **Sheet Changes**
   - Simplified header on sheet show pages
   - Sheet events can no longer be changed while editing a sheet, but instead

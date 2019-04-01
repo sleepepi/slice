@@ -15,6 +15,19 @@
       .col-md-10
         = form.select :algorithm, RandomizationScheme::ALGORITHMS, {}, class: "form-control"
 
+  - if @randomization_scheme.randomized_subjects?
+    .form-group.row
+      .col-md-2
+      .col-md-10
+        %div.alert.alert-info
+          %p
+            %strong Published
+          %p
+            Subject randomization has started. If you need to make changes to
+            treatment arms, block size multipliers, or stratification factors,
+            you will need to undo all existing randomizations, and then
+            unpublish the randomization scheme.
+
   = render "forms/horizontal/text_field", form: form, object: @randomization_scheme, key: :name
   = render "forms/horizontal/number_field", form: form, object: @randomization_scheme, key: :randomization_goal
 
@@ -49,28 +62,6 @@
         %p
           %code 0,1,2
           0 randomizations first month, 1 randomization second month, and 2 randomizations third month and beyond.
-  .form-group.row
-    .col-md-2
-    .col-md-10
-      - if @randomization_scheme.randomized_subjects?
-        %div.alert.alert-info
-          %p
-            %strong Published
-          %p
-            Subject randomization has started. If you need to make changes to
-            treatment arms, block size multipliers, or stratification factors,
-            you will need to undo all existing randomizations, and then
-            unpublish the randomization scheme.
-      - elsif !@randomization_scheme.published? && @randomization_scheme.minimization? && @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count == 0
-        .custom-control.custom-checkbox
-          = check_box_tag "randomization_scheme[published]", "1", false, class: "custom-control-input", id: "randomization_scheme_published", disabled: true
-          = label_tag "randomization_scheme_published", "Published", class: "custom-control-label"
-          %small.form-text.text-danger
-            Non-site stratification factor required for publishing.
-      - else
-        .custom-control.custom-checkbox
-          = check_box_tag "randomization_scheme[published]", "1", @randomization_scheme.published?, class: "custom-control-input", id: "randomization_scheme_published"
-          = label_tag "randomization_scheme_published", "Published", class: "custom-control-label"
 
   - if @randomization_scheme.randomized_subjects?
     .form-group.row

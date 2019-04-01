@@ -20,7 +20,6 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     {
       name: "New Randomization Scheme",
       description: @randomization_scheme.description,
-      published: @randomization_scheme.published,
       randomization_goal: @randomization_scheme.randomization_goal
     }
   end
@@ -483,7 +482,7 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     patch project_randomization_scheme_url(@project, @randomization_scheme), params: {
       randomization_scheme: randomization_scheme_params.merge(name: "Updated Randomization Scheme")
     }
-    assert_redirected_to project_randomization_scheme_url(assigns(:project), assigns(:randomization_scheme))
+    assert_redirected_to project_randomization_scheme_url(@project, @randomization_scheme)
   end
 
   test "should not update randomization scheme with existing name" do
@@ -494,6 +493,22 @@ class RandomizationSchemesControllerTest < ActionDispatch::IntegrationTest
     assert_equal ["has already been taken"], assigns(:randomization_scheme).errors[:name]
     assert_template "edit"
     assert_response :success
+  end
+
+  test "should publish randomization scheme" do
+    login(@project_one_editor)
+    post publish_project_randomization_scheme_url(@project, @randomization_scheme)
+    @randomization_scheme.reload
+    assert_equal true, @randomization_scheme.published
+    assert_redirected_to project_randomization_scheme_url(@project, @randomization_scheme)
+  end
+
+  test "should unpublish randomization scheme" do
+    login(@project_two_editor)
+    post unpublish_project_randomization_scheme_url(projects(:two), randomization_schemes(:three))
+    randomization_schemes(:three).reload
+    assert_equal false, randomization_schemes(:three).published
+    assert_redirected_to project_randomization_scheme_url(projects(:two), randomization_schemes(:three))
   end
 
   test "should destroy randomization_scheme" do

@@ -8,16 +8,17 @@ class RandomizationSchemesController < ApplicationController
     :randomize_subject, :subject_search, :randomize_subject_to_list
   ]
   before_action :find_editable_project_or_redirect, only: [
-    :add_task, :index, :show, :new, :edit, :create, :update, :destroy,
-    :edit_randomization, :update_randomization, :destroy_randomization
+    :add_task, :index, :show, :new, :edit, :create, :update, :destroy, :publish,
+    :unpublish, :edit_randomization, :update_randomization,
+    :destroy_randomization
   ]
   before_action :redirect_blinded_users
   before_action :find_scheme_or_redirect, only: [
-    :show, :edit, :update, :destroy,
+    :show, :edit, :update, :destroy, :publish, :unpublish,
     :edit_randomization, :update_randomization, :destroy_randomization
   ]
   before_action :find_published_scheme_or_redirect, only: [
-    :randomize_subject, :subject_search, :randomize_subject_to_list
+    :randomize_subject, :subject_search, :randomize_subject_to_list, :unpublish
   ]
   before_action :find_randomization_or_redirect, only: [
     :edit_randomization, :update_randomization, :destroy_randomization
@@ -200,6 +201,18 @@ class RandomizationSchemesController < ApplicationController
     end
   end
 
+  # POST /schemes/1/publish
+  def publish
+    @randomization_scheme.update(published: true)
+    redirect_to [@project, @randomization_scheme], notice: "Randomization scheme was successfully published."
+  end
+
+  # POST /schemes/1/unpublish
+  def unpublish
+    @randomization_scheme.update(published: false)
+    redirect_to [@project, @randomization_scheme], notice: "Randomization scheme was successfully set to draft."
+  end
+
   # DELETE /schemes/1
   def destroy
     @randomization_scheme.destroy
@@ -261,7 +274,7 @@ class RandomizationSchemesController < ApplicationController
         :name, :description, :randomization_goal,
         { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
         { expected_randomizations_hashes: [:site_id, :expected] },
-        :published, :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value
+        :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value
       )
     end
   end

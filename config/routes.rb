@@ -390,6 +390,8 @@ Rails.application.routes.draw do
         get "randomize-subject", action: :randomize_subject, as: :randomize_subject
         get :subject_search
         post "randomize-subject", action: :randomize_subject_to_list, as: :randomize_subject_to_list
+        post :publish
+        post :unpublish
 
         get :edit_randomization, path: "randomizations/:randomization_id/edit"
         patch :update_randomization, path: "randomizations/:randomization_id"

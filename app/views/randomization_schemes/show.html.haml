@@ -5,7 +5,40 @@
 
 - content_for :header do
   .float-right
-    = render "layouts/edit_delete_dropdown_lg", edit_url: edit_project_randomization_scheme_path(@project, @randomization_scheme), delete_url: [@project, @randomization_scheme], delete_confirmation: "Delete \"#{@randomization_scheme.name}\" randomization scheme?"
+    .dropdown
+      = link_to "#", class: "btn btn-light dropdown-toggle", data: { toggle: "dropdown" } do
+        .d-inline-block.d-sm-none
+          = icon("fas", "cog")
+        .d-none.d-sm-inline-block Actions
+
+      .dropdown-menu.dropdown-menu-right
+        = link_to edit_project_randomization_scheme_path(@project, @randomization_scheme), class: "dropdown-item" do
+          = icon("fas", "pencil-alt")
+          Edit
+        - if @randomization_scheme.randomized_subjects?
+          = link_to "#", class: "dropdown-item disabled text-muted" do
+            = icon("fas", "lock")
+            Published
+        - elsif !@randomization_scheme.published? && @randomization_scheme.minimization? && @randomization_scheme.stratification_factors.where(stratifies_by_site: false).count.zero?
+          = link_to "#", class: "dropdown-item disabled text-muted" do
+            = icon("fas", "lock")
+            Publish
+
+          = link_to "#", class: "dropdown-item disabled text-muted" do
+            Missing stratification factor
+        - elsif @randomization_scheme.published?
+          = link_to unpublish_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: "dropdown-item" do
+            = icon("fas", "unlock")
+            Unpublish
+        - else
+          = link_to publish_project_randomization_scheme_path(@project, @randomization_scheme), method: :post, class: "dropdown-item" do
+            = icon("fas", "lock")
+            Publish
+
+        .dropdown-divider
+        = link_to [@project, @randomization_scheme], method: :delete, data: { confirm: "Delete \"#{@randomization_scheme.name}\" randomization scheme?" }, class: "dropdown-item text-danger" do
+          = icon("fas", "trash-alt")
+          Delete
   = @title
 - content_for :breadcrumbs do
   %ol
