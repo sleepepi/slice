@@ -4,7 +4,7 @@ module RandomizationAlgorithm
   module Algorithms
     # Handles list creation and randomization for minimization randomization
     # schemes.
-    class CustomList < OneListOrListsBySite
+    class CustomList < StratifiedLists
       def randomization_error_message
         "Next assignment has not been set by a project editor."
       end

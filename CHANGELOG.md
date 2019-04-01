@@ -3,6 +3,9 @@
 ### Enhancements
 - **Design Changes**
   - The design importer has been removed
+- **Randomization Scheme Changes**
+  - Custom lists randomization scheme now creates lists per site based on
+    stratification factors similar to permuted block algorithm
 - **Sheet Changes**
   - Simplified header on sheet show pages
   - Sheet events can no longer be changed while editing a sheet, but instead

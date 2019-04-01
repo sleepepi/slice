@@ -8,7 +8,7 @@ class RandomizationScheme < ApplicationRecord
   after_save :set_tasks, :set_expected_randomizations
 
   # Constants
-  MAX_LISTS = 128
+  MAX_LISTS = 512
   ALGORITHMS = [
     ["Permuted-Block Algorithm", "permuted-block"],
     ["Minimization Algorithm", "minimization"],
@@ -52,10 +52,10 @@ class RandomizationScheme < ApplicationRecord
 
   def generate_lists!(current_user)
     return false if randomized_subjects?
+
     randomizations.destroy_all
     lists.destroy_all
     add_missing_lists!(current_user)
-    true
   end
 
   def find_list_by_criteria_pairs(criteria_pairs)

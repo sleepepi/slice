@@ -15,15 +15,20 @@ class ListsController < ApplicationController
   def generate
     if @randomization_scheme.generate_lists!(current_user)
       flash[:notice] = "Lists were successfully created."
-    else
+    elsif @randomization_scheme.randomized_subjects?
       flash[:alert] = "Lists were NOT successfully created. Please be sure to UNDO any existing randomizations."
+    else
+      flash[:alert] = "Lists were NOT successfully created. Too many permutations for stratification factors."
     end
     redirect_to [@project, @randomization_scheme]
   end
 
   def expand
-    @randomization_scheme.add_missing_lists!(current_user)
-    flash[:notice] = "Additional lists were successfully created."
+    if @randomization_scheme.add_missing_lists!(current_user)
+      flash[:notice] = "Additional lists were successfully created."
+    else
+      flash[:alert] = "Additional lists were NOT successfully created. Too many permutations for stratification factors."
+    end
     redirect_to [@project, @randomization_scheme]
   end
 

@@ -7,14 +7,6 @@ module RandomizationAlgorithm
     class Minimization < OneListOrListsBySite
       attr_reader :randomization_scheme
 
-      def initialize(randomization_scheme)
-        @randomization_scheme = randomization_scheme
-      end
-
-      # def randomization_error_message
-      #   "Treatment Arms may not be set up correctly."
-      # end
-
       def randomize_subject_to_list!(subject, list, current_user, criteria_pairs)
         # Remove any blank randomizations
         list.randomizations.where(subject_id: nil).destroy_all

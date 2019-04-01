@@ -25,6 +25,7 @@ module RandomizationAlgorithm
         elsif @randomization_scheme.lists.count.zero? && number_of_lists.in?(1..RandomizationScheme::MAX_LISTS - 1)
           @randomization_scheme.lists.create(project: @randomization_scheme.project, user: current_user)
         end
+        true
       end
 
       def number_of_lists

@@ -11,11 +11,11 @@ module RandomizationAlgorithm
       end
 
       def randomization_error_message
-        "Treatment Arms may not be set up correctly."
+        "Treatment arms may not be set up correctly."
       end
 
       def add_missing_lists!(current_user)
-        #
+        true
       end
 
       def number_of_lists
