@@ -35,6 +35,11 @@
 
 @each $name, $theme in $themes {
   .theme-#{$name}-bg {
+    .table,
+    .table tbody tr:hover {
+      color: map-get($theme, body-color);
+    }
+
     .table-sticky {
       th {
         background-color: map-get($theme, dashboard-bg);
