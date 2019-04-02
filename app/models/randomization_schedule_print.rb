@@ -5,7 +5,7 @@
 # new PDF.
 class RandomizationSchedulePrint < ApplicationRecord
   # Uploaders
-  mount_uploader :file, RandomizationSchedulePDFUploader
+  mount_uploader :file, RandomizationSchedulePdfUploader
 
   # Concerns
   include Latexable

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows PDF files to be attached to a record.
-class SheetPDFUploader < CarrierWave::Uploader::Base
+class SheetPdfUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :s3

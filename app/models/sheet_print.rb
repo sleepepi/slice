@@ -4,7 +4,7 @@
 # as outdated in order to generate a new PDF.
 class SheetPrint < ApplicationRecord
   # Uploaders
-  mount_uploader :file, SheetPDFUploader
+  mount_uploader :file, SheetPdfUploader
 
   # Concerns
   include Latexable

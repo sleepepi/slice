@@ -4,7 +4,7 @@
 # as outdated in order to generate a new PDF.
 class DesignPrint < ApplicationRecord
   # Uploaders
-  mount_uploader :file, DesignPDFUploader
+  mount_uploader :file, DesignPdfUploader
 
   # Concerns
   include Latexable
