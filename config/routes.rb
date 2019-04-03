@@ -459,7 +459,6 @@ Rails.application.routes.draw do
         get :data_entry, path: "data-entry"
         get "data-entry/:design_id", action: :new_data_entry, as: :new_data_entry
         post "data-missing/:design_id/:subject_event_id", action: :set_sheet_as_missing, as: :set_sheet_as_missing
-        get :send_url, path: "send-url"
         post :set_sheet_as_shareable
         get :choose_event, path: "choose-event"
         get "handoff/:subject_event_id", controller: :handoffs, action: :new, as: :new_handoff

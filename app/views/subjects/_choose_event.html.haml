@@ -2,7 +2,7 @@
   Which event would you like to add?
 
 .dashboard-container
-  - events = current_user.all_viewable_events.where(project_id: @project.id, archived: false).joins(:designs).group(:id).having('COUNT(designs.id) > 0')
+  - events = current_user.all_viewable_events.where(project_id: @project.id, archived: false).joins(:designs).group(:id).having("COUNT(designs.id) > 0")
 
   - new_events = events.where.not(id: @subject.blinded_subject_events(current_user).select(:event_id))
   - existing_events = events.where(id: @subject.blinded_subject_events(current_user).select(:event_id))
@@ -28,7 +28,7 @@
 
   - eventless_designs = current_user.all_viewable_designs.where(project_id: @project.id).includes(:category).where(categories: { use_for_adverse_events: [false, nil] }).left_outer_joins(:event_designs).where(event_designs: { design_id: nil })
   - if eventless_designs.present?
-    - eventless_designs.order('categories.position', :name).group_by(&:category).each do |category, category_designs|
+    - eventless_designs.order("categories.position", :name).group_by(&:category).each do |category, category_designs|
       %strong
         - if category
           = category.name
@@ -36,10 +36,10 @@
           Uncategorized
       %ul
         - category_designs.each do |design|
-          %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
-
-      - if eventless_designs.where(publicly_available: true).count > 0
-        %p.text-muted.text-center
-          You can also generate a link to a
-          = succeed '.' do
-            = link_to 'fillable sheet', send_url_project_subject_path(@project, @subject)
+          %li
+            = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
+            - if design.publicly_available?
+              or send as
+              = link_to set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post do
+                = icon("fas", "paper-plane")
+                fillable sheet

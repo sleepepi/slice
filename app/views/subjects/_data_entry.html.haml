@@ -11,13 +11,13 @@
         %strong= category&.name.presence || "Uncategorized"
       %ul
         - category_designs.each do |design|
-          %li= link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
-
-      - if designs.where(publicly_available: true).count > 0
-        %p.text-muted.text-center
-          You can also generate a link to a
-          = succeed "." do
-            = link_to "fillable sheet", send_url_project_subject_path(@project, @subject)
+          %li
+            = link_to design.name, new_data_entry_project_subject_path(@project, @subject, design)
+            - if design.publicly_available?
+              or send as
+              = link_to set_sheet_as_shareable_project_subject_path(@project, @subject, design_id: design.id), method: :post do
+                = icon("fas", "paper-plane")
+                fillable sheet
 - else
   .row
     .col-sm-4.col-buffer

@@ -11,7 +11,7 @@ class SubjectsController < ApplicationController
   ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :new, :edit, :create, :update, :destroy, :choose_date,
-    :data_entry, :send_url, :set_sheet_as_missing,
+    :data_entry, :set_sheet_as_missing,
     :set_sheet_as_shareable, :new_data_entry, :choose_event,
     :launch_subject_event, :edit_event, :update_event, :destroy_event
   ]
@@ -20,7 +20,7 @@ class SubjectsController < ApplicationController
     :events, :sheets, :event, :event_coverage
   ]
   before_action :find_editable_subject_or_redirect, only: [
-    :edit, :update, :destroy, :choose_date, :data_entry, :send_url,
+    :edit, :update, :destroy, :choose_date, :data_entry,
     :set_sheet_as_missing, :set_sheet_as_shareable, :new_data_entry,
     :choose_event, :launch_subject_event, :edit_event, :update_event,
     :destroy_event
@@ -73,10 +73,6 @@ class SubjectsController < ApplicationController
     SheetTransaction.save_sheet!(@sheet, {}, {}, current_user, request.remote_ip, "sheet_create", skip_validation: true)
     render "sheets/subject_event"
   end
-
-  # # GET /projects/:project_id/subjects/1/send-url
-  # def send_url
-  # end
 
   # POST /subjects/1/set_sheet_as_shareable
   def set_sheet_as_shareable

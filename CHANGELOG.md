@@ -15,6 +15,8 @@
   - Simplified header on sheet show pages
   - Sheet events can no longer be changed while editing a sheet, but instead
     can be changed by accessing "Change event" in the sheet dropdown menu
+  - Made fillable sheets more apparent when adding new data or events for a
+    subject
 - **Theme Changes**
   - Improved visibility of text in night theme
 

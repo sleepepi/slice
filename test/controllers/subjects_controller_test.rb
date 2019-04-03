@@ -93,12 +93,6 @@ class SubjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get send url as site editor" do
-    login(@site_editor)
-    get send_url_project_subject_url(@project, @subject)
-    assert_response :success
-  end
-
   test "should set sheet as shareable as site editor" do
     login(@site_editor)
     assert_difference("Sheet.count") do
