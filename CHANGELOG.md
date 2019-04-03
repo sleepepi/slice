@@ -3,6 +3,9 @@
 ### Enhancements
 - **Design Changes**
   - The design importer has been removed
+- **Randomization Changes**
+  - Display dropdowns instead of radio buttons for randomization schemes with
+    stratification factors with more than ten options
 - **Randomization Scheme Changes**
   - Custom lists randomization scheme now creates lists per site based on
     stratification factors similar to permuted block algorithm

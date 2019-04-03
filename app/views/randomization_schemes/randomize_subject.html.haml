@@ -53,7 +53,7 @@
               = link_to @subject.subject_code, [@project, @subject]
           - else
             - sfo = @randomization_scheme.stratification_factors.where(stratifies_by_site: true).first
-            = text_field_tag :subject_code, params[:subject_code], autocomplete: "off", class: "form-control", data: { object: "randomization_subject_search",  project_slug: @project.to_param, randomization_scheme_id: @randomization_scheme.id, sfo_id: (sfo ? sfo.id : nil) }
+            = text_field_tag :subject_code, params[:subject_code], autocomplete: "off", class: "form-control", data: { object: "randomization_subject_search", typeahead_url: subject_search_project_randomization_scheme_path(@project, @randomization_scheme), sfo_id: (sfo ? sfo.id : nil) }
           = render "layouts/errors", object: @randomization, key: :subject_code
           = render "layouts/errors", object: @randomization, key: :subject_id
 
@@ -62,19 +62,37 @@
           %label.col-md-2.col-form-label
             = stratification_factor.name
           .col-md-10
-            - stratification_factor.option_hashes.each do |option_hash|
-              - site = current_user.all_editable_sites.where(project_id: @project.id).find_by(id: option_hash[:site_id])
-              - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
-              - if site
-                - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
-                .custom-control.custom-radio
-                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{site.id}"
-                  = label_tag "stratification_factors_#{stratification_factor.id}_#{site.id}", site.name, class: "custom-control-label"
-              - elsif option
-                - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
-                .custom-control.custom-radio
-                  = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{option.id}", data: { stratification_factor_id: stratification_factor.id, value: option.value }
-                  = label_tag "stratification_factors_#{stratification_factor.id}_#{option.id}", option.label, class: "custom-control-label"
+            - if stratification_factor.option_hashes.size >= 10
+              - site_ids = stratification_factor.option_hashes.collect { |h| h[:site_id] }.compact
+              - option_ids = stratification_factor.option_hashes.collect { |h| h[:stratification_factor_option_id] }.compact
+
+              - if site_ids.present?
+                - sites = current_user.all_editable_sites.where(project: @project, id: site_ids)
+                - selected_site = params.dig(:stratification_factors, "#{stratification_factor.id}")
+                = select_tag "stratification_factors[#{stratification_factor.id}]", options_for_select(sites.order(:name).pluck(:name, :id), selected_site), include_blank: "Select site...", class: "custom-select#{" is-invalid" if @randomization.errors.key?(:stratification_factors)}"
+              - else
+                - stratification_factor.option_hashes.each do |option_hash|
+                  - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
+                  -# Needed for looking up and setting correct value in dropdown from randomizations.coffee
+                  %div{ data: { object: "option-value-lookup", factor_id: stratification_factor.id, option_id: option.id, option_value: option.value } }
+
+                - options = @randomization_scheme.stratification_factor_options.where(id: option_ids)
+                - selected_option = params.dig(:stratification_factors, "#{stratification_factor.id}")
+                = select_tag "stratification_factors[#{stratification_factor.id}]", options_for_select(options.order(:label).pluck(:label, :id), selected_option), include_blank: "Select option...", class: "custom-select#{" is-invalid" if @randomization.errors.key?(:stratification_factors)}"
+            - else
+              - stratification_factor.option_hashes.each do |option_hash|
+                - site = current_user.all_editable_sites.where(project_id: @project.id).find_by(id: option_hash[:site_id])
+                - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
+                - if site
+                  - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
+                  .custom-control.custom-radio
+                    = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{site.id}"
+                    = label_tag "stratification_factors_#{stratification_factor.id}_#{site.id}", site.name, class: "custom-control-label"
+                - elsif option
+                  - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
+                  .custom-control.custom-radio
+                    = radio_button_tag "stratification_factors[#{stratification_factor.id}]", option.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{option.id}", data: { stratification_factor_id: stratification_factor.id, value: option.value }
+                    = label_tag "stratification_factors_#{stratification_factor.id}_#{option.id}", option.label, class: "custom-control-label"
             = render "layouts/errors", object: @randomization, key: stratification_factor.name.to_sym, key_name: stratification_factor.name
 
       .form-group.row.bg-light.py-3.rounded
