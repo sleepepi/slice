@@ -1,7 +1,7 @@
 # Slice
 
-[![Build Status](https://travis-ci.com/remomueller/slice.svg?branch=master)](https://travis-ci.com/remomueller/slice)
-[![Code Climate](https://codeclimate.com/github/remomueller/slice/badges/gpa.svg)](https://codeclimate.com/github/remomueller/slice)
+[![Build Status](https://travis-ci.com/sleepepi/slice.svg?branch=master)](https://travis-ci.com/sleepepi/slice)
+[![Code Climate](https://codeclimate.com/github/sleepepi/slice/badges/gpa.svg)](https://codeclimate.com/github/sleepepi/slice)
 
 A clinical research interface geared at collecting robust and consistent data by
 providing a strong framework for designing data dictionaries and collection
@@ -27,7 +27,7 @@ This readme assumes the following installation directory: /var/www/slice
 ```
 cd /var/www
 
-git clone https://github.com/remomueller/slice.git
+git clone https://github.com/sleepepi/slice.git
 
 cd slice
 

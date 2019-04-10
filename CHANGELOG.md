@@ -3329,7 +3329,7 @@
 
 ### Breaking Change
 - Database default updated to use PostgreSQL
-  - Instructions [MIGRATING_TO_POSTGRESQL](https://github.com/remomueller/slice/blob/0-38-stable/MIGRATING_TO_POSTGRESQL.md)
+  - Instructions [MIGRATING_TO_POSTGRESQL](https://github.com/sleepepi/slice/blob/0-38-stable/MIGRATING_TO_POSTGRESQL.md)
 
 ### Enhancements
 - Subject status is now viewable on sheets
@@ -3465,8 +3465,7 @@
   - Designs are now rendered using LaTeX for cleaner PDFs
   - Design (Data Dictionary) exports are now provided as a single XLS file
   - Variables can now be created inline while creating or editing a design
-  - Branching logic for checkboxes has been simplified:
-    - See: [FAQ 305: Variable Design Branching Logic](http://remomueller.github.com/slice/faq/300-designs/305-variable-design-branching-logic)
+  - Branching logic for checkboxes has been simplified
 - **Project Changes**
   - Subjects and Sites are now integrated more closely with their projects
 - **Subject Changes**
