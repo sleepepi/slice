@@ -19,6 +19,8 @@
     subject
 - **Theme Changes**
   - Improved visibility of text in night theme
+- **Gem Changes**
+  - Update to font-awesome-sass 5.8.1
 
 ### Refactoring
 - Remove image from sections model
