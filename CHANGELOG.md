@@ -1,4 +1,4 @@
-## 72.0.0
+## 72.0.0 (April 11, 2019)
 
 ### Enhancements
 - **Design Changes**
