@@ -22,7 +22,7 @@
     = link_to date_string, transactions_project_sheet_path(@sheet.project, @sheet)
   %ol
     %li= link_to "subjects", project_subjects_path(@project)
-    %li= link_to @subject.subject_code, [@project, @subject]
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
     - if @sheet.adverse_event
       %li= link_to @sheet.adverse_event.name.downcase, [@project, @sheet.adverse_event]
     - if @sheet.subject_event
