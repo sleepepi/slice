@@ -110,10 +110,16 @@ class ApplicationController < ActionController::Base
 
   # Expects an "Uploader" type class, ex: uploader = @project.logo
   def send_file_if_present(uploader, *args)
-    if uploader.present?
-      send_file uploader.path, *args
+    if ENV["AMAZON"].to_s == true
+      disposition = args[:disposition] || "attachment" # "inline"
+      # type = args[:type] # ex: "application/pdf"
+      redirect_to uploader.url(query: { "response-content-disposition" => disposition }) #, allow_other_host: true
     else
-      head :ok
+      if uploader.present?
+        send_file uploader.path, *args
+      else
+        head :ok
+      end
     end
   end
 
