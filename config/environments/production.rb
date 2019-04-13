@@ -35,10 +35,19 @@ Rails.application.configure do
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
-  config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+  if ENV["AMAZON"].to_s == "true"
+    # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+  else
+    config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+  end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  if ENV["AMAZON"].to_s == "true"
+    config.active_storage.service = :amazon
+  else
+    config.active_storage.service = :local
+  end
+
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -50,10 +59,10 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :warn
+  config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store

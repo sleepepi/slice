@@ -88,7 +88,7 @@
     Notice any other words that are confusing when using Slice?
 
   %p
-    = mail_to ENV["support_email"], "Send us an email"
+    = mail_to ActionMailer::Base.smtp_settings[:email], "Send us an email"
     to let us know!
 
 = render "docs/links", previous_link: ["Notifications", docs_notifications_path], next_link: ["Filters", docs_filters_path]

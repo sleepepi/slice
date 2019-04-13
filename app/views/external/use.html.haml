@@ -37,7 +37,7 @@
         %abbr{ title: "" } PHI
       variables collected specifically as identifiable.
     %li
-      = mail_to ENV["support_email"], "Notify us", target: "_blank", subject: "#{ENV["website_name"]} Account Compromised"
+      = mail_to ActionMailer::Base.smtp_settings[:email], "Notify us", target: "_blank", subject: "#{ENV["website_name"]} Account Compromised"
       immediately if your account has been comprised and to follow immediate steps
       to secure your account.
 

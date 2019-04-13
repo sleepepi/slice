@@ -8,7 +8,7 @@
       %h2
         via email
       %p
-        = mail_to ENV["support_email"]
+        = mail_to ActionMailer::Base.smtp_settings[:email]
 
       %h2{ style: "margin-top:40px" }
         our address

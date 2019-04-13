@@ -2,13 +2,26 @@ language: ruby
 rvm:
 - 2.6.2
 - ruby-head
-gemfile: "gems.rb"
+# gemfile: "gems.rb"
 addons:
   postgresql: "9.6"
+before_install:
+- gem install bundler
 before_script:
-- "ruby lib/initial_setup.rb ../.travis_setup"
-- "psql -c 'create database slice_test;' -U postgres"
-- "rails db:migrate"
+- cp config/.travis.database.yml config/database.yml
+- psql -c 'create database travis_test;' -U postgres
 matrix:
   allow_failures:
   - rvm: ruby-head
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  region: us-east-1
+  app: slice
+  env: slice-73-stable
+  bucket_name: elasticbeanstalk-us-east-1-846666392784
+  on:
+    repo: sleepepi/slice
+    branch: 73-0-stable
+    rvm: 2.6.2

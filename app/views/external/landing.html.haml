@@ -46,7 +46,7 @@
       = ENV["website_name"]
     Contact us at
     = succeed "." do
-      = mail_to ENV["support_email"]
+      = mail_to ActionMailer::Base.smtp_settings[:email]
 
   - if false
     %p

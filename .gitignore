@@ -42,7 +42,6 @@
 # These files are generated when the user initially runs ruby initial_setup.rb from the <rails_root> directory.
 
 /config/application.yml
-/config/database.yml
 
 # CarrierWave
 /carrierwave/**/*
@@ -51,5 +50,6 @@
 
 # Other Files
 
+/Gemfile.lock
 /gems.locked
 /db/schema.rb

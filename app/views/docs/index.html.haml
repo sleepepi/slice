@@ -14,7 +14,7 @@
 
   %p
     Email us at
-    = mail_to ENV["support_email"]
+    = mail_to ActionMailer::Base.smtp_settings[:email]
     if you don't find an answer to your questions.
 
   %p We're here to help,

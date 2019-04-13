@@ -1,5 +1,10 @@
 ## 73.0.0
 
+### Enhancements
+- **AWS Changes**
+  - Updated configuration to support deployment to AWS
+  - Reverted `gems.rb` to `Gemfile`
+
 ## 72.0.0 (April 11, 2019)
 
 ### Enhancements

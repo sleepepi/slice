@@ -13,8 +13,7 @@ puts template_folder
 puts root_folder
 
 files = [
-  ["config", "application.yml"],
-  ["config", "database.yml"]
+  ["config", "application.yml"]
 ]
 
 files.each do |folder_name, file_name|

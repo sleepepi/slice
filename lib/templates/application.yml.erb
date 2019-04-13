@@ -1,7 +1,1 @@
-website_url:          "<%= print "Enter Website URL: "; gets.chomp.gsub(/(\/)*$/, '') %>"
-website_name:         "<%= print "Enter Website Name: "; gets.chomp %>"
-support_email:        "<%= print "Enter support email address: "; ga = gets.chomp; ga %>"
-
-emails_enabled:       "true"
-
-latex_location:       "<%= print "PDF LaTeX Location [/usr/bin/pdflatex]: "; s = gets.chomp; s == '' ? '/usr/bin/pdflatex' : s %>"
+latex_location: "<%= print "PDF LaTeX Location [/usr/bin/pdflatex]: "; s = gets.chomp; s == '' ? '/usr/bin/pdflatex' : s %>"
