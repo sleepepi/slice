@@ -3,8 +3,7 @@
 # Allows PDF files to be attached to a record.
 class RandomizationSchedulePdfUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :s3
+  storage ENV["AMAZON"].to_s == "true" :fog ? :file
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
