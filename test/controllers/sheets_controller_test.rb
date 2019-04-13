@@ -641,7 +641,7 @@ d est laborum.",
           variables(:integer).id.to_s => 31,
           variables(:numeric).id.to_s => 190.5,
           variables(:date).id.to_s => { month: "05", day: "29", year: "2012" },
-          variables(:file).id.to_s => { response_file: fixture_file_upload("../../test/support/projects/rails.png") }
+          variables(:file).id.to_s => { response_file: fixture_file_upload(file_fixture("rails.png")) }
         }
       }
     end
@@ -714,7 +714,7 @@ d est laborum.",
           },
           "2" => {
             variables(:change_options).id.to_s => "3",
-            variables(:file).id.to_s => { response_file: fixture_file_upload("../../test/support/projects/rails.png") },
+            variables(:file).id.to_s => { response_file: fixture_file_upload(file_fixture("rails.png")) },
             variables(:checkbox).id.to_s => [],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "70.0",

@@ -53,7 +53,7 @@ class SlicerTest < ActiveSupport::TestCase
 
   test "should prepare value for db for file variable" do
     slicer = Slicers.for(variables(:api_file))
-    file = fixture_file_upload("../../test/support/projects/rails.png")
+    file = fixture_file_upload(file_fixture("rails.png"))
     assert_equal({}, slicer.format_for_db_update(""))
     assert_equal(
       { response_file: file },

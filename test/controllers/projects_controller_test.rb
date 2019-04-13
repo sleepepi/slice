@@ -91,7 +91,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
           project: {
             name: "Project New Name",
             description: @project.description,
-            logo: fixture_file_upload("../../test/support/projects/rails.png")
+            logo: fixture_file_upload(file_fixture("rails.png"))
           }
         }
       end

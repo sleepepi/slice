@@ -76,8 +76,8 @@ class Editor::ProjectsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to settings_editor_project_path(@project)
     ensure
       # Reset File after test run
-      FileUtils.cp File.join("test", "support", "projects", "rails.png"),
-                   File.join("test", "support", "projects", "980190962", "logo", "rails.png")
+      FileUtils.cp file_fixture("rails.png"), # File.join("test", "fixtures", "files", "rails.png"),
+                   File.join(CarrierWave::Uploader::Base.root, "projects", "980190962", "logo", "rails.png")
     end
   end
 

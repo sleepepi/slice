@@ -16,6 +16,7 @@
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
+/test/storage/*
 
 /node_modules
 /yarn-error.log
@@ -35,20 +36,11 @@
 # Ignore OS generated files.
 .DS_Store
 
-
-### OLDER Below
-
-# These files contain application specific passwords that should NEVER be included in version control.
-# These files are generated when the user initially runs ruby initial_setup.rb from the <rails_root> directory.
-
-/config/application.yml
-
-# CarrierWave
-/carrierwave/**/*
-/pats/**/*
-/test/support/*
-
-# Other Files
-
+# Ignore gemfile lock files.
 /Gemfile.lock
 /gems.locked
+
+### OLDER Below
+## TODO: Remove dependency on following ignores.
+/config/application.yml
+/pats/**/*

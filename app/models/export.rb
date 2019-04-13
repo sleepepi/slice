@@ -389,7 +389,7 @@ class Export < ApplicationRecord
   end
 
   def generate_readme(temp_dir, language, sheet_scope = Sheet.none)
-    erb_file = File.join("test", "support", "exports", language, "README.erb")
+    erb_file = File.join("app", "views", "exports", "templates", language, "README.erb")
     readme = File.join(temp_dir, "README_#{language}.txt")
 
     File.open(readme, "w") do |file|

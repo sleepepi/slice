@@ -15,7 +15,7 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
 
   def adverse_event_file_params
     {
-      attachment: fixture_file_upload("../../test/support/projects/rails.png")
+      attachment: fixture_file_upload(file_fixture("rails.png"))
     }
   end
 
@@ -104,8 +104,8 @@ class AdverseEventFilesControllerTest < ActionDispatch::IntegrationTest
         @project, @adverse_event, format: "js"
       ), params: {
         attachments: [
-          fixture_file_upload("../../test/support/projects/rails.png"),
-          fixture_file_upload("../../test/support/projects/rails.png")
+          fixture_file_upload(file_fixture("rails.png")),
+          fixture_file_upload(file_fixture("rails.png"))
         ]
       }
     end
