@@ -1,6 +1,6 @@
 - if export.file_size.positive?
   - full_url = file_project_export_path(export.project, export)
-  = link_to export.file.to_s.split("/").last, full_url, target: "_blank", class: "btn btn-light btn-sm"
+  = link_to export[:file], full_url, target: "_blank", class: "btn btn-light btn-sm"
   %small.text-muted= number_to_human_size export.file_size
   %div.mt-2
     .small.text-muted
