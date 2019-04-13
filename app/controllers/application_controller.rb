@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
 
   # Expects an "Uploader" type class, ex: uploader = @project.logo
   def send_file_if_present(uploader, *args)
-    if ENV["AMAZON"].to_s == true
+    if ENV["AMAZON"].to_s == "true"
       disposition = args[:disposition] || "attachment" # "inline"
       # type = args[:type] # ex: "application/pdf"
       redirect_to uploader.url(query: { "response-content-disposition" => disposition }) #, allow_other_host: true
@@ -120,6 +120,24 @@ class ApplicationController < ActionController::Base
       else
         head :ok
       end
+    end
+  end
+
+  def send_profile_picture_if_present(object, thumb: false)
+    profile_picture = if thumb
+      object&.profile_picture&.thumb
+    else
+      object&.profile_picture
+    end
+
+    if ENV["AMAZON"].to_s == "true"
+      if profile_picture&.url.present?
+        redirect_to profile_picture.url(query: { "response-content-disposition" => "inline" }) #, allow_other_host: true
+      else
+        head :ok
+      end
+    else
+      send_file_if_present profile_picture, disposition: "inline"
     end
   end
 

@@ -57,14 +57,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/:id/picture
   def picture
-    if @profile&.object&.profile_picture&.thumb.present?
-      send_file(@profile&.object&.profile_picture&.thumb&.path)
-    else
-      file_path = Rails.root.join("app", "assets", "images", "members", "member-secret.png")
-      File.open(file_path, "r") do |f|
-        send_data f.read, type: "image/png", filename: "member.png"
-      end
-    end
+    send_profile_picture_if_present(@profile&.object, thumb: true)
   end
 
   private
