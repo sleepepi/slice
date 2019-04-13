@@ -109,13 +109,16 @@ class ApplicationController < ActionController::Base
   end
 
   # Expects an "Uploader" type class, ex: uploader = @project.logo
-  def send_file_if_present(uploader, *args)
+  # disposition: "attachment" | "inline"
+  # type: "application/pdf", etc. MIME::Types
+  def send_file_if_present(uploader, disposition: "attachment", type: nil)
     if ENV["AMAZON"].to_s == "true"
-      disposition = args[:disposition] || "attachment" # "inline"
-      # type = args[:type] # ex: "application/pdf"
       redirect_to uploader.url(query: { "response-content-disposition" => disposition }) #, allow_other_host: true
     else
       if uploader.present?
+        args = []
+        args << { disposition: disposition } if disposition.present?
+        args << { type: type } if type.present?
         send_file uploader.path, *args
       else
         head :ok
