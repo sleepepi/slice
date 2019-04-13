@@ -116,10 +116,11 @@ class ApplicationController < ActionController::Base
       redirect_to uploader.url(query: { "response-content-disposition" => disposition }) #, allow_other_host: true
     else
       if uploader.present?
-        args = []
-        args << { disposition: disposition } if disposition.present?
-        args << { type: type } if type.present?
-        send_file uploader.path, *args
+        if type.present?
+          send_file uploader.path, disposition: disposition, type: type
+        else
+          send_file uploader.path, disposition: disposition
+        end
       else
         head :ok
       end
