@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
   # type: "application/pdf", etc. MIME::Types
   def send_file_if_present(uploader, disposition: "attachment", type: nil)
     if ENV["AMAZON"].to_s == "true"
-      redirect_to uploader.url(query: { "response-content-disposition" => disposition }) #, allow_other_host: true
+      redirect_to uploader.url(query: { "response-content-disposition" => disposition })
     else
       if uploader.present?
         if type.present?
@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
 
     if ENV["AMAZON"].to_s == "true"
       if profile_picture&.url.present?
-        redirect_to profile_picture.url(query: { "response-content-disposition" => "inline" }) #, allow_other_host: true
+        redirect_to profile_picture.url(query: { "response-content-disposition" => "inline" })
       else
         head :ok
       end

@@ -31,7 +31,7 @@ class SurveyController < ApplicationController
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, "public_sheet_create")
       @sheet.update_coverage!
       send_survey_completion_emails
-      redirect_to survey_redirect_page, allow_other_host: true
+      redirect_to survey_redirect_page
     else
       render :new
     end
@@ -41,7 +41,7 @@ class SurveyController < ApplicationController
   def update
     if SheetTransaction.save_sheet!(@sheet, {}, variables_params, nil, request.remote_ip, "public_sheet_update")
       @sheet.update_coverage!
-      redirect_to survey_redirect_page, allow_other_host: true
+      redirect_to survey_redirect_page
     else
       render :edit
     end
