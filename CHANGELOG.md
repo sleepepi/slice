@@ -1,4 +1,4 @@
-## 73.0.0
+## 73.0.0 (April 16, 2019)
 
 ### Enhancements
 - **AWS Changes**
