@@ -1,5 +1,8 @@
 ## 74.0.0
 
+### Bug Fixes
+- Fix issue submitting search by clicking on search icon on several index pages
+
 ## 73.0.0 (April 16, 2019)
 
 ### Enhancements
