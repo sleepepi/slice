@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages
+- Project copy now copies site numbers and short names to new project
 
 ## 73.0.0 (April 16, 2019)
 

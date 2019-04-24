@@ -94,10 +94,12 @@ def copy_project_sites(original, copy, options)
   end
   original.sites.each_with_index do |s, index|
     sc = copy.sites.create(
-      name: s.name,
-      description: s.description,
       user_id: s.user_id,
-      subject_code_format: s.subject_code_format
+      name: s.name,
+      short_name: s[:short_name],
+      number: s.number,
+      subject_code_format: s.subject_code_format,
+      description: s.description
     )
     site_map[s.id.to_s] = sc.id
     if options[:verbose]
