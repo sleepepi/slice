@@ -45,7 +45,12 @@
 
       - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
         %div{ style: invite.role_level == "ae_team" ? nil : "display: none", data: { roles: "ae_team" } }
-          - if project.ae_teams.count >= min_number_for_dropdown
+          - if project.ae_teams.size.zero?
+            .form-control-plaintext.text-muted
+              No
+              = link_to "adverse event teams", editor_project_ae_teams_path(@project)
+              have been setup.
+          - elsif project.ae_teams.size >= min_number_for_dropdown
             = form.select :team_id, project.ae_teams.order(:name).pluck(:name, :id), { selected: invite.subgroup_type == "AeTeam" ? invite.subgroup_id : nil, include_blank: "Select Team" }, class: "custom-select#{" is-invalid" if invite.errors[:team].present?}", data: { object: "role-selection-dropdown", subgroup_type: "AeTeam" }
           - else
             - project.ae_teams.each do |team|
