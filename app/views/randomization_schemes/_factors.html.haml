@@ -4,8 +4,8 @@
       = link_to stratification_factor.name, [randomization_scheme.project, randomization_scheme, stratification_factor]
       - if stratification_factor.stratifies_by_site?
         %ul
-          - randomization_scheme.project.sites.order(:name).each do |site|
-            %li= link_to site.name, [randomization_scheme.project, site]
+          - randomization_scheme.project.sites.order_number_and_name.each do |site|
+            %li= link_to site.number_and_name, [randomization_scheme.project, site]
       - else
         %ul
           - stratification_factor.stratification_factor_options.order(:value).each do |stratification_factor_option|

@@ -30,10 +30,10 @@
       %tbody{ id: "project-user-#{project_user.id}-container" }
         = render "projects/member_row", member: project_user
 
-- @project.sites.order(:name).each do |site|
+- @project.sites.order_number_and_name.each do |site|
   .dashboard-container
     %h3.px-2.py-1
-      .d-none.d-sm-inline= site.name
+      .d-none.d-sm-inline= site.number_and_name
       .d-inline.d-sm-none= site.short_name
     %table.table.table-borderless.table-hover.table-sticky
       %col

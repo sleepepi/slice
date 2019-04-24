@@ -69,7 +69,7 @@
               - if site_ids.present?
                 - sites = current_user.all_editable_sites.where(project: @project, id: site_ids)
                 - selected_site = params.dig(:stratification_factors, "#{stratification_factor.id}")
-                = select_tag "stratification_factors[#{stratification_factor.id}]", options_for_select(sites.order(:name).pluck(:name, :id), selected_site), include_blank: "Select site...", class: "custom-select#{" is-invalid" if @randomization.errors.key?(:stratification_factors)}"
+                = select_tag "stratification_factors[#{stratification_factor.id}]", options_for_select(sites.order_number_and_name_for_select, selected_site), include_blank: "Select site...", class: "custom-select#{" is-invalid" if @randomization.errors.key?(:stratification_factors)}"
               - else
                 - stratification_factor.option_hashes.each do |option_hash|
                   - option = @randomization_scheme.stratification_factor_options.find_by(id: option_hash[:stratification_factor_option_id])
@@ -87,7 +87,7 @@
                   - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == site.id.to_s : false)
                   .custom-control.custom-radio
                     = radio_button_tag "stratification_factors[#{stratification_factor.id}]", site.id, selected, class: "custom-control-input", id: "stratification_factors_#{stratification_factor.id}_#{site.id}"
-                    = label_tag "stratification_factors_#{stratification_factor.id}_#{site.id}", site.name, class: "custom-control-label"
+                    = label_tag "stratification_factors_#{stratification_factor.id}_#{site.id}", site.number_and_name, class: "custom-control-label"
                 - elsif option
                   - selected = (params[:stratification_factors] ? params[:stratification_factors]["#{stratification_factor.id}"].to_s == option.id.to_s : false)
                   .custom-control.custom-radio

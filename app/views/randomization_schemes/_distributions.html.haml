@@ -63,7 +63,7 @@
             - @randomization_scheme.treatment_arms.each do |treatment_arm|
               %th= @randomization_scheme.randomizations.where(treatment_arm_id: treatment_arm.id).where.not(subject_id: nil).count
         %tbody
-          - @randomization_scheme.project.sites.order(:name).each do |site|
+          - @randomization_scheme.project.sites.order_number_and_name.each do |site|
             - randomization_scope = @randomization_scheme.randomizations.joins(:randomization_characteristics).where(randomization_characteristics: { site_id: site.id }).distinct
             %tr
               %td= site.short_name

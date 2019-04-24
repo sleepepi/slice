@@ -15,9 +15,9 @@
       Select site for
       %strong= params[:subject_code]
     .my-3
-      - editable_sites.order(:name).in_groups_of(3, false).each do |sites_row|
+      - editable_sites.order_number_and_name.in_groups_of(3, false).each do |sites_row|
         - sites_row.each do |site|
-          = link_to site.name, project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: "btn btn-primary"
+          = link_to site.number_and_name, project_subjects_path(@project, subject: { subject_code: params[:subject_code] }, site_id: site.id), method: :post, class: "btn btn-primary"
 
     %div= link_to "Cancel", @project, class: "btn btn-light"
 

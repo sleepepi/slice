@@ -27,8 +27,8 @@
           %th Sites
           %td
             %ul.list-unstyled
-              - @project.sites.order(:name).each do |site|
-                %li= site.name
+              - @project.sites.order_number_and_name.each do |site|
+                %li= site.number_and_name
       - else
         %tr
           %th= link_to "Options", project_randomization_scheme_stratification_factor_stratification_factor_options_path(@project, @randomization_scheme, @stratification_factor)

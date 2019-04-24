@@ -17,7 +17,7 @@
       = label_tag "opt_archived_#{domain_option.value}_#{position}", "Archived", class: "custom-control-label"
   - if sites.size > 1
     %td.d-none.d-lg-table-cell
-      = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + sites.collect { |s| [s.name, s.id] }, domain_option.site_id), class: "form-control", tabindex: "-1"
+      = select_tag "domain[option_tokens][][site_id]", options_for_select([["--All Sites--", nil]] + sites.collect { |s| [s.number_and_name, s.id] }, domain_option.site_id), class: "form-control", tabindex: "-1"
   %td.nowrap.text-right{ style: "vertical-align: middle;" }
     - total_count = domain_option.captured_values_count
     - if total_count > 0

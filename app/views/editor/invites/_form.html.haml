@@ -32,12 +32,12 @@
 
       %div{ style: invite.role_level == "site" ? nil : "display: none", data: { roles: "site" } }
         - if project.sites.count >= min_number_for_dropdown
-          = form.select :site_id, project.sites.order(:name).pluck(:name, :id), { selected: invite.subgroup_type == "Site" ? invite.subgroup_id : nil, include_blank: "Select Site" }, class: "custom-select#{" is-invalid" if invite.errors[:site].present?}", data: { object: "role-selection-dropdown", subgroup_type: "Site" }
+          = form.select :site_id, project.sites.order_number_and_name_for_select, { selected: invite.subgroup_type == "Site" ? invite.subgroup_id : nil, include_blank: "Select Site" }, class: "custom-select#{" is-invalid" if invite.errors[:site].present?}", data: { object: "role-selection-dropdown", subgroup_type: "Site" }
         - else
-          - project.sites.each do |site|
+          - project.sites.order_number_and_name.each do |site|
             .custom-control.custom-radio{ data: { object: "role-selection", subgroup_type: "Site" } }
               = form.radio_button :site_id, site.id, checked: (invite.subgroup_type == "Site" && invite.subgroup_id == site.id), class: "custom-control-input"
-              = form.label :site_id, site.name, value: site.id, class: "custom-control-label"
+              = form.label :site_id, site.number_and_name, value: site.id, class: "custom-control-label"
 
         - if invite.errors[:site].present?
           %small.text-danger

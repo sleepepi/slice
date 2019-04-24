@@ -30,8 +30,8 @@
         .dropdown-menu
           = link_to "All Sites", activity_project_path(@project, filtered_params.merge(site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
           .dropdown-divider
-          - @project.sites.order(:name).each do |site|
-            = link_to site.name, activity_project_path(@project, filtered_params.merge(site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+          - @project.sites.order_number_and_name.each do |site|
+            = link_to site.number_and_name, activity_project_path(@project, filtered_params.merge(site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
 
       %span.dropright
         = link_to "#", class: "btn btn-sm dropdown-toggle #{params[:user_id].blank? ? "btn-light": "btn-primary"}", data: { toggle: "dropdown" } do

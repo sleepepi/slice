@@ -24,6 +24,7 @@ class Site < ApplicationRecord
           project_ids, user_id, true)
       .references(:site_users)
   end
+  scope :order_number_and_name, -> { reorder("number nulls first", :name) }
 
   # Validation
   validates :name, :project_id, :user_id, presence: true
@@ -58,6 +59,10 @@ class Site < ApplicationRecord
     number || id
   end
 
+  def number_and_name
+    number.present? ? "#{number}: #{name}" : name
+  end
+
   def export_value(raw_data)
     raw_data ? number_or_id : name
   end
@@ -66,5 +71,9 @@ class Site < ApplicationRecord
     subjects.destroy_all
     super
     update_column :number, nil
+  end
+
+  def self.order_number_and_name_for_select
+    order_number_and_name.collect { |s| [s.number_and_name, s.id] }
   end
 end

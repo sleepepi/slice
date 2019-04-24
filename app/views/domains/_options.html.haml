@@ -1,4 +1,4 @@
-- sites = @project.sites.order(:name).to_a
+- sites = @project.sites.order_number_and_name.to_a
 = hidden_field_tag "is_new_domain", @domain.new_record? ? "1" : "0"
 - if @domain.domain_options.present?
   - if params.dig(:domain, :option_tokens)

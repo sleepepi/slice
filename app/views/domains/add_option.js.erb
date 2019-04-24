@@ -1,4 +1,4 @@
-<% sites = @project.sites.order(:name).to_a %>
+<% sites = @project.sites.order_number_and_name.to_a %>
 <% @domain_options.each do |domain_option| %>
   $("#options").append("<%=j render 'edit_option', domain_option: domain_option, sites: sites %>");
 <% end %>

@@ -4,7 +4,7 @@
     .form-group.row
       = label_tag "site_id", "Site", class: "col-md-2 col-form-label"
       .col-md-10
-        = select_tag :site_id, options_for_select([["---", nil]] + editable_sites.order(:name).pluck(:name, :id), (params[:site_id] || (subject ? subject.site_id : nil))), class: "form-control"
+        = select_tag :site_id, options_for_select([["---", nil]] + editable_sites.order_number_and_name_for_select, (params[:site_id] || (subject ? subject.site_id : nil))), class: "form-control"
         = render "layouts/errors", object: subject, key: :site_id
   - elsif editable_sites.count == 1
     = hidden_field_tag :site_id, editable_sites.first.id

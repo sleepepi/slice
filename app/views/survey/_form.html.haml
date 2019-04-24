@@ -23,7 +23,7 @@
     .form-group.row
       = label_tag "site_id", "Site", class: "col-md-2 col-form-label"
       .col-md-10
-        = select_tag :site_id, options_for_select([["---", nil]] + @design.project.sites.order("name").collect{|s| [s.name, s.id]}), class: "form-control"
+        = select_tag :site_id, options_for_select([["---", nil]] + @design.project.sites.order_number_and_name_for_select), class: "form-control"
 
   #design{ style: "min-height:200px" }
     - params[:header] = "0"

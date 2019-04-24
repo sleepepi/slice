@@ -27,7 +27,7 @@ class StratificationFactor < ApplicationRecord
 
   def option_hashes
     if stratifies_by_site?
-      project.sites.order(:name).collect { |s| { stratification_factor_id: id, site_id: s.id, extra: true } }
+      project.sites.order_number_and_name.collect { |s| { stratification_factor_id: id, site_id: s.id, extra: true } }
     else
       stratification_factor_options.order(:value).collect do |sfo|
         { stratification_factor_id: id, stratification_factor_option_id: sfo.id, extra: false }

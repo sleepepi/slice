@@ -1,5 +1,10 @@
 ## 74.0.0
 
+### Enhancements
+- **Site Changes**
+  - Sites are now displayed and ordered by site number and name across various
+    forms and dropdowns on a project
+
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages
 - Project copy now copies site numbers and short names to new project
