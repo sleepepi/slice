@@ -4,6 +4,8 @@
 - **Site Changes**
   - Sites are now displayed and ordered by site number and name across various
     forms and dropdowns on a project
+- **Gem Changes**
+  - Update to ruby 2.6.3
 
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages

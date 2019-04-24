@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-- 2.6.2
+- 2.6.3
 - ruby-head
 # gemfile: "gems.rb"
 addons:
@@ -24,4 +24,4 @@ deploy:
   on:
     repo: sleepepi/slice
     branch: master
-    rvm: 2.6.2
+    rvm: 2.6.3
