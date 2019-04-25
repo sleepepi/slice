@@ -10,7 +10,7 @@
   = @title
 
 - content_for :breadcrumbs do
-  = render "layouts/per_page_breadcrumbs", per_page: 40, object_count: @sites.total_count
+  = render "layouts/per_page_breadcrumbs", per_page: 20, object_count: @sites.total_count
   %ol
     %li.breadcrumb-muted sites
 
@@ -23,8 +23,8 @@
       %col{ width: "1px" }
       %thead
         %tr
-          = th_sort_field @order, "sites.name", "Number", extra_class: "d-none d-sm-table-cell text-center"
-          = th_sort_field @order, "sites.name", "Name"
+          %th.d-none.d-sm-table-cell.text-center= order_to "Number", primary: "number"
+          %th= order_to "Name", primary: "name"
           %th.d-none.d-sm-table-cell Subject ID Format
           %th.text-center Actions
 

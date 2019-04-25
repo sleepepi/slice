@@ -3,6 +3,15 @@
 # A site groups subjects together and helps filter subjects and sheets for site
 # members, and reports that are stratified by site.
 class Site < ApplicationRecord
+  # Constants
+  ORDERS = {
+    "number desc" => "sites.number desc",
+    "number" => "sites.number",
+    "name desc" => "sites.name desc",
+    "name" => "sites.name"
+  }
+  DEFAULT_ORDER = "sites.number nulls first, sites.name"
+
   # Concerns
   include Deletable
   include Searchable

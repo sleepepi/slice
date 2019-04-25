@@ -42,9 +42,8 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-    @order = scrub_order(Site, params[:order], "sites.name")
-    @sites = viewable_sites.search_any_order(params[:search]).order(@order)
-                           .page(params[:page]).per(40)
+    scope = viewable_sites.search_any_order(params[:search])
+    @sites = scope_order(scope).page(params[:page]).per(20)
   end
 
   # # GET /sites/1
@@ -114,5 +113,10 @@ class SitesController < ApplicationController
     params.require(:site).permit(
       :name, :short_name, :number, :description, :subject_code_format
     )
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(Arel.sql(Site::ORDERS[params[:order]] || Site::DEFAULT_ORDER))
   end
 end
