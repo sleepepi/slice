@@ -6,6 +6,7 @@
     forms and dropdowns on a project
 - **Gem Changes**
   - Update to ruby 2.6.3
+  - Update to coffee-rails 5.0
 
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages

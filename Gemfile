@@ -30,7 +30,7 @@ gem "rubyzip",                    "~> 1.2.2"
 gem "sitemap_generator",          "~> 6.0.2"
 
 # Rails defaults
-gem "coffee-rails",            "~> 4.2"
+gem "coffee-rails",            "~> 5.0"
 # gem "jbuilder",                "~> 2.5"
 gem "jbuilder", git: "https://github.com/rails/jbuilder.git", ref: "2079089"
 gem "jquery-rails",            "~> 4.3.3"
