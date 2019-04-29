@@ -15,13 +15,15 @@
     <% when 1 %>
       \subsubsection*{<%= latex_safe section.name %>}
     <% else %>
-      \begin{warning}
+      \begin{framed}
+        \noindent
         <%= latex_safe section.name %>
         <% if section.description.present? %>
           \\
+          \noindent
           <%= section.description_for_latex %>
         <% end %>
-      \end{warning}
+      \end{framed}
     <% end %>
   <% elsif variable && @sheet.show_design_option?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id } %>

@@ -109,8 +109,10 @@ module Latexable
     @tags ||= [
       ["\\*\\*", "\\textbf{\\1}"],
       ["\\\\_\\\\_", "\\underline{\\1}"],
+      ["\\\\_", "\\underline{\\1}"],
       ["==", "\\hl{\\1}"],
-      ["\\*", "\\\\textit{\\1}"]
+      ["\\*", "\\\\textit{\\1}"],
+      ["\n", "\r\\noindent"]
     ]
   end
 end

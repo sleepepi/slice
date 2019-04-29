@@ -3,6 +3,8 @@
 ### Enhancements
 - **Randomization Changes**
   - Left hand menu no longer changes after failing to randomize a subject
+- **Sheet Changes**
+  - Improve rendering of section markdown syntax in PDFs
 - **Site Changes**
   - Sites are now displayed and ordered by site number and name across various
     forms and dropdowns on a project

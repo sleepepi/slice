@@ -82,7 +82,7 @@ class Section < ApplicationRecord
   end
 
   def description_for_latex
-    latex_safe(description).to_s.gsub(/\\textbackslash\{\}\{img\:(\d+)\\textbackslash\{\}\}/) do
+    latex_simple_style(description).to_s.gsub(/\\textbackslash\{\}\{img\:(\d+)\\textbackslash\{\}\}/) do
       image = design.design_images.find_by(number: $1)
       if image
         <<~LATEX
