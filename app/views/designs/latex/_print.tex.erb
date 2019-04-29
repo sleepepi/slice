@@ -17,10 +17,8 @@
 \usepackage{soulutf8}
 \usepackage[T1]{fontenc}
 
-% \usepackage{hyperref}
 \usepackage{pifont}
 
-\usepackage{needspace}
 \usepackage{color}
 
 \usepackage{ulem}
@@ -67,7 +65,6 @@
   <% elsif variable = design_option.variable %>
     <% if variable.variable_type == 'grid' %>
 
-\Needspace{7\baselineskip}
 \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
 \begin{table*}[!htbp]\centering
@@ -88,7 +85,6 @@
 
     <% else %>
 
-\Needspace{7\baselineskip}
 \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
 \vspace{1 mm}

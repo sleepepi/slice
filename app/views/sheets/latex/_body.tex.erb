@@ -26,7 +26,6 @@
   <% elsif variable && @sheet.show_design_option?(design_option.branching_logic) %>
     <% sheet_variable = sheet_variables.find { |sv| sv.variable_id == variable.id } %>
     <% if variable.variable_type == "grid" && sheet_variable %>
-      \Needspace{7\baselineskip}
       \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
       \begin{longtable}{@{\extracolsep{\fill}}<%= "p{#{14.0 / [variable.child_variables.size, 1].max}cm}" * variable.child_variables.size %>@{\extracolsep{\fill}}}
@@ -49,7 +48,6 @@
 
     <% else %>
 
-      \Needspace{7\baselineskip}
       \begin{addmargin}[0em]{0em}\textbf{<%= latex_simple_style variable.display_name %>}\end{addmargin}
 
       <% if variable.variable_type == 'checkbox' %>

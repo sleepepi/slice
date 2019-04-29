@@ -12,12 +12,11 @@
 \usepackage{sectsty}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \usepackage{indentfirst}
-\usepackage{longtable,tabu}
+\usepackage{longtable}
 \usepackage{scrextend}
 \usepackage{soulutf8}
 \usepackage[T1]{fontenc}
 
-\usepackage{needspace}
 \usepackage{color}
 
 \usepackage{fancybox}
@@ -42,30 +41,24 @@
 
 \pagestyle{fancyplain}
 
-
-
 \begin{document}
 
 \begin{center}
 \subsection*{Your projected schedule is below.}
 \end{center}
 
-\begin{longtabu} to \textwidth {X[3,l]X[1,r]}
- & \textbf{Projected Date} \\ &  \\
-
-\endhead
-\hline \multicolumn{2}{r}{\textit{Continued on next page}} \\
-\endfoot
-\endlastfoot
-<% @randomization.tasks.each do |task| %>
-  \textbf{<%= latex_safe task.description %>} &
-  <%= latex_safe task.due_date.strftime('%a, %B %-d, %Y') %> \\
-  &
-  \textcolor[gray]{0.5}{<%= latex_safe task.window_start_date.strftime('%-m/%-d/%y') %> to <%= latex_safe task.window_end_date.strftime('%-m/%-d/%y') %>} &
-  \midrule
-  \\
-<% end %>
-\end{longtabu}
+\begin{longtable}{p{5.62in}r}
+  & \textbf{Projected Date} \\
+  & \\
+  <% @randomization.tasks.each do |task| %>
+    \textbf{<%= latex_safe task.description %>} &
+    <%= latex_safe task.due_date.strftime('%a, %B %-d, %Y') %> \\
+    &
+    \textcolor[gray]{0.5}{<%= latex_safe task.window_start_date.strftime('%-m/%-d/%y') %> to <%= latex_safe task.window_end_date.strftime('%-m/%-d/%y') %>} &
+    \midrule
+    \\
+  <% end %>
+\end{longtable}
 
 \begin{center}
 The above dates are projected based on your recent visit and may change in the future. \\
