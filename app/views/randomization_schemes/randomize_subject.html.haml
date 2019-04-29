@@ -49,6 +49,7 @@
         .col-md-10
           - if @subject
             .form-control-plaintext
+              = hidden_field_tag :from_subject, "1"
               = hidden_field_tag :subject_code, @subject.subject_code
               = link_to @subject.subject_code, [@project, @subject]
           - else

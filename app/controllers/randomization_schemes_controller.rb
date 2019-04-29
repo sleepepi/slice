@@ -92,6 +92,8 @@ class RandomizationSchemesController < ApplicationController
       return
     end
 
+    @subject = subject if params[:from_subject].to_s == "1"
+
     if @randomization_scheme.variable && !subject.has_value?(@randomization_scheme.variable, @randomization_scheme.variable_value)
       variable_message = "#{@randomization_scheme.variable.display_name} is not equal to #{@randomization_scheme.variable_value}"
       @randomization.errors.add(:subject_id, "is ineligible for randomization due to variable criteria")

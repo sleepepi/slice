@@ -1,6 +1,8 @@
 ## 74.0.0
 
 ### Enhancements
+- **Randomization Changes**
+  - Left hand menu no longer changes after failing to randomize a subject
 - **Site Changes**
   - Sites are now displayed and ordered by site number and name across various
     forms and dropdowns on a project
