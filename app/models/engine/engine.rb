@@ -38,5 +38,13 @@ module Engine
         )
       end
     end
+
+    def subjects_count
+      @interpreter.subjects_count
+    end
+
+    def subject_ids
+      @interpreter.sobjects.collect { |_, sobject| sobject.subject_id }
+    end
   end
 end

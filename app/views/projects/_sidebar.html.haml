@@ -35,7 +35,7 @@
             %li.sidebar-menu-header
               Setup
             %li
-              = link_to "Settings", settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) ? "active" : nil)
+              = link_to "Settings", settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) || current_page?(api_owner_project_path(@project)) ? "active" : nil)
             %li
               = link_to project_categories_path(@project), class: (params[:controller] == "categories" ? "active" : nil) do
                 Categories

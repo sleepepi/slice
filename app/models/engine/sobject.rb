@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 # A subject object that contains a subset of values pulled from the database for
 # that subject. The "o" is intentional to make these objects not seem to be
 # actual ActiveRecord Subject instances.
@@ -21,6 +20,7 @@ module Engine
 
     def get_cells(storage_name)
       return [::Engine::Cell.new(nil)] if @cells[storage_name].blank?
+
       @cells[storage_name]
     end
 

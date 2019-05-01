@@ -13,4 +13,8 @@ class Api::V1::ProjectsController < Api::V1::BaseController
     @event = @project.events.find_by_param(params[:event])
     @design = @project.designs.find_by_param(params[:design])
   end
+
+  # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subject-counts.json
+  # def subject_counts
+  # end
 end

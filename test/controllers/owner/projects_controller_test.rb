@@ -15,6 +15,14 @@ class Owner::ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should generate project api key as owner" do
+    login(@owner)
+    post generate_api_key_owner_project_url(@project, format: "js")
+    @project.reload
+    assert_not_nil @project.authentication_token
+    assert_response :success
+  end
+
   test "should transfer project to another user" do
     login(@owner)
     post transfer_owner_project_url(@project, user_id: users(:associated))

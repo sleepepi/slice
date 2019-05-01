@@ -1,0 +1,18 @@
+- if project.owner?(current_user)
+  .card.mb-3
+    %h5.card-header
+      API
+    .card-body
+      .mb-3
+        Slice project key
+        %br
+        - if project.authentication_token.present?
+          %code= project.id_and_token
+        - else
+          %code.text-muted None
+      .mb-3
+        Actions
+        %br
+        = link_to "Generate new key", generate_api_key_owner_project_path(project), method: :post, remote: true, class: "btn btn-sm btn-primary", data: { confirm: project.authentication_token.present? ? "This will invalidate any API using this key. Continue anyways?" : nil }
+        - if project.authentication_token.present?
+          = link_to "View API", api_owner_project_path(project), data: { turbolinks: false }, class: "btn btn-sm btn-link"

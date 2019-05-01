@@ -5,9 +5,16 @@ class Owner::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_owner_project_or_redirect
 
-  # GET /projects/1/api
-  def api
-    render layout: false
+  layout "layouts/full_page_sidebar_dark"
+
+  # # GET /projects/1/api
+  # def api
+  # end
+
+  # POST /projects/1/api/generate-api-key
+  def generate_api_key
+    @project.reset_token!
+    render :settings_api
   end
 
   # POST /projects/1/transfer

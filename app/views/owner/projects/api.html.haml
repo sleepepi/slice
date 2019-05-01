@@ -1,51 +1,115 @@
-%h1
-  = link_to @project.name, settings_editor_project_path(@project)
-  API V1
+- @title = "API"
+- @menu_title = "#{@project.name} #{@title}"
 
-%p
+- content_for :sidebar, render("projects/sidebar")
+- content_for :header, @title
+
+.dashboard-container
+  .mb-3
+    %strong Project authentication token
+
   %code= @project.id_and_token
 
-%h2 Show Project
-%pre
-  - url = api_v1_project_path(@project.id_and_token, format: :json)
-  = precede "GET " do
-    = link_to url, url, target: "_blank"
+.dashboard-container
+  .mb-3
+    %strong Show project
+  %code
+    - url = api_v1_project_path(@project.id_and_token, format: :json)
+    = precede "GET " do
+      = link_to url, url, target: "_blank"
 
 - subject = @project.subjects.first
 
-%h2
-  List Subjects
-%small
-  20 subjects per
-  %code page
+.dashboard-container
+  .mb-3
+    %strong List subjects
 
-%pre= [{ id: subject&.id, subject_code: subject&.subject_code }, {id: "..."}].to_json
+  .mb-3
+    %code
+      - url = api_v1_subjects_path(@project.id_and_token, page: 1, format: :json)
+      = precede "GET " do
+        = link_to url, url, target: "_blank"
 
-%pre
-  - url = api_v1_subjects_path(@project.id_and_token, page: 1, format: :json)
-  = precede "GET " do
-    = link_to url, url, target: "_blank"
+  .mb-3.small 20 subjects per page
 
-%h2
-  Show Subject
-%pre= { id: subject&.id, subject_code: subject&.subject_code }
-%pre
-  - url = api_v1_subject_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
-  = precede "GET " do
-    = link_to_if subject.present?, url, url, target: "_blank"
+  .mb-3
+    %strong Response
+  .card.bg-light.text-monospace
+    .card-header Status: 200 OK
+    .card-body
+      = [{ id: subject&.id, subject_code: subject&.subject_code }, { id: "..." }].to_json
 
-%h2
-  Show Subject Events
-%pre
-  - url = api_v1_subject_events_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
-  = precede "GET " do
-    = link_to_if subject.present?, url, url, target: "_blank"
+.dashboard-container
+  .mb-3
+    %strong Show subject
 
-%h2
-  Show Survey
-%pre
-  - event = subject&.subject_events&.first&.event
-  - design = event&.designs&.first
-  - url = api_v1_show_survey_path(@project.id_and_token, subject&.id || ":subject_id", event&.id || ":event", design&.id || ":design", format: :json)
-  = precede "GET " do
-    = link_to_if subject.present?, url, url, target: "_blank"
+  .mb-3
+    %code
+      - url = api_v1_subject_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
+      = precede "GET " do
+        = link_to_if subject.present?, url, url, target: "_blank"
+
+  .mb-3
+    %strong Response
+  .card.bg-light.text-monospace
+    .card-header Status: 200 OK
+    .card-body
+      = { id: subject&.id, subject_code: subject&.subject_code }.to_json
+
+.dashboard-container
+  .mb-3
+    %strong Show subject events
+  %code
+    - url = api_v1_subject_events_path(@project.id_and_token, subject&.id || ":subject_id", format: :json)
+    = precede "GET " do
+      = link_to_if subject.present?, url, url, target: "_blank"
+
+.dashboard-container
+  .mb-3
+    %strong Show survey
+
+  %code
+    - event = subject&.subject_events&.first&.event
+    - design = event&.designs&.first
+    - url = api_v1_show_survey_path(@project.id_and_token, subject&.id || ":subject_id", event&.id || ":event", design&.id || ":design", format: :json)
+    = precede "GET " do
+      = link_to_if subject.present?, url, url, target: "_blank"
+
+.dashboard-container
+  .mb-3
+    %strong Show data
+
+  %code
+    - url = api_v1_subject_counts_path(@project.id_and_token, expressions: EngineRun.where(project: @project).order(id: :desc).limit(2).pluck(:expression), sites: "1", format: :json)
+    = precede "GET " do
+      = link_to url, url, target: "_blank"
+
+  %table.table.table-striped.table-borderless.table-hover.table-sticky.table-sm
+    %thead
+      %tr
+        %th Name
+        %th Type
+        %th Options
+    %tbody
+      %tr
+        %td
+          %code expressions
+        %td
+          %code array
+          of
+          %code strings
+        %td
+          ex:
+          %code age is 30
+      %tr
+        %td
+          %code sites
+        %td
+          %code string
+        %td
+          %code "1"
+          OR
+          %code "0"
+          [default]
+          %br
+          Selecting "1" returns subject counts by site.

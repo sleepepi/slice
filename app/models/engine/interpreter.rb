@@ -3,7 +3,7 @@
 # Engine that interprets the Slice Context Free Grammar.
 module Engine
   class Interpreter
-    attr_accessor :sobjects, :lexer, :parser, :subjects_count, :sobjects, :final
+    attr_accessor :sobjects, :lexer, :parser, :sobjects, :final
 
     include ::Engine::Operations::All
 
@@ -12,7 +12,6 @@ module Engine
       @sobjects = {}
       @operation_count = 0
       @verbose = verbose
-      @subjects_count = 0
       @final = nil
     end
 
@@ -24,9 +23,25 @@ module Engine
       node = lrn(@parser.tree)
       filter(node)
       @final = node.result_name
-
-      @subjects_count = @project.subjects.where(id: @sobjects.collect { |key, sobject| sobject.subject_id }).count
     end
+
+    def sheets
+      @project.sheets.where(id: sheet_ids)
+    end
+
+    def sheet_ids
+      @sobjects.collect do |_, sobject|
+        sobject.get_cells(@final).collect do |cell|
+          cell.seds.collect(&:sheet_id)
+        end
+      end.flatten
+    end
+
+    def subjects_count
+      @sobjects.size
+    end
+
+    private
 
     def lrn(node)
       case node.class.to_s
@@ -177,20 +192,6 @@ module Engine
         @sobjects = []
       end
     end
-
-    def sheets
-      @project.sheets.where(id: sheet_ids)
-    end
-
-    def sheet_ids
-      @sobjects.collect do |_, sobject|
-        sobject.get_cells(@final).collect do |cell|
-          cell.seds.collect(&:sheet_id)
-        end
-      end.flatten
-    end
-
-    private
 
     def domain_option_value_or_value(table: "sheet_variables")
       Arel.sql(

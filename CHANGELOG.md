@@ -1,6 +1,8 @@
 ## 74.0.0
 
 ### Enhancements
+- **API Changes**
+  - Added API to pull subject counts for reports
 - **Randomization Changes**
   - Left hand menu no longer changes after failing to randomize a subject
 - **Sheet Changes**

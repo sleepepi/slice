@@ -188,12 +188,9 @@
   %h5.card-header Configuration
   .card-body= render "projects/form", project: @project
 
-- if @project.owner?(current_user) && Rails.env.development?
-  .card.mb-3
-    %h5.card-header
-      API
-    .card-body
-      = link_to "API", api_owner_project_path(@project)
+- if @project.owner?(current_user)
+  #api-container
+    = render "owner/projects/settings_api", project: @project
 
 - if @project.owner?(current_user) && @project.users.size.positive?
   .card.mb-3.border-danger

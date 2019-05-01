@@ -68,6 +68,10 @@ class Site < ApplicationRecord
     number || id
   end
 
+  def number_and_short_name
+    number.present? ? "#{number}: #{short_name}" : short_name
+  end
+
   def number_and_name
     number.present? ? "#{number}: #{name}" : name
   end

@@ -216,6 +216,11 @@ class Project < ApplicationRecord
     "#{id}-#{authentication_token}"
   end
 
+  def reset_token!
+    update authentication_token: nil
+    set_token
+  end
+
   def set_token
     return if authentication_token.present?
     update authentication_token: SecureRandom.hex(12)
