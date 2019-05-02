@@ -14,6 +14,9 @@
   - Update to ruby 2.6.3
   - Update to coffee-rails 5.0
 
+### Refactoring
+- Move export files to be stored under the corresponding project folder
+
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages
 - Project copy now copies site numbers and short names to new project
