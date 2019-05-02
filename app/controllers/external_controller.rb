@@ -35,11 +35,23 @@ class ExternalController < ApplicationController
 
   # GET /sitemap.xml.gz
   def sitemap_xml
-    sitemap_xml = File.join(CarrierWave::Uploader::Base.root, "sitemaps", "sitemap.xml.gz")
-    if File.exist?(sitemap_xml)
-      send_file sitemap_xml
+    if ENV["AMAZON"].to_s == "true"
+      Aws.config[:credentials] = Aws::Credentials.new(
+        Rails.application.credentials.dig(:aws, :access_key_id),
+        Rails.application.credentials.dig(:aws, :secret_access_key)
+      )
+      s3 = Aws::S3::Resource.new(region: Rails.application.credentials.dig(:aws, :region))
+      bucket = Rails.application.credentials.dig(:aws, :bucket)
+      obj = s3.bucket(bucket).object("sitemaps/sitemap.xml.gz")
+      url = obj.presigned_url(:get, expires_in: ActiveStorage.service_urls_expire_in.to_i)
+      redirect_to url
     else
-      head :ok
+      sitemap_xml = File.join(CarrierWave::Uploader::Base.root, "sitemaps", "sitemap.xml.gz")
+      if File.exist?(sitemap_xml)
+        send_file sitemap_xml
+      else
+        head :ok
+      end
     end
   end
 

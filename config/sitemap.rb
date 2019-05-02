@@ -9,11 +9,25 @@
 require "rubygems"
 require "sitemap_generator"
 
+if ENV["AMAZON"].to_s == "true"
+  SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
+    fog_provider: "AWS",
+    aws_access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
+    aws_secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key),
+    fog_region: Rails.application.credentials.dig(:aws, :region),
+    fog_directory: Rails.application.credentials.dig(:aws, :bucket)
+  )
+end
+
 SitemapGenerator.verbose = false
-SitemapGenerator::Sitemap.default_host = "https://tryslice.io"
+SitemapGenerator::Sitemap.default_host = \
+  ENV["AMAZON"].to_s == "true" ? "https://sliceable.org" : "https://tryslice.io"
+SitemapGenerator::Sitemap.public_path = \
+  ENV["AMAZON"].to_s == "true" ? "tmp/" : "carrierwave/sitemaps/"
 SitemapGenerator::Sitemap.sitemaps_host = ENV["website_url"]
-SitemapGenerator::Sitemap.public_path = "carrierwave/sitemaps/"
-SitemapGenerator::Sitemap.sitemaps_path = ""
+SitemapGenerator::Sitemap.sitemaps_path = \
+  ENV["AMAZON"].to_s == "true" ? "sitemaps/" : ""
+
 SitemapGenerator::Sitemap.create do
   add "/landing", changefreq: "weekly", priority: 0.5
   add "/about", changefreq: "weekly", priority: 0.5
