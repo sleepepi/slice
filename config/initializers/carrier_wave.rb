@@ -16,6 +16,7 @@ when "production"
       config.fog_directory  = Rails.application.credentials.dig(:aws, :bucket)
       config.fog_public     = false # Optional, default is true
       # config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" } # Optional, default is {}
+      config.storage = :fog
     end
   else
     CarrierWave.configure do |config|

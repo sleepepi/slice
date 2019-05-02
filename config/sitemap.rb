@@ -9,16 +9,7 @@
 require "rubygems"
 require "sitemap_generator"
 
-if ENV["AMAZON"].to_s == "true"
-  SitemapGenerator = SitemapGenerator::WaveAdapter.new
-  # SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
-  #   fog_provider: "AWS",
-  #   aws_access_key_id: Rails.application.credentials.dig(:aws, :access_key_id),
-  #   aws_secret_access_key: Rails.application.credentials.dig(:aws, :secret_access_key),
-  #   fog_region: Rails.application.credentials.dig(:aws, :region),
-  #   fog_directory: Rails.application.credentials.dig(:aws, :bucket)
-  # )
-end
+SitemapGenerator::Sitemap.adapter = SitemapGenerator::WaveAdapter.new if ENV["AMAZON"].to_s == "true"
 
 SitemapGenerator.verbose = false
 SitemapGenerator::Sitemap.default_host = \
