@@ -39,10 +39,7 @@ class SheetVariableTest < ActiveSupport::TestCase
     assert_equal Formatters::FileFormatter, Formatters.for(sheet_variables(:file_attachment).variable).class
     assert_equal GenericUploader, file.class
     assert_equal 'rails.png', sheet_variables(:file_attachment).get_response(:name)
-    assert_equal(
-      File.size(File.join(CarrierWave::Uploader::Base.root, "sheet_variables", "11993616", "response_file", "rails.png")),
-      file.size
-    )
+    assert_equal File.size(sheet_variables(:file_attachment).response_file.path), file.size
   end
 
   test 'get integer' do
