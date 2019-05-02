@@ -15,7 +15,8 @@
   - Update to coffee-rails 5.0
 
 ### Refactoring
-- Move export files to be stored under the corresponding project folder
+- Move export files, adverse event files, and sheet variable files to be stored
+  under the corresponding project folder
 - Removed support for grids with file attachments
 
 ### Bug Fixes
