@@ -6,7 +6,7 @@ class AdverseEventFile < ApplicationRecord
   mount_uploader :attachment, GenericUploader
 
   # Validations
-  validates :project_id, :user_id, :adverse_event_id, :attachment, presence: true
+  validates :attachment, presence: true
 
   # Relationships
   belongs_to :project
