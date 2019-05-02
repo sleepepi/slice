@@ -175,9 +175,11 @@ class Sheet < ApplicationRecord
   # - The name of the file as it will appear in the archive
   # - The original file, including the path to find it
   def files
-    objects = sheet_variables.with_files + grids.with_files
-    objects.select { |o| o.response_file.size > 0 }.collect do |object|
-      ["FILES/sheet_#{id}#{"/#{object.sheet_variable.variable.name}" if object.is_a?(Grid)}/#{object.variable.name}#{"/#{object.position}" if object.respond_to?('position')}/#{object.response_file.to_s.split('/').last}", object.response_file.path]
+    sheet_variables.with_files.select { |o| o.response_file.size > 0 }.collect do |sheet_variable|
+      [
+        "FILES/sheet_#{id}/#{sheet_variable.variable.name}/#{sheet_variable.response_file.to_s.split("/").last}",
+        sheet_variable.response_file.path
+      ]
     end
   end
 
@@ -272,7 +274,7 @@ class Sheet < ApplicationRecord
 
   def update_uploaded_file_counts!
     update_columns(
-      uploaded_files_count: sheet_variables.with_files.count + grids.with_files.count
+      uploaded_files_count: sheet_variables.with_files.size
     )
   end
 

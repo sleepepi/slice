@@ -63,8 +63,7 @@ class Subject < ApplicationRecord
 
   def uploaded_files(current_user)
     sheet_variable_scope = SheetVariable.where(sheet: blinded_sheets(current_user)).includes(:variable, :sheet)
-    grid_scope = Grid.where(sheet_variable: sheet_variable_scope).includes(:variable, sheet_variable: :sheet)
-    (sheet_variable_scope.with_files.to_a + grid_scope.with_files.to_a).sort_by(&:created_at).reverse
+    sheet_variable_scope.with_files.order(created_at: :desc)
   end
 
   def uploaded_files_count(current_user)

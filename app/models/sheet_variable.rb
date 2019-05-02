@@ -2,6 +2,9 @@
 
 # Stores a value for a single variable on a sheet.
 class SheetVariable < ApplicationRecord
+  # Uploaders
+  mount_uploader :response_file, GenericUploader
+
   # Concerns
   include Formattable
   include Valuable

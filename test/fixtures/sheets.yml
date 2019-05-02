@@ -116,14 +116,6 @@ has_grid:
   last_user: regular
   initial_language_code: en
 
-has_grid_with_file:
-  design: has_grid
-  project: one
-  subject: two
-  user: regular
-  last_user: regular
-  initial_language_code: en
-
 weight_and_gender_subject_one:
   design: weight_and_gender
   project: one

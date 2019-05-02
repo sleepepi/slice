@@ -4,47 +4,41 @@ grid_change_options:
   child_variable: change_options
   position: 0
 
-grid_file:
-  project: one
-  parent_variable: grid
-  child_variable: file
-  position: 1
-
 grid_checkbox:
   project: one
   parent_variable: grid
   child_variable: checkbox
-  position: 2
+  position: 1
 
 grid_height:
   project: one
   parent_variable: grid
   child_variable: height
-  position: 3
+  position: 2
 
 grid_weight:
   project: one
   parent_variable: grid
   child_variable: weight
-  position: 4
+  position: 3
 
 grid_calculated:
   project: one
   parent_variable: grid
   child_variable: calculated
-  position: 5
+  position: 4
 
 grid_integer:
   project: one
   parent_variable: grid
   child_variable: integer
-  position: 6
+  position: 5
 
 grid_time_of_day:
   project: one
   parent_variable: grid
   child_variable: time_of_day
-  position: 7
+  position: 6
 
 grid_with_scale_variable_scale_in_grid:
   project: one

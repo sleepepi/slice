@@ -1,9 +1,11 @@
 - if object
-  - response_name = object.get_response(:name)
-  - response_file = object.get_response(:raw)
+  -# TODO: Pass in "sheet_variable" instead of "object"
+  - sheet_variable = object
+  - response_name = sheet_variable.get_response(:name)
+  - response_file = sheet_variable.get_response(:raw)
 
-  - if response_file and response_file.size > 0
-    - full_url = file_project_sheet_path(@project, @sheet, sheet_variable_id: object.is_a?(SheetVariable) ? object.id : object.sheet_variable_id, variable_id: object.variable_id, position: object.methods.include?(:position) ? object.position : nil)
+  - if response_file && response_file.size > 0
+    - full_url = file_project_sheet_path(@project, @sheet, sheet_variable_id: sheet_variable.id)
     - if ["jpg", "jpeg", "gif", "png"].include?(response_name.split(".").last.to_s.downcase)
       = link_to image_tag(full_url, style: "height:64px;border:0px solid white"), full_url, target: "_blank"
     - else

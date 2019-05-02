@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows SheetVariable and Grid to share similar methods, including storing
-# checkbox responses, file uploads, and domain values.
+# checkbox responses and domain values.
 module Valuable
   extend ActiveSupport::Concern
 
@@ -13,15 +13,13 @@ module Valuable
         .collect { |v1, v2| v1 || v2 }
     end
 
-    # Validations
-    validates :variable_id, presence: true
-
     # Relationships
     belongs_to :variable
     has_many :responses
 
-    mount_uploader :response_file, GenericUploader
+    delegate :project_id, to: :variable
 
+    # Methods
     def value=(value)
       super(value.try(:strip))
     end

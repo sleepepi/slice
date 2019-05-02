@@ -319,7 +319,6 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
           description: "Testing for grid of Variables",
           variable_type: "grid",
           grid_tokens: [
-            { variable_id: ActiveRecord::FixtureSet.identify(:file) },
             { variable_id: ActiveRecord::FixtureSet.identify(:checkbox) },
             { variable_id: ActiveRecord::FixtureSet.identify(:height) },
             { variable_id: ActiveRecord::FixtureSet.identify(:weight) },
@@ -330,7 +329,7 @@ class VariablesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    assert_equal 7, assigns(:variable).child_grid_variables.count
+    assert_equal 6, assigns(:variable).child_grid_variables.count
     assert_redirected_to project_variable_url(@project, variables(:grid))
   end
 

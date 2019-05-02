@@ -16,6 +16,7 @@
 
 ### Refactoring
 - Move export files to be stored under the corresponding project folder
+- Removed support for grids with file attachments
 
 ### Bug Fixes
 - Fix issue submitting search by clicking on search icon on several index pages

@@ -218,12 +218,6 @@ has_grid:
   # value:
   user: regular
 
-has_grid_with_file:
-  variable: grid
-  sheet: has_grid_with_file
-  # value:
-  user: regular
-
 weight_subject_one:
   variable: weight
   sheet: weight_and_gender_subject_one

@@ -7,11 +7,8 @@ class Grid < ApplicationRecord
   include Formattable
   include Valuable
 
-  # Scopes
-  scope :with_files, -> { file_variables.where.not(response_file: [nil, ""]) }
-
   # Validations
-  validates :sheet_variable_id, :position, presence: true
+  validates :position, presence: true
 
   # Relationships
   belongs_to :sheet_variable, touch: true
@@ -20,9 +17,4 @@ class Grid < ApplicationRecord
 
   delegate :sheet_id, to: :sheet_variable
   delegate :sheet, to: :sheet_variable
-
-  # Methods
-  def self.file_variables
-    joins(:variable).where(variables: { variable_type: "file" })
-  end
 end

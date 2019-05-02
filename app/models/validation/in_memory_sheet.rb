@@ -30,7 +30,7 @@ module Validation
         @grids = grid_scope.collect do |g|
           InMemoryGrid.new(
             g.sheet_variable.variable, g.position, g.variable,
-            value: g.value, response_file: g.response_file, responses: g.responses
+            value: g.value, responses: g.responses
           )
         end
       end

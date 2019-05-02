@@ -238,43 +238,16 @@ class SheetsControllerTest < ActionDispatch::IntegrationTest
     login(@project_editor)
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     get file_project_sheet_url(@project, sheets(:file_attached)), params: {
-      sheet_variable_id: sheet_variables(:file_attachment).id,
-      variable_id: variables(:file).id,
-      position: nil
+      sheet_variable_id: sheet_variables(:file_attachment).id
     }
-    assert_equal File.binread(assigns(:object).response_file.path), response.body
-  end
-
-  test "should get attached file in grid" do
-    login(@project_editor)
-    assert_not_equal 0, grids(:has_grid_row_one_attached_file).response_file.size
-    get file_project_sheet_url(@project, sheets(:has_grid_with_file)), params: {
-      sheet_variable_id: sheet_variables(:has_grid_with_file).id,
-      variable_id: variables(:file).id,
-      position: 0
-    }
-    assert_equal File.binread(assigns(:object).response_file.path), response.body
-  end
-
-  test "should not get non-existent file in grid" do
-    login(@project_editor)
-    assert_equal 0, grids(:has_grid_row_two_no_attached_file).response_file.size
-    get file_project_sheet_url(@project, sheets(:has_grid_with_file)), params: {
-      sheet_variable_id: sheet_variables(:has_grid_with_file).id,
-      variable_id: variables(:file).id,
-      position: 1
-    }
-    assert_equal 0, assigns(:object).response_file.size
-    assert_response :success
+    assert_equal File.binread(sheet_variables(:file_attachment).response_file.path), response.body
   end
 
   test "should not get attached file for viewer on different site" do
     login(@site_viewer)
     assert_not_equal 0, sheet_variables(:file_attachment).response_file.size
     get file_project_sheet_url(@project, sheets(:file_attached)), params: {
-      sheet_variable_id: sheet_variables(:file_attachment).id,
-      variable_id: variables(:file).id,
-      position: nil
+      sheet_variable_id: sheet_variables(:file_attachment).id
     }
     assert_redirected_to project_sheets_url(@project)
   end
@@ -659,7 +632,6 @@ d est laborum.",
           "-1" => { "-1" => "" },
           "0" => {
             variables(:change_options).id.to_s => "1",
-            variables(:file).id.to_s => { response_file: "" },
             variables(:checkbox).id.to_s => ["acct101", "econ101"],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "70.0",
@@ -669,7 +641,6 @@ d est laborum.",
           },
           "1" => {
             variables(:change_options).id.to_s => "2",
-            variables(:file).id.to_s => { response_file: "" },
             variables(:checkbox).id.to_s => ["econ101"],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "0.0",
@@ -679,7 +650,6 @@ d est laborum.",
           },
           "2" => {
             variables(:change_options).id.to_s => "3",
-            variables(:file).id.to_s => { response_file: "" },
             variables(:checkbox).id.to_s => [],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "70.0",
@@ -704,7 +674,6 @@ d est laborum.",
           "-1" => { "-1" => "" },
           "1" => {
             variables(:change_options).id.to_s => "2",
-            variables(:file).id.to_s => { response_file: "" },
             variables(:checkbox).id.to_s => ["econ101"],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "0.0",
@@ -714,7 +683,6 @@ d est laborum.",
           },
           "2" => {
             variables(:change_options).id.to_s => "3",
-            variables(:file).id.to_s => { response_file: fixture_file_upload(file_fixture("rails.png")) },
             variables(:checkbox).id.to_s => [],
             variables(:height).id.to_s => "1.5",
             variables(:weight).id.to_s => "70.0",

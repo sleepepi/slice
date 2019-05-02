@@ -125,61 +125,45 @@ has_grid_row_one_var_a:
 
 has_grid_row_one_var_b:
   sheet_variable: has_grid
-  variable: file
-  # value:
-  user: regular
-  position: 0
-  response_file: rails.png
-
-has_grid_row_one_var_c:
-  sheet_variable: has_grid
   variable: checkbox
   # value:
   user: regular
   position: 0
 
-has_grid_row_one_var_d:
+has_grid_row_one_var_c:
   sheet_variable: has_grid
   variable: height
   value: 1.5
   user: regular
   position: 0
 
-has_grid_row_one_var_e:
+has_grid_row_one_var_d:
   sheet_variable: has_grid
   variable: weight
   value: 70.0
   user: regular
   position: 0
 
-has_grid_row_one_var_f:
+has_grid_row_one_var_e:
   sheet_variable: has_grid
   variable: calculated
   value: 31.11
   user: regular
   position: 0
 
-has_grid_row_one_var_g:
+has_grid_row_one_var_f:
   sheet_variable: has_grid
   variable: integer
   value: 25
   user: regular
   position: 0
 
-has_grid_row_one_var_h:
+has_grid_row_one_var_g:
   sheet_variable: has_grid
   variable: time_of_day
   value: 11:59:59
   user: regular
   position: 0
-
-has_grid_row_one_attached_file:
-  sheet_variable: has_grid_with_file
-  variable: file
-  # value:
-  user: regular
-  position: 0
-  response_file: rails.png
 
 has_grid_row_two_var_a:
   sheet_variable: has_grid
@@ -191,58 +175,42 @@ has_grid_row_two_var_a:
 
 has_grid_row_two_var_b:
   sheet_variable: has_grid
-  variable: file
-  # value:
-  user: regular
-  position: 1
-  # response_file: rails.png
-
-has_grid_row_two_var_c:
-  sheet_variable: has_grid
   variable: checkbox
   # value:
   user: regular
   position: 1
 
-has_grid_row_two_var_d:
+has_grid_row_two_var_c:
   sheet_variable: has_grid
   variable: height
   value: 2.6
   user: regular
   position: 1
 
-has_grid_row_two_var_e:
+has_grid_row_two_var_d:
   sheet_variable: has_grid
   variable: weight
   value: 80.0
   user: regular
   position: 1
 
-has_grid_row_two_var_f:
+has_grid_row_two_var_e:
   sheet_variable: has_grid
   variable: calculated
   value: 11.83
   user: regular
   position: 1
 
-has_grid_row_two_var_g:
+has_grid_row_two_var_f:
   sheet_variable: has_grid
   variable: integer
   value: 36
   user: regular
   position: 1
 
-has_grid_row_two_var_h:
+has_grid_row_two_var_g:
   sheet_variable: has_grid
   variable: time_of_day
   value: 12:00:00
   user: regular
   position: 1
-
-has_grid_row_two_no_attached_file:
-  sheet_variable: has_grid_with_file
-  variable: file
-  # value:
-  user: regular
-  position: 1
-  # response_file: rails.png

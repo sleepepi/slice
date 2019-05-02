@@ -108,13 +108,7 @@ class SheetsController < ApplicationController
 
   def file
     @sheet_variable = @sheet.sheet_variables.find_by(id: params[:sheet_variable_id])
-    @object = if params[:position].blank? || params[:variable_id].blank?
-                @sheet_variable
-              elsif @sheet_variable
-                # Grid
-                @sheet_variable.grids.find_by(variable_id: params[:variable_id], position: params[:position].to_i)
-              end
-    send_file_if_present @object&.response_file
+    send_file_if_present @sheet_variable&.response_file
   end
 
   # POST /sheets
