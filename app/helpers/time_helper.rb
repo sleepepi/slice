@@ -4,17 +4,22 @@
 module TimeHelper
   def abbreviated_time(time_at)
     return "" if time_at.blank?
-    time_ago_in_words(time_at)
-      .gsub(/(about|less than|almost|over)\s/, "")
-      .gsub(/minute/, "min")
-      .gsub(/hour/, "hr")
-      .gsub(/month/, "mo")
-      .gsub(/year/, "yr") + " ago"
+
+    shorten_time_words(time_ago_in_words(time_at)) + " ago"
+  end
+
+  def shorten_time_words(string)
+    string.gsub(/(about|less than|almost|over)\s/, "")
+          .gsub(/minute/, "min")
+          .gsub(/hour/, "hr")
+          .gsub(/month/, "mo")
+          .gsub(/year/, "yr")
   end
 
   # Prints out "6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago"
   def recent_activity(past_time)
     return "" unless past_time.is_a?(Time)
+
     seconds_ago = (Time.zone.now - past_time)
     badge_class = \
       if seconds_ago < 60.minutes then "coverage-100"

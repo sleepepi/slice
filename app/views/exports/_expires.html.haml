@@ -1,0 +1,4 @@
+- if export.expired?
+  0 days
+- else
+  = shorten_time_words(distance_of_time_in_words(export.expires_at, Time.zone.now))

@@ -6,6 +6,7 @@ class Export < ApplicationRecord
   mount_uploader :file, ZipUploader
 
   # Constants
+  EXPIRES_IN = 3.months
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
 
   # Concerns
@@ -14,6 +15,10 @@ class Export < ApplicationRecord
   include GridExport
   include Searchable
   include SheetExport
+
+  # Scopes
+  scope :expired, -> { where("exports.created_at < ?", Time.zone.now - EXPIRES_IN) }
+  scope :not_expired, -> { where.not("exports.created_at < ?", Time.zone.now - EXPIRES_IN) }
 
   # Validations
   validates :name, presence: true
@@ -24,9 +29,20 @@ class Export < ApplicationRecord
   has_many :notifications
 
   # Methods
-
   def self.searchable_attributes
     %w(name)
+  end
+
+  def expires_at
+    created_at + EXPIRES_IN
+  end
+
+  def days_until_expiration
+    [(expires_at.to_date - Time.zone.today).to_i, 0].max
+  end
+
+  def expired?
+    days_until_expiration.zero?
   end
 
   def extension
@@ -97,7 +113,7 @@ class Export < ApplicationRecord
   end
 
   def destroy
-    super
+    update deleted: true, remove_file: true
     notifications.destroy_all
   end
 

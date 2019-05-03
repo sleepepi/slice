@@ -7,4 +7,9 @@ namespace :exports do
       export.update(file_size: export.file.size)
     end
   end
+
+  desc "Remove expired exports."
+  task expire: :environment do
+    Export.expired.destroy_all
+  end
 end

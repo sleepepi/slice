@@ -33,3 +33,4 @@
       .form-control-plaintext#export_status
         = render "exports/status", export: @export
 
+  = render "forms/horizontal/show/generic", title: "Expires in", content: render("exports/expires", export: @export)

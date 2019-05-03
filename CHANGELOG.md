@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Added API to pull subject counts for reports
+- **Export Changes**
+  - Exports now expire after 3 months
 - **Randomization Changes**
   - Left hand menu no longer changes after failing to randomize a subject
 - **Sheet Changes**

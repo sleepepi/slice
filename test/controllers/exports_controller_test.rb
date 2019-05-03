@@ -115,7 +115,7 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy export" do
     login(@regular_user)
     assert_difference("Export.current.count", -1) do
-      delete project_export_url(@project, @export)
+      delete project_export_url(@project, exports(:two))
     end
     assert_redirected_to project_exports_url(@project)
   end

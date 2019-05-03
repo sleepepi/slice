@@ -16,7 +16,8 @@
   %table.table.table-striped.table-borderless.table-hover.table-sticky
     %col{ width: "1px" }
     %col
-    %col.d-none.d-sm-table-column
+    %col.d-none.d-md-table-column
+    %col.d-none.d-sm-table-column{ width: "1px" }
     %col.d-none.d-md-table-column{ width: "1px" }
     %col.d-none.d-sm-table-column{ width: "1px" }
     %col{ width: "1px" }
@@ -25,6 +26,7 @@
         = th_sort_field @order, "exports.status", ""
         = th_sort_field @order, "exports.created_at", "Exported"
         %th.d-none.d-sm-table-cell Type
+        %th.d-none.d-sm-table-cell.text-center.nowrap Expires in
         = th_sort_field_rev @order, "exports.file_size", "Size", extra_class: "d-none d-md-table-cell"
         %th.d-none.d-sm-table-cell.text-center File
         %th.text-center Actions
@@ -62,9 +64,11 @@
             %span.badge.badge-light{ rel: "tooltip", data: { title: "Randomizations", container: "body", placement: "top" } }
               = icon("fas", "random")
           - if export.filters.present?
-            - export.filters.split(" ").each do |filter|
-              %code.d-none.d-md-inline= filter
-
+            %span.d-none.d-lg-inline
+              - export.filters.split(" ").each do |filter|
+                %code= filter
+        %td.nowrap.d-none.d-sm-table-cell.text-center
+          = render "exports/expires", export: export
         %td.d-none.d-md-table-cell
           - if export.file_size.positive?
             %small.nowrap= number_to_human_size(export.file_size)
