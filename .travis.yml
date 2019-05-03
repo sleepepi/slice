@@ -23,5 +23,5 @@ deploy:
   bucket_name: elasticbeanstalk-us-east-1-846666392784
   on:
     repo: sleepepi/slice
-    branch: 74-0-stable
+    branch: master
     rvm: 2.6.3
