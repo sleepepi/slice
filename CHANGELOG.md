@@ -1,4 +1,4 @@
-## 74.0.1
+## 74.0.1 (May 6, 2019)
 
 ### Enhancements
 - **General Changes**
