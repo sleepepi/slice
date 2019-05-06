@@ -1,5 +1,9 @@
 ## 74.0.1
 
+### Enhancements
+- **General Changes**
+  - Decrease log level to `info` for production environment
+
 ## 74.0.0 (May 3, 2019)
 
 ### Enhancements
