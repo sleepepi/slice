@@ -42,12 +42,7 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  if ENV["AMAZON"].to_s == "true"
-    config.active_storage.service = :amazon
-  else
-    config.active_storage.service = :local
-  end
-
+  config.active_storage.service = ENV["AMAZON"].to_s == "true" ? :amazon : :local
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
