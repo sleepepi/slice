@@ -18,7 +18,7 @@
     %li.breadcrumb-muted randomizations
 
 - if @randomizations.present?
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order_number_and_name.to_a
   - filtered_params = params.permit(:site_id, :treatment_arm_id, :randomized_by_id, :scheme_id, :user_id, :search)
   - all_randomizers = User.where(id: @project.randomizations.select(:randomized_by_id)).order(:full_name)
   - schemes = @project.randomization_schemes.order(:name).to_a
@@ -76,7 +76,7 @@
                 .dropdown-menu
                   = link_to "All Sites", project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
-                    = link_to site.short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                    = link_to site.number_and_short_name, project_randomizations_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           - if schemes.count > 1
             %th.d-none.d-md-table-cell.nowrap{ class: ["scheme", "scheme desc"].include?(params[:order]) ? "sort-selected" : nil }
               = link_to "Scheme", project_randomizations_path(@project, filtered_params.merge(order: (params[:order] == "scheme" ? "scheme desc" : "scheme")))
@@ -111,7 +111,7 @@
                   = randomization.randomized_at.strftime("%b %-d, %Y")
             %td.d-none.d-md-table-cell= randomization.randomized_by.full_name if randomization.randomized_by
             - if viewable_sites.count > 1
-              %td.d-none.d-md-table-cell= randomization.site.short_name if randomization.subject
+              %td.d-none.d-md-table-cell= randomization.site.number_and_short_name if randomization.subject
             - if schemes.count > 1
               %td.d-none.d-md-table-cell= link_to_if is_project_editor, randomization.randomization_scheme.name, [@project, randomization.randomization_scheme] if randomization.randomization_scheme
 

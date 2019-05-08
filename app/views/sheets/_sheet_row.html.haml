@@ -18,7 +18,7 @@
       %abbr{ rel: "tooltip", data: { title: sheet.last_edited_at.strftime("%-l:%M %p"), container: "body", placement: "right" } }
         = sheet.last_edited_at.strftime("%b %-d, %Y")
 - if viewable_sites.count > 1
-  %td.d-none.d-sm-table-cell.nowrap= sheet.subject.site.short_name if sheet.subject && sheet.subject.site
+  %td.d-none.d-sm-table-cell.nowrap= sheet.subject.site.number_and_short_name if sheet.subject && sheet.subject.site
 %td.d-none.d-md-table-cell.nowrap
   - if sheet.user
     = sheet.user.nickname

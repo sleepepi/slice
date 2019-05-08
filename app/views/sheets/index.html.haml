@@ -33,7 +33,7 @@
 - creation_ordered = ["created", "created desc"].include?(params[:order])
 
 - if @sheets.present?
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order_number_and_name.to_a
   - viewable_designs = current_user.all_viewable_designs.where(project_id: @project.id).order(:name).to_a
   - all_creators = User.where(id: @project.sheets.select(:user_id))
   - site_or_project_editor = @project.site_or_project_editor?(current_user)
@@ -92,7 +92,7 @@
                 .dropdown-menu
                   = link_to "All Sites", project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
-                    = link_to site.short_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                    = link_to site.number_and_short_name, project_sheets_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           %th.d-none.d-md-table-cell.nowrap{ class: ["created_by", "created_by desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Creator", project_sheets_path(@project, filtered_params.merge(order: (params[:order] == "created_by desc" ? "created_by" : "created_by desc")))
             %span.dropleft

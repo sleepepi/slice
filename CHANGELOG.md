@@ -1,5 +1,10 @@
 ## 75.0.0
 
+### Enhancements
+- **Site Changes**
+  - Subject, sheet, randomization and adverse event index pages now include
+    the site number when displaying the site name
+
 ## 74.0.1 (May 6, 2019)
 
 ### Enhancements

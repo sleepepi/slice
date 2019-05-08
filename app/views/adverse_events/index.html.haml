@@ -22,7 +22,7 @@
 = render "search/simple", url: project_adverse_events_path(@project)
 
 - if @adverse_events.present?
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order_number_and_name.to_a
   - filtered_params = params.permit(:site_id, :user_id, :status, :search)
   - all_reporters = User.where(id: @project.adverse_events.select(:user_id)).order(:full_name)
   - site_or_project_editor = @project.site_or_project_editor?(current_user)
@@ -68,7 +68,7 @@
                 .dropdown-menu
                   = link_to "All Sites", project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
-                    = link_to site.short_name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                    = link_to site.number_and_short_name, project_adverse_events_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           %th.nowrap.text-center{ class: ["adverse_events.closed", "adverse_events.closed desc"].include?(params[:order]) ? "sort-selected" : nil }
             = link_to "Status", project_adverse_events_path(@project, filtered_params.merge(order: (params[:order] == "adverse_events.closed desc" ? "adverse_events.closed" : "adverse_events.closed desc")))
             %span.dropleft
@@ -98,7 +98,7 @@
             %td.d-none.d-lg-table-cell.text-center.nowrap= adverse_event.adverse_event_date.strftime("%b %-d, %Y")
             %td.d-none.d-lg-table-cell= adverse_event.user.nickname
             - if viewable_sites.count > 1
-              %td.d-none.d-md-table-cell.nowrap= adverse_event.site.short_name
+              %td.d-none.d-md-table-cell.nowrap= adverse_event.site.number_and_short_name
             %td.text-center
               - if adverse_event.closed?
                 %span.badge.badge-light Closed

@@ -29,7 +29,7 @@
               &times;
 
 - if @subjects.present?
-  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order(:name).to_a
+  - viewable_sites = current_user.all_viewable_sites.where(project_id: @project.id).order_number_and_name.to_a
   - unblinded_user = @project.unblinded?(current_user)
   .dashboard-container.dashboard-table
     %table.table.table-striped.table-borderless.table-hover.table-sticky
@@ -54,7 +54,7 @@
                 .dropdown-menu
                   = link_to "All Sites", project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: nil)), style: params[:site_id].blank? ? "font-weight:bold;" : "", class: "dropdown-item"
                   - viewable_sites.each do |site|
-                    = link_to site.short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
+                    = link_to site.number_and_short_name, project_subjects_path(@project, filtered_params.merge(order: params[:order], site_id: site.id)), style: params[:site_id].to_s == site.id.to_s ? "font-weight:bold;" : "", class: "dropdown-item"
           %th.nowrap Recent Activity
           - if @project.randomizations_enabled? && unblinded_user
             %th.d-none.d-sm-table-cell.text-center
@@ -82,7 +82,7 @@
         %tr{ id: "subject_#{subject.id}" }
           %td= link_to subject.subject_code, [@project, subject]
           - if viewable_sites.count > 1
-            %td.d-none.d-md-table-cell= subject.site.short_name
+            %td.d-none.d-md-table-cell= subject.site.number_and_short_name
           %td
             - sheet = subject.last_created_or_edited_sheet(current_user)
             - subject_event = subject.blinded_subject_events(current_user).order(updated_at: :desc).first
