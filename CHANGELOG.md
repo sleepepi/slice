@@ -1,6 +1,8 @@
 ## 75.0.0
 
 ### Enhancements
+- **General Changes**
+  - Project and subject sidebars are now accessible on smaller devices
 - **Site Changes**
   - Subject, sheet, randomization and adverse event index pages now include
     the site number when displaying the site name

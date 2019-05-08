@@ -1,3 +1,65 @@
+- content_for :sidebar_mobile do
+  .col-12.d-md-none.sidebarbubble-wrapper
+    .sidebarbubble
+      #sidebarbubble-nav-wrapper.sidebarbubble-nav-wrapper.collapse
+        .pt-3.my-0
+          %ul.sidebarbubble-menu.sidebarbubble-menu-shadow
+            %li.sidebarbubble-menu-header= render "sidebar/toggle", title: @project.name
+            %li= link_to "Subjects", project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil)
+            %li= link_to "Sheets", project_sheets_path(@project), class: (params[:controller] == "sheets" ? "active" : nil)
+
+            - if @project.randomizations_enabled? && @project.randomization_schemes.size.positive? && @project.unblinded?(current_user)
+              %li= link_to "Randomizations", project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil)
+
+            - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
+              %li= link_to "Adverse Events", ae_module_adverse_events_path(@project), class: %w(ae_module/adverse_events).include?(params[:controller]) ? "active" : nil
+
+            - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+              %li= link_to "Adverse Events", project_adverse_events_path(@project), class: (%w(adverse_events adverse_event_files).include?(params[:controller]) ? "active" : nil)
+            %li= link_to "Exports", project_exports_path(@project), class: (params[:controller] == "exports" ? "active" : nil)
+            %li= link_to "Tasks", project_tasks_path(@project), class: (params[:controller] == "tasks" ? "active" : nil)
+            %li= link_to "Team", project_team_path(@project), class: (current_page?(project_team_path(@project)) ? "active" : nil)
+            %li= link_to "Activity", activity_project_path(@project), class: (current_page?(activity_project_path(@project)) ? "active" : nil)
+            %li= link_to "Calendar", calendar_project_path(@project), class: (current_page?(calendar_project_path(@project)) ? "active" : nil)
+
+            %li.sidebarbubble-menu-header
+              Reports
+            %li= link_to "Overview", reports_project_path(@project), class: (current_page?(reports_project_path(@project)) ? "active" : nil)
+            - if current_user.admin? || current_page?(expressions_project_path(@project))
+              %li= link_to "Expressions", expressions_project_path(@project), class: (current_page?(expressions_project_path(@project)) ? "active" : nil)
+
+
+            - if @project.editable_by?(current_user)
+              %li.sidebarbubble-menu-header
+                Setup
+              %li
+                = link_to "Settings", settings_editor_project_path(@project), class: (current_page?(settings_editor_project_path(@project)) || current_page?(api_owner_project_path(@project)) ? "active" : nil)
+              %li
+                = link_to project_categories_path(@project), class: (params[:controller] == "categories" ? "active" : nil) do
+                  Categories
+              %li
+                = link_to editor_project_checks_path(@project), class: (params[:controller] == "editor/checks" ? "active" : nil) do
+                  Checks
+              %li
+                = link_to project_designs_path(@project), class: (params[:controller] == "designs" ? "active" : nil) do
+                  Designs
+              %li
+                = link_to project_domains_path(@project), class: (params[:controller] == "domains" ? "active" : nil) do
+                  Domains
+              %li
+                = link_to project_events_path(@project), class: (params[:controller] == "events" ? "active" : nil) do
+                  Events
+              - if @project.randomizations_enabled? && @project.unblinded?(current_user)
+                %li
+                  = link_to project_randomization_schemes_path(@project), class: (%w(randomization_schemes block_size_multipliers lists stratification_factors stratification_factor_options treatment_arms).include?(params[:controller]) && !params[:action].in?(%w(randomize_subject randomize_subject_to_list)) ? "active" : nil) do
+                    Schemes
+              %li
+                = link_to project_sites_path(@project), class: (params[:controller] == "sites" ? "active" : nil) do
+                  Sites
+              %li
+                = link_to project_variables_path(@project), class: (params[:controller] == "variables" ? "active" : nil) do
+                  Variables
+
 .col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
   .sidebar
     #sidebar-nav-wrapper.sidebar-nav-wrapper.collapse
@@ -9,7 +71,7 @@
           %li= link_to "Subjects", project_subjects_path(@project), class: (params[:controller] == "subjects" || current_page?(project_path(@project)) ? "active" : nil)
           %li= link_to "Sheets", project_sheets_path(@project), class: (params[:controller] == "sheets" ? "active" : nil)
 
-          - if @project.randomizations_enabled? && @project.randomization_schemes.count > 0 && @project.unblinded?(current_user)
+          - if @project.randomizations_enabled? && @project.randomization_schemes.size.positive? && @project.unblinded?(current_user)
             %li= link_to "Randomizations", project_randomizations_path(@project), class: (params[:controller] == "randomizations" || %w(randomize_subject randomize_subject_to_list).include?(params[:action]) ? "active" : nil)
 
           - if @project.ae_teams_enabled? && @project.unblinded?(current_user)

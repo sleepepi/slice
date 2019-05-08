@@ -1,4 +1,93 @@
-- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject)) || (@sheet && !@sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event && !@sheet.ae_adverse_event && @project.events.where(archived: false).count > 0)
+- sheets_highlighted = current_page?(sheets_project_subject_path(@project, @subject)) || (@sheet && !@sheet.new_record? && !@sheet.subject_event && !@sheet.adverse_event && !@sheet.ae_adverse_event && @project.events.where(archived: false).size.positive?)
+
+- content_for :sidebar_mobile do
+  .col-12.d-md-none.sidebarbubble-wrapper
+    .sidebarbubble
+      #sidebarbubble-nav-wrapper.sidebarbubble-nav-wrapper.collapse
+        .pt-3.my-0
+          %ul.sidebarbubble-menu.sidebarbubble-menu-shadow
+            %li.sidebarbubble-menu-header= render "sidebar/toggle", title: @subject.subject_code
+
+            %li= link_to "Overview", [@project, @subject], class: current_page?([@project, @subject]) ? "active" : ""
+            - if @project.events.where(archived: false).size.positive?
+              %li.sidebarbubble-menu-header
+                = link_to "Events", events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(events_project_subject_path(@project, @subject))}"
+
+              - @subject.blinded_subject_events(current_user).includes(:event).each do |subject_event|
+                %li{ data: { object: "event-droppable", project_id: @project.to_param, subject_event_id: subject_event.id } }
+                  - event_highlighted = ((params[:action] == "event" && subject_event == @subject_event) || (params[:action].in?(["new_data_entry", "show", "edit", "transactions", "reassign"]) && @sheet && @sheet.subject_event == subject_event))
+                  = link_to event_project_subject_path(@project, @subject, event_id: subject_event.event, subject_event_id: subject_event.id, event_date: subject_event.event_date_to_param), class: "#{"active" if event_highlighted}" do
+                    - if @project.unblinded?(current_user)
+                      - percent = subject_event.unblinded_percent
+                    - else
+                      - percent = subject_event.blinded_percent
+
+                    - if percent == 100
+                      = icon("fas", "check-square", class: "text-success")
+                    - elsif percent && percent >= 90
+                      = icon("fas", "square", class: "text-success")
+                    - else
+                      = icon("far", "square", class: "text-muted")
+
+                    = subject_event.event.name
+            - else
+              %li.sidebarbubble-menu-header
+                = link_to "Sheets", sheets_project_subject_path(@project, @subject), class: "#{"active" if sheets_highlighted}"
+              - @subject.blinded_sheets(current_user).includes(:design).limit(5).order("designs.name").each do |sheet|
+                %li= link_to sheet.name, [@project, sheet], class: "#{"active" if @sheet == sheet}"
+
+            - if @project.randomizations_enabled? && @project.unblinded?(current_user) && @subject.randomizations_count.positive?
+              %li.sidebarbubble-menu-header
+                = link_to "Randomization", [@project, @subject.randomizations.first]
+              - @subject.randomizations.each do |randomization|
+                %li= link_to "Randomization ##{randomization.name}", [@project, randomization], class: "#{"active" if @randomization == randomization}"
+            - if @project.adverse_events_enabled? && @project.unblinded?(current_user)
+              %li.sidebarbubble-menu-header
+                = link_to "Adverse Events", adverse_events_project_subject_path(@project, @subject)
+              - if @subject.adverse_events.present?
+                - @subject.adverse_events.order(:id).each do |adverse_event|
+                  %li
+                    = link_to [@project, adverse_event], class: "#{"active" if (%w(adverse_events adverse_event_files adverse_event_forms).include?(params[:controller]) && @adverse_event && @adverse_event == adverse_event) || (@sheet && @sheet.adverse_event == adverse_event)}" do
+                      - if adverse_event.closed?
+                        = icon("fas", "check-circle", class: "text-muted")
+                      - else
+                        = icon("fas", "exclamation-circle", class: "text-danger")
+                      = adverse_event.name
+              - else
+                %li= link_to "None", adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(adverse_events_project_subject_path(@project, @subject))}"
+            - if @project.ae_teams_enabled? && @project.unblinded?(current_user)
+              %li.sidebarbubble-menu-header
+                = link_to "Adverse Events", ae_adverse_events_project_subject_path(@project, @subject)
+              - if @subject.ae_adverse_events.present?
+                - @subject.ae_adverse_events.order(:id).each do |adverse_event|
+                  %li
+                    = link_to ae_module_adverse_event_path(@project, adverse_event), class: "#{"active" if @adverse_event == adverse_event}" do
+                      - if adverse_event.closed?
+                        = icon("fas", "check-circle", class: "text-muted")
+                      - else
+                        = icon("fas", "exclamation-circle", class: "text-danger")
+                      = adverse_event.name
+              - else
+                %li= link_to "None", ae_adverse_events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(ae_adverse_events_project_subject_path(@project, @subject))}"
+            - if @project.medications_enabled?
+              %li.sidebarbubble-menu-header
+                = link_to "Medications", project_subject_medications_path(@project, @subject)
+              %li= link_to "Log", project_subject_medications_path(@project, @subject), class: "#{"active" if params[:controller] == "medications"}"
+            %li.sidebarbubble-menu-header
+              = link_to "Extra", timeline_project_subject_path(@project, @subject)
+
+            %li= link_to "Timeline", timeline_project_subject_path(@project, @subject), class: "#{"active" if params[:action] == "timeline"}"
+            - if @subject.blinded_comments_count(current_user).positive? || params[:action] == "comments"
+              %li
+                = link_to comments_project_subject_path(@project, @subject), class: "#{"active" if params[:action] == "comments"}" do
+                  Comments
+                  %span.badge.badge-secondary= @subject.blinded_comments_count(current_user)
+            - if @subject.uploaded_files_count(current_user).positive? || params[:action] == "files"
+              %li
+                = link_to files_project_subject_path(@project, @subject), class: "#{"active" if params[:action] == "files"}" do
+                  Files
+                  - if @subject.uploaded_files_count(current_user).positive?
+                    %span.badge.badge-secondary= @subject.uploaded_files_count(current_user)
 
 .col-12.col-md-3.col-xl-2.sidebar-wrapper.d-none.d-md-block
   .sidebar
@@ -10,7 +99,7 @@
           %li.sidebar-menu-header-link-unstyled
             = link_to @subject.subject_code, [@project, @subject]
           %li= link_to "Overview", [@project, @subject], class: current_page?([@project, @subject]) ? "active" : ""
-          - if @project.events.where(archived: false).count > 0
+          - if @project.events.where(archived: false).size.positive?
             %li.sidebar-menu-header-link
               = link_to "Events", events_project_subject_path(@project, @subject), class: "#{"active" if current_page?(events_project_subject_path(@project, @subject))}"
 

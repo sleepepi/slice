@@ -1,0 +1,11 @@
+.col-12.sidebarbubble-wrapper.d-block.d-md-none
+  .sidebarbubble
+    #sidebar-mini.sidebarbubble-nav-wrapper
+      .pt-3.my-0
+        %ul.sidebarbubble-menu.sidebarbubble-menu-shadow
+          %li.sidebarbubble-menu-header.mb-0
+            = link_to "#", data: { object: "sidebar-show" }, class: "d-block d-md-none" do
+              .float-right
+                = icon("fas", "caret-left")
+              = icon("fas", "bars")
+              = @subject&.subject_code || @project&.name

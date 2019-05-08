@@ -44,6 +44,8 @@
               .container-fluid
                 .px-1= yield :breadcrumbs
           .theme-custom-spacing
+            = render "sidebar/mini_mobile"
+            = yield(:sidebar_mobile)
             %main.p-3.remove-last-margin{ role: "main" }= yield
           = yield :footer
     = render "layouts/footer", container: @container.presence
