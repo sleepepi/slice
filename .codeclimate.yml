@@ -24,7 +24,7 @@ version: "2"
 plugins:
   rubocop:
     enabled: true
-    channel: rubocop-0-60
+    channel: rubocop-0-68
   # coffeelint:
   #   enabled: true
   scss-lint:
