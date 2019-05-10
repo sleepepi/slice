@@ -282,10 +282,10 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
 
   create_table "authentications", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "provider", limit: 255
-    t.string "uid", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
@@ -410,16 +410,16 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "designs", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.bigint "project_id"
     t.bigint "user_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "updater_id"
     t.boolean "publicly_available", default: false, null: false
-    t.string "survey_slug", limit: 255
-    t.string "redirect_url", limit: 255
+    t.string "survey_slug"
+    t.string "redirect_url"
     t.boolean "show_site", default: false, null: false
     t.bigint "category_id"
     t.boolean "only_unblinded", default: false, null: false
@@ -461,14 +461,14 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "domains", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.text "description"
     t.bigint "user_id"
     t.bigint "project_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "display_name", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "display_name"
     t.integer "variables_count", default: 0, null: false
     t.index ["deleted"], name: "index_domains_on_deleted"
     t.index ["project_id"], name: "index_domains_on_project_id"
@@ -516,7 +516,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.text "description"
     t.bigint "project_id"
     t.bigint "user_id"
@@ -545,16 +545,16 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "exports", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.boolean "include_files", default: false, null: false
-    t.string "status", limit: 255, default: "pending", null: false
-    t.string "file", limit: 255
+    t.string "status", default: "pending", null: false
+    t.string "file"
     t.bigint "user_id"
     t.bigint "project_id"
     t.boolean "deleted", default: false, null: false
     t.datetime "file_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "details"
     t.boolean "include_xls", default: false, null: false
     t.boolean "include_csv_labeled", default: false, null: false
@@ -607,8 +607,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.text "value"
     t.bigint "user_id"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "domain_option_id"
     t.index ["domain_option_id"], name: "index_grids_on_domain_option_id"
     t.index ["sheet_variable_id"], name: "index_grids_on_sheet_variable_id"
@@ -796,8 +796,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   create_table "project_languages", force: :cascade do |t|
     t.bigint "project_id"
     t.string "language_code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id", "language_code"], name: "index_project_languages_on_project_id_and_language_code", unique: true
   end
 
@@ -817,21 +817,21 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.bigint "project_id"
     t.bigint "user_id"
     t.boolean "editor", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "unblinded", default: true, null: false
     t.index ["project_id"], name: "index_project_users_on_project_id"
     t.index ["user_id"], name: "index_project_users_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.text "description"
     t.bigint "user_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "logo", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "logo"
     t.datetime "logo_uploaded_at"
     t.boolean "disable_all_emails", default: false
     t.boolean "hide_values_on_pdfs", default: false, null: false
@@ -965,8 +965,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.bigint "sheet_variable_id"
     t.bigint "grid_id"
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "sheet_id"
     t.bigint "domain_option_id"
     t.index ["domain_option_id"], name: "index_responses_on_domain_option_id"
@@ -975,7 +975,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.text "description"
     t.bigint "project_id"
     t.bigint "design_id"
@@ -1058,9 +1058,9 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.bigint "sheet_id"
     t.text "value"
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "response_file", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "response_file"
     t.bigint "domain_option_id"
     t.index ["domain_option_id"], name: "index_sheet_variables_on_domain_option_id"
     t.index ["sheet_id", "variable_id"], name: "index_sheet_variables_on_sheet_id_and_variable_id", unique: true
@@ -1073,10 +1073,10 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.bigint "subject_id"
     t.bigint "user_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "last_user_id"
-    t.string "authentication_token", limit: 255
+    t.string "authentication_token"
     t.datetime "last_edited_at"
     t.integer "response_count"
     t.integer "total_response_count"
@@ -1112,8 +1112,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.bigint "project_id"
     t.bigint "site_id"
     t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean "editor", default: false, null: false
     t.boolean "unblinded", default: true, null: false
     t.index ["project_id"], name: "index_site_users_on_project_id"
@@ -1122,13 +1122,13 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   end
 
   create_table "sites", force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.text "description"
     t.bigint "project_id"
     t.bigint "user_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "subject_code_format"
     t.string "short_name"
     t.integer "number"
@@ -1205,11 +1205,11 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
 
   create_table "subjects", force: :cascade do |t|
     t.bigint "project_id"
-    t.string "subject_code", limit: 255
+    t.string "subject_code"
     t.bigint "user_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "site_id"
     t.boolean "validated", default: false, null: false
     t.integer "randomizations_count", default: 0, null: false
@@ -1300,26 +1300,26 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   create_table "users", force: :cascade do |t|
     t.boolean "deleted", default: false, null: false
     t.boolean "admin", default: false, null: false
-    t.string "email", limit: 255, null: false
-    t.string "encrypted_password", limit: 255, null: false
-    t.string "reset_password_token", limit: 255
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip", limit: 255
-    t.string "last_sign_in_ip", limit: 255
-    t.string "confirmation_token", limit: 255
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email", limit: 255
+    t.string "unconfirmed_email"
     t.integer "failed_attempts", default: 0
-    t.string "unlock_token", limit: 255
+    t.string "unlock_token"
     t.datetime "locked_at"
-    t.string "authentication_token", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "authentication_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "theme"
     t.boolean "emails_enabled", default: false, null: false
     t.datetime "password_changed_at"
@@ -1338,13 +1338,13 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
   create_table "variables", force: :cascade do |t|
     t.text "display_name"
     t.text "description"
-    t.string "header", limit: 255
-    t.string "variable_type", limit: 255
+    t.string "header"
+    t.string "variable_type"
     t.bigint "user_id"
     t.bigint "project_id"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer "hard_minimum"
     t.integer "hard_maximum"
     t.string "name", limit: 32
@@ -1356,17 +1356,17 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.integer "soft_minimum"
     t.text "calculation"
     t.bigint "updater_id"
-    t.string "calculated_format", limit: 255
-    t.string "units", limit: 255
+    t.string "calculated_format"
+    t.string "units"
     t.boolean "multiple_rows", default: false, null: false
     t.text "autocomplete_values"
-    t.string "prepend", limit: 255
-    t.string "append", limit: 255
+    t.string "prepend"
+    t.string "append"
     t.boolean "show_current_button", default: false, null: false
     t.string "display_layout", default: "visible", null: false
-    t.string "alignment", limit: 255, default: "vertical", null: false
+    t.string "alignment", default: "vertical", null: false
     t.integer "default_row_number", default: 1, null: false
-    t.string "scale_type", limit: 255, default: "radio", null: false
+    t.string "scale_type", default: "radio", null: false
     t.bigint "domain_id"
     t.boolean "show_seconds", default: true, null: false
     t.string "time_duration_format", default: "hh:mm:ss", null: false
