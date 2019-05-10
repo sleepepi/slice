@@ -6,6 +6,8 @@
 - **Site Changes**
   - Subject, sheet, randomization and adverse event index pages now include
     the site number when displaying the site name
+- **Gem Changes**
+  - Update to devise 4.6.2
 
 ## 74.0.1 (May 6, 2019)
 

@@ -14,7 +14,7 @@ gem "aws-sdk-s3",                          require: false
 gem "bootstrap",                  "~> 4.3.1"
 gem "carrierwave",                "~> 1.3.1"
 gem "chunky_png",                 "~> 1.3.10"
-gem "devise",                     "~> 4.6.1"
+gem "devise",                     "~> 4.6.2"
 gem "differ",                     "~> 0.1.2"
 gem "figaro",                     "~> 1.1.1"
 gem "fog-aws"
