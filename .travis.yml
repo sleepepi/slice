@@ -19,7 +19,7 @@ deploy:
   secret_access_key: $AWS_SECRET_KEY
   region: us-east-1
   app: slice
-  env: slice-73-stable
+  env: slice-production
   bucket_name: elasticbeanstalk-us-east-1-846666392784
   on:
     repo: sleepepi/slice
