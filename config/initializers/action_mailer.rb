@@ -2,12 +2,12 @@
 
 case ENV["WEBSITE_SETTINGS"]
 when "production"
-  ENV["website_url"] ||= "https://tryslice.io"
+  ENV["website_url"] ||= ENV["AMAZON"].to_s == "true" ? "https://sliceable.org" : "https://tryslice.io"
   ENV["emails_enabled"] ||= "true"
 when "staging"
-  ENV["website_url"] ||= "https://staging.partners.org/tryslice.io"
+  ENV["website_url"] ||= "https://staging.partners.org/sliceable.org"
 else # localhost
-  ENV["website_url"] ||= "http://localhost/edge/tryslice.io"
+  ENV["website_url"] ||= "http://localhost/edge/sliceable.org"
 end
 
 ActionMailer::Base.default_url_options[:host] = ENV["website_url"].to_s.gsub(%r{^https?://}, "")

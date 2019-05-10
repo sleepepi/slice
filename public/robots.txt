@@ -4,4 +4,4 @@
 # User-agent: *
 # Disallow: /
 
-Sitemap: https://tryslice.io/sitemap.xml.gz
+Sitemap: https://sliceable.org/sitemap.xml.gz
