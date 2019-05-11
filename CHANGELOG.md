@@ -1,4 +1,4 @@
-## 75.1.0
+## 75.1.0 (May 11, 2019)
 
 ### Enhancements
 - **General Changes**
