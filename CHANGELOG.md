@@ -1,5 +1,10 @@
 ## 75.1.0
 
+### Enhancements
+- **General Changes**
+  - Enabled AWS cron jobs to run checks, generate daily digests, send password
+    expiration emails, expire exports, and refresh the sitemap
+
 ## 75.0.0 (May 10, 2019)
 
 ### Enhancements
