@@ -2,6 +2,7 @@
 
 ### Bug Fix
 - File upload names are now displayed properly in AWS environment
+- Cronjobs now run correctly
 
 ## 75.1.0 (May 11, 2019)
 
