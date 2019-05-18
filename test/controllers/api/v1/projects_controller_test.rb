@@ -35,4 +35,13 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_response :success
   end
+
+  test "should get randomizations" do
+    get api_v1_randomizations_path(
+      authentication_token: @project.id_and_token,
+      sites: "1",
+      format: "json"
+    )
+    assert_response :success
+  end
 end

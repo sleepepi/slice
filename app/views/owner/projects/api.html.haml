@@ -113,3 +113,12 @@
           [default]
           %br
           Selecting "1" returns subject counts by site.
+
+.dashboard-container
+  .mb-3
+    %strong Show randomizations by month and by site
+
+  %code
+    - url = api_v1_randomizations_path(@project.id_and_token, sites: "1", format: :json)
+    = precede "GET " do
+      = link_to url, url, target: "_blank"

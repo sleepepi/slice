@@ -1,5 +1,9 @@
 ## 76.0.0
 
+### Enhancements
+- **API Changes**
+  - Added API to get randomization counts by month and by site
+
 ### Bug Fix
 - File upload names are now displayed properly in AWS environment
 - Cronjobs now run correctly

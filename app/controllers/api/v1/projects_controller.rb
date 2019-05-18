@@ -17,4 +17,8 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/subject-counts.json
   # def subject_counts
   # end
+
+  # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/randomizations.json
+  # def randomizations
+  # end
 end
