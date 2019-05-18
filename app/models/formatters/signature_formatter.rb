@@ -3,12 +3,20 @@
 module Formatters
   # Formats date responses.
   class SignatureFormatter < FileFormatter
-    # def name_response(response_file)
-    #   response_file.to_s.split("/").last if response_file && response_file.size > 0
+    # def name_response(valuable)
+    #   if valuable.respond_to?(:response_file)
+    #     valuable[:response_file]
+    #   else
+    #     valuable
+    #   end
     # end
 
-    # def raw_response(response_file)
-    #   response_file
+    # def raw_response(valuable)
+    #   if valuable.respond_to?(:response_file)
+    #     valuable.response_file
+    #   else
+    #     valuable
+    #   end
     # end
   end
 end

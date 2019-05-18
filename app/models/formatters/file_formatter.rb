@@ -3,13 +3,20 @@
 module Formatters
   # Used to help format arrays of database responses for file variables.
   class FileFormatter < DefaultFormatter
-    def name_response(response_file)
-      response_file.to_s.split("/").last if response_file && response_file.size > 0
-      # self[:response_file] # TODO: Change for Amazon S3...
+    def name_response(valuable)
+      if valuable.respond_to?(:response_file)
+        valuable[:response_file]
+      else
+        valuable
+      end
     end
 
-    # def raw_response(response_file)
-    #   response_file
-    # end
+    def raw_response(valuable)
+      if valuable.respond_to?(:response_file)
+        valuable.response_file
+      else
+        valuable
+      end
+    end
   end
 end

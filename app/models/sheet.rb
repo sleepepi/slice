@@ -177,7 +177,7 @@ class Sheet < ApplicationRecord
   def files
     sheet_variables.with_files.select { |o| o.response_file.size > 0 }.collect do |sheet_variable|
       [
-        "FILES/sheet_#{id}/#{sheet_variable.variable.name}/#{sheet_variable.response_file.to_s.split("/").last}",
+        "FILES/sheet_#{id}/#{sheet_variable.variable.name}/#{sheet_variable[:response_file]}",
         sheet_variable.response_file.path
       ]
     end

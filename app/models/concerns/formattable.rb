@@ -7,7 +7,7 @@ module Formattable
   def get_response(raw_format = :raw)
     case variable.variable_type
     when "file"
-      get_single_response(response_file, raw_format)
+      get_single_response(self, raw_format)
     when "checkbox"
       get_multiple_responses(raw_format)
     when "grid"

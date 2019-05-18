@@ -1,5 +1,8 @@
 ## 76.0.0
 
+### Bug Fix
+- File upload names are now displayed properly in AWS environment
+
 ## 75.1.0 (May 11, 2019)
 
 ### Enhancements
