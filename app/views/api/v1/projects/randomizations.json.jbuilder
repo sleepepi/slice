@@ -9,7 +9,12 @@ if params[:sites] == "1"
   end
 end
 
-randomizations = @project.randomizations.includes(:subject).where.not(randomized_at: nil).order(:randomized_at).pluck("subjects.site_id", :randomized_at)
+randomizations = \
+  @project.randomizations
+          .includes(:subject)
+          .where.not(randomized_at: nil)
+          .order(:randomized_at)
+          .pluck("subjects.site_id", :randomized_at)
 
 current_date = randomizations.first&.second&.beginning_of_month
 
