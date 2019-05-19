@@ -20,6 +20,7 @@ current_date = randomizations.first&.second&.beginning_of_month
 
 dates = []
 if current_date
+  current_date -= 1.month # Start one month earlier
   while current_date <= Time.zone.today
     dates << current_date
     current_date += 1.month
