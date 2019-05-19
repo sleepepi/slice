@@ -29,8 +29,7 @@ json.rows do
       randomized_at.year == date.year && randomized_at.month == date.month
     end
 
-    json.year date.year
-    json.month date.month
+    json.label date.strftime("%b '%y")
 
     json.count month_randomizations.size
 
