@@ -3,6 +3,8 @@
 ### Enhancements
 - **API Changes**
   - Added API to get randomization counts by month and by site
+- **Gem Changes**
+  - Update to haml 5.1.1
 
 ### Bug Fix
 - File upload names are now displayed properly in AWS environment
