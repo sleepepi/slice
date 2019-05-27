@@ -1,4 +1,4 @@
-## 76.0.0
+## 76.0.0 (May 27, 2019)
 
 ### Enhancements
 - **API Changes**
