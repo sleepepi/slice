@@ -9,6 +9,7 @@ gem "rails",                      "6.0.0.beta3"
 gem "pg",                         "1.1.4"
 
 # Gems used by project.
+gem "active_elastic_job", git: "https://github.com/sleepepi/active-elastic-job.git", ref: "5360046"
 gem "autoprefixer-rails",         "9.1.0"
 gem "aws-sdk-s3",                          require: false
 gem "bootstrap",                  "~> 4.3.1"

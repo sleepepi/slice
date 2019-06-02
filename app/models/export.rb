@@ -11,7 +11,6 @@ class Export < ApplicationRecord
 
   # Concerns
   include Deletable
-  include Forkable
   include GridExport
   include Searchable
   include SheetExport
@@ -55,7 +54,7 @@ class Export < ApplicationRecord
   end
 
   def generate_export_in_background!
-    fork_process(:generate_export!)
+    ExportJob.perform_later self
   end
 
   def generate_export!

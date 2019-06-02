@@ -1,5 +1,11 @@
 ## 77.0.0
 
+### Enhancements
+- **Export Changes**
+  - Exports are now run on a dedicated worker environment
+- **Gem Changes**
+  - Add active_elastic_job 2.0.1
+
 ## 76.0.0 (May 27, 2019)
 
 ### Enhancements
