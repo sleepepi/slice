@@ -12,6 +12,7 @@ gem "pg",                         "1.1.4"
 gem "active_elastic_job", git: "https://github.com/sleepepi/active-elastic-job.git", ref: "5360046"
 gem "autoprefixer-rails",         "9.1.0"
 gem "aws-sdk-s3",                          require: false
+gem "aws-sdk-sqs",                "~> 1"
 gem "bootstrap",                  "~> 4.3.1"
 gem "carrierwave",                "~> 1.3.1"
 gem "chunky_png",                 "~> 1.3.10"
