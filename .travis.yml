@@ -14,14 +14,25 @@ matrix:
   allow_failures:
   - rvm: ruby-head
 deploy:
-  provider: elasticbeanstalk
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
-  region: us-east-1
-  app: slice
-  env: slice-production
-  bucket_name: elasticbeanstalk-us-east-1-846666392784
-  on:
-    repo: sleepepi/slice
-    branch: master
-    rvm: 2.6.3
+  - provider: elasticbeanstalk
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    region: us-east-1
+    app: slice
+    env: slice-production
+    bucket_name: elasticbeanstalk-us-east-1-846666392784
+    on:
+      repo: sleepepi/slice
+      branch: 77-0-stable
+      rvm: 2.6.3
+  - provider: elasticbeanstalk
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    region: us-east-1
+    app: slice
+    env: slice-production-worker
+    bucket_name: elasticbeanstalk-us-east-1-846666392784
+    on:
+      repo: sleepepi/slice
+      branch: 77-0-stable
+      rvm: 2.6.3
