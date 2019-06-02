@@ -2,7 +2,7 @@
 
 # Generates project exports.
 class ExportJob < ApplicationJob
-  queue_as :slice_standard_queue
+  queue_as :sqs
 
   def perform(export)
     export.generate_export!
