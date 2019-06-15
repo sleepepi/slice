@@ -1,4 +1,4 @@
-## 77.0.0
+## 77.0.0 (June 15, 2019)
 
 ### Enhancements
 - **Export Changes**
