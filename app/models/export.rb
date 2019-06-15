@@ -59,8 +59,6 @@ class Export < ApplicationRecord
 
   def generate_export!
     sheet_ids = filter_sheets.pluck(:id)
-    # Don't export Adverse Event reviewer sheets (only include reporter, admin, and principal reviewer sheets).
-    sheet_ids -= project.ae_sheets.where(role: "reviewer").pluck(:sheet_id)
     # Freeze the sheet scope to avoid data shifting during export.
     sheet_scope = Sheet.where(id: sheet_ids)
     all_variables = all_design_variables_using_design_ids(sheet_scope.select(:design_id))
