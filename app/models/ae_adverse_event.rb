@@ -34,6 +34,10 @@ class AeAdverseEvent < ApplicationRecord
   end
 
   # Methods
+  def reported_by
+    user.full_name
+  end
+
   def sort_event_date
     created_at
   end

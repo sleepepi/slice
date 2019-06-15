@@ -417,16 +417,29 @@ class Export < ApplicationRecord
   def generate_csv_adverse_events(temp_dir, filename)
     export_file = Rails.root.join(temp_dir, "#{filename}_aes.csv")
     CSV.open(export_file, "wb") do |csv|
-      csv << ["Adverse Event ID", "Reported By", "Subject", "Date of AE", "Description", "Status"]
-      user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
-        csv << [
-          ae.number,
-          ae.reported_by,
-          ae.subject_code,
-          ae.adverse_event_date,
-          ae.description,
-          ae.closed? ? "Closed" : "Open"
-        ]
+      csv << ["Adverse Event ID", "Reported By", "Subject", "Reported On", "Description", "Status"]
+      if project.ae_teams_enabled?
+        user.all_viewable_ae_adverse_events.where(project: project).order(id: :desc).each do |ae|
+          csv << [
+            ae.number,
+            ae.reported_by,
+            ae.subject_code,
+            ae.created_at.to_date,
+            ae.description,
+            ae.closed? ? "Closed" : "Open"
+          ]
+        end
+      else
+        user.all_viewable_adverse_events.where(project: project).order(id: :desc).each do |ae|
+          csv << [
+            ae.number,
+            ae.reported_by,
+            ae.subject_code,
+            ae.adverse_event_date,
+            ae.description,
+            ae.closed? ? "Closed" : "Open"
+          ]
+        end
       end
     end
     ["csvs/#{filename}_aes.csv", export_file]
@@ -436,9 +449,17 @@ class Export < ApplicationRecord
     export_file = Rails.root.join(temp_dir, "#{filename}_aes_master_list.csv")
     CSV.open(export_file, "wb") do |csv|
       csv << ["Adverse Event ID", "Sheet ID"]
-      user.all_viewable_adverse_events.where(project_id: project.id).order(id: :desc).each do |ae|
-        ae.sheets.order(id: :desc).each do |sheet|
-          csv << [ae.number, sheet.id]
+      if project.ae_teams_enabled?
+        user.all_viewable_ae_adverse_events.where(project: project).order(id: :desc).each do |ae|
+          ae.sheets.order(id: :desc).each do |sheet|
+            csv << [ae.number, sheet.id]
+          end
+        end
+      else
+        user.all_viewable_adverse_events.where(project: project).order(id: :desc).each do |ae|
+          ae.sheets.order(id: :desc).each do |sheet|
+            csv << [ae.number, sheet.id]
+          end
         end
       end
     end

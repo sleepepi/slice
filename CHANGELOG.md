@@ -1,5 +1,9 @@
 ## 78.0.0
 
+### Enhancements
+- **Export Changes**
+  - New adverse event module sheets are now exportable
+
 ## 77.0.0 (June 15, 2019)
 
 ### Enhancements
