@@ -30,7 +30,7 @@ end
 json.count randomizations.size
 
 json.rows do
-  json.array!(dates) do |date|
+  json.array!(dates.reverse) do |date|
     month_randomizations = randomizations.select do |_site_id, randomized_at|
       randomized_at.year == date.year && randomized_at.month == date.month
     end

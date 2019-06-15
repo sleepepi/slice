@@ -1,6 +1,8 @@
 ## 78.0.0
 
 ### Enhancements
+- **API Changes**
+  - Randomization reports now display months in descending format
 - **Export Changes**
   - New adverse event module sheets are now exportable
 - **Team Changes**
