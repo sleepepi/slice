@@ -118,23 +118,6 @@ class Invite < ApplicationRecord
     fork_process(:send_email!)
   end
 
-  # IF invite is for project (editor/viewer/blinded/unblinded)
-  # then clear pending invites for site-level or project level
-
-  # IF invite is for site (editor/viewer/blinded/unblinded)
-  # then clear pending invites for project or site level
-  def clear_incompatible_invites!
-    project_and_site_roles = (PROJECT_ROLES + SITE_ROLES).collect { |h| h[:role] }
-    return unless role.in?(project_and_site_roles)
-
-    project.invites.where.not(id: id).where(
-      email: email,
-      role: project_and_site_roles,
-      accepted_at: nil,
-      declined_at: nil
-    ).destroy_all
-  end
-
   private
 
   def roles_with_subgroups

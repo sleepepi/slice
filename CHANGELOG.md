@@ -5,6 +5,7 @@
   - New adverse event module sheets are now exportable
 - **Team Changes**
   - Team member roles are now displayed on team page
+  - Multiple invites can now be sent for users who are part of multiple sites
 
 ### Bug Fix
 - Fix a visual bug displaying Site Members as Project Members

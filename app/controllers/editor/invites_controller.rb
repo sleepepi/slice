@@ -22,7 +22,6 @@ class Editor::InvitesController < Editor::EditorController
   def create
     @invite = @project.invites.where(inviter: current_user).new(invite_params)
     if @invite.save
-      @invite.clear_incompatible_invites!
       @invite.send_email_in_background!
       redirect_to project_team_path(@project), notice: "Invite was successfully sent."
     else
@@ -37,7 +36,6 @@ class Editor::InvitesController < Editor::EditorController
   # PATCH /editor/projects/:project_id/invites/:id
   def update
     if @invite.update(invite_params)
-      @invite.clear_incompatible_invites!
       redirect_to project_team_path(@project), notice: "Invite was successfully updated."
     else
       render :edit
