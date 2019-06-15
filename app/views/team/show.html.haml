@@ -31,7 +31,7 @@
       .mb-3.p-3.bg-light
         %div.small.text-muted= site.name
         = site_user.unblinded? ? "Unblinded" : "Blinded" if @project.blinding_enabled?
-        Project
+        Site
         = site_user.editor? ? "Editor" : "Viewer"
         - if @project.editable_by?(current_user)
           = link_to icon("fas", "trash"), project_team_member_path(@project, @user, role: "site", role_id: site_user.id), method: :patch, class: "text-danger", data: { confirm: "Remove role from #{@user.full_name}?" }

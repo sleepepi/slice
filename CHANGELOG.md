@@ -4,6 +4,9 @@
 - **Export Changes**
   - New adverse event module sheets are now exportable
 
+### Bug Fix
+- Fix a visual bug displaying Site Members as Project Members
+
 ## 77.0.0 (June 15, 2019)
 
 ### Enhancements
