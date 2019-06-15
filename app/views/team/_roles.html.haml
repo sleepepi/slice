@@ -1,0 +1,39 @@
+.small
+  - project_user = project.project_users.find_by(user: user)
+  - if project_user
+    %div
+      = project_user.unblinded? ? "Unblinded" : "Blinded" if project.blinding_enabled?
+      Project
+      = project_user.editor? ? "Editor" : "Viewer"
+
+  - project.sites.each do |site|
+    - site_user = site.site_users.find_by(user: user)
+    - if site_user
+      %div
+        = site_user.unblinded? ? "Unblinded" : "Blinded" if project.blinding_enabled?
+        Site
+        = site_user.editor? ? "Editor" : "Viewer"
+        %span.small.text-muted= site.name
+
+  - if project.ae_teams_enabled?
+    - review_admin = project.ae_review_admins.find_by(user: user)
+    - if review_admin
+      %div Review Admin
+
+    - project.ae_teams.each do |team|
+      - team_roles = team.ae_team_members.where(user: user)
+      - if team_roles.present?
+        %div
+          - team_roles.each do |team_role|
+            - role_name = if team_role.manager?
+              - "Manager"
+            - elsif team_role.principal_reviewer?
+              - "Principal Reviewer"
+            - elsif team_role.reviewer?
+              - "Reviewer"
+            - elsif team_role.viewer?
+              - "Viewer"
+            - else
+              - "Role"
+            = role_name
+          %span.small.text-muted= team.name

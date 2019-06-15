@@ -3,6 +3,8 @@
 ### Enhancements
 - **Export Changes**
   - New adverse event module sheets are now exportable
+- **Team Changes**
+  - Team member roles are now displayed on team page
 
 ### Bug Fix
 - Fix a visual bug displaying Site Members as Project Members

@@ -8,6 +8,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
+  # Constants
+  ORDERS = {
+    "activity desc" => "(CASE WHEN (users.current_sign_in_at IS NULL) THEN users.created_at ELSE users.current_sign_in_at END) desc",
+    "activity" => "(CASE WHEN (users.current_sign_in_at IS NULL) THEN users.created_at ELSE users.current_sign_in_at END)",
+    "logins desc" => "users.sign_in_count desc",
+    "logins" => "users.sign_in_count"
+  }
+  DEFAULT_ORDER = "(CASE WHEN (users.current_sign_in_at IS NULL) THEN users.created_at ELSE users.current_sign_in_at END) desc"
+  TEAM_DEFAULT_ORDER = "users.full_name"
+
   # Concerns
   include Deletable
   include Expirable

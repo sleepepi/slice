@@ -11,7 +11,8 @@ class TeamController < ApplicationController
 
   # GET /projects/:project_id/team
   def index
-    # @users = @project.team_users
+    scope = @project.team_users.search_any_order(params[:search])
+    @team_users = scope_order(scope).page(params[:page]).per(10)
   end
 
   # # GET /projects/:project_id/team/:id
@@ -53,5 +54,10 @@ class TeamController < ApplicationController
   def find_user_or_redirect
     @user = @project.team_users.find_by(id: params[:id])
     empty_response_or_root_path(@project) unless @user
+  end
+
+  def scope_order(scope)
+    @order = params[:order]
+    scope.order(User::ORDERS[params[:order]] || User::TEAM_DEFAULT_ORDER)
   end
 end
