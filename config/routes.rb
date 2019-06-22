@@ -115,6 +115,7 @@ Rails.application.routes.draw do
       get "projects/:authentication_token/randomizations", to: "projects#randomizations", as: :randomizations
       get "projects/:authentication_token/expression", to: "projects#expression", as: :expression
       get "projects/:authentication_token/report-card", to: "projects#report_card", as: :report_card
+      get "projects/:authentication_token/data-checks", to: "projects#data_checks", as: :data_checks
       get "projects/:authentication_token/subjects", to: "subjects#index", as: :subjects
       get "projects/:authentication_token/subjects/:id", to: "subjects#show", as: :subject
       get "projects/:authentication_token/subjects/:id/events", to: "subjects#events", as: :subject_events

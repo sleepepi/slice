@@ -22,7 +22,7 @@ class Project < ApplicationRecord
   include Squishable
   include AeReviews
   include Medications
-  include Grades
+  include DataGrades
 
   squish :name
 

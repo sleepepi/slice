@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Grades
+module DataGrades
   extend ActiveSupport::Concern
   def overall_grades
     grades = sites.order_number_and_name.collect do |site|

@@ -63,4 +63,12 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_response :success
   end
+
+  test "should get data checks" do
+    get api_v1_data_checks_path(
+      authentication_token: @project.id_and_token,
+      format: "json"
+    )
+    assert_response :success
+  end
 end
