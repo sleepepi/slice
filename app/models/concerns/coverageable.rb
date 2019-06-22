@@ -12,6 +12,7 @@ module Coverageable
   # Sheets on empty designs should show as 100% complete.
   def compute_percent(rcount, trcount)
     return 100 if trcount.zero?
+
     (rcount * 100.0 / trcount).to_i
   end
 

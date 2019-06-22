@@ -55,4 +55,12 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_response :success
   end
+
+  test "should get report card" do
+    get api_v1_report_card_path(
+      authentication_token: @project.id_and_token,
+      format: "json"
+    )
+    assert_response :success
+  end
 end

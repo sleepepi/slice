@@ -25,4 +25,8 @@ class Api::V1::ProjectsController < Api::V1::BaseController
   # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/expression.json
   # def expression
   # end
+
+  # # GET /api/v1/projects/1-AUTHENTICATION_TOKEN/report-card.json
+  # def report_card
+  # end
 end
