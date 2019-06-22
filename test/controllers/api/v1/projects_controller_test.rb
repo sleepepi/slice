@@ -44,4 +44,15 @@ class Api::V1::ProjectsControllerTest < ActionDispatch::IntegrationTest
     )
     assert_response :success
   end
+
+  test "should get expression by month" do
+    get api_v1_expression_path(
+      authentication_token: @project.id_and_token,
+      sites: "1",
+      filter: "api_radio is 1",
+      group: "api_date",
+      format: "json"
+    )
+    assert_response :success
+  end
 end
