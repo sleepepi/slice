@@ -1,17 +1,87 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+closed:
+  project: aes
+  ae_adverse_event: closed
+  sheet: aes_closed_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
 
-one:
-  project:
-  ae_adverse_event:
-  sheet:
-  role: MyString # reporter | admin | principal_reviewer | reviewer
-  ae_team:
-  ae_assignment:
+teamdone:
+  project: aes
+  ae_adverse_event: teamdone
+  sheet: aes_teamdone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
 
-two:
-  project:
-  ae_adverse_event:
-  sheet:
-  role: MyString # reporter | admin | principal_reviewer | reviewer
-  ae_team:
-  ae_assignment:
+pathdone:
+  project: aes
+  ae_adverse_event: pathdone
+  sheet: aes_pathdone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+rvwsdone:
+  project: aes
+  ae_adverse_event: rvwsdone
+  sheet: aes_rvwsdone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+pathset:
+  project: aes
+  ae_adverse_event: pathset
+  sheet: aes_pathset_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+teamindone:
+  project: aes
+  ae_adverse_event: teamindone
+  sheet: aes_teamindone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+teaminfo:
+  project: aes
+  ae_adverse_event: teaminfo
+  sheet: aes_teaminfo_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+teamset:
+  project: aes
+  ae_adverse_event: teamset
+  sheet: aes_teamset_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+repindone:
+  project: aes
+  ae_adverse_event: repindone
+  sheet: aes_repindone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+repinfo:
+  project: aes
+  ae_adverse_event: repinfo
+  sheet: aes_repinfo_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:
+
+sheetdone:
+  project: aes
+  ae_adverse_event: sheetdone
+  sheet: aes_sheetdone_report_form
+  role: reporter
+  # ae_team:
+  # ae_assignment:

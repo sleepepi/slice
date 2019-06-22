@@ -9,11 +9,19 @@ class AeModule::SheetsController < AeModule::BaseController
   before_action :set_project_member
   layout :sidebar_layout
 
-  # # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/sheets/:id
-  # def show
-  # end
+  # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/sheets/:id
+  # GET /projects/:project_id/ae-module/adverse-events/:adverse_event_id/sheets/:id.pdf
+  def show
+    generate_pdf if params[:format] == "pdf"
+  end
 
   private
+
+  def generate_pdf
+    sheet_print = @sheet.sheet_prints.where(language: World.language).first_or_create
+    sheet_print.regenerate! if sheet_print.regenerate?
+    send_file_if_present sheet_print.file, type: "application/pdf", disposition: "inline"
+  end
 
   def find_sheet_or_redirect
     @sheet = @adverse_event.sheets.find_by(id: params[:id])
