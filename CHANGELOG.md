@@ -5,6 +5,7 @@
   - Randomization reports now display months in descending format
   - Add support for reports that filter based on an expression, group by a
     specified date, and then list results by month and by site
+  - Add support for "Report Card" report
 - **Adverse Event Changes**
   - Adverse event sheets can now be printed by reports, admins, and team members
 - **Export Changes**
