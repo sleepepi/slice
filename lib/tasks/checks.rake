@@ -24,6 +24,11 @@ namespace :checks do
 
   desc "Use to run checks from a cron job on a scheduled basis."
   task run_job: :environment do
+  unless ENV["JOB_SERVER"] == "true"
+    puts "SKIP: Not running on job server."
+    next
+  end
+
     Check.runnable.where("last_run_at < ? OR last_run_at IS NULL", Time.zone.now - 1.hour).find_each(&:run!)
   end
 
