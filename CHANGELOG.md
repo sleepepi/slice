@@ -8,9 +8,12 @@
   - Add support for "Report Card" report
   - Add support for "Data Checks" report
 - **Adverse Event Changes**
-  - Adverse event sheets can now be printed by reports, admins, and team members
+  - Adverse event sheets can now be printed by reporters, admins, and team
+    members
   - Adverse event team reviewers can now submit information requests that get
     sent to the adverse event admin
+  - A "History" tab has been added to adverse events to show past events for
+    that subject
 - **Export Changes**
   - New adverse event module sheets are now exportable
 - **Team Changes**

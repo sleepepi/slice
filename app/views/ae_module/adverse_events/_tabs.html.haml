@@ -22,3 +22,18 @@
       Log
     - else
       .d-none.d-sm-inline Log
+
+  - current_page = current_page?(history_ae_module_adverse_event_path(project, adverse_event))
+  - events_count = @adverse_event.historical_events.count
+  - if current_page || events_count > 1
+    = link_to history_ae_module_adverse_event_path(project, adverse_event), class: "header-tab #{"header-tab-active" if current_page}" do
+      = icon("fas", "procedures")
+      - if current_page
+        History
+        - if events_count.positive?
+          %span.badge.badge-pill.badge-dark= events_count
+      - else
+        .d-none.d-sm-inline
+          History
+          - if events_count.positive?
+            %span.badge.badge-pill.badge-dark= events_count

@@ -1,0 +1,57 @@
+- @title = @adverse_event.name
+
+- content_for :sidebar, render("subjects/sidebar") if @project_member
+
+- content_for :header do
+  = @title
+  %small= @adverse_event.description
+= render "ae_module/adverse_events/tabs", project: @project, adverse_event: @adverse_event
+- content_for :breadcrumbs do
+  .float-right= render "ae_module/adverse_events/roles", roles: @roles
+  %ol
+    %li= link_to "adverse events", ae_module_adverse_events_path(@project)
+    %li= link_to @subject.subject_code.downcase, [@project, @subject]
+    %li= link_to @adverse_event.name.downcase, ae_module_adverse_event_path(@project, @adverse_event)
+    %li.breadcrumb-muted history
+
+- if @adverse_events.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col{ width: "2px" }
+      %col{ width: "1px" }
+      %col.d-none.d-sm-table-column
+      %col
+      %col
+      %col{ width: "1px" }
+      %thead
+        %tr
+          %th.p-0
+          %th.text-center #
+          %th.d-none.d-sm-table-cell Description
+          %th Reported
+          %th Team
+          %th.nowrap Last update
+      %tbody
+        - @adverse_events.each do |adverse_event|
+          %tr
+            %td.p-0.bg-primary
+            %td.text-center
+              = link_to_if @viewable_adverse_event_ids.include?(adverse_event.id), adverse_event.name, ae_module_adverse_event_path(@project, adverse_event)
+            %td.d-none.d-sm-table-cell{ style: "max-width: 200px;" }
+              .overflow-hidden.nowrap
+                - if adverse_event.id == @adverse_event.id
+                  %span.badge.badge-primary current
+                = link_to_if @viewable_adverse_event_ids.include?(adverse_event.id), adverse_event.description.truncate(40), ae_module_adverse_event_path(@project, adverse_event)
+            %td= adverse_event.created_at.strftime("%b %-d, %Y")
+            %td
+              - if adverse_event.ae_adverse_event_teams.present?
+                = adverse_event.ae_teams.collect(&:short_name).to_sentence
+              - else
+                %span.text-muted Not assigned.
+            %td.nowrap
+              = adverse_event.ae_log_entries.last&.entry_type_text
+
+  .center-horizontally= paginate @adverse_events, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No past adverse events found.

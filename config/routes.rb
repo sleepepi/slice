@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resources :adverse_events, path: "adverse-events" do
       member do
+        get :history
         get :log
       end
     end

@@ -21,4 +21,16 @@ class AeModule::AdverseEventsControllerTest < ActionDispatch::IntegrationTest
     get ae_module_adverse_events_url(@project)
     assert_response :success
   end
+
+  test "should get log as review admin" do
+    login(@review_admin)
+    get log_ae_module_adverse_event_url(@project, @adverse_event)
+    assert_response :success
+  end
+
+  test "should get history as review admin" do
+    login(@review_admin)
+    get history_ae_module_adverse_event_url(@project, @adverse_event)
+    assert_response :success
+  end
 end
