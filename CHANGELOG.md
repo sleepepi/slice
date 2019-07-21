@@ -17,6 +17,8 @@
 
 ### Bug Fix
 - Fix a visual bug displaying Site Members as Project Members
+- Fix team reviewer assignments from pulling previous assignments made on other
+  adverse events
 
 ## 77.0.0 (June 15, 2019)
 
