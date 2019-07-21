@@ -76,8 +76,8 @@
     - info_ids += @adverse_event.ae_info_requests.pluck(:id) if @role_admin
     - info_ids += @adverse_event.ae_info_requests.where(ae_team_id: nil).pluck(:id) if @role_reporter
     - @adverse_event.ae_teams.each do |team|
-      - role_manager = @roles.count { |role, t| role == "manager" && t == team }.positive?
-      - if role_manager
+      - role_team_member = @roles.count { |role, t| t == team }.positive?
+      - if role_team_member
         - info_ids += @adverse_event.ae_info_requests.where(ae_team: team).pluck(:id)
 
     - info_requests = @adverse_event.ae_info_requests.where(id: info_ids)
@@ -204,6 +204,13 @@
             %span.text-primary= icon("fas", "check-square")
             Assignment complete.
           - else
+            .mb-3
+              %span.text-primary= icon("fas", "question-circle")
+              = link_to new_ae_module_info_request_path(@project, @adverse_event, team: team) do
+                Request information
+                = icon("fas", "caret-right")
+              .small Have questions? Get answers!
+
             - design = assignment.first_design
             - if design
               %div
