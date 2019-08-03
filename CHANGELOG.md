@@ -1,4 +1,4 @@
-## 78.0.0
+## 78.0.0 (August 3, 2019)
 
 ### Enhancements
 - **API Changes**
