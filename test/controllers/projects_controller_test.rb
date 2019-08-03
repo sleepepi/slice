@@ -25,18 +25,6 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get team as project editor" do
-    login(@project_editor)
-    get project_team_url(@project)
-    assert_response :success
-  end
-
-  test "should get team as project viewer" do
-    login(@project_viewer)
-    get project_team_url(@project)
-    assert_response :success
-  end
-
   test "should archive project" do
     login(users(:regular))
     assert_difference("ProjectPreference.where(archived: true).count") do
