@@ -70,6 +70,10 @@ module Engine
         node
       when "Engine::Expressions::IdentifierEvent"
         node
+      when "Engine::Expressions::IdentifierSubject"
+        node
+      when "Engine::Expressions::Randomized"
+        node
       end
     end
 
@@ -122,6 +126,15 @@ module Engine
         list << entry
         pluck_sobject_events(identifier)
       end
+
+      list = []
+      @parser.identifier_randomizations.each do |identifier|
+        entry = identifier.name
+        next if entry.in?(list)
+
+        list << entry
+        pluck_sobject_randomizations(identifier)
+      end
     end
 
     def pluck_sobject_values(identifier)
@@ -173,6 +186,14 @@ module Engine
       sheets.each do |subject_id, sheet_id, design_id, percent|
         cell = ::Engine::Cell.new(true, subject_id: subject_id, coverage: percent)
         cell.add_sed(sheet_id: sheet_id, event_id: event.id, design_id: design_id)
+        add_sobject_cell(subject_id, identifier.storage_name, cell)
+      end
+    end
+
+    def pluck_sobject_randomizations(identifier)
+      randomizations = @project.randomizations.where.not(subject_id: nil).order(:id).pluck(:subject_id, :id)
+      randomizations.each do |subject_id, randomization_id|
+        cell = ::Engine::Cell.new(randomization_id, subject_id: subject_id)
         add_sobject_cell(subject_id, identifier.storage_name, cell)
       end
     end

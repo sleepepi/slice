@@ -24,6 +24,10 @@ module Engine
           operation_literal_identifier(node, token_type, a, b, result_name)
         elsif b.is_a?(::Engine::Expressions::Literal)
           operation_identifier_literal(node, token_type, a, b, result_name)
+        elsif a.is_a?(::Engine::Expressions::IdentifierSubject) && b.is_a?(::Engine::Expressions::Randomized)
+          operation_randomized(node, token_type, b, a, result_name)
+        elsif a.is_a?(::Engine::Expressions::Randomized) && b.is_a?(::Engine::Expressions::IdentifierSubject)
+          operation_randomized(node, token_type, a, b, result_name)
         else
           operation_identifiers(node, token_type, a, b, result_name)
         end
@@ -47,6 +51,18 @@ module Engine
               seds = (c1.seds + c2.seds).uniq { |sed| sed.values }
               sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: seds))
             end
+          end
+        end
+      end
+
+      def operation_randomized(node, token_type, v1, v2, result_name)
+        v1_name = v1.respond_to?(:storage_name) ? v1.storage_name : v1.result_name
+        @sobjects.each do |subject_id, sobject|
+          sobject.initialize_cells(result_name)
+          cells1 = sobject.get_cells(v1_name)
+          cells1.each do |c1|
+            result = operation_generic(token_type, c1, :present)
+            sobject.add_cell(result_name, ::Engine::Cell.new(result, seds: c1.seds))
           end
         end
       end

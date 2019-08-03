@@ -41,3 +41,7 @@
     - if node.event
       %span.text-muted at
       %code.nowrap= node.event.name
+  - when "Engine::Expressions::IdentifierSubject"
+    .small.text-muted subject
+  - when "Engine::Expressions::Randomized"
+    .small.text-muted randomized

@@ -16,6 +16,9 @@
     that subject
 - **Export Changes**
   - New adverse event module sheets are now exportable
+- **Slice Expression Engine Changes**
+  - Filtering by randomized subjects is now supported
+    - `subject is randomized`
 - **Team Changes**
   - Team member roles are now displayed on team page
   - Multiple invites can now be sent for users who are part of multiple sites

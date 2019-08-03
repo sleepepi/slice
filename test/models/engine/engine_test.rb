@@ -842,4 +842,11 @@ class EngineTest < ActiveSupport::TestCase
     puts "includes romance (correct1, correct2)"
     puts engine.interpreter.sheets.collect { |s| s.subject.name }
   end
+
+  test "should parse subject is randomized" do
+    engine = Engine::Engine.new(projects(:two), users(:regular))
+    engine.run("subject is randomized")
+    assert_equal [:subject, :equal, :randomized], engine.lexer.tokens.collect(&:token_type)
+    assert_equal 10, engine.interpreter.subjects_count
+  end
 end

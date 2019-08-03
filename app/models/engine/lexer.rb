@@ -153,6 +153,10 @@ module Engine
         @tokens << ::Engine::Token.new(:unentered, raw: word)
       when "nil", "null"
         @tokens << ::Engine::Token.new(:nil, raw: word)
+      when "subject"
+        @tokens << ::Engine::Token.new(:subject, raw: word)
+      when "randomized"
+        @tokens << ::Engine::Token.new(:randomized, raw: word)
       else
         @tokens << ::Engine::Token.new(:identifier, raw: word)
       end

@@ -60,5 +60,9 @@
   - token_class = "token-value"
 - elsif token.token_type.in?([:true, :false, :nil])
   - token_class = "token-boolean"
+- elsif token.token_type == :subject
+  - token_class = "token-identifier"
+- elsif token.token_type == :randomized
+  - token_class = "token-value"
 
 %span.token{ class: [token_auto, token_identified, token_class].compact }= value

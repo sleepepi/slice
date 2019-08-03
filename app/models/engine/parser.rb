@@ -69,6 +69,10 @@ module Engine
       @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::IdentifierVariable) }
     end
 
+    def identifier_randomizations
+      @identifiers.select { |ie| ie.is_a?(::Engine::Expressions::Randomized) }
+    end
+
     private
 
     def recursive_descent_parser
@@ -249,6 +253,19 @@ module Engine
           @identifiers << identifier
           return identifier
         end
+      end
+
+      if token_is?(:randomized)
+        identifier = ::Engine::Expressions::Randomized.new
+        @identifiers << identifier
+        return identifier
+      end
+
+      if token_is?(:subject)
+        identifier = ::Engine::Expressions::IdentifierSubject.new
+        # TODO: This could add metadata about the subject.
+        # @identifiers << identifier
+        return identifier
       end
 
       if token_is?(:left_paren)
