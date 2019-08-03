@@ -22,6 +22,9 @@
   - Team page can be filtered by roles, sites, and AE teams
   - Team member roles can be removed from the main team page
 
+### Refactoring
+- The PATS specific data export task has been removed
+
 ### Bug Fix
 - Fix a visual bug displaying Site Members as Project Members
 - Fix team reviewer assignments from pulling previous assignments made on other

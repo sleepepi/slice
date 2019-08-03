@@ -43,4 +43,3 @@
 ### OLDER Below
 ## TODO: Remove dependency on following ignores.
 /config/application.yml
-/pats/**/*

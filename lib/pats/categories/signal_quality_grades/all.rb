@@ -1,6 +1,0 @@
-# frozen_string_literal: true
-
-require 'pats/categories/signal_quality_grades/psg_e1_signal_quality_grade'
-require 'pats/categories/signal_quality_grades/psg_chest_signal_quality_grade'
-require 'pats/categories/signal_quality_grades/psg_cap_signal_quality_grade'
-require 'pats/categories/signal_quality_grades/psg_snore_signal_quality_grade'
