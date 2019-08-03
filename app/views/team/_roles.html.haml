@@ -9,6 +9,8 @@
       = project_user.unblinded? ? "Unblinded" : "Blinded" if project.blinding_enabled?
       Project
       = project_user.editor? ? "Editor" : "Viewer"
+      - if project.editable_by?(current_user)
+        = link_to icon("fas", "trash"), project_team_member_path(project, user, role: "project", role_id: project_user.id), method: :patch, class: "text-danger", data: { confirm: "Remove role from #{user.full_name}?" }
 
   - project.sites.order_number_and_name.each do |site|
     - site_user = site.site_users.find_by(user: user)
@@ -18,11 +20,16 @@
         Site
         = site_user.editor? ? "Editor" : "Viewer"
         %span.small.text-muted= site.number_and_short_name
+        - if project.editable_by?(current_user)
+          = link_to icon("fas", "trash"), project_team_member_path(project, user, role: "site", role_id: site_user.id), method: :patch, class: "text-danger", data: { confirm: "Remove role from #{user.full_name}?" }
 
   - if project.ae_teams_enabled?
     - review_admin = project.ae_review_admins.find_by(user: user)
     - if review_admin
-      %div Review Admin
+      %div
+        Review Admin
+        - if project.editable_by?(current_user)
+          = link_to icon("fas", "trash"), project_team_member_path(project, user, role: "admin", role_id: review_admin.id), method: :patch, class: "text-danger", data: { confirm: "Remove Review Admin role from #{user.full_name}?" }
 
     - project.ae_teams.each do |team|
       - team_roles = team.ae_team_members.where(user: user)
@@ -40,4 +47,15 @@
             - else
               - "Role"
             = role_name
+            - if project.editable_by?(current_user)
+              = link_to icon("fas", "trash"), project_team_member_path(project, user, role: "team", role_id: team_role.id), method: :patch, class: "text-danger", data: { confirm: "Remove #{role_name} role from #{user.full_name}?" }
+
           %span.small.text-muted= team.name
+
+  - user.pending_invites(project).each do |invite|
+    %div
+      %span.badge.badge-warning pending
+      %span.text-muted
+        = invite.role_name
+        - if project.editable_by?(current_user)
+          = link_to icon("fas", "trash"), editor_project_invite_path(project, invite), method: :delete, class: "text-danger", data: { confirm: "Remove #{invite.role_name} invite?" }
