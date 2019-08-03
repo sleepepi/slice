@@ -6,7 +6,6 @@
   - if @project.editable_by?(current_user)
     .float-right= link_to "New Invite", new_editor_project_invite_path(@project), class: "btn btn-accent btn-shadow"
   = @title
-  = render "search/toggle"
 
 - @pending_invites = @project.invites.pending.where.not(email: @project.team_users.select(:email))
 
@@ -33,40 +32,50 @@
                       = icon("fas", "users")
                       Show roles
 
+= render "team/filters"
+
 = render "search/simple", url: project_team_path(@project)
 
-.dashboard-container.dashboard-table
-  %table.table.table-striped.table-borderless.table-hover.table-sticky
-    %col
-    %col{ width: "1px" }
-    %thead
-      %tr
-        %th Name
-        %th.text-center Actions
-
-    %tbody
-      - @team_users.each do |user|
+- if @team_users.present?
+  .dashboard-container.dashboard-table
+    %table.table.table-striped.table-borderless.table-hover.table-sticky
+      %col
+      %col{ width: "1px" }
+      %thead
         %tr
-          %td
-            = link_to user.full_name, project_team_member_path(@project, user)
-            - pending_invites = user.pending_invites(@project).count
-            - if pending_invites.positive?
-              = icon("fas", "info-circle", data: { toggle: "tooltip", title: "#{pending_invites} pending #{"invite".pluralize(pending_invites)}", container: "body", placement: "right" })
-            %div= render "team/roles", project: @project, user: user
-          %td.text-center.nowrap
-            .dropdown
-              = link_to icon("fas", "cog"), "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" }
-              .dropdown-menu.dropdown-menu-right
-                = link_to project_team_member_path(@project, user), class: "dropdown-item" do
-                  = icon("fas", "users")
-                  Show roles
-                - if @project.editable_by?(current_user)
-                  .dropdown-divider
-                  = link_to project_team_member_path(@project, user), method: :delete, data: { confirm: "Remove #{user.full_name} from project?" }, class: "dropdown-item text-danger" do
-                    = icon("fas", "user-slash")
-                    Remove from project
+          %th Name
+          %th.text-center Actions
 
-.center-horizontally= paginate @team_users, theme: "bootstrap"
+      %tbody
+        - @team_users.each do |user|
+          %tr
+            %td
+              = link_to user.full_name, project_team_member_path(@project, user)
+              - pending_invites = user.pending_invites(@project).count
+              - if pending_invites.positive?
+                = icon("fas", "info-circle", data: { toggle: "tooltip", title: "#{pending_invites} pending #{"invite".pluralize(pending_invites)}", container: "body", placement: "right" })
+              %div= render "team/roles", project: @project, user: user
+            %td.text-center.nowrap
+              .dropdown
+                = link_to icon("fas", "cog"), "#", class: "btn btn-light btn-sm dropdown-toggle", data: { toggle: "dropdown" }
+                .dropdown-menu.dropdown-menu-right
+                  = link_to project_team_member_path(@project, user), class: "dropdown-item" do
+                    = icon("fas", "users")
+                    Show roles
+                  - if @project.editable_by?(current_user)
+                    .dropdown-divider
+                    = link_to project_team_member_path(@project, user), method: :delete, data: { confirm: "Remove #{user.full_name} from project?" }, class: "dropdown-item text-danger" do
+                      = icon("fas", "user-slash")
+                      Remove from project
+
+  .center-horizontally= paginate @team_users, theme: "bootstrap"
+- else
+  .jumbotron.jumbotron-custom-text
+    No team users found.
+    - if params[:site].present? || params[:role].present?
+      = succeed "." do
+        = link_to "Clear filters", project_team_path(@project)
+
 
 .center-horizontally
   .docs-learn-more

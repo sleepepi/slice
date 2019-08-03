@@ -4,6 +4,10 @@
 # users, AE review admins, and AE team members.
 class Invite < ApplicationRecord
   # Constants
+  PROJECT_OWNER_ROLES = [
+    { name: "Project Owner", role: "project_owner", blinded: false, adverse_events: false }
+  ]
+
   PROJECT_ROLES = [
     { name: "Project Editor", role: "project_editor_unblinded", blinded: false, adverse_events: false },
     { name: "Project Viewer", role: "project_viewer_unblinded", blinded: false, adverse_events: false },
@@ -29,7 +33,7 @@ class Invite < ApplicationRecord
     { name: "AE Team Viewer", role: "ae_team_viewer", blinded: false, adverse_events: true }
   ]
 
-  ROLES = PROJECT_ROLES + SITE_ROLES + AE_ADMIN_ROLES + AE_TEAM_ROLES
+  ROLES = PROJECT_OWNER_ROLES + PROJECT_ROLES + SITE_ROLES + AE_ADMIN_ROLES + AE_TEAM_ROLES
 
   ORDERS = {
     "subgroup desc" => "invites.subgroup_type desc, invites.subgroup_id desc",

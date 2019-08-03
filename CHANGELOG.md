@@ -19,6 +19,7 @@
 - **Team Changes**
   - Team member roles are now displayed on team page
   - Multiple invites can now be sent for users who are part of multiple sites
+  - Team page can be filtered by roles, sites, and AE teams
 
 ### Bug Fix
 - Fix a visual bug displaying Site Members as Project Members

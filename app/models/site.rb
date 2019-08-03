@@ -36,7 +36,7 @@ class Site < ApplicationRecord
   scope :order_number_and_name, -> { reorder("number nulls first", :name) }
 
   # Validation
-  validates :name, :project_id, :user_id, presence: true
+  validates :name, presence: true
   validates :name, uniqueness: { scope: [:project_id, :deleted] }
   validates :number, numericality: { greater_than_or_equal_to: 0, only_integer: true }, allow_blank: true
   validates :number, uniqueness: { scope: :project_id }, allow_blank: true

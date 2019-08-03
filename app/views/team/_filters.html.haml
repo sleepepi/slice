@@ -1,0 +1,76 @@
+.mb-3
+  .dropdown.d-inline-block
+    = link_to "#", class: "btn btn-primary dropdown-toggle", data: { toggle: "dropdown" } do
+      = icon("fas", "filter")
+      - if @role
+        - name = @project.blinding_enabled? && @project.unblinded?(current_user) ? "#{@role[:blinded] ? "Blinded " : "Unblinded " if @role[:adverse_events] == false}#{@role[:name]}" : @role[:name]
+        - name = @role[:name] if @role[:role] == "project_owner"
+        = name
+      - else
+        All roles
+
+    .dropdown-menu
+      = link_to "All roles", project_team_path(@project, site_id: @site, ae_team: @ae_team), class: "dropdown-item #{"active" unless @role}"
+
+      .dropdown-divider
+
+      - roles = Invite::PROJECT_OWNER_ROLES.dup
+      - roles.each do |role|
+        - name =  role[:name]
+        = link_to name, project_team_path(@project, role: role[:role]), class: "dropdown-item #{"active" if @role&.dig(:role) == role[:role]}"
+
+      - roles = Invite::PROJECT_ROLES.dup
+      - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
+      - roles.each do |role|
+        - name = @project.blinding_enabled? ? "#{role[:blinded] ? "Blinded " : "Unblinded " if role[:adverse_events] == false}#{role[:name]}" : role[:name]
+        = link_to name, project_team_path(@project, role: role[:role]), class: "dropdown-item #{"active" if @role&.dig(:role) == role[:role]}"
+
+      .dropdown-divider
+
+      - roles = Invite::SITE_ROLES.dup
+      - roles.reject! { |h| h[:blinded] } unless @project.blinding_enabled?
+      - roles.each do |role|
+        - name = @project.blinding_enabled? ? "#{role[:blinded] ? "Blinded " : "Unblinded "}#{role[:name]}" : role[:name]
+        = link_to name, project_team_path(@project, role: role[:role], site_id: @site), class: "dropdown-item #{"active" if @role&.dig(:role) == role[:role]}"
+
+      - if @project.ae_teams_enabled?
+        .dropdown-divider
+        - roles = Invite::AE_ADMIN_ROLES.dup
+        - roles += Invite::AE_TEAM_ROLES
+        - roles.each do |role|
+          = link_to role[:name], project_team_path(@project, role: role[:role], ae_team: @ae_team), class: "dropdown-item #{"active" if @role&.dig(:role) == role[:role]}"
+
+  .dropdown.d-inline-block
+    = link_to "#", class: "btn btn-primary dropdown-toggle", data: { toggle: "dropdown" } do
+      = icon("fas", "filter")
+      - if @site
+        = @site.number_and_short_name
+      - else
+        All sites
+
+    .dropdown-menu{ style: "z-index: 1100 !important;" }
+      - @keep_role = @role.in?(Invite::SITE_ROLES) ? @role : nil
+      = link_to "All sites", project_team_path(@project, role: @keep_role&.dig(:role)), class: "dropdown-item #{"active" unless @site}"
+      .dropdown-divider
+      - @project.sites.order_number_and_name.each do |site|
+        = link_to site.number_and_short_name, project_team_path(@project, role: @keep_role&.dig(:role), site_id: site.id), class: "dropdown-item #{"active" if @site == site}"
+
+  - if @project.ae_teams_enabled?
+    .dropdown.d-inline-block
+      = link_to "#", class: "btn btn-primary dropdown-toggle", data: { toggle: "dropdown" } do
+        = icon("fas", "filter")
+        - if @ae_team
+          = @ae_team.name
+        - else
+          All AE teams
+
+      .dropdown-menu{ style: "z-index: 1100 !important;" }
+        - @keep_role = @role.in?(Invite::AE_TEAM_ROLES) ? @role : nil
+        = link_to "All AE teams", project_team_path(@project, role: @keep_role&.dig(:role)), class: "dropdown-item #{"active" unless @ae_team}"
+        .dropdown-divider
+        - @project.ae_teams.order(:name).each do |ae_team|
+          = link_to ae_team.name, project_team_path(@project, role: @keep_role&.dig(:role), ae_team: ae_team), class: "dropdown-item #{"active" if @ae_team == ae_team}"
+
+  = link_to "#", data: { object: "toggle-search-container", target: "#search" }, class: "btn btn-primary" do
+    = icon("fas", "search")
+    .d-none.d-lg-inline Search

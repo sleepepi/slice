@@ -11,7 +11,10 @@ class TeamController < ApplicationController
 
   # GET /projects/:project_id/team
   def index
-    scope = @project.team_users.search_any_order(params[:search])
+    @ae_team = @project.ae_teams.find_by_param(params[:ae_team])
+    @site = @project.sites.find_by(id: params[:site_id])
+    @role = Invite::ROLES.find { |role| role[:role] == params[:role] }
+    scope = @project.team_users(site: @site, role: @role, ae_team: @ae_team).search_any_order(params[:search])
     @team_users = scope_order(scope).page(params[:page]).per(10)
   end
 

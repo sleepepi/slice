@@ -224,27 +224,70 @@ class Project < ApplicationRecord
 
   def set_token
     return if authentication_token.present?
+
     update authentication_token: SecureRandom.hex(12)
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
     retry
   end
 
-  # A ActiveRecord assocation of all users with a role on the project. Does not
+  # An ActiveRecord assocation of all users with a role on the project. Does not
   # include the role of the member.
-  def team_users
-    User.current.where(id: user_id)
-    .or(
-      User.current.where(id: project_users.select(:user_id))
-    )
-    .or(
-      User.current.where(id: site_users.select(:user_id))
-    )
-    .or(
-      User.current.where(id: ae_review_admins.select(:user_id))
-    )
-    .or(
-      User.current.where(id: ae_team_members.select(:user_id))
-    )
+  def team_users(site: nil, role: nil, ae_team: nil)
+    users = \
+      case role&.dig(:role)
+      when "project_owner"
+        User.current.where(id: user_id)
+      when "project_editor_unblinded", "project_viewer_unblinded", "project_editor_blinded", "project_viewer_blinded"
+        editor = role.dig(:role).in?(%w(project_editor_unblinded project_editor_blinded))
+        unblinded = blinding_enabled? ? role.dig(:role).in?(%w(project_editor_unblinded project_viewer_unblinded)) : [true, false, nil]
+        if role&.dig(:role) == "project_editor_unblinded"
+          User.current.where(id: user_id)
+          .or(
+            User.current.where(id: project_users.where(editor: editor, unblinded: unblinded).select(:user_id))
+          )
+        else
+          User.current.where(id: project_users.where(editor: editor, unblinded: unblinded).select(:user_id))
+        end
+      when "site_editor_unblinded", "site_viewer_unblinded", "site_editor_blinded", "site_viewer_blinded"
+        editor = role.dig(:role).in?(%w(site_editor_unblinded site_editor_blinded))
+        unblinded = blinding_enabled? ? role.dig(:role).in?(%w(site_editor_unblinded site_viewer_unblinded)) : [true, false, nil]
+        User.current.where(id: site_users.where(editor: editor, unblinded: unblinded).select(:user_id))
+      when "ae_admin"
+        User.current.where(id: ae_review_admins.select(:user_id))
+      when "ae_team_manager"
+        User.current.where(id: ae_team_members.where(manager: true).select(:user_id))
+      when "ae_team_principal_reviewer"
+        User.current.where(id: ae_team_members.where(principal_reviewer: true).select(:user_id))
+      when "ae_team_reviewer"
+        User.current.where(id: ae_team_members.where(reviewer: true).select(:user_id))
+      when "ae_team_viewer"
+        User.current.where(id: ae_team_members.where(viewer: true).select(:user_id))
+      else
+        User
+      end
+    base_team_users(users: users, site: site, ae_team: ae_team)
+  end
+
+  def base_team_users(users: User, site: nil, ae_team: nil)
+    if ae_team
+      users.current.where(id: ae_team_members.where(ae_team: ae_team).select(:user_id))
+    elsif site
+      users.current.where(id: site_users.where(site: site).select(:user_id))
+    else
+      users.current.where(id: user_id)
+      .or(
+        users.current.where(id: project_users.select(:user_id))
+      )
+      .or(
+        users.current.where(id: site_users.select(:user_id))
+      )
+      .or(
+        users.current.where(id: ae_review_admins.select(:user_id))
+      )
+      .or(
+        users.current.where(id: ae_team_members.select(:user_id))
+      )
+    end
   end
 
   private

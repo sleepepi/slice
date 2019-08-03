@@ -1,4 +1,8 @@
 .small
+  - if project.user_id == user.id
+    %div
+      Project Owner
+
   - project_user = project.project_users.find_by(user: user)
   - if project_user
     %div
@@ -6,14 +10,14 @@
       Project
       = project_user.editor? ? "Editor" : "Viewer"
 
-  - project.sites.each do |site|
+  - project.sites.order_number_and_name.each do |site|
     - site_user = site.site_users.find_by(user: user)
     - if site_user
       %div
         = site_user.unblinded? ? "Unblinded" : "Blinded" if project.blinding_enabled?
         Site
         = site_user.editor? ? "Editor" : "Viewer"
-        %span.small.text-muted= site.name
+        %span.small.text-muted= site.number_and_short_name
 
   - if project.ae_teams_enabled?
     - review_admin = project.ae_review_admins.find_by(user: user)
@@ -26,13 +30,13 @@
         %div
           - team_roles.each do |team_role|
             - role_name = if team_role.manager?
-              - "Manager"
+              - "AE Team Manager"
             - elsif team_role.principal_reviewer?
-              - "Principal Reviewer"
+              - "AE Team Principal Reviewer"
             - elsif team_role.reviewer?
-              - "Reviewer"
+              - "AE Team Reviewer"
             - elsif team_role.viewer?
-              - "Viewer"
+              - "AE Team Viewer"
             - else
               - "Role"
             = role_name
