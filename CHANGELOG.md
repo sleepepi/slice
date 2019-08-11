@@ -1,5 +1,9 @@
 ## 79.0.0
 
+### Enhancements
+- **Sheet Changes**
+  - Project editors can now unlock a sheet and edit it in one click
+
 ## 78.0.0 (August 3, 2019)
 
 ### Enhancements

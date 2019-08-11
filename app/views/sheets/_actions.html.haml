@@ -31,6 +31,9 @@
             1 week
           - when "after1month"
             1 month
+        = link_to unlock_and_edit_project_sheet_path(project, sheet), method: :post, class: "dropdown-item" do
+          = icon("fas", "unlock-alt")
+          Unlock and edit
         - if sheet.recent_unlock_requests.count > 0
           = link_to "#", data: { object: "toggle-visibility", target: "#sheet_unlock_requests" }, class: "dropdown-item" do
             = icon("fas", "list-alt")

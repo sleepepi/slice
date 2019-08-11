@@ -7,7 +7,9 @@ class SheetsController < ApplicationController
   before_action :find_viewable_project_or_redirect, only: [
     :index, :search, :show, :file, :coverage, :calculations
   ]
-  before_action :find_editable_project_or_redirect, only: [:unlock]
+  before_action :find_editable_project_or_redirect, only: [
+    :unlock, :unlock_and_edit
+  ]
   before_action :find_editable_project_or_editable_site_or_redirect, only: [
     :edit, :reassign, :move_to_event, :remove_shareable_link, :transactions,
     :new, :create, :update, :destroy, :set_as_not_missing, :change_event,
@@ -19,8 +21,8 @@ class SheetsController < ApplicationController
   ]
   before_action :find_editable_sheet_or_redirect, only: [
     :edit, :reassign, :move_to_event, :update, :destroy,
-    :remove_shareable_link, :transactions, :unlock, :set_as_not_missing,
-    :change_event, :submit_change_event
+    :remove_shareable_link, :transactions, :unlock, :unlock_and_edit,
+    :set_as_not_missing, :change_event, :submit_change_event
   ]
   before_action :redirect_with_auto_locked_sheet, only: [
     :edit, :reassign, :update, :destroy, :change_event, :submit_change_event
@@ -134,6 +136,12 @@ class SheetsController < ApplicationController
   def unlock
     @sheet.reset_auto_lock!(current_user, request)
     redirect_to [@project, @sheet], notice: "Sheet was successfully unlocked."
+  end
+
+  # POST /sheets/1/unlock-and-edit
+  def unlock_and_edit
+    @sheet.reset_auto_lock!(current_user, request)
+    redirect_to edit_project_sheet_path(@project, @sheet), notice: "Sheet was successfully unlocked."
   end
 
   # POST /sheets/1/set_as_not_missing.js

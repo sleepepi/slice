@@ -769,6 +769,24 @@ d est laborum.",
     assert_redirected_to root_url
   end
 
+  test "should unlock sheet and go directly to edit page as project editor" do
+    login(@project_editor)
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post unlock_and_edit_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
+    sheets(:auto_lock).reload
+    assert_equal false, sheets(:auto_lock).auto_locked?
+    assert_redirected_to edit_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
+  end
+
+  test "should not unlock sheet and go directly to edit page as site editor" do
+    login(users(:auto_lock_site_one_editor))
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    post unlock_and_edit_project_sheet_url(projects(:auto_lock), sheets(:auto_lock))
+    sheets(:auto_lock).reload
+    assert_equal true, sheets(:auto_lock).auto_locked?
+    assert_redirected_to root_url
+  end
+
   test "should remove shareable link as editor" do
     login(users(:admin))
     assert_difference("Sheet.where(authentication_token: nil).count") do

@@ -316,7 +316,6 @@ Rails.application.routes.draw do
         post :coverage
         get :file
         get :transactions
-        post :unlock
         get :reassign
         patch :reassign
         get :change_event, path: "change-event"
@@ -324,6 +323,7 @@ Rails.application.routes.draw do
         patch :move_to_event
         post :remove_shareable_link
         post :unlock
+        post :unlock_and_edit, path: "unlock-and-edit"
         post :set_as_not_missing
       end
 

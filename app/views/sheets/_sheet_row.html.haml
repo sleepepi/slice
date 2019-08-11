@@ -37,13 +37,16 @@
           - if sheet.project.editable_by?(current_user)
             = link_to unlock_project_sheet_path(sheet.project, sheet), method: :post, class: "dropdown-item" do
               = icon("fas", "unlock")
-              Unlock For
+              Unlock for
               - case sheet.project.auto_lock_sheets when "after24hours"
-                24 Hours
+                24 hours
               - when "after1week"
-                1 Week
+                1 week
               - when "after1month"
-                1 Month
+                1 month
+            = link_to unlock_and_edit_project_sheet_path(sheet.project, sheet), method: :post, class: "dropdown-item" do
+              = icon("fas", "unlock-alt")
+              Unlock and edit
           - else
             = link_to [sheet.project, sheet], class: "dropdown-item" do
               = icon("fas", "lock")
