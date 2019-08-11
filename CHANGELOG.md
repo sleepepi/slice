@@ -1,6 +1,8 @@
 ## 79.0.0
 
 ### Enhancements
+- **Domain Changes**
+  - Site numbers are now displayed on domain options that are scoped by site
 - **Sheet Changes**
   - Project editors can now unlock a sheet and edit it in one click
 - **Variable Changes**
