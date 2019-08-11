@@ -3,6 +3,8 @@
 ### Enhancements
 - **Sheet Changes**
   - Project editors can now unlock a sheet and edit it in one click
+- **Gem Changes**
+  - Update to redcarpet 3.5.0
 
 ## 78.0.0 (August 3, 2019)
 

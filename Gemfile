@@ -26,7 +26,7 @@ gem "jquery-ui-rails",            "~> 6.0.1"
 gem "kaminari",                   "~> 1.1.1"
 gem "mini_magick",                "~> 4.9.2"
 gem "naturalsort",                "~> 1.2.0"
-gem "redcarpet",                  "~> 3.4.0"
+gem "redcarpet",                  "~> 3.5.0"
 gem "rubyzip",                    "~> 1.2.2"
 gem "sitemap_generator",          "~> 6.0.2"
 
