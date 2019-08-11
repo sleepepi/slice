@@ -68,6 +68,7 @@
     = render "forms/horizontal/show/date", object: @variable, key: :date_soft_minimum if @variable.date_soft_minimum.present?
     = render "forms/horizontal/show/date", object: @variable, key: :date_soft_maximum if @variable.date_soft_maximum.present?
     = render "forms/horizontal/show/date", object: @variable, key: :date_hard_maximum if @variable.date_hard_maximum.present?
+    = render "forms/horizontal/show/check_box", object: @variable, key: :disallow_future_dates
     = render "forms/horizontal/show/check_box", object: @variable, key: :show_current_button, key_name: "Show current date"
     = render "forms/horizontal/show/text", object: @variable, key: :date_format_name, key_name: "Date format"
 

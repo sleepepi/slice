@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_180441) do
+ActiveRecord::Schema.define(version: 2019_08_11_192356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1374,6 +1374,7 @@ ActiveRecord::Schema.define(version: 2019_05_02_180441) do
     t.string "field_note"
     t.string "time_of_day_format", default: "24hour", null: false
     t.string "date_format", default: "mm/dd/yyyy", null: false
+    t.boolean "disallow_future_dates", default: false, null: false
     t.index ["deleted"], name: "index_variables_on_deleted"
     t.index ["domain_id"], name: "index_variables_on_domain_id"
     t.index ["project_id"], name: "index_variables_on_project_id"

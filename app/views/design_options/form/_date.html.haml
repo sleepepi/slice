@@ -3,3 +3,12 @@
     %label.col-md-2.col-form-label= range.titleize
     .col-md-10
       = text_field_tag "variable[#{range}]", @design_option.variable.send(range), autocomplete: "off", value: @design_option.variable.send(range) ? @design_option.variable.send(range).strftime("%m/%d/%Y") : "", class: "datepicker form-control"
+
+- id = "variable_disallow_future_dates"
+.form-group.row
+  .col-md-2
+  .col-md-10
+    .custom-control.custom-checkbox
+      = check_box_tag "variable[disallow_future_dates]", "1", @design_option.variable.disallow_future_dates, class: "custom-control-input", id: id
+      = label_tag :disallow_future_dates, for: id, class: "custom-control-label" do
+        Disallow future dates

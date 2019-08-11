@@ -194,6 +194,7 @@ def copy_variables(original, copy, site_map, options)
       date_hard_minimum: v.date_hard_minimum,
       date_soft_maximum: v.date_soft_maximum,
       date_soft_minimum: v.date_soft_minimum,
+      disallow_future_dates: v.disallow_future_dates,
       soft_maximum: v.soft_maximum,
       soft_minimum: v.soft_minimum,
       calculated_format: v.calculated_format,

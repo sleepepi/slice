@@ -51,6 +51,18 @@ class ProcessControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should validate return out of range for future date variable" do
+    tomorrow = Time.zone.today + 1.day
+    post process_variable_validate_url(@project, variables(:disallow_future_dates), format: "json"), params: {
+      value: { month: tomorrow.month.to_s, day: tomorrow.day.to_s, year: tomorrow.year.to_s }
+    }
+    json = JSON.parse(response.body)
+    assert_equal "out_of_range", json["status"]
+    assert_equal tomorrow.strftime("%B %-d, %Y"), json["formatted_value"]
+    assert_equal "Date outside of range.", json["message"]
+    assert_response :success
+  end
+
   test "should validate return invalid for variable" do
     post process_variable_validate_url(@project, @date, format: "json"), params: {
       value: { month: "2", day: "31", year: "2000" }

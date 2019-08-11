@@ -52,6 +52,7 @@
     = render "forms/horizontal/date_field", form: form, object: variable, key: :date_hard_maximum
     = render "forms/horizontal/date_field", form: form, object: variable, key: :date_soft_minimum
     = render "forms/horizontal/date_field", form: form, object: variable, key: :date_soft_maximum
+    = render "forms/horizontal/check_box", form: form, object: variable, key: :disallow_future_dates
 
   %div{ data: { object: "calculated" } }
     = render "forms/horizontal/text_area", form: form, object: variable, key: :calculation, value: variable.readable_calculation, rows: 7, help_text: "Examples: <ul class=\"list-unstyled\"><li><code>(var1 + var2) / var3</code></li><li><code>var1 == -9 ? -9 : var1 + var2</code></li></ul>", data: { object: "calculation-variable-name-textcomplete", project_id: @project.id }

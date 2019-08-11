@@ -3,6 +3,8 @@
 ### Enhancements
 - **Sheet Changes**
   - Project editors can now unlock a sheet and edit it in one click
+- **Variable Changes**
+  - Date variables can now be set to disallow future dates
 - **Gem Changes**
   - Update to redcarpet 3.5.0
 

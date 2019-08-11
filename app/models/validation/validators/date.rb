@@ -66,11 +66,14 @@ module Validation
       end
 
       def date_in_hard_range?(date)
-        less_or_equal_to_date?(date, @variable.date_hard_maximum) && greater_than_or_equal_to_date?(date, @variable.date_hard_minimum)
+        less_or_equal_to_date?(date, @variable.date_hard_maximum) &&
+          greater_than_or_equal_to_date?(date, @variable.date_hard_minimum) &&
+          (less_or_equal_to_date?(date, Time.zone.today) || !@variable.disallow_future_dates?)
       end
 
       def date_in_soft_range?(date)
-        less_or_equal_to_date?(date, @variable.date_soft_maximum) && greater_than_or_equal_to_date?(date, @variable.date_soft_minimum)
+        less_or_equal_to_date?(date, @variable.date_soft_maximum) &&
+          greater_than_or_equal_to_date?(date, @variable.date_soft_minimum)
       end
 
       def less_or_equal_to_date?(date, date_max)

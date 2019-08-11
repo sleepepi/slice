@@ -353,7 +353,6 @@ d est laborum.",
     assert_redirected_to [assigns(:sheet).project, assigns(:sheet)]
   end
 
-
   test "should create sheet with leading zeros" do
     login(users(:format_editor))
     assert_difference("SheetTransaction.count") do

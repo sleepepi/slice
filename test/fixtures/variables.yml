@@ -151,6 +151,15 @@ date:
   date_soft_minimum: 2000-01-01
   # date_format: mm/dd/yyyy
 
+disallow_future_dates:
+  name: disallow_future_dates
+  display_name: Your birthday
+  description: Enter the date of your birth
+  variable_type: date
+  user: regular
+  project: one
+  disallow_future_dates: true
+
 date_no_range:
   name: date_no_range
   display_name: Date with No Range
