@@ -1,4 +1,4 @@
-## 79.0.0
+## 79.0.0 (August 11, 2019)
 
 ### Enhancements
 - **Domain Changes**
