@@ -6,6 +6,7 @@
 - **Variable Changes**
   - Date variables can now be set to disallow future dates
 - **Gem Changes**
+  - Update to font-awesome-sass 5.9.0
   - Update to redcarpet 3.5.0
 
 ## 78.0.0 (August 3, 2019)
