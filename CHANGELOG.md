@@ -7,6 +7,8 @@
 
 ### Bug Fix
 - Fix an issue creating AEs with the same number across multiple projects
+- Randomizations on the first day of the month are now properly exported in API
+  reports when generating the report on the same day
 
 ## 79.0.0 (August 11, 2019)
 

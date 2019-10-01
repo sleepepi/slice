@@ -16,7 +16,7 @@ randomizations = \
           .order(:randomized_at)
           .pluck("subjects.site_id", :randomized_at)
 
-current_date = randomizations.first&.second&.beginning_of_month
+current_date = randomizations.first&.second&.beginning_of_month&.to_date
 
 dates = []
 if current_date
