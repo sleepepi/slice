@@ -1,5 +1,10 @@
 ## 80.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to rails 6.0.0
+  - Update to devise 4.7.1
+
 ## 79.0.0 (August 11, 2019)
 
 ### Enhancements
