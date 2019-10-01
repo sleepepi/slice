@@ -5,6 +5,9 @@
   - Update to rails 6.0.0
   - Update to devise 4.7.1
 
+### Bug Fix
+- Fix an issue creating AEs with the same number across multiple projects
+
 ## 79.0.0 (August 11, 2019)
 
 ### Enhancements

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_192356) do
+ActiveRecord::Schema.define(version: 2019_10_01_222932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_192356) do
     t.index ["closed_at"], name: "index_ae_adverse_events_on_closed_at"
     t.index ["closer_id"], name: "index_ae_adverse_events_on_closer_id"
     t.index ["deleted"], name: "index_ae_adverse_events_on_deleted"
-    t.index ["number"], name: "index_ae_adverse_events_on_number", unique: true
+    t.index ["project_id", "number"], name: "index_ae_adverse_events_on_project_id_and_number", unique: true
     t.index ["project_id"], name: "index_ae_adverse_events_on_project_id"
     t.index ["sent_for_review_at"], name: "index_ae_adverse_events_on_sent_for_review_at"
     t.index ["subject_id"], name: "index_ae_adverse_events_on_subject_id"
