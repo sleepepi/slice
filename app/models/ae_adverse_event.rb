@@ -7,6 +7,7 @@ class AeAdverseEvent < ApplicationRecord
   # Concerns
   include Blindable
   include Deletable
+  include Forkable
   include Siteable
   include Squishable
 
@@ -93,7 +94,7 @@ class AeAdverseEvent < ApplicationRecord
     ae_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
     # TODO: AE Notifications
     #   @adverse_event.create_notifications
-    send_ae_opened_emails_to_review_admins!
+    send_ae_opened_emails_to_review_admins_in_background!
   end
 
   def attach_files!(files, current_user)
@@ -130,7 +131,7 @@ class AeAdverseEvent < ApplicationRecord
       user: current_user,
       entry_type: "ae_sent_for_review"
     )
-    send_ae_sent_for_review_emails_to_review_admins!
+    send_ae_sent_for_review_emails_to_review_admins_in_background!
   end
 
   def assign_team!(current_user, team)
@@ -171,19 +172,27 @@ class AeAdverseEvent < ApplicationRecord
     all_roles
   end
 
+  def send_ae_opened_emails_to_review_admins_in_background!
+    fork_process(:send_ae_opened_emails_to_review_admins!)
+  end
+
   def send_ae_opened_emails_to_review_admins!
     return if !EMAILS_ENABLED || project.disable_all_emails?
 
     project.ae_review_admins.each do |review_admin|
-      AeAdverseEventMailer.opened(self, review_admin.user).deliver_later
+      AeAdverseEventMailer.opened(self, review_admin.user).deliver_now
     end
+  end
+
+  def send_ae_sent_for_review_emails_to_review_admins_in_background!
+    fork_process(:send_ae_sent_for_review_emails_to_review_admins!)
   end
 
   def send_ae_sent_for_review_emails_to_review_admins!
     return if !EMAILS_ENABLED || project.disable_all_emails?
 
     project.ae_review_admins.each do |review_admin|
-      AeAdverseEventMailer.sent_for_review(self, review_admin.user).deliver_later
+      AeAdverseEventMailer.sent_for_review(self, review_admin.user).deliver_now
     end
   end
 end
