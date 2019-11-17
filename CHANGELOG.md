@@ -9,6 +9,7 @@
   - Update to carrierwave 2.0.2
   - Update to devise 4.7.1
   - Update to haml 5.1.2
+  - Update to jquery-rails 4.3.5
 
 ### Bug Fix
 - Fix an issue creating AEs with the same number across multiple projects
