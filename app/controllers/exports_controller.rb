@@ -39,9 +39,13 @@ class ExportsController < ApplicationController
   def create
     @export = current_user.exports
                           .where(project_id: @project.id, name: export_name, total_steps: 1)
-                          .create(export_params)
-    @export.generate_export_in_background!
-    redirect_to [@project, @export]
+                          .new(export_params)
+    if @export.save
+      @export.generate_export_in_background!
+      redirect_to [@project, @export]
+    else
+      render :new
+    end
   end
 
   # DELETE /exports/1

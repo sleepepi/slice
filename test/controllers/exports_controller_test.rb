@@ -79,6 +79,15 @@ class ExportsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to [projects(:medications), Export.last]
   end
 
+  test "should not create export without an option" do
+    login(@regular_user)
+    assert_difference("Export.count", 0) do
+      post project_exports_url(@project), params: { export: { filters: "" } }
+    end
+    assert_equal ["must select at least one export option"], assigns(:export).errors[:export]
+    assert_template "new"
+  end
+
   test "should download export file" do
     login(@regular_user)
     assert_not_equal 0, @export.file.size

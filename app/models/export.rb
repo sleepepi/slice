@@ -8,6 +8,11 @@ class Export < ApplicationRecord
   # Constants
   EXPIRES_IN = 3.months
   STATUS = %w(ready pending failed).collect { |i| [i, i] }
+  OPTIONS = [
+    :include_csv_labeled, :include_csv_raw, :include_sas, :include_r,
+    :include_pdf, :include_files, :include_data_dictionary,
+    :include_medications, :include_adverse_events, :include_randomizations
+  ]
 
   # Concerns
   include Deletable
@@ -21,6 +26,7 @@ class Export < ApplicationRecord
 
   # Validations
   validates :name, presence: true
+  validate :must_select_at_least_one_type_of_export
 
   # Relationships
   belongs_to :user
@@ -545,5 +551,11 @@ class Export < ApplicationRecord
       end
     end
     ["csvs/#{filename}_medications.csv", export_file]
+  end
+
+  def must_select_at_least_one_type_of_export
+    return if OPTIONS.select { |o| send(o) }.present?
+
+    errors.add(:export, "must select at least one export option")
   end
 end

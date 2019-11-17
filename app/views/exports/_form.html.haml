@@ -9,6 +9,10 @@
 
   %div{ style: "margin-bottom: 20px;" }
     = form.text_field :filters, class: "form-control", autocomplete: "off", autocorrect: "off", autocapitalize: "none", spellcheck: "false", data: { object: "sheet-filters-textcomplete", project_id: @project.to_param }, id: "export_filters", placeholder: "All Sheets"
+
+  - if export.errors[:export].present?
+    .alert.alert-danger
+      Choose an export option below.
   .row
     .col-lg-4
       .dashboard-container.p-3
