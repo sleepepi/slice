@@ -1,0 +1,14 @@
+%p{ style: p_style }
+  = @adverse_event.user.full_name
+  %span{ style: emphasis_style } sent
+  an adverse event
+  %span{ style: emphasis_style } for review
+  on
+  = succeed "." do
+    = link_to @adverse_event.project.name, "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}", style: link_style
+
+%p{ style: p_style }
+  Click the following link to view the adverse event report:
+
+%p{ style: center_style }
+  = link_to "View Adverse Event", "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}/ae-module/adverse-events/#{@adverse_event.id}", style: link_style

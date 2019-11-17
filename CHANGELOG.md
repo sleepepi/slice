@@ -3,6 +3,8 @@
 ### Enhancements
 - **Adverse Event Changes**
   - Adverse event admins can delete closed adverse events
+  - Adverse event admins now receive email notifications when adverse events are
+    opened, and when adverse events are sent for review
 - **Export Changes**
   - Exports can no longer be created without selecting an export option
 - **Gem Changes**

@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-# Tests that mail views are rendered corretly, sent to correct user, and have a
+# Tests that mail views are rendered correctly, sent to correct user, and have a
 # correct subject line
 class UserMailerTest < ActionMailer::TestCase
   test "survey completed email" do

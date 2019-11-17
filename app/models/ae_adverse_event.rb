@@ -93,7 +93,7 @@ class AeAdverseEvent < ApplicationRecord
     ae_log_entries.create(project: project, user: current_user, entry_type: "ae_opened")
     # TODO: AE Notifications
     #   @adverse_event.create_notifications
-    #   @adverse_event.send_email_in_background
+    send_ae_opened_emails_to_review_admins!
   end
 
   def attach_files!(files, current_user)
@@ -130,6 +130,7 @@ class AeAdverseEvent < ApplicationRecord
       user: current_user,
       entry_type: "ae_sent_for_review"
     )
+    send_ae_sent_for_review_emails_to_review_admins!
   end
 
   def assign_team!(current_user, team)
@@ -168,5 +169,21 @@ class AeAdverseEvent < ApplicationRecord
       all_roles << ["viewer", team] if project.ae_team_viewer?(current_user, team: team)
     end
     all_roles
+  end
+
+  def send_ae_opened_emails_to_review_admins!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    project.ae_review_admins.each do |review_admin|
+      AeAdverseEventMailer.opened(self, review_admin.user).deliver_later
+    end
+  end
+
+  def send_ae_sent_for_review_emails_to_review_admins!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    project.ae_review_admins.each do |review_admin|
+      AeAdverseEventMailer.sent_for_review(self, review_admin.user).deliver_later
+    end
   end
 end
