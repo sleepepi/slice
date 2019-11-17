@@ -96,7 +96,8 @@
         %span.text-primary= icon("fas", "lock")
         Adverse event closed.
         - if @role_admin
-          = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, class: "text-danger", data: { confirm: "Reopen adverse event?" }
+          = link_to "Reopen?", ae_module_admins_reopen_adverse_event_path(@project, @adverse_event), method: :post, data: { confirm: "Reopen adverse event?" }
+          = link_to "Delete?", ae_module_admins_adverse_event_path(@project, @adverse_event), method: :delete, class: "text-danger", data: { confirm: "Permanently DELETE adverse event?" }
     - else
       - if @adverse_event.sent_for_review?
         - if @role_admin

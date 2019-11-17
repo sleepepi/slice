@@ -18,9 +18,9 @@ class AeModule::AdminsController < AeModule::BaseController
     redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: notice
   end
 
-  # GET /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id
-  def form
-  end
+  # # GET /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id
+  # def form
+  # end
 
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/form/:design_id
   def form_save
@@ -37,7 +37,6 @@ class AeModule::AdminsController < AeModule::BaseController
     end
   end
 
-
   # POST /projects/:project_id/ae-module/admins/adverse-events/:id/close
   def close_adverse_event
     @adverse_event.close!(current_user)
@@ -48,6 +47,12 @@ class AeModule::AdminsController < AeModule::BaseController
   def reopen_adverse_event
     @adverse_event.reopen!(current_user)
     redirect_to ae_module_adverse_event_path(@project, @adverse_event), notice: "Adverse event successfully reopened."
+  end
+
+  # DELETE /projects/:project_id/ae-module/admins/adverse-events/:id
+  def destroy
+    @adverse_event.destroy
+    redirect_to ae_module_adverse_events_path(@project), notice: "Adverse event was successfully deleted."
   end
 
   private

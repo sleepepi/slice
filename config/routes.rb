@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get :sheet, path: "adverse-events/:id/sheets/:sheet_id"
       post :close_adverse_event, path: "adverse-events/:id/close"
       post :reopen_adverse_event, path: "adverse-events/:id/reopen"
+      delete :destroy, path: "adverse-events/:id", as: :adverse_event
     end
 
     namespace :managers do

@@ -56,4 +56,12 @@ class AeModule::AdminsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to ae_module_adverse_event_url(@project, ae_adverse_events(:closed))
   end
+
+  test "should destroy adverse event as review admin" do
+    login(@review_admin)
+    assert_difference("AeAdverseEvent.current.count", -1) do
+      delete ae_module_admins_adverse_event_url(@project, @adverse_event)
+    end
+    assert_redirected_to ae_module_adverse_events_url(@project)
+  end
 end
