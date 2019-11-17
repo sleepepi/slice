@@ -4,6 +4,7 @@
 - **Adverse Event Changes**
   - Adverse event admins can delete closed adverse events
 - **Gem Changes**
+  - Update to ruby 2.6.4
   - Update to rails 6.0.0
   - Update to devise 4.7.1
 
