@@ -1,4 +1,4 @@
-## 80.0.0
+## 80.0.0 (November 17, 2019)
 
 ### Enhancements
 - **Adverse Event Changes**
