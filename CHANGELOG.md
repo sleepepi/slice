@@ -7,6 +7,7 @@
   - Update to ruby 2.6.4
   - Update to rails 6.0.1
   - Update to devise 4.7.1
+  - Update to haml 5.1.2
 
 ### Bug Fix
 - Fix an issue creating AEs with the same number across multiple projects
