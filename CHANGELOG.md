@@ -1,5 +1,9 @@
 ## 81.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to rubyzip 2.0.0
+
 ## 80.0.0 (November 17, 2019)
 
 ### Enhancements
