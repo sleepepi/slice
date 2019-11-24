@@ -1,6 +1,9 @@
 ## 81.0.0
 
 ### Enhancements
+- **Export Changes**
+  - Data dictionary exports of branching logic now correctly outputs the
+    variable name instead of the internal variable ID
 - **Gem Changes**
   - Update to rubyzip 2.0.0
 

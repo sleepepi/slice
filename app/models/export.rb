@@ -270,7 +270,7 @@ class Export < ApplicationRecord
             variable.csv_columns_and_names.each do |variable_name, variable_display_name|
               csv << [
                 d.name, variable_name, variable_display_name,
-                design_option.branching_logic, variable.description,
+                design_option.readable_branching_logic, variable.description,
                 variable.field_note
               ]
             end
