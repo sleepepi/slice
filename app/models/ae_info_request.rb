@@ -3,6 +3,9 @@
 # Represents a request for more information made by an Adverse Event Admin to
 # the Adverse Event Reporter(s).
 class AeInfoRequest < ApplicationRecord
+  # Concerns
+  include Forkable
+
   # Validations
   validates :comment, presence: true
 
@@ -31,8 +34,8 @@ class AeInfoRequest < ApplicationRecord
       entry_type: "ae_info_request_created",
       info_requests: [self]
     )
-    # TODO: Generate in app notifications and LOG notifications to AENotificationsLog for Info Request (to "reporters of AE")
-    # @info_request.log_info # TODO: Generate notifications and log entries
+    email_info_request_opened_in_background!
+    # TODO: Generate in app notifications for info request to "AE admins" or "reporters of AE"
   end
 
   def resolved?
@@ -48,6 +51,35 @@ class AeInfoRequest < ApplicationRecord
       entry_type: "ae_info_request_resolved",
       info_requests: [self]
     )
-    # TODO: Generate in app notifications and LOG notifications to AENotificationsLog for Info Request (to "admins of AE, or info_request creator")
+    email_info_request_resolved_in_background!
+    # TODO: Generate in app notifications for info request to "AE admins" or "info_request creator"
+  end
+
+  def email_info_request_opened_in_background!
+    fork_process(:email_info_request_opened!)
+  end
+
+  def email_info_request_opened!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    if ae_team
+      # Information request is coming from AE team and is sent to AE admins
+      project.ae_review_admins.each do |review_admin|
+        AeAdverseEventMailer.info_request_opened(self, review_admin.user).deliver_now
+      end
+    else
+      # Information request is coming from AE Admins and is sent to AE reporter
+      AeAdverseEventMailer.info_request_opened(self, ae_adverse_event.user).deliver_now
+    end
+  end
+
+  def email_info_request_resolved_in_background!
+    fork_process(:email_info_request_resolved!)
+  end
+
+  def email_info_request_resolved!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    AeAdverseEventMailer.info_request_resolved(self).deliver_now
   end
 end

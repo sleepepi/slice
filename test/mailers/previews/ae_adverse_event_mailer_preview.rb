@@ -32,4 +32,15 @@ class AeAdverseEventMailerPreview < ActionMailer::Preview
     manager = assignment.ae_team.managers.first
     AeAdverseEventMailer.assignment_completed(assignment, manager)
   end
+
+  def info_request_opened
+    info_request = AeInfoRequest.where(resolved_at: nil).first
+    recipient = User.current.first
+    AeAdverseEventMailer.info_request_opened(info_request, recipient)
+  end
+
+  def info_request_resolved
+    info_request = AeInfoRequest.where.not(resolved_at: nil).first
+    AeAdverseEventMailer.info_request_resolved(info_request)
+  end
 end

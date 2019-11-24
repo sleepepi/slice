@@ -57,4 +57,26 @@ class AeAdverseEventMailer < ApplicationMailer
          subject: "#{@sender.full_name} completed an adverse event review on #{@adverse_event.project.name}",
          reply_to: @sender.email)
   end
+
+  def info_request_opened(info_request, recipient)
+    setup_email
+    @sender = info_request.user
+    @adverse_event = info_request.ae_adverse_event
+    @recipient = recipient
+    @email_to = @recipient.email
+    mail(to: @recipient.email,
+         subject: "#{@sender.full_name} requested information for an adverse event on #{@adverse_event.project.name}",
+         reply_to: @sender.email)
+  end
+
+  def info_request_resolved(info_request)
+    setup_email
+    @sender = info_request.resolver
+    @adverse_event = info_request.ae_adverse_event
+    @recipient = info_request.user
+    @email_to = @recipient.email
+    mail(to: @recipient.email,
+         subject: "#{@sender.full_name} resolved an information request for an adverse event on #{@adverse_event.project.name}",
+         reply_to: @sender.email)
+  end
 end

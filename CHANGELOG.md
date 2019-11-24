@@ -8,6 +8,10 @@
     them for review
   - Adverse event team managers receive emails when reviewers complete their
     assigned adverse event reviews
+  - Opening information requests generates emails
+    - to adverse event admins when requested by adverse event team members
+    - to the adverse event reporter when requested by adverse event admins
+  - Resolving information requests generates emails to the requester
 - **Export Changes**
   - Data dictionary exports of branching logic now correctly outputs the
     variable name instead of the internal variable ID

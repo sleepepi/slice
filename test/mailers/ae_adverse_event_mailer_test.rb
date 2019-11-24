@@ -79,4 +79,35 @@ class AeAdverseEventMailerTest < ActionMailer::TestCase
       mail.body.encoded
     )
   end
+
+  test "info request opened" do
+    info_request = ae_info_requests(:repinfo_admin_info_request_for_reporter)
+    adverse_event = info_request.ae_adverse_event
+    reporter = info_request.ae_adverse_event.user
+    mail = AeAdverseEventMailer.info_request_opened(info_request, reporter)
+    assert_equal [reporter.email], mail.to
+    assert_equal(
+      "#{info_request.user.full_name} requested information for an adverse event on #{adverse_event.project.name}",
+      mail.subject
+    )
+    assert_match(
+      %r{#{info_request.user.full_name} requested information for an adverse event on #{adverse_event.project.name} located here: #{ENV["website_url"]}/projects/#{adverse_event.project.to_param}},
+      mail.body.encoded
+    )
+  end
+
+  test "info request resolved" do
+    info_request = ae_info_requests(:repindone_admin_info_request_for_reporter)
+    adverse_event = info_request.ae_adverse_event
+    mail = AeAdverseEventMailer.info_request_resolved(info_request)
+    assert_equal [info_request.user.email], mail.to
+    assert_equal(
+      "#{info_request.resolver.full_name} resolved an information request for an adverse event on #{adverse_event.project.name}",
+      mail.subject
+    )
+    assert_match(
+      %r{#{info_request.resolver.full_name} resolved an information request for an adverse event on #{adverse_event.project.name} located here: #{ENV["website_url"]}/projects/#{adverse_event.project.to_param}},
+      mail.body.encoded
+    )
+  end
 end

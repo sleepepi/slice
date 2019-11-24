@@ -1,0 +1,11 @@
+<%= @sender.full_name %> requested information for an adverse event on <%= @adverse_event.project.name %> located here: <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}" %>
+
+Click the following link to view the information request:
+
+
+    <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}/ae-module/adverse-events/#{@adverse_event.id}" %>
+
+
+Thank you!
+
+<%= ENV["website_name"] %> Mailer

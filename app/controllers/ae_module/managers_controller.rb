@@ -62,8 +62,6 @@ class AeModule::ManagersController < AeModule::BaseController
     added_assignments = @adverse_event.ae_assignments.where(ae_team: @team).where.not(id: original_assignment_ids)
     removed_assignments = @adverse_event.ae_assignments.where(ae_team: @team).where.not(id: assignments.collect(&:id)).destroy_all
 
-    # TODO: Generate in app notifications, email, and LOG notificiations to AENotificationsLog for Info Request (to "reviewer")
-
     if removed_assignments.present?
       @adverse_event.ae_log_entries.create(
         project: @project,
@@ -85,6 +83,7 @@ class AeModule::ManagersController < AeModule::BaseController
     end
 
     @adverse_event.email_assignments_in_background!(added_assignments)
+    # TODO: Generate in app notifications to reviewers
 
     if added_assignments.present?
       flash[:notice] = "Reviewers were successfully assigned."
