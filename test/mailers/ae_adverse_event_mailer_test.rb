@@ -64,4 +64,19 @@ class AeAdverseEventMailerTest < ActionMailer::TestCase
       mail.body.encoded
     )
   end
+
+  test "assignment completed" do
+    assignment = ae_assignments(:aes_rvwsdone_reviewer_one)
+    manager = users(:aes_team_manager)
+    mail = AeAdverseEventMailer.assignment_completed(assignment, manager)
+    assert_equal [manager.email], mail.to
+    assert_equal(
+      "#{assignment.reviewer.full_name} completed an adverse event review on #{assignment.ae_adverse_event.project.name}",
+      mail.subject
+    )
+    assert_match(
+      %r{#{assignment.reviewer.full_name} completed an adverse event review on #{assignment.ae_adverse_event.project.name} located here: #{ENV["website_url"]}/projects/#{assignment.ae_adverse_event.project.to_param}},
+      mail.body.encoded
+    )
+  end
 end

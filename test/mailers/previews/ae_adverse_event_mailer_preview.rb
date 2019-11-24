@@ -26,4 +26,10 @@ class AeAdverseEventMailerPreview < ActionMailer::Preview
     assignment = AeAssignment.current.first
     AeAdverseEventMailer.assigned_to_reviewer(assignment)
   end
+
+  def assignment_completed
+    assignment = AeAssignment.current.first
+    manager = assignment.ae_team.managers.first
+    AeAdverseEventMailer.assignment_completed(assignment, manager)
+  end
 end

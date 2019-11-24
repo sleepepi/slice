@@ -2,10 +2,12 @@
 
 ### Enhancements
 - **Adverse Event Changes**
-  - Adverse event team managers now receive email notifications when adverse
-    events are assigned to their team
-  - Adverse event reviewers now receive email notifications when adverse events
-    are assigned to them for review
+  - Adverse event team managers receive emails when adverse events are assigned
+    to their team
+  - Adverse event reviewers receive emails when adverse events are assigned to
+    them for review
+  - Adverse event team managers receive emails when reviewers complete their
+    assigned adverse event reviews
 - **Export Changes**
   - Data dictionary exports of branching logic now correctly outputs the
     variable name instead of the internal variable ID

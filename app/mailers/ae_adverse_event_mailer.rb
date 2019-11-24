@@ -40,11 +40,21 @@ class AeAdverseEventMailer < ApplicationMailer
     setup_email
     @sender = assignment.manager
     @adverse_event = assignment.ae_adverse_event
-    @team = assignment.ae_team
     @recipient = assignment.reviewer
     @email_to = @recipient.email
     mail(to: @recipient.email,
          subject: "#{@sender.full_name} assigned you to review an adverse event on #{@adverse_event.project.name}",
+         reply_to: @sender.email)
+  end
+
+  def assignment_completed(assignment, manager)
+    setup_email
+    @sender = assignment.reviewer
+    @adverse_event = assignment.ae_adverse_event
+    @recipient = manager
+    @email_to = @recipient.email
+    mail(to: @recipient.email,
+         subject: "#{@sender.full_name} completed an adverse event review on #{@adverse_event.project.name}",
          reply_to: @sender.email)
   end
 end

@@ -8,6 +8,7 @@
 class AeAssignment < ApplicationRecord
   # Concerns
   include Deletable
+  include Forkable
 
   # Validations
   validates :reviewer_id, uniqueness: { scope: [:ae_adverse_event_id, :ae_team_id, :ae_team_pathway_id] }
@@ -34,14 +35,14 @@ class AeAssignment < ApplicationRecord
     !review_completed_at.nil?
   end
 
-  # TODO: Currently not possible for someone else to complete a assignment for the initial reviewer.
   def complete!
     return if completed?
 
     update(review_completed_at: Time.zone.now)
     entry_type = principal ? "ae_final_review_completed" : "ae_review_completed"
     ae_adverse_event.ae_log_entries.create(project: project, user: reviewer, entry_type: entry_type, ae_team: ae_team, assignments: [self])
-    # TODO: Generate in app notifications, email, and LOG notifications to AENotificationsLog (for team manager)
+    email_assignment_completed_in_background!
+    # TODO: Generate in app notifications for team manager
     # TODO: Check if all assignments are completed...if so, a "FINAL" adjudicated review is required by the manager (team).
   end
 
@@ -49,5 +50,17 @@ class AeAssignment < ApplicationRecord
     return if !EMAILS_ENABLED || project.disable_all_emails?
 
     AeAdverseEventMailer.assigned_to_reviewer(self).deliver_now
+  end
+
+  def email_assignment_completed_in_background!
+    fork_process(:email_assignment_completed!)
+  end
+
+  def email_assignment_completed!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    ae_team.managers.each do |manager|
+      AeAdverseEventMailer.assignment_completed(self, manager).deliver_now
+    end
   end
 end
