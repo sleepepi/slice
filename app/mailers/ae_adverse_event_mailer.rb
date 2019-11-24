@@ -21,4 +21,16 @@ class AeAdverseEventMailer < ApplicationMailer
          subject: "#{adverse_event.user.full_name} sent an adverse event for review on #{adverse_event.project.name}",
          reply_to: adverse_event.user.email)
   end
+
+  def assigned_to_team(sender, adverse_event, team, recipient)
+    setup_email
+    @sender = sender
+    @adverse_event = adverse_event
+    @team = team
+    @recipient = recipient
+    @email_to = recipient.email
+    mail(to: recipient.email,
+         subject: "#{sender.full_name} assigned an adverse event to #{team.name} on #{adverse_event.project.name}",
+         reply_to: adverse_event.user.email)
+  end
 end

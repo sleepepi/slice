@@ -1,6 +1,9 @@
 ## 81.0.0
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Adverse event team managers now receive email notifications when adverse
+    events are assigned to their team
 - **Export Changes**
   - Data dictionary exports of branching logic now correctly outputs the
     variable name instead of the internal variable ID

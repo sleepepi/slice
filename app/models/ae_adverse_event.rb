@@ -137,7 +137,8 @@ class AeAdverseEvent < ApplicationRecord
   def assign_team!(current_user, team)
     ae_adverse_event_teams.where(project: project, ae_team: team).first_or_create
     ae_log_entries.create(project: project, user: current_user, entry_type: "ae_team_assigned", ae_team: team)
-    # TODO: Generate in app notifications and LOG notifications for assignment to team (notify team managers, in this case team managers)
+    send_ae_assigned_to_team_to_team_managers_in_background!(current_user, team)
+    # TODO: Generate in app notifications for assignment to team (notify team managers)
   end
 
   def close!(current_user)
@@ -193,6 +194,18 @@ class AeAdverseEvent < ApplicationRecord
 
     project.ae_review_admins.each do |review_admin|
       AeAdverseEventMailer.sent_for_review(self, review_admin.user).deliver_now
+    end
+  end
+
+  def send_ae_assigned_to_team_to_team_managers_in_background!(current_user, team)
+    fork_process(:send_ae_sent_to_team_to_team_managers!, team)
+  end
+
+  def send_ae_assigned_to_team_to_team_managers!(current_user, team)
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    team.managers.each do |ae_team_member|
+      AeAdverseEventMailer.assigned_to_team(self, current_user, team, ae_team_member.user).deliver_now
     end
   end
 end
