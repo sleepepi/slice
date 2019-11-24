@@ -1,0 +1,11 @@
+<%= @sender.full_name %> assigned you to review an adverse event on <%= @adverse_event.project.name %> located here: <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}" %>
+
+Click the following link to view the adverse event:
+
+
+    <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}/ae-module/adverse-events/#{@adverse_event.id}" %>
+
+
+Thank you!
+
+<%= ENV["website_name"] %> Mailer

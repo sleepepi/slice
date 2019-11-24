@@ -198,14 +198,22 @@ class AeAdverseEvent < ApplicationRecord
   end
 
   def send_ae_assigned_to_team_to_team_managers_in_background!(current_user, team)
-    fork_process(:send_ae_sent_to_team_to_team_managers!, team)
+    fork_process(:send_ae_assigned_to_team_to_team_managers!, current_user, team)
   end
 
   def send_ae_assigned_to_team_to_team_managers!(current_user, team)
     return if !EMAILS_ENABLED || project.disable_all_emails?
 
-    team.managers.each do |ae_team_member|
-      AeAdverseEventMailer.assigned_to_team(self, current_user, team, ae_team_member.user).deliver_now
+    team.managers.each do |manager|
+      AeAdverseEventMailer.assigned_to_team(current_user, self, team, manager).deliver_now
     end
+  end
+
+  def email_assignments_in_background!(assignments)
+    fork_process(:email_assignments!, assignments)
+  end
+
+  def email_assignments!(assignments)
+    assignments.each(&:email_reviewer!)
   end
 end

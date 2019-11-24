@@ -21,4 +21,9 @@ class AeAdverseEventMailerPreview < ActionMailer::Preview
     recipient = User.current.second
     AeAdverseEventMailer.assigned_to_team(sender, adverse_event, team, recipient)
   end
+
+  def assigned_to_reviewer
+    assignment = AeAssignment.current.first
+    AeAdverseEventMailer.assigned_to_reviewer(assignment)
+  end
 end

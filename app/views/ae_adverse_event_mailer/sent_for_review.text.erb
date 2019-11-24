@@ -1,4 +1,4 @@
-<%= @adverse_event.user.full_name %> sent an adverse event for review on <%= @adverse_event.project.name %> located here: <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}" %>
+<%= @sender.full_name %> sent an adverse event for review on <%= @adverse_event.project.name %> located here: <%= "#{ENV["website_url"]}/projects/#{@adverse_event.project.to_param}" %>
 
 Click the following link to view the adverse event report:
 

@@ -44,4 +44,10 @@ class AeAssignment < ApplicationRecord
     # TODO: Generate in app notifications, email, and LOG notifications to AENotificationsLog (for team manager)
     # TODO: Check if all assignments are completed...if so, a "FINAL" adjudicated review is required by the manager (team).
   end
+
+  def email_reviewer!
+    return if !EMAILS_ENABLED || project.disable_all_emails?
+
+    AeAdverseEventMailer.assigned_to_reviewer(self).deliver_now
+  end
 end

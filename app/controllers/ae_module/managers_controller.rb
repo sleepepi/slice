@@ -84,6 +84,8 @@ class AeModule::ManagersController < AeModule::BaseController
       )
     end
 
+    @adverse_event.email_assignments_in_background!(added_assignments)
+
     if added_assignments.present?
       flash[:notice] = "Reviewers were successfully assigned."
     elsif removed_assignments.present?

@@ -50,4 +50,18 @@ class AeAdverseEventMailerTest < ActionMailer::TestCase
       mail.body.encoded
     )
   end
+
+  test "assigned to reviewer" do
+    assignment = ae_assignments(:aes_pathset_reviewer_one)
+    mail = AeAdverseEventMailer.assigned_to_reviewer(assignment)
+    assert_equal [assignment.reviewer.email], mail.to
+    assert_equal(
+      "#{assignment.manager.full_name} assigned you to review an adverse event on #{assignment.ae_adverse_event.project.name}",
+      mail.subject
+    )
+    assert_match(
+      %r{#{assignment.manager.full_name} assigned you to review an adverse event on #{assignment.ae_adverse_event.project.name} located here: #{ENV["website_url"]}/projects/#{assignment.ae_adverse_event.project.to_param}},
+      mail.body.encoded
+    )
+  end
 end
