@@ -8,6 +8,7 @@ class AeModule::AdverseEventsControllerTest < ActionDispatch::IntegrationTest
     @review_admin = users(:aes_review_admin)
     @reporter = users(:aes_project_editor)
     @adverse_event = ae_adverse_events(:reported)
+    @ae_with_pdf_docs = ae_adverse_events(:teamset)
   end
 
   test "should get index as review admin" do
@@ -31,6 +32,12 @@ class AeModule::AdverseEventsControllerTest < ActionDispatch::IntegrationTest
   test "should get history as review admin" do
     login(@review_admin)
     get history_ae_module_adverse_event_url(@project, @adverse_event)
+    assert_response :success
+  end
+
+  test "should get dossier as review admin" do
+    login(@review_admin)
+    get dossier_ae_module_adverse_event_url(@project, @ae_with_pdf_docs, format: "pdf")
     assert_response :success
   end
 end

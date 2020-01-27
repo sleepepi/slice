@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AeAdverseEvent < ApplicationRecord
+  # Uploaders
+  mount_uploader :dossier, GenericUploader
+
   # Constants
   DOCS_PER_PAGE = 20
 
@@ -8,6 +11,7 @@ class AeAdverseEvent < ApplicationRecord
   include Blindable
   include Deletable
   include Forkable
+  include Latexable
   include Siteable
   include Squishable
 
@@ -215,5 +219,65 @@ class AeAdverseEvent < ApplicationRecord
 
   def email_assignments!(assignments)
     assignments.each(&:email_reviewer!)
+  end
+
+  # Always regenerate at the moment.
+  def regenerate?
+    outdated? ||
+      updated_at < Time.zone.today - 1.hour ||
+      true
+  end
+
+  def regenerate!
+    jobname = "dossier_#{id}"
+    temp_dir = Dir.mktmpdir
+    temp_tex = File.join(temp_dir, "#{jobname}.tex")
+    write_tex_file(temp_tex)
+    self.class.compile(jobname, temp_dir, temp_tex)
+    temp_pdf = File.join(temp_dir, "#{jobname}.pdf")
+    return unless File.exist?(temp_pdf)
+
+    pdf = CombinePDF.new
+    pdf << CombinePDF.load(temp_pdf)
+    ae_documents.pdfs.each do |document|
+      pdf << CombinePDF.parse(document.file.read)
+    end
+    pdf.save temp_pdf
+
+    update outdated: false,
+           dossier: File.open(temp_pdf, "r"),
+           dossier_byte_size: File.size(temp_pdf)
+  ensure
+    # Remove the directory.
+    FileUtils.remove_entry temp_dir
+  end
+
+  def write_tex_file(temp_tex)
+    @adverse_event = self # Needed by Binding
+    File.open(temp_tex, "w") do |file|
+      ["header", "cover"].each do |partial|
+        file.syswrite(ERB.new(latex_partial(partial)).result(binding))
+      end
+
+      @adverse_event.subject.unblinded_not_missing_sheets.each do |sheet|
+        @sheet = sheet
+        ["body"].each do |partial|
+          file.syswrite(ERB.new(sheet_partial(partial)).result(binding))
+        end
+      end
+
+      ["footer"].each do |partial|
+        file.syswrite(ERB.new(latex_partial(partial)).result(binding))
+      end
+    end
+  end
+
+  # Get latex partial location.
+  def latex_partial(partial)
+    File.read(File.join("app", "views", "ae_module", "adverse_events", "latex", "_#{partial}.tex.erb"))
+  end
+
+  def sheet_partial(partial)
+    File.read(File.join("app", "views", "sheets", "latex", "_#{partial}.tex.erb"))
   end
 end

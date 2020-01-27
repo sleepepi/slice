@@ -5,7 +5,7 @@ class AeModule::AdverseEventsController < AeModule::BaseController
   before_action :find_project_as_reporter_or_admin_or_team_member_or_redirect
   before_action :redirect_blinded_users
   before_action :find_adverse_event_or_redirect, only: [
-    :show, :edit, :update, :history, :log
+    :show, :edit, :update, :dossier, :history, :log
   ]
   before_action :set_project_member
   layout :sidebar_layout
@@ -18,6 +18,12 @@ class AeModule::AdverseEventsController < AeModule::BaseController
   # # GET /projects/:project_id/ae-module/adverse-events/:id
   # def show
   # end
+
+  # GET /projects/:project_id/ae-module/adverse-events/:id/dossier.pdf
+  def dossier
+    @adverse_event.regenerate! if @adverse_event.regenerate?
+    send_file_if_present @adverse_event.dossier, type: "application/pdf", disposition: "inline"
+  end
 
   # GET /projects/:project_id/ae-module/adverse-events/:id/history
   def history

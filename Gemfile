@@ -15,6 +15,7 @@ gem "aws-sdk-s3",                          require: false
 gem "aws-sdk-sqs",                "~> 1"
 gem "bootstrap",                  "~> 4.3.1"
 gem "carrierwave",                "~> 2.0.2"
+gem "combine_pdf",                "~> 1.0.16"
 gem "chunky_png",                 "~> 1.3.10"
 gem "devise",                     "~> 4.7.1"
 gem "differ",                     "~> 0.1.2"

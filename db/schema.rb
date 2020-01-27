@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_01_222932) do
+ActiveRecord::Schema.define(version: 2020_01_27_011356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,9 +104,15 @@ ActiveRecord::Schema.define(version: 2019_10_01_222932) do
     t.datetime "updated_at", null: false
     t.datetime "reported_at"
     t.datetime "sent_for_review_at"
+    t.string "dossier"
+    t.string "dossier_content_type"
+    t.bigint "dossier_byte_size", default: 0, null: false
+    t.boolean "outdated", default: true, null: false
     t.index ["closed_at"], name: "index_ae_adverse_events_on_closed_at"
     t.index ["closer_id"], name: "index_ae_adverse_events_on_closer_id"
     t.index ["deleted"], name: "index_ae_adverse_events_on_deleted"
+    t.index ["dossier_byte_size"], name: "index_ae_adverse_events_on_dossier_byte_size"
+    t.index ["dossier_content_type"], name: "index_ae_adverse_events_on_dossier_content_type"
     t.index ["project_id", "number"], name: "index_ae_adverse_events_on_project_id_and_number", unique: true
     t.index ["project_id"], name: "index_ae_adverse_events_on_project_id"
     t.index ["sent_for_review_at"], name: "index_ae_adverse_events_on_sent_for_review_at"

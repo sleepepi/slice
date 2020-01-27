@@ -1,0 +1,18 @@
+\begin{titlepage}
+  \raggedleft
+  \rule{1pt}{\textheight}
+  \hspace{0.05\textwidth}
+  \parbox[b]{0.75\textwidth}{
+
+    {\Huge\bfseries <%= latex_safe @adverse_event.name %> Dossier \\[0.5\baselineskip] <%= latex_safe @adverse_event.reported_at.strftime("%B %-d, %Y") if @adverse_event.reported_at %>}\\[2\baselineskip]
+    {\large\textit{<%= latex_safe @adverse_event.description %>}}\\[4\baselineskip]
+    {\Large\textsc{Subject <%= latex_safe @adverse_event.subject.name %>}}
+
+    \vspace{0.5\textheight}
+
+    {\noindent <%= latex_safe @adverse_event.project.name %>}\\[\baselineskip]
+  }
+
+\end{titlepage}
+
+\newpage

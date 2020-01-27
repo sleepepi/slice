@@ -1,6 +1,8 @@
 ## 82.0.0
 
 ### Enhancements
+- **Adverse Event Changes**
+  - Adverse event members can now download a PDF dossier for review
 - **Gem Changes**
   - Update to rails 6.0.2.1
 

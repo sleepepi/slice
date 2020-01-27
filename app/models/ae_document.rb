@@ -19,6 +19,9 @@ class AeDocument < ApplicationRecord
   # Concerns
   include Searchable
 
+  # Scopes
+  scope :pdfs, -> { where(content_type: "application/pdf") }
+
   # Validations
   validates :filename, presence: true,
                        uniqueness: { case_sensitive: false, scope: [:ae_adverse_event_id] }

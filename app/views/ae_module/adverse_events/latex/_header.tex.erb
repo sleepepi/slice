@@ -1,0 +1,44 @@
+<% I18n.locale = World.language %>
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr}
+\usepackage[margin=0.5in]{geometry}
+\geometry{top=1.0in, bottom=1.0in}
+\usepackage{lastpage}
+\usepackage{wrapfig}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{sectsty}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage{soulutf8}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{fancybox}
+\usepackage{framed}
+
+\subsectionfont{\normalfont\Large\underline}
+\subsubsectionfont{\normalfont\large\underline}
+
+\fancyhf{}
+
+\lhead{\textbf{<%= latex_safe @adverse_event.subject.subject_code %>}\\}
+\chead{\textbf{<%= latex_safe @adverse_event.project.name %>}\\ <%= latex_safe @adverse_event.subject.site.name %>}
+\rhead{\textbf{<%= latex_safe I18n.t("latex.created") %>} <%= latex_safe @adverse_event.created_at.strftime("%B %-d, %Y") %>}
+\lfoot{}
+\cfoot{}
+\rfoot{<%= latex_safe I18n.t("latex.page") %> \thepage\ <%= latex_safe I18n.t("latex.page_of") %> \pageref{LastPage}}
+
+
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \setlength\headheight{22pt}
+
+\pagestyle{fancyplain}
+
+
+
+\begin{document}
