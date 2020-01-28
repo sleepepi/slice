@@ -6,6 +6,9 @@
 - **Gem Changes**
   - Update to rails 6.0.2.1
 
+### Bug Fix
+- Fix an issue rendering ≥ and ≤ in PDFs
+
 ## 81.0.0 (November 24, 2019)
 
 ### Enhancements

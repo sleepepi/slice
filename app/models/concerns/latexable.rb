@@ -51,6 +51,8 @@ module Latexable
       [/\|/,        '\textbar{}'],
       [/\</,        '\textless{}'],
       [/\>/,        '\textgreater{}'],
+      [/≥/,         '\\(\geq\\)'],
+      [/≤/,         '\\(\leq\\)'],
       [/([_$&%#])/, '\\\\\1'],
       # Languages (es)
       [/á/, "\\\\'a"],
