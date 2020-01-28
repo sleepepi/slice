@@ -156,14 +156,15 @@ class Token
   # 12am, 12pm, 12:01am, 12:00:01am, 13:00:00, 1:00pm, 1pm, 1p 1a
   def convert_time_of_day(val)
     return val unless parse_integer(val).nil?
+
     if val == "noon"
       val = "12pm"
     elsif val == "midnight"
       val = "12am"
     elsif !(/a$/ =~ val).nil?
-      val.gsub!(/a$/, "am")
+      val = val.gsub(/a$/, "am")
     elsif !(/p$/ =~ val).nil?
-      val.gsub!(/p$/, "pm")
+      val = val.gsub(/p$/, "pm")
     end
     hours = parse_integer(Time.zone.parse(val).strftime("%H"))
     minutes = parse_integer(Time.zone.parse(val).strftime("%M"))

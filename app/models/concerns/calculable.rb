@@ -16,7 +16,7 @@ module Calculable
   end
 
   def calculation=(calculation)
-    calculation.to_s.gsub!(/\w+/) do |word|
+    calculation = calculation.to_s.gsub(/\w+/) do |word|
       v = project.variables.find_by(name: word)
       if v
         "\#{#{v.id}}"

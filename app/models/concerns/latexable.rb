@@ -36,7 +36,7 @@ module Latexable
   def latex_simple_style(text)
     text = latex_safe(text)
     tags.each do |markup, tag|
-      text.gsub!(/#{markup}(.*?)#{markup}/, tag)
+      text = text.gsub(/#{markup}(.*?)#{markup}/, tag)
     end
     text
   end

@@ -40,7 +40,7 @@ class DesignOption < ApplicationRecord
   end
 
   def branching_logic=(branching_logic)
-    branching_logic.to_s.gsub!(/\w+/) do |word|
+    branching_logic = branching_logic.to_s.gsub(/\w+/) do |word|
       v = design.variables.find_by(name: word)
       if v
         "\#{#{v.id}}"
