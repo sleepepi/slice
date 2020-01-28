@@ -25,7 +25,7 @@ deploy:
     bucket_name: elasticbeanstalk-us-east-1-846666392784
     on:
       repo: sleepepi/slice
-      branch: master
+      branch: 82-0-stable
       rvm: 2.6.4
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY
@@ -36,5 +36,5 @@ deploy:
     bucket_name: elasticbeanstalk-us-east-1-846666392784
     on:
       repo: sleepepi/slice
-      branch: master
+      branch: 82-0-stable
       rvm: 2.6.4
