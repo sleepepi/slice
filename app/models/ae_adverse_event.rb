@@ -259,7 +259,7 @@ class AeAdverseEvent < ApplicationRecord
         file.syswrite(ERB.new(latex_partial(partial)).result(binding))
       end
 
-      @adverse_event.subject.unblinded_not_missing_sheets.order(:id).each do |sheet|
+      @adverse_event.sheets.order(:id).each do |sheet|
         @sheet = sheet
         ["body"].each do |partial|
           file.syswrite(ERB.new(sheet_partial(partial)).result(binding))
