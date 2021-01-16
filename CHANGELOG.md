@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Update to rails 6.0.3.4
+  - Update to pg 1.2.3
 
 ## 82.0.0 (February 1, 2020)
 

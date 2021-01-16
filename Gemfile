@@ -6,7 +6,7 @@ source "https://rubygems.org"
 gem "rails",                      "6.0.3.4"
 
 # PostgreSQL as the Active Record database.
-gem "pg",                         "1.1.4"
+gem "pg",                         "1.2.3"
 
 # Gems used by project.
 gem "active_elastic_job", git: "https://github.com/sleepepi/active-elastic-job.git", ref: "43d64c8"
