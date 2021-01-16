@@ -9,6 +9,7 @@ addons:
   postgresql: "10"
 before_install:
 - gem install bundler
+- nvm install 10
 before_script:
 - cp config/.travis.database.yml config/database.yml
 - psql -c 'create database travis_test;' -U postgres
