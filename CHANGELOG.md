@@ -7,6 +7,7 @@
   - Update to bootstrap 4.4.1
   - Update to carrierwave 2.1.0
   - Update to figaro 1.2.0
+  - Update to font-awesome-sass 5.12.0
 
 ## 82.0.0 (February 1, 2020)
 
