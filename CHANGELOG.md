@@ -8,6 +8,7 @@
   - Update to carrierwave 2.1.0
   - Update to figaro 1.2.0
   - Update to font-awesome-sass 5.12.0
+  - Update to haml 5.2.1
   - Update to kaminari 1.2.1
   - Update to mini_magick 4.11.0
   - Update to redcarpet 3.5.1
