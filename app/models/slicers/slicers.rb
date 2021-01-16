@@ -22,7 +22,7 @@ module Slicers
     "signature" => SignatureSlicer
   }
 
-  def self.for(variable, *args)
-    (SLICER_CLASSES[variable.variable_type] || DEFAULT_CLASS).new(variable, *args)
+  def self.for(variable, **kwargs)
+    (SLICER_CLASSES[variable.variable_type] || DEFAULT_CLASS).new(variable, **kwargs)
   end
 end

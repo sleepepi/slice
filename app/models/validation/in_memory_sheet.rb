@@ -56,11 +56,13 @@ module Validation
       response.select! do |_key, vhash|
         vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) } > 0
       end
-      response.each_pair { |k, v| }.each.with_index do |(_key, variable_response_hash), position|
+      position = 0
+      response.each_pair do |_key, variable_response_hash|
         variable_response_hash.each_pair do |grid_variable_id, res|
           grid_variable = @project.variables.find_by(id: grid_variable_id)
           load_grid!(variable, grid_variable, res, position) if grid_variable
         end
+        position += 1
       end
     end
 

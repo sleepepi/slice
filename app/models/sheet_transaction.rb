@@ -107,7 +107,8 @@ class SheetTransaction < ApplicationRecord
     response.select! do |_key, vhash|
       vhash.values.count { |v| (!v.is_a?(Array) && v.present?) || (v.is_a?(Array) && v.join.present?) }.positive?
     end
-    response.each_pair { |k, v| }.each.with_index do |(key, variable_response_hash), position|
+    position = 0
+    response.each_pair do |_key, variable_response_hash|
       variable_response_hash.each_pair do |variable_id, res|
         grid = sheet_variable.grids
                              .where(variable_id: variable_id, position: position)
@@ -127,6 +128,7 @@ class SheetTransaction < ApplicationRecord
         end
         update_response_with_transaction(grid, res, current_user)
       end
+      position += 1
     end
     sheet_variable.grids.where("position >= ?", response.keys.size).destroy_all
   end
