@@ -3,6 +3,8 @@
 ### Enhancements
 - **General Changes**
   - Updated support email to support@sliceable.org
+- **Adverse Event Changes**
+  - Subject code is now listed on Adverse Events index
 - **Gem Changes**
   - Update to rails 6.0.3.4
   - Update to pg 1.2.3
