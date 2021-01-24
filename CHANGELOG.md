@@ -5,6 +5,8 @@
   - Updated support email to support@sliceable.org
 - **Adverse Event Changes**
   - Subject code is now listed on Adverse Events index
+- **Medication Changes**
+  - Created At and Updated At fields are now shown on the medication show page
 - **Gem Changes**
   - Update to rails 6.0.3.4
   - Update to pg 1.2.3

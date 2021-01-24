@@ -283,5 +283,7 @@ class Medication < ApplicationRecord
       ).first_or_create
       medication_value.update(value: value)
     end
+
+    touch :updated_at
   end
 end

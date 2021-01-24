@@ -21,3 +21,5 @@
 
   = render "forms/horizontal/show/generic", title: "Start date", content: @medication.fuzzy_pretty(:start_date_fuzzy)
   = render "forms/horizontal/show/generic", title: "Stop date", content: @medication.fuzzy_pretty(:stop_date_fuzzy)
+  = render "forms/horizontal/show/generic", title: "Created at", content: simple_time_short(@medication.created_at)
+  = render "forms/horizontal/show/generic", title: "Updated at", content: simple_time_short(@medication.updated_at) if @medication.created_at != @medication.updated_at
