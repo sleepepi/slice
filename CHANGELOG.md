@@ -2228,7 +2228,7 @@
 ## 0.31.1 (November 12, 2015)
 
 ### Enhancement
-- Temporarily removing whitelist of file uploads to accomodate .ABP files
+- Temporarily removing whitelist of file uploads to accommodate .ABP files
 
 ## 0.31.0 (November 9, 2015)
 
@@ -3172,7 +3172,7 @@
   - Design editor submit buttons are now disabled when inserting and updating a new variable or domain
   - Surveys can now use slugs to create prettier survey links
     - `/survey/:slug`
-  - Variable display names size increased to accomodate long questions on surveys
+  - Variable display names size increased to accommodate long questions on surveys
   - Creating variables with long display names in the design editor now default to the display name visibility: `Above - Indented`
   - Creating text variables now default to display name visibility: `Above - Full`
 - **Domain Changes**
