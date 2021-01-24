@@ -1,4 +1,4 @@
-## 83.0.0
+## 83.0.0 (January 24, 2021)
 
 ### Enhancements
 - **General Changes**
