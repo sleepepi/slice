@@ -1,6 +1,8 @@
 ## 83.0.0
 
 ### Enhancements
+- **General Changes**
+  - Updated support email to support@sliceable.org
 - **Gem Changes**
   - Update to rails 6.0.3.4
   - Update to pg 1.2.3
