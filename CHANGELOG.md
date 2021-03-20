@@ -1,5 +1,9 @@
 ## 83.0.1
 
+### Bug Fix
+- Fixed a bug that prevented the calendar from displaying randomizations that
+  were part of a "Custom List" randomization scheme
+
 ## 83.0.0 (January 24, 2021)
 
 ### Enhancements

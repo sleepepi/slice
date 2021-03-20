@@ -136,7 +136,7 @@
                       = object.calendar_description
                 - elsif object.is_a?(Randomization)
                   - randomization = object
-                  - display_text = "#{randomization.subject.name} #{randomization.treatment_arm.short_name}"
+                  - display_text = "#{randomization.subject.name} #{randomization.treatment_arm&.short_name || randomization.custom_treatment_name}"
                   %li.nowrap
                     = icon("fas", "random")
                     = link_to [@project, randomization] do
