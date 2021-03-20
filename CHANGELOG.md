@@ -1,4 +1,4 @@
-## 83.0.1
+## 83.0.1 (March 20, 2021)
 
 ### Bug Fix
 - Fixed a bug that prevented the calendar from displaying randomizations that
