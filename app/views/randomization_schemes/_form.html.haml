@@ -121,6 +121,8 @@
         #random-chance-info.alert.alert-info{ style: "display: none;margin-top: 20px;" }
           Can be between 0 (Never Random) and 100 (Always Random)
 
+  = render "forms/horizontal/check_box", form: form, object: @randomization_scheme, key: :allow_tasks_on_weekends, help_text: "Selecting this will allow tasks to be automatically scheduled on Saturdays and Sundays. Leaving this unselected will move automatically scheduled tasks to the closest weekday."
+
   .form-group.row
     %label.col-md-2.col-form-label Tasks
     .col-md-10

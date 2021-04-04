@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_011356) do
+ActiveRecord::Schema.define(version: 2021_04_04_152532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -915,6 +915,7 @@ ActiveRecord::Schema.define(version: 2020_01_27_011356) do
     t.integer "chance_of_random_treatment_arm_selection", default: 30, null: false
     t.bigint "variable_id"
     t.string "variable_value"
+    t.boolean "allow_tasks_on_weekends", default: false, null: false
     t.index ["deleted"], name: "index_randomization_schemes_on_deleted"
     t.index ["project_id", "deleted"], name: "index_randomization_schemes_on_project_id_and_deleted"
     t.index ["project_id"], name: "index_randomization_schemes_on_project_id"

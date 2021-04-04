@@ -267,13 +267,13 @@ class RandomizationSchemesController < ApplicationController
     check_key_and_set_default_value(:randomization_scheme, :chance_of_random_treatment_arm_selection, 30)
     if @randomization_scheme && @randomization_scheme.randomized_subjects?
       params.require(:randomization_scheme).permit(
-        :name, :description, :randomization_goal,
+        :name, :description, :randomization_goal, :allow_tasks_on_weekends,
         { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
         { expected_randomizations_hashes: [:site_id, :expected] }
       )
     else
       params.require(:randomization_scheme).permit(
-        :name, :description, :randomization_goal,
+        :name, :description, :randomization_goal, :allow_tasks_on_weekends,
         { task_hashes: [:description, :offset, :offset_units, :window, :window_units] },
         { expected_randomizations_hashes: [:site_id, :expected] },
         :algorithm, :chance_of_random_treatment_arm_selection, :variable_id, :variable_value

@@ -59,6 +59,7 @@
   = render "forms/horizontal/show/generic", title: link_to("Block size multipliers", project_randomization_scheme_block_size_multipliers_path(@project, @randomization_scheme)), content: render("randomization_schemes/block_size_multipliers", randomization_scheme: @randomization_scheme) if @randomization_scheme.permuted_block?
   = render "forms/horizontal/show/generic", title: link_to("Stratification Factors", project_randomization_scheme_stratification_factors_path(@project, @randomization_scheme)), content: render("randomization_schemes/factors", randomization_scheme: @randomization_scheme)
   = render "forms/horizontal/show/generic", title: link_to("Lists", project_randomization_scheme_lists_path(@project, @randomization_scheme)), content: render("randomization_schemes/lists", randomization_scheme: @randomization_scheme)
+  = render "forms/horizontal/show/check_box", object: @randomization_scheme, key: :allow_tasks_on_weekends if @randomization_scheme.randomization_scheme_tasks.present?
   = render "forms/horizontal/show/generic", title: "Tasks", content: render("randomization_schemes/tasks", randomization_scheme: @randomization_scheme) if @randomization_scheme.randomization_scheme_tasks.present?
 
 = render "randomization_schemes/existing_lists"

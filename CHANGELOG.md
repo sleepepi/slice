@@ -1,6 +1,8 @@
 ## 84.0.0
 
 ### Enhancements
+- **Randomization Changes**
+  - Randomization schemes can be set to allow tasks to be scheduled on weekends
 - **Gem Changes**
   - Update to rails 6.0.3.6
   - Update to carrierwave 2.2.1

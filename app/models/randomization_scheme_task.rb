@@ -21,7 +21,11 @@ class RandomizationSchemeTask < ApplicationRecord
   end
 
   def due_date(base_date)
-    closest_weekday(base_date + day_offset)
+    if randomization_scheme.allow_tasks_on_weekends?
+      base_date + day_offset
+    else
+      closest_weekday(base_date + day_offset)
+    end
   end
 
   def window_start_date(base_date)
