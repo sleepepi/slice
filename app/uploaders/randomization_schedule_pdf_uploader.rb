@@ -23,8 +23,8 @@ class RandomizationSchedulePdfUploader < CarrierWave::Uploader::Base
   #   "/assets/fallback/" + [version_name, "default.png"].compact.join("_")
   # end
 
-  # Add a white list of extensions which are allowed to be uploaded.
-  def extension_whitelist
+  # Add a list of extensions which are allowed to be uploaded.
+  def extension_allowlist
     %w(pdf)
   end
 

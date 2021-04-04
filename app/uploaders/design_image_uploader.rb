@@ -28,8 +28,8 @@ class DesignImageUploader < CarrierWave::Uploader::Base
   # Process files as they are uploaded:
   process resize_to_limit: [1600, 1200]
 
-  # Add a white list of extensions which are allowed to be uploaded.
-  def extension_whitelist
+  # Add a list of extensions which are allowed to be uploaded.
+  def extension_allowlist
     %w(jpg jpeg gif png)
   end
 

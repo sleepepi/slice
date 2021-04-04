@@ -3,7 +3,7 @@
 # rubocop:disable Layout/ExtraSpacing
 source "https://rubygems.org"
 
-gem "rails",                      "6.0.3.4"
+gem "rails",                      "6.0.3.6"
 
 # PostgreSQL as the Active Record database.
 gem "pg",                         "1.2.3"
@@ -14,7 +14,7 @@ gem "autoprefixer-rails"
 gem "aws-sdk-s3",                          require: false
 gem "aws-sdk-sqs",                "~> 1"
 gem "bootstrap",                  "~> 4.4.1"
-gem "carrierwave",                "~> 2.1.0"
+gem "carrierwave",                "~> 2.2.1"
 gem "combine_pdf",                "~> 1.0.16"
 gem "chunky_png",                 "~> 1.3.10"
 gem "devise",                     "~> 4.7.1"

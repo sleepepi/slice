@@ -1,5 +1,10 @@
 ## 84.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to rails 6.0.3.6
+  - Update to carrierwave 2.2.1
+
 ## 83.0.1 (March 20, 2021)
 
 ### Bug Fix
@@ -2238,7 +2243,7 @@
 ## 0.31.1 (November 12, 2015)
 
 ### Enhancement
-- Temporarily removing whitelist of file uploads to accommodate .ABP files
+- Temporarily removing allowlist of file uploads to accommodate .ABP files
 
 ## 0.31.0 (November 9, 2015)
 

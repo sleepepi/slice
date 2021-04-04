@@ -11,7 +11,7 @@ I18n.load_path += Dir[Rails.root.join("config", "locales", "latex", "*.{rb,yml}"
 I18n.load_path += Dir[Rails.root.join("config", "locales", "sheets", "*.{rb,yml}")]
 I18n.load_path += Dir[Rails.root.join("config", "locales", "validators", "*.{rb,yml}")]
 
-# Whitelist locales available for the application.
+# Available locales for the application.
 I18n.available_locales = [:en, :es, :"fr-CA"]
 
 # Set default locale to something other than :en.
