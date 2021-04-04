@@ -1,4 +1,4 @@
-## 84.0.0
+## 84.0.0 (April 4, 2021)
 
 ### Enhancements
 - **Randomization Changes**
