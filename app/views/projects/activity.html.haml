@@ -4,9 +4,9 @@
 - content_for :sidebar, render("projects/sidebar")
 - content_for :header, @title
 
-- sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).where("sheets.created_at > ? or sheets.last_edited_at > ?", Time.zone.now - 7.day, Time.zone.now - 7.day)
+- sheet_scope = current_user.all_viewable_sheets.where(project_id: @project.id).where("sheets.created_at > ? or sheets.last_edited_at > ?", Time.zone.now - 1.month, Time.zone.now - 1.month)
 - recent_sheets = sheet_scope.to_a
-- comment_scope = current_user.all_viewable_comments.with_project(@project.id).where("comments.created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 4.day : Time.zone.now - 2.day))
+- comment_scope = current_user.all_viewable_comments.with_project(@project.id).where("comments.created_at > ?", Time.zone.now - 1.month)
 - recent_comments = comment_scope.to_a
 
 - all_objects = (recent_sheets + recent_comments).sort { |o1, o2| ((o2.class.method_defined?(:last_edited_at) and o2.last_edited_at != nil) ? o2.last_edited_at : o2.created_at) <=> ((o1.class.method_defined?(:last_edited_at) and o1.last_edited_at != nil) ? o1.last_edited_at : o1.created_at) }

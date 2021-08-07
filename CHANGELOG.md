@@ -1,6 +1,8 @@
 ## 84.1.0
 
 ### Enhancements
+- **Project Changes**
+  - Recent activity now shows activity for the past month
 - **Gem Changes**
   - Update to puma 4.3
 
