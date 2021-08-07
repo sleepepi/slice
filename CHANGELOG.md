@@ -1,5 +1,9 @@
 ## 84.1.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to puma 4.3
+
 ## 84.0.0 (April 4, 2021)
 
 ### Enhancements
