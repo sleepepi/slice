@@ -1,4 +1,4 @@
-## 84.1.0
+## 84.1.0 (August 7, 2021)
 
 ### Enhancements
 - **Project Changes**
