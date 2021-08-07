@@ -6,6 +6,10 @@
 - **Gem Changes**
   - Update to puma 4.3
 
+### Bug Fix
+- Fixed a bug that prevented pagination from retaining search filters on
+  subjects and sheets pages
+
 ## 84.0.0 (April 4, 2021)
 
 ### Enhancements
