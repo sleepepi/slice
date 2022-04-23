@@ -1,5 +1,9 @@
 ## 84.2.0
 
+### Enhancements
+- **Security Changes**
+  - Fixed a Cross Site Scripting (XSS) issue
+
 ## 84.1.0 (August 7, 2021)
 
 ### Enhancements
