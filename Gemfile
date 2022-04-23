@@ -27,6 +27,9 @@ gem "jquery-ui-rails",            "~> 6.0.1"
 gem "kaminari",                   "~> 1.2.1"
 gem "mini_magick",                "~> 4.11.0"
 gem "naturalsort",                "~> 1.2.0"
+gem "net-imap",                   require: false
+gem "net-pop",                    require: false
+gem "net-smtp",                   require: false
 gem "redcarpet",                  "~> 3.5.1"
 gem "rubyzip",                    "~> 2.0.0"
 gem "sitemap_generator",          "~> 6.0.2"

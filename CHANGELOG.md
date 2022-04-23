@@ -1,5 +1,9 @@
 ## 85.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Add fixes for Ruby 3.1.2
+
 ## 84.2.0 (April 23, 2022)
 
 ### Enhancements
