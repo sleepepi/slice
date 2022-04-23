@@ -118,7 +118,7 @@ class Subject < ApplicationRecord
 
   def validate_subject_format
     if user && site && site.subject_regex.present? && site.subject_regex !~ subject_code
-      errors[:subject_code] << "must be in the following format: #{site.regex_string}"
+      errors.add(:subject_code, "must be in the following format: #{site.regex_string}")
     end
   end
 

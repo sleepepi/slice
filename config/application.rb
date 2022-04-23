@@ -13,7 +13,7 @@ module Slice
   # providing a framework for designing data dictionaries and collection forms.
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     # TODO: Remove this line and make :zeitwerk work with module loading dependencies.
     config.autoloader = :classic # :zeitwerk
 

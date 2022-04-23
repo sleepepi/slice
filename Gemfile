@@ -3,7 +3,7 @@
 # rubocop:disable Layout/ExtraSpacing
 source "https://rubygems.org"
 
-gem "rails",                      "6.0.3.6"
+gem "rails",                      "6.1.4.4"
 
 # PostgreSQL as the Active Record database.
 gem "pg",                         "1.2.3"
@@ -52,7 +52,7 @@ group :development do
 end
 
 group :test do
-  gem "capybara",                 ">= 2.15"
+  gem "capybara",                 ">= 3.26"
   gem "rails-controller-testing"
   gem "selenium-webdriver"
   gem "simplecov",                "~> 0.16.1", require: false

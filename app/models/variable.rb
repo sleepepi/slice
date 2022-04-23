@@ -99,10 +99,9 @@ class Variable < ApplicationRecord
   has_many :design_options, -> { order :position }
   has_many :designs, through: :design_options
   has_many :child_grid_variables, -> { order(Arel.sql("position nulls last")) },
-           class_name: "GridVariable", source: :child_variable,
-           foreign_key: :parent_variable_id
+           class_name: "GridVariable", foreign_key: :parent_variable_id
   has_many :child_variables, through: :child_grid_variables
-  has_many :parent_grid_variables, class_name: "GridVariable", source: :parent_variable, foreign_key: :child_variable_id
+  has_many :parent_grid_variables, class_name: "GridVariable", foreign_key: :child_variable_id
   has_many :parent_variables, through: :parent_grid_variables
 
   # Methods

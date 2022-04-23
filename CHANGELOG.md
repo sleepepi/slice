@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Add fixes for Ruby 3.1.2
+  - Update to rails 6.1.4.4
 
 ## 84.2.0 (April 23, 2022)
 

@@ -1,5 +1,5 @@
 - position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s
-%tr.domain-option-container{ class: "#{"fieldset_with_errors" if @domain && @domain.errors.keys.include?(:options)}" }
+%tr.domain-option-container{ class: "#{"fieldset_with_errors" if @domain && @domain.errors.attribute_names.include?(:options)}" }
   %td{ style: "vertical-align: middle;" }
     = icon("fas", "arrows-alt")
     = hidden_field_tag "domain[option_tokens][][domain_option_id]", domain_option.id
