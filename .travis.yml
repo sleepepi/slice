@@ -1,8 +1,7 @@
 language: ruby
 rvm:
 - 2.6.4
-- 2.7.0
-- 3.0.0
+- 3.1.2
 - ruby-head
 # gemfile: "gems.rb"
 addons:
@@ -15,7 +14,7 @@ before_script:
 - psql -c 'create database travis_test;' -U postgres
 matrix:
   allow_failures:
-  - rvm: 3.0.0
+  - rvm: 3.1.2
   - rvm: ruby-head
 deploy:
   - provider: elasticbeanstalk
