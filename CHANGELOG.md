@@ -1,4 +1,4 @@
-## 84.2.0
+## 84.2.0 (April 23, 2022)
 
 ### Enhancements
 - **Security Changes**
