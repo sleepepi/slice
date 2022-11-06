@@ -1,6 +1,8 @@
 ## 85.0.0
 
 ### Enhancements
+- **General Changes**
+  - Disabled "winter" and "summer" themes by default for those times of year
 - **Gem Changes**
   - Add fixes for Ruby 3.1.2
   - Update to rails 6.1.4.4

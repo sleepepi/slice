@@ -7,11 +7,11 @@
   - elsif t.month == 2 && (7..14).cover?(t.day) # Week leading up to St Valentine's day
     - @seasonal = "love"
   - elsif [12, 1, 2].include?(t.month) # Winter months
-    - @seasonal = "winter"
+    - @seasonal = "default" # "winter" - disable due to performance hit
   - elsif (3..5).cover?(t.month) # Spring months
     - @seasonal = "spring"
   - elsif (6..8).cover?(t.month) # Summer months
-    - @seasonal = "underwater"
+    - @seasonal = "default" # "underwater" - disable due to performance hit
   - else # Fall
     - @seasonal = "fall"
 
