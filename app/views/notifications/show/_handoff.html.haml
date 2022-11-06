@@ -4,9 +4,12 @@
 %td.nowrap{ class: "#{"text-muted" if notification.read?}" }
   .overflow-hidden
     = link_to notification, class: (notification.read? ? "link-muted" : "link-unstyled") do
-      = notification.handoff.subject_event.name
-      completed by
-      = succeed "." do
-        = notification.handoff.subject_event.subject.name
+      - if notification.handoff.subject_event
+        = notification.handoff.subject_event.name
+        completed by
+        = succeed "." do
+          = notification.handoff.subject_event.subject.name
+      - else
+        %i Handoff deleted.
 
 %td.d-none.d-md-table-cell

@@ -8,6 +8,10 @@
   - Update to rails 6.1.4.4
   - Update to devise 4.8.0
 
+### Bug Fix
+- Fixed a bug that prevents notifications from showing when a handoff is
+  associated with a "SubjectEvent" that has been deleted.
+
 ## 84.2.0 (April 23, 2022)
 
 ### Enhancements
