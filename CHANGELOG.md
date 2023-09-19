@@ -5,6 +5,9 @@
   - Update to puma 5.6.7
   - Update to jquery-rails 4.4.0
 
+### Bug Fix
+- Update Node.js to 18 to fix issue launching workers on elastic beanstalk
+
 ## 85.0.0 (November 6, 2022)
 
 ### Enhancements
