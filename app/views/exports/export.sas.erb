@@ -1,17 +1,17 @@
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_header.sas.erb")), nil, nil, "_erbout2").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_header.sas.erb")), eoutvar: "_erbout2").result(binding) %>
 
 <% use_grids = false %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_1.sas.erb")), nil, nil, "_erbout3").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_2.sas.erb")), nil, nil, "_erbout4").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_3.sas.erb")), nil, nil, "_erbout5").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_4.sas.erb")), nil, nil, "_erbout6").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_5.sas.erb")), nil, nil, "_erbout7").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_1.sas.erb")), eoutvar: "_erbout3").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_2.sas.erb")), eoutvar: "_erbout4").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_3.sas.erb")), eoutvar: "_erbout5").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_4.sas.erb")), eoutvar: "_erbout6").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_5.sas.erb")), eoutvar: "_erbout7").result(binding) %>
 
 <% if include_grids? %>
 <% use_grids = true %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_1.sas.erb")), nil, nil, "_erbout8").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_2.sas.erb")), nil, nil, "_erbout9").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_3.sas.erb")), nil, nil, "_erbout10").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_4.sas.erb")), nil, nil, "_erbout11").result(binding) %>
-<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_5.sas.erb")), nil, nil, "_erbout12").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_1.sas.erb")), eoutvar: "_erbout8").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_2.sas.erb")), eoutvar: "_erbout9").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_3.sas.erb")), eoutvar: "_erbout10").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_4.sas.erb")), eoutvar: "_erbout11").result(binding) %>
+<%= ERB.new(IO.read(File.join("app", "views", "exports", "sas", "_sas_step_5.sas.erb")), eoutvar: "_erbout12").result(binding) %>
 <% end %>
