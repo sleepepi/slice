@@ -1,8 +1,6 @@
 language: ruby
 rvm:
 - 2.6.4
-- 3.1.2
-- ruby-head
 # gemfile: "gems.rb"
 addons:
   postgresql: "10"
@@ -12,10 +10,6 @@ before_install:
 before_script:
 - cp config/.travis.database.yml config/database.yml
 - psql -c 'create database travis_test;' -U postgres
-matrix:
-  allow_failures:
-  - rvm: 3.1.2
-  - rvm: ruby-head
 deploy:
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY
