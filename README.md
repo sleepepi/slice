@@ -1,6 +1,6 @@
 # Slice
 
-[![Build Status](https://travis-ci.com/sleepepi/slice.svg?branch=master)](https://travis-ci.com/sleepepi/slice)
+[![Build Status](https://app.travis-ci.com/sleepepi/slice.svg?branch=main)](https://app.travis-ci.com/github/sleepepi/slice)
 [![Code Climate](https://codeclimate.com/github/sleepepi/slice/badges/gpa.svg)](https://codeclimate.com/github/sleepepi/slice)
 
 A clinical research interface geared at collecting robust and consistent data by
