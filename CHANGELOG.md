@@ -1,5 +1,9 @@
 ## 86.0.0
 
+### Enhancements
+- **Gem Changes**
+  - Update to puma 5.6.7
+
 ## 85.0.0 (November 6, 2022)
 
 ### Enhancements
