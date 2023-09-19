@@ -37,7 +37,7 @@ gem "sitemap_generator",          "~> 6.0.2"
 # Rails defaults
 gem "coffee-rails",            "~> 5.0"
 gem "jbuilder",                "~> 2.9"
-gem "jquery-rails",            "~> 4.3.5"
+gem "jquery-rails",            ">= 4.4.0"
 gem "puma",                    ">= 5.6.7"
 gem "redis",                   "~> 4.0"
 gem "sass-rails",              "~> 5"

@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Update to puma 5.6.7
+  - Update to jquery-rails 4.4.0
 
 ## 85.0.0 (November 6, 2022)
 
