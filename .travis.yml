@@ -1,7 +1,6 @@
 language: ruby
 rvm:
 - 2.6.4
-# gemfile: "gems.rb"
 addons:
   postgresql: "10"
 before_install:
