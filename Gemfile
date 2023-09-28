@@ -33,6 +33,7 @@ gem "net-smtp",                   require: false
 gem "redcarpet",                  "~> 3.5.1"
 gem "rubyzip",                    "~> 2.0.0"
 gem "sitemap_generator",          "~> 6.0.2"
+gem "ffi",                        "~> 1.15.5" # 1.16.2 fails on AWS
 
 # Rails defaults
 gem "coffee-rails",            "~> 5.0"

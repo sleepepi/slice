@@ -6,6 +6,7 @@
 
 ### Bug Fix
 - Update Node.js to 18 to fix issue launching workers on elastic beanstalk
+- Set ffi to 1.15.5 since 1.16.2 fails to compile on elastic beanstalk
 
 ## 85.0.0 (November 6, 2022)
 
