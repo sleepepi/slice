@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Update to jquery-rails 4.4.0
+  - Update to pg 1.5.6
 
 ### Bug Fix
 - Update Node.js to 18 to fix issue launching workers on elastic beanstalk

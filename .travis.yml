@@ -2,7 +2,7 @@ language: ruby
 rvm:
 - 2.6.4
 addons:
-  postgresql: "10"
+  postgresql: "16"
 before_install:
 - gem install bundler
 - nvm install 10
