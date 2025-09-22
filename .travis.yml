@@ -3,6 +3,8 @@ rvm:
 - 2.6.4
 addons:
   postgresql: "16"
+services:
+  - postgresql
 before_install:
 - gem install bundler -v 2.4.22
 - nvm install 10
