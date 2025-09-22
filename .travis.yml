@@ -9,6 +9,7 @@ before_install:
 - gem install bundler -v 2.4.22
 - nvm install 10
 before_script:
+- sleep 10
 - cp config/.travis.database.yml config/database.yml
 - psql -c 'create database travis_test;' -U postgres
 deploy:
