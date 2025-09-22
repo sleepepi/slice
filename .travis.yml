@@ -8,10 +8,9 @@ services:
 before_install:
 - gem install bundler -v 2.4.22
 - nvm install 10
-before_script:
-- sleep 10
-- cp config/.travis.database.yml config/database.yml
-- psql -c 'create database travis_test;' -U postgres
+test:
+  adapter: postgresql
+  database: travis_ci_test
 deploy:
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY
