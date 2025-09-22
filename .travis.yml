@@ -8,6 +8,8 @@ services:
 before_install:
 - gem install bundler -v 2.4.22
 - nvm install 10
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 test:
   adapter: postgresql
   database: travis_ci_test
