@@ -3,16 +3,14 @@ rvm:
 - 2.6.4
 addons:
   postgresql: "16"
-services:
-  - postgresql
 before_install:
 - gem install bundler -v 2.4.22
 - nvm install 10
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-test:
-  adapter: postgresql
-  database: travis_ci_test
+- cp config/.travis.database.yml config/database.yml
+- sudo service postgresql start
+- sleep 5
+- psql -h localhost -U postgres -c 'create database travis_ci_test;'
 deploy:
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY

@@ -5,4 +5,6 @@ default: &default
 
 test:
   <<: *default
-  database: travis_test
+  username: postgres
+  database: travis_ci_test
+  
