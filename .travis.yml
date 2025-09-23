@@ -1,10 +1,10 @@
 language: ruby
 rvm:
-- 2.6.4
+- 3.4.5
 addons:
   postgresql: "16"
 before_install:
-- gem install bundler -v 2.4.22
+- gem install bundler
 - nvm install 10
 before_script:
 - cp config/.travis.database.yml config/database.yml
@@ -16,8 +16,8 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     region: us-east-1
-    app: slice
-    env: slice-production
+    app: slice-al2023
+    env: slice-al2023-production
     bucket_name: elasticbeanstalk-us-east-1-846666392784
     on:
       repo: sleepepi/slice
