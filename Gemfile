@@ -14,6 +14,7 @@ gem "autoprefixer-rails"
 gem "aws-sdk-s3",                          require: false
 gem "aws-sdk-sqs",                "~> 1"
 gem "bootstrap",                  "~> 4.4.1"
+gem "benchmark"
 gem "carrierwave",                "~> 2.2.1"
 gem "combine_pdf",                "~> 1.0.16"
 gem "concurrent-ruby",            "1.3.4"
@@ -34,6 +35,7 @@ gem "naturalsort",                "~> 1.2.0"
 gem "net-imap",                   require: false
 gem "net-pop",                    require: false
 gem "net-smtp",                   require: false
+gem "rake"
 gem "redcarpet",                  "~> 3.5.1"
 gem "rubyzip",                    "~> 2.0.0"
 gem "sitemap_generator",          "~> 6.0.2"
