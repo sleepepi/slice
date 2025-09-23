@@ -1,2 +1,0 @@
-require "monitor"
-MutexM = MonitorMixin

@@ -27,6 +27,7 @@ gem "haml",                       "~> 5.2.1"
 gem "jquery-ui-rails",            "~> 6.0.1"
 gem "kaminari",                   "~> 1.2.1"
 gem "mini_magick",                "~> 4.11.0"
+gem "mutex_m"                                # Remove once updated to Rails 7
 gem "naturalsort",                "~> 1.2.0"
 gem "net-imap",                   require: false
 gem "net-pop",                    require: false
