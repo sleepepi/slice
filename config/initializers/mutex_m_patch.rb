@@ -1,0 +1,2 @@
+require "monitor"
+MutexM = MonitorMixin
