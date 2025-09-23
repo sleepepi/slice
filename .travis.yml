@@ -22,7 +22,7 @@ deploy:
     on:
       repo: sleepepi/slice
       branch: 86-0-stable
-      rvm: 2.6.4
+      rvm: 3.4.5
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
@@ -33,4 +33,4 @@ deploy:
     on:
       repo: sleepepi/slice
       branch: 86-0-stable
-      rvm: 2.6.4
+      rvm: 3.4.5
