@@ -11,8 +11,8 @@ before_script:
 - sudo service postgresql start
 - sleep 5
 - psql -h localhost -U postgres -c 'create database travis_ci_test;'
-cleanup: true
 deploy:
+  cleanup: true
   - provider: elasticbeanstalk
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
