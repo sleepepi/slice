@@ -45,7 +45,7 @@ gem "ffi",                        "~> 1.15.5" # 1.16.2 fails on AWS
 gem "coffee-rails",            "~> 5.0"
 gem "jbuilder",                "~> 2.9"
 gem "jquery-rails",            ">= 4.4.0"
-gem "puma",                    ">= 6.0"
+gem "puma",                    ">= 6.0", platforms: [:ruby]
 gem "redis",                   "~> 4.0"
 gem "sassc-rails",             "~> 2.1"
 gem "turbolinks",              "~> 5"
