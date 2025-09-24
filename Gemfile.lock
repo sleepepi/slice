@@ -151,7 +151,15 @@ GEM
       logger
     execjs (2.10.0)
     executable-hooks (1.7.1)
-    ffi (1.15.5)
+    ffi (1.17.2)
+    ffi (1.17.2-aarch64-linux-gnu)
+    ffi (1.17.2-aarch64-linux-musl)
+    ffi (1.17.2-arm-linux-gnu)
+    ffi (1.17.2-arm-linux-musl)
+    ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86_64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
+    ffi (1.17.2-x86_64-linux-musl)
     figaro (1.2.0)
       thor (>= 0.14.0, < 2)
     fog-aws (3.33.0)
@@ -413,7 +421,7 @@ DEPENDENCIES
   differ (~> 0.1.2)
   drb
   executable-hooks
-  ffi (~> 1.15.5)
+  ffi (>= 1.15.6)
   figaro (~> 1.2.0)
   fog-aws
   font-awesome-sass (~> 5.12.0)
