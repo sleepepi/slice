@@ -47,7 +47,7 @@ gem "jbuilder",                "~> 2.9"
 gem "jquery-rails",            ">= 4.4.0"
 gem "puma",                    "~> 4.3"
 gem "redis",                   "~> 4.0"
-gem "sass-rails",              "~> 5"
+gem "sassc-rails",             "~> 2.1"
 gem "turbolinks",              "~> 5"
 gem "uglifier",                ">= 1.3.0"
 
