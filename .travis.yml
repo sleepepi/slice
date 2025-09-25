@@ -11,27 +11,28 @@ before_script:
 - sudo service postgresql start
 - sleep 5
 - psql -h localhost -U postgres -c 'create database travis_ci_test;'
-deploy:
-  cleanup: true
-  - provider: elasticbeanstalk
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
-    region: us-east-1
-    app: slice-al2023
-    env: slice-al2023-production
-    bucket_name: elasticbeanstalk-us-east-1-846666392784
-    on:
-      repo: sleepepi/slice
-      branch: 86-0-stable
-      rvm: 3.4
-  - provider: elasticbeanstalk
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
-    region: us-east-1
-    app: slice
-    env: slice-production-worker
-    bucket_name: elasticbeanstalk-us-east-1-846666392784
-    on:
-      repo: sleepepi/slice
-      branch: 86-0-stable
-      rvm: 3.4
+# deploy:
+#   - provider: elasticbeanstalk
+#     access_key_id: $AWS_ACCESS_KEY
+#     cleanup: true
+#     secret_access_key: $AWS_SECRET_KEY
+#     region: us-east-1
+#     app: slice-al2023
+#     env: slice-al2023-production
+#     bucket_name: elasticbeanstalk-us-east-1-846666392784
+#     on:
+#       repo: sleepepi/slice
+#       branch: 86-0-stable
+#       rvm: 3.4
+#   - provider: elasticbeanstalk
+#     access_key_id: $AWS_ACCESS_KEY
+#     cleanup: true
+#     secret_access_key: $AWS_SECRET_KEY
+#     region: us-east-1
+#     app: slice
+#     env: slice-production-worker
+#     bucket_name: elasticbeanstalk-us-east-1-846666392784
+#     on:
+#       repo: sleepepi/slice
+#       branch: 86-0-stable
+#       rvm: 3.4
